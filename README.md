@@ -1,4 +1,4 @@
-master: [![Build Status](https://travis-ci.org/daostack/arc-js.svg?branch=master)](https://travis-ci.org/daostack/daostack)
+master: [![Build Status](https://travis-ci.org/daostack/arc-js.svg?branch=master)](https://travis-ci.org/daostack/arc-js)
 
 # Mission Statement
 
