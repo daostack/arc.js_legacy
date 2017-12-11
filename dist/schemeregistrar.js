@@ -37,11 +37,11 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
 
     /**
      * Note relating to permissions: According rules defined in the Controller,
-     * this SchemeRegistrar is only capable of registering schemes that have 
+     * this SchemeRegistrar is only capable of registering schemes that have
      * either no permissions or have the permission to register other schemes.
-     * Therefore Arc's SchemeRegistrar is not capable of registering schemes 
+     * Therefore Arc's SchemeRegistrar is not capable of registering schemes
      * that have permissions greater than its own, thus excluding schemes having
-     * the permission to add/remove global constraints or upgrade the controller.  
+     * the permission to add/remove global constraints or upgrade the controller.
      * The Controller will throw an exception when an attempt is made
      * to add or remove schemes having greater permissions than the scheme attempting the change.
      */
@@ -52,7 +52,7 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
       /**
        * Note that explicitly supplying any property with a value of undefined will prevent the property
        * from taking on its default value (weird behavior of default-options).
-       * 
+       *
       */
       var defaults = {
         /**
@@ -67,7 +67,7 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
          * scheme identifier, like "SchemeRegistrar" or "SimpleContributionScheme".
          * pass null if registering a non-arc scheme
          */
-        , schemeKey: null
+        , schemeName: null
         /**
          * hash of scheme parameters. These must be already registered with the new scheme.
          */
@@ -75,29 +75,29 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
         /**
          * The fee that the scheme charges to register an organization in the scheme.  The controller
          * will be asked in advance to approve this expenditure.
-         * 
-         * If schemeKey is given but fee is not then we use the amount of the fee of the 
-         * Arc scheme given by scheme and schemeKey.
-         * 
-         * Fee is required when schemeKey is not given (non-Arc schemes).
-         * 
+         *
+         * If schemeName is given but fee is not then we use the amount of the fee of the
+         * Arc scheme given by scheme and schemeName.
+         *
+         * Fee is required when schemeName is not given (non-Arc schemes).
+         *
          * The fee is paid using the token given by tokenAddress.  In Wei.
          */
         , fee: null
         /**
          * The token used to pay the fee that the scheme charges to register an organization in the scheme.
-         * 
-         * If schemeKey is given but tokenAddress is not then we use the token address of the 
-         * Arc scheme given by scheme and schemeKey.
-         * 
-         * tokenAddress is required when schemeKey is not given (non-Arc schemes).
+         *
+         * If schemeName is given but tokenAddress is not then we use the token address of the
+         * Arc scheme given by scheme and schemeName.
+         *
+         * tokenAddress is required when schemeName is not given (non-Arc schemes).
          */
         , tokenAddress: null
         /**
          * true if the given scheme is able to register/unregister/modify schemes.
-         * 
-         * isRegistering should only be supplied when schemeKey is not given (and thus the scheme is non-Arc).
-         * Otherwise we determine it's value based on scheme and schemeKey.
+         *
+         * isRegistering should only be supplied when schemeName is not given (and thus the scheme is non-Arc).
+         * Otherwise we determine it's value based on scheme and schemeName.
          */
         , isRegistering: null
         /**
@@ -132,10 +132,10 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
       var tokenAddress = options.tokenAddress;
       var isRegistering = void 0;
 
-      if (options.schemeKey) {
+      if (options.schemeName) {
         try {
           var settings = await (0, _settings.getSettings)();
-          var newScheme = await settings.daostackContracts[options.schemeKey].contract.at(options.scheme);
+          var newScheme = await settings.daostackContracts[options.schemeName].contract.at(options.scheme);
 
           if (!feeIsDefined || !tokenAddressIsDefined) {
             if (!feeIsDefined) {
@@ -148,7 +148,7 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
 
           isRegistering = (permissions & 2) != 0;
 
-          // Note that the javascript wrapper "newScheme" we've gotten here is defined in this version of Arc.  If newScheme is 
+          // Note that the javascript wrapper "newScheme" we've gotten here is defined in this version of Arc.  If newScheme is
           // actually coming from a different version of Arc, then theoretically the permissions could be different from this version.
           var permissions = Number(newScheme.getDefaultPermissions());
 
@@ -163,11 +163,11 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
         isRegistering = options.isRegistering;
 
         if (!feeIsDefined || !tokenAddressIsDefined) {
-          throw new Error("fee/tokenAddress are not defined; they are required for non-Arc schemes (schemeKey is undefined)");
+          throw new Error("fee/tokenAddress are not defined; they are required for non-Arc schemes (schemeName is undefined)");
         }
 
         if (isRegistering === null) {
-          throw new Error("isRegistering is not defined; it is required for non-Arc schemes (schemeKey is undefined)");
+          throw new Error("isRegistering is not defined; it is required for non-Arc schemes (schemeName is undefined)");
         }
 
         if (fee < 0) {

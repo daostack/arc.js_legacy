@@ -7,8 +7,6 @@ exports.ExtendTruffleContract = exports.NULL_HASH = exports.NULL_ADDRESS = undef
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 exports.requireContract = requireContract;
 exports.getWeb3 = getWeb3;
 exports.getValueFromLogs = getValueFromLogs;
@@ -29,10 +27,11 @@ var NULL_ADDRESS = exports.NULL_ADDRESS = '0x00000000000000000000000000000000000
 var NULL_HASH = exports.NULL_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
 /**
- * Returns TruffleContract given the name of the contract.
+ * Returns TruffleContract given the name of the contract (like "SchemeRegistrar"), or undefined
+ * if not found or any other error occurs.
  *
- * When testing or migrating, uses .sol
- * Elsewhere (development, production), uses migrated .json
+ * This is not an Arc javascript wrapper, rather it is the straight TruffleContract
+ * that one references in the Arc javascript wrapper as ".contract".
  *
  * Side effect:  It initializes (and uses) `web3` if a global `web3` is not already present, which
  * happens when running in the context of an application (as opposed to tests or migration).
@@ -40,29 +39,24 @@ var NULL_HASH = exports.NULL_HASH = '0x00000000000000000000000000000000000000000
  * @param contractName
  */
 function requireContract(contractName) {
-  if ((typeof artifacts === 'undefined' ? 'undefined' : _typeof(artifacts)) == 'object') {
-    return artifacts.require('./' + contractName + '.sol');
-  } else {
+  try {
+    var myWeb3 = getWeb3();
 
-    try {
-      var myWeb3 = getWeb3();
+    var artifact = require('../build/contracts/' + contractName + '.json');
+    var _contract = new TruffleContract(artifact);
 
-      var artifact = require('../build/contracts/' + contractName + '.json');
-      var _contract = new TruffleContract(artifact);
-
-      _contract.setProvider(myWeb3.currentProvider);
-      _contract.defaults({
-        from: getDefaultAccount(),
-        gas: 0x442168
-      });
-      return _contract;
-    } catch (ex) {
-      return undefined;
-    }
+    _contract.setProvider(myWeb3.currentProvider);
+    _contract.defaults({
+      from: getDefaultAccount(),
+      gas: 0x442168
+    });
+    return _contract;
+  } catch (ex) {
+    return undefined;
   }
 }
 
-var _web3;
+var _web3 = void 0;
 var alreadyTriedAndFailed = false;
 
 /**
@@ -79,7 +73,7 @@ function getWeb3() {
     throw new Error("already tried and failed");
   }
 
-  var preWeb3;
+  var preWeb3 = void 0;
 
   // already defined under `window`?
   if (typeof window !== "undefined" && typeof window.web3 !== "undefined") {
@@ -136,10 +130,8 @@ function getValueFromLogs(tx, arg, eventName) {
       var msg = 'getValueFromLogs: There is no event logged with eventName ' + eventName;
       throw new Error(msg);
     }
-  } else {
-    if (index === undefined) {
-      index = tx.logs.length - 1;
-    }
+  } else if (index === undefined) {
+    index = tx.logs.length - 1;
   }
   var result = tx.logs[index].args[arg];
   if (!result) {
@@ -210,10 +202,12 @@ var ExtendTruffleContract = exports.ExtendTruffleContract = function ExtendTruff
     }, {
       key: '_setParameters',
       value: async function _setParameters() {
-        var _contract2, _contract3;
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
 
-        var parametersHash = await (_contract2 = this.contract).getParametersHash.apply(_contract2, arguments);
-        await (_contract3 = this.contract).setParameters.apply(_contract3, arguments);
+        var parametersHash = await this.contract.getParametersHash(args);
+        await this.contract.setParameters(args);
         return parametersHash;
       }
 

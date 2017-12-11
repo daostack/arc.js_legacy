@@ -118,7 +118,7 @@ var GlobalConstraintRegistrar = exports.GlobalConstraintRegistrar = function (_E
   }, {
     key: 'getDefaultPermissions',
     value: function getDefaultPermissions(overrideValue) {
-      return overrideValue || '0x00000005';
+      return overrideValue || '0x00000007';
     }
   }], [{
     key: 'new',

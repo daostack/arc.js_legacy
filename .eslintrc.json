@@ -1,0 +1,27 @@
+{
+    "extends": "eslint:recommended",
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
+    "rules": {
+        "semi": 2,
+        "no-undef": "off",
+        "object-curly-newline": [ "error", { "multiline": true } ],
+        "no-trailing-spaces": [ "error", { "skipBlankLines": false, "ignoreComments": false} ],
+        "no-tabs": 2,
+        "no-var": 2,
+        "prefer-const": 2,
+        "prefer-spread": 2,
+        "prefer-rest-params": 2,
+        "prefer-arrow-callback": 2,
+        "no-duplicate-imports": 2,
+        "no-dupe-class-members": 2,
+        "no-const-assign": 2,
+        "no-confusing-arrow": 2,
+        "no-lonely-if": 2,
+        "no-continue": 2,
+        "indent": ["error", 2]
+    }
+}
