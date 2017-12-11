@@ -26,15 +26,10 @@ var Reputation = (0, _utils.requireContract)("Reputation");
 var AbsoluteVote = (0, _utils.requireContract)("AbsoluteVote");
 // import { UpgradeScheme } from   './upgradescheme.js';
 
-var promisify = require('promisify');
-
-// const SCHEME_PERMISSION_REGISTERING = 2;
-// const SCHEME_PERMISSION_GLOBALCONSTRAINT = 4;
-// const SCHEME_PERMISSION_UPGRADE = 8;
 var CONTRACT_SCHEMEREGISTRAR = 'SchemeRegistrar';
 var CONTRACT_UPGRADESCHEME = 'UpgradeScheme';
 var CONTRACT_GLOBALCONSTRAINTREGISTRAR = 'GlobalConstraintRegistrar';
-var CONTRACT_SIMPLECONTRIBUTIONSCHEME = 'SimpleContributionScheme';
+// const CONTRACT_SIMPLECONTRIBUTIONSCHEME = 'SimpleContributionScheme';
 
 var Organization = exports.Organization = function () {
   function Organization() {
@@ -43,76 +38,107 @@ var Organization = exports.Organization = function () {
 
   _createClass(Organization, [{
     key: 'schemes',
-    value: async function schemes(contract) {
+
+
+    /**
+     * returns
+     * @param name linke "SchemeRegistrar"
+     */
+    value: async function schemes(name) {
       // return the schemes registered on this controller satisfying the contract spec
       // return all schems if contract is not given
       var schemes = await this._getSchemes();
-      if (contract) {
+      if (name) {
         return schemes.filter(function (s) {
-          return s.contract === contract;
+          return s.name === name;
         });
       } else {
         return schemes;
       }
     }
+
+    /**
+     * returns schemes currently in this Organization as Array<OrganizationSchemeInfo>
+     */
+
   }, {
     key: '_getSchemes',
     value: async function _getSchemes() {
+      var _this = this;
+
       // private method returns all registered schemes.
       // TODO: this is *expensive*, we need to cache the results (and perhaps poll for latest changes if necessary)
-      var result = [];
+      var schemesMap = new Map(); // <string, { address: string, permissions: string, name: string }>
       var controller = this.controller;
+      var arcTypesMap = new Map(); // <address: string, name: string>
       var settings = await (0, _settings.getSettings)();
 
-      // TODO: only subscribe to registerScheme events that are registering to this.controller.address
+      /**
+       * TODO:  This should pull in all known versions of the schemes, names
+       * and versions in one fell swoop.
+       */
+      for (var name in settings.daostackContracts) {
+        var _contract = settings.daostackContracts[name];
+        arcTypesMap.set(_contract.address, name);
+      }
+
       var registerSchemeEvent = controller.RegisterScheme({}, { fromBlock: 0, toBlock: 'latest' });
 
-      var logs = await promisify.cb_func()(function (cb) {
-        registerSchemeEvent.get(cb);
-      })();
-      registerSchemeEvent.stopWatching();
-
-      // get scheme address from the logs
-      var addresses = logs.map(function (log) {
-        return log.args._scheme;
+      await new Promise(function (resolve) {
+        registerSchemeEvent.get(function (err, eventsArray) {
+          return _this._handleSchemeEvent(err, eventsArray, true, arcTypesMap, schemesMap).then(function () {
+            resolve();
+          });
+        });
+        registerSchemeEvent.stopWatching();
       });
-      var permissions = void 0,
-          i = void 0,
-          scheme = void 0;
 
-      // we derive the type of scheme from its permissions, which is at most approximate.
-      for (i = 0; i < addresses.length; i++) {
-        permissions = await controller.getSchemePermissions(addresses[i]);
+      var unRegisterSchemeEvent = controller.UnregisterScheme({}, { fromBlock: 0, toBlock: 'latest' });
 
-        scheme = {
-          address: addresses[i],
-          permissions: permissions
+      await new Promise(function (resolve) {
+        unRegisterSchemeEvent.get(function (err, eventsArray) {
+          return _this._handleSchemeEvent(err, eventsArray, false, arcTypesMap, schemesMap).then(function () {
+            resolve();
+          });
+        });
+        unRegisterSchemeEvent.stopWatching();
+      });
+
+      return Array.from(schemesMap.values());
+    }
+  }, {
+    key: '_handleSchemeEvent',
+    value: async function _handleSchemeEvent(err, eventsArray, adding, arcTypesMap, schemesMap) // : Promise<void>
+    {
+      if (!(eventsArray instanceof Array)) {
+        eventsArray = [eventsArray];
+      }
+      var count = eventsArray.length;
+      for (var i = 0; i < count; i++) {
+        var schemeAddress = eventsArray[i].args._scheme;
+        // will be all zeros if not registered
+        var permissions = await this.controller.getSchemePermissions(schemeAddress);
+
+        var schemeInfo = {
+          address: schemeAddress,
+          permissions: permissions,
+          // will be undefined if not a known scheme
+          name: arcTypesMap.get(schemeAddress)
         };
 
-        if (parseInt(permissions) === 0) {
-          // contract = 'unregistered' - we ignore it
-          // } else if ((parseInt(permissions) & SCHEME_PERMISSION_REGISTERING) === SCHEME_PERMISSION_REGISTERING) {
-        } else if (addresses[i] === String(settings.daostackContracts.SchemeRegistrar.address)) {
-          scheme['contract'] = CONTRACT_SCHEMEREGISTRAR;
-          result.push(scheme);
-          // } else if ((parseInt(permissions) & SCHEME_PERMISSION_UPGRADE) === SCHEME_PERMISSION_UPGRADE) {
-        } else if (addresses[i] === String(settings.daostackContracts.UpgradeScheme.address)) {
-          scheme['contract'] = CONTRACT_UPGRADESCHEME;
-          result.push(scheme);
-          // } else if ((parseInt(permissions) & SCHEME_PERMISSION_GLOBALCONSTRAINT) === SCHEME_PERMISSION_GLOBALCONSTRAINT) {
-        } else if (addresses[i] === String(settings.daostackContracts.GlobalConstraintRegistrar.address)) {
-          scheme['contract'] = CONTRACT_GLOBALCONSTRAINTREGISTRAR;
-          result.push(scheme);
-        } else if (addresses[i] === String(settings.daostackContracts.SimpleContributionScheme.address)) {
-          scheme['contract'] = CONTRACT_SIMPLECONTRIBUTIONSCHEME;
-          result.push(scheme);
-        } else {
-          scheme['contract'] = null;
-          result.push(scheme);
+        if (adding) {
+          schemesMap.set(schemeAddress, schemeInfo);
+        } else if (schemesMap.has(schemeAddress)) {
+          schemesMap.delete(schemeAddress);
         }
       }
-      return result;
     }
+
+    /**
+     * Returns promise of a scheme as ExtendTruffleScheme, or ? if not found
+     * @param contract name of scheme, like "SchemeRegistrar"
+     */
+
   }, {
     key: 'scheme',
     value: async function scheme(contract) {
@@ -146,176 +172,6 @@ var Organization = exports.Organization = function () {
       }
       return true;
     }
-
-    // async proposeScheme(opts={}) {
-
-    //   const settings = await getSettings();
-
-    //   const defaults = {
-    //     contract: undefined,
-    //     address: null,
-    //     params: {},
-    //   };
-
-    //   const options = dopts(opts, defaults, { allowUnknown: true });
-
-    //   let tx;
-
-    //   const schemeRegistrar = await this.scheme('SchemeRegistrar');
-
-    //   if (options.contract === 'SimpleICO') {
-    //     const scheme = await SimpleICO.at(settings.daostackContracts.SimpleICO.address);
-    //     // TODO: check which default params should be required
-    //     const defaultParams = {
-    //       cap: 0, // uint _cap,
-    //       price: 0, // uint _price,
-    //       startBlock: 0, // uint _startBlock,
-    //       endBlock: 0, // uint _endBlock,
-    //       beneficiary: NULL_ADDRESS, // address _beneficiary,
-    //       admin: NULL_ADDRESS,// address _admin)  returns(bytes32) {
-    //     };
-    //     // tod: all 'null' params are required
-    //     options.params = dopts(options.params, defaultParams);
-
-    //     // TODO: create the parameters hash on the basis of the options
-    //     await scheme.setParameters(
-    //       options.params.cap,
-    //       options.params.price,
-    //       options.params.startBlock,
-    //       options.params.endBlock,
-    //       options.params.beneficiary,
-    //       options.params.admin,
-    //     );
-    //     const parametersHash = await scheme.getParametersHash(
-    //       options.params.cap,
-    //       options.params.price,
-    //       options.params.startBlock,
-    //       options.params.endBlock,
-    //       options.params.beneficiary,
-    //       options.params.admin,
-    //     );
-    //     const tokenForFee = await scheme.nativeToken();
-    //     const fee = await scheme.fee();
-    //     const autoRegister = false;
-    //     tx = await schemeRegistrar.proposeScheme(
-    //       this.avatar.address, // Avatar _avatar,
-    //       scheme.address, //address _scheme,
-    //       parametersHash, // bytes32 _parametersHash,
-    //       false, // bool _isRegistering,
-    //       tokenForFee, // StandardToken _tokenFee,
-    //       fee, // uint _fee
-    //       autoRegister // bool _autoRegister
-    //     );
-    //     const proposalId = await getValueFromLogs(tx, '_proposalId');
-    //     return proposalId;
-
-
-    //   } else if (options.contract === CONTRACT_SIMPLECONTRIBUTIONSCHEME) {
-    //     // get the scheme
-    //     const defaultParams = {
-    //       votePrec: 50, // used for SimpleContributionScheme
-    //       ownerVote: true,
-    //       intVote: this.votingMachine.address, // used for SimpleContributionScheme
-    //       orgNativeTokenFee: 0, // used for SimpleContributionScheme
-    //       schemeNativeTokenFee: 0, // used for SimpleContributionScheme
-    //     };
-    //     // tod: all 'null' params are required
-    //     options.params = dopts(options.params, defaultParams);
-
-    //     const scheme = await SimpleContributionScheme.at(options.address || settings.daostackContracts.SimpleContributionScheme.address);
-    //     const votingMachine = AbsoluteVote.at(options.params.intVote);
-    //     // check if voteApporveParams are known on the votingMachine
-    //     await votingMachine.setParameters(this.reputation.address, options.params.votePrec, options.params.ownerVote);
-    //     const voteApproveParams = await votingMachine.getParametersHash(this.reputation.address, options.params.votePrec, options.params.ownerVote);
-
-    //     // const unpackedParams = await votingMachine.parameters(voteApproveParams);
-    //     // let msg = 'it seems your voteApproveParams are not known on this votingMachine';
-    //     // assert.isOk(unpackedParams[0], msg);
-
-    //     const parametersHash = await scheme.getParametersHash(
-    //       options.params.orgNativeTokenFee,
-    //       options.params.schemeNativeTokenFee,
-    //       voteApproveParams,
-    //       votingMachine.address,
-    //     );
-    //     await scheme.setParameters(
-    //       options.params.orgNativeTokenFee, // uint orgNativeTokenFee; // a fee (in the organization's token) that is to be paid for submitting a contribution
-    //       options.params.schemeNativeTokenFee, // uint schemeNativeTokenFee; // a fee (in the present schemes token)  that is to be paid for submission
-    //       voteApproveParams, // bytes32 voteApproveParams;
-    //       votingMachine.address,
-    //     );
-
-    //     const feeToken = await scheme.nativeToken();
-    //     const fee = await scheme.fee();
-    //     const autoRegister = false;
-
-    //     tx = await schemeRegistrar.proposeScheme(
-    //       this.avatar.address, // Avatar _avatar,
-    //       scheme.address, //address _scheme,
-    //       parametersHash, // bytes32 _parametersHash,
-    //       false, // bool _isRegistering,
-    //       feeToken, // StandardToken _tokenFee,
-    //       fee, // uint _fee
-    //       autoRegister // bool _autoRegister
-    //     );
-    //     const proposalId = await getValueFromLogs(tx, '_proposalId');
-    //     return proposalId;
-    //   } else {
-    //     throw new Error('Unknown contract');
-    //   }
-    // }
-
-    // async proposeGlobalConstraint(opts= {}) {
-    //   const settings = await getSettings();
-    //   const defaults = {
-    //     contract: null,
-    //     address: null,
-    //     params: {},
-    //     paramsHash: null,
-    //     // next three options regard removing a global constraint
-    //     votingMachine: this.votingMachine.address,
-    //     reputation: this.reputation.address,
-    //     absPrecReq: 50,
-    //   };
-
-    //   const options = dopts(opts, defaults, { allowUnknown: true });
-
-    //   if (options.contract==='TokenCapGC') {
-    //     options.address = options.address || settings.daostackContracts.TokenCapGC.address;
-    //     const tokenCapGC = await TokenCapGC.at(options.address);
-
-    //     if (options.paramsHash) {
-    //         // TODO: check if paramsHash is registered
-    //     } else {
-    //         const defaultParams = {
-    //           token: null,
-    //           tokenAddress: this.token.address,
-    //           cap: 21e9,
-    //         };
-    //         let params = dopts(options.params, defaultParams);
-
-    //         await tokenCapGC.setParameters(params.tokenAddress, params.cap);
-    //         options.paramsHash = await tokenCapGC.getParametersHash(params.tokenAddress, params.cap);
-    //     }
-
-    //   } else {
-    //     if (options.address) {
-    //       //
-    //     } else {
-    //       let msg = 'Either "contract" or "address" must be provided';
-    //       throw new Error(msg);
-    //     }
-    //   }
-    //   // calculate (and set) the hash that will be used to remove the parameters
-    //   await AbsoluteVote.at(options.votingMachine).setParameters(options.reputation, options.absPrecReq, true);
-    //   options.votingMachineHash = await AbsoluteVote.at(options.votingMachine).getParametersHash(options.reputation, options.absPrecReq, true);
-
-    //   const globalConstraintRegistrar = await this.scheme('GlobalConstraintRegistrar');
-    //   let tx = await globalConstraintRegistrar.proposeGlobalConstraint(this.avatar.address, options.address, options.paramsHash, options.votingMachineHash);
-    //   const proposalId = getValueFromLogs(tx, '_proposalId');
-    //   return proposalId;
-    // }
-
   }, {
     key: 'vote',
     value: function vote(proposalId, choice, params) {
@@ -346,24 +202,21 @@ var Organization = exports.Organization = function () {
         schemeNativeTokenFee: 0, // used for SimpleContributionScheme
         genesisScheme: settings.daostackContracts.GenesisScheme.address,
         schemes: [{
-          contract: CONTRACT_SCHEMEREGISTRAR,
+          name: CONTRACT_SCHEMEREGISTRAR,
           address: settings.daostackContracts.SchemeRegistrar.address
         }, {
-          contract: CONTRACT_UPGRADESCHEME,
+          name: CONTRACT_UPGRADESCHEME,
           address: settings.daostackContracts.UpgradeScheme.address
         }, {
-          contract: CONTRACT_GLOBALCONSTRAINTREGISTRAR,
+          name: CONTRACT_GLOBALCONSTRAINTREGISTRAR,
           address: settings.daostackContracts.GlobalConstraintRegistrar.address
         }]
       };
 
       var options = dopts(opts, defaults, { allowUnknown: true });
-
-      var tx = void 0;
-
       var genesisScheme = await GenesisScheme.at(options.genesisScheme);
 
-      tx = await genesisScheme.forgeOrg(options.orgName, options.tokenName, options.tokenSymbol, options.founders.map(function (x) {
+      var tx = await genesisScheme.forgeOrg(options.orgName, options.tokenName, options.tokenSymbol, options.founders.map(function (x) {
         return x.address;
       }), options.founders.map(function (x) {
         return x.tokens;
@@ -406,21 +259,21 @@ var Organization = exports.Organization = function () {
           var optionScheme = _step.value;
 
 
-          var arcSchemeInfo = settings.daostackContracts[optionScheme.contract];
-          var scheme = await arcSchemeInfo.contract.at(optionScheme.address || arcSchemeInfo.address);
+          var arcSchemeInfo = settings.daostackContracts[optionScheme.name];
+          var _scheme = await arcSchemeInfo.contract.at(optionScheme.address || arcSchemeInfo.address);
 
-          var paramsHash = await scheme.setParams({
+          var paramsHash = await _scheme.setParams({
             voteParametersHash: voteParametersHash,
             votingMachine: org.votingMachine.address,
             orgNativeTokenFee: options.orgNativeTokenFee,
             schemeNativeTokenFee: options.schemeNativeTokenFee
           });
 
-          initialSchemesAddresses.push(scheme.address);
+          initialSchemesAddresses.push(_scheme.address);
           initialSchemesParams.push(paramsHash);
-          initialSchemesTokenAddresses.push((await scheme.nativeToken()));
-          initialSchemesFees.push((await scheme.fee()));
-          initialSchemesPermissions.push(scheme.getDefaultPermissions() /* supply options.permissions here? */);
+          initialSchemesTokenAddresses.push((await _scheme.nativeToken()));
+          initialSchemesFees.push((await _scheme.fee()));
+          initialSchemesPermissions.push(_scheme.getDefaultPermissions() /* supply options.permissions here? */);
         }
 
         // register the schemes with the organization

@@ -36,8 +36,8 @@ var UpgradeScheme = exports.UpgradeScheme = function (_ExtendTruffleContrac) {
 
 
     /*******************************************
-     * proposeController
-     */
+    * proposeController
+    */
     value: async function proposeController() {
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -68,8 +68,8 @@ var UpgradeScheme = exports.UpgradeScheme = function (_ExtendTruffleContrac) {
     }
 
     /********************************************
-     * proposeUpgradingScheme
-     */
+    * proposeUpgradingScheme
+    */
 
   }, {
     key: 'proposeUpgradingScheme',
@@ -98,24 +98,24 @@ var UpgradeScheme = exports.UpgradeScheme = function (_ExtendTruffleContrac) {
          * true to register organization into the scheme when the proposal is approved.
          * If false then caller must do it manually via scheme.registerOrganization(avatarAddress).
          * Default is true.
-         * 
+         *
          * [This needs to be implemented]
         , autoRegister:true
          */
         /**
          * The fee that the scheme charges to register an organization in the new upgrade scheme.
          * The controller will be asked in advance to approve this expenditure.
-         * 
+         *
          * If the new UpgradeScheme is an Arc scheme, you may omit fee and we will
          * obtain the values directly from the submitted scheme.
          * Otherwise fee is required.
-         * 
+         *
          * The fee is paid using the token given by tokenAddress.  In Wei.
          */
         , fee: null
         /**
          * address of token that will be used when paying the fee.
-         * 
+         *
          * If the new UpgradeScheme is an Arc scheme, you may omit tokenAddress and we will
          * obtain the values directly from the submitted scheme.
          * Otherwise tokenAddress is required.
@@ -158,7 +158,7 @@ var UpgradeScheme = exports.UpgradeScheme = function (_ExtendTruffleContrac) {
             tokenAddress = await newScheme.nativeToken();
           }
         } catch (ex) {
-          throw new Error("Unable to obtain default information from the given scheme address. The scheme is probably not an Arc UpgradeScheme and in that case you must supply fee and tokenAddress.");
+          // throw new Error("Unable to obtain default information from the given scheme address. The scheme is probably not an Arc UpgradeScheme and in that case you must supply fee and tokenAddress.");
         }
       }
 
@@ -178,7 +178,7 @@ var UpgradeScheme = exports.UpgradeScheme = function (_ExtendTruffleContrac) {
   }, {
     key: 'getDefaultPermissions',
     value: function getDefaultPermissions(overrideValue) {
-      return overrideValue || '0x00000009';
+      return overrideValue || '0x0000000b';
     }
   }], [{
     key: 'new',

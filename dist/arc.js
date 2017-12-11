@@ -130,17 +130,17 @@ function configure(options) {
   options; // for lint
   // not used at the moment:  const network = options && options.network && options.network.name ? options.network.name : 'testrpc';
   /**
-   * TODO: supply testrpc url in options?  Problem is that at this point web3 has already been set in utils
-   * so it's too late at this point to set the url.  Would need to somehow effect this initialization before
-   * any contract imports have been attempted.  Need to figure out how to export the modules above somewhere
-   * else, or separately.
-   */
+     * TODO: supply testrpc url in options?  Problem is that at this point web3 has already been set in utils
+     * so it's too late at this point to set the url.  Would need to somehow effect this initialization before
+     * any contract imports have been attempted.  Need to figure out how to export the modules above somewhere
+     * else, or separately.
+     */
 
   /**
-   * TODO: should we specify something here?
-   * See: https://mikemcl.github.io/bignumber.js/#config
-  BigNumber.config({...});
-   */
+     * TODO: should we specify something here?
+     * See: https://mikemcl.github.io/bignumber.js/#config
+    BigNumber.config({...});
+     */
   return (0, _utils.getWeb3)();
 }
 
