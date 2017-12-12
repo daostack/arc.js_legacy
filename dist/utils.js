@@ -48,7 +48,7 @@ function requireContract(contractName) {
     contract.setProvider(myWeb3.currentProvider);
     contract.defaults({
       from: getDefaultAccount(),
-      gas: 0x442168
+      gas: 6500000
     });
     return contract;
   } catch (ex) {
