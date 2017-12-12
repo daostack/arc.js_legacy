@@ -299,12 +299,10 @@ var Organization = exports.Organization = function () {
       // fee = await org.schemeRegistrar.fee())
       // we must do this after setInitialSchemes, because that one approves the transactions
       // (but that logic shoudl change)
-      var token = void 0,
-          fee = void 0;
       for (var i = 0; i < initialSchemesAddresses.length; i = i + 1) {
-        scheme = await _schemeregistrar.SchemeRegistrar.at(initialSchemesAddresses[i]);
-        token = await DAOToken.at(initialSchemesTokenAddresses[i]);
-        fee = initialSchemesFees[i];
+        var scheme = await _schemeregistrar.SchemeRegistrar.at(initialSchemesAddresses[i]);
+        var token = await DAOToken.at(initialSchemesTokenAddresses[i]);
+        var fee = initialSchemesFees[i];
         await token.transfer(org.avatar.address, fee);
         await scheme.registerOrganization(org.avatar.address);
       }

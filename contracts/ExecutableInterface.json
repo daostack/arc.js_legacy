@@ -34,10 +34,10 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18;\r\n\r\nimport \"../controller/Controller.sol\";\r\n\r\n\r\ncontract ExecutableInterface {\r\n    function execute(bytes32 _proposalId, address _avatar, int _param) public returns(bool);\r\n}\r\n",
-  "sourcePath": "C:\\users\\dkent\\documents\\projects\\GitHub\\DAOStack\\daostack\\contracts\\universalSchemes\\ExecutableInterface.sol",
+  "sourcePath": "C:\\Users\\dkent\\Documents\\Projects\\GitHub\\DAOStack\\daostack\\contracts\\universalSchemes\\ExecutableInterface.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/universalSchemes/ExecutableInterface.sol",
+      "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/universalSchemes/ExecutableInterface.sol",
       "exportedSymbols": {
         "ExecutableInterface": [
           5998
@@ -61,7 +61,7 @@
       {
         "attributes": {
           "SourceUnit": 4061,
-          "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/controller/Controller.sol",
+          "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/controller/Controller.sol",
           "file": "../controller/Controller.sol",
           "scope": 5999,
           "symbolAliases": [
@@ -247,5 +247,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-12T06:13:10.561Z"
+  "updatedAt": "2017-12-12T19:22:21.931Z"
 }

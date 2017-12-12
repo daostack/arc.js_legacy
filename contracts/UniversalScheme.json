@@ -172,10 +172,10 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.15;\r\n\r\nimport \"./UniversalSchemeInterface.sol\";\r\nimport \"../controller/Controller.sol\";\r\nimport \"../controller/Avatar.sol\";\r\nimport \"zeppelin-solidity/contracts/ownership/Ownable.sol\";\r\nimport \"zeppelin-solidity/contracts/token/StandardToken.sol\";\r\n\r\n\r\ncontract UniversalScheme is Ownable, UniversalSchemeInterface { //\r\n    StandardToken public nativeToken;\r\n    uint public fee;\r\n    address public beneficiary;\r\n    bytes32 public hashedParameters; // For other parameters.\r\n\r\n    event LogOrgRegistered (address _avatar);\r\n    event LogNewProposal(bytes32 proposalId);\r\n\r\n    function updateParameters(\r\n        StandardToken _nativeToken,\r\n        uint _fee,\r\n        address _beneficiary,\r\n        bytes32 _hashedParameters\r\n    )\r\n        public\r\n        onlyOwner\r\n    {\r\n        nativeToken = _nativeToken;\r\n        fee = _fee;\r\n        beneficiary = _beneficiary;\r\n        hashedParameters = _hashedParameters;\r\n    }\r\n\r\n    /**\r\n    *  @dev get the parameters for the current scheme from the controller\r\n    */\r\n    function getParametersFromController(Avatar _avatar) internal constant returns(bytes32) {\r\n        Controller controller = Controller(_avatar.owner());\r\n        return controller.getSchemeParameters(this);\r\n    }\r\n\r\n}\r\n",
-  "sourcePath": "C:\\users\\dkent\\documents\\projects\\GitHub\\DAOStack\\daostack\\contracts\\universalSchemes\\UniversalScheme.sol",
+  "sourcePath": "C:\\Users\\dkent\\Documents\\Projects\\GitHub\\DAOStack\\daostack\\contracts\\universalSchemes\\UniversalScheme.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/universalSchemes/UniversalScheme.sol",
+      "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/universalSchemes/UniversalScheme.sol",
       "exportedSymbols": {
         "UniversalScheme": [
           8878
@@ -199,7 +199,7 @@
       {
         "attributes": {
           "SourceUnit": 8909,
-          "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/universalSchemes/UniversalSchemeInterface.sol",
+          "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/universalSchemes/UniversalSchemeInterface.sol",
           "file": "./UniversalSchemeInterface.sol",
           "scope": 8879,
           "symbolAliases": [
@@ -214,7 +214,7 @@
       {
         "attributes": {
           "SourceUnit": 4061,
-          "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/controller/Controller.sol",
+          "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/controller/Controller.sol",
           "file": "../controller/Controller.sol",
           "scope": 8879,
           "symbolAliases": [
@@ -229,7 +229,7 @@
       {
         "attributes": {
           "SourceUnit": 3064,
-          "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/controller/Avatar.sol",
+          "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/controller/Avatar.sol",
           "file": "../controller/Avatar.sol",
           "scope": 8879,
           "symbolAliases": [
@@ -1237,5 +1237,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-12T06:13:10.575Z"
+  "updatedAt": "2017-12-12T19:22:21.945Z"
 }

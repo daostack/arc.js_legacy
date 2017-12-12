@@ -203,7 +203,7 @@ var UpgradeScheme = exports.UpgradeScheme = function (_ExtendTruffleContrac) {
         token = await DAOToken.at(options.tokenAddress);
       }
 
-      contract = await SolidityUpgradeScheme.new(token.address, options.fee, options.beneficiary);
+      var contract = await SolidityUpgradeScheme.new(token.address, options.fee, options.beneficiary);
       return new this(contract);
     }
   }]);

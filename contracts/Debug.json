@@ -86,15 +86,15 @@
       "type": "event"
     }
   ],
-  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820d30c2f076882fa13e77e8cb4b9e6824e696c8a1e4a1462b7d1fa7b0e880378810029",
-  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820d30c2f076882fa13e77e8cb4b9e6824e696c8a1e4a1462b7d1fa7b0e880378810029",
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820f6e86325c7cedaee0724ed89ec831613d010bec66bd040515df2c8a1f8412e880029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820f6e86325c7cedaee0724ed89ec831613d010bec66bd040515df2c8a1f8412e880029",
   "sourceMap": "126:252:13:-;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "126:252:13:-;;;;;",
   "source": "pragma solidity ^0.4.18;\r\n\r\n\r\n/*\r\n    A contract you can inherit from that has some useful Events to print statements.\r\n*/\r\n\r\ncontract Debug {\r\n    event LogAddress(address _msg);\r\n    event LogInt(int _msg);\r\n    event LogString(string _msg);\r\n    event LogUint(uint _msg);\r\n    event LogBytes(bytes _msg);\r\n    event LogBytes32(bytes32 _msg);\r\n    event LogBool(bool _msg);\r\n}\r\n",
-  "sourcePath": "C:\\users\\dkent\\documents\\projects\\GitHub\\DAOStack\\daostack\\contracts\\test\\Debug.sol",
+  "sourcePath": "C:\\Users\\dkent\\Documents\\Projects\\GitHub\\DAOStack\\daostack\\contracts\\test\\Debug.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/test/Debug.sol",
+      "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/test/Debug.sol",
       "exportedSymbols": {
         "Debug": [
           5852
@@ -464,5 +464,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-12T06:13:10.560Z"
+  "updatedAt": "2017-12-12T19:22:21.930Z"
 }

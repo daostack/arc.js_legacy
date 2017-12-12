@@ -202,12 +202,10 @@ var ExtendTruffleContract = exports.ExtendTruffleContract = function ExtendTruff
     }, {
       key: '_setParameters',
       value: async function _setParameters() {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
+        var _contract, _contract2;
 
-        var parametersHash = await this.contract.getParametersHash(args);
-        await this.contract.setParameters(args);
+        var parametersHash = await (_contract = this.contract).getParametersHash.apply(_contract, arguments);
+        await (_contract2 = this.contract).setParameters.apply(_contract2, arguments);
         return parametersHash;
       }
 

@@ -209,10 +209,10 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18;\r\n\r\nimport \"../universalSchemes/ExecutableInterface.sol\";\r\n\r\n\r\ncontract IntVoteInterface {\r\n    modifier onlyProposalOwner(bytes32 _proposalId) {_;}\r\n    modifier votable(bytes32 _proposalId) {_;}\r\n\r\n    function propose(\r\n        uint _numOfChoices,\r\n        bytes32 _proposalParameters,\r\n        address _avatar,\r\n        ExecutableInterface _executable\r\n        ) public returns(bytes32);\r\n\r\n    // Only owned proposals and only the owner:\r\n    function cancelProposal(bytes32 _proposalId) public onlyProposalOwner(_proposalId) votable(_proposalId) returns(bool);\r\n\r\n    // Only owned proposals and only the owner:\r\n    function ownerVote(bytes32 _proposalId, uint _vote, address _voter) public onlyProposalOwner(_proposalId) returns(bool);\r\n\r\n    function vote(bytes32 _proposalId, uint _vote) public votable(_proposalId) returns(bool);\r\n\r\n    function voteWithSpecifiedAmounts(\r\n        bytes32 _proposalId,\r\n        uint _vote,\r\n        uint _rep,\r\n        uint _token) public votable(_proposalId) returns(bool);\r\n\r\n    function cancelVote(bytes32 _proposalId) public votable(_proposalId);\r\n\r\n    //@dev execute check if the proposal has been decided, and if so, execute the proposal\r\n    //@param _proposalId the id of the proposal\r\n    //@return bool true - the proposal has been executed\r\n    //             false - otherwise.\r\n    function execute(bytes32 _proposalId) public votable(_proposalId) returns(bool);\r\n\r\n    function getNumberOfChoices(bytes32 _proposalId) public constant returns(uint);\r\n\r\n    function isVotable(bytes32 _proposalId) public constant returns(bool);\r\n}\r\n",
-  "sourcePath": "C:\\users\\dkent\\documents\\projects\\GitHub\\DAOStack\\daostack\\contracts\\VotingMachines\\IntVoteInterface.sol",
+  "sourcePath": "C:\\Users\\dkent\\Documents\\Projects\\GitHub\\DAOStack\\daostack\\contracts\\VotingMachines\\IntVoteInterface.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/VotingMachines/IntVoteInterface.sol",
+      "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/VotingMachines/IntVoteInterface.sol",
       "exportedSymbols": {
         "IntVoteInterface": [
           2658
@@ -236,7 +236,7 @@
       {
         "attributes": {
           "SourceUnit": 5999,
-          "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/universalSchemes/ExecutableInterface.sol",
+          "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/universalSchemes/ExecutableInterface.sol",
           "file": "../universalSchemes/ExecutableInterface.sol",
           "scope": 2659,
           "symbolAliases": [
@@ -1627,5 +1627,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-12T06:13:10.547Z"
+  "updatedAt": "2017-12-12T19:22:21.917Z"
 }

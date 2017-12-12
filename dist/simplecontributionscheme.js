@@ -172,7 +172,7 @@ var SimpleContributionScheme = function (_ExtendTruffleContrac) {
         token = await DAOToken.at(options.tokenAddress);
       }
 
-      contract = await SoliditySimpleContributionScheme.new(token.address, options.fee, options.beneficiary);
+      var contract = await SoliditySimpleContributionScheme.new(token.address, options.fee, options.beneficiary);
       return new this(contract);
     }
   }]);

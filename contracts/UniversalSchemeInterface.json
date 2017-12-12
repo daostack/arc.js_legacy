@@ -47,10 +47,10 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18;\r\n\r\nimport \"../controller/Controller.sol\";\r\nimport \"../controller/Avatar.sol\";\r\nimport \"zeppelin-solidity/contracts/ownership/Ownable.sol\";\r\nimport \"zeppelin-solidity/contracts/token/StandardToken.sol\";\r\n\r\n\r\ncontract UniversalSchemeInterface {\r\n\r\n    function updateParameters(StandardToken _nativeToken, uint _fee, address _beneficiary, bytes32 _hashedParameters) public;\r\n\r\n    function registerOrganization(Avatar _avatar) public;\r\n\r\n    function getParametersFromController(Avatar _avatar) internal constant returns(bytes32);\r\n}\r\n",
-  "sourcePath": "C:\\users\\dkent\\documents\\projects\\GitHub\\DAOStack\\daostack\\contracts\\universalSchemes\\UniversalSchemeInterface.sol",
+  "sourcePath": "C:\\Users\\dkent\\Documents\\Projects\\GitHub\\DAOStack\\daostack\\contracts\\universalSchemes\\UniversalSchemeInterface.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/universalSchemes/UniversalSchemeInterface.sol",
+      "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/universalSchemes/UniversalSchemeInterface.sol",
       "exportedSymbols": {
         "UniversalSchemeInterface": [
           8908
@@ -74,7 +74,7 @@
       {
         "attributes": {
           "SourceUnit": 4061,
-          "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/controller/Controller.sol",
+          "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/controller/Controller.sol",
           "file": "../controller/Controller.sol",
           "scope": 8909,
           "symbolAliases": [
@@ -89,7 +89,7 @@
       {
         "attributes": {
           "SourceUnit": 3064,
-          "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/controller/Avatar.sol",
+          "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/controller/Avatar.sol",
           "file": "../controller/Avatar.sol",
           "scope": 8909,
           "symbolAliases": [
@@ -469,5 +469,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-12T06:13:10.582Z"
+  "updatedAt": "2017-12-12T19:22:21.945Z"
 }

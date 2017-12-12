@@ -17,9 +17,8 @@
   ],
   "scripts": {
     "start": "nps",
-    "test": "npm start test",
-    "build": "npm start build",
-    "pack": "npm start publish.pack"
+    "test": "nps test" ,
+    "build": "nps build"
   },
   "repository": {
     "type": "git",
