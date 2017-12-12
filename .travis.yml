@@ -16,7 +16,7 @@ before_install:
 install:
 
 script:
-  - npm start test
   - npm start lint
+
 notifications:
   slack: daostack:fGuaFPsiQiV5mgmzRcSzbYqw
