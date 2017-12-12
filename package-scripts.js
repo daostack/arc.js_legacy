@@ -58,26 +58,18 @@ module.exports = {
        * 
        * Will look in pathDaostackArc for daostack-arc, pathArcJs for arc-js (this library)
        * 
-       * Will delete and  replace all the contract js files in pathDaostackArcContracts
+       * Will delete and replace all the contract js files in pathDaostackArcContracts
+       * 
+       * The final output goes to the daostack-arc node_modules folder
        */
       , deployContracts: series(
         `cd ${pathDaostackArc}`,
         rimraf(pathDaostackArcContracts,'*'),
         `truffle migrate ${network ? `--network ${network}` : ''} --reset --compile-all`,
         `cd ${pathArcJs}`, 
-        // the build expects to find the contracts in node_modules, so copy them to there
+        // our build expects to find the contracts in node_modules, so copy them to there
         copy(`${joinPath(pathDaostackArc, "/build/contracts/*")}  ${joinPath(pathArcJs, "node_modules/daostack-arc/build/contracts")}`)
       )
-    },
-    publish: {
-      default: series(
-        "nps build",
-        "npm publish",
-      ),
-      pack: series(
-        "nps build",
-        "npm pack"
-      )      
     }
   },
 }
