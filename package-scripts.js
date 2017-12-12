@@ -51,25 +51,31 @@ module.exports = {
         rimraf("./contracts"),
         copy(`./node_modules/daostack-arc/build/contracts/* ${pathArcJsContracts}`)
       )
-      /**
-       * deployContracts requires that you have installed the daostack-arc repo, or equivalent,
-       * wherein the .sol and deploy*.js files can be found in the folder structure
-       * that truffle expects.
-       * 
-       * Will look in pathDaostackArc for daostack-arc, pathArcJs for arc-js (this library)
-       * 
-       * Will delete and replace all the contract js files in pathDaostackArcContracts
-       * 
-       * The final output goes to the daostack-arc node_modules folder
-       */
-      , deployContracts: series(
+    },
+    /**
+     * deployContracts requires that you have installed the daostack-arc repo, or equivalent,
+     * wherein the .sol and deploy*.js files can be found in the folder structure
+     * that truffle expects.
+     * 
+     * Will look in pathDaostackArc for daostack-arc, pathArcJs for arc-js (this library)
+     * 
+     * Will delete and replace all the contract js files in pathDaostackArcContracts
+     * 
+     * The final output goes to the daostack-arc node_modules folder, so to use with tests,
+     * or to publish or pack, you need to run "npm start build", or at least "npm start build.fetchDaoStackContractsFromNodeModules"
+     */
+    deployContracts: {
+      default: series(
         `cd ${pathDaostackArc}`,
-        rimraf(pathDaostackArcContracts,'*'),
-        `truffle migrate ${network ? `--network ${network}` : ''} --reset --compile-all`,
+        `truffle migrate ${network ? `--network ${network}` : ''}`,
         `cd ${pathArcJs}`, 
         // our build expects to find the contracts in node_modules, so copy them to there
         copy(`${joinPath(pathDaostackArc, "/build/contracts/*")}  ${joinPath(pathArcJs, "node_modules/daostack-arc/build/contracts")}`)
       )
+      , clean: series(
+        rimraf(pathDaostackArcContracts,'*'),
+        "nps deployContracts"
+      )
     }
-  },
+  }
 }
