@@ -1,0 +1,403 @@
+{
+  "contractName": "GlobalConstraintInterface",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_scheme",
+          "type": "address"
+        },
+        {
+          "name": "_params",
+          "type": "bytes32"
+        },
+        {
+          "name": "_method",
+          "type": "bytes32"
+        }
+      ],
+      "name": "post",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_scheme",
+          "type": "address"
+        },
+        {
+          "name": "_params",
+          "type": "bytes32"
+        },
+        {
+          "name": "_method",
+          "type": "bytes32"
+        }
+      ],
+      "name": "pre",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.4.18;\r\n\r\n\r\ncontract GlobalConstraintInterface {\r\n    function pre( address _scheme, bytes32 _params, bytes32 _method ) public returns(bool);\r\n    function post( address _scheme, bytes32 _params, bytes32 _method ) public returns(bool);\r\n}\r\n",
+  "sourcePath": "C:\\users\\dkent\\documents\\projects\\GitHub\\DAOStack\\daostack\\contracts\\globalConstraints\\GlobalConstraintInterface.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/globalConstraints/GlobalConstraintInterface.sol",
+      "exportedSymbols": {
+        "GlobalConstraintInterface": [
+          4549
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".18"
+          ]
+        },
+        "id": 4526,
+        "name": "PragmaDirective",
+        "src": "0:24:9"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            4549
+          ],
+          "name": "GlobalConstraintInterface",
+          "scope": 4550
+        },
+        "children": [
+          {
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "pre",
+              "payable": false,
+              "scope": 4549,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_scheme",
+                      "scope": 4537,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 4527,
+                        "name": "ElementaryTypeName",
+                        "src": "86:7:9"
+                      }
+                    ],
+                    "id": 4528,
+                    "name": "VariableDeclaration",
+                    "src": "86:15:9"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_params",
+                      "scope": 4537,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 4529,
+                        "name": "ElementaryTypeName",
+                        "src": "103:7:9"
+                      }
+                    ],
+                    "id": 4530,
+                    "name": "VariableDeclaration",
+                    "src": "103:15:9"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_method",
+                      "scope": 4537,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 4531,
+                        "name": "ElementaryTypeName",
+                        "src": "120:7:9"
+                      }
+                    ],
+                    "id": 4532,
+                    "name": "VariableDeclaration",
+                    "src": "120:15:9"
+                  }
+                ],
+                "id": 4533,
+                "name": "ParameterList",
+                "src": "84:53:9"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 4537,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 4534,
+                        "name": "ElementaryTypeName",
+                        "src": "153:4:9"
+                      }
+                    ],
+                    "id": 4535,
+                    "name": "VariableDeclaration",
+                    "src": "153:4:9"
+                  }
+                ],
+                "id": 4536,
+                "name": "ParameterList",
+                "src": "152:6:9"
+              }
+            ],
+            "id": 4537,
+            "name": "FunctionDefinition",
+            "src": "72:87:9"
+          },
+          {
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "post",
+              "payable": false,
+              "scope": 4549,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_scheme",
+                      "scope": 4548,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 4538,
+                        "name": "ElementaryTypeName",
+                        "src": "180:7:9"
+                      }
+                    ],
+                    "id": 4539,
+                    "name": "VariableDeclaration",
+                    "src": "180:15:9"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_params",
+                      "scope": 4548,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 4540,
+                        "name": "ElementaryTypeName",
+                        "src": "197:7:9"
+                      }
+                    ],
+                    "id": 4541,
+                    "name": "VariableDeclaration",
+                    "src": "197:15:9"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_method",
+                      "scope": 4548,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 4542,
+                        "name": "ElementaryTypeName",
+                        "src": "214:7:9"
+                      }
+                    ],
+                    "id": 4543,
+                    "name": "VariableDeclaration",
+                    "src": "214:15:9"
+                  }
+                ],
+                "id": 4544,
+                "name": "ParameterList",
+                "src": "178:53:9"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 4548,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 4545,
+                        "name": "ElementaryTypeName",
+                        "src": "247:4:9"
+                      }
+                    ],
+                    "id": 4546,
+                    "name": "VariableDeclaration",
+                    "src": "247:4:9"
+                  }
+                ],
+                "id": 4547,
+                "name": "ParameterList",
+                "src": "246:6:9"
+              }
+            ],
+            "id": 4548,
+            "name": "FunctionDefinition",
+            "src": "165:88:9"
+          }
+        ],
+        "id": 4549,
+        "name": "ContractDefinition",
+        "src": "30:226:9"
+      }
+    ],
+    "id": 4550,
+    "name": "SourceUnit",
+    "src": "0:258:9"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-12-12T06:13:10.555Z"
+}

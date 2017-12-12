@@ -42,15 +42,15 @@ function requireContract(contractName) {
   try {
     var myWeb3 = getWeb3();
 
-    var artifact = require('../build/contracts/' + contractName + '.json');
-    var _contract = new TruffleContract(artifact);
+    var artifact = require('../contracts/' + contractName + '.json');
+    var contract = new TruffleContract(artifact);
 
-    _contract.setProvider(myWeb3.currentProvider);
-    _contract.defaults({
+    contract.setProvider(myWeb3.currentProvider);
+    contract.defaults({
       from: getDefaultAccount(),
       gas: 0x442168
     });
-    return _contract;
+    return contract;
   } catch (ex) {
     return undefined;
   }
@@ -223,7 +223,7 @@ var ExtendTruffleContract = exports.ExtendTruffleContract = function ExtendTruff
     }], [{
       key: 'new',
       value: async function _new() {
-        contract = await superclass.new();
+        var contract = await superclass.new();
         return new this(contract);
       }
     }, {

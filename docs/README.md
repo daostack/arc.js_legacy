@@ -1,7 +1,7 @@
 
 # DAOSTACK library
 
-Work in progress.  Install via `npm install daostack-arc`.
+Work in progress.  Install via `npm install arc-js`.
 
 ## API
 
@@ -12,7 +12,7 @@ Work in progress.  Install via `npm install daostack-arc`.
 ## Example Session
 [next examples are not all working yet, but this is what is should/could look like]
 
-    import { Organization } from 'daostack-arc';
+    import { Organization } from 'arc-js';
 
 create an Organization from zero:
 

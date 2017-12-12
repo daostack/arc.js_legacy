@@ -241,7 +241,7 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
         token = await DAOToken.at(options.tokenAddress);
       }
 
-      contract = await SoliditySchemeRegistrar.new(token.address, options.fee, options.beneficiary);
+      var contract = await SoliditySchemeRegistrar.new(token.address, options.fee, options.beneficiary);
       return new this(contract);
     }
   }]);

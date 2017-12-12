@@ -119,7 +119,7 @@ var _settings = require('./settings.js');
 // import * as BigNumber from 'bignumber.js';
 
 /**
- * Configure the daostack-arc module.
+ * Configure the arc-js module.
  *
  * @return: Web3 web3 as a convenience for the client.
  * `web3` is set automatically in testing and migration, or elsewhere (development, production)
