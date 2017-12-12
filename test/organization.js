@@ -4,12 +4,8 @@ import * as helpers from './helpers';
 import { proposeSimpleContributionScheme } from './simplecontribution.js';
 
 
-contract('Organization', (accounts) => {
+describe('Organization', () => {
   let organization;
-
-  before(() => {
-    helpers.etherForEveryone();
-  });
 
   it("can be created with 'new' using default settings", async () => {
     organization = await Organization.new({

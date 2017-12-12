@@ -1,6 +1,6 @@
 {
   "name": "arc-js",
-  "version": "0.0.0-alpha.1",
+  "version": "0.0.0-alpha.2",
   "description": "Javascript library providing access to DAOStack ethereum smart contracts (daostack-arc)",
   "main": "lib/arc.js",
   "directories": {
@@ -13,7 +13,8 @@
     "prepublishOnly": "npm run build",
     "lint": "eslint .",
     "lint --fix": "eslint --fix .",
-    "test": "mocha --require babel-register --require chai"
+    "test": "mocha --require babel-register --require chai --timeout 15000",
+    "deployTestrpc": "pushd ./node_modules/daostack-arc & truffle migrate & popd"
   },
   "repository": {
     "type": "git",

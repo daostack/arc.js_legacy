@@ -3,13 +3,10 @@ import { getValueFromLogs, requireContract } from '../lib/utils.js';
 const Controller = requireContract("Controller");
 const AbsoluteVote = requireContract('AbsoluteVote');
 const UpgradeScheme = requireContract('UpgradeScheme');
-import { forgeOrganization, settingsForTest, SOME_HASH } from './helpers';
+import { forgeOrganization, settingsForTest, SOME_HASH, NULL_ADDRESS } from './helpers';
 
 
-contract('UpgradeScheme', (accounts) => {
-  before(() => {
-    helpers.etherForEveryone();
-  });
+describe('UpgradeScheme', () => {
 
   it("proposeController javascript wrapper should change controller", async () => {
     const organization = await forgeOrganization();
@@ -17,7 +14,7 @@ contract('UpgradeScheme', (accounts) => {
     const upgradeScheme = await organization.scheme('UpgradeScheme');
     const newController = await Controller.new(null, null, null, [], [], []);
 
-    assert.equal(await organization.controller.newController(), helpers.NULL_ADDRESS, "there is already a new contoller");
+    assert.equal(await organization.controller.newController(), NULL_ADDRESS, "there is already a new contoller");
 
     const tx = await upgradeScheme.proposeController({
       avatar: organization.avatar.address,
@@ -40,6 +37,7 @@ contract('UpgradeScheme', (accounts) => {
   });
 
   it('controller upgrade should work as expected', async () => {
+
     const founders = [
       {
         address: accounts[0],
@@ -64,7 +62,7 @@ contract('UpgradeScheme', (accounts) => {
     const votingMachine = await AbsoluteVote.at(settings.votingMachine);
 
     // the organization has not bene upgraded yet, so newController is the NULL address
-    assert.equal(await organization.controller.newController(), helpers.NULL_ADDRESS);
+    assert.equal(await organization.controller.newController(), NULL_ADDRESS);
 
     // we create a new controller to upgrade to
     const newController = await Controller.new(null, null, null, [], [], []);

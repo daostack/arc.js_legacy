@@ -6,7 +6,7 @@ import * as ethers from 'ethers';
 import { Wallet } from '../lib/wallet.js';
 import * as helpers from './helpers';
 
-contract('Wallet', (accounts) => {
+describe('Wallet', () => {
   it('creates a new wallet on the blockchain', async function() {
     this.timeout(10000);
     const wallet = Wallet.new();

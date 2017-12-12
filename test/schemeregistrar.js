@@ -4,7 +4,7 @@ import { forgeOrganization, settingsForTest } from './helpers';
 
 const DAOToken = requireContract("DAOToken");
 
-contract('SchemeRegistrar', (accounts) => {
+describe('SchemeRegistrar', () => {
 
   it("proposeToAddModifyScheme javascript wrapper should add new scheme", async () => {
     const organization = await forgeOrganization();

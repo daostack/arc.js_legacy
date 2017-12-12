@@ -34,12 +34,8 @@ export async function proposeSimpleContributionScheme(org, accounts) {
   return simpleContributionScheme;
 }
 
-contract('SimpleContribution scheme', (accounts) => {
+describe('SimpleContribution scheme', () => {
   let params, paramsHash, tx, proposal;
-
-  before(() => {
-    helpers.etherForEveryone();
-  });
 
   it("submit and accept a contribution - complete workflow", async () => {
     const organization = await helpers.forgeOrganization();
