@@ -42,7 +42,7 @@ function requireContract(contractName) {
   try {
     var myWeb3 = getWeb3();
 
-    var artifact = require('../contracts/' + contractName + '.json');
+    var artifact = require('../node_modules/daostack-arc/build/contracts/' + contractName + '.json');
     var contract = new TruffleContract(artifact);
 
     contract.setProvider(myWeb3.currentProvider);
