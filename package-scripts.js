@@ -3,23 +3,15 @@ const env = require('env-variable')();
 const joinPath = require('path.join');
 const cwd = require('cwd')();
 
-console.log(`cwd: ${cwd}`);
-
 /**
  * environment variables you can use to configure stuff like deployContracts
  */
 const pathArcJs = env.pathArcJs || cwd;
-
 const pathArcJsContracts = env.pathArcJsContracts || joinPath(pathArcJs, "/contracts");
-
 const pathDaostackArcRepo = env.pathDaostackArcRepo || "../daostack-arc";
-
 const pathDaostackArcRepoContracts = env.pathDaostackArcRepoContracts || joinPath(pathDaostackArcRepo,"build/contracts");
-
 const pathDaostackArcPackageContracts = joinPath(pathArcJs,"node_modules/daostack-arc/build/contracts");
-
 const network = env.ETH_ENV;
-console.log(`network: ${network ? network: "testrpc"}`);
 
 module.exports = {
   scripts: {
@@ -60,6 +52,12 @@ module.exports = {
         copy(`${joinPath(pathDaostackArcPackageContracts, "*")} ${pathArcJsContracts}`)
       )
     },
+    deploy: {
+      pack: series(
+        "nps build",
+        "npm pack"
+      )
+    },
     /**
      * deployContracts requires that you have installed the daostack-arc repo, or equivalent,
      * wherein the .sol and deploy*.js files can be found in the folder structure
@@ -74,16 +72,18 @@ module.exports = {
      */
     deployContracts: {
       default: series(
-        "console.log(`pathArcJs: ${pathArcJs}`)",
-        "console.log(`pathDaostackArcRepo: ${pathDaostackArcRepo}`)",
+        // "console.log(`cwd: ${cwd}`)"
+          console.log(`network: ${network ? network: "testrpc"}`)
+        , "console.log(`pathArcJs: ${pathArcJs}`)"
+        , "console.log(`pathDaostackArcRepo: ${pathDaostackArcRepo}`)"
         // "console.log(`pathArcJsContracts: ${pathArcJsContracts}`)",
         // "console.log(`pathDaostackArcRepoContracts: ${pathDaostackArcRepoContracts}`)",
-        `cd ${pathDaostackArcRepo}`,
-        `truffle migrate ${network ? `--network ${network}` : ''}`,
-        `cd ${pathArcJs}`, 
-        'nps deplyContracts.clean',
+        , `cd ${pathDaostackArcRepo}`
+        , `truffle migrate ${network ? `--network ${network}` : ''}`
+        , `cd ${pathArcJs}`
+        , 'nps deplyContracts.clean'
         // our build expects to find the contracts in node_modules, so copy them to there
-        copy(`${joinPath(pathDaostackArcRepoContracts, "*")}  ${pathDaostackArcPackageContracts}`)
+        , copy(`${joinPath(pathDaostackArcRepoContracts, "*")}  ${pathDaostackArcPackageContracts}`)
       )
       , clean: rimraf(joinPath(pathDaostackArcRepoContracts,'*'))
     }
