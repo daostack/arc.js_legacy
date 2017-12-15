@@ -47,7 +47,7 @@ module.exports = {
          * 
          * Travis will use test.testrpcDb.run
          */
-        run: `testrpc --db ${pathDaostackArcTestrpcDb} --networkId 1512051714758 --mnemonic "behave pipe turkey animal voyage dial relief menu blush match jeans general`
+        run: `testrpc --db ${pathDaostackArcTestrpcDb} --networkId 1512051714758 --mnemonic "behave pipe turkey animal voyage dial relief menu blush match jeans general"`
         , runAsync: runInNewWindow(`nps test.testrpcDb.run`)
         , create: series(
           'nps migrateContracts.cleanDaoStackRepo'
