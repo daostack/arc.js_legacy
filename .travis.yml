@@ -14,9 +14,12 @@ before_install:
   - sudo apt-get install geth -y -qq
 
 install:
+  - npm start test.testrpcDb.unzip
+  - nohup npm start test.testrpcDb.run &
 
 script:
   - npm start lint
+  - npm start test
 
 notifications:
   slack: daostack:fGuaFPsiQiV5mgmzRcSzbYqw
