@@ -13,7 +13,7 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install geth -y -qq
   - npm install nps mocha -g
-  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+  # - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
   - npm install nps-utils chai env-variable cwd path.join decompress fs
   
 install:
