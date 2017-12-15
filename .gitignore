@@ -2,4 +2,4 @@ node_modules/
 .node-xmlhttprequest-sync*
 *.tgz
 .vscode/
-testrpc/
+testrpcDb/
