@@ -42,7 +42,6 @@
   "dependencies": {
     "@types/bignumber.js": "^4.0.3",
     "bip39": "^2.4.0",
-    "daostack-arc": "0.0.0-alpha.16",
     "default-options": "^1.0.0",
     "ethers": "^2.1.3",
     "promisify": "0.0.3",
@@ -60,6 +59,7 @@
     "bignumber.js": "^4.1.0",
     "chai": "^4.1.2",
     "cwd": "^0.10.0",
+    "daostack-arc": "0.0.0-alpha.16",
     "decompress": "^4.2.0",
     "env-variable": "0.0.3",
     "eslint": "^4.10.0",

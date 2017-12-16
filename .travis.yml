@@ -18,8 +18,8 @@ install:
   - rm -rf testrpcDb/ # remove any remaining artifacts from a previous build
   - yarn start test.testrpcDb.unzip
   - nohup yarn start test.testrpcDb.run &
-  - sleep 5
-  - cat nohup.out
+  # because contracts are not being persisted to the repo
+  - yarn start build.fetchDaoStackContractsFromNodeModules
   
 script:
   - yarn start lint

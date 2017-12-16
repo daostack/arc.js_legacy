@@ -1,4 +1,4 @@
-const {series, crossEnv, concurrent, rimraf, copy, ifWindows, runInNewWindow} = require('nps-utils')
+const {series, crossEnv, concurrent, rimraf, copy, ifWindows, runInNewWindow, mkdirp} = require('nps-utils')
 const env = require('env-variable')();
 const joinPath = require('path.join');
 const cwd = require('cwd')();
@@ -7,7 +7,7 @@ const cwd = require('cwd')();
  */
 const pathArcJs = env.pathArcJs || cwd;
 const pathArcJsContracts = env.pathArcJsContracts || joinPath(pathArcJs, "/contracts");
-const pathDaostackArcRepo = env.pathDaostackArcRepo || "../daostack-arc";
+const pathDaostackArcRepo = env.pathDaostackArcRepo || "../daostack";
 const pathDaostackArcRepoContracts = env.pathDaostackArcRepoContracts || joinPath(pathDaostackArcRepo,"build/contracts");
 const pathDaostackArcPackageContracts = joinPath(pathArcJs,"node_modules/daostack-arc/build/contracts");
 const pathDaostackArcTestrpcDb = joinPath(pathArcJs,"testrpcDb");
@@ -42,10 +42,21 @@ module.exports = {
          *  npm start test.testrpcDb.clean
          *  npm start test.testrpcDb.runAsync  # this will open a window with testrpc running in it.
          *  npm start test.testrpcDb.create
-         *  # kill the window in which testrpc is running -- we don't want any further changes to the database we just created.
-         *  npm start build (or pack or publish) # because this will also have created new contract.json files
          * 
-         * Travis will use test.testrpcDb.run
+         *  Kill the window in which testrpc is running -- we don't want any further changes to the database we just created.
+         *  Good idea at this point, before anything changes,  might be to run:
+         * 
+         *  npm start test.testrpcDb.zip
+         * 
+         *  This will zip up the virgin testrpc database that was just created
+         *  that will be used by travis automated tests (assuming you will want it to use the 
+         *  data you just migrated).
+         * 
+         *  Now grab the .json contracts you just compiled and poke them where they need to be:
+         * 
+         *  npm start build (or pack or publish)
+         * 
+         * Note that Travis will use test.testrpcDb.run.
          */
         run: `testrpc --db ${pathDaostackArcTestrpcDb} --networkId 1512051714758 --mnemonic "behave pipe turkey animal voyage dial relief menu blush match jeans general"`
         , runAsync: runInNewWindow(`nps test.testrpcDb.run`)
@@ -69,6 +80,7 @@ module.exports = {
        * which is how we package them and where we look for them at runtime.
        */
       , fetchDaoStackContractsFromNodeModules: series(
+        mkdirp(pathArcJsContracts),
         rimraf(joinPath(pathArcJsContracts, "*")),
         copy(`${joinPath(pathDaostackArcPackageContracts, "*")} ${pathArcJsContracts}`)
       )
@@ -88,7 +100,7 @@ module.exports = {
      * wherein the .sol and deploy*.js files can be found in the folder structure
      * that truffle expects.
      * 
-     * It will look in pathDaostackArcRepo for daostack-arc, pathArcJs for arc-js (this library)
+     * It will look in pathDaostackArcRepo for the daostack repo, pathArcJs for arc-js (this library)
      * 
      * It wil delete and replace all the contract js files in pathDaostackArcRepoContracts
      * 
@@ -104,7 +116,7 @@ module.exports = {
       , cleanDaoStackRepo: rimraf(joinPath(pathDaostackArcRepoContracts,'*'))
       , cleanDaoStackPackage: rimraf(joinPath(pathDaostackArcPackageContracts,'*'))
       /**
-       * get contract.json files from the daostack-arc repo and copy them into daostack-arc node_modules folder
+       * get contract.json files from the daostack repo and copy them into daostack-arc node_modules folder
        * from where we will grab them when building.  You might want to do this after running migrateContracts if 
        * you want to use the contracts you just deployed.  But if you use migrateContracts to create the 
        * testrpc database, then you may not care about the generated json files.
