@@ -85,8 +85,8 @@
   ],
   "bytecode": "0x6060604052341561000f57600080fd5b6103c28061001e6000396000f3006060604052600436106100565763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416631ab9b33a811461005b57806389eaee6a146100e1578063bcbbdf9814610153575b600080fd5b341561006657600080fd5b6100cd6004803573ffffffffffffffffffffffffffffffffffffffff169060248035919060649060443590810190830135806020601f820181900481020160405190810160405281815292919060208401838380828437509496506101af95505050505050565b604051901515815260200160405180910390f35b34156100ec57600080fd5b6100cd6004803573ffffffffffffffffffffffffffffffffffffffff169060248035919060649060443590810190830135806020601f8201819004810201604051908101604052818152929190602084018383808284375094965061022795505050505050565b341561015e57600080fd5b6100cd60046024813581810190830135806020601f820181900481020160405190810160405281815292919060208401838380828437509496505050508235151592602001351515915061029a9050565b600080826040518082805190602001908083835b602083106101e25780518252601f1990920191602091820191016101c3565b6001836020036101000a03801982511681845116808217855250505050505090500191505090815260200160405190819003902054610100900460ff16949350505050565b600080826040518082805190602001908083835b6020831061025a5780518252601f19909201916020918201910161023b565b6001836020036101000a0380198251168184511680821785525050505050509050019150509081526020016040519081900390205460ff16949350505050565b6000826000856040518082805190602001908083835b602083106102cf5780518252601f1990920191602091820191016102b0565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051908190039020805460ff1916911515919091179055816000856040518082805190602001908083835b602083106103455780518252601f199092019160209182019101610326565b6001836020036101000a03801982511681845116808217855250505050505090500191505090815260200160405190819003902080549115156101000261ff001990921691909117905593925050505600a165627a7a723058201d827e84880c3edd0c5604134daeeecca5e3bd1597a4cc56c09a03c51d8a58a50029",
   "deployedBytecode": "0x6060604052600436106100565763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416631ab9b33a811461005b57806389eaee6a146100e1578063bcbbdf9814610153575b600080fd5b341561006657600080fd5b6100cd6004803573ffffffffffffffffffffffffffffffffffffffff169060248035919060649060443590810190830135806020601f820181900481020160405190810160405281815292919060208401838380828437509496506101af95505050505050565b604051901515815260200160405180910390f35b34156100ec57600080fd5b6100cd6004803573ffffffffffffffffffffffffffffffffffffffff169060248035919060649060443590810190830135806020601f8201819004810201604051908101604052818152929190602084018383808284375094965061022795505050505050565b341561015e57600080fd5b6100cd60046024813581810190830135806020601f820181900481020160405190810160405281815292919060208401838380828437509496505050508235151592602001351515915061029a9050565b600080826040518082805190602001908083835b602083106101e25780518252601f1990920191602091820191016101c3565b6001836020036101000a03801982511681845116808217855250505050505090500191505090815260200160405190819003902054610100900460ff16949350505050565b600080826040518082805190602001908083835b6020831061025a5780518252601f19909201916020918201910161023b565b6001836020036101000a0380198251168184511680821785525050505050509050019150509081526020016040519081900390205460ff16949350505050565b6000826000856040518082805190602001908083835b602083106102cf5780518252601f1990920191602091820191016102b0565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051908190039020805460ff1916911515919091179055816000856040518082805190602001908083835b602083106103455780518252601f199092019160209182019101610326565b6001836020036101000a03801982511681845116808217855250505050505090500191505090815260200160405190819003902080549115156101000261ff001990921691909117905593925050505600a165627a7a723058201d827e84880c3edd0c5604134daeeecca5e3bd1597a4cc56c09a03c51d8a58a50029",
-  "sourceMap": "32:580:15:-;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "32:580:15:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;487:122;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;487:122:15;;-1:-1:-1;487:122:15;;-1:-1:-1;;;;;;487:122:15;;;;;;;;;;;;;;;;;;360:119;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;360:119:15;;-1:-1:-1;360:119:15;;-1:-1:-1;;;;;;360:119:15;187:165;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;187:165:15;;-1:-1:-1;;;;187:165:15;;;;;;;;;;;-1:-1:-1;187:165:15;;-1:-1:-1;187:165:15;487:122;554:4;578:10;589:6;578:18;;;;;;;;;;;;;36:153:-1;66:2;58;;36:153;;182:3;176:5;164:6;;-1:-1;;139:3;;;;98:2;89:3;;;;114;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;;578:23:15;;;;;;;487:122;-1:-1:-1;;;;487:122:15:o;360:119::-;425:4;449:10;460:6;449:18;;;;;;;;;;;;;36:153:-1;66:2;58;;36:153;;182:3;176:5;164:6;;-1:-1;;139:3;;;;98:2;89:3;;;;114;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;;449:22:15;;;;360:119;-1:-1:-1;;;;360:119:15:o;187:165::-;258:4;300:3;275:10;286:6;275:18;;;;;;;;;;;;;36:153:-1;66:2;58;;36:153;;182:3;176:5;164:6;;-1:-1;;139:3;;;;98:2;89:3;;;;114;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;;275:28:15;;-1:-1:-1;;275:28:15;;;;;;;;;;340:4;-1:-1:-1;325:6:15;314:18;;;;;;;;;;;;;36:153:-1;66:2;58;;36:153;;182:3;176:5;164:6;;-1:-1;;139:3;;;;98:2;89:3;;;;114;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;;314:30:15;;;;;;;-1:-1:-1;;314:30:15;;;;;;;;;187:165;;-1:-1:-1;;;187:165:15:o",
+  "sourceMap": "32:580:14:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "32:580:14:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;487:122;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;487:122:14;;-1:-1:-1;487:122:14;;-1:-1:-1;;;;;;487:122:14;;;;;;;;;;;;;;;;;;360:119;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;360:119:14;;-1:-1:-1;360:119:14;;-1:-1:-1;;;;;;360:119:14;187:165;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;187:165:14;;-1:-1:-1;;;;187:165:14;;;;;;;;;;;-1:-1:-1;187:165:14;;-1:-1:-1;187:165:14;487:122;554:4;578:10;589:6;578:18;;;;;;;;;;;;;36:153:-1;66:2;58;;36:153;;182:3;176:5;164:6;;-1:-1;;139:3;;;;98:2;89:3;;;;114;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;;578:23:14;;;;;;;487:122;-1:-1:-1;;;;487:122:14:o;360:119::-;425:4;449:10;460:6;449:18;;;;;;;;;;;;;36:153:-1;66:2;58;;36:153;;182:3;176:5;164:6;;-1:-1;;139:3;;;;98:2;89:3;;;;114;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;;449:22:14;;;;360:119;-1:-1:-1;;;;360:119:14:o;187:165::-;258:4;300:3;275:10;286:6;275:18;;;;;;;;;;;;;36:153:-1;66:2;58;;36:153;;182:3;176:5;164:6;;-1:-1;;139:3;;;;98:2;89:3;;;;114;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;;275:28:14;;-1:-1:-1;;275:28:14;;;;;;;;;;340:4;-1:-1:-1;325:6:14;314:18;;;;;;;;;;;;;36:153:-1;66:2;58;;36:153;;182:3;176:5;164:6;;-1:-1;;139:3;;;;98:2;89:3;;;;114;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;;314:30:14;;;;;;;-1:-1:-1;;314:30:14;;;;;;;;;187:165;;-1:-1:-1;;;187:165:14:o",
   "source": "pragma solidity ^0.4.18;\r\n\r\n\r\n\r\ncontract GlobalConstraintMock {\r\n\r\n    struct TestParam {\r\n        bool pre;\r\n        bool post;\r\n    }\r\n    mapping (bytes=>TestParam) testParams;\r\n\r\n    function setConstraint(bytes method,bool pre,bool post) public returns(bool) {\r\n        testParams[method].pre = pre;\r\n        testParams[method].post = post;\r\n    }\r\n\r\n    function pre(address, bytes32, bytes method) public view returns(bool) {\r\n        return testParams[method].pre;\r\n    }\r\n\r\n    function post(address, bytes32 , bytes method) public view returns(bool) {\r\n        return testParams[method].post;\r\n    }\r\n}\r\n",
   "sourcePath": "C:\\Users\\dkent\\Documents\\Projects\\GitHub\\DAOStack\\daostack\\contracts\\test\\GlobalConstraintMock.sol",
   "ast": {
@@ -94,7 +94,7 @@
       "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/test/GlobalConstraintMock.sol",
       "exportedSymbols": {
         "GlobalConstraintMock": [
-          5959
+          4637
         ]
       }
     },
@@ -108,9 +108,9 @@
             ".18"
           ]
         },
-        "id": 5889,
+        "id": 4567,
         "name": "PragmaDirective",
-        "src": "0:24:15"
+        "src": "0:24:14"
       },
       {
         "attributes": {
@@ -124,17 +124,17 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            5959
+            4637
           ],
           "name": "GlobalConstraintMock",
-          "scope": 5960
+          "scope": 4638
         },
         "children": [
           {
             "attributes": {
               "canonicalName": "GlobalConstraintMock.TestParam",
               "name": "TestParam",
-              "scope": 5959,
+              "scope": 4637,
               "visibility": "public"
             },
             "children": [
@@ -142,7 +142,7 @@
                 "attributes": {
                   "constant": false,
                   "name": "pre",
-                  "scope": 5894,
+                  "scope": 4572,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "bool",
@@ -155,20 +155,20 @@
                       "name": "bool",
                       "type": "bool"
                     },
-                    "id": 5890,
+                    "id": 4568,
                     "name": "ElementaryTypeName",
-                    "src": "99:4:15"
+                    "src": "99:4:14"
                   }
                 ],
-                "id": 5891,
+                "id": 4569,
                 "name": "VariableDeclaration",
-                "src": "99:8:15"
+                "src": "99:8:14"
               },
               {
                 "attributes": {
                   "constant": false,
                   "name": "post",
-                  "scope": 5894,
+                  "scope": 4572,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "bool",
@@ -181,25 +181,25 @@
                       "name": "bool",
                       "type": "bool"
                     },
-                    "id": 5892,
+                    "id": 4570,
                     "name": "ElementaryTypeName",
-                    "src": "118:4:15"
+                    "src": "118:4:14"
                   }
                 ],
-                "id": 5893,
+                "id": 4571,
                 "name": "VariableDeclaration",
-                "src": "118:9:15"
+                "src": "118:9:14"
               }
             ],
-            "id": 5894,
+            "id": 4572,
             "name": "StructDefinition",
-            "src": "71:64:15"
+            "src": "71:64:14"
           },
           {
             "attributes": {
               "constant": false,
               "name": "testParams",
-              "scope": 5959,
+              "scope": 4637,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "mapping(bytes memory => struct GlobalConstraintMock.TestParam storage ref)",
@@ -217,30 +217,30 @@
                       "name": "bytes",
                       "type": "bytes storage pointer"
                     },
-                    "id": 5895,
+                    "id": 4573,
                     "name": "ElementaryTypeName",
-                    "src": "150:5:15"
+                    "src": "150:5:14"
                   },
                   {
                     "attributes": {
                       "contractScope": null,
                       "name": "TestParam",
-                      "referencedDeclaration": 5894,
+                      "referencedDeclaration": 4572,
                       "type": "struct GlobalConstraintMock.TestParam storage pointer"
                     },
-                    "id": 5896,
+                    "id": 4574,
                     "name": "UserDefinedTypeName",
-                    "src": "157:9:15"
+                    "src": "157:9:14"
                   }
                 ],
-                "id": 5897,
+                "id": 4575,
                 "name": "Mapping",
-                "src": "141:26:15"
+                "src": "141:26:14"
               }
             ],
-            "id": 5898,
+            "id": 4576,
             "name": "VariableDeclaration",
-            "src": "141:37:15"
+            "src": "141:37:14"
           },
           {
             "attributes": {
@@ -252,7 +252,7 @@
               ],
               "name": "setConstraint",
               "payable": false,
-              "scope": 5959,
+              "scope": 4637,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -264,7 +264,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "method",
-                      "scope": 5924,
+                      "scope": 4602,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes memory",
@@ -277,20 +277,20 @@
                           "name": "bytes",
                           "type": "bytes storage pointer"
                         },
-                        "id": 5899,
+                        "id": 4577,
                         "name": "ElementaryTypeName",
-                        "src": "210:5:15"
+                        "src": "210:5:14"
                       }
                     ],
-                    "id": 5900,
+                    "id": 4578,
                     "name": "VariableDeclaration",
-                    "src": "210:12:15"
+                    "src": "210:12:14"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "name": "pre",
-                      "scope": 5924,
+                      "scope": 4602,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -303,20 +303,20 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 5901,
+                        "id": 4579,
                         "name": "ElementaryTypeName",
-                        "src": "223:4:15"
+                        "src": "223:4:14"
                       }
                     ],
-                    "id": 5902,
+                    "id": 4580,
                     "name": "VariableDeclaration",
-                    "src": "223:8:15"
+                    "src": "223:8:14"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "name": "post",
-                      "scope": 5924,
+                      "scope": 4602,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -329,19 +329,19 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 5903,
+                        "id": 4581,
                         "name": "ElementaryTypeName",
-                        "src": "232:4:15"
+                        "src": "232:4:14"
                       }
                     ],
-                    "id": 5904,
+                    "id": 4582,
                     "name": "VariableDeclaration",
-                    "src": "232:9:15"
+                    "src": "232:9:14"
                   }
                 ],
-                "id": 5905,
+                "id": 4583,
                 "name": "ParameterList",
-                "src": "209:33:15"
+                "src": "209:33:14"
               },
               {
                 "children": [
@@ -349,7 +349,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 5924,
+                      "scope": 4602,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -362,19 +362,19 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 5906,
+                        "id": 4584,
                         "name": "ElementaryTypeName",
-                        "src": "258:4:15"
+                        "src": "258:4:14"
                       }
                     ],
-                    "id": 5907,
+                    "id": 4585,
                     "name": "VariableDeclaration",
-                    "src": "258:4:15"
+                    "src": "258:4:14"
                   }
                 ],
-                "id": 5908,
+                "id": 4586,
                 "name": "ParameterList",
-                "src": "257:6:15"
+                "src": "257:6:14"
               },
               {
                 "children": [
@@ -399,7 +399,7 @@
                               "isPure": false,
                               "lValueRequested": true,
                               "member_name": "pre",
-                              "referencedDeclaration": 5891,
+                              "referencedDeclaration": 4569,
                               "type": "bool"
                             },
                             "children": [
@@ -419,13 +419,13 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 5898,
+                                      "referencedDeclaration": 4576,
                                       "type": "mapping(bytes memory => struct GlobalConstraintMock.TestParam storage ref)",
                                       "value": "testParams"
                                     },
-                                    "id": 5909,
+                                    "id": 4587,
                                     "name": "Identifier",
-                                    "src": "275:10:15"
+                                    "src": "275:10:14"
                                   },
                                   {
                                     "attributes": {
@@ -433,23 +433,23 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 5900,
+                                      "referencedDeclaration": 4578,
                                       "type": "bytes memory",
                                       "value": "method"
                                     },
-                                    "id": 5910,
+                                    "id": 4588,
                                     "name": "Identifier",
-                                    "src": "286:6:15"
+                                    "src": "286:6:14"
                                   }
                                 ],
-                                "id": 5911,
+                                "id": 4589,
                                 "name": "IndexAccess",
-                                "src": "275:18:15"
+                                "src": "275:18:14"
                               }
                             ],
-                            "id": 5912,
+                            "id": 4590,
                             "name": "MemberAccess",
-                            "src": "275:22:15"
+                            "src": "275:22:14"
                           },
                           {
                             "attributes": {
@@ -457,23 +457,23 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 5902,
+                              "referencedDeclaration": 4580,
                               "type": "bool",
                               "value": "pre"
                             },
-                            "id": 5913,
+                            "id": 4591,
                             "name": "Identifier",
-                            "src": "300:3:15"
+                            "src": "300:3:14"
                           }
                         ],
-                        "id": 5914,
+                        "id": 4592,
                         "name": "Assignment",
-                        "src": "275:28:15"
+                        "src": "275:28:14"
                       }
                     ],
-                    "id": 5915,
+                    "id": 4593,
                     "name": "ExpressionStatement",
-                    "src": "275:28:15"
+                    "src": "275:28:14"
                   },
                   {
                     "children": [
@@ -496,7 +496,7 @@
                               "isPure": false,
                               "lValueRequested": true,
                               "member_name": "post",
-                              "referencedDeclaration": 5893,
+                              "referencedDeclaration": 4571,
                               "type": "bool"
                             },
                             "children": [
@@ -516,13 +516,13 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 5898,
+                                      "referencedDeclaration": 4576,
                                       "type": "mapping(bytes memory => struct GlobalConstraintMock.TestParam storage ref)",
                                       "value": "testParams"
                                     },
-                                    "id": 5916,
+                                    "id": 4594,
                                     "name": "Identifier",
-                                    "src": "314:10:15"
+                                    "src": "314:10:14"
                                   },
                                   {
                                     "attributes": {
@@ -530,23 +530,23 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 5900,
+                                      "referencedDeclaration": 4578,
                                       "type": "bytes memory",
                                       "value": "method"
                                     },
-                                    "id": 5917,
+                                    "id": 4595,
                                     "name": "Identifier",
-                                    "src": "325:6:15"
+                                    "src": "325:6:14"
                                   }
                                 ],
-                                "id": 5918,
+                                "id": 4596,
                                 "name": "IndexAccess",
-                                "src": "314:18:15"
+                                "src": "314:18:14"
                               }
                             ],
-                            "id": 5919,
+                            "id": 4597,
                             "name": "MemberAccess",
-                            "src": "314:23:15"
+                            "src": "314:23:14"
                           },
                           {
                             "attributes": {
@@ -554,33 +554,33 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 5904,
+                              "referencedDeclaration": 4582,
                               "type": "bool",
                               "value": "post"
                             },
-                            "id": 5920,
+                            "id": 4598,
                             "name": "Identifier",
-                            "src": "340:4:15"
+                            "src": "340:4:14"
                           }
                         ],
-                        "id": 5921,
+                        "id": 4599,
                         "name": "Assignment",
-                        "src": "314:30:15"
+                        "src": "314:30:14"
                       }
                     ],
-                    "id": 5922,
+                    "id": 4600,
                     "name": "ExpressionStatement",
-                    "src": "314:30:15"
+                    "src": "314:30:14"
                   }
                 ],
-                "id": 5923,
+                "id": 4601,
                 "name": "Block",
-                "src": "264:88:15"
+                "src": "264:88:14"
               }
             ],
-            "id": 5924,
+            "id": 4602,
             "name": "FunctionDefinition",
-            "src": "187:165:15"
+            "src": "187:165:14"
           },
           {
             "attributes": {
@@ -592,7 +592,7 @@
               ],
               "name": "pre",
               "payable": false,
-              "scope": 5959,
+              "scope": 4637,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -604,7 +604,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 5941,
+                      "scope": 4619,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -617,20 +617,20 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 5925,
+                        "id": 4603,
                         "name": "ElementaryTypeName",
-                        "src": "373:7:15"
+                        "src": "373:7:14"
                       }
                     ],
-                    "id": 5926,
+                    "id": 4604,
                     "name": "VariableDeclaration",
-                    "src": "373:7:15"
+                    "src": "373:7:14"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 5941,
+                      "scope": 4619,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes32",
@@ -643,20 +643,20 @@
                           "name": "bytes32",
                           "type": "bytes32"
                         },
-                        "id": 5927,
+                        "id": 4605,
                         "name": "ElementaryTypeName",
-                        "src": "382:7:15"
+                        "src": "382:7:14"
                       }
                     ],
-                    "id": 5928,
+                    "id": 4606,
                     "name": "VariableDeclaration",
-                    "src": "382:7:15"
+                    "src": "382:7:14"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "name": "method",
-                      "scope": 5941,
+                      "scope": 4619,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes memory",
@@ -669,19 +669,19 @@
                           "name": "bytes",
                           "type": "bytes storage pointer"
                         },
-                        "id": 5929,
+                        "id": 4607,
                         "name": "ElementaryTypeName",
-                        "src": "391:5:15"
+                        "src": "391:5:14"
                       }
                     ],
-                    "id": 5930,
+                    "id": 4608,
                     "name": "VariableDeclaration",
-                    "src": "391:12:15"
+                    "src": "391:12:14"
                   }
                 ],
-                "id": 5931,
+                "id": 4609,
                 "name": "ParameterList",
-                "src": "372:32:15"
+                "src": "372:32:14"
               },
               {
                 "children": [
@@ -689,7 +689,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 5941,
+                      "scope": 4619,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -702,25 +702,25 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 5932,
+                        "id": 4610,
                         "name": "ElementaryTypeName",
-                        "src": "425:4:15"
+                        "src": "425:4:14"
                       }
                     ],
-                    "id": 5933,
+                    "id": 4611,
                     "name": "VariableDeclaration",
-                    "src": "425:4:15"
+                    "src": "425:4:14"
                   }
                 ],
-                "id": 5934,
+                "id": 4612,
                 "name": "ParameterList",
-                "src": "424:6:15"
+                "src": "424:6:14"
               },
               {
                 "children": [
                   {
                     "attributes": {
-                      "functionReturnParameters": 5934
+                      "functionReturnParameters": 4612
                     },
                     "children": [
                       {
@@ -731,7 +731,7 @@
                           "isPure": false,
                           "lValueRequested": false,
                           "member_name": "pre",
-                          "referencedDeclaration": 5891,
+                          "referencedDeclaration": 4569,
                           "type": "bool"
                         },
                         "children": [
@@ -751,13 +751,13 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 5898,
+                                  "referencedDeclaration": 4576,
                                   "type": "mapping(bytes memory => struct GlobalConstraintMock.TestParam storage ref)",
                                   "value": "testParams"
                                 },
-                                "id": 5935,
+                                "id": 4613,
                                 "name": "Identifier",
-                                "src": "449:10:15"
+                                "src": "449:10:14"
                               },
                               {
                                 "attributes": {
@@ -765,38 +765,38 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 5930,
+                                  "referencedDeclaration": 4608,
                                   "type": "bytes memory",
                                   "value": "method"
                                 },
-                                "id": 5936,
+                                "id": 4614,
                                 "name": "Identifier",
-                                "src": "460:6:15"
+                                "src": "460:6:14"
                               }
                             ],
-                            "id": 5937,
+                            "id": 4615,
                             "name": "IndexAccess",
-                            "src": "449:18:15"
+                            "src": "449:18:14"
                           }
                         ],
-                        "id": 5938,
+                        "id": 4616,
                         "name": "MemberAccess",
-                        "src": "449:22:15"
+                        "src": "449:22:14"
                       }
                     ],
-                    "id": 5939,
+                    "id": 4617,
                     "name": "Return",
-                    "src": "442:29:15"
+                    "src": "442:29:14"
                   }
                 ],
-                "id": 5940,
+                "id": 4618,
                 "name": "Block",
-                "src": "431:48:15"
+                "src": "431:48:14"
               }
             ],
-            "id": 5941,
+            "id": 4619,
             "name": "FunctionDefinition",
-            "src": "360:119:15"
+            "src": "360:119:14"
           },
           {
             "attributes": {
@@ -808,7 +808,7 @@
               ],
               "name": "post",
               "payable": false,
-              "scope": 5959,
+              "scope": 4637,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -820,7 +820,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 5958,
+                      "scope": 4636,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -833,20 +833,20 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 5942,
+                        "id": 4620,
                         "name": "ElementaryTypeName",
-                        "src": "501:7:15"
+                        "src": "501:7:14"
                       }
                     ],
-                    "id": 5943,
+                    "id": 4621,
                     "name": "VariableDeclaration",
-                    "src": "501:7:15"
+                    "src": "501:7:14"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 5958,
+                      "scope": 4636,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes32",
@@ -859,20 +859,20 @@
                           "name": "bytes32",
                           "type": "bytes32"
                         },
-                        "id": 5944,
+                        "id": 4622,
                         "name": "ElementaryTypeName",
-                        "src": "510:7:15"
+                        "src": "510:7:14"
                       }
                     ],
-                    "id": 5945,
+                    "id": 4623,
                     "name": "VariableDeclaration",
-                    "src": "510:7:15"
+                    "src": "510:7:14"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "name": "method",
-                      "scope": 5958,
+                      "scope": 4636,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes memory",
@@ -885,19 +885,19 @@
                           "name": "bytes",
                           "type": "bytes storage pointer"
                         },
-                        "id": 5946,
+                        "id": 4624,
                         "name": "ElementaryTypeName",
-                        "src": "520:5:15"
+                        "src": "520:5:14"
                       }
                     ],
-                    "id": 5947,
+                    "id": 4625,
                     "name": "VariableDeclaration",
-                    "src": "520:12:15"
+                    "src": "520:12:14"
                   }
                 ],
-                "id": 5948,
+                "id": 4626,
                 "name": "ParameterList",
-                "src": "500:33:15"
+                "src": "500:33:14"
               },
               {
                 "children": [
@@ -905,7 +905,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 5958,
+                      "scope": 4636,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -918,25 +918,25 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 5949,
+                        "id": 4627,
                         "name": "ElementaryTypeName",
-                        "src": "554:4:15"
+                        "src": "554:4:14"
                       }
                     ],
-                    "id": 5950,
+                    "id": 4628,
                     "name": "VariableDeclaration",
-                    "src": "554:4:15"
+                    "src": "554:4:14"
                   }
                 ],
-                "id": 5951,
+                "id": 4629,
                 "name": "ParameterList",
-                "src": "553:6:15"
+                "src": "553:6:14"
               },
               {
                 "children": [
                   {
                     "attributes": {
-                      "functionReturnParameters": 5951
+                      "functionReturnParameters": 4629
                     },
                     "children": [
                       {
@@ -947,7 +947,7 @@
                           "isPure": false,
                           "lValueRequested": false,
                           "member_name": "post",
-                          "referencedDeclaration": 5893,
+                          "referencedDeclaration": 4571,
                           "type": "bool"
                         },
                         "children": [
@@ -967,13 +967,13 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 5898,
+                                  "referencedDeclaration": 4576,
                                   "type": "mapping(bytes memory => struct GlobalConstraintMock.TestParam storage ref)",
                                   "value": "testParams"
                                 },
-                                "id": 5952,
+                                "id": 4630,
                                 "name": "Identifier",
-                                "src": "578:10:15"
+                                "src": "578:10:14"
                               },
                               {
                                 "attributes": {
@@ -981,48 +981,48 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 5947,
+                                  "referencedDeclaration": 4625,
                                   "type": "bytes memory",
                                   "value": "method"
                                 },
-                                "id": 5953,
+                                "id": 4631,
                                 "name": "Identifier",
-                                "src": "589:6:15"
+                                "src": "589:6:14"
                               }
                             ],
-                            "id": 5954,
+                            "id": 4632,
                             "name": "IndexAccess",
-                            "src": "578:18:15"
+                            "src": "578:18:14"
                           }
                         ],
-                        "id": 5955,
+                        "id": 4633,
                         "name": "MemberAccess",
-                        "src": "578:23:15"
+                        "src": "578:23:14"
                       }
                     ],
-                    "id": 5956,
+                    "id": 4634,
                     "name": "Return",
-                    "src": "571:30:15"
+                    "src": "571:30:14"
                   }
                 ],
-                "id": 5957,
+                "id": 4635,
                 "name": "Block",
-                "src": "560:49:15"
+                "src": "560:49:14"
               }
             ],
-            "id": 5958,
+            "id": 4636,
             "name": "FunctionDefinition",
-            "src": "487:122:15"
+            "src": "487:122:14"
           }
         ],
-        "id": 5959,
+        "id": 4637,
         "name": "ContractDefinition",
-        "src": "32:580:15"
+        "src": "32:580:14"
       }
     ],
-    "id": 5960,
+    "id": 4638,
     "name": "SourceUnit",
-    "src": "0:614:15"
+    "src": "0:614:14"
   },
   "compiler": {
     "name": "solc",
@@ -1030,5 +1030,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-13T19:15:26.345Z"
+  "updatedAt": "2017-12-16T16:01:25.635Z"
 }

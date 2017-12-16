@@ -41,22 +41,30 @@ module.exports = {
          * Full workflow:
          *  npm start test.testrpcDb.clean
          *  npm start test.testrpcDb.runAsync  # this will open a window with testrpc running in it.
+         * 
          *  npm start test.testrpcDb.create
          * 
          *  Kill the window in which testrpc is running -- we don't want any further changes to the database we just created.
-         *  Good idea at this point, before anything changes,  might be to run:
+         *  Good idea at this point, before anything changes,  might be to zip up the virgin testrpc database that was just created
+         *  and that will be used by travis automated tests (assuming you will want it to use the data you just migrated).
          * 
          *  npm start test.testrpcDb.zip
          * 
-         *  This will zip up the virgin testrpc database that was just created
-         *  that will be used by travis automated tests (assuming you will want it to use the 
-         *  data you just migrated).
+         *  Now fetch the newly-compiled contract .json files from the daostack-arc repo into our local
+         *  installation of the daostack-arc package which is where the build expects them to be:
          * 
-         *  Now grab the .json contracts you just compiled and poke them where they need to be:
+         *  npm start migrateContracts.fetchContractsFromDaoStackRepo
+         * 
+         *  Now we are ready to run the build using the newly-deployed contracts:
          * 
          *  npm start build (or pack or publish)
          * 
-         * Note that Travis will use test.testrpcDb.run.
+         *  Now if you want you can run the tests:
+         * 
+         *  npm start test.testrpcDb.runAsync
+         *  npm start test
+         * 
+         * (Note that Travis will use test.testrpcDb.run when it runs the tests.)
          */
         run: `testrpc --db ${pathDaostackArcTestrpcDb} --networkId 1512051714758 --mnemonic "behave pipe turkey animal voyage dial relief menu blush match jeans general"`
         , runAsync: runInNewWindow(`nps test.testrpcDb.run`)

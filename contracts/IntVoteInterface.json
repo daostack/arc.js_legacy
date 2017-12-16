@@ -235,7 +235,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 5999,
+          "SourceUnit": 4653,
           "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/universalSchemes/ExecutableInterface.sol",
           "file": "../universalSchemes/ExecutableInterface.sol",
           "scope": 2659,
@@ -491,7 +491,7 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "ExecutableInterface",
-                          "referencedDeclaration": 5998,
+                          "referencedDeclaration": 4652,
                           "type": "contract ExecutableInterface"
                         },
                         "id": 2564,
@@ -1627,5 +1627,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-13T19:15:26.333Z"
+  "updatedAt": "2017-12-16T16:01:25.617Z"
 }

@@ -1003,7 +1003,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 4525,
+          "SourceUnit": 4308,
           "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/controller/Reputation.sol",
           "file": "../controller/Reputation.sol",
           "scope": 2543,
@@ -1033,7 +1033,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 8879,
+          "SourceUnit": 7540,
           "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/universalSchemes/UniversalScheme.sol",
           "file": "../universalSchemes/UniversalScheme.sol",
           "scope": 2543,
@@ -1050,18 +1050,18 @@
         "attributes": {
           "contractDependencies": [
             2658,
-            8878,
-            8908,
-            11382
+            7539,
+            7569,
+            9762
           ],
           "contractKind": "contract",
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
             2542,
-            8878,
-            8908,
-            11382,
+            7539,
+            7569,
+            9762,
             2658
           ],
           "name": "EmergentVoteScheme",
@@ -1102,7 +1102,7 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "UniversalScheme",
-                  "referencedDeclaration": 8878,
+                  "referencedDeclaration": 7539,
                   "type": "contract UniversalScheme"
                 },
                 "id": 885,
@@ -1120,7 +1120,7 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "SafeMath",
-                  "referencedDeclaration": 11326,
+                  "referencedDeclaration": 9706,
                   "type": "library SafeMath"
                 },
                 "id": 887,
@@ -1267,7 +1267,7 @@
                     "attributes": {
                       "contractScope": null,
                       "name": "Reputation",
-                      "referencedDeclaration": 4524,
+                      "referencedDeclaration": 4307,
                       "type": "contract Reputation"
                     },
                     "id": 898,
@@ -1295,7 +1295,7 @@
                     "attributes": {
                       "contractScope": null,
                       "name": "StandardToken",
-                      "referencedDeclaration": 11881,
+                      "referencedDeclaration": 10322,
                       "type": "contract StandardToken"
                     },
                     "id": 900,
@@ -1726,7 +1726,7 @@
                     "attributes": {
                       "contractScope": null,
                       "name": "ExecutableInterface",
-                      "referencedDeclaration": 5998,
+                      "referencedDeclaration": 4652,
                       "type": "contract ExecutableInterface"
                     },
                     "id": 933,
@@ -2783,7 +2783,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11896,
+                              "referencedDeclaration": 10361,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -2824,7 +2824,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 11893,
+                                      "referencedDeclaration": 10358,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -2996,7 +2996,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11896,
+                              "referencedDeclaration": 10361,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -3123,7 +3123,7 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "StandardToken",
-                          "referencedDeclaration": 11881,
+                          "referencedDeclaration": 10322,
                           "type": "contract StandardToken"
                         },
                         "id": 1044,
@@ -3226,7 +3226,7 @@
                             "attributes": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_contract$_StandardToken_$11881",
+                                  "typeIdentifier": "t_contract$_StandardToken_$10322",
                                   "typeString": "contract StandardToken"
                                 },
                                 {
@@ -3243,9 +3243,9 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                8856
+                                7517
                               ],
-                              "referencedDeclaration": 8856,
+                              "referencedDeclaration": 7517,
                               "type": "function (contract StandardToken,uint256,address,bytes32)",
                               "value": "updateParameters"
                             },
@@ -3405,7 +3405,7 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "Reputation",
-                          "referencedDeclaration": 4524,
+                          "referencedDeclaration": 4307,
                           "type": "contract Reputation"
                         },
                         "id": 1063,
@@ -3433,7 +3433,7 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "StandardToken",
-                          "referencedDeclaration": 11881,
+                          "referencedDeclaration": 10322,
                           "type": "contract StandardToken"
                         },
                         "id": 1065,
@@ -3693,11 +3693,11 @@
                             "attributes": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_contract$_Reputation_$4524",
+                                  "typeIdentifier": "t_contract$_Reputation_$4307",
                                   "typeString": "contract Reputation"
                                 },
                                 {
-                                  "typeIdentifier": "t_contract$_StandardToken_$11881",
+                                  "typeIdentifier": "t_contract$_StandardToken_$10322",
                                   "typeString": "contract StandardToken"
                                 },
                                 {
@@ -4145,7 +4145,7 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "Reputation",
-                          "referencedDeclaration": 4524,
+                          "referencedDeclaration": 4307,
                           "type": "contract Reputation"
                         },
                         "id": 1115,
@@ -4173,7 +4173,7 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "StandardToken",
-                          "referencedDeclaration": 11881,
+                          "referencedDeclaration": 10322,
                           "type": "contract StandardToken"
                         },
                         "id": 1117,
@@ -4433,11 +4433,11 @@
                             "attributes": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_contract$_Reputation_$4524",
+                                  "typeIdentifier": "t_contract$_Reputation_$4307",
                                   "typeString": "contract Reputation"
                                 },
                                 {
-                                  "typeIdentifier": "t_contract$_StandardToken_$11881",
+                                  "typeIdentifier": "t_contract$_StandardToken_$10322",
                                   "typeString": "contract StandardToken"
                                 },
                                 {
@@ -4468,7 +4468,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11887,
+                              "referencedDeclaration": 10352,
                               "type": "function () pure returns (bytes32)",
                               "value": "keccak256"
                             },
@@ -4796,7 +4796,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11896,
+                              "referencedDeclaration": 10361,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -4964,7 +4964,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11896,
+                              "referencedDeclaration": 10361,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -5584,7 +5584,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11887,
+                              "referencedDeclaration": 10352,
                               "type": "function () pure returns (bytes32)",
                               "value": "keccak256"
                             },
@@ -5766,7 +5766,7 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "ExecutableInterface",
-                          "referencedDeclaration": 5998,
+                          "referencedDeclaration": 4652,
                           "type": "contract ExecutableInterface"
                         },
                         "id": 1228,
@@ -5846,7 +5846,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11896,
+                              "referencedDeclaration": 10361,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -6011,7 +6011,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11896,
+                              "referencedDeclaration": 10361,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -6117,7 +6117,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11896,
+                              "referencedDeclaration": 10361,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -6295,7 +6295,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11887,
+                              "referencedDeclaration": 10352,
                               "type": "function () pure returns (bytes32)",
                               "value": "keccak256"
                             },
@@ -6309,7 +6309,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11944,
+                              "referencedDeclaration": 10411,
                               "type": "contract EmergentVoteScheme",
                               "value": "this"
                             },
@@ -6754,7 +6754,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 11893,
+                                  "referencedDeclaration": 10358,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -6963,7 +6963,7 @@
                               ],
                               "overloadedDeclarations": [
                                 965,
-                                8826
+                                7487
                               ],
                               "referencedDeclaration": 965,
                               "type": "function (bytes32,address,bytes32)",
@@ -7005,7 +7005,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 11893,
+                                  "referencedDeclaration": 10358,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -7377,14 +7377,14 @@
                             "attributes": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_contract$_Avatar_$3063",
+                                  "typeIdentifier": "t_contract$_Avatar_$3072",
                                   "typeString": "contract Avatar"
                                 }
                               ],
                               "overloadedDeclarations": [
-                                8877
+                                7538
                               ],
-                              "referencedDeclaration": 8877,
+                              "referencedDeclaration": 7538,
                               "type": "function (contract Avatar) view returns (bytes32)",
                               "value": "getParametersFromController"
                             },
@@ -7418,7 +7418,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3063,
+                                  "referencedDeclaration": 3072,
                                   "type": "type(contract Avatar)",
                                   "value": "Avatar"
                                 },
@@ -8368,7 +8368,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "mul",
-                                  "referencedDeclaration": 11263,
+                                  "referencedDeclaration": 9643,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -10456,7 +10456,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11896,
+                              "referencedDeclaration": 10361,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -10616,14 +10616,14 @@
                             "attributes": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_contract$_Avatar_$3063",
+                                  "typeIdentifier": "t_contract$_Avatar_$3072",
                                   "typeString": "contract Avatar"
                                 }
                               ],
                               "overloadedDeclarations": [
-                                8877
+                                7538
                               ],
-                              "referencedDeclaration": 8877,
+                              "referencedDeclaration": 7538,
                               "type": "function (contract Avatar) view returns (bytes32)",
                               "value": "getParametersFromController"
                             },
@@ -10657,7 +10657,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3063,
+                                  "referencedDeclaration": 3072,
                                   "type": "type(contract Avatar)",
                                   "value": "Avatar"
                                 },
@@ -10805,7 +10805,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11884,
+                              "referencedDeclaration": 10349,
                               "type": "function (bool) pure",
                               "value": "assert"
                             },
@@ -10926,7 +10926,7 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "member_name": "transferFrom",
-                              "referencedDeclaration": 11735,
+                              "referencedDeclaration": 10176,
                               "type": "function (address,address,uint256) external returns (bool)"
                             },
                             "children": [
@@ -10984,7 +10984,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 11893,
+                                  "referencedDeclaration": 10358,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -11153,7 +11153,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "add",
-                                  "referencedDeclaration": 11325,
+                                  "referencedDeclaration": 9705,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -11488,7 +11488,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11896,
+                              "referencedDeclaration": 10361,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -11648,14 +11648,14 @@
                             "attributes": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_contract$_Avatar_$3063",
+                                  "typeIdentifier": "t_contract$_Avatar_$3072",
                                   "typeString": "contract Avatar"
                                 }
                               ],
                               "overloadedDeclarations": [
-                                8877
+                                7538
                               ],
-                              "referencedDeclaration": 8877,
+                              "referencedDeclaration": 7538,
                               "type": "function (contract Avatar) view returns (bytes32)",
                               "value": "getParametersFromController"
                             },
@@ -11689,7 +11689,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3063,
+                                  "referencedDeclaration": 3072,
                                   "type": "type(contract Avatar)",
                                   "value": "Avatar"
                                 },
@@ -12786,7 +12786,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "add",
-                                  "referencedDeclaration": 11325,
+                                  "referencedDeclaration": 9705,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -12808,7 +12808,7 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 11885,
+                                          "referencedDeclaration": 10350,
                                           "type": "block",
                                           "value": "block"
                                         },
@@ -13199,7 +13199,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 11893,
+                                  "referencedDeclaration": 10358,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -13540,7 +13540,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 11893,
+                                  "referencedDeclaration": 10358,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -13842,14 +13842,14 @@
                             "attributes": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_contract$_Avatar_$3063",
+                                  "typeIdentifier": "t_contract$_Avatar_$3072",
                                   "typeString": "contract Avatar"
                                 }
                               ],
                               "overloadedDeclarations": [
-                                8877
+                                7538
                               ],
-                              "referencedDeclaration": 8877,
+                              "referencedDeclaration": 7538,
                               "type": "function (contract Avatar) view returns (bytes32)",
                               "value": "getParametersFromController"
                             },
@@ -13883,7 +13883,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3063,
+                                  "referencedDeclaration": 3072,
                                   "type": "type(contract Avatar)",
                                   "value": "Avatar"
                                 },
@@ -14365,7 +14365,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 11893,
+                                  "referencedDeclaration": 10358,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -14649,14 +14649,14 @@
                             "attributes": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_contract$_Avatar_$3063",
+                                  "typeIdentifier": "t_contract$_Avatar_$3072",
                                   "typeString": "contract Avatar"
                                 }
                               ],
                               "overloadedDeclarations": [
-                                8877
+                                7538
                               ],
-                              "referencedDeclaration": 8877,
+                              "referencedDeclaration": 7538,
                               "type": "function (contract Avatar) view returns (bytes32)",
                               "value": "getParametersFromController"
                             },
@@ -14690,7 +14690,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3063,
+                                  "referencedDeclaration": 3072,
                                   "type": "type(contract Avatar)",
                                   "value": "Avatar"
                                 },
@@ -14805,7 +14805,7 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "member_name": "totalSupply",
-                              "referencedDeclaration": 4374,
+                              "referencedDeclaration": 4157,
                               "type": "function () view external returns (uint256)"
                             },
                             "children": [
@@ -15137,7 +15137,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 11885,
+                                      "referencedDeclaration": 10350,
                                       "type": "block",
                                       "value": "block"
                                     },
@@ -16106,7 +16106,7 @@
                                               "isPure": false,
                                               "lValueRequested": false,
                                               "member_name": "execute",
-                                              "referencedDeclaration": 5997,
+                                              "referencedDeclaration": 4651,
                                               "type": "function (bytes32,address,int256) external returns (bool)"
                                             },
                                             "children": [
@@ -16834,7 +16834,7 @@
                                               "isPure": false,
                                               "lValueRequested": false,
                                               "member_name": "execute",
-                                              "referencedDeclaration": 5997,
+                                              "referencedDeclaration": 4651,
                                               "type": "function (bytes32,address,int256) external returns (bool)"
                                             },
                                             "children": [
@@ -18771,7 +18771,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11896,
+                              "referencedDeclaration": 10361,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -18931,14 +18931,14 @@
                             "attributes": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_contract$_Avatar_$3063",
+                                  "typeIdentifier": "t_contract$_Avatar_$3072",
                                   "typeString": "contract Avatar"
                                 }
                               ],
                               "overloadedDeclarations": [
-                                8877
+                                7538
                               ],
-                              "referencedDeclaration": 8877,
+                              "referencedDeclaration": 7538,
                               "type": "function (contract Avatar) view returns (bytes32)",
                               "value": "getParametersFromController"
                             },
@@ -18972,7 +18972,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3063,
+                                  "referencedDeclaration": 3072,
                                   "type": "type(contract Avatar)",
                                   "value": "Avatar"
                                 },
@@ -20730,7 +20730,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "sub",
-                                  "referencedDeclaration": 11301,
+                                  "referencedDeclaration": 9681,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -20950,7 +20950,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "sub",
-                                  "referencedDeclaration": 11301,
+                                  "referencedDeclaration": 9681,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -21351,7 +21351,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11884,
+                              "referencedDeclaration": 10349,
                               "type": "function (bool) pure",
                               "value": "assert"
                             },
@@ -22148,14 +22148,14 @@
                             "attributes": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_contract$_Avatar_$3063",
+                                  "typeIdentifier": "t_contract$_Avatar_$3072",
                                   "typeString": "contract Avatar"
                                 }
                               ],
                               "overloadedDeclarations": [
-                                8877
+                                7538
                               ],
-                              "referencedDeclaration": 8877,
+                              "referencedDeclaration": 7538,
                               "type": "function (contract Avatar) view returns (bytes32)",
                               "value": "getParametersFromController"
                             },
@@ -22189,7 +22189,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3063,
+                                  "referencedDeclaration": 3072,
                                   "type": "type(contract Avatar)",
                                   "value": "Avatar"
                                 },
@@ -22410,7 +22410,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 11885,
+                                      "referencedDeclaration": 10350,
                                       "type": "block",
                                       "value": "block"
                                     },
@@ -22567,7 +22567,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11896,
+                              "referencedDeclaration": 10361,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -22711,7 +22711,7 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "member_name": "reputationOf",
-                              "referencedDeclaration": 4410,
+                              "referencedDeclaration": 4193,
                               "type": "function (address) view external returns (uint256)"
                             },
                             "children": [
@@ -22803,7 +22803,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 11896,
+                              "referencedDeclaration": 10361,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -23298,7 +23298,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "add",
-                                  "referencedDeclaration": 11325,
+                                  "referencedDeclaration": 9705,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -23468,7 +23468,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "add",
-                                  "referencedDeclaration": 11325,
+                                  "referencedDeclaration": 9705,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -23774,7 +23774,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 11893,
+                                  "referencedDeclaration": 10358,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -24079,5 +24079,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-13T19:15:26.329Z"
+  "updatedAt": "2017-12-16T16:01:25.602Z"
 }
