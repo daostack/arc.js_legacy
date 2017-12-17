@@ -34,32 +34,41 @@ module.exports = {
       bail:   'nps "test --bail"',
       testrpcDb: {
         /**
-         * important, don't use this database regularly or it will grow far too large for git (consider zipping it up?)
-         * Only use it for creating a minimal DB containing the deployed contracts for use in Travis tests.
-         * THEREFORE, this will clean the database each time you run it.
+         * This will clean the database each time you run it.
          * 
-         * Full workflow:
+         * Full workflow to create custom contracts:
+         * 
          *  npm start test.testrpcDb.clean
-         *  npm start test.testrpcDb.runAsync  # this will open a window with testrpc running in it.
+         * 
+         * The following will open a window with testrpc running in it.
+         * 
+         *  npm start test.testrpcDb.runAsync  
+         * 
+         * This will go into the daostack-arc repo, at pathDaostackArcRepo, and do a truffle migrate for the
+         * network given by env.ETH_ENV.
          * 
          *  npm start test.testrpcDb.create
          * 
-         *  Kill the window in which testrpc is running -- we don't want any further changes to the database we just created.
-         *  Good idea at this point, before anything changes,  might be to zip up the virgin testrpc database that was just created
-         *  and that will be used by travis automated tests (assuming you will want it to use the data you just migrated).
+         * If you won't want to commit the data you just migrated, you can skip the next two steps.
+         * 
+         * Kill the window in which testrpc is running. (You have to do that yourself, in your OS.)
+         * 
+         * Zip up the virgin testrpc database that was just created, before anything changes.
+         * The zip will fail in any case if testrpc is still running against it. The zip is used by
+         * Travis automated tests when you commit the changes.
          * 
          *  npm start test.testrpcDb.zip
          * 
-         *  Now fetch the newly-compiled contract .json files from the daostack-arc repo into our local
-         *  installation of the daostack-arc package which is where the build expects them to be:
+         * Now fetch the newly-compiled contract .json files from the daostack-arc repo into the local
+         * installation of the daostack-arc package which is where the build expects the contracts to be:
          * 
          *  npm start migrateContracts.fetchContractsFromDaoStackRepo
          * 
-         *  Now we are ready to run the build using the newly-deployed contracts:
+         * Now we are ready to build daostack-arc-js using the newly-deployed contracts:
          * 
          *  npm start build (or pack or publish)
          * 
-         *  Now if you want you can run the tests:
+         * If you want you can run the tests:
          * 
          *  npm start test.testrpcDb.runAsync
          *  npm start test
@@ -108,7 +117,7 @@ module.exports = {
      * wherein the .sol and deploy*.js files can be found in the folder structure
      * that truffle expects.
      * 
-     * It will look in pathDaostackArcRepo for the daostack repo, pathArcJs for arc-js (this library)
+     * It will look in pathDaostackArcRepo for the daostack repo, pathArcJs for daostack-arc-js (this library)
      * 
      * It wil delete and replace all the contract js files in pathDaostackArcRepoContracts
      * 

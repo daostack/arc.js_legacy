@@ -1,7 +1,7 @@
 import * as BigNumber from 'bignumber.js';
 import * as Web3 from "web3";
 
-declare module 'arc-js' {
+declare module 'daostack-arc-js' {
 
 /*******************************
  * Arc contract information as contained in ArcDeployedContractNames (see settings)

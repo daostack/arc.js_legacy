@@ -1,27 +1,25 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getSettings = undefined;
 
-var _utils = require("./utils.js");
+var _utils = require('./utils.js');
 
-var _globalconstraintregistrar = require("./globalconstraintregistrar.js");
+var _globalconstraintregistrar = require('./globalconstraintregistrar.js');
 
-var _schemeregistrar = require("./schemeregistrar.js");
+var _schemeregistrar = require('./schemeregistrar.js');
 
-var _simplecontributionscheme = require("./simplecontributionscheme.js");
+var _simplecontributionscheme = require('./simplecontributionscheme.js');
 
-var _absoluteVote = require("./absoluteVote.js");
+var _absoluteVote = require('./absoluteVote.js');
 
-var _tokenCapGC = require("./tokenCapGC.js");
+var _tokenCapGC = require('./tokenCapGC.js');
 
-var _upgradescheme = require("./upgradescheme.js");
+var _upgradescheme = require('./upgradescheme.js');
 
-// TODO: these are settings for testing. Need some way to switch to "production settings"
 var GenesisScheme = (0, _utils.requireContract)("GenesisScheme");
-var SimpleICO = (0, _utils.requireContract)("SimpleICO");
 
 /**
    * These are uninitialized instances of ExtendTruffleContract,
@@ -40,7 +38,6 @@ var getSettings = async function getSettings() {
   var genesisScheme = await GenesisScheme.deployed();
   var globalConstraintRegistrar = await _globalconstraintregistrar.GlobalConstraintRegistrar.deployed();
   var schemeRegistrar = await _schemeregistrar.SchemeRegistrar.deployed();
-  var simpleICO = await SimpleICO.deployed();
   var tokenCapGC = await _tokenCapGC.TokenCapGC.deployed();
   var upgradeScheme = await _upgradescheme.UpgradeScheme.deployed();
   var absoluteVote = await _absoluteVote.AbsoluteVote.deployed();
@@ -69,10 +66,6 @@ var getSettings = async function getSettings() {
       SchemeRegistrar: {
         contract: _schemeregistrar.SchemeRegistrar,
         address: schemeRegistrar.address
-      },
-      SimpleICO: {
-        contract: SimpleICO,
-        address: simpleICO.address
       },
       TokenCapGC: {
         contract: _tokenCapGC.TokenCapGC,
