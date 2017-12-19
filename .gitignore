@@ -3,4 +3,3 @@ node_modules/
 *.tgz
 .vscode/
 testrpcDb/
-contracts/
