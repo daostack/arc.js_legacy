@@ -28,7 +28,11 @@ module.exports = {
       fix: 'nps "lint --fix ."'
     },
     test: {
-      default: "mocha --require babel-register --require chai --timeout 15000",
+      default: series(
+        "nps lint",
+        "nps test.automated"
+      ),
+      automated: "mocha --require babel-register --require chai --timeout 15000",
       watch:   'nps "test --watch"',
       debug:   'nps "test --debug"',
       bail:   'nps "test --bail"',
@@ -52,7 +56,7 @@ module.exports = {
          *    npm start test.testrpcDb.create
          * 
          * If you won't want to commit the data you just migrated, you can skip the next two steps.
-         * But keep in mind that at minimum, everytime we integrate with a new version of daostack-arc, we *must*
+         * But keep in mind that at minimum, everytime we integrate with and commit with a new version of daostack-arc, we *must*
          * regenerate this testrpc database so that it contains the associated contracts
          * for use by Travis in running the automated tests.
          * 
@@ -71,7 +75,7 @@ module.exports = {
          * 
          * Now we are ready to build daostack-arc-js using the newly-deployed contracts:
          * 
-         *    npm start build (or pack or publish)
+         *    npm start build (or deploy.pack or deploy.publish)
          * 
          * If you want you can run the tests:
          * 

@@ -68,7 +68,7 @@ var Organization = exports.Organization = function () {
 
       // private method returns all registered schemes.
       // TODO: this is *expensive*, we need to cache the results (and perhaps poll for latest changes if necessary)
-      var schemesMap = new Map(); // <string, { address: string, permissions: string, name: string }>
+      var schemesMap = new Map(); // <string, _daoSchemeInfoFromLogs>
       var controller = this.controller;
       var arcTypesMap = new Map(); // <address: string, name: string>
       var settings = await (0, _settings.getSettings)();
@@ -104,7 +104,17 @@ var Organization = exports.Organization = function () {
         unRegisterSchemeEvent.stopWatching();
       });
 
-      return Array.from(schemesMap.values());
+      return Array.from(schemesMap.values()).map(function (s) {
+        return s.scheme;
+      });
+    }
+  }, {
+    key: '_daoSchemeInfoFromLogs',
+    value: function _daoSchemeInfoFromLogs(blockNumber, logIndex, scheme) {
+      this.blockNumber = blockNumber; // : number;
+      this.logIndex = logIndex; // : number;
+      this.scheme = scheme; // : DaoSchemeInfo;
+      // isInDao; // : boolean;
     }
   }, {
     key: '_handleSchemeEvent',
@@ -126,10 +136,20 @@ var Organization = exports.Organization = function () {
           name: arcTypesMap.get(schemeAddress)
         };
 
-        if (adding) {
-          schemesMap.set(schemeAddress, schemeInfo);
-        } else if (schemesMap.has(schemeAddress)) {
-          schemesMap.delete(schemeAddress);
+        var daoSchemeInfoFromLogs = new this._daoSchemeInfoFromLogs(eventsArray[i].blockNumber, eventsArray[i].logIndex, schemeInfo
+        // isInDao = adding
+        );
+
+        var lastFound = schemesMap.get(schemeAddress);
+
+        var isNewer = !lastFound || daoSchemeInfoFromLogs.blockNumber > lastFound.blockNumber || daoSchemeInfoFromLogs.blockNumber == lastFound.blockNumber && daoSchemeInfoFromLogs.logIndex > lastFound.logIndex;
+
+        if (isNewer) {
+          if (adding) {
+            schemesMap.set(schemeAddress, daoSchemeInfoFromLogs);
+          } else if (lastFound) {
+            schemesMap.delete(schemeAddress);
+          }
         }
       }
     }

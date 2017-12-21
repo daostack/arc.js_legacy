@@ -23,7 +23,7 @@ install:
   
 script:
   - yarn start lint
-  - yarn start test
+  - yarn start test.automated
 
 notifications:
   slack: daostack:fGuaFPsiQiV5mgmzRcSzbYqw

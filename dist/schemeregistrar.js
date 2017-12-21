@@ -103,9 +103,10 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
         /**
          * true to register organization into the scheme when the proposal is approved.
          * If false then caller must do it manually via scheme.registerOrganization(avatarAddress).
-         * Default is true.
+         * Default is false for Arc schemes.
+         * For non-Arc schemes it is ignored and always set to false.
          */
-        , autoRegister: true
+        , autoRegister: false
       };
 
       var options = dopts(opts, defaults, { allowUnknown: true });
@@ -161,6 +162,7 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
       } else {
 
         isRegistering = options.isRegistering;
+        options.autoRegister = false; // see https://github.com/daostack/daostack/issues/181#issuecomment-353210642
 
         if (!feeIsDefined || !tokenAddressIsDefined) {
           throw new Error("fee/tokenAddress are not defined; they are required for non-Arc schemes (schemeName is undefined)");

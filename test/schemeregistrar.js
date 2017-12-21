@@ -22,7 +22,8 @@ describe('SchemeRegistrar', () => {
       avatar: organization.avatar.address,
       scheme: simpleContributionSchemeAddress,
       schemeName: "SimpleContributionScheme",
-      schemeParametersHash: NULL_HASH
+      schemeParametersHash: NULL_HASH,
+      autoRegister: true
     });
 
 
@@ -46,7 +47,8 @@ describe('SchemeRegistrar', () => {
       avatar: organization.avatar.address,
       scheme: modifiedSchemeAddress,
       schemeName: "SchemeRegistrar",
-      schemeParametersHash: NULL_HASH
+      schemeParametersHash: NULL_HASH,
+      autoRegister: true
     });
 
 

@@ -24,7 +24,8 @@ export async function proposeSimpleContributionScheme(org, accounts) {
     avatar: org.avatar.address,
     scheme: simpleContributionScheme.address,
     schemeName: "SimpleContributionScheme",
-    schemeParametersHash: schemeParametersHash
+    schemeParametersHash: schemeParametersHash,
+    autoRegister: true
   });
 
   const proposalId = getValueFromLogs(tx, '_proposalId');
@@ -123,7 +124,8 @@ describe('SimpleContribution scheme', () => {
       avatar: avatar.address,
       scheme: contributionScheme.address,
       schemeName: "SimpleContributionScheme",
-      schemeParametersHash: schemeParametersHash
+      schemeParametersHash: schemeParametersHash,
+      autoRegister: true
     });
 
     const proposalId = getValueFromLogs(tx, '_proposalId');
