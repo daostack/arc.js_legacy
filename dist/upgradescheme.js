@@ -151,6 +151,7 @@ var UpgradeScheme = exports.UpgradeScheme = function (_ExtendTruffleContrac) {
         try {
           var settings = await (0, _settings.getSettings)();
           var newScheme = await settings.daostackContracts.UpgradeScheme.contract.at(options.scheme);
+
           if (!feeIsDefined) {
             fee = await newScheme.fee();
           }
@@ -158,7 +159,7 @@ var UpgradeScheme = exports.UpgradeScheme = function (_ExtendTruffleContrac) {
             tokenAddress = await newScheme.nativeToken();
           }
         } catch (ex) {
-          // throw new Error("Unable to obtain default information from the given scheme address. The scheme is probably not an Arc UpgradeScheme and in that case you must supply fee and tokenAddress.");
+          throw new Error('Unable to obtain default information from the given scheme address. The address is invalid or the scheme is not an Arc scheme and in that case you must supply fee and tokenAddress. ' + ex);
         }
       }
 

@@ -157,7 +157,7 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
             throw new Error("SchemeRegistrar cannot work with schemes having greater permissions than its own");
           }
         } catch (ex) {
-          throw new Error('Unable to obtain default information from the given scheme address. The scheme is probably not an Arc scheme and in that case you must supply fee and tokenAddress. ' + ex);
+          throw new Error('Unable to obtain default information from the given scheme address. The address is invalid or the scheme is not an Arc scheme and in that case you must supply fee and tokenAddress. ' + ex);
         }
       } else {
 

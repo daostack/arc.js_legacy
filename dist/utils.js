@@ -221,18 +221,35 @@ var ExtendTruffleContract = exports.ExtendTruffleContract = function ExtendTruff
     }], [{
       key: 'new',
       value: async function _new() {
-        var contract = await superclass.new();
-        return new this(contract);
+        var _this = this;
+
+        superclass.new().then(function (contract) {
+          return new _this(contract);
+        }, function (ex) {
+          throw ex;
+        });
       }
     }, {
       key: 'at',
       value: async function at(address) {
-        return new this((await superclass.at(address)));
+        var _this2 = this;
+
+        return superclass.at(address).then(function (contract) {
+          return new _this2(contract);
+        }, function (ex) {
+          throw ex;
+        });
       }
     }, {
       key: 'deployed',
       value: async function deployed() {
-        return new this((await superclass.deployed()));
+        var _this3 = this;
+
+        return superclass.deployed().then(function (contract) {
+          return new _this3(contract);
+        }, function (ex) {
+          throw ex;
+        });
       }
     }]);
 

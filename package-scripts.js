@@ -42,7 +42,8 @@ module.exports = {
       },
       testrpcDb: {
         /**
-         * Full workflow to create custom contracts:
+         * Full workflow to create custom contracts.  This can take a long time as there may
+         * be thousands of files to delete.
          * 
          *    npm start test.testrpcDb.clean
          * 
