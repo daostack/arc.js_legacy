@@ -52,14 +52,14 @@ Object.keys(_schemeregistrar).forEach(function (key) {
   });
 });
 
-var _simplecontributionscheme = require('./simplecontributionscheme.js');
+var _ContributionReward = require('./ContributionReward.js');
 
-Object.keys(_simplecontributionscheme).forEach(function (key) {
+Object.keys(_ContributionReward).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
-      return _simplecontributionscheme[key];
+      return _ContributionReward[key];
     }
   });
 });
@@ -164,7 +164,7 @@ async function getDeployedContracts() {
   var contracts = (await (0, _settings.getSettings)()).daostackContracts;
   return {
     allContracts: contracts,
-    schemes: [contracts.SchemeRegistrar, contracts.UpgradeScheme, contracts.GlobalConstraintRegistrar, contracts.SimpleContributionScheme],
+    schemes: [contracts.SchemeRegistrar, contracts.UpgradeScheme, contracts.GlobalConstraintRegistrar, contracts.ContributionReward],
     votingMachines: [contracts.AbsoluteVote],
     globalConstraints: [contracts.TokenCapGC]
   };

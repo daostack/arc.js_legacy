@@ -2,18 +2,18 @@ import * as helpers from './helpers';
 import { getValueFromLogs, requireContract } from '../lib/utils.js';
 
 const DAOToken = requireContract("DAOToken");
-const SimpleContributionScheme = requireContract("SimpleContributionScheme");
+const ContributionReward = requireContract("ContributionReward");
 
-export async function proposeSimpleContributionScheme(org, accounts) {
+export async function proposeContributionReward(org, accounts) {
   const schemeRegistrar = await org.scheme("SchemeRegistrar");
-  const simpleContributionScheme = await org.scheme('SimpleContributionScheme');
+  const ContributionReward = await org.scheme('ContributionReward');
 
   const votingMachineHash = await org.votingMachine.getParametersHash(org.reputation.address, 50, true);
   await org.votingMachine.setParameters(org.reputation.address, 50, true);
 
   const votingMachineAddress = org.votingMachine.address;
 
-  const schemeParametersHash = await simpleContributionScheme.setParams({
+  const schemeParametersHash = await ContributionReward.setParams({
     orgNativeTokenFee: 0,
     schemeNativeTokenFee:  0,
     voteParametersHash: votingMachineHash,
@@ -22,8 +22,8 @@ export async function proposeSimpleContributionScheme(org, accounts) {
 
   const tx = await schemeRegistrar.proposeToAddModifyScheme({
     avatar: org.avatar.address,
-    scheme: simpleContributionScheme.address,
-    schemeName: "SimpleContributionScheme",
+    scheme: ContributionReward.address,
+    schemeName: "ContributionReward",
     schemeParametersHash: schemeParametersHash,
     autoRegister: true
   });
@@ -32,17 +32,17 @@ export async function proposeSimpleContributionScheme(org, accounts) {
 
   org.vote(proposalId, 1, {from: accounts[2]});
 
-  return simpleContributionScheme;
+  return ContributionReward;
 }
 
-describe('SimpleContribution scheme', () => {
+describe('ContributionReward scheme', () => {
   let params, paramsHash, tx, proposal;
 
   it("submit and accept a contribution - complete workflow", async () => {
     const organization = await helpers.forgeOrganization();
-    const scheme = await proposeSimpleContributionScheme(organization, accounts);
+    const scheme = await proposeContributionReward(organization, accounts);
 
-    tx = await scheme.proposeContribution({
+    tx = await scheme.proposeContributionReward({
       avatar: organization.avatar.address,  // Avatar _avatar,
       description: 'A new contribution', // string _contributionDesciption,
       beneficiary: accounts[1], // address _beneficiary
@@ -80,22 +80,22 @@ describe('SimpleContribution scheme', () => {
     const avatar = org.avatar;
     const controller = org.controller;
 
-    // we creaet a SimpleContributionScheme
+    // we creaet a ContributionReward
     const tokenAddress = await controller.nativeToken();
     const votingMachine = org.votingMachine;
 
     // create a contribution Scheme
-    const contributionScheme = (await SimpleContributionScheme.new(
+    const contributionReward = (await ContributionReward.new(
       tokenAddress,
       0, // register with 0 fee
       accounts[0],
     ));
 
     // check if we have the fee to register the contribution
-    const contributionSchemeRegisterFee = await contributionScheme.fee();
-    // console.log('contributionSchemeRegisterFee: ' + contributionSchemeRegisterFee);
+    const contributionRewardRegisterFee = await contributionReward.fee();
+    // console.log('contributionRewardRegisterFee: ' + contributionRewardRegisterFee);
     // our fee is 0, so that's easy  (TODO: write a test with non-zero fees)
-    assert.equal(contributionSchemeRegisterFee, 0);
+    assert.equal(contributionRewardRegisterFee, 0);
 
     const votingMachineHash = await votingMachine.getParametersHash(org.reputation.address, 50, true);
     await votingMachine.setParameters(org.reputation.address, 50, true);
@@ -104,14 +104,14 @@ describe('SimpleContribution scheme', () => {
     // console.log(`******  votingMachineHash ${votingMachineHash} ******`);
     // console.log(`******  votingMachineAddress ${votingMachineAddress} ******`);
 
-    const schemeParametersHash = await contributionScheme.getParametersHash(
+    const schemeParametersHash = await contributionReward.getParametersHash(
       0,
       0,
       votingMachineHash,
       votingMachineAddress
     );
 
-    await contributionScheme.setParameters(
+    await contributionReward.setParameters(
       0,
       0,
       votingMachineHash,
@@ -122,8 +122,8 @@ describe('SimpleContribution scheme', () => {
 
     tx = await schemeRegistrar.proposeToAddModifyScheme({
       avatar: avatar.address,
-      scheme: contributionScheme.address,
-      schemeName: "SimpleContributionScheme",
+      scheme: contributionReward.address,
+      schemeName: "ContributionReward",
       schemeParametersHash: schemeParametersHash,
       autoRegister: true
     });
@@ -134,38 +134,40 @@ describe('SimpleContribution scheme', () => {
     tx = await votingMachine.vote(proposalId, 1, {from: accounts[1]});
 
     // now our scheme should be registered on the controller
-    const schemeFromController = await controller.schemes(contributionScheme.address);
+    const schemeFromController = await controller.schemes(contributionReward.address);
     // we expect to have only the first bit set (it is a registered scheme without nay particular permissions)
     assert.equal(schemeFromController[1], '0x00000001');
 
     // is the organization registered?
-    const orgFromContributionScheme = await contributionScheme.organizations(avatar.address);
+    const orgFromContributionScheme = await contributionReward.organizations(avatar.address);
     // console.log('orgFromContributionScheme after registering');
     assert.equal(orgFromContributionScheme, true);
     // check the configuration for proposing new contributions
 
-    paramsHash = await controller.getSchemeParameters(contributionScheme.address);
+    paramsHash = await controller.getSchemeParameters(contributionReward.address);
     // console.log(`****** paramsHash ${paramsHash} ******`);
     // params are: uint orgNativeTokenFee; bytes32 voteApproveParams; uint schemeNativeTokenFee;         BoolVoteInterface boolVote;
-    params = await contributionScheme.parameters(paramsHash);
+    params = await contributionReward.parameters(paramsHash);
     // check if they are not trivial - the 4th item should be a valid boolVote address
     assert.notEqual(params[3], '0x0000000000000000000000000000000000000000');
     assert.equal(params[3], votingMachine.address);
     // now we can propose a contribution
-    tx = await contributionScheme.submitContribution(
+    tx = await contributionReward.submitContribution(
       avatar.address, // Avatar _avatar,
-      'a fair play', // string _contributionDesciption,
-      0, // uint _nativeTokenReward,
-      0, // uint _reputationReward,
-      0, // uint _ethReward,
+      web3.sha3('a fair play'), // string _contributionDesciption,
+      [
+        0, // uint _nativeTokenReward,
+        0, // uint _reputationReward,
+        0, // uint _ethReward,
+        0
+      ], // uint _externalTokenReward,
       '0x0008e8314d3f08fd072e06b6253d62ed526038a0', // StandardToken _externalToken, we provide some arbitrary address
-      0, // uint _externalTokenReward,
       accounts[2], // address _beneficiary
     );
 
     // console.log(tx.logs);
     const contributionId = tx.logs[0].args._proposalId;
-    // let us vote for it (is there a way to get the votingmachine from the contributionScheme?)
+    // let us vote for it (is there a way to get the votingmachine from the contributionReward?)
     // this is a minority vote for 'yes'
     // check preconditions for the vote
     proposal = await votingMachine.proposals(contributionId);
@@ -181,15 +183,15 @@ describe('SimpleContribution scheme', () => {
     // X.mapping(address=>int) voted; // save the amount of reputation voted by an agent (positive sign is yes, negatice is no)
     // 7. bool opened; // voting opened flag
     assert.isOk(proposal[6]); // proposal.opened is true
-    // first we check if our executable (proposal[3]) is indeed the contributionScheme
-    assert.equal(proposal[3], contributionScheme.address);
+    // first we check if our executable (proposal[3]) is indeed the contributionReward
+    assert.equal(proposal[3], contributionReward.address);
 
     tx = await votingMachine.vote(contributionId, 1, {from: accounts[0]});
     // and this is the majority vote (which will also call execute on the executable
     tx = await votingMachine.vote(contributionId, 1, {from: accounts[1]});
 
     // TODO: check if proposal was deleted from contribution Scheme
-    // proposal = await contributionScheme.proposals(contributionId);
+    // proposal = await contributionReward.proposals(contributionId);
     // assert.equal(proposal[0], helpers.NULL_HASH);
 
     // check if proposal was deleted from voting machine
@@ -207,13 +209,13 @@ describe('SimpleContribution scheme', () => {
     const token = await DAOToken.new();
 
     // create a contribution Scheme
-    const contributionScheme = await SimpleContributionScheme.new({
+    const contributionReward = await ContributionReward.new({
       tokenAddress: token.address,
       fee: 0, // register with 0 fee
       beneficiary: accounts[1],
     });
 
-    const contributionSchemeParamsHash = await contributionScheme.getParametersHash(
+    const contributionRewardParamsHash = await contributionReward.getParametersHash(
       0,
       0,
       helpers.SOME_HASH,
@@ -221,18 +223,18 @@ describe('SimpleContribution scheme', () => {
     );
 
       // these parameters are not registered yet at this point
-    params = await contributionScheme.parameters(contributionSchemeParamsHash);
+    params = await contributionReward.parameters(contributionRewardParamsHash);
     assert.equal(params[3], '0x0000000000000000000000000000000000000000');
 
     // register the parameters are registers in the contribution scheme
-    await contributionScheme.setParameters(
+    await contributionReward.setParameters(
       0,
       0,
       helpers.SOME_HASH,
       helpers.SOME_ADDRESS,
     );
 
-    params = await contributionScheme.parameters(contributionSchemeParamsHash);
+    params = await contributionReward.parameters(contributionRewardParamsHash);
     assert.notEqual(params[3], '0x0000000000000000000000000000000000000000');
 
   });

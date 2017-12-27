@@ -88,18 +88,18 @@ These are the options to propose to adopt the SimpleICO scheme:
       }
     });
 
-While the options to adopt the SimpleContributionScheme are simply:
+While the options to adopt the ContributionReward are simply:
 
     organization.proposeScheme({
-      contract: 'SimpleContributionScheme',
+      contract: 'ContributionReward',
     });
 
 With all possible options:
 
 
     const proposalId = await organization.proposeScheme({
-      contract: 'SimpleContributionScheme',
-      address: '0x1245', // address of the scheme to use; default is settings.simpleContributionScheme
+      contract: 'ContributionReward',
+      address: '0x1245', // address of the scheme to use; default is settings.ContributionReward
       params: {
         boolVote: organization.votingMachine, // votingMachine used to accept or reject contributions, default is organizaiton.votingMAchine
         votePrec: 50, // percentage conditions under which a contribution is accepted, default is 50

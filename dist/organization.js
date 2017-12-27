@@ -29,7 +29,7 @@ var AbsoluteVote = (0, _utils.requireContract)("AbsoluteVote");
 var CONTRACT_SCHEMEREGISTRAR = 'SchemeRegistrar';
 var CONTRACT_UPGRADESCHEME = 'UpgradeScheme';
 var CONTRACT_GLOBALCONSTRAINTREGISTRAR = 'GlobalConstraintRegistrar';
-// const CONTRACT_SIMPLECONTRIBUTIONSCHEME = 'SimpleContributionScheme';
+// const CONTRACT_ContributionReward = 'ContributionReward';
 
 var Organization = exports.Organization = function () {
   function Organization() {
@@ -218,8 +218,8 @@ var Organization = exports.Organization = function () {
         votingMachine: settings.daostackContracts.AbsoluteVote.address,
         votePrec: 50,
         ownerVote: true,
-        orgNativeTokenFee: 0, // used for SimpleContributionScheme
-        schemeNativeTokenFee: 0, // used for SimpleContributionScheme
+        orgNativeTokenFee: 0, // used for ContributionReward
+        schemeNativeTokenFee: 0, // used for ContributionReward
         genesisScheme: settings.daostackContracts.GenesisScheme.address,
         schemes: [{
           name: CONTRACT_SCHEMEREGISTRAR,
@@ -312,12 +312,12 @@ var Organization = exports.Organization = function () {
         }
       }
 
-      await genesisScheme.setInitialSchemes(org.avatar.address, initialSchemesAddresses, initialSchemesParams, initialSchemesTokenAddresses, initialSchemesFees, initialSchemesPermissions);
+      await genesisScheme.setSchemes(org.avatar.address, initialSchemesAddresses, initialSchemesParams, initialSchemesTokenAddresses, initialSchemesFees, initialSchemesPermissions);
 
       // transfer what we need for fees to register the organization at the given schemes
       // TODO: check if we have the funds, if not, throw an exception
       // fee = await org.schemeRegistrar.fee())
-      // we must do this after setInitialSchemes, because that one approves the transactions
+      // we must do this after setSchemes, because that one approves the transactions
       // (but that logic shoudl change)
       for (var i = 0; i < initialSchemesAddresses.length; i = i + 1) {
         var scheme = await _schemeregistrar.SchemeRegistrar.at(initialSchemesAddresses[i]);

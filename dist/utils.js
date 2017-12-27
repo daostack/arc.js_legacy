@@ -191,7 +191,7 @@ var ExtendTruffleContract = exports.ExtendTruffleContract = function ExtendTruff
        *    voteParametersHash
        *    votingMachine -- address
        *
-       *  for SimpleContributionScheme:
+       *  for ContributionReward:
        *    orgNativeTokenFee -- number
        *    schemeNativeTokenFee -- number
        */
@@ -223,7 +223,7 @@ var ExtendTruffleContract = exports.ExtendTruffleContract = function ExtendTruff
       value: async function _new() {
         var _this = this;
 
-        superclass.new().then(function (contract) {
+        return superclass.new().then(function (contract) {
           return new _this(contract);
         }, function (ex) {
           throw ex;

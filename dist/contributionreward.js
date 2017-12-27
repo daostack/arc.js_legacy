@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SimpleContributionScheme = undefined;
+exports.ContributionReward = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -17,21 +17,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var dopts = require('default-options');
 
-var SoliditySimpleContributionScheme = (0, _utils.requireContract)("SimpleContributionScheme");
+var SolidityContributionReward = (0, _utils.requireContract)("ContributionReward");
 var DAOToken = (0, _utils.requireContract)("DAOToken");
 
-var SimpleContributionScheme = function (_ExtendTruffleContrac) {
-  _inherits(SimpleContributionScheme, _ExtendTruffleContrac);
+var ContributionReward = function (_ExtendTruffleContrac) {
+  _inherits(ContributionReward, _ExtendTruffleContrac);
 
-  function SimpleContributionScheme() {
-    _classCallCheck(this, SimpleContributionScheme);
+  function ContributionReward() {
+    _classCallCheck(this, ContributionReward);
 
-    return _possibleConstructorReturn(this, (SimpleContributionScheme.__proto__ || Object.getPrototypeOf(SimpleContributionScheme)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (ContributionReward.__proto__ || Object.getPrototypeOf(ContributionReward)).apply(this, arguments));
   }
 
-  _createClass(SimpleContributionScheme, [{
-    key: 'proposeContribution',
-    value: async function proposeContribution() {
+  _createClass(ContributionReward, [{
+    key: 'proposeContributionReward',
+    value: async function proposeContributionReward() {
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       /**
@@ -136,7 +136,7 @@ var SimpleContributionScheme = function (_ExtendTruffleContrac) {
       // console.log(`********* options.externalTokenReward ${options.externalTokenReward} **********`);
       // console.log(`********* options.beneficiary ${options.beneficiary} **********`);
 
-      var tx = await this.contract.submitContribution(options.avatar, options.description, nativeTokenReward, reputationReward, ethReward, options.externalToken, externalTokenReward, options.beneficiary);
+      var tx = await this.contract.submitContribution(options.avatar, web3.sha3(options.description), [nativeTokenReward, reputationReward, ethReward, options.externalToken, externalTokenReward], options.externalToken, options.beneficiary);
       return tx;
     }
   }, {
@@ -172,12 +172,12 @@ var SimpleContributionScheme = function (_ExtendTruffleContrac) {
         token = await DAOToken.at(options.tokenAddress);
       }
 
-      var contract = await SoliditySimpleContributionScheme.new(token.address, options.fee, options.beneficiary);
+      var contract = await SolidityContributionReward.new(token.address, options.fee, options.beneficiary);
       return new this(contract);
     }
   }]);
 
-  return SimpleContributionScheme;
-}((0, _utils.ExtendTruffleContract)(SoliditySimpleContributionScheme));
+  return ContributionReward;
+}((0, _utils.ExtendTruffleContract)(SolidityContributionReward));
 
-exports.SimpleContributionScheme = SimpleContributionScheme;
+exports.ContributionReward = ContributionReward;

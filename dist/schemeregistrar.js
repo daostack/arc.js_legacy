@@ -64,7 +64,7 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
          */
         , scheme: undefined
         /**
-         * scheme identifier, like "SchemeRegistrar" or "SimpleContributionScheme".
+         * scheme identifier, like "SchemeRegistrar" or "ContributionReward".
          * pass null if registering a non-arc scheme
          */
         , schemeName: null
@@ -100,13 +100,6 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
          * Otherwise we determine it's value based on scheme and schemeName.
          */
         , isRegistering: null
-        /**
-         * true to register organization into the scheme when the proposal is approved.
-         * If false then caller must do it manually via scheme.registerOrganization(avatarAddress).
-         * Default is false for Arc schemes.
-         * For non-Arc schemes it is ignored and always set to false.
-         */
-        , autoRegister: false
       };
 
       var options = dopts(opts, defaults, { allowUnknown: true });
@@ -132,11 +125,13 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
       var fee = web3.toBigNumber(options.fee);
       var tokenAddress = options.tokenAddress;
       var isRegistering = void 0;
+      var autoRegister = void 0;
 
       if (options.schemeName) {
         try {
           var settings = await (0, _settings.getSettings)();
           var newScheme = await settings.daostackContracts[options.schemeName].contract.at(options.scheme);
+          autoRegister = true;
 
           if (!feeIsDefined || !tokenAddressIsDefined) {
             if (!feeIsDefined) {
@@ -162,7 +157,7 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
       } else {
 
         isRegistering = options.isRegistering;
-        options.autoRegister = false; // see https://github.com/daostack/daostack/issues/181#issuecomment-353210642
+        autoRegister = false; // see https://github.com/daostack/daostack/issues/181#issuecomment-353210642
 
         if (!feeIsDefined || !tokenAddressIsDefined) {
           throw new Error("fee/tokenAddress are not defined; they are required for non-Arc schemes (schemeName is undefined)");
@@ -177,7 +172,7 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
         }
       }
 
-      var tx = await this.contract.proposeScheme(options.avatar, options.scheme, options.schemeParametersHash, isRegistering, tokenAddress, fee, options.autoRegister);
+      var tx = await this.contract.proposeScheme(options.avatar, options.scheme, options.schemeParametersHash, isRegistering, tokenAddress, fee, autoRegister);
 
       return tx;
     }

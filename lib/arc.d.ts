@@ -25,7 +25,7 @@ export interface ArcContractInfo {
  * For all deployed contracts exposed by Arc.
  */
 export interface ArcDeployedContractNames {
-  SimpleContributionScheme: ArcContractInfo;
+  ContributionReward: ArcContractInfo;
   GenesisScheme: ArcContractInfo;
   GlobalConstraintRegistrar: ArcContractInfo;
   SchemeRegistrar: ArcContractInfo;
@@ -313,7 +313,7 @@ export class GlobalConstraintRegistrar extends ExtendTruffleScheme {
        */
       , scheme: string
       /**
-       * scheme identifier, like "SchemeRegistrar" or "SimpleContributionScheme".
+       * scheme identifier, like "SchemeRegistrar" or "ContributionReward".
        * pass null if registering a non-arc scheme
        */
       , schemeName?: string|null
@@ -461,11 +461,11 @@ export class GlobalConstraintRegistrar extends ExtendTruffleScheme {
   }
 
 /********************************
- * SimpleContributionScheme
+ * ContributionReward
  */
-  export interface SimpleContributionSchemeNewParams extends StandardNewSchemeParams { }
+  export interface ContributionRewardNewParams extends StandardNewSchemeParams { }
 
-  export interface SimpleContributionSchemeParams extends StandardSchemeParams {
+  export interface ContributionRewardParams extends StandardSchemeParams {
     orgNativeTokenFee: BigNumber.BigNumber | string,
     schemeNativeTokenFee: BigNumber.BigNumber | string
   }
@@ -506,15 +506,15 @@ export class GlobalConstraintRegistrar extends ExtendTruffleScheme {
       beneficiary: string
     }
 
-  export class SimpleContributionScheme extends ExtendTruffleScheme {
-    static new(options:SimpleContributionSchemeNewParams): SimpleContributionScheme;
-    static at(address:string): SimpleContributionScheme;
-    static deployed(): SimpleContributionScheme;
+  export class ContributionReward extends ExtendTruffleScheme {
+    static new(options:ContributionRewardNewParams): ContributionReward;
+    static at(address:string): ContributionReward;
+    static deployed(): ContributionReward;
     /**
      * propose to make a contribution
      * @param opts ProposeContributionParams
      */
-    proposeContribution(opts: ProposeContributionParams): Promise<TransactionReceiptTruffle>;
-    setParams(params: SimpleContributionSchemeParams): Promise<string>;
+    proposeContributionReward(opts: ProposeContributionParams): Promise<TransactionReceiptTruffle>;
+    setParams(params: ContributionRewardParams): Promise<string>;
   }
 }

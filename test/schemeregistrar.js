@@ -11,17 +11,17 @@ describe('SchemeRegistrar', () => {
     const settings = await settingsForTest();
 
     const schemeRegistrar = await organization.scheme('SchemeRegistrar');
-    const simpleContributionScheme = await organization.schemes('SimpleContributionScheme');
-    assert.equal(simpleContributionScheme.length,0, "scheme is already present");
+    const ContributionReward = await organization.schemes('ContributionReward');
+    assert.equal(ContributionReward.length,0, "scheme is already present");
 
-    const simpleContributionSchemeAddress = settings.daostackContracts.SimpleContributionScheme.address;
+    const ContributionRewardAddress = settings.daostackContracts.ContributionReward.address;
 
-    assert.isFalse(await organization.controller.isSchemeRegistered(simpleContributionSchemeAddress), "scheme is registered into the controller");
+    assert.isFalse(await organization.controller.isSchemeRegistered(ContributionRewardAddress), "scheme is registered into the controller");
 
     const tx = await schemeRegistrar.proposeToAddModifyScheme({
       avatar: organization.avatar.address,
-      scheme: simpleContributionSchemeAddress,
-      schemeName: "SimpleContributionScheme",
+      scheme: ContributionRewardAddress,
+      schemeName: "ContributionReward",
       schemeParametersHash: NULL_HASH,
       autoRegister: true
     });
@@ -31,7 +31,7 @@ describe('SchemeRegistrar', () => {
 
     organization.vote(proposalId, 1, {from: accounts[2]});
 
-    assert.isTrue(await organization.controller.isSchemeRegistered(simpleContributionSchemeAddress), "scheme is not registered into the controller");
+    assert.isTrue(await organization.controller.isSchemeRegistered(ContributionRewardAddress), "scheme is not registered into the controller");
   });
 
   it("proposeToAddModifyScheme javascript wrapper should modify existing scheme", async () => {
