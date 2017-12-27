@@ -11,7 +11,7 @@ var _globalconstraintregistrar = require('./globalconstraintregistrar.js');
 
 var _schemeregistrar = require('./schemeregistrar.js');
 
-var _ContributionReward = require('./ContributionReward.js');
+var _contributionreward = require('./contributionreward.js');
 
 var _absoluteVote = require('./absoluteVote.js');
 
@@ -34,7 +34,7 @@ var getSettings = async function getSettings() {
    *
    * `deployed()` is a static method on each of those classes.
    **/
-  var contributionReward = await _ContributionReward.ContributionReward.deployed();
+  var contributionReward = await _contributionreward.ContributionReward.deployed();
   var genesisScheme = await GenesisScheme.deployed();
   var globalConstraintRegistrar = await _globalconstraintregistrar.GlobalConstraintRegistrar.deployed();
   var schemeRegistrar = await _schemeregistrar.SchemeRegistrar.deployed();
@@ -52,7 +52,7 @@ var getSettings = async function getSettings() {
     votingMachine: absoluteVote.address,
     daostackContracts: {
       ContributionReward: {
-        contract: _ContributionReward.ContributionReward,
+        contract: _contributionreward.ContributionReward,
         address: contributionReward.address
       },
       GenesisScheme: {
