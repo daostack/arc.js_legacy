@@ -1,6 +1,6 @@
 import { SchemeRegistrar } from   '../lib/schemeregistrar.js';
 import { NULL_HASH, getValueFromLogs, requireContract } from '../lib/utils';
-import { forgeOrganization, settingsForTest } from './helpers';
+import { forgeOrganization, contractsForTest } from './helpers';
 
 const DAOToken = requireContract("DAOToken");
 
@@ -8,13 +8,13 @@ describe('SchemeRegistrar', () => {
 
   it("proposeToAddModifyScheme javascript wrapper should add new scheme", async () => {
     const organization = await forgeOrganization();
-    const settings = await settingsForTest();
+    const contracts = await contractsForTest();
 
     const schemeRegistrar = await organization.scheme('SchemeRegistrar');
     const ContributionReward = await organization.schemes('ContributionReward');
     assert.equal(ContributionReward.length,0, "scheme is already present");
 
-    const ContributionRewardAddress = settings.daostackContracts.ContributionReward.address;
+    const ContributionRewardAddress = contracts.allContracts.ContributionReward.address;
 
     assert.isFalse(await organization.controller.isSchemeRegistered(ContributionRewardAddress), "scheme is registered into the controller");
 

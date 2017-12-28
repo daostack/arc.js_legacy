@@ -14,7 +14,7 @@ export interface ArcContractInfo {
     contract: any;
     /**
      * address of the instance deployed by Arc.
-     * Calling contract.at() (a static method on ExtendTruffleContract) will return a 
+     * Calling contract.at() (a static method on ExtendTruffleContract) will return a
      * the properly initialized instance of ExtendTruffleContract.
      */
     address: string;
@@ -174,10 +174,10 @@ export interface OrganizationNewConfig {
   tokenName: string;
   tokenSymbol: string;
   founders: Array<FounderConfig>;
-  votingMachine: string, // address
-  votePrec: Number,
-  ownerVote: boolean,
-  schemes: Array<{ name: string, address: string }>
+  votingMachine?: string, // address
+  votePrec?: Number,
+  ownerVote?: boolean,
+  schemes?: Array<{ name: string, address: string }>
 }
 
 
@@ -210,8 +210,8 @@ export class Organization  {
   schemes(contractName?:string) : Promise<Array<OrganizationSchemeInfo>>;
   /**
    * Returns promise of a scheme as ExtendTruffleScheme, or ? if not found
-   * @param contract name of scheme, like "SchemeRegistrar" 
-   * @param scheme optional scheme address 
+   * @param contract name of scheme, like "SchemeRegistrar"
+   * @param scheme optional scheme address
    */
   scheme(contractName:string, address? : string) : Promise<ExtendTruffleScheme>;
   // checkSchemeConditions(contractName:string);

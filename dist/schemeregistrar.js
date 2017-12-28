@@ -129,8 +129,8 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
 
       if (options.schemeName) {
         try {
-          var settings = await (0, _settings.getSettings)();
-          var newScheme = await settings.daostackContracts[options.schemeName].contract.at(options.scheme);
+          var contracts = await (0, _settings.getDeployedContracts)();
+          var newScheme = await contracts.allContracts[options.schemeName].contract.at(options.scheme);
           autoRegister = true;
 
           if (!feeIsDefined || !tokenAddressIsDefined) {

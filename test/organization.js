@@ -44,17 +44,17 @@ describe('Organization', () => {
 
   it("has a working schemes() function to access its schemes", async () => {
     organization = await helpers.forgeOrganization();
-    const settings = await helpers.settingsForTest();
+    const contracts = await helpers.contractsForTest();
     // a new organization comes with three known schemes
     assert.equal((await organization.schemes()).length, 3);
     let scheme = await organization.scheme('GlobalConstraintRegistrar');
-    assert.equal(scheme.address, settings.daostackContracts.GlobalConstraintRegistrar.address);
+    assert.equal(scheme.address, contracts.allContracts.GlobalConstraintRegistrar.address);
     assert.isTrue(!!scheme.contract, "contract must be set");
     scheme = await organization.scheme('SchemeRegistrar');
-    assert.equal(scheme.address, settings.daostackContracts.SchemeRegistrar.address);
+    assert.equal(scheme.address, contracts.allContracts.SchemeRegistrar.address);
     assert.isTrue(!!scheme.contract, "contract must be set");
     scheme = await organization.scheme('UpgradeScheme');
-    assert.equal(scheme.address, settings.daostackContracts.UpgradeScheme.address);
+    assert.equal(scheme.address, contracts.allContracts.UpgradeScheme.address);
     assert.isTrue(!!scheme.contract, "contract must be set");
 
 
@@ -63,7 +63,7 @@ describe('Organization', () => {
 
     assert.equal((await organization.schemes()).length, 4);
     // TODO: the organizaiton must be registered with the scheme before the next works
-    // assert.equal((await organization.scheme('ContributionReward')).address, settings.daostackContracts.ContributionScheme.address);
+    // assert.equal((await organization.scheme('ContributionReward')).address, contracts.allContracts.ContributionScheme.address);
   });
 
   // it("has a working proposeScheme function for SimpleICO", async function(){

@@ -6,7 +6,7 @@ const DAOToken = requireContract('DAOToken');
 const Avatar = requireContract('Avatar');
 const Reputation = requireContract('Reputation');
 const UpgradeScheme = requireContract('UpgradeScheme');
-import { forgeOrganization, settingsForTest, SOME_HASH, NULL_ADDRESS } from './helpers';
+import { forgeOrganization, contractsForTest, SOME_HASH, NULL_ADDRESS } from './helpers';
 
 
 describe('UpgradeScheme', () => {
@@ -71,7 +71,7 @@ describe('UpgradeScheme', () => {
     });
 
     const upgradeScheme = await organization.scheme('UpgradeScheme');
-    const settings = await settingsForTest();
+    const settings = await contractsForTest();
     const votingMachine = await AbsoluteVote.at(settings.votingMachine);
 
     // the organization has not bene upgraded yet, so newController is the NULL address

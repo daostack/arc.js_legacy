@@ -12,3 +12,11 @@ Daostack-Arc is a widely open collaboration to build the basic framework for [De
 Contributions and pull requests are very welcome. Join us on [Slack](daostack.slack.com).
 
 If you want to contribute to the code, check out  [CONTRIBUTING.md](CONTRIBUTING.md).
+
+
+# DAO Stack Configuration
+{
+  "provider": "local", // 'infura', 'etherscan', otherwise will default to local RPC (testrpc, Geth, or Parity..)
+  "network": "kovan", // Options are 'homestead', 'ropsten', 'rinkeby', 'kovan'
+  "api_token": "" // Required for Infura or Etherscan
+}

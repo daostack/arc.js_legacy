@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getSettings = undefined;
+exports.getDeployedContracts = exports.daostackSettings = undefined;
 
 var _utils = require('./utils.js');
 
@@ -19,6 +19,9 @@ var _tokenCapGC = require('./tokenCapGC.js');
 
 var _upgradescheme = require('./upgradescheme.js');
 
+var dopts = require('default-options');
+
+
 var GenesisScheme = (0, _utils.requireContract)("GenesisScheme");
 
 /**
@@ -27,7 +30,18 @@ var GenesisScheme = (0, _utils.requireContract)("GenesisScheme");
  */
 
 
-var getSettings = async function getSettings() {
+// Look for a daostack.json file which can override default settings
+var daostackSettings = require('daostack.json');
+
+var defaultSettings = {
+  providerUrl: "http://localhost:8545",
+  network: "kovan", // Options are 'homestead', 'ropsten', 'rinkeby', 'kovan'
+  gasLimit: 6900000
+};
+
+exports.daostackSettings = daostackSettings = dopts(daostackSettings, defaultSettings);
+
+var getDeployedContracts = async function getDeployedContracts() {
   /**
    * These are deployed contract instances represented by their respective Arc
    * javascript wrappers (ExtendTruffleContract).
@@ -48,39 +62,45 @@ var getSettings = async function getSettings() {
    * Calling contract.at() (a static method on the class) will return a
    * the properly initialized instance of ExtendTruffleContract.
    */
-  return {
-    votingMachine: absoluteVote.address,
-    daostackContracts: {
-      ContributionReward: {
-        contract: _contributionreward.ContributionReward,
-        address: contributionReward.address
-      },
-      GenesisScheme: {
-        contract: GenesisScheme,
-        address: genesisScheme.address
-      },
-      GlobalConstraintRegistrar: {
-        contract: _globalconstraintregistrar.GlobalConstraintRegistrar,
-        address: globalConstraintRegistrar.address
-      },
-      SchemeRegistrar: {
-        contract: _schemeregistrar.SchemeRegistrar,
-        address: schemeRegistrar.address
-      },
-      TokenCapGC: {
-        contract: _tokenCapGC.TokenCapGC,
-        address: tokenCapGC.address
-      },
-      UpgradeScheme: {
-        contract: _upgradescheme.UpgradeScheme,
-        address: upgradeScheme.address
-      },
-      AbsoluteVote: {
-        contract: _absoluteVote.AbsoluteVote,
-        address: absoluteVote.address
-      }
+  var contracts = {
+    ContributionReward: {
+      contract: _contributionreward.ContributionReward,
+      address: contributionReward.address
+    },
+    GenesisScheme: {
+      contract: GenesisScheme,
+      address: genesisScheme.address
+    },
+    GlobalConstraintRegistrar: {
+      contract: _globalconstraintregistrar.GlobalConstraintRegistrar,
+      address: globalConstraintRegistrar.address
+    },
+    SchemeRegistrar: {
+      contract: _schemeregistrar.SchemeRegistrar,
+      address: schemeRegistrar.address
+    },
+    TokenCapGC: {
+      contract: _tokenCapGC.TokenCapGC,
+      address: tokenCapGC.address
+    },
+    UpgradeScheme: {
+      contract: _upgradescheme.UpgradeScheme,
+      address: upgradeScheme.address
+    },
+    AbsoluteVote: {
+      contract: _absoluteVote.AbsoluteVote,
+      address: absoluteVote.address
     }
+  };
+
+  return {
+    allContracts: contracts,
+    defaultVotingMaching: contract.AbsoluteVote,
+    schemes: [contracts.SchemeRegistrar, contracts.UpgradeScheme, contracts.GlobalConstraintRegistrar, contracts.ContributionReward],
+    votingMachines: [contracts.AbsoluteVote],
+    globalConstraints: [contracts.TokenCapGC]
   };
 };
 
-exports.getSettings = getSettings;
+exports.daostackSettings = daostackSettings;
+exports.getDeployedContracts = getDeployedContracts;

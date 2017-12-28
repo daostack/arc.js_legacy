@@ -71,14 +71,14 @@ var Organization = exports.Organization = function () {
       var schemesMap = new Map(); // <string, OrganizationSchemeInfo>
       var controller = this.controller;
       var arcTypesMap = new Map(); // <address: string, name: string>
-      var settings = await (0, _settings.getSettings)();
+      var contracts = await (0, _settings.getDeployedContracts)();
 
       /**
        * TODO:  This should pull in all known versions of the schemes, names
        * and versions in one fell swoop.
        */
-      for (var name in settings.daostackContracts) {
-        var _contract = settings.daostackContracts[name];
+      for (var name in contracts.allContracts) {
+        var _contract = contracts.allContracts[name];
         arcTypesMap.set(_contract.address, name);
       }
 
@@ -159,8 +159,8 @@ var Organization = exports.Organization = function () {
     value: async function scheme(contract, address) {
       // returns the schemes can be used to register other schemes
       // TODO: error handling: throw an error if such a schem does not exist, and also if there is more htan one
-      var settings = await (0, _settings.getSettings)();
-      var contractInfo = settings.daostackContracts[contract];
+      var contracts = await (0, _settings.getDeployedContracts)();
+      var contractInfo = contracts.allContracts[contract];
       // check if indeed the registrar is registered as a scheme on  the controller
       // const isSchemeRegistered = await this.controller.isSchemeRegistered(contractInfo.address);
       // assert.equal(isSchemeRegistered, true, `${contract} is not registered with the controller`);
@@ -203,28 +203,28 @@ var Organization = exports.Organization = function () {
       // TODO: default options need to be extended), cf. https://github.com/daostack/daostack/issues/43
       // TODO: orgName, tokenName and tokenSymbol should be required - implement this
       // QUESTION: should we add options to deploy with existing tokens or rep?
-      var settings = await (0, _settings.getSettings)();
+      var contracts = await (0, _settings.getDeployedContracts)();
 
       var defaults = {
         orgName: null,
         tokenName: null,
         tokenSymbol: null,
         founders: [],
-        votingMachine: settings.daostackContracts.AbsoluteVote.address,
+        votingMachine: contracts.allContracts.AbsoluteVote.address,
         votePrec: 50,
         ownerVote: true,
         orgNativeTokenFee: 0, // used for ContributionReward
         schemeNativeTokenFee: 0, // used for ContributionReward
-        genesisScheme: settings.daostackContracts.GenesisScheme.address,
+        genesisScheme: contracts.allContracts.GenesisScheme.address,
         schemes: [{
           name: CONTRACT_SCHEMEREGISTRAR,
-          address: settings.daostackContracts.SchemeRegistrar.address
+          address: contracts.allContracts.SchemeRegistrar.address
         }, {
           name: CONTRACT_UPGRADESCHEME,
-          address: settings.daostackContracts.UpgradeScheme.address
+          address: contracts.allContracts.UpgradeScheme.address
         }, {
           name: CONTRACT_GLOBALCONSTRAINTREGISTRAR,
-          address: settings.daostackContracts.GlobalConstraintRegistrar.address
+          address: contracts.allContracts.GlobalConstraintRegistrar.address
         }]
       };
 
@@ -243,7 +243,7 @@ var Organization = exports.Organization = function () {
       var org = new Organization();
 
       org.avatar = await Avatar.at(avatarAddress);
-      console.log('avatar: ' + org.avatar);
+      // console.log(`avatar: ${org.avatar}`);
       var controllerAddress = await org.avatar.owner();
       org.controller = await Controller.at(controllerAddress);
 
@@ -274,7 +274,7 @@ var Organization = exports.Organization = function () {
           var optionScheme = _step2.value;
 
 
-          var arcSchemeInfo = settings.daostackContracts[optionScheme.name];
+          var arcSchemeInfo = contracts.allContracts[optionScheme.name];
           var _scheme = await arcSchemeInfo.contract.at(optionScheme.address || arcSchemeInfo.address);
 
           var paramsHash = await _scheme.setParams({
@@ -341,9 +341,9 @@ var Organization = exports.Organization = function () {
 
       // TODO: we now just set the default voting machine, and assume it is used
       // throughout, but this assumption is not warranted
-      var settings = await (0, _settings.getSettings)();
-      if (settings.votingMachine) {
-        org.votingMachine = AbsoluteVote.at(settings.votingMachine);
+      var contracts = await (0, _settings.getDeployedContracts)();
+      if (contracts.defaultVotingMachine) {
+        org.votingMachine = AbsoluteVote.at(contracts.defaultVotingMachine);
       }
 
       return org;

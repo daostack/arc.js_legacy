@@ -149,8 +149,8 @@ var UpgradeScheme = exports.UpgradeScheme = function (_ExtendTruffleContrac) {
 
       if (!feeIsDefined || !tokenAddressIsDefined) {
         try {
-          var settings = await (0, _settings.getSettings)();
-          var newScheme = await settings.daostackContracts.UpgradeScheme.contract.at(options.scheme);
+          var contracts = await (0, _settings.getDeployedContracts)();
+          var newScheme = await contracts.allContracts.UpgradeScheme.contract.at(options.scheme);
 
           if (!feeIsDefined) {
             fee = await newScheme.fee();

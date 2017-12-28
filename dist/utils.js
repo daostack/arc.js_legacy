@@ -17,6 +17,8 @@ var _web = require('web3');
 
 var _web2 = _interopRequireDefault(_web);
 
+var _settings = require('./settings.js');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26,7 +28,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var TruffleContract = require('truffle-contract');
 
 var abi = require('ethereumjs-abi');
-
 var NULL_ADDRESS = exports.NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
 var NULL_HASH = exports.NULL_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -52,7 +53,7 @@ function requireContract(contractName) {
     contract.setProvider(myWeb3.currentProvider);
     contract.defaults({
       from: getDefaultAccount(),
-      gas: 6500000
+      gas: _settings.daostackSettings.gasLimit
     });
     return contract;
   } catch (ex) {
@@ -85,7 +86,7 @@ function getWeb3() {
     preWeb3 = new _web2.default(windowWeb3.currentProvider);
   } else {
     // console.log(`Connecting via http://localhost:8545`)
-    preWeb3 = new _web2.default(new _web2.default.providers.HttpProvider('http://localhost:8545'));
+    preWeb3 = new _web2.default(new _web2.default.providers.HttpProvider(_settings.daostackSettings.providerUrl));
   }
 
   if (!preWeb3) {
@@ -108,11 +109,11 @@ function getValueFromLogs(tx, arg, eventName) {
   /**
    *
    * tx is an object with the following values:
-   * 
+   *
    * tx.tx      => transaction hash, string
    * tx.logs    => array of decoded events that were triggered within this transaction
    * tx.receipt => transaction receipt object, which includes gas used
-  * 
+  *
    * tx.logs look like this:
    *
    * [ { logIndex: 13,

@@ -12,7 +12,7 @@ beforeEach(async () => {
 });
 
 import { Organization } from '../lib/organization.js';
-import { getSettings } from '../lib/settings.js';
+import { getDeployedContracts } from '../lib/settings.js';
 
 export const NULL_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000';
 export const SOME_HASH = '0x1000000000000000000000000000000000000000000000000000000000000000';
@@ -101,7 +101,7 @@ export function assertJump(error) {
   assert.isAbove(error.message.search('invalid JUMP'), -1, 'Invalid JUMP error must be returned' + error.message);
 }
 
-export function settingsForTest() {
+export function contractsForTest() {
   // return settings used for testing
-  return getSettings();
+  return getDeployedContracts();
 }
