@@ -52,14 +52,14 @@ Object.keys(_schemeregistrar).forEach(function (key) {
   });
 });
 
-var _ContributionReward = require('./ContributionReward.js');
+var _contributionreward = require('./contributionreward.js');
 
-Object.keys(_ContributionReward).forEach(function (key) {
+Object.keys(_contributionreward).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
-      return _ContributionReward[key];
+      return _contributionreward[key];
     }
   });
 });

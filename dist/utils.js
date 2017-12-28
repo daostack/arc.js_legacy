@@ -11,6 +11,7 @@ exports.requireContract = requireContract;
 exports.getWeb3 = getWeb3;
 exports.getValueFromLogs = getValueFromLogs;
 exports.getDefaultAccount = getDefaultAccount;
+exports.SHA3 = SHA3;
 
 var _web = require('web3');
 
@@ -23,6 +24,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // some utility functions
 
 var TruffleContract = require('truffle-contract');
+
+var abi = require('ethereumjs-abi');
+
 var NULL_ADDRESS = exports.NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
 var NULL_HASH = exports.NULL_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -155,6 +159,16 @@ function getDefaultAccount() {
 
   // TODO: this should be the default sender account that signs the transactions
   return defaultAccount;
+}
+
+/**
+ * Hash a string the same way solidity does, and to a format that will be properly translated into a bytes32 that solidity expects
+ * @param str a string
+ */
+function SHA3(str) {
+  var result = '0x' + abi.soliditySHA3(["string"], [str]).toString('hex');
+  // console.log("SHA3: " + result);
+  return result;
 }
 
 var ExtendTruffleContract = exports.ExtendTruffleContract = function ExtendTruffleContract(superclass) {

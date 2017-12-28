@@ -136,7 +136,10 @@ var ContributionReward = function (_ExtendTruffleContrac) {
       // console.log(`********* options.externalTokenReward ${options.externalTokenReward} **********`);
       // console.log(`********* options.beneficiary ${options.beneficiary} **********`);
 
-      var tx = await this.contract.submitContribution(options.avatar, web3.sha3(options.description), [nativeTokenReward, reputationReward, ethReward, options.externalToken, externalTokenReward], options.externalToken, options.beneficiary);
+
+      var tx = await this.contract.submitContribution(options.avatar,
+      // web3.utils.soliditySha3(options.description), this is available in web3 1.0
+      (0, _utils.SHA3)(options.description), [nativeTokenReward, reputationReward, ethReward, options.externalToken, externalTokenReward], options.externalToken, options.beneficiary);
       return tx;
     }
   }, {
