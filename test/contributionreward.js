@@ -1,5 +1,5 @@
 import * as helpers from './helpers';
-import { getValueFromLogs, requireContract } from '../lib/utils.js';
+import { SHA3, getValueFromLogs, requireContract } from '../lib/utils.js';
 
 const DAOToken = requireContract("DAOToken");
 const ContributionReward = requireContract("ContributionReward");
@@ -154,7 +154,8 @@ describe('ContributionReward scheme', () => {
     // now we can propose a contribution
     tx = await contributionReward.submitContribution(
       avatar.address, // Avatar _avatar,
-      web3.sha3('a fair play'), // string _contributionDesciption,
+      // web3.utils.soliditySha3('a fair play'), this is available in web3 1.0
+      SHA3("a fair play"),
       [
         0, // uint _nativeTokenReward,
         0, // uint _reputationReward,

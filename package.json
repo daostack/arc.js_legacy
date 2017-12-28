@@ -43,6 +43,7 @@
     "@types/bignumber.js": "^4.0.3",
     "bip39": "^2.4.0",
     "default-options": "^1.0.0",
+    "ethereumjs-abi": "^0.6.5",
     "ethers": "^2.1.3",
     "promisify": "0.0.3",
     "truffle-contract": "^3.0.1",
