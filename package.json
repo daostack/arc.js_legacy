@@ -1,6 +1,6 @@
 {
   "name": "daostack-arc-js",
-  "version": "0.0.0-alpha.3",
+  "version": "0.0.0-alpha.5",
   "description": "Javascript library providing access to DAOStack Arc ethereum smart contracts (daostack-arc)",
   "main": "dist/arc.js",
   "types": "lib/arc.d.ts",
@@ -60,7 +60,7 @@
     "bignumber.js": "^4.1.0",
     "chai": "^4.1.2",
     "cwd": "^0.10.0",
-    "daostack-arc": "0.0.0-alpha.18",
+    "daostack-arc": "0.0.0-alpha.19",
     "decompress": "^4.2.0",
     "env-variable": "0.0.3",
     "eslint": "^4.10.0",

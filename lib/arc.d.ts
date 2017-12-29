@@ -211,8 +211,9 @@ export class Organization  {
   /**
    * Returns promise of a scheme as ExtendTruffleScheme, or ? if not found
    * @param contract name of scheme, like "SchemeRegistrar" 
+   * @param scheme optional scheme address 
    */
-  scheme(contractName:string) : Promise<ExtendTruffleScheme>;
+  scheme(contractName:string, address? : string) : Promise<ExtendTruffleScheme>;
   // checkSchemeConditions(contractName:string);
   // proposeScheme(options?);
   // proposeGlobalConstraint(options?);

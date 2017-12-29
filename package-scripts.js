@@ -156,7 +156,8 @@ module.exports = {
        * testrpc database, then you may not care about the generated json files.
        */
       , fetchContractsFromDaoStackRepo: series(
-        'nps migrateContracts.cleanDaoStackPackage'
+        mkdirp(pathDaostackArcPackageContracts)
+        , 'nps migrateContracts.cleanDaoStackPackage'
         , copy(`${joinPath(pathDaostackArcRepoContracts, "*")}  ${pathDaostackArcPackageContracts}`)
       )
       , andFetch: series(

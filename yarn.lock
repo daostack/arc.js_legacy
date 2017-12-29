@@ -1462,9 +1462,9 @@ d@1:
   dependencies:
     es5-ext "^0.10.9"
 
-daostack-arc@0.0.0-alpha.18:
-  version "0.0.0-alpha.18"
-  resolved "https://registry.yarnpkg.com/daostack-arc/-/daostack-arc-0.0.0-alpha.18.tgz#a40144cf77d286adca57537849a6e07fe05bdb79"
+daostack-arc@0.0.0-alpha.19:
+  version "0.0.0-alpha.19"
+  resolved "https://registry.yarnpkg.com/daostack-arc/-/daostack-arc-0.0.0-alpha.19.tgz#0cd17db9d6ff7a5e13a110abbef6239e826e3a0f"
   dependencies:
     "@types/bignumber.js" "^4.0.3"
     bip39 "^2.4.0"

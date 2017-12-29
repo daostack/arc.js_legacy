@@ -68,7 +68,7 @@ var Organization = exports.Organization = function () {
 
       // private method returns all registered schemes.
       // TODO: this is *expensive*, we need to cache the results (and perhaps poll for latest changes if necessary)
-      var schemesMap = new Map(); // <string, _daoSchemeInfoFromLogs>
+      var schemesMap = new Map(); // <string, OrganizationSchemeInfo>
       var controller = this.controller;
       var arcTypesMap = new Map(); // <address: string, name: string>
       var settings = await (0, _settings.getSettings)();
@@ -93,28 +93,36 @@ var Organization = exports.Organization = function () {
         registerSchemeEvent.stopWatching();
       });
 
-      var unRegisterSchemeEvent = controller.UnregisterScheme({}, { fromBlock: 0, toBlock: 'latest' });
+      var registeredSchemes = [];
 
-      await new Promise(function (resolve) {
-        unRegisterSchemeEvent.get(function (err, eventsArray) {
-          return _this._handleSchemeEvent(err, eventsArray, false, arcTypesMap, schemesMap).then(function () {
-            resolve();
-          });
-        });
-        unRegisterSchemeEvent.stopWatching();
-      });
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
 
-      return Array.from(schemesMap.values()).map(function (s) {
-        return s.scheme;
-      });
-    }
-  }, {
-    key: '_daoSchemeInfoFromLogs',
-    value: function _daoSchemeInfoFromLogs(blockNumber, logIndex, scheme) {
-      this.blockNumber = blockNumber; // : number;
-      this.logIndex = logIndex; // : number;
-      this.scheme = scheme; // : DaoSchemeInfo;
-      // isInDao; // : boolean;
+      try {
+        for (var _iterator = schemesMap.values()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var scheme = _step.value;
+
+          if (await this.controller.isSchemeRegistered(scheme.address)) {
+            registeredSchemes.push(scheme);
+          }
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      return registeredSchemes;
     }
   }, {
     key: '_handleSchemeEvent',
@@ -136,32 +144,19 @@ var Organization = exports.Organization = function () {
           name: arcTypesMap.get(schemeAddress)
         };
 
-        var daoSchemeInfoFromLogs = new this._daoSchemeInfoFromLogs(eventsArray[i].blockNumber, eventsArray[i].logIndex, schemeInfo
-        // isInDao = adding
-        );
-
-        var lastFound = schemesMap.get(schemeAddress);
-
-        var isNewer = !lastFound || daoSchemeInfoFromLogs.blockNumber > lastFound.blockNumber || daoSchemeInfoFromLogs.blockNumber == lastFound.blockNumber && daoSchemeInfoFromLogs.logIndex > lastFound.logIndex;
-
-        if (isNewer) {
-          if (adding) {
-            schemesMap.set(schemeAddress, daoSchemeInfoFromLogs);
-          } else if (lastFound) {
-            schemesMap.delete(schemeAddress);
-          }
-        }
+        schemesMap.set(schemeAddress, schemeInfo);
       }
     }
 
     /**
      * Returns promise of a scheme as ExtendTruffleScheme, or ? if not found
      * @param contract name of scheme, like "SchemeRegistrar"
+     * @param optional address
      */
 
   }, {
     key: 'scheme',
-    value: async function scheme(contract) {
+    value: async function scheme(contract, address) {
       // returns the schemes can be used to register other schemes
       // TODO: error handling: throw an error if such a schem does not exist, and also if there is more htan one
       var settings = await (0, _settings.getSettings)();
@@ -170,7 +165,7 @@ var Organization = exports.Organization = function () {
       // const isSchemeRegistered = await this.controller.isSchemeRegistered(contractInfo.address);
       // assert.equal(isSchemeRegistered, true, `${contract} is not registered with the controller`);
 
-      return contractInfo.contract.at(contractInfo.address);
+      return contractInfo.contract.at(address ? address : contractInfo.address);
     }
   }, {
     key: 'checkSchemeConditions',
@@ -270,13 +265,13 @@ var Organization = exports.Organization = function () {
       var initialSchemesFees = [];
       var initialSchemesPermissions = [];
 
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
 
       try {
-        for (var _iterator = options.schemes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var optionScheme = _step.value;
+        for (var _iterator2 = options.schemes[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var optionScheme = _step2.value;
 
 
           var arcSchemeInfo = settings.daostackContracts[optionScheme.name];
@@ -298,16 +293,16 @@ var Organization = exports.Organization = function () {
 
         // register the schemes with the organization
       } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
           }
         } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
+          if (_didIteratorError2) {
+            throw _iteratorError2;
           }
         }
       }
