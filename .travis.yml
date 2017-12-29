@@ -17,8 +17,6 @@ install:
   - yarn
   - yarn start test.testrpcDb.restoreFromZip
   - nohup yarn start test.testrpcDb.run &
-  # partial build, to fetch the contracts from the arc repo
-  - yarn start build.fetchDaoStackContractsFromNodeModules
   
 script:
   - yarn start lint

@@ -9,7 +9,6 @@ const pathArcJs = env.pathArcJs || cwd;
 const pathArcJsContracts = env.pathArcJsContracts || "./contracts";
 const pathDaostackArcRepo = env.pathDaostackArcRepo || "../daostack";
 const pathDaostackArcRepoContracts = env.pathDaostackArcRepoContracts || joinPath(pathDaostackArcRepo,"build/contracts");
-const pathDaostackArcPackageContracts = "./node_modules/daostack-arc/build/contracts";
 const pathDaostackArcTestrpcDb = "./testrpcDb";
 const pathDaostackArcTestrpcDbZip = "./testrpcDb.zip";
 const network = env.ETH_ENV;
@@ -56,10 +55,9 @@ module.exports = {
          * 
          *    npm start test.testrpcDb.create
          * 
-         * If you won't want to commit the data you just migrated, you can skip the next two steps.
-         * But keep in mind that at minimum, everytime we integrate with and commit with a new version of daostack-arc, we *must*
-         * regenerate this testrpc database so that it contains the associated contracts
-         * for use by Travis in running the automated tests.
+         * If the contracts haven't for practical purposes changed, you can skip the next two steps.
+         * Otherwise we must regenerate this testrpc database so that Travis tests will be running against
+         * the correct contracts.
          * 
          *    Kill the window in which testrpc is running. (You have to do that yourself, in your OS.)
          * 
@@ -68,11 +66,6 @@ module.exports = {
          * Travis automated tests when you commit the changes.
          * 
          *    npm start test.testrpcDb.zip
-         * 
-         * Now fetch the newly-compiled contract .json files from the daostack-arc repo into the local
-         * installation of the daostack-arc package which is where the build expects the contracts to be:
-         * 
-         *    npm start migrateContracts.fetchContractsFromDaoStackRepo
          * 
          * Now we are ready to build daostack-arc-js using the newly-deployed contracts:
          * 
@@ -91,8 +84,8 @@ module.exports = {
           runInNewWindow(`npm start test.testrpcDb.run`)
         )
         , create: series(
-          'nps migrateContracts.cleanDaoStackRepo'
-          , 'nps migrateContracts'
+          'nps migrateContracts.cleanDaoStackRepoContracts'
+          , 'nps migrateContracts.andFetch'
         )
         , clean: rimraf(pathDaostackArcTestrpcDb)
         , zip: `node ./package-scripts/archiveTestrpcDb.js ${pathDaostackArcTestrpcDbZip} ${pathDaostackArcTestrpcDb}`
@@ -106,18 +99,8 @@ module.exports = {
     build: {
       default: series(
           rimraf('dist')
-        , "nps build.fetchDaoStackContractsFromNodeModules"
-        , "babel lib --presets babel-preset-es2015 --out-dir dist"
+         , "babel lib --presets babel-preset-es2015 --out-dir dist"
         )
-      /**
-       * fetch the countracts out of node_modules/daostack-arc into our local contracts folder
-       * which is how we package them and where we look for them at runtime.
-       */
-      , fetchDaoStackContractsFromNodeModules: series(
-        mkdirp(pathArcJsContracts),
-        rimraf(joinPath(pathArcJsContracts, "*")),
-        copy(`${joinPath(pathDaostackArcPackageContracts, "*")} ${pathArcJsContracts}`)
-      )
     },
     deploy: {
       pack: series(
@@ -138,8 +121,7 @@ module.exports = {
      * 
      * It wil delete and replace all the contract js files in pathDaostackArcRepoContracts
      * 
-     * The final output goes to the daostack-arc node_modules folder.  Thereafter, to use the new contracts with tests,
-     * to publish or pack, you need to run "npm start build", or at least "npm start build.fetchDaoStackContractsFromNodeModules"
+     * The final output goes to the local contracts folder after running migrateContracts.fetchContractsFromDaoStackRepo.
      */
     , migrateContracts: {
       default: series(
@@ -147,18 +129,15 @@ module.exports = {
         , `truffle migrate ${network ? `--network ${network}` : ''}`
         , `cd ${pathArcJs}`
       )
-      , cleanDaoStackRepo: rimraf(joinPath(pathDaostackArcRepoContracts,'*'))
-      , cleanDaoStackPackage: rimraf(joinPath(pathDaostackArcPackageContracts,'*'))
+      , cleanDaoStackRepoContracts: rimraf(joinPath(pathDaostackArcRepoContracts,'*'))
+      , cleanArcContracts: rimraf(joinPath(pathArcJsContracts,'*'))
       /**
-       * get contract.json files from the daostack repo and copy them into daostack-arc node_modules folder
-       * from where we will grab them when building.  You might want to do this after running migrateContracts if 
-       * you want to use the contracts you just deployed.  But if you use migrateContracts to create the 
-       * testrpc database, then you may not care about the generated json files.
+       * Fetch the newly-compiled contract .json files from the daostack-arc repo into the local
+       * contracts folder which is where the code expects to find them.
        */
       , fetchContractsFromDaoStackRepo: series(
-        mkdirp(pathDaostackArcPackageContracts)
-        , 'nps migrateContracts.cleanDaoStackPackage'
-        , copy(`${joinPath(pathDaostackArcRepoContracts, "*")}  ${pathDaostackArcPackageContracts}`)
+        'nps migrateContracts.cleanArcContracts'
+        , copy(`${joinPath(pathDaostackArcRepoContracts, "*")}  ${pathArcJsContracts}`)
       )
       , andFetch: series(
         "nps migrateContracts",
