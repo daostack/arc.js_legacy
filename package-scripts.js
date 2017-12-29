@@ -119,7 +119,7 @@ module.exports = {
      * 
      * It will look in pathDaostackArcRepo for the daostack repo, pathArcJs for daostack-arc-js (this library)
      * 
-     * It wil delete and replace all the contract js files in pathDaostackArcRepoContracts
+     * It will delete and replace all the contract js files in pathDaostackArcRepoContracts
      * 
      * The final output goes to the local contracts folder after running migrateContracts.fetchContractsFromDaoStackRepo.
      */

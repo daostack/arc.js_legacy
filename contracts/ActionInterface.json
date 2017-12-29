@@ -26,10 +26,10 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18;\r\n\r\nimport \"./Controller.sol\";\r\nimport \"./Reputation.sol\";\r\nimport \"./DAOToken.sol\";\r\nimport \"zeppelin-solidity/contracts/ownership/Ownable.sol\";\r\nimport \"zeppelin-solidity/contracts/token/StandardToken.sol\";\r\n\r\n\r\ncontract ActionInterface {\r\n    function action(bytes32[] _params) public returns(bool);\r\n}\r\n\r\n\r\n/**\r\n * @title An Avatar holds tokens, reputation and ether for a controller\r\n */\r\ncontract Avatar is Ownable {\r\n    bytes32 public orgName;\r\n    DAOToken public nativeToken;\r\n    Reputation public nativeReputation;\r\n\r\n    event GenericAction(address indexed _action, bytes32[] _params);\r\n    event SendEther(uint _amountInWei, address indexed _to);\r\n    event ExternalTokenTransfer(address indexed _externalToken, address indexed _to, uint _value);\r\n    event ExternalTokenTransferFrom(address indexed _externalToken, address _from, address _to, uint _value);\r\n    event ExternalTokenIncreaseApproval(StandardToken indexed _externalToken, address _spender, uint _addedValue);\r\n    event ExternalTokenDecreaseApproval(StandardToken indexed _externalToken, address _spender, uint _subtractedValue);\r\n    event ReceiveEther(address indexed _sender, uint _value);\r\n\r\n    /**\r\n    * @dev the constructor takes organization name, native token and reputation system\r\n    and creates an avatar for a controller\r\n    */\r\n    function Avatar(bytes32 _orgName, DAOToken _nativeToken, Reputation _nativeReputation) public {\r\n        orgName = _orgName;\r\n        nativeToken = _nativeToken;\r\n        nativeReputation = _nativeReputation;\r\n    }\r\n\r\n    /**\r\n    * @dev enables an avatar to receive ethers\r\n    */\r\n    function() public payable {\r\n        ReceiveEther(msg.sender, msg.value);\r\n    }\r\n\r\n    /**\r\n    * @dev call an action function on an ActionInterface.\r\n    * This function use deligatecall and might expose the organization to security\r\n    * risk. Use this function only if you really knows what you are doing.\r\n    * @param _action the address of the contract to call.\r\n    * @param _params the params for the call.\r\n    * @return bool which represents success\r\n    */\r\n    function genericAction(address _action, bytes32[] _params)\r\n    public onlyOwner returns(bool)\r\n    {\r\n        GenericAction(_action, _params);\r\n\r\n        return _action.delegatecall(bytes4(keccak256(\"action(bytes32[])\")),\r\n        uint256(32),// length of length of the array\r\n        uint256(_params.length), // length of the array\r\n        _params);                 // array itself);\r\n    }\r\n\r\n    /**\r\n    * @dev send ethers from the avatar's wallet\r\n    * @param _amountInWei amount to send in Wei units\r\n    * @param _to send the ethers to this address\r\n    * @return bool which represents success\r\n    */\r\n    function sendEther(uint _amountInWei, address _to) public onlyOwner returns(bool) {\r\n        _to.transfer(_amountInWei);\r\n        SendEther(_amountInWei, _to);\r\n        return true;\r\n    }\r\n\r\n    /**\r\n    * @dev external token transfer\r\n    * @param _externalToken the token contract\r\n    * @param _to the destination address\r\n    * @param _value the amount of tokens to transfer\r\n    * @return bool which represents success\r\n    */\r\n    function externalTokenTransfer(StandardToken _externalToken, address _to, uint _value)\r\n    public onlyOwner returns(bool)\r\n    {\r\n        _externalToken.transfer(_to, _value);\r\n        ExternalTokenTransfer(_externalToken, _to, _value);\r\n        return true;\r\n    }\r\n\r\n    /**\r\n    * @dev external token transfer from a specific account\r\n    * @param _externalToken the token contract\r\n    * @param _from the account to spend token from\r\n    * @param _to the destination address\r\n    * @param _value the amount of tokens to transfer\r\n    * @return bool which represents success\r\n    */\r\n    function externalTokenTransferFrom(\r\n        StandardToken _externalToken,\r\n        address _from,\r\n        address _to,\r\n        uint _value\r\n    )\r\n    public onlyOwner returns(bool)\r\n    {\r\n        _externalToken.transferFrom(_from, _to, _value);\r\n        ExternalTokenTransferFrom(_externalToken, _from, _to, _value);\r\n        return true;\r\n    }\r\n\r\n    /**\r\n    * @dev increase approval for the spender address to spend a specified amount of tokens\r\n    *      on behalf of msg.sender.\r\n    * @param _externalToken the address of the Token Contract\r\n    * @param _spender address\r\n    * @param _addedValue the amount of ether (in Wei) which the approval is refering to.\r\n    * @return bool which represents a success\r\n    */\r\n    function externalTokenIncreaseApproval(StandardToken _externalToken, address _spender, uint _addedValue)\r\n    public onlyOwner returns(bool)\r\n    {\r\n        _externalToken.increaseApproval(_spender, _addedValue);\r\n        ExternalTokenIncreaseApproval(_externalToken, _spender, _addedValue);\r\n        return true;\r\n    }\r\n\r\n    /**\r\n    * @dev decrease approval for the spender address to spend a specified amount of tokens\r\n    *      on behalf of msg.sender.\r\n    * @param _externalToken the address of the Token Contract\r\n    * @param _spender address\r\n    * @param _subtractedValue the amount of ether (in Wei) which the approval is refering to.\r\n    * @return bool which represents a success\r\n    */\r\n    function externalTokenDecreaseApproval(StandardToken _externalToken, address _spender, uint _subtractedValue )\r\n    public onlyOwner returns(bool)\r\n    {\r\n        _externalToken.decreaseApproval(_spender, _subtractedValue);\r\n        ExternalTokenDecreaseApproval(_externalToken,_spender, _subtractedValue);\r\n        return true;\r\n    }\r\n\r\n}\r\n",
-  "sourcePath": "C:\\Users\\dkent\\Documents\\Projects\\GitHub\\DAOStack\\daostack\\contracts\\controller\\Avatar.sol",
+  "sourcePath": "C:\\users\\dkent\\documents\\projects\\GitHub\\DAOStack\\daostack\\contracts\\controller\\Avatar.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/controller/Avatar.sol",
+      "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/controller/Avatar.sol",
       "exportedSymbols": {
         "ActionInterface": [
           2797
@@ -56,7 +56,7 @@
       {
         "attributes": {
           "SourceUnit": 4158,
-          "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/controller/Controller.sol",
+          "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/controller/Controller.sol",
           "file": "./Controller.sol",
           "scope": 3073,
           "symbolAliases": [
@@ -71,7 +71,7 @@
       {
         "attributes": {
           "SourceUnit": 4358,
-          "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/controller/Reputation.sol",
+          "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/controller/Reputation.sol",
           "file": "./Reputation.sol",
           "scope": 3073,
           "symbolAliases": [
@@ -86,7 +86,7 @@
       {
         "attributes": {
           "SourceUnit": 4193,
-          "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/controller/DAOToken.sol",
+          "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/controller/DAOToken.sol",
           "file": "./DAOToken.sol",
           "scope": 3073,
           "symbolAliases": [
@@ -3972,5 +3972,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-29T14:00:20.639Z"
+  "updatedAt": "2017-12-29T21:23:16.827Z"
 }

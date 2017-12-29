@@ -86,15 +86,15 @@
       "type": "event"
     }
   ],
-  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a723058202be3f9ef285422aeed220b2acd59b4a4678c27d8f976e76b7a56bc38d9dab8190029",
-  "deployedBytecode": "0x6060604052600080fd00a165627a7a723058202be3f9ef285422aeed220b2acd59b4a4678c27d8f976e76b7a56bc38d9dab8190029",
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820f8b5f965f3f3e7fb7f6993ca13d1fbd45e48f9f7906927ec49e529a3ec0fd3380029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820f8b5f965f3f3e7fb7f6993ca13d1fbd45e48f9f7906927ec49e529a3ec0fd3380029",
   "sourceMap": "192:252:12:-;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "192:252:12:-;;;;;",
   "source": "pragma solidity ^0.4.18;\r\n\r\nimport \"zeppelin-solidity/test/helpers/StandardTokenMock.sol\";\r\n\r\n/*\r\n    A contract you can inherit from that has some useful Events to print statements.\r\n*/\r\n\r\n\r\ncontract Debug {\r\n    event LogAddress(address _msg);\r\n    event LogInt(int _msg);\r\n    event LogString(string _msg);\r\n    event LogUint(uint _msg);\r\n    event LogBytes(bytes _msg);\r\n    event LogBytes32(bytes32 _msg);\r\n    event LogBool(bool _msg);\r\n}\r\n",
-  "sourcePath": "C:\\Users\\dkent\\Documents\\Projects\\GitHub\\DAOStack\\daostack\\contracts\\test\\Debug.sol",
+  "sourcePath": "C:\\users\\dkent\\documents\\projects\\GitHub\\DAOStack\\daostack\\contracts\\test\\Debug.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/test/Debug.sol",
+      "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/test/Debug.sol",
       "exportedSymbols": {
         "Debug": [
           4580
@@ -479,5 +479,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-29T14:00:20.646Z"
+  "updatedAt": "2017-12-29T21:23:16.859Z"
 }

@@ -61,10 +61,10 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18;\r\n\r\n\r\ncontract GlobalConstraintInterface {\r\n    function pre( address _scheme, bytes32 _params, bytes32 _method ) public returns(bool);\r\n    function post( address _scheme, bytes32 _params, bytes32 _method ) public returns(bool);\r\n}\r\n",
-  "sourcePath": "C:\\Users\\dkent\\Documents\\Projects\\GitHub\\DAOStack\\daostack\\contracts\\globalConstraints\\GlobalConstraintInterface.sol",
+  "sourcePath": "C:\\users\\dkent\\documents\\projects\\GitHub\\DAOStack\\daostack\\contracts\\globalConstraints\\GlobalConstraintInterface.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/C/Users/dkent/Documents/Projects/GitHub/DAOStack/daostack/contracts/globalConstraints/GlobalConstraintInterface.sol",
+      "absolutePath": "/C/users/dkent/documents/projects/GitHub/DAOStack/daostack/contracts/globalConstraints/GlobalConstraintInterface.sol",
       "exportedSymbols": {
         "GlobalConstraintInterface": [
           4382
@@ -399,5 +399,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-29T14:00:20.645Z"
+  "updatedAt": "2017-12-29T21:23:16.848Z"
 }

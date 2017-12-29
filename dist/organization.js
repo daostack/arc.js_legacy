@@ -87,10 +87,10 @@ var Organization = exports.Organization = function () {
       await new Promise(function (resolve) {
         registerSchemeEvent.get(function (err, eventsArray) {
           return _this._handleSchemeEvent(err, eventsArray, true, arcTypesMap, schemesMap).then(function () {
+            registerSchemeEvent.stopWatching();
             resolve();
           });
         });
-        registerSchemeEvent.stopWatching();
       });
 
       var registeredSchemes = [];
