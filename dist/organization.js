@@ -239,11 +239,11 @@ var Organization = exports.Organization = function () {
         return x.reputation;
       }));
       // get the address of the avatar from the logs
-      var avatarAddress = (0, _utils.getValueFromLogs)(tx, '_avatar');
+      var avatarAddress = (0, _utils.getValueFromLogs)(tx, '_avatar', "NewOrg");
       var org = new Organization();
 
-      options.avatar = avatarAddress;
-      org.avatar = await Avatar.at(options.avatar);
+      org.avatar = await Avatar.at(avatarAddress);
+      console.log('avatar: ' + org.avatar);
       var controllerAddress = await org.avatar.owner();
       org.controller = await Controller.at(controllerAddress);
 

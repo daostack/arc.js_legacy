@@ -142,8 +142,6 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
             }
           }
 
-          isRegistering = (permissions & 2) != 0;
-
           // Note that the javascript wrapper "newScheme" we've gotten here is defined in this version of Arc.  If newScheme is
           // actually coming from a different version of Arc, then theoretically the permissions could be different from this version.
           var permissions = Number(newScheme.getDefaultPermissions());
@@ -151,6 +149,8 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
           if (permissions > this.getDefaultPermissions()) {
             throw new Error("SchemeRegistrar cannot work with schemes having greater permissions than its own");
           }
+
+          isRegistering = (permissions & 2) != 0;
         } catch (ex) {
           throw new Error('Unable to obtain default information from the given scheme address. The address is invalid or the scheme is not an Arc scheme and in that case you must supply fee and tokenAddress. ' + ex);
         }

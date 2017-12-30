@@ -1,6 +1,6 @@
 {
   "name": "daostack-arc-js",
-  "version": "0.0.0-alpha.8",
+  "version": "0.0.0-alpha.9",
   "description": "Javascript library providing access to DAOStack Arc ethereum smart contracts (daostack-arc)",
   "main": "dist/arc.js",
   "types": "lib/arc.d.ts",

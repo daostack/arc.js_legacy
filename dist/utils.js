@@ -107,6 +107,12 @@ function getValueFromLogs(tx, arg, eventName) {
 
   /**
    *
+   * tx is an object with the following values:
+   * 
+   * tx.tx      => transaction hash, string
+   * tx.logs    => array of decoded events that were triggered within this transaction
+   * tx.receipt => transaction receipt object, which includes gas used
+  * 
    * tx.logs look like this:
    *
    * [ { logIndex: 13,
@@ -137,10 +143,15 @@ function getValueFromLogs(tx, arg, eventName) {
   } else if (index === undefined) {
     index = tx.logs.length - 1;
   }
-  var result = tx.logs[index].args[arg];
-  if (!result) {
-    var _msg = 'getValueFromLogs: This log does not seem to have a field "' + arg + '": ' + tx.logs[index].args;
+  if (tx.logs[index].type !== 'mined') {
+    var _msg = 'getValueFromLogs: transaction has not been mined: ' + tx.logs[index].event;
     throw new Error(_msg);
+  }
+  var result = tx.logs[index].args[arg];
+
+  if (!result) {
+    var _msg2 = 'getValueFromLogs: This log does not seem to have a field "' + arg + '": ' + tx.logs[index].args;
+    throw new Error(_msg2);
   }
   return result;
 }
