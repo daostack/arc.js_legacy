@@ -1,6 +1,16 @@
 /**
     helpers for tests
 */
+import { getWeb3 } from '../lib/utils.js';
+import { assert } from 'chai';
+
+beforeEach(async () => {
+  global.web3 = getWeb3();
+  global.assert = assert;
+  global.accounts = [];
+  await etherForEveryone();
+});
+
 import { Organization } from '../lib/organization.js';
 import { getSettings } from '../lib/settings.js';
 
@@ -23,8 +33,9 @@ export async function getProposal(tx) {
 
 export async function etherForEveryone() {
   // give all web3.eth.accounts some ether
-  const accounts = web3.eth.accounts;
-  for (let i=0; i < 10; i++) {
+  accounts = web3.eth.accounts;
+  const count = accounts.length;
+  for (let i=0; i < count; i++) {
     await web3.eth.sendTransaction({to: accounts[i], from: accounts[0], value: web3.toWei(0.1, "ether")});
   }
 }

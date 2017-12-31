@@ -1,27 +1,25 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getSettings = undefined;
 
-var _utils = require("./utils.js");
+var _utils = require('./utils.js');
 
-var _globalconstraintregistrar = require("./globalconstraintregistrar.js");
+var _globalconstraintregistrar = require('./globalconstraintregistrar.js');
 
-var _schemeregistrar = require("./schemeregistrar.js");
+var _schemeregistrar = require('./schemeregistrar.js');
 
-var _simplecontributionscheme = require("./simplecontributionscheme.js");
+var _contributionreward = require('./contributionreward.js');
 
-var _absoluteVote = require("./absoluteVote.js");
+var _absoluteVote = require('./absoluteVote.js');
 
-var _tokenCapGC = require("./tokenCapGC.js");
+var _tokenCapGC = require('./tokenCapGC.js');
 
-var _upgradescheme = require("./upgradescheme.js");
+var _upgradescheme = require('./upgradescheme.js');
 
-// TODO: these are settings for testing. Need some way to switch to "production settings"
 var GenesisScheme = (0, _utils.requireContract)("GenesisScheme");
-var SimpleICO = (0, _utils.requireContract)("SimpleICO");
 
 /**
    * These are uninitialized instances of ExtendTruffleContract,
@@ -36,11 +34,10 @@ var getSettings = async function getSettings() {
    *
    * `deployed()` is a static method on each of those classes.
    **/
-  var contributionScheme = await _simplecontributionscheme.SimpleContributionScheme.deployed();
+  var contributionReward = await _contributionreward.ContributionReward.deployed();
   var genesisScheme = await GenesisScheme.deployed();
   var globalConstraintRegistrar = await _globalconstraintregistrar.GlobalConstraintRegistrar.deployed();
   var schemeRegistrar = await _schemeregistrar.SchemeRegistrar.deployed();
-  var simpleICO = await SimpleICO.deployed();
   var tokenCapGC = await _tokenCapGC.TokenCapGC.deployed();
   var upgradeScheme = await _upgradescheme.UpgradeScheme.deployed();
   var absoluteVote = await _absoluteVote.AbsoluteVote.deployed();
@@ -54,9 +51,9 @@ var getSettings = async function getSettings() {
   return {
     votingMachine: absoluteVote.address,
     daostackContracts: {
-      SimpleContributionScheme: {
-        contract: _simplecontributionscheme.SimpleContributionScheme,
-        address: contributionScheme.address
+      ContributionReward: {
+        contract: _contributionreward.ContributionReward,
+        address: contributionReward.address
       },
       GenesisScheme: {
         contract: GenesisScheme,
@@ -69,10 +66,6 @@ var getSettings = async function getSettings() {
       SchemeRegistrar: {
         contract: _schemeregistrar.SchemeRegistrar,
         address: schemeRegistrar.address
-      },
-      SimpleICO: {
-        contract: SimpleICO,
-        address: simpleICO.address
       },
       TokenCapGC: {
         contract: _tokenCapGC.TokenCapGC,

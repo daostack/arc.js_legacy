@@ -1,15 +1,11 @@
 
 import { Organization } from '../lib/organization.js';
 import * as helpers from './helpers';
-import { proposeSimpleContributionScheme } from './simplecontribution.js';
+import { proposeContributionReward } from './contributionreward.js';
 
 
-contract('Organization', (accounts) => {
+describe('Organization', () => {
   let organization;
-
-  before(() => {
-    helpers.etherForEveryone();
-  });
 
   it("can be created with 'new' using default settings", async () => {
     organization = await Organization.new({
@@ -63,11 +59,11 @@ contract('Organization', (accounts) => {
 
 
     // now we add another known scheme
-    await proposeSimpleContributionScheme(organization, accounts);
+    await proposeContributionReward(organization, accounts);
 
     assert.equal((await organization.schemes()).length, 4);
     // TODO: the organizaiton must be registered with the scheme before the next works
-    // assert.equal((await organization.scheme('SimpleContributionScheme')).address, settings.daostackContracts.ContributionScheme.address);
+    // assert.equal((await organization.scheme('ContributionReward')).address, settings.daostackContracts.ContributionScheme.address);
   });
 
   // it("has a working proposeScheme function for SimpleICO", async function(){
@@ -103,7 +99,7 @@ contract('Organization', (accounts) => {
   //   });
 
   //   proposalId = await organization.proposeScheme({
-  //     contract: 'SimpleContributionScheme',
+  //     contract: 'ContributionReward',
   //   });
   //   //
   //   assert.isOk(proposalId);

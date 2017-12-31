@@ -64,7 +64,7 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
          */
         , scheme: undefined
         /**
-         * scheme identifier, like "SchemeRegistrar" or "SimpleContributionScheme".
+         * scheme identifier, like "SchemeRegistrar" or "ContributionReward".
          * pass null if registering a non-arc scheme
          */
         , schemeName: null
@@ -100,12 +100,6 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
          * Otherwise we determine it's value based on scheme and schemeName.
          */
         , isRegistering: null
-        /**
-         * true to register organization into the scheme when the proposal is approved.
-         * If false then caller must do it manually via scheme.registerOrganization(avatarAddress).
-         * Default is true.
-         */
-        , autoRegister: true
       };
 
       var options = dopts(opts, defaults, { allowUnknown: true });
@@ -131,11 +125,13 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
       var fee = web3.toBigNumber(options.fee);
       var tokenAddress = options.tokenAddress;
       var isRegistering = void 0;
+      var autoRegister = void 0;
 
       if (options.schemeName) {
         try {
           var settings = await (0, _settings.getSettings)();
           var newScheme = await settings.daostackContracts[options.schemeName].contract.at(options.scheme);
+          autoRegister = true;
 
           if (!feeIsDefined || !tokenAddressIsDefined) {
             if (!feeIsDefined) {
@@ -146,8 +142,6 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
             }
           }
 
-          isRegistering = (permissions & 2) != 0;
-
           // Note that the javascript wrapper "newScheme" we've gotten here is defined in this version of Arc.  If newScheme is
           // actually coming from a different version of Arc, then theoretically the permissions could be different from this version.
           var permissions = Number(newScheme.getDefaultPermissions());
@@ -155,12 +149,15 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
           if (permissions > this.getDefaultPermissions()) {
             throw new Error("SchemeRegistrar cannot work with schemes having greater permissions than its own");
           }
+
+          isRegistering = (permissions & 2) != 0;
         } catch (ex) {
-          throw new Error('Unable to obtain default information from the given scheme address. The scheme is probably not an Arc scheme and in that case you must supply fee and tokenAddress. ' + ex);
+          throw new Error('Unable to obtain default information from the given scheme address. The address is invalid or the scheme is not an Arc scheme and in that case you must supply fee and tokenAddress. ' + ex);
         }
       } else {
 
         isRegistering = options.isRegistering;
+        autoRegister = false; // see https://github.com/daostack/daostack/issues/181#issuecomment-353210642
 
         if (!feeIsDefined || !tokenAddressIsDefined) {
           throw new Error("fee/tokenAddress are not defined; they are required for non-Arc schemes (schemeName is undefined)");
@@ -175,7 +172,7 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
         }
       }
 
-      var tx = await this.contract.proposeScheme(options.avatar, options.scheme, options.schemeParametersHash, isRegistering, tokenAddress, fee, options.autoRegister);
+      var tx = await this.contract.proposeScheme(options.avatar, options.scheme, options.schemeParametersHash, isRegistering, tokenAddress, fee, autoRegister);
 
       return tx;
     }
@@ -241,7 +238,7 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
         token = await DAOToken.at(options.tokenAddress);
       }
 
-      contract = await SoliditySchemeRegistrar.new(token.address, options.fee, options.beneficiary);
+      var contract = await SoliditySchemeRegistrar.new(token.address, options.fee, options.beneficiary);
       return new this(contract);
     }
   }]);

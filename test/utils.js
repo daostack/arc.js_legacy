@@ -2,9 +2,9 @@
 import { ExtendTruffleContract, requireContract } from '../lib/utils.js';
 import * as helpers from './helpers';
 
-const SoliditySimpleContributionScheme = requireContract("SimpleContributionScheme");
+const ContributionRewardContract = requireContract("ContributionReward");
 
-class SimpleContributionScheme extends ExtendTruffleContract(SoliditySimpleContributionScheme) {
+class ContributionReward extends ExtendTruffleContract(ContributionRewardContract) {
 
   foo() {
     // console.log('foo() called');
@@ -28,11 +28,12 @@ class SimpleContributionScheme extends ExtendTruffleContract(SoliditySimpleContr
 }
 
 
-contract('ExtendTruffleContract', () => {
+describe('ExtendTruffleContract', () => {
 
   it("Must have sane inheritance", async () => {
     let x;
-    x = await SimpleContributionScheme.new();
+
+    x = await ContributionReward.new();
     assert.isOk(x.nativeToken());
     assert.equal(x.foo(), 'bar');
     assert.equal(x.submitContribution(), 'abc');
@@ -40,13 +41,13 @@ contract('ExtendTruffleContract', () => {
     assert.equal(await x.setParams({ orgNativeTokenFee: 0, schemeNativeTokenFee: 0, voteParametersHash: helpers.SOME_HASH, votingMachine: helpers.SOME_ADDRESS }), '0xb6660b30e997e8e19cd58699fbf81c41450f200dbcb9f6a85c07b08483c86ee9');
     assert.equal(x.getDefaultPermissions(), '0x00000009');
 
-    x = await SimpleContributionScheme.at((await SoliditySimpleContributionScheme.deployed()).address);
+    x = await ContributionReward.at((await ContributionRewardContract.deployed()).address);
     assert.isOk(x.nativeToken());
     assert.equal(x.foo(), 'bar');
     assert.equal(x.submitContribution(), 'abc');
     assert.equal(await x.nativeToken(), await x.contract.nativeToken());
 
-    x = await SimpleContributionScheme.at((await SoliditySimpleContributionScheme.deployed()).address);
+    x = await ContributionReward.at((await ContributionRewardContract.deployed()).address);
     assert.isOk(x.nativeToken());
     assert.equal(x.foo(), 'bar');
     assert.equal(x.submitContribution(), 'abc');

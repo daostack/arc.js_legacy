@@ -11,6 +11,7 @@ exports.requireContract = requireContract;
 exports.getWeb3 = getWeb3;
 exports.getValueFromLogs = getValueFromLogs;
 exports.getDefaultAccount = getDefaultAccount;
+exports.SHA3 = SHA3;
 
 var _web = require('web3');
 
@@ -23,6 +24,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // some utility functions
 
 var TruffleContract = require('truffle-contract');
+
+var abi = require('ethereumjs-abi');
+
 var NULL_ADDRESS = exports.NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
 var NULL_HASH = exports.NULL_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -42,15 +46,15 @@ function requireContract(contractName) {
   try {
     var myWeb3 = getWeb3();
 
-    var artifact = require('../build/contracts/' + contractName + '.json');
-    var _contract = new TruffleContract(artifact);
+    var artifact = require('../contracts/' + contractName + '.json');
+    var contract = new TruffleContract(artifact);
 
-    _contract.setProvider(myWeb3.currentProvider);
-    _contract.defaults({
+    contract.setProvider(myWeb3.currentProvider);
+    contract.defaults({
       from: getDefaultAccount(),
-      gas: 0x442168
+      gas: 6500000
     });
-    return _contract;
+    return contract;
   } catch (ex) {
     return undefined;
   }
@@ -103,6 +107,12 @@ function getValueFromLogs(tx, arg, eventName) {
 
   /**
    *
+   * tx is an object with the following values:
+   * 
+   * tx.tx      => transaction hash, string
+   * tx.logs    => array of decoded events that were triggered within this transaction
+   * tx.receipt => transaction receipt object, which includes gas used
+  * 
    * tx.logs look like this:
    *
    * [ { logIndex: 13,
@@ -133,10 +143,15 @@ function getValueFromLogs(tx, arg, eventName) {
   } else if (index === undefined) {
     index = tx.logs.length - 1;
   }
-  var result = tx.logs[index].args[arg];
-  if (!result) {
-    var _msg = 'getValueFromLogs: This log does not seem to have a field "' + arg + '": ' + tx.logs[index].args;
+  if (tx.logs[index].type !== 'mined') {
+    var _msg = 'getValueFromLogs: transaction has not been mined: ' + tx.logs[index].event;
     throw new Error(_msg);
+  }
+  var result = tx.logs[index].args[arg];
+
+  if (!result) {
+    var _msg2 = 'getValueFromLogs: This log does not seem to have a field "' + arg + '": ' + tx.logs[index].args;
+    throw new Error(_msg2);
   }
   return result;
 }
@@ -155,6 +170,16 @@ function getDefaultAccount() {
 
   // TODO: this should be the default sender account that signs the transactions
   return defaultAccount;
+}
+
+/**
+ * Hash a string the same way solidity does, and to a format that will be properly translated into a bytes32 that solidity expects
+ * @param str a string
+ */
+function SHA3(str) {
+  var result = '0x' + abi.soliditySHA3(["string"], [str]).toString('hex');
+  // console.log("SHA3: " + result);
+  return result;
 }
 
 var ExtendTruffleContract = exports.ExtendTruffleContract = function ExtendTruffleContract(superclass) {
@@ -191,7 +216,7 @@ var ExtendTruffleContract = exports.ExtendTruffleContract = function ExtendTruff
        *    voteParametersHash
        *    votingMachine -- address
        *
-       *  for SimpleContributionScheme:
+       *  for ContributionReward:
        *    orgNativeTokenFee -- number
        *    schemeNativeTokenFee -- number
        */
@@ -202,12 +227,10 @@ var ExtendTruffleContract = exports.ExtendTruffleContract = function ExtendTruff
     }, {
       key: '_setParameters',
       value: async function _setParameters() {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
+        var _contract, _contract2;
 
-        var parametersHash = await this.contract.getParametersHash(args);
-        await this.contract.setParameters(args);
+        var parametersHash = await (_contract = this.contract).getParametersHash.apply(_contract, arguments);
+        await (_contract2 = this.contract).setParameters.apply(_contract2, arguments);
         return parametersHash;
       }
 
@@ -223,18 +246,35 @@ var ExtendTruffleContract = exports.ExtendTruffleContract = function ExtendTruff
     }], [{
       key: 'new',
       value: async function _new() {
-        contract = await superclass.new();
-        return new this(contract);
+        var _this = this;
+
+        return superclass.new().then(function (contract) {
+          return new _this(contract);
+        }, function (ex) {
+          throw ex;
+        });
       }
     }, {
       key: 'at',
       value: async function at(address) {
-        return new this((await superclass.at(address)));
+        var _this2 = this;
+
+        return superclass.at(address).then(function (contract) {
+          return new _this2(contract);
+        }, function (ex) {
+          throw ex;
+        });
       }
     }, {
       key: 'deployed',
       value: async function deployed() {
-        return new this((await superclass.deployed()));
+        var _this3 = this;
+
+        return superclass.deployed().then(function (contract) {
+          return new _this3(contract);
+        }, function (ex) {
+          throw ex;
+        });
       }
     }]);
 

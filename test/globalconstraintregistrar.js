@@ -6,12 +6,8 @@ import { GlobalConstraintRegistrar } from '../lib/globalconstraintregistrar.js';
 const DAOToken = requireContract("DAOToken");
 const TokenCapGC = requireContract("TokenCapGC");
 
-contract('GlobalConstraintRegistrar', (accounts) => {
+describe('GlobalConstraintRegistrar', () => {
   let tx, proposalId;
-
-  before(() => {
-    helpers.etherForEveryone();
-  });
 
   it("proposeToAddModifyGlobalConstraint javascript wrapper should work", async () => {
     const organization = await helpers.forgeOrganization();

@@ -6,7 +6,7 @@ import * as ethers from 'ethers';
 import { Wallet } from '../lib/wallet.js';
 import * as helpers from './helpers';
 
-contract('Wallet', (accounts) => {
+describe('Wallet', () => {
   it('creates a new wallet on the blockchain', async function() {
     this.timeout(10000);
     const wallet = Wallet.new();
@@ -37,24 +37,24 @@ contract('Wallet', (accounts) => {
   it('can send and receive ether', async function() {
     this.timeout(10000);
     const wallet = Wallet.new();
-    await web3.eth.sendTransaction({to: wallet.getPublicAddress(), from: accounts[0], value: web3.toWei(100, "ether")});
+    await web3.eth.sendTransaction({to: wallet.getPublicAddress(), from: accounts[0], value: web3.toWei(2, "ether")});
     let balance = await wallet.getEtherBalance();
-    assert.equal(balance, 100.0);
+    assert.equal(balance, 2.0);
 
     const toBalanceBefore = await web3.eth.getBalance(accounts[2]);
-    await wallet.sendEther(accounts[2], 10);
+    await wallet.sendEther(accounts[2], 1);
     balance = await wallet.getEtherBalance();
-    assert.equal(balance, 89.99958);
+    assert.equal(balance, 0.99958);
     const toBalanceAfter = await web3.eth.getBalance(accounts[2]);
-    assert(toBalanceAfter.equals(toBalanceBefore.plus(web3.toWei(10, "ether"))));
+    assert(toBalanceAfter.equals(toBalanceBefore.plus(web3.toWei(1, "ether"))));
   });
 
   it('can send and receive org tokens', async function() {
     this.timeout(10000);
 
     // TODO: easier way to get the private key from the testrpc accounts?
-    const wallet1 = Wallet.fromPrivateKey("0x0191ecbd1b150b8a3c27c27010ba51b45521689611e669109e034fd66ae69621");
-    const wallet2 = Wallet.fromPrivateKey("0x00f360233e89c65970a41d4a85990ec6669526b2230e867c352130151453180d");
+    const wallet1 = Wallet.fromPrivateKey("0x8d4408014d165ec69d8cc9f091d8f4578ac5564f376f21887e98a6d33a6e3549");
+    const wallet2 = Wallet.fromPrivateKey("0x2215f0a41dd3bb93f03049514949aaafcf136e6965f4a066d6bf42cc9f75a106");
 
     const orgOptions = {
       founders: [

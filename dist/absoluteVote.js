@@ -35,7 +35,7 @@ var AbsoluteVote = exports.AbsoluteVote = function (_ExtendTruffleContrac) {
   }], [{
     key: "new",
     value: async function _new() {
-      contract = await SolidityAbsoluteVote.new();
+      var contract = await SolidityAbsoluteVote.new();
       return new this(contract);
     }
   }]);

@@ -29,7 +29,7 @@ var AbsoluteVote = (0, _utils.requireContract)("AbsoluteVote");
 var CONTRACT_SCHEMEREGISTRAR = 'SchemeRegistrar';
 var CONTRACT_UPGRADESCHEME = 'UpgradeScheme';
 var CONTRACT_GLOBALCONSTRAINTREGISTRAR = 'GlobalConstraintRegistrar';
-// const CONTRACT_SIMPLECONTRIBUTIONSCHEME = 'SimpleContributionScheme';
+// const CONTRACT_ContributionReward = 'ContributionReward';
 
 var Organization = exports.Organization = function () {
   function Organization() {
@@ -68,7 +68,7 @@ var Organization = exports.Organization = function () {
 
       // private method returns all registered schemes.
       // TODO: this is *expensive*, we need to cache the results (and perhaps poll for latest changes if necessary)
-      var schemesMap = new Map(); // <string, { address: string, permissions: string, name: string }>
+      var schemesMap = new Map(); // <string, OrganizationSchemeInfo>
       var controller = this.controller;
       var arcTypesMap = new Map(); // <address: string, name: string>
       var settings = await (0, _settings.getSettings)();
@@ -87,24 +87,42 @@ var Organization = exports.Organization = function () {
       await new Promise(function (resolve) {
         registerSchemeEvent.get(function (err, eventsArray) {
           return _this._handleSchemeEvent(err, eventsArray, true, arcTypesMap, schemesMap).then(function () {
+            registerSchemeEvent.stopWatching();
             resolve();
           });
         });
-        registerSchemeEvent.stopWatching();
       });
 
-      var unRegisterSchemeEvent = controller.UnregisterScheme({}, { fromBlock: 0, toBlock: 'latest' });
+      var registeredSchemes = [];
 
-      await new Promise(function (resolve) {
-        unRegisterSchemeEvent.get(function (err, eventsArray) {
-          return _this._handleSchemeEvent(err, eventsArray, false, arcTypesMap, schemesMap).then(function () {
-            resolve();
-          });
-        });
-        unRegisterSchemeEvent.stopWatching();
-      });
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
 
-      return Array.from(schemesMap.values());
+      try {
+        for (var _iterator = schemesMap.values()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var scheme = _step.value;
+
+          if (await this.controller.isSchemeRegistered(scheme.address)) {
+            registeredSchemes.push(scheme);
+          }
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      return registeredSchemes;
     }
   }, {
     key: '_handleSchemeEvent',
@@ -126,22 +144,19 @@ var Organization = exports.Organization = function () {
           name: arcTypesMap.get(schemeAddress)
         };
 
-        if (adding) {
-          schemesMap.set(schemeAddress, schemeInfo);
-        } else if (schemesMap.has(schemeAddress)) {
-          schemesMap.delete(schemeAddress);
-        }
+        schemesMap.set(schemeAddress, schemeInfo);
       }
     }
 
     /**
      * Returns promise of a scheme as ExtendTruffleScheme, or ? if not found
      * @param contract name of scheme, like "SchemeRegistrar"
+     * @param optional address
      */
 
   }, {
     key: 'scheme',
-    value: async function scheme(contract) {
+    value: async function scheme(contract, address) {
       // returns the schemes can be used to register other schemes
       // TODO: error handling: throw an error if such a schem does not exist, and also if there is more htan one
       var settings = await (0, _settings.getSettings)();
@@ -150,7 +165,7 @@ var Organization = exports.Organization = function () {
       // const isSchemeRegistered = await this.controller.isSchemeRegistered(contractInfo.address);
       // assert.equal(isSchemeRegistered, true, `${contract} is not registered with the controller`);
 
-      return contractInfo.contract.at(contractInfo.address);
+      return contractInfo.contract.at(address ? address : contractInfo.address);
     }
   }, {
     key: 'checkSchemeConditions',
@@ -198,8 +213,8 @@ var Organization = exports.Organization = function () {
         votingMachine: settings.daostackContracts.AbsoluteVote.address,
         votePrec: 50,
         ownerVote: true,
-        orgNativeTokenFee: 0, // used for SimpleContributionScheme
-        schemeNativeTokenFee: 0, // used for SimpleContributionScheme
+        orgNativeTokenFee: 0, // used for ContributionReward
+        schemeNativeTokenFee: 0, // used for ContributionReward
         genesisScheme: settings.daostackContracts.GenesisScheme.address,
         schemes: [{
           name: CONTRACT_SCHEMEREGISTRAR,
@@ -224,11 +239,11 @@ var Organization = exports.Organization = function () {
         return x.reputation;
       }));
       // get the address of the avatar from the logs
-      var avatarAddress = (0, _utils.getValueFromLogs)(tx, '_avatar');
+      var avatarAddress = (0, _utils.getValueFromLogs)(tx, '_avatar', "NewOrg");
       var org = new Organization();
 
-      options.avatar = avatarAddress;
-      org.avatar = await Avatar.at(options.avatar);
+      org.avatar = await Avatar.at(avatarAddress);
+      console.log('avatar: ' + org.avatar);
       var controllerAddress = await org.avatar.owner();
       org.controller = await Controller.at(controllerAddress);
 
@@ -250,13 +265,13 @@ var Organization = exports.Organization = function () {
       var initialSchemesFees = [];
       var initialSchemesPermissions = [];
 
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
 
       try {
-        for (var _iterator = options.schemes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var optionScheme = _step.value;
+        for (var _iterator2 = options.schemes[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var optionScheme = _step2.value;
 
 
           var arcSchemeInfo = settings.daostackContracts[optionScheme.name];
@@ -278,33 +293,31 @@ var Organization = exports.Organization = function () {
 
         // register the schemes with the organization
       } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
           }
         } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
+          if (_didIteratorError2) {
+            throw _iteratorError2;
           }
         }
       }
 
-      await genesisScheme.setInitialSchemes(org.avatar.address, initialSchemesAddresses, initialSchemesParams, initialSchemesTokenAddresses, initialSchemesFees, initialSchemesPermissions);
+      await genesisScheme.setSchemes(org.avatar.address, initialSchemesAddresses, initialSchemesParams, initialSchemesTokenAddresses, initialSchemesFees, initialSchemesPermissions);
 
       // transfer what we need for fees to register the organization at the given schemes
       // TODO: check if we have the funds, if not, throw an exception
       // fee = await org.schemeRegistrar.fee())
-      // we must do this after setInitialSchemes, because that one approves the transactions
+      // we must do this after setSchemes, because that one approves the transactions
       // (but that logic shoudl change)
-      var token = void 0,
-          fee = void 0;
       for (var i = 0; i < initialSchemesAddresses.length; i = i + 1) {
-        scheme = await _schemeregistrar.SchemeRegistrar.at(initialSchemesAddresses[i]);
-        token = await DAOToken.at(initialSchemesTokenAddresses[i]);
-        fee = initialSchemesFees[i];
+        var scheme = await _schemeregistrar.SchemeRegistrar.at(initialSchemesAddresses[i]);
+        var token = await DAOToken.at(initialSchemesTokenAddresses[i]);
+        var fee = initialSchemesFees[i];
         await token.transfer(org.avatar.address, fee);
         await scheme.registerOrganization(org.avatar.address);
       }

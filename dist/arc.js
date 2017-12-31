@@ -52,14 +52,14 @@ Object.keys(_schemeregistrar).forEach(function (key) {
   });
 });
 
-var _simplecontributionscheme = require('./simplecontributionscheme.js');
+var _contributionreward = require('./contributionreward.js');
 
-Object.keys(_simplecontributionscheme).forEach(function (key) {
+Object.keys(_contributionreward).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
-      return _simplecontributionscheme[key];
+      return _contributionreward[key];
     }
   });
 });
@@ -119,7 +119,7 @@ var _settings = require('./settings.js');
 // import * as BigNumber from 'bignumber.js';
 
 /**
- * Configure the daostack-arc module.
+ * Configure the daostack-arc-js module.
  *
  * @return: Web3 web3 as a convenience for the client.
  * `web3` is set automatically in testing and migration, or elsewhere (development, production)
@@ -164,7 +164,7 @@ async function getDeployedContracts() {
   var contracts = (await (0, _settings.getSettings)()).daostackContracts;
   return {
     allContracts: contracts,
-    schemes: [contracts.SchemeRegistrar, contracts.UpgradeScheme, contracts.GlobalConstraintRegistrar, contracts.SimpleContributionScheme],
+    schemes: [contracts.SchemeRegistrar, contracts.UpgradeScheme, contracts.GlobalConstraintRegistrar, contracts.ContributionReward],
     votingMachines: [contracts.AbsoluteVote],
     globalConstraints: [contracts.TokenCapGC]
   };

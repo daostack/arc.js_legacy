@@ -143,7 +143,7 @@ var GlobalConstraintRegistrar = exports.GlobalConstraintRegistrar = function (_E
         token = await DAOToken.at(options.tokenAddress);
       }
 
-      contract = await SolidityGlobalConstraintRegistrar.new(token.address, options.fee, options.beneficiary);
+      var contract = await SolidityGlobalConstraintRegistrar.new(token.address, options.fee, options.beneficiary);
       return new this(contract);
     }
   }]);

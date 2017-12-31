@@ -2,25 +2,35 @@ import { Organization } from '../lib/organization.js';
 import { getValueFromLogs, requireContract } from '../lib/utils.js';
 const Controller = requireContract("Controller");
 const AbsoluteVote = requireContract('AbsoluteVote');
+const DAOToken = requireContract('DAOToken');
+const Avatar = requireContract('Avatar');
+const Reputation = requireContract('Reputation');
 const UpgradeScheme = requireContract('UpgradeScheme');
-import { forgeOrganization, settingsForTest, SOME_HASH } from './helpers';
+import { forgeOrganization, settingsForTest, SOME_HASH, NULL_ADDRESS } from './helpers';
 
 
-contract('UpgradeScheme', (accounts) => {
-  before(() => {
-    helpers.etherForEveryone();
+describe('UpgradeScheme', () => {
+
+  let avatar;
+
+  beforeEach(async () => {
+    // let accounts = web3.eth.accounts;
+    const token  = await DAOToken.new("TEST","TST");
+    // set up a reputaiton system
+    const reputation = await Reputation.new();
+    avatar = await Avatar.new('name', token.address, reputation.address);
   });
 
   it("proposeController javascript wrapper should change controller", async () => {
-    const organization = await forgeOrganization();
+    const org = await forgeOrganization();
 
-    const upgradeScheme = await organization.scheme('UpgradeScheme');
-    const newController = await Controller.new(null, null, null, [], [], []);
+    const upgradeScheme = await org.scheme('UpgradeScheme');
+    const newController = await Controller.new(avatar.address, [], [], []);
 
-    assert.equal(await organization.controller.newController(), helpers.NULL_ADDRESS, "there is already a new contoller");
+    assert.equal(await org.controller.newController(), NULL_ADDRESS, "there is already a new contoller");
 
     const tx = await upgradeScheme.proposeController({
-      avatar: organization.avatar.address,
+      avatar: org.avatar.address,
       controller: newController.address
     });
 
@@ -28,18 +38,19 @@ contract('UpgradeScheme', (accounts) => {
 
     const proposalId = getValueFromLogs(tx, '_proposalId');
 
-    organization.vote(proposalId, 1, {from: accounts[2]});
+    org.vote(proposalId, 1, {from: accounts[2]});
 
     // now the ugprade should have been executed
-    assert.equal(await organization.controller.newController(), newController.address);
+    assert.equal(await org.controller.newController(), newController.address);
 
     // avatar, token and reputation ownership shold have been transferred to the new controller
-    assert.equal(await organization.token.owner(), newController.address);
-    assert.equal(await organization.reputation.owner(), newController.address);
-    assert.equal(await organization.avatar.owner(), newController.address);
+    assert.equal(await org.token.owner(), newController.address);
+    assert.equal(await org.reputation.owner(), newController.address);
+    assert.equal(await org.avatar.owner(), newController.address);
   });
 
   it('controller upgrade should work as expected', async () => {
+
     const founders = [
       {
         address: accounts[0],
@@ -64,10 +75,10 @@ contract('UpgradeScheme', (accounts) => {
     const votingMachine = await AbsoluteVote.at(settings.votingMachine);
 
     // the organization has not bene upgraded yet, so newController is the NULL address
-    assert.equal(await organization.controller.newController(), helpers.NULL_ADDRESS);
+    assert.equal(await organization.controller.newController(), NULL_ADDRESS);
 
-    // we create a new controller to upgrade to
-    const newController = await Controller.new(null, null, null, [], [], []);
+    // we create a new controller to which to upgrade
+    const newController = await Controller.new(avatar.address, [], [], []);
     let tx = await upgradeScheme.proposeUpgrade(organization.avatar.address, newController.address);
 
     const proposalId = getValueFromLogs(tx, '_proposalId');

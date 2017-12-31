@@ -1,19 +1,24 @@
 {
-  "name": "arc-js",
-  "version": "0.0.0-alpha.1",
-  "description": "Javascript library providing access to DAOStack ethereum smart contracts (daostack-arc)",
-  "main": "lib/arc.js",
+  "name": "daostack-arc-js",
+  "version": "0.0.0-alpha.9",
+  "description": "Javascript library providing access to DAOStack Arc ethereum smart contracts (daostack-arc)",
+  "main": "dist/arc.js",
+  "types": "lib/arc.d.ts",
   "directories": {
     "lib": "./lib",
     "doc": "./docs",
-    "contracts": "./contracts/"
+    "contracts": "./contracts"
   },
+  "files": [
+    "dist/",
+    "lib/",
+    "docs/",
+    "contracts/"
+  ],
   "scripts": {
-    "build": "babel lib --presets babel-preset-es2015 --out-dir dist",
-    "prepublishOnly": "npm run build",
-    "lint": "eslint .",
-    "lint --fix": "eslint --fix .",
-    "test": "mocha --require babel-register --require chai"
+    "start": "nps",
+    "test": "nps test",
+    "build": "nps build"
   },
   "repository": {
     "type": "git",
@@ -37,14 +42,15 @@
   "dependencies": {
     "@types/bignumber.js": "^4.0.3",
     "bip39": "^2.4.0",
-    "daostack-arc": "0.0.0-alpha.15",
     "default-options": "^1.0.0",
+    "ethereumjs-abi": "^0.6.5",
     "ethers": "^2.1.3",
     "promisify": "0.0.3",
     "truffle-contract": "^3.0.1",
     "web3-typescript-typings": "^0.7.2"
   },
   "devDependencies": {
+    "archiver": "^2.1.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^7.2.3",
     "babel-plugin-syntax-async-functions": "^6.1.4",
@@ -53,6 +59,10 @@
     "babel-register": "^6.24.1",
     "bignumber.js": "^4.1.0",
     "chai": "^4.1.2",
+    "cwd": "^0.10.0",
+    "daostack-arc": "0.0.0-alpha.19",
+    "decompress": "^4.2.0",
+    "env-variable": "0.0.3",
     "eslint": "^4.10.0",
     "eslint-config-defaults": "^9.0.0",
     "eslint-config-standard": "^10.2.1",
@@ -62,7 +72,11 @@
     "eslint-plugin-react": "^7.4.0",
     "eslint-plugin-standard": "^3.0.1",
     "ethereumjs-testrpc": "^6.0.3",
+    "fs": "0.0.1-security",
     "mocha": "^4.0.1",
+    "nps": "^5.7.1",
+    "nps-utils": "^1.5.0",
+    "path.join": "^1.0.0",
     "pm2": "^1.1.3",
     "pug": "^2.0.0-rc.1",
     "uint32": "^0.2.1"

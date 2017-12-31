@@ -1,7 +1,7 @@
 
 # DAOSTACK library
 
-Work in progress.  Install via `npm install daostack-arc`.
+Work in progress.  Install via `npm install daostack-arc-js`.
 
 ## API
 
@@ -12,7 +12,7 @@ Work in progress.  Install via `npm install daostack-arc`.
 ## Example Session
 [next examples are not all working yet, but this is what is should/could look like]
 
-    import { Organization } from 'daostack-arc';
+    import { Organization } from 'daostack-arc-js';
 
 create an Organization from zero:
 
@@ -52,7 +52,7 @@ for each of these types we have a convenient function that will return the singl
 
 We can use our schemeRegistrar to propose to add a new Scheme - say one for making contributions:
 
-    const contributionScheme = ContributionScheme.at('0x12345abc');
+    const contributionReward = ContributionScheme.at('0x12345abc');
 
     const proposalId = await organization.proposeScheme({
       contract: 'ContributionScheme',
@@ -81,7 +81,7 @@ Now we can vote for the scheme:
 Once it is accepted, it should show up in `organization.schemes()`, and we can start adding contributions,
 for example, we'd like 101 organization tokens for writing documentation:
 
-    const contributionId = contributionScheme.submitContribution({
+    const contributionId = contributionReward.submitContribution({
       organization: organization,
       description: 'Documentation for daostack',
       nativeTokenReward: 101,
