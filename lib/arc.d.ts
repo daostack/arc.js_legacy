@@ -41,6 +41,7 @@ export interface ArcDeployedContractNames {
  */
 export interface ArcDeployedContracts {
     allContracts : ArcDeployedContractNames;
+    defaultVotingMaching: ArcContractInfo;
     /**
      * All deployed schemes
      */
@@ -55,16 +56,10 @@ export interface ArcDeployedContracts {
     globalConstraints: Array<ArcContractInfo>;
 }
 
-// from arc.js
-export function configure(options : any): Web3;
+/********************************
+ * contracts.js
+ */
 export function getDeployedContracts() : ArcDeployedContracts;
-
-export interface OrganizationSchemeInfo
-{
-  name: string;
-  address: string;
-  permissions: string;
-}
 
 /********************************
  * Utils
@@ -185,6 +180,12 @@ export interface OrganizationNewConfig {
 /********************************
  * Organization
  */
+export interface OrganizationSchemeInfo {
+  name: string;
+  address: string;
+  permissions: string;
+}
+
 export class Organization  {
   /**
    * includes static `new` and `at`
