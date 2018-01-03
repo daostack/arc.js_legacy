@@ -1,9 +1,11 @@
-const archiver = require('archiver');
+const archiver = require("archiver");
 const fs = require("fs");
 
 const pathDaostackArcTestrpcDbZip = process.argv[2];
 const pathDaostackArcTestrpcDb = process.argv[3];
-const _archiver = archiver('zip', { zlib: { level: 9 } /* Sets the compression level. */ });
+const _archiver = archiver("zip", {
+  zlib: { level: 9 } /* Sets the compression level. */
+});
 
 // console.log(`archiveTestrpcDb(${pathDaostackArcTestrpcDbZip}, ${pathDaostackArcTestrpcDb}`);
 
@@ -21,6 +23,4 @@ const stream = fs.createWriteStream(pathDaostackArcTestrpcDbZip);
 
 _archiver.pipe(stream);
 
-_archiver
-  .directory(pathDaostackArcTestrpcDb, 'testrpcDb')
-  .finalize();
+_archiver.directory(pathDaostackArcTestrpcDb, "testrpcDb").finalize();
