@@ -7,9 +7,9 @@ exports.SchemeRegistrar = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _utils = require('./utils.js');
+var _contracts = require('./contracts.js');
 
-var _settings = require('./settings.js');
+var _utils = require('./utils.js');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -129,7 +129,7 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
 
       if (options.schemeName) {
         try {
-          var contracts = await (0, _settings.getDeployedContracts)();
+          var contracts = await (0, _contracts.getDeployedContracts)();
           var newScheme = await contracts.allContracts[options.schemeName].contract.at(options.scheme);
           autoRegister = true;
 

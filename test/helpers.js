@@ -12,7 +12,7 @@ beforeEach(async () => {
 });
 
 import { Organization } from '../lib/organization.js';
-import { getDeployedContracts } from '../lib/settings.js';
+import { getDeployedContracts } from '../lib/contracts.js';
 
 export const NULL_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000';
 export const SOME_HASH = '0x1000000000000000000000000000000000000000000000000000000000000000';

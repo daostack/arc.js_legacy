@@ -7,9 +7,9 @@ exports.Organization = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _utils = require('./utils.js');
+var _contracts = require('./contracts.js');
 
-var _settings = require('./settings.js');
+var _utils = require('./utils.js');
 
 var _schemeregistrar = require('./schemeregistrar.js');
 
@@ -71,7 +71,7 @@ var Organization = exports.Organization = function () {
       var schemesMap = new Map(); // <string, OrganizationSchemeInfo>
       var controller = this.controller;
       var arcTypesMap = new Map(); // <address: string, name: string>
-      var contracts = await (0, _settings.getDeployedContracts)();
+      var contracts = await (0, _contracts.getDeployedContracts)();
 
       /**
        * TODO:  This should pull in all known versions of the schemes, names
@@ -159,7 +159,7 @@ var Organization = exports.Organization = function () {
     value: async function scheme(contract, address) {
       // returns the schemes can be used to register other schemes
       // TODO: error handling: throw an error if such a schem does not exist, and also if there is more htan one
-      var contracts = await (0, _settings.getDeployedContracts)();
+      var contracts = await (0, _contracts.getDeployedContracts)();
       var contractInfo = contracts.allContracts[contract];
       // check if indeed the registrar is registered as a scheme on  the controller
       // const isSchemeRegistered = await this.controller.isSchemeRegistered(contractInfo.address);
@@ -203,7 +203,7 @@ var Organization = exports.Organization = function () {
       // TODO: default options need to be extended), cf. https://github.com/daostack/daostack/issues/43
       // TODO: orgName, tokenName and tokenSymbol should be required - implement this
       // QUESTION: should we add options to deploy with existing tokens or rep?
-      var contracts = await (0, _settings.getDeployedContracts)();
+      var contracts = await (0, _contracts.getDeployedContracts)();
 
       var defaults = {
         orgName: null,
@@ -341,7 +341,7 @@ var Organization = exports.Organization = function () {
 
       // TODO: we now just set the default voting machine, and assume it is used
       // throughout, but this assumption is not warranted
-      var contracts = await (0, _settings.getDeployedContracts)();
+      var contracts = await (0, _contracts.getDeployedContracts)();
       if (contracts.defaultVotingMachine) {
         org.votingMachine = AbsoluteVote.at(contracts.defaultVotingMachine);
       }
