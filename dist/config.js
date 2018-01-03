@@ -1,5 +1,10 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.nconf = undefined;
+
 var _nconf = require('nconf');
 
 var _nconf2 = _interopRequireDefault(_nconf);
@@ -17,4 +22,4 @@ _nconf2.default.file("external", path);
 // Then load defaults from our configuration file
 _nconf2.default.file("defaults", __dirname + '/../config/default.json');
 
-console.log("provider url = ", _nconf2.default.get("gasLimit"));
+exports.nconf = _nconf2.default;

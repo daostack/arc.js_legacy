@@ -14,9 +14,7 @@ exports.getValueFromLogs = getValueFromLogs;
 exports.getDefaultAccount = getDefaultAccount;
 exports.SHA3 = SHA3;
 
-var _nconf = require('nconf');
-
-var _nconf2 = _interopRequireDefault(_nconf);
+var _config = require('./config.js');
 
 var _web = require('web3');
 
@@ -55,7 +53,7 @@ function requireContract(contractName) {
     contract.setProvider(myWeb3.currentProvider);
     contract.defaults({
       from: getDefaultAccount(),
-      gas: _nconf2.default.get('gasLimit')
+      gas: _config.nconf.get('gasLimit')
     });
     return contract;
   } catch (ex) {
@@ -88,7 +86,7 @@ function getWeb3() {
     preWeb3 = new _web2.default(windowWeb3.currentProvider);
   } else {
     // console.log(`Connecting via http://localhost:8545`)
-    preWeb3 = new _web2.default(new _web2.default.providers.HttpProvider(_nconf2.default.get('daostack.providerUrl')));
+    preWeb3 = new _web2.default(new _web2.default.providers.HttpProvider(_config.nconf.get('daostack.providerUrl')));
   }
 
   if (!preWeb3) {
