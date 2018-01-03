@@ -15,8 +15,11 @@ If you want to contribute to the code, check out  [CONTRIBUTING.md](CONTRIBUTING
 
 
 # DAO Stack Configuration
-{
-  "provider": "local", // 'infura', 'etherscan', otherwise will default to local RPC (testrpc, Geth, or Parity..)
-  "network": "kovan", // Options are 'homestead', 'ropsten', 'rinkeby', 'kovan'
-  "api_token": "" // Required for Infura or Etherscan
-}
+If you want to override the default configuration you can add a daostack.json file to your project. Here are the possible configuration values with their default values
+
+  {
+    "providerUrl": "http://localhost:8545",
+    "network": "kovan", // Options are 'homestead', 'ropsten', 'rinkeby', 'kovan'
+    "apiToken": "" // Required for Infura or Etherscan
+    "gasLimit": 6900000
+  }

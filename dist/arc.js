@@ -4,6 +4,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _config = require('./config.js');
+
+Object.keys(_config).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _config[key];
+    }
+  });
+});
+
 var _absoluteVote = require('./absoluteVote.js');
 
 Object.keys(_absoluteVote).forEach(function (key) {
@@ -12,6 +24,18 @@ Object.keys(_absoluteVote).forEach(function (key) {
     enumerable: true,
     get: function get() {
       return _absoluteVote[key];
+    }
+  });
+});
+
+var _contracts = require('./contracts.js');
+
+Object.keys(_contracts).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _contracts[key];
     }
   });
 });
@@ -48,18 +72,6 @@ Object.keys(_organization).forEach(function (key) {
     enumerable: true,
     get: function get() {
       return _organization[key];
-    }
-  });
-});
-
-var _settings = require('./settings.js');
-
-Object.keys(_settings).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _settings[key];
     }
   });
 });

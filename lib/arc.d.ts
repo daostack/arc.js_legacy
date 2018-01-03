@@ -4,7 +4,7 @@ import * as Web3 from "web3";
 declare module 'daostack-arc-js' {
 
 /*******************************
- * Arc contract information as contained in ArcDeployedContractNames (see settings)
+ * Arc contract information as contained in ArcDeployedContractNames
  */
 export interface ArcContractInfo {
     /**
