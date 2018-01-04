@@ -14,8 +14,8 @@ Contributions and pull requests are very welcome. Join us on [Slack](daostack.sl
 If you want to contribute to the code, check out  [CONTRIBUTING.md](CONTRIBUTING.md).
 
 
-# DAO Stack Configuration
-If you want to override the default configuration you can add a daostack.json file to your project. Here are the possible configuration values with their default values
+# Arc Configuration
+The default configuration settings for Arc can be found in config/default.json, they are:
 
   {
     "providerUrl": "http://localhost:8545",
@@ -23,3 +23,17 @@ If you want to override the default configuration you can add a daostack.json fi
     "apiToken": "" // Required for Infura or Etherscan
     "gasLimit": 6900000
   }
+
+If you want to override these default configuration settings you can add an arc.config.json file to your project. Any values set there will override the above defaults. You can pass in a path to a different file using a `--arcConfigFile pathToFile` command line argument, or setting environment variable `arcConfigFile=pathToFile`.
+
+You can also override these settings on the command line or through environment variables, with command line arguments taking precedence over environment variables which take precedence over the arc.config.json config file.
+
+### Command line:
+
+  node yourprojectindex.js --gasLimit 7000000
+
+### Environment variable:
+
+  gasLimit=7000000 node yourprojectindex.js
+
+
