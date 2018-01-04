@@ -1,27 +1,27 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getDeployedContracts = getDeployedContracts;
 
-var _utils = require('./utils.js');
+var _utils = require("./utils.js");
 
-var _globalconstraintregistrar = require('./globalconstraintregistrar.js');
+var _globalconstraintregistrar = require("./globalconstraintregistrar.js");
 
-var _schemeregistrar = require('./schemeregistrar.js');
+var _schemeregistrar = require("./schemeregistrar.js");
 
-var _contributionreward = require('./contributionreward.js');
+var _contributionreward = require("./contributionreward.js");
 
-var _absoluteVote = require('./absoluteVote.js');
+var _absoluteVote = require("./absoluteVote.js");
 
-var _tokenCapGC = require('./tokenCapGC.js');
+var _tokenCapGC = require("./tokenCapGC.js");
 
-var _upgradescheme = require('./upgradescheme.js');
+var _upgradescheme = require("./upgradescheme.js");
 
 /**
-   * These are uninitialized instances of ExtendTruffleContract,
-   * effectively class factories.
+ * These are uninitialized instances of ExtendTruffleContract,
+ * effectively class factories.
  */
 var GenesisScheme = (0, _utils.requireContract)("GenesisScheme");
 async function getDeployedContracts() {
@@ -78,7 +78,7 @@ async function getDeployedContracts() {
 
   return {
     allContracts: contracts,
-    defaultVotingMaching: contracts.AbsoluteVote,
+    defaultVotingMachine: contracts.AbsoluteVote,
     schemes: [contracts.SchemeRegistrar, contracts.UpgradeScheme, contracts.GlobalConstraintRegistrar, contracts.ContributionReward],
     votingMachines: [contracts.AbsoluteVote],
     globalConstraints: [contracts.TokenCapGC]

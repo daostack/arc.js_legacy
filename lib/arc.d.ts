@@ -40,7 +40,7 @@ declare module "daostack-arc-js" {
  */
 export interface ArcDeployedContracts {
     allContracts : ArcDeployedContractNames;
-    defaultVotingMaching: ArcContractInfo;
+    defaultVotingMachine: ArcContractInfo;
 
     /**
      * All deployed schemes
@@ -65,15 +65,15 @@ export function getDeployedContracts() : ArcDeployedContracts;
  * Utils
  */
   export interface TransactionLog {
-    address: string,
-    blockHash: string,
-    blockNumber: number
-    data: string,
-    logIndex: number,
-    topics: Array<string>,
-    transactionHash: string,
-    transactionIndex: number,
-    type: string
+    address: string;
+    blockHash: string;
+    blockNumber: number;
+    data: string;
+    logIndex: number;
+    topics: Array<string>;
+    transactionHash: string;
+    transactionIndex: number;
+    type: string;
   }
 
   export interface TransactionLogTruffle {

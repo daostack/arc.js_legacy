@@ -7,29 +7,30 @@ exports.Organization = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _contracts = require('./contracts.js');
+var _contracts = require("./contracts.js");
 
-var _utils = require('./utils.js');
+var _utils = require("./utils.js");
 
-var _schemeregistrar = require('./schemeregistrar.js');
+var _schemeregistrar = require("./schemeregistrar.js");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var dopts = require('default-options');
+var dopts = require("default-options");
 
-var Avatar = (0, _utils.requireContract)('Avatar');
-var Controller = (0, _utils.requireContract)('Controller');
+var Avatar = (0, _utils.requireContract)("Avatar");
+var Controller = (0, _utils.requireContract)("Controller");
 var DAOToken = (0, _utils.requireContract)("DAOToken");
 var GenesisScheme = (0, _utils.requireContract)("GenesisScheme");
 var Reputation = (0, _utils.requireContract)("Reputation");
-// import { GlobalConstraintRegistrar } from   './globalconstraintregistrar.js';
+// import { GlobalConstraintRegistrar } from   "./globalconstraintregistrar.js";
 var AbsoluteVote = (0, _utils.requireContract)("AbsoluteVote");
-// import { UpgradeScheme } from   './upgradescheme.js';
+// import { UpgradeScheme } from   "./upgradescheme.js";
 
-var CONTRACT_SCHEMEREGISTRAR = 'SchemeRegistrar';
-var CONTRACT_UPGRADESCHEME = 'UpgradeScheme';
-var CONTRACT_GLOBALCONSTRAINTREGISTRAR = 'GlobalConstraintRegistrar';
-// const CONTRACT_ContributionReward = 'ContributionReward';
+
+var CONTRACT_SCHEMEREGISTRAR = "SchemeRegistrar";
+var CONTRACT_UPGRADESCHEME = "UpgradeScheme";
+var CONTRACT_GLOBALCONSTRAINTREGISTRAR = "GlobalConstraintRegistrar";
+// const CONTRACT_ContributionReward = "ContributionReward";
 
 var Organization = exports.Organization = function () {
   function Organization() {
@@ -37,7 +38,7 @@ var Organization = exports.Organization = function () {
   }
 
   _createClass(Organization, [{
-    key: 'schemes',
+    key: "schemes",
 
 
     /**
@@ -62,7 +63,7 @@ var Organization = exports.Organization = function () {
      */
 
   }, {
-    key: '_getSchemes',
+    key: "_getSchemes",
     value: async function _getSchemes() {
       var _this = this;
 
@@ -82,7 +83,7 @@ var Organization = exports.Organization = function () {
         arcTypesMap.set(_contract.address, name);
       }
 
-      var registerSchemeEvent = controller.RegisterScheme({}, { fromBlock: 0, toBlock: 'latest' });
+      var registerSchemeEvent = controller.RegisterScheme({}, { fromBlock: 0, toBlock: "latest" });
 
       await new Promise(function (resolve) {
         registerSchemeEvent.get(function (err, eventsArray) {
@@ -125,9 +126,9 @@ var Organization = exports.Organization = function () {
       return registeredSchemes;
     }
   }, {
-    key: '_handleSchemeEvent',
-    value: async function _handleSchemeEvent(err, eventsArray, adding, arcTypesMap, schemesMap) // : Promise<void>
-    {
+    key: "_handleSchemeEvent",
+    value: async function _handleSchemeEvent(err, eventsArray, adding, arcTypesMap, schemesMap // : Promise<void>
+    ) {
       if (!(eventsArray instanceof Array)) {
         eventsArray = [eventsArray];
       }
@@ -155,7 +156,7 @@ var Organization = exports.Organization = function () {
      */
 
   }, {
-    key: 'scheme',
+    key: "scheme",
     value: async function scheme(contract, address) {
       // returns the schemes can be used to register other schemes
       // TODO: error handling: throw an error if such a schem does not exist, and also if there is more htan one
@@ -168,7 +169,7 @@ var Organization = exports.Organization = function () {
       return contractInfo.contract.at(address ? address : contractInfo.address);
     }
   }, {
-    key: 'checkSchemeConditions',
+    key: "checkSchemeConditions",
     value: async function checkSchemeConditions(scheme) {
       // check if the scheme if ready for usage - i.e. if the org is registered at the scheme and vice versa
       // check if the schems is usable
@@ -182,20 +183,20 @@ var Organization = exports.Organization = function () {
       // check if the controller is registered (has paid the fee)
       var isControllerRegistered = await scheme.isRegistered(avatar.address);
       if (!isControllerRegistered) {
-        var msg = 'The organization is not registered on this schme: ' + contract + '; ' + contractInfo.address;
+        var msg = "The organization is not registered on this schme: " + contract + "; " + contractInfo.address;
         throw new Error(msg);
       }
       return true;
     }
   }, {
-    key: 'vote',
+    key: "vote",
     value: function vote(proposalId, choice, params) {
       // vote for the proposal given by proposalId using this.votingMachine
-      // NB: this will not work for proposals using votingMachine's that are not the default one
+      // NB: this will not work for proposals using votingMachine"s that are not the default one
       return this.votingMachine.vote(proposalId, choice, params);
     }
   }], [{
-    key: 'new',
+    key: "new",
     value: async function _new(opts) {
       // TODO: optimization: we now have all sequantial awaits: parallelize them if possible
       // TODO: estimate gas/ether needed based on given options, check balance of sender, and
@@ -239,7 +240,7 @@ var Organization = exports.Organization = function () {
         return x.reputation;
       }));
       // get the address of the avatar from the logs
-      var avatarAddress = (0, _utils.getValueFromLogs)(tx, '_avatar', "NewOrg");
+      var avatarAddress = (0, _utils.getValueFromLogs)(tx, "_avatar", "NewOrg");
       var org = new Organization();
 
       org.avatar = await Avatar.at(avatarAddress);
@@ -272,7 +273,6 @@ var Organization = exports.Organization = function () {
       try {
         for (var _iterator2 = options.schemes[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
           var optionScheme = _step2.value;
-
 
           var arcSchemeInfo = contracts.allContracts[optionScheme.name];
           var _scheme = await arcSchemeInfo.contract.at(optionScheme.address || arcSchemeInfo.address);
@@ -325,7 +325,7 @@ var Organization = exports.Organization = function () {
       return org;
     }
   }, {
-    key: 'at',
+    key: "at",
     value: async function at(avatarAddress) {
       var org = new Organization();
 

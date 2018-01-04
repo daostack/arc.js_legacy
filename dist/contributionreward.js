@@ -7,7 +7,7 @@ exports.ContributionReward = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _utils = require('./utils.js');
+var _utils = require("./utils.js");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -15,7 +15,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var dopts = require('default-options');
+var dopts = require("default-options");
 
 var SolidityContributionReward = (0, _utils.requireContract)("ContributionReward");
 var DAOToken = (0, _utils.requireContract)("DAOToken");
@@ -30,7 +30,7 @@ var ContributionReward = function (_ExtendTruffleContrac) {
   }
 
   _createClass(ContributionReward, [{
-    key: 'proposeContributionReward',
+    key: "proposeContributionReward",
     value: async function proposeContributionReward() {
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -136,24 +136,23 @@ var ContributionReward = function (_ExtendTruffleContrac) {
       // console.log(`********* options.externalTokenReward ${options.externalTokenReward} **********`);
       // console.log(`********* options.beneficiary ${options.beneficiary} **********`);
 
-
       var tx = await this.contract.submitContribution(options.avatar,
       // web3.utils.soliditySha3(options.description), this is available in web3 1.0
       (0, _utils.SHA3)(options.description), [nativeTokenReward, reputationReward, ethReward, options.externalToken, externalTokenReward], options.externalToken, options.beneficiary);
       return tx;
     }
   }, {
-    key: 'setParams',
+    key: "setParams",
     value: async function setParams(params) {
       return await this._setParameters(params.orgNativeTokenFee, params.schemeNativeTokenFee, params.voteParametersHash, params.votingMachine);
     }
   }, {
-    key: 'getDefaultPermissions',
+    key: "getDefaultPermissions",
     value: function getDefaultPermissions(overrideValue) {
-      return overrideValue || '0x00000001';
+      return overrideValue || "0x00000001";
     }
   }], [{
-    key: 'new',
+    key: "new",
     value: async function _new() {
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -168,7 +167,7 @@ var ContributionReward = function (_ExtendTruffleContrac) {
 
       var token = void 0;
       if (options.tokenAddress == null) {
-        token = await DAOToken.new('schemeregistrartoken', 'STK');
+        token = await DAOToken.new("schemeregistrartoken", "STK");
         // TODO: or is it better to throw an error?
         // throw new Error('A tokenAddress must be provided');
       } else {
