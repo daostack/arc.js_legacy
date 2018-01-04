@@ -1,7 +1,8 @@
 {
   "name": "daostack-arc-js",
   "version": "0.0.0-alpha.9",
-  "description": "Javascript library providing access to DAOStack Arc ethereum smart contracts (daostack-arc)",
+  "description":
+    "Javascript library providing access to DAOStack Arc ethereum smart contracts (daostack-arc)",
   "main": "dist/arc.js",
   "types": "lib/arc.d.ts",
   "directories": {
@@ -9,12 +10,7 @@
     "doc": "./docs",
     "contracts": "./contracts"
   },
-  "files": [
-    "dist/",
-    "lib/",
-    "docs/",
-    "contracts/"
-  ],
+  "files": ["dist/", "lib/", "docs/", "contracts/"],
   "scripts": {
     "start": "nps",
     "test": "nps test",

@@ -4,19 +4,24 @@ import { forgeOrganization, contractsForTest } from './helpers';
 
 const DAOToken = requireContract("DAOToken");
 
-describe('SchemeRegistrar', () => {
-
+describe("SchemeRegistrar", () => {
   it("proposeToAddModifyScheme javascript wrapper should add new scheme", async () => {
     const organization = await forgeOrganization();
     const contracts = await contractsForTest();
 
-    const schemeRegistrar = await organization.scheme('SchemeRegistrar');
-    const ContributionReward = await organization.schemes('ContributionReward');
-    assert.equal(ContributionReward.length,0, "scheme is already present");
+    const schemeRegistrar = await organization.scheme("SchemeRegistrar");
+    const ContributionReward = await organization.schemes("ContributionReward");
+    assert.equal(ContributionReward.length, 0, "scheme is already present");
 
-    const ContributionRewardAddress = contracts.allContracts.ContributionReward.address;
+    const ContributionRewardAddress =
+      contracts.allContracts.ContributionReward.address;
 
-    assert.isFalse(await organization.controller.isSchemeRegistered(ContributionRewardAddress), "scheme is registered into the controller");
+    assert.isFalse(
+      await organization.controller.isSchemeRegistered(
+        ContributionRewardAddress
+      ),
+      "scheme is registered into the controller"
+    );
 
     const tx = await schemeRegistrar.proposeToAddModifyScheme({
       avatar: organization.avatar.address,
@@ -26,19 +31,23 @@ describe('SchemeRegistrar', () => {
       autoRegister: true
     });
 
+    const proposalId = getValueFromLogs(tx, "_proposalId");
 
-    const proposalId = getValueFromLogs(tx, '_proposalId');
+    organization.vote(proposalId, 1, { from: accounts[2] });
 
-    organization.vote(proposalId, 1, {from: accounts[2]});
-
-    assert.isTrue(await organization.controller.isSchemeRegistered(ContributionRewardAddress), "scheme is not registered into the controller");
+    assert.isTrue(
+      await organization.controller.isSchemeRegistered(
+        ContributionRewardAddress
+      ),
+      "scheme is not registered into the controller"
+    );
   });
 
   it("proposeToAddModifyScheme javascript wrapper should modify existing scheme", async () => {
     const organization = await forgeOrganization();
 
-    const schemeRegistrar = await organization.scheme('SchemeRegistrar');
-    const upgradeScheme = await organization.schemes('SchemeRegistrar');
+    const schemeRegistrar = await organization.scheme("SchemeRegistrar");
+    const upgradeScheme = await organization.schemes("SchemeRegistrar");
     assert.equal(upgradeScheme.length, 1, "scheme is not present");
 
     const modifiedSchemeAddress = upgradeScheme[0].address;
@@ -51,14 +60,18 @@ describe('SchemeRegistrar', () => {
       autoRegister: true
     });
 
+    const proposalId = getValueFromLogs(tx, "_proposalId");
 
-    const proposalId = getValueFromLogs(tx, '_proposalId');
+    organization.vote(proposalId, 1, { from: accounts[2] });
 
-    organization.vote(proposalId, 1, {from: accounts[2]});
+    assert.isTrue(
+      await organization.controller.isSchemeRegistered(modifiedSchemeAddress),
+      "scheme is not registered into the controller"
+    );
 
-    assert.isTrue(await organization.controller.isSchemeRegistered(modifiedSchemeAddress), "scheme is not registered into the controller");
-
-    const paramsHash = await organization.controller.getSchemeParameters(modifiedSchemeAddress);
+    const paramsHash = await organization.controller.getSchemeParameters(
+      modifiedSchemeAddress
+    );
 
     assert.equal(paramsHash, NULL_HASH, "parameters hash is not correct");
   });
@@ -66,7 +79,7 @@ describe('SchemeRegistrar', () => {
   it("proposeToRemoveScheme javascript wrapper should remove scheme", async () => {
     const organization = await forgeOrganization();
 
-    const schemeRegistrar = await organization.scheme('SchemeRegistrar');
+    const schemeRegistrar = await organization.scheme("SchemeRegistrar");
     const removedScheme = schemeRegistrar;
 
     const tx = await schemeRegistrar.proposeToRemoveScheme({
@@ -74,11 +87,14 @@ describe('SchemeRegistrar', () => {
       scheme: removedScheme.address
     });
 
-    const proposalId = getValueFromLogs(tx, '_proposalId');
+    const proposalId = getValueFromLogs(tx, "_proposalId");
 
-    organization.vote(proposalId, 1, {from: accounts[2]});
+    organization.vote(proposalId, 1, { from: accounts[2] });
 
-    assert.isFalse(await organization.controller.isSchemeRegistered(removedScheme.address), "scheme is still registered into the controller");
+    assert.isFalse(
+      await organization.controller.isSchemeRegistered(removedScheme.address),
+      "scheme is still registered into the controller"
+    );
   });
 
   it("schemeRegistrar.new should work as expected with default values", async () => {
@@ -106,8 +122,8 @@ describe('SchemeRegistrar', () => {
     // create a schemeRegistrar, passing some options
     const token = await DAOToken.new();
 
-    const registrar = await  SchemeRegistrar.new({
-      tokenAddress:token.address,
+    const registrar = await SchemeRegistrar.new({
+      tokenAddress: token.address,
       fee: 3e18,
       beneficiary: accounts[1]
     });
