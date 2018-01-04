@@ -2,6 +2,8 @@ const {series, crossEnv, concurrent, rimraf, copy, ifWindows, runInNewWindow, mk
 const env = require('env-variable')();
 const joinPath = require('path.join');
 const cwd = require('cwd')();
+const config = require('./dist/config.js').config;
+
 /**
  * environment variables you can use to configure stuff like migrateContracts
  */
@@ -11,7 +13,7 @@ const pathDaostackArcRepo = env.pathDaostackArcRepo || "../daostack";
 const pathDaostackArcRepoContracts = env.pathDaostackArcRepoContracts || joinPath(pathDaostackArcRepo,"build/contracts");
 const pathDaostackArcTestrpcDb = "./testrpcDb";
 const pathDaostackArcTestrpcDbZip = "./testrpcDb.zip";
-const network = env.ETH_ENV;
+const network = config.get('network');
 
 // "console.log(`cwd: ${cwd}`)"
 // console.log(`network: ${network ? network: "testrpc"}`)
@@ -37,7 +39,7 @@ module.exports = {
       bail:   'nps "test.automated --bail"',
       testrpc: {
         /** the same command as is used by default by daostack-arc */
-        run: `testrpc -l 6900000 --account=\"0x0191ecbd1b150b8a3c27c27010ba51b45521689611e669109e034fd66ae69621,9999999999999999999999999999999999999999999\" --account=\"0x00f360233e89c65970a41d4a85990ec6669526b2230e867c352130151453180d,9999999999999999999999999999999999999999999\" --account=\"0x987a26abca7432016104ce2f24ce639340e25afe06ac69f68791399e7a5d1028,9999999999999999999999999999999999999999999\" --account=\"0x89af34b1b7347834048b99423dad174a14bf14540d720d72c16ae92e94b987cb,9999999999999999999999999999999999999999999\" --account=\"0xc867be647eb2bc51e4c0d61066859875cf3634fe949b6f5f85c69ab90e485b37,9999999999999999999999999999999999999999999\" --account=\"0xefabcc2377dee5e51b5a9e65a3854aec85fbbec3cb584d8ad4f9679869fb33c6,9999999999999999999999999999999999999999999\"`
+        run: `testrpc -l ${config.get('gasLimit')} --account=\"0x0191ecbd1b150b8a3c27c27010ba51b45521689611e669109e034fd66ae69621,9999999999999999999999999999999999999999999\" --account=\"0x00f360233e89c65970a41d4a85990ec6669526b2230e867c352130151453180d,9999999999999999999999999999999999999999999\" --account=\"0x987a26abca7432016104ce2f24ce639340e25afe06ac69f68791399e7a5d1028,9999999999999999999999999999999999999999999\" --account=\"0x89af34b1b7347834048b99423dad174a14bf14540d720d72c16ae92e94b987cb,9999999999999999999999999999999999999999999\" --account=\"0xc867be647eb2bc51e4c0d61066859875cf3634fe949b6f5f85c69ab90e485b37,9999999999999999999999999999999999999999999\" --account=\"0xefabcc2377dee5e51b5a9e65a3854aec85fbbec3cb584d8ad4f9679869fb33c6,9999999999999999999999999999999999999999999\"`
       },
       testrpcDb: {
         /**
@@ -51,7 +53,7 @@ module.exports = {
          *    npm start test.testrpcDb.runAsync
          *
          * This will go into the daostack-arc repo, at pathDaostackArcRepo, and do a truffle migrate for the
-         * network given by env.ETH_ENV.
+         * network given by the network config variable.
          *
          *    npm start test.testrpcDb.create
          *

@@ -53,7 +53,7 @@ function requireContract(contractName) {
     contract.setProvider(myWeb3.currentProvider);
     contract.defaults({
       from: getDefaultAccount(),
-      gas: _config.nconf.get('gasLimit')
+      gas: _config.config.get('gasLimit')
     });
     return contract;
   } catch (ex) {
@@ -86,7 +86,7 @@ function getWeb3() {
     preWeb3 = new _web2.default(windowWeb3.currentProvider);
   } else {
     // console.log(`Connecting via http://localhost:8545`)
-    preWeb3 = new _web2.default(new _web2.default.providers.HttpProvider(_config.nconf.get('daostack.providerUrl')));
+    preWeb3 = new _web2.default(new _web2.default.providers.HttpProvider(_config.config.get('daostack.providerUrl')));
   }
 
   if (!preWeb3) {

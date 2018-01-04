@@ -1,10 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.nconf = undefined;
-
 var _nconf = require('nconf');
 
 var _nconf2 = _interopRequireDefault(_nconf);
@@ -22,4 +17,4 @@ _nconf2.default.file("external", path);
 // Then load defaults from our configuration file
 _nconf2.default.file("defaults", __dirname + '/../config/default.json');
 
-exports.nconf = _nconf2.default;
+module.exports.config = _nconf2.default;

@@ -25,12 +25,12 @@ var bip39 = require('bip39');
 
 
 var provider = void 0;
-if (_config.nconf.get('providerUrl').indexOf('infura') !== -1) {
-  provider = new ethers.providers.InfuraProvider(ethNetwork, _config.nconf.get('apiToken'));
-} else if (_config.nconf.get('providerUrl').indexOf('etherscan') !== -1) {
-  provider = new ethers.providers.EtherscanProvider(ethNetwork, _config.nconf.get('apiToken'));
+if (_config.config.get('providerUrl').indexOf('infura') !== -1) {
+  provider = new ethers.providers.InfuraProvider(ethNetwork, _config.config.get('apiToken'));
+} else if (_config.config.get('providerUrl').indexOf('etherscan') !== -1) {
+  provider = new ethers.providers.EtherscanProvider(ethNetwork, _config.config.get('apiToken'));
 } else {
-  provider = new ethers.providers.JsonRpcProvider(_config.nconf.get('providerUrl'), _config.nconf.get('network'));
+  provider = new ethers.providers.JsonRpcProvider(_config.config.get('providerUrl'), _config.config.get('network'));
 }
 
 var web3 = (0, _utils.getWeb3)();
