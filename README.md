@@ -30,6 +30,12 @@ If you want to override these default configuration settings you can add an arc.
 
 You can also override these settings on the command line or through environment variables, with command line arguments taking precedence over environment variables which take precedence over the arc.config.json config file.
 
+The configuration object uses the [nconf](https://github.com/indexzero/nconf) library so you can override configuration settings at runtime with:
+```javascript
+import { config } from 'daostack-arc-js';
+config.set('network', 'ropsten');
+```
+
 ### Command line:
 
 ```javascript

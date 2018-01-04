@@ -57,6 +57,11 @@ export interface ArcDeployedContracts {
   }
 
 /********************************
+ * config.js
+ */
+export var config : any;
+
+/********************************
  * contracts.js
  */
 export function getDeployedContracts() : ArcDeployedContracts;

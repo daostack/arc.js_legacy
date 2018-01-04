@@ -1,8 +1,7 @@
 {
   "name": "daostack-arc-js",
   "version": "0.0.0-alpha.9",
-  "description":
-    "Javascript library providing access to DAOStack Arc ethereum smart contracts (daostack-arc)",
+  "description": "Javascript library providing access to DAOStack Arc ethereum smart contracts (daostack-arc)",
   "main": "dist/arc.js",
   "types": "lib/arc.d.ts",
   "directories": {
@@ -10,7 +9,12 @@
     "doc": "./docs",
     "contracts": "./contracts"
   },
-  "files": ["dist/", "lib/", "docs/", "contracts/"],
+  "files": [
+    "dist/",
+    "lib/",
+    "docs/",
+    "contracts/"
+  ],
   "scripts": {
     "start": "nps",
     "test": "nps test",
@@ -36,7 +40,6 @@
   },
   "homepage": "https://github.com/daostack/arc.js#readme",
   "dependencies": {
-    "@types/bignumber.js": "^4.0.3",
     "bip39": "^2.4.0",
     "default-options": "^1.0.0",
     "ethereumjs-abi": "^0.6.5",
@@ -47,6 +50,8 @@
     "web3-typescript-typings": "^0.7.2"
   },
   "devDependencies": {
+    "@types/bignumber.js": "^4.0.3",
+    "@types/nconf": "^0.0.36",
     "archiver": "^2.1.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^7.2.3",
