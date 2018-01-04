@@ -1,5 +1,9 @@
 node_modules/
 .node-xmlhttprequest-sync*
+.node-xmlhttprequest-content*
 *.tgz
 .vscode/
-testrpcDb/
+ganacheDb/
+dist/
+ganacheDb.zip
+migrated_contracts/

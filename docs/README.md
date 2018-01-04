@@ -81,7 +81,7 @@ Now we can vote for the scheme:
 Once it is accepted, it should show up in `organization.schemes()`, and we can start adding contributions,
 for example, we'd like 101 organization tokens for writing documentation:
 
-    const contributionId = contributionReward.submitContribution({
+    const contributionId = contributionReward.proposeContributionReward({
       organization: organization,
       description: 'Documentation for daostack',
       nativeTokenReward: 101,

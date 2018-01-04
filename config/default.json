@@ -1,5 +1,6 @@
 {
   "providerUrl": "http://localhost:8545",
-  "network": "kovan",
-  "gasLimit": 6500000
+  "network": "ganache",
+  "gasLimit": 6015000,
+  "apiToken": ""
 }

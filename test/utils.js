@@ -4,23 +4,20 @@ import * as helpers from "./helpers";
 
 const ContributionRewardContract = requireContract("ContributionReward");
 
-class ContributionReward extends ExtendTruffleContract(
+class ExtendTruffleContractSubclass extends ExtendTruffleContract(
   ContributionRewardContract
 ) {
   foo() {
-    // console.log('foo() called');
     return "bar";
   }
 
-  submitContribution() {
-    // console.log('submitContribution() called');
+  proposeContributionReward() {
     return "abc";
   }
 
   async setParams(params) {
     return await this._setParameters(
       params.orgNativeTokenFee,
-      params.schemeNativeTokenFee,
       params.voteParametersHash,
       params.votingMachine
     );
@@ -33,38 +30,25 @@ class ContributionReward extends ExtendTruffleContract(
 
 describe("ExtendTruffleContract", () => {
   it("Must have sane inheritance", async () => {
-    let x;
+    let scheme;
 
-    x = await ContributionReward.new();
-    assert.isOk(x.nativeToken());
-    assert.equal(x.foo(), "bar");
-    assert.equal(x.submitContribution(), "abc");
-    assert.equal(await x.nativeToken(), await x.contract.nativeToken());
+    scheme = await ExtendTruffleContractSubclass.new();
+    assert.equal(scheme.foo(), "bar");
+    assert.equal(scheme.proposeContributionReward(), "abc");
     assert.equal(
-      await x.setParams({
+      await scheme.setParams({
         orgNativeTokenFee: 0,
-        schemeNativeTokenFee: 0,
         voteParametersHash: helpers.SOME_HASH,
         votingMachine: helpers.SOME_ADDRESS
       }),
-      "0xb6660b30e997e8e19cd58699fbf81c41450f200dbcb9f6a85c07b08483c86ee9"
+      "0x59af66fa0cefc060220aa22b6d9420988e6037221ca060f3140baa53883138ba"
     );
-    assert.equal(x.getDefaultPermissions(), "0x00000009");
+    assert.equal(scheme.getDefaultPermissions(), "0x00000009");
 
-    x = await ContributionReward.at(
+    scheme = await ExtendTruffleContractSubclass.at(
       (await ContributionRewardContract.deployed()).address
     );
-    assert.isOk(x.nativeToken());
-    assert.equal(x.foo(), "bar");
-    assert.equal(x.submitContribution(), "abc");
-    assert.equal(await x.nativeToken(), await x.contract.nativeToken());
-
-    x = await ContributionReward.at(
-      (await ContributionRewardContract.deployed()).address
-    );
-    assert.isOk(x.nativeToken());
-    assert.equal(x.foo(), "bar");
-    assert.equal(x.submitContribution(), "abc");
-    assert.equal(await x.nativeToken(), await x.contract.nativeToken());
+    assert.equal(scheme.foo(), "bar");
+    assert.equal(scheme.proposeContributionReward(), "abc");
   });
 });

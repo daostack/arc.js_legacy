@@ -1,3 +1,5 @@
+/* eslint-disable quotes */
+
 const {
   series,
   //  crossEnv,
@@ -11,26 +13,26 @@ const {
 const env = require("env-variable")();
 const joinPath = require("path.join");
 const cwd = require("cwd")();
-const config = require('./dist/config.js').config;
+const config = require('./lib/config.js').config;
 /**
  * environment variables you can use to configure stuff like migrateContracts
  */
-const pathArcJs = env.pathArcJs || cwd;
-const pathArcJsContracts = env.pathArcJsContracts || "./contracts";
-const pathDaostackArcRepo = env.pathDaostackArcRepo || "../daostack";
-const pathDaostackArcRepoContracts =
-  env.pathDaostackArcRepoContracts ||
-  joinPath(pathDaostackArcRepo, "build/contracts");
-const pathDaostackArcTestrpcDb = "./testrpcDb";
-const pathDaostackArcTestrpcDbZip = "./testrpcDb.zip";
-const network = config.get('network');
+const pathArcJsRoot = env.pathArcJsRoot || cwd;
 
-// "console.log(`cwd: ${cwd}`)"
-// console.log(`network: ${network ? network: "testrpc"}`)
-// console.log(`pathArcJs: ${pathArcJs}`)
-// console.log(`pathDaostackArcRepo: ${pathDaostackArcRepo}`)
-// console.log(`pathArcJsContracts: ${pathArcJsContracts}`),
-// console.log(`pathDaostackArcRepoContracts: ${pathDaostackArcRepoContracts}`),
+const pathArcJsContracts =
+  env.pathArcJsContracts || joinPath(pathArcJsRoot, "migrated_contracts");
+
+const pathDaostackArcRepo =
+  env.pathDaostackArcRepo ||
+  joinPath(pathArcJsRoot, "node_modules/daostack-arc");
+
+const pathDaostackArcGanacheDb = joinPath(pathArcJsRoot, "ganacheDb");
+const pathDaostackArcGanacheDbZip = joinPath(pathArcJsRoot, "ganacheDb.zip");
+
+const network = env.network || config.get('network');
+
+// this is needed to force travis to use our modified version of truffle  (dunno why it issn't anyway)
+const truffleCommand = `node ${joinPath("node_modules", "truffle-core-migrate-without-compile", "cli")}`;
 
 module.exports = {
   scripts: {
@@ -40,76 +42,68 @@ module.exports = {
     },
     test: {
       default: series("nps lint", "nps test.automated"),
-      automated:
-        "mocha --require babel-register --require chai --timeout 15000",
-      watch: 'nps "test.automated --watch"',
-      debug: 'nps "test.automated --debug"',
-      bail: 'nps "test.automated --bail"',
-      testrpc: {
-        /** the same command as is used by default by daostack-arc */
-        run: `testrpc -l ${config.get('gasLimit')} --account="0x0191ecbd1b150b8a3c27c27010ba51b45521689611e669109e034fd66ae69621,9999999999999999999999999999999999999999999" --account="0x00f360233e89c65970a41d4a85990ec6669526b2230e867c352130151453180d,9999999999999999999999999999999999999999999" --account="0x987a26abca7432016104ce2f24ce639340e25afe06ac69f68791399e7a5d1028,9999999999999999999999999999999999999999999" --account="0x89af34b1b7347834048b99423dad174a14bf14540d720d72c16ae92e94b987cb,9999999999999999999999999999999999999999999" --account="0xc867be647eb2bc51e4c0d61066859875cf3634fe949b6f5f85c69ab90e485b37,9999999999999999999999999999999999999999999" --account="0xefabcc2377dee5e51b5a9e65a3854aec85fbbec3cb584d8ad4f9679869fb33c6,9999999999999999999999999999999999999999999"`
+      automated: {
+        default: "mocha --require babel-register --require chai --timeout 15000",
+        bail: 'nps "test.automated --bail"'
       },
-      testrpcDb: {
+      watch: 'nps "test.automated --watch"',
+      bail: 'nps test.automated.bail',
+      ganache: {
+        run: `ganache-cli -l ${config.get("gasLimit")} --account="0x0191ecbd1b150b8a3c27c27010ba51b45521689611e669109e034fd66ae69621,9999999999999999999999999999999999999999999" --account="0x00f360233e89c65970a41d4a85990ec6669526b2230e867c352130151453180d,9999999999999999999999999999999999999999999" --account="0x987a26abca7432016104ce2f24ce639340e25afe06ac69f68791399e7a5d1028,9999999999999999999999999999999999999999999" --account="0x89af34b1b7347834048b99423dad174a14bf14540d720d72c16ae92e94b987cb,9999999999999999999999999999999999999999999" --account="0xc867be647eb2bc51e4c0d61066859875cf3634fe949b6f5f85c69ab90e485b37,9999999999999999999999999999999999999999999" --account="0xefabcc2377dee5e51b5a9e65a3854aec85fbbec3cb584d8ad4f9679869fb33c6,9999999999999999999999999999999999999999999"`,
+        runAsync: runInNewWindow("npm start test.ganache.run")
+      },
+      ganacheDb: {
         /**
-         * Full workflow to create custom contracts.  This can take a long time as there may
-         * be thousands of files to delete.
+         * ganacheDb scripts are handy for doing development against ganache, enabling you to
+         * take a snapshot (the database of the chain at any point, such as right after migration,
+         * and easily reuse it.
          *
-         *    npm start test.testrpcDb.clean
+         * Follow these steps to set up the database:
          *
-         * The following will open a window with testrpc running in it.
+         * This can take a long time as there may be thousands of files to delete:
          *
-         *    npm start test.testrpcDb.runAsync
+         *    npm start test.ganacheDb.clean
          *
-         * This will go into the daostack-arc repo, at pathDaostackArcRepo, and do a truffle migrate for the
-         * network given by the network config variable.
+         * The following will open a window with ganache running in it:
          *
-         *    npm start test.testrpcDb.create
+         *    npm start test.ganacheDb.runAsync
          *
-         * If the contracts haven't for practical purposes changed, you can skip the next two steps.
-         * Otherwise we must regenerate this testrpc database so that Travis tests will be running against
-         * the correct contracts.
+         * This will migrate the contracts and pull them into the project where they need to be:
          *
-         *    Kill the window in which testrpc is running. (You have to do that yourself, in your OS.)
+         *    npm start migrateContracts
          *
-         * Zip up the virgin testrpc database that was just created, before anything changes.
-         * The zip will fail in any case if testrpc is still running against it. The zip is used by
-         * Travis automated tests when you commit the changes.
+         * Now zip database for later reuse.
+         * But first you must close the window in which ganache is running.
+         * (You must do this yourself, in your OS.)
          *
-         *    npm start test.testrpcDb.zip
+         *    npm start test.ganacheDb.zip
          *
-         * Now we are ready to build daostack-arc-js using the newly-deployed contracts:
+         * Now you can restart ganache against the new database:
          *
-         *    npm start build (or deploy.pack or deploy.publish)
+         *    npm start test.ganacheDb.runAsync
          *
-         * If you want you can run the tests:
+         * And run tests or your application:
          *
-         *    npm start test.testrpcDb.runAsync
          *    npm start test
-         *
-         * (Note that Travis will use test.testrpcDb.run when it runs the tests.)
          */
-        run: `testrpc --db ${pathDaostackArcTestrpcDb} --networkId 1512051714758 --mnemonic "behave pipe turkey animal voyage dial relief menu blush match jeans general"`,
+        run: `ganache-cli --db ${pathDaostackArcGanacheDb} -l ${config.get("gasLimit")} --networkId 1512051714758 --mnemonic "behave pipe turkey animal voyage dial relief menu blush match jeans general"`,
         runAsync: series(
-          mkdirp(pathDaostackArcTestrpcDb),
-          runInNewWindow(`npm start test.testrpcDb.run`)
+          mkdirp(pathDaostackArcGanacheDb),
+          runInNewWindow("npm start test.ganacheDb.run")
         ),
-        create: series(
-          "nps migrateContracts.cleanDaoStackRepoContracts",
-          "nps migrateContracts.andFetch"
-        ),
-        clean: rimraf(pathDaostackArcTestrpcDb),
-        zip: `node ./package-scripts/archiveTestrpcDb.js ${pathDaostackArcTestrpcDbZip} ${pathDaostackArcTestrpcDb}`,
-        unzip: `node ./package-scripts/unArchiveTestrpcDb.js  ${pathDaostackArcTestrpcDbZip} ${pathArcJs}`,
+        clean: rimraf(pathDaostackArcGanacheDb),
+        zip: `node ./package-scripts/archiveGanacheDb.js ${pathDaostackArcGanacheDbZip} ${pathDaostackArcGanacheDb}`,
+        unzip: `node ./package-scripts/unArchiveGanacheDb.js  ${pathDaostackArcGanacheDbZip} ${pathArcJsRoot}`,
         restoreFromZip: series(
-          "nps test.testrpcDb.clean",
-          "nps test.testrpcDb.unzip"
+          "nps test.ganacheDb.clean",
+          "nps test.ganacheDb.unzip"
         )
       }
     },
     build: {
       default: series(
         rimraf("dist"),
-        "babel lib --presets babel-preset-es2015 --out-dir dist"
+        "babel lib --presets babel-preset-es2015 --out-dir dist --source-maps"
       )
     },
     deploy: {
@@ -117,43 +111,75 @@ module.exports = {
       publish: series("nps build", "npm publish")
     },
     /**
-     * migrateContracts requires that you have installed the daostack-arc repo, or equivalent,
-     * wherein the .sol and deploy*.js files can be found in the folder structure
-     * that truffle expects.
      *
-     * It will look in pathDaostackArcRepo for the daostack repo, pathArcJs for daostack-arc-js (this library)
+     * Typical workflow for migrating to ganache (Ganache):
      *
-     * It will delete and replace all the contract js files in pathDaostackArcRepoContracts
+     * You only need to ever call this once:
      *
-     * The final output goes to the local contracts folder after running migrateContracts.fetchContractsFromDaoStackRepo.
+     *    npm start migrateContracts.initialize
+     *
+     * Then fire up ganache (Ganache) in a separate window.
+     *
+     *    npm start test.ganache.runAsync
+     *
+     * If the window didn't fire up in your OS, then run this
+     * in a separate window of your own creation:
+     *
+     *    npm start test.ganache.run
+     *
+     * Then run the migrations:
+     *
+     *    npm start migrateContracts
+     *
+     * And you're ready to run arc-js tests or your application against arc-js.
+     *
+     * Notes:
+     *
+     * If you want to migrate to another network, kovan for example:
+     *
+     *    Set the "network" config value to "kovan" (see "Arc Configuration" in the root readme.md)
+     *    Start a local network node listening at http://127.0.0.1:8584
+     *    Run:  npm start migrateContracts
+     *
+     * To deploy to the mainnet, Set the "network" config value to "live" and proceed as above.
+     * (see "Arc Configuration" in the root readme.md)
      */
     migrateContracts: {
-      default: series(
-        `cd ${pathDaostackArcRepo}`,
-        `truffle migrate ${network ? `--network ${network}` : ""}`,
-        `cd ${pathArcJs}`
-      ),
-      cleanDaoStackRepoContracts: rimraf(
-        joinPath(pathDaostackArcRepoContracts, "*")
-      ),
-      cleanArcContracts: rimraf(joinPath(pathArcJsContracts, "*")),
       /**
-       * Fetch the newly-compiled contract .json files from the daostack-arc repo into the local
-       * contracts folder which is where the code expects to find them.
+       * If you want to do migrations, run migrateContracts.initialize first.
+       * Same goes for applications that are depending on this.
+       * You only need to call it once.  Thereafter you can run
+       * migrateContracts all you want without calling migrateContracts.initialize again.
        */
-      fetchContractsFromDaoStackRepo: series(
-        "nps migrateContracts.cleanArcContracts",
-        copy(
-          `${joinPath(
-            pathDaostackArcRepoContracts,
-            "*"
-          )}  ${pathArcJsContracts}`
-        )
+      initialize: series(
+        "npm install daostack-arc --save-dev", // only needed for applications, and only to pull in its contract json files
+        "nps migrateContracts.clean",
+        "nps migrateContracts.fetchFromArc"
       ),
-      andFetch: series(
-        "nps migrateContracts",
-        "nps migrateContracts.fetchContractsFromDaoStackRepo"
-      )
+      /**
+       * Migrate contracts.
+       *
+       * Assumes you have at some previous time run migrationContracts.initialize.
+       *
+       * Truffle will merge this migration with whatever previous ones are already present in the contract json files.
+       */
+      default: `${truffleCommand} migrate --contracts_build_directory ${pathArcJsContracts} --without-compile ${network ? `--network ${network}` : "ganache"}`,
+      /**
+       * Clean the outputted contract json files, optionally andMigrate.
+       *
+       * IMPORTANT! Only do this if you aren't worried about losing
+       * previously-performed migrations to other networks.  By cleaning, you'll lose them, starting
+       * from scratch.  Otherwise, truffle will merge your migrations into whatever  previous
+       * ones exist.
+       */
+      clean: {
+        default: rimraf(joinPath(pathArcJsContracts, "*")),
+        andMigrate: series("nps migrateContracts.clean", "nps migrateContracts.fetchFromArc", "nps migrateContracts")
+      },
+      /**
+       * fetch the unmigrated contract json files from DAOstack-Arc
+       */
+      fetchFromArc: copy(`${joinPath(pathDaostackArcRepo, "build", "contracts", "*")}  ${pathArcJsContracts}`)
     }
   }
 };

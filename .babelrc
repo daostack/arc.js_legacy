@@ -1,4 +1,6 @@
 {
   "presets": ["es2015"],
-  "plugins": ["syntax-async-functions"]
+  "plugins": ["syntax-async-functions"],
+  // for VS Code test code debugging
+  "sourceMaps": "inline"
 }

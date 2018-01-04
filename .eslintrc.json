@@ -26,6 +26,7 @@
     "no-confusing-arrow": 2,
     "no-lonely-if": 2,
     "no-continue": 2,
-    "indent": ["error", 2, { "SwitchCase": 1 }]
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "quotes": [2, "double", "avoid-escape"]
   }
 }
