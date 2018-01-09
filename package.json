@@ -62,7 +62,7 @@
     "bignumber.js": "^4.1.0",
     "chai": "^4.1.2",
     "cwd": "^0.10.0",
-    "daostack-arc": "0.0.0-alpha.19",
+    "daostack-arc": "0.0.0-alpha.25",
     "decompress": "^4.2.0",
     "env-variable": "0.0.3",
     "eslint": "^4.10.0",

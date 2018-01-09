@@ -7,15 +7,13 @@ exports.getDeployedContracts = getDeployedContracts;
 
 var _utils = require("./utils.js");
 
-var _globalconstraintregistrar = require("./globalconstraintregistrar.js");
-
-var _schemeregistrar = require("./schemeregistrar.js");
+var _absoluteVote = require("./absoluteVote.js");
 
 var _contributionreward = require("./contributionreward.js");
 
-var _absoluteVote = require("./absoluteVote.js");
+var _globalconstraintregistrar = require("./globalconstraintregistrar.js");
 
-var _tokenCapGC = require("./tokenCapGC.js");
+var _schemeregistrar = require("./schemeregistrar.js");
 
 var _upgradescheme = require("./upgradescheme.js");
 
@@ -31,13 +29,12 @@ async function getDeployedContracts() {
    *
    * `deployed()` is a static method on each of those classes.
    **/
+  var absoluteVote = await _absoluteVote.AbsoluteVote.deployed();
   var contributionReward = await _contributionreward.ContributionReward.deployed();
   var genesisScheme = await GenesisScheme.deployed();
   var globalConstraintRegistrar = await _globalconstraintregistrar.GlobalConstraintRegistrar.deployed();
   var schemeRegistrar = await _schemeregistrar.SchemeRegistrar.deployed();
-  var tokenCapGC = await _tokenCapGC.TokenCapGC.deployed();
   var upgradeScheme = await _upgradescheme.UpgradeScheme.deployed();
-  var absoluteVote = await _absoluteVote.AbsoluteVote.deployed();
 
   /**
    * `contract` here is an uninitialized instance of ExtendTruffleContract,
@@ -46,6 +43,10 @@ async function getDeployedContracts() {
    * the properly initialized instance of ExtendTruffleContract.
    */
   var contracts = {
+    AbsoluteVote: {
+      contract: _absoluteVote.AbsoluteVote,
+      address: absoluteVote.address
+    },
     ContributionReward: {
       contract: _contributionreward.ContributionReward,
       address: contributionReward.address
@@ -62,17 +63,9 @@ async function getDeployedContracts() {
       contract: _schemeregistrar.SchemeRegistrar,
       address: schemeRegistrar.address
     },
-    TokenCapGC: {
-      contract: _tokenCapGC.TokenCapGC,
-      address: tokenCapGC.address
-    },
     UpgradeScheme: {
       contract: _upgradescheme.UpgradeScheme,
       address: upgradeScheme.address
-    },
-    AbsoluteVote: {
-      contract: _absoluteVote.AbsoluteVote,
-      address: absoluteVote.address
     }
   };
 
@@ -81,6 +74,6 @@ async function getDeployedContracts() {
     defaultVotingMachine: contracts.AbsoluteVote,
     schemes: [contracts.SchemeRegistrar, contracts.UpgradeScheme, contracts.GlobalConstraintRegistrar, contracts.ContributionReward],
     votingMachines: [contracts.AbsoluteVote],
-    globalConstraints: [contracts.TokenCapGC]
+    globalConstraints: []
   };
 }

@@ -22,13 +22,13 @@ The default configuration settings for Arc can be found in config/default.json, 
   "providerUrl": "http://localhost:8545",
   "network": "kovan", // Options are 'homestead', 'ropsten', 'rinkeby', 'kovan'
   "apiToken": "" // Required for Infura or Etherscan
-  "gasLimit": 6900000
+  "gasLimit": 6500000
 }
 ```
 
-If you want to override these default configuration settings you can add an arc.config.json file to your project. Any values set there will override the above defaults. You can pass in a path to a different file using a `--arcConfigFile pathToFile` command line argument, or setting environment variable `arcConfigFile=pathToFile`.
+If you want to override these default configuration settings you can add an arc-js.config.json file to your project. Any values set there will override the above defaults. You can pass in a path to a different file using a `--arcConfigFile pathToFile` command line argument, or setting environment variable `arcConfigFile=pathToFile`.
 
-You can also override these settings on the command line or through environment variables, with command line arguments taking precedence over environment variables which take precedence over the arc.config.json config file.
+You can also override these settings on the command line or through environment variables, with command line arguments taking precedence over environment variables which take precedence over the arc-js.config.json config file.
 
 The configuration object uses the [nconf](https://github.com/indexzero/nconf) library so you can override configuration settings at runtime with:
 ```javascript

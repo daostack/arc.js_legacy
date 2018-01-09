@@ -29,7 +29,6 @@ declare module "daostack-arc-js" {
     GlobalConstraintRegistrar: ArcContractInfo;
     SchemeRegistrar: ArcContractInfo;
     SimpleICO: ArcContractInfo;
-    TokenCapGC: ArcContractInfo;
     UpgradeScheme: ArcContractInfo;
     AbsoluteVote: ArcContractInfo;
   }
@@ -120,7 +119,8 @@ export function getDeployedContracts() : ArcDeployedContracts;
    */
   export function requireContract(
     contractName: string
-  ): Promise<any | undefined>;
+  ): any;
+
   export function getWeb3(): Web3;
   export function getValueFromLogs(
     tx: TransactionReceiptTruffle,

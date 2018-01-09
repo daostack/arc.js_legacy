@@ -11,7 +11,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _nconf2.default.argv().env();
 
 // Then look for overrides from modules that are importing arc-js
-var path = _nconf2.default.get('arcConfigFile') || 'arc.config.json'; // Path to configuration file in calling module
+var path = _nconf2.default.get('arcConfigFile') || 'arc-js.config.json'; // Path to configuration file in calling module
 _nconf2.default.file("external", path);
 
 // Then load defaults from our configuration file

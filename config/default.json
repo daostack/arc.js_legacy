@@ -1,5 +1,5 @@
 {
   "providerUrl": "http://localhost:8545",
   "network": "kovan",
-  "gasLimit": 6900000
+  "gasLimit": 6500000
 }
