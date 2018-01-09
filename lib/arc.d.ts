@@ -29,17 +29,18 @@ declare module "daostack-arc-js" {
     GlobalConstraintRegistrar: ArcContractInfo;
     SchemeRegistrar: ArcContractInfo;
     SimpleICO: ArcContractInfo;
-    TokenCapGC: ArcContractInfo;
     UpgradeScheme: ArcContractInfo;
     AbsoluteVote: ArcContractInfo;
   }
 
-  /**
-   * ArcDeployedContractNames, and those contracts organized by type.
-   * Call it.at(it.address) to get javascript wrapper
-   */
-  export interface ArcDeployedContracts {
-    allContracts: ArcDeployedContractNames;
+/**
+ * ArcDeployedContractNames, and those contracts organized by type.
+ * Call it.at(it.address) to get javascript wrapper
+ */
+export interface ArcDeployedContracts {
+    allContracts : ArcDeployedContractNames;
+    defaultVotingMachine: ArcContractInfo;
+
     /**
      * All deployed schemes
      */
@@ -54,19 +55,19 @@ declare module "daostack-arc-js" {
     globalConstraints: Array<ArcContractInfo>;
   }
 
-  // from arc.js
-  export function configure(options: any): Web3;
-  export function getDeployedContracts(): ArcDeployedContracts;
+/********************************
+ * config.js
+ */
+export var config : any;
 
-  export interface OrganizationSchemeInfo {
-    name: string;
-    address: string;
-    permissions: string;
-  }
+/********************************
+ * contracts.js
+ */
+export function getDeployedContracts() : ArcDeployedContracts;
 
-  /********************************
-   * Utils
-   */
+/********************************
+ * Utils
+ */
   export interface TransactionLog {
     address: string;
     blockHash: string;
@@ -118,7 +119,8 @@ declare module "daostack-arc-js" {
    */
   export function requireContract(
     contractName: string
-  ): Promise<any | undefined>;
+  ): any;
+
   export function getWeb3(): Web3;
   export function getValueFromLogs(
     tx: TransactionReceiptTruffle,
@@ -179,15 +181,21 @@ declare module "daostack-arc-js" {
     tokenName: string;
     tokenSymbol: string;
     founders: Array<FounderConfig>;
-    votingMachine: string; // address
-    votePrec: Number;
-    ownerVote: boolean;
-    schemes: Array<{ name: string; address: string }>;
+    votingMachine?: string, // address
+    votePrec?: Number,
+    ownerVote?: boolean,
+    schemes?: Array<{ name: string, address: string }>
   }
 
   /********************************
    * Organization
    */
+  export interface OrganizationSchemeInfo {
+    name: string;
+    address: string;
+    permissions: string;
+  }
+
   export class Organization {
     /**
      * includes static `new` and `at`

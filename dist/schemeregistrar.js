@@ -7,9 +7,9 @@ exports.SchemeRegistrar = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _utils = require('./utils.js');
+var _contracts = require("./contracts.js");
 
-var _settings = require('./settings.js');
+var _utils = require("./utils.js");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -17,7 +17,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var dopts = require('default-options');
+var dopts = require("default-options");
 
 var SoliditySchemeRegistrar = (0, _utils.requireContract)("SchemeRegistrar");
 var DAOToken = (0, _utils.requireContract)("DAOToken");
@@ -32,7 +32,7 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
   }
 
   _createClass(SchemeRegistrar, [{
-    key: 'proposeToAddModifyScheme',
+    key: "proposeToAddModifyScheme",
 
 
     /**
@@ -48,30 +48,29 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
     value: async function proposeToAddModifyScheme() {
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-
       /**
        * Note that explicitly supplying any property with a value of undefined will prevent the property
        * from taking on its default value (weird behavior of default-options).
        *
-      */
+       */
       var defaults = {
         /**
          * avatar address
          */
-        avatar: undefined
+        avatar: undefined,
         /**
          * scheme address
          */
-        , scheme: undefined
+        scheme: undefined,
         /**
          * scheme identifier, like "SchemeRegistrar" or "ContributionReward".
          * pass null if registering a non-arc scheme
          */
-        , schemeName: null
+        schemeName: null,
         /**
          * hash of scheme parameters. These must be already registered with the new scheme.
          */
-        , schemeParametersHash: undefined
+        schemeParametersHash: undefined,
         /**
          * The fee that the scheme charges to register an organization in the scheme.  The controller
          * will be asked in advance to approve this expenditure.
@@ -83,7 +82,7 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
          *
          * The fee is paid using the token given by tokenAddress.  In Wei.
          */
-        , fee: null
+        fee: null,
         /**
          * The token used to pay the fee that the scheme charges to register an organization in the scheme.
          *
@@ -92,14 +91,14 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
          *
          * tokenAddress is required when schemeName is not given (non-Arc schemes).
          */
-        , tokenAddress: null
+        tokenAddress: null,
         /**
          * true if the given scheme is able to register/unregister/modify schemes.
          *
          * isRegistering should only be supplied when schemeName is not given (and thus the scheme is non-Arc).
          * Otherwise we determine it's value based on scheme and schemeName.
          */
-        , isRegistering: null
+        isRegistering: null
       };
 
       var options = dopts(opts, defaults, { allowUnknown: true });
@@ -129,8 +128,8 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
 
       if (options.schemeName) {
         try {
-          var settings = await (0, _settings.getSettings)();
-          var newScheme = await settings.daostackContracts[options.schemeName].contract.at(options.scheme);
+          var contracts = await (0, _contracts.getDeployedContracts)();
+          var newScheme = await contracts.allContracts[options.schemeName].contract.at(options.scheme);
           autoRegister = true;
 
           if (!feeIsDefined || !tokenAddressIsDefined) {
@@ -152,10 +151,9 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
 
           isRegistering = (permissions & 2) != 0;
         } catch (ex) {
-          throw new Error('Unable to obtain default information from the given scheme address. The address is invalid or the scheme is not an Arc scheme and in that case you must supply fee and tokenAddress. ' + ex);
+          throw new Error("Unable to obtain default information from the given scheme address. The address is invalid or the scheme is not an Arc scheme and in that case you must supply fee and tokenAddress. " + ex);
         }
       } else {
-
         isRegistering = options.isRegistering;
         autoRegister = false; // see https://github.com/daostack/daostack/issues/181#issuecomment-353210642
 
@@ -177,20 +175,19 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
       return tx;
     }
   }, {
-    key: 'proposeToRemoveScheme',
+    key: "proposeToRemoveScheme",
     value: async function proposeToRemoveScheme() {
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
 
       var defaults = {
         /**
          * avatar address
          */
-        avatar: undefined
+        avatar: undefined,
         /**
          * scheme address
          */
-        , scheme: undefined
+        scheme: undefined
       };
 
       var options = dopts(opts, defaults, { allowUnknown: true });
@@ -208,17 +205,17 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
       return tx;
     }
   }, {
-    key: 'setParams',
+    key: "setParams",
     value: async function setParams(params) {
       return await this._setParameters(params.voteParametersHash, params.voteParametersHash, params.votingMachine);
     }
   }, {
-    key: 'getDefaultPermissions',
+    key: "getDefaultPermissions",
     value: function getDefaultPermissions(overrideValue) {
-      return overrideValue || '0x00000003';
+      return overrideValue || "0x00000003";
     }
   }], [{
-    key: 'new',
+    key: "new",
     value: async function _new() {
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -233,7 +230,7 @@ var SchemeRegistrar = exports.SchemeRegistrar = function (_ExtendTruffleContrac)
 
       var token = void 0;
       if (options.tokenAddress == null) {
-        token = await DAOToken.new('schemeregistrartoken', 'SRT');
+        token = await DAOToken.new("schemeregistrartoken", "SRT");
       } else {
         token = await DAOToken.at(options.tokenAddress);
       }

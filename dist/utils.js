@@ -5,13 +5,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ExtendTruffleContract = exports.NULL_HASH = exports.NULL_ADDRESS = undefined;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // some utility functions
+
 
 exports.requireContract = requireContract;
 exports.getWeb3 = getWeb3;
 exports.getValueFromLogs = getValueFromLogs;
 exports.getDefaultAccount = getDefaultAccount;
 exports.SHA3 = SHA3;
+
+var _config = require('./config.js');
 
 var _web = require('web3');
 
@@ -21,14 +24,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// some utility functions
-
 var TruffleContract = require('truffle-contract');
 
-var abi = require('ethereumjs-abi');
+var abi = require("ethereumjs-abi");
 
-var NULL_ADDRESS = exports.NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
-var NULL_HASH = exports.NULL_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000';
+var NULL_ADDRESS = exports.NULL_ADDRESS = "0x0000000000000000000000000000000000000000";
+var NULL_HASH = exports.NULL_HASH = "0x0000000000000000000000000000000000000000000000000000000000000000";
 
 /**
  * Returns TruffleContract given the name of the contract (like "SchemeRegistrar"), or undefined
@@ -52,7 +53,7 @@ function requireContract(contractName) {
     contract.setProvider(myWeb3.currentProvider);
     contract.defaults({
       from: getDefaultAccount(),
-      gas: 6500000
+      gas: _config.config.get('gasLimit')
     });
     return contract;
   } catch (ex) {
@@ -67,8 +68,7 @@ var alreadyTriedAndFailed = false;
  * throws an exception when web3 cannot be initialized or there is no default client
  */
 function getWeb3() {
-
-  if (typeof web3 !== 'undefined') {
+  if (typeof web3 !== "undefined") {
     return web3; // e.g. set by truffle in test and migration environments
   } else if (_web3) {
     return _web3;
@@ -85,7 +85,7 @@ function getWeb3() {
     preWeb3 = new _web2.default(windowWeb3.currentProvider);
   } else {
     // console.log(`Connecting via http://localhost:8545`)
-    preWeb3 = new _web2.default(new _web2.default.providers.HttpProvider('http://localhost:8545'));
+    preWeb3 = new _web2.default(new _web2.default.providers.HttpProvider(_config.config.get('daostack.providerUrl')));
   }
 
   if (!preWeb3) {
@@ -108,11 +108,11 @@ function getValueFromLogs(tx, arg, eventName) {
   /**
    *
    * tx is an object with the following values:
-   * 
+   *
    * tx.tx      => transaction hash, string
    * tx.logs    => array of decoded events that were triggered within this transaction
    * tx.receipt => transaction receipt object, which includes gas used
-  * 
+   *
    * tx.logs look like this:
    *
    * [ { logIndex: 13,
@@ -126,7 +126,7 @@ function getValueFromLogs(tx, arg, eventName) {
    *     args: { _avatar: '0xcc05f0cde8c3e4b6c41c9b963031829496107bbb' } } ]
    */
   if (!tx.logs || !tx.logs.length) {
-    throw new Error('getValueFromLogs: Transaction has no logs');
+    throw new Error("getValueFromLogs: Transaction has no logs");
   }
 
   if (eventName !== undefined) {
@@ -143,7 +143,7 @@ function getValueFromLogs(tx, arg, eventName) {
   } else if (index === undefined) {
     index = tx.logs.length - 1;
   }
-  if (tx.logs[index].type !== 'mined') {
+  if (tx.logs[index].type !== "mined") {
     var _msg = 'getValueFromLogs: transaction has not been mined: ' + tx.logs[index].event;
     throw new Error(_msg);
   }
@@ -177,7 +177,7 @@ function getDefaultAccount() {
  * @param str a string
  */
 function SHA3(str) {
-  var result = '0x' + abi.soliditySHA3(["string"], [str]).toString('hex');
+  var result = '0x' + abi.soliditySHA3(["string"], [str]).toString("hex");
   // console.log("SHA3: " + result);
   return result;
 }
@@ -220,9 +220,9 @@ var ExtendTruffleContract = exports.ExtendTruffleContract = function ExtendTruff
        *    orgNativeTokenFee -- number
        *    schemeNativeTokenFee -- number
        */
-      // eslint-disable-next-line no-unused-vars
       value: async function setParams(params) {
-        return await '';
+        params; // avoid lint error
+        return await "";
       }
     }, {
       key: '_setParameters',
@@ -241,7 +241,7 @@ var ExtendTruffleContract = exports.ExtendTruffleContract = function ExtendTruff
     }, {
       key: 'getDefaultPermissions',
       value: function getDefaultPermissions(overrideValue) {
-        return overrideValue || '0x00000000';
+        return overrideValue || "0x00000000";
       }
     }], [{
       key: 'new',

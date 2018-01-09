@@ -7,7 +7,7 @@ exports.GlobalConstraintRegistrar = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _utils = require('./utils.js');
+var _utils = require("./utils.js");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -15,7 +15,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var dopts = require('default-options');
+var dopts = require("default-options");
 
 var SolidityGlobalConstraintRegistrar = (0, _utils.requireContract)("GlobalConstraintRegistrar");
 var DAOToken = (0, _utils.requireContract)("DAOToken");
@@ -30,7 +30,7 @@ var GlobalConstraintRegistrar = exports.GlobalConstraintRegistrar = function (_E
   }
 
   _createClass(GlobalConstraintRegistrar, [{
-    key: 'proposeToAddModifyGlobalConstraint',
+    key: "proposeToAddModifyGlobalConstraint",
     value: async function proposeToAddModifyGlobalConstraint() {
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -38,19 +38,19 @@ var GlobalConstraintRegistrar = exports.GlobalConstraintRegistrar = function (_E
         /**
          * avatar address
          */
-        avatar: undefined
+        avatar: undefined,
         /**
          *  the address of the global constraint to add
          */
-        , globalConstraint: undefined
+        globalConstraint: undefined,
         /**
          * hash of the parameters of the global contraint
          */
-        , globalConstraintParametersHash: undefined
+        globalConstraintParametersHash: undefined,
         /**
          * voting machine to use when voting to remove the global constraint
          */
-        , votingMachineHash: undefined
+        votingMachineHash: undefined
       };
 
       var options = dopts(opts, defaults, { allowUnknown: true });
@@ -80,20 +80,19 @@ var GlobalConstraintRegistrar = exports.GlobalConstraintRegistrar = function (_E
       return tx;
     }
   }, {
-    key: 'proposeToRemoveGlobalConstraint',
+    key: "proposeToRemoveGlobalConstraint",
     value: async function proposeToRemoveGlobalConstraint() {
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
 
       var defaults = {
         /**
          * avatar address
          */
-        avatar: undefined
+        avatar: undefined,
         /**
          *  the address of the global constraint to remove
          */
-        , globalConstraint: undefined
+        globalConstraint: undefined
       };
 
       var options = dopts(opts, defaults, { allowUnknown: true });
@@ -111,17 +110,17 @@ var GlobalConstraintRegistrar = exports.GlobalConstraintRegistrar = function (_E
       return tx;
     }
   }, {
-    key: 'setParams',
+    key: "setParams",
     value: async function setParams(params) {
       return await this._setParameters(params.voteParametersHash, params.votingMachine);
     }
   }, {
-    key: 'getDefaultPermissions',
+    key: "getDefaultPermissions",
     value: function getDefaultPermissions(overrideValue) {
-      return overrideValue || '0x00000007';
+      return overrideValue || "0x00000007";
     }
   }], [{
-    key: 'new',
+    key: "new",
     value: async function _new() {
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -136,7 +135,7 @@ var GlobalConstraintRegistrar = exports.GlobalConstraintRegistrar = function (_E
 
       var token = void 0;
       if (options.tokenAddress == null) {
-        token = await DAOToken.new('globalconstraintregistrartoken', 'GCT');
+        token = await DAOToken.new("globalconstraintregistrartoken", "GCT");
         // TODO: or is it better to throw an error?
         // throw new Error('A tokenAddress must be provided');
       } else {

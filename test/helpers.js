@@ -11,8 +11,8 @@ beforeEach(async () => {
   await etherForEveryone();
 });
 
-import { Organization } from "../lib/organization.js";
-import { getSettings } from "../lib/settings.js";
+import { Organization } from '../lib/organization.js';
+import { getDeployedContracts } from '../lib/contracts.js';
 
 export const NULL_HASH =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
@@ -114,7 +114,7 @@ export function assertJump(error) {
   );
 }
 
-export function settingsForTest() {
+export function contractsForTest() {
   // return settings used for testing
-  return getSettings();
+  return getDeployedContracts();
 }

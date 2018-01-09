@@ -16,21 +16,21 @@ the Blockchain. The function returns an `Organization` instance.
          tokens: 3.14, // how many tokens will be created and given to this founder
          reputation: 1234, // how much reputaiton will be created and given to this founder
        }
-      ],  
+      ],
 
-      // schemes is an array of schemes; default looks as follows:  
+      // schemes is an array of schemes; default looks as follows:
       schemes: [
         {
           contract: 'SchemeRegistrar',
-          address: settings.schemeRegistrar,
+          address: contracts.schemeRegistrar,
         },
         {
           contract: 'UpgradeScheme',
-          address: settings.upgradeScheme,
+          address: contracts.upgradeScheme,
         },
         {
           contract: 'GlobalConstraintRegistrar',
-          address: settings.globalConstraintRegistrar,
+          address: contracts.globalConstraintRegistrar,
         },
       ],
     })

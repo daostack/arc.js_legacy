@@ -7,6 +7,8 @@ exports.Wallet = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _config = require('./config.js');
+
 var _ethers = require('ethers');
 
 var ethers = _interopRequireWildcard(_ethers);
@@ -22,21 +24,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var bip39 = require('bip39');
 
 
-// TODO: move all the provider connection stuff to settings.js
-var ethProvider = process.env.ETH_PROVIDER || 'local'; // 'infura', 'etherscan', otherwise will default to local RPC (testrpc, Geth, or Parity..)
-var ethNetwork = process.env.ETH_NETWORK || 'kovan'; // Options are 'homestead', 'ropsten', 'rinkeby', 'kovan'
-var ethApiToken = process.env.ETH_API_TOKEN; // Required for Infura or Etherscan
-
 var provider = void 0;
-switch (ethProvider) {
-  case 'infura':
-    provider = new ethers.providers.InfuraProvider(ethNetwork, ethApiToken);
-    break;
-  case 'etherscan':
-    provider = new ethers.providers.EtherscanProvider(ethNetwork, ethApiToken);
-    break;
-  default:
-    provider = new ethers.providers.JsonRpcProvider('http://localhost:8545', ethNetwork);
+if (_config.config.get('providerUrl').indexOf('infura') !== -1) {
+  provider = new ethers.providers.InfuraProvider(ethNetwork, _config.config.get('apiToken'));
+} else if (_config.config.get('providerUrl').indexOf('etherscan') !== -1) {
+  provider = new ethers.providers.EtherscanProvider(ethNetwork, _config.config.get('apiToken'));
+} else {
+  provider = new ethers.providers.JsonRpcProvider(_config.config.get('providerUrl'), _config.config.get('network'));
 }
 
 var web3 = (0, _utils.getWeb3)();
