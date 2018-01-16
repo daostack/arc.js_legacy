@@ -169,8 +169,8 @@ declare module "daostack-arc-js" {
 
   export interface FounderConfig {
     address: string;
-    tokens: number; // in Wei
-    reputation: number;
+    tokens: string|number; // in Wei
+    reputation: string|number;
   }
 
   export interface OrganizationNewConfig {
@@ -181,7 +181,7 @@ declare module "daostack-arc-js" {
     votingMachine?: string, // address
     votePrec?: Number,
     ownerVote?: boolean,
-    schemes?: Array<{ name: string, address: string }>
+    schemes?: Array<{ name: string, address?: string }>
   }
 
   /********************************
@@ -234,6 +234,10 @@ declare module "daostack-arc-js" {
     // vote(proposalId, choice, params);
     static new(options: OrganizationNewConfig): Promise<Organization>;
     static at(avatarAddress: string): Promise<Organization>;
+
+    getName(): string;
+    getTokenName(): string;
+    getTokenSymbol(): string;
   }
 
   /*******************************
@@ -507,5 +511,9 @@ declare module "daostack-arc-js" {
       opts: ProposeContributionParams
     ): Promise<TransactionReceiptTruffle>;
     setParams(params: ContributionRewardParams): Promise<string>;
+
+    LogNewContributionProposal(filters : any, options : any) : any;
+    LogProposalExecuted(filters : any, options : any) : any;
+    LogProposalDeleted(filters : any, options : any): any;
   }
 }
