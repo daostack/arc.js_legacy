@@ -3,7 +3,7 @@ dist: trusty
 language: node_js
 
 node_js:
-  - "7.10.0"
+  - "9.3.0"
 
 before_install:
   - sudo apt-get update -qq
@@ -14,13 +14,14 @@ before_install:
   - sudo apt-get install geth -y -qq
   
 install:
-  - yarn
-  - yarn start test.testrpcDb.restoreFromZip
-  - nohup yarn start test.testrpcDb.run &
+  - npm install
+  - npm start migrateContracts.initialize
+  - nohup npm start test.ganache.run &
+  - npm start migrateContracts
   
 script:
-  - yarn start lint
-  - yarn start test.automated
+  - npm start lint
+  - npm start test.automated
 
 notifications:
   slack: daostack:fGuaFPsiQiV5mgmzRcSzbYqw

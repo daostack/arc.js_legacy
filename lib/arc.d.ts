@@ -33,12 +33,12 @@ declare module "daostack-arc-js" {
     AbsoluteVote: ArcContractInfo;
   }
 
-/**
- * ArcDeployedContractNames, and those contracts organized by type.
- * Call it.at(it.address) to get javascript wrapper
- */
-export interface ArcDeployedContracts {
-    allContracts : ArcDeployedContractNames;
+  /**
+   * ArcDeployedContractNames, and those contracts organized by type.
+   * Call it.at(it.address) to get javascript wrapper
+   */
+  export interface ArcDeployedContracts {
+    allContracts: ArcDeployedContractNames;
     defaultVotingMachine: ArcContractInfo;
 
     /**
@@ -55,19 +55,19 @@ export interface ArcDeployedContracts {
     globalConstraints: Array<ArcContractInfo>;
   }
 
-/********************************
- * config.js
- */
-export var config : any;
+  /********************************
+   * config.js
+   */
+  export var config: any;
 
-/********************************
- * contracts.js
- */
-export function getDeployedContracts() : ArcDeployedContracts;
+  /********************************
+   * contracts.js
+   */
+  export function getDeployedContracts(): ArcDeployedContracts;
 
-/********************************
- * Utils
- */
+  /********************************
+   * Utils
+   */
   export interface TransactionLog {
     address: string;
     blockHash: string;
@@ -160,9 +160,6 @@ export function getDeployedContracts() : ArcDeployedContracts;
   }
 
   export interface StandardNewSchemeParams {
-    fee?: BigNumber.BigNumber | string; // the fee to use this scheme, in Wei
-    beneficiary?: string; // default is default account,
-    tokenAddress?: string; // the address of a token to use
   }
 
   export interface StandardSchemeParams {
@@ -188,7 +185,7 @@ export function getDeployedContracts() : ArcDeployedContracts;
   }
 
   /********************************
-   * Organization
+   * Returned from Organization.schemes
    */
   export interface OrganizationSchemeInfo {
     name: string;
@@ -196,6 +193,9 @@ export function getDeployedContracts() : ArcDeployedContracts;
     permissions: string;
   }
 
+  /********************************
+   * Organization
+   */
   export class Organization {
     /**
      * includes static `new` and `at`
@@ -269,10 +269,10 @@ export function getDeployedContracts() : ArcDeployedContracts;
    * GlobalConstraintRegistrar
    */
   export interface GlobalConstraintRegistrarNewParams
-    extends StandardNewSchemeParams {}
+    extends StandardNewSchemeParams { }
 
   export interface GlobalConstraintRegistrarParams
-    extends StandardSchemeParams {}
+    extends StandardSchemeParams { }
 
   export interface ProposeToAddModifyGlobalConstraintParams {
     /**
@@ -332,9 +332,9 @@ export function getDeployedContracts() : ArcDeployedContracts;
   /********************************
    * SchemeRegistrar
    */
-  export interface SchemeRegistrarNewParams extends StandardNewSchemeParams {}
+  export interface SchemeRegistrarNewParams extends StandardNewSchemeParams { }
 
-  export interface SchemeRegistrarParams extends StandardSchemeParams {}
+  export interface SchemeRegistrarParams extends StandardSchemeParams { }
 
   export interface ProposeToAddModifySchemeParams {
     /**
@@ -355,39 +355,12 @@ export function getDeployedContracts() : ArcDeployedContracts;
      */
     schemeParametersHash: string;
     /**
-     * The fee that the scheme charges to register an organization in the scheme.  The controller
-     * will be asked in advance to approve this expenditure.
-     *
-     * If schemeName is given but fee is not then we use the amount of the fee of the
-     * Arc scheme given by scheme and schemeName.
-     *
-     * Fee is required when schemeName is not given (non-Arc schemes).
-     *
-     * The fee is paid using the token given by tokenAddress.  In Wei.
-     */
-    fee?: BigNumber.BigNumber | string | null;
-    /**
-     * The token used to pay the fee that the scheme charges to register an organization in the scheme.
-     *
-     * If schemeName is given but tokenAddress is not then we use the token address of the
-     * Arc scheme given by scheme and schemeName.
-     *
-     * tokenAddress is required when schemeName is not given (non-Arc schemes).
-     */
-    tokenAddress?: string | null;
-    /**
      * true if the given scheme is able to register/unregister/modify schemes.
      *
      * isRegistering should only be supplied when schemeName is not given (and thus the scheme is non-Arc).
-     * Otherwise we determine it's value based on scheme and schemeName.
+     * Otherwise we determine its value based on scheme and schemeName.
      */
     isRegistering?: boolean | null;
-    /**
-     * true to register organization into the scheme when the proposal is approved.
-     * If false then caller must do it manually via scheme.registerOrganization(avatarAddress).
-     * Default is true.
-     */
-    autoRegister?: boolean;
   }
 
   export interface ProposeToRemoveSchemeParams {
@@ -425,9 +398,9 @@ export function getDeployedContracts() : ArcDeployedContracts;
   /********************************
    * UpgradeScheme
    */
-  export interface UpgradeSchemeNewParams extends StandardNewSchemeParams {}
+  export interface UpgradeSchemeNewParams extends StandardNewSchemeParams { }
 
-  export interface UpgradeSchemeParams extends StandardSchemeParams {}
+  export interface UpgradeSchemeParams extends StandardSchemeParams { }
 
   export interface ProposeUpgradingSchemeParams {
     /**
@@ -442,31 +415,6 @@ export function getDeployedContracts() : ArcDeployedContracts;
      * hash of the parameters of the upgrading scheme. These must be already registered with the new scheme.
      */
     schemeParametersHash: string;
-    /**
-     * true to register organization into the scheme when the proposal is approved.
-     * If false then caller must do it manually via scheme.registerOrganization(avatarAddress).
-     * Default is true.
-     */
-    autoRegister: true;
-    /**
-     * The fee that the scheme charges to register an organization in the new upgrade scheme.
-     * The controller will be asked in advance to approve this expenditure.
-     *
-     * If the new UpgradeScheme is an Arc scheme, you may omit fee and we will
-     * obtain the values directly from the submitted scheme.
-     * Otherwise fee is required.
-     *
-     * The fee is paid using the token given by tokenAddress.  In Wei.
-     */
-    fee?: BigNumber.BigNumber | string | null;
-    /**
-     * address of token that will be used when paying the fee.
-     *
-     * If the new UpgradeScheme is an Arc scheme, you may omit tokenAddress and we will
-     * obtain the values directly from the submitted scheme.
-     * Otherwise tokenAddress is required.
-     */
-    tokenAddress?: string | null;
   }
 
   export interface ProposeControllerParams {
@@ -505,11 +453,10 @@ export function getDeployedContracts() : ArcDeployedContracts;
    * ContributionReward
    */
   export interface ContributionRewardNewParams
-    extends StandardNewSchemeParams {}
+    extends StandardNewSchemeParams { }
 
   export interface ContributionRewardParams extends StandardSchemeParams {
     orgNativeTokenFee: BigNumber.BigNumber | string;
-    schemeNativeTokenFee: BigNumber.BigNumber | string;
   }
 
   export interface ProposeContributionParams {

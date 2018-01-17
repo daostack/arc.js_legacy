@@ -1,9 +1,6 @@
 const helpers = require("./helpers");
 import { getValueFromLogs, requireContract } from "../lib/utils.js";
 
-import { GlobalConstraintRegistrar } from "../lib/globalconstraintregistrar.js";
-
-const DAOToken = requireContract("DAOToken");
 const TokenCapGC = requireContract("TokenCapGC");
 
 describe("GlobalConstraintRegistrar", () => {
@@ -85,9 +82,7 @@ describe("GlobalConstraintRegistrar", () => {
       true
     );
 
-    const globalConstraintRegistrar = (await organization.scheme(
-      "GlobalConstraintRegistrar"
-    )).contract;
+    const globalConstraintRegistrar = (await organization.scheme("GlobalConstraintRegistrar")).contract;
 
     const tx = await globalConstraintRegistrar.proposeGlobalConstraint(
       organization.avatar.address,
@@ -115,69 +110,45 @@ describe("GlobalConstraintRegistrar", () => {
   });
 
   it("should satisfy a number of basic checks", async () => {
-    const organization = await helpers.forgeOrganization();
+    const org = await helpers.forgeOrganization();
 
     // do some sanity checks on the globalconstriantregistrar
-    const gcr = (await organization.scheme("GlobalConstraintRegistrar"))
-      .contract;
-    // check if our organization is registered on the gcr
-    assert.equal(await gcr.isRegistered(organization.avatar.address), true);
+    const gcr = (await org.scheme("GlobalConstraintRegistrar")).contract;
     // check if indeed the registrar is registered as a scheme on  the controller
-    assert.equal(
-      await organization.controller.isSchemeRegistered(gcr.address),
-      true
-    );
+    assert.equal(await org.controller.isSchemeRegistered(gcr.address, org.avatar.address), true);
     // Organization.new standardly registers no global constraints
-    assert.equal(
-      (await organization.controller.globalConstraintsCount()).toNumber(),
-      0
-    );
+    assert.equal((await org.controller.globalConstraintsCount(org.avatar.address)).toNumber(), 0);
 
     // create a new global constraint - a TokenCapGC instance
     const tokenCapGC = await TokenCapGC.new();
     // register paramets for setting a cap on the nativeToken of our organization of 21 million
-    await tokenCapGC.setParameters(organization.token.address, 21e9);
-    const tokenCapGCParamsHash = await tokenCapGC.getParametersHash(
-      organization.token.address,
-      21e9
-    );
+    await tokenCapGC.setParameters(org.token.address, 21e9);
+    const tokenCapGCParamsHash = await tokenCapGC.getParametersHash(org.token.address, 21e9);
 
     // next line needs some real hash for the conditions for removing this scheme
     const votingMachineHash = tokenCapGCParamsHash;
 
     // to propose a global constraint we need to make sure the relevant hashes are registered
     // in the right places:
-    const parametersForGCR = await organization.controller.getSchemeParameters(
-      gcr.address
-    );
+    const parametersForGCR = await org.controller.getSchemeParameters(gcr.address, org.avatar.address);
     // parametersForVotingInGCR are (voteRegisterParams (a hash) and boolVote)
     const parametersForVotingInGCR = await gcr.parameters(parametersForGCR);
 
     // the info we just got consists of paramsHash and permissions
-    const gcrPermissionsOnOrg = await organization.controller.getSchemePermissions(
-      gcr.address
-    );
+    const gcrPermissionsOnOrg = await org.controller.getSchemePermissions(gcr.address, org.avatar.address);
     assert.equal(gcrPermissionsOnOrg, "0x00000007");
 
     // the voting machine used in this GCR is the same as the voting machine of the organization
-    assert.equal(
-      organization.votingMachine.address,
-      parametersForVotingInGCR[1]
-    );
+    assert.equal(org.votingMachine.address, parametersForVotingInGCR[1]);
     // while the voteRegisterParams are known on the voting machine
     // and consist of [reputationSystem address, treshold percentage]
-    const voteRegisterParams = await organization.votingMachine.parameters(
-      parametersForVotingInGCR[0]
-    );
+    const voteRegisterParams = await org.votingMachine.parameters(parametersForVotingInGCR[0]);
 
     const msg = "These parameters are not known the voting machine...";
-    assert.notEqual(
-      voteRegisterParams[0],
-      "0x0000000000000000000000000000000000000000",
-      msg
-    );
+    assert.notEqual(voteRegisterParams[0], "0x0000000000000000000000000000000000000000", msg);
+
     tx = await gcr.proposeGlobalConstraint(
-      organization.avatar.address,
+      org.avatar.address,
       tokenCapGC.address,
       tokenCapGCParamsHash,
       votingMachineHash
@@ -191,21 +162,14 @@ describe("GlobalConstraintRegistrar", () => {
     // assert.equal(proposal[0], tokenCapGC.address);
 
     // TODO: the voting machine should be taken from the address at parametersForVotingInGCR[1]
-    const votingMachine = organization.votingMachine;
+    const votingMachine = org.votingMachine;
     // first vote (minority)
     tx = await votingMachine.vote(proposalId, 1, {
       from: web3.eth.accounts[1]
     });
-    // and this is the majority vote (which will also call execute on the executable
-    tx = await votingMachine.vote(proposalId, 1, {
-      from: web3.eth.accounts[2]
-    });
 
     // at this point, our global constrait has been registered at the organization
-    assert.equal(
-      (await organization.controller.globalConstraintsCount()).toNumber(),
-      1
-    );
+    assert.equal((await org.controller.globalConstraintsCount(org.avatar.address)).toNumber(), 1);
     return;
     // // get the first global constraint
     // const gc = await organization.controller.globalConstraints(0);
@@ -215,36 +179,6 @@ describe("GlobalConstraintRegistrar", () => {
     // assert.equal(params, tokenCapGCParamsHash);
   });
 
-  it("the GlobalConstraintRegistrar.new() function should work as expected with the default parameters", async () => {
-    // create a schemeRegistrar
-    const registrar = await GlobalConstraintRegistrar.new();
-
-    const tokenAddress = await registrar.nativeToken();
-    assert.isOk(tokenAddress);
-    const fee = await registrar.fee();
-    assert.equal(fee, 0);
-    // the sender is the beneficiary
-    const beneficiary = await registrar.beneficiary();
-    assert.equal(beneficiary, accounts[0]);
-  });
-
-  it("the GlobalConstraintRegistrar.new() function should work as expected with specific parameters", async () => {
-    // create a schemeRegistrar, passing some options
-    const token = await DAOToken.new();
-
-    const registrar = await GlobalConstraintRegistrar.new({
-      tokenAddress: token.address,
-      fee: 3e18,
-      beneficiary: accounts[1]
-    });
-
-    const tokenAddress = await registrar.nativeToken();
-    assert.equal(tokenAddress, token.address);
-    const fee = await registrar.fee();
-    assert.equal(fee, 3e18);
-    const beneficiary = await registrar.beneficiary();
-    assert.equal(beneficiary, accounts[1]);
-  });
 
   it("organisation.proposalGlobalConstraint() should accept different parameters [TODO]", async () => {
     const organization = await helpers.forgeOrganization();
