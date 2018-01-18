@@ -21,7 +21,6 @@ The default configuration settings for Arc can be found in config/default.json, 
 {
   "providerUrl": "http://localhost:8545",
   "network": "kovan", // Options are 'homestead', 'ropsten', 'rinkeby', 'kovan'
-  "apiToken": "" // Required for Infura or Etherscan
   "gasLimit": [a number like 6015000]
 }
 ```
