@@ -27,8 +27,8 @@ describe("Organization", () => {
 
     // check if the two orgs are indeed the same
     assert.equal(org1.avatar.address, org2.avatar.address);
-    assert.equal(org1.orgName, org2.orgName);
-    assert.equal(org1.orgToken, org2.orgToken);
+    assert.equal(await org1.getName(), await org2.getName());
+    assert.equal(await org1.getTokenName(), await org2.getTokenName());
     const schemeRegistrar1 = await org1.scheme("SchemeRegistrar");
     const schemeRegistrar2 = await org2.scheme("SchemeRegistrar");
     assert.equal(schemeRegistrar1.address, schemeRegistrar2.address);
