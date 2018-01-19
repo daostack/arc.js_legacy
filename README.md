@@ -25,24 +25,19 @@ The default configuration settings for Arc can be found in config/default.json, 
 }
 ```
 
-If you want to override these default configuration settings you can add an arc-js.config.json file to your project. Any values set there will override the above defaults. You can pass in a path to a different file using a `--arcConfigFile pathToFile` command line argument, or setting environment variable `arcConfigFile=pathToFile`.
+To get a configuration setting use:
+```javascript
+import { config } from 'daostack-arc-js';
+config.get('network');
+```
 
-You can also override these settings on the command line or through environment variables, with command line arguments taking precedence over environment variables which take precedence over the arc-js.config.json config file.
-
-The configuration object uses the [nconf](https://github.com/indexzero/nconf) library so you can override configuration settings at runtime with:
+You can override configuration settings at runtime with:
 ```javascript
 import { config } from 'daostack-arc-js';
 config.set('network', 'ropsten');
 ```
 
-### Command line:
-
-```javascript
-node yourprojectindex.js --gasLimit 7000000
-```
-
-### Environment variable:
-
+You can also override the default configuration settings with environment variables:
 ```javascript
 gasLimit=7000000 node yourprojectindex.js
 ```
