@@ -15,7 +15,6 @@ before_install:
   
 install:
   - npm install
-  - npm start migrateContracts.initialize
   - nohup npm start test.ganache.run &
   - npm start migrateContracts
   
