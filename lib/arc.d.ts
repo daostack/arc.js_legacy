@@ -236,7 +236,7 @@ declare module "daostack-arc-js" {
     static at(avatarAddress: string): Promise<Organization>;
 
     /**
-     * The DAO name, from the Avatar
+     * The Organization name, from the Avatar
      */
     getName(): string;
 
