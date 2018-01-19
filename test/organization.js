@@ -120,7 +120,9 @@ describe("Organization", () => {
     // next is decisive vote: the proposal will be executed
     await org.vote(proposalId, 1, { from: web3.eth.accounts[2] });
 
-    assert.equal((await org.globalConstraints()).length, 1);
+    const gcs = await org.globalConstraints();
+    assert.equal(gcs.length, 1);
+    assert.equal(gcs[0].address, tokenCapGC.address);
     assert.equal((await org.controller.globalConstraintsCount(org.avatar.address)).toNumber(), 1);
 
     tx = await globalConstraintRegistrar.proposeToRemoveGlobalConstraint({
