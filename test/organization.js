@@ -78,7 +78,7 @@ describe("Organization", () => {
     assert.equal((await organization.schemes()).length, 4);
   });
 
-  it("has a working globalConstraints() function to access its schemes", async () => {
+  it("has a working globalConstraints() function to access its constraints", async () => {
     const org = await helpers.forgeOrganization();
 
     assert.equal((await org.globalConstraints()).length, 0);
