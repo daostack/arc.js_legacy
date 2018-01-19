@@ -194,6 +194,15 @@ declare module "daostack-arc-js" {
   }
 
   /********************************
+   * Returned from Organization.globalConstraints
+   */
+  export interface OrganizationGlobalConstraintInfo {
+    name: string;
+    address: string;
+    paramsHash: string;
+  }
+
+  /********************************
    * Organization
    */
   export class Organization {
@@ -218,7 +227,16 @@ declare module "daostack-arc-js" {
      */
     votingMachine: any;
 
+    /**
+     * returns schemes currently registered into this DAO, as Array<OrganizationSchemeInfo>
+     * @param contractName like "SchemeRegistrar"
+     */
     schemes(contractName?: string): Promise<Array<OrganizationSchemeInfo>>;
+    /**
+     * Returns global constraints currently registered into this DAO, as Array<OrganizationGlobalConstraintInfo>
+     * @param contractName like "TokenCapGC"
+     */
+    globalConstraints(contractName?: string): Promise<Array<OrganizationGlobalConstraintInfo>>;
     /**
      * Returns promise of a scheme as ExtendTruffleScheme, or ? if not found
      * @param contract name of scheme, like "SchemeRegistrar"
