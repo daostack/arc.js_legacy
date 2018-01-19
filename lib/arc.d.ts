@@ -235,8 +235,19 @@ declare module "daostack-arc-js" {
     static new(options: OrganizationNewConfig): Promise<Organization>;
     static at(avatarAddress: string): Promise<Organization>;
 
+    /**
+     * The DAO name, from the Avatar
+     */
     getName(): string;
+
+    /**
+     * The native token name
+     */
     getTokenName(): string;
+
+    /**
+     * The native token symbol
+     */
     getTokenSymbol(): string;
   }
 
@@ -512,6 +523,9 @@ declare module "daostack-arc-js" {
     ): Promise<TransactionReceiptTruffle>;
     setParams(params: ContributionRewardParams): Promise<string>;
 
+    /**
+     * Event functions as defined by the parent Truffle contract
+     */
     LogNewContributionProposal(filters : any, options : any) : any;
     LogProposalExecuted(filters : any, options : any) : any;
     LogProposalDeleted(filters : any, options : any): any;
