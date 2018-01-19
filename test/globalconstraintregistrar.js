@@ -38,28 +38,7 @@ describe("GlobalConstraintRegistrar", () => {
       globalConstraintParametersHash: globalConstraintParametersHash,
       votingMachineHash: votingMachineHash
     });
-
-    // const proposalId = getValueFromLogs(tx, '_proposalId');
-
-    // console.log(`****** proposal ID ${proposalId} ******`);
   });
-
-  //   it("proposeToRemoveGlobalConstraint javascript wrapper should not crash", async function() {
-  //   const organization = await helpers.forgeOrganization();
-
-  //   let tokenCapGC = await organization.scheme('TokenCapGC');
-
-  //   let globalConstraintRegistrar = await organization.scheme('GlobalConstraintRegistrar');
-
-  //   await globalConstraintRegistrar.proposeToRemoveGlobalConstraint({
-  //     avatar: organization.avatar.address,
-  //     globalConstraint: tokenCapGC.address
-  //   });
-
-  //   // const proposalId = getValueFromLogs(tx, '_proposalId');
-
-  //   // console.log(`****** proposal ID ${proposalId} ******`);
-  // });
 
   it("should register and enforce a global constraint", async () => {
     const organization = await helpers.forgeOrganization();
@@ -93,7 +72,6 @@ describe("GlobalConstraintRegistrar", () => {
 
     const proposalId = getValueFromLogs(tx, "_proposalId");
 
-    // console.log(`****** proposal ID ${proposalId} ******`);
 
     // serveral users now cast their vote
     await organization.vote(proposalId, 1, { from: web3.eth.accounts[0] });

@@ -194,6 +194,15 @@ declare module "daostack-arc-js" {
   }
 
   /********************************
+   * Returned from Organization.globalConstraints
+   */
+  export interface OrganizationGlobalConstraintInfo {
+    name: string;
+    address: string;
+    paramsHash: string;
+  }
+
+  /********************************
    * Organization
    */
   export class Organization {
@@ -218,7 +227,16 @@ declare module "daostack-arc-js" {
      */
     votingMachine: any;
 
+    /**
+     * returns schemes currently registered into this DAO, as Array<OrganizationSchemeInfo>
+     * @param contractName like "SchemeRegistrar"
+     */
     schemes(contractName?: string): Promise<Array<OrganizationSchemeInfo>>;
+    /**
+     * Returns global constraints currently registered into this DAO, as Array<OrganizationGlobalConstraintInfo>
+     * @param contractName like "TokenCapGC"
+     */
+    globalConstraints(contractName?: string): Promise<Array<OrganizationGlobalConstraintInfo>>;
     /**
      * Returns promise of a scheme as ExtendTruffleScheme, or ? if not found
      * @param contract name of scheme, like "SchemeRegistrar"
@@ -249,35 +267,6 @@ declare module "daostack-arc-js" {
      * The native token symbol
      */
     getTokenSymbol(): string;
-  }
-
-  /*******************************
-   * Wallet
-   */
-  export class Wallet {
-    static new(): Wallet;
-    static fromEncrypted(encryptedJSON: string, password: string): Wallet;
-    static fromMnemonic(mnemonic: string): Wallet;
-    static fromPrivateKey(privateKey: string): Wallet;
-
-    encrypt(
-      password: string,
-      progressCallback: (progress: number) => void
-    ): string;
-    getEtherBalance(inWei?: boolean): BigNumber.BigNumber | string;
-    getMnemonic(): string;
-    getOrgTokenBalance(
-      organizationAvatarAddress: string,
-      inWei?: boolean
-    ): BigNumber.BigNumber | string;
-    getPublicAddress(): string;
-    getProvider(): any;
-    sendEther(accountAddress: string, numEther: number | string): any; // TODO return value
-    sendOrgTokens(
-      organizationAvatarAddress: string,
-      toAccountAddress: string,
-      numTokens: number | string
-    ): any; // TODO return value
   }
 
   /********************************

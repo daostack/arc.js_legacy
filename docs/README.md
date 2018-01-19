@@ -7,8 +7,6 @@ Work in progress.  Install via `npm install daostack-arc-js`.
 
 [Organization](organization.md)
 
-[Wallet](wallet.md)
-
 ## Example Session
 [next examples are not all working yet, but this is what is should/could look like]
 
