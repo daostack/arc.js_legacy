@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-
+const fs = require("fs");
 const {
   series,
   //  crossEnv,
@@ -32,7 +32,8 @@ const pathDaostackArcGanacheDbZip = joinPath(pathArcJsRoot, "ganacheDb.zip");
 const network = env.network || config.get('network');
 
 // this is needed to force travis to use our modified version of truffle
-const truffleCommand = `node ${joinPath("../", "truffle-core-migrate-without-compile", "cli")}`;
+const truffleIsInternal = fs.existsSync(joinPath("node_modules", "truffle-core-migrate-without-compile"));
+const truffleCommand = `node ${joinPath(truffleIsInternal ? "node_modules" : "../", "truffle-core-migrate-without-compile", "cli")}`;
 
 module.exports = {
   scripts: {
