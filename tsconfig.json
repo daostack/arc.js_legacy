@@ -2,7 +2,6 @@
   "compilerOptions": {
     "module": "commonjs",
     "noImplicitAny": true,
-    "outFile": "./build/tsc.js",
     "preserveConstEnums": true,
     "sourceMap": true
   },
