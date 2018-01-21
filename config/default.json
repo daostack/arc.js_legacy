@@ -1,5 +1,5 @@
 {
-  "providerUrl": "http://localhost:8545",
+  "providerUrl": "http://127.0.0.1:8545",
   "network": "ganache",
   "gasLimit": 6015000,
   "apiToken": ""
