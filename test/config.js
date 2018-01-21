@@ -10,7 +10,7 @@ describe("Config", () => {
   });
 
   it("doesn't reload default values when imported again", () => {
-    var config = require("../lib/config.js").config;
+    const config = require("../lib/config.js").config;
     assert.equal(config.get("providerUrl"), "http://localhost:8545");
   });
 
