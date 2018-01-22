@@ -7,3 +7,4 @@ ganacheDb/
 dist/
 ganacheDb.zip
 migrated_contracts/
+*.sublime-project
