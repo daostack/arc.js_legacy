@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-
+const fs = require("fs");
 const {
   series,
   //  crossEnv,
@@ -31,8 +31,9 @@ const pathDaostackArcGanacheDbZip = joinPath(pathArcJsRoot, "ganacheDb.zip");
 
 const network = env.network || config.get('network');
 
-// this is needed to force travis to use our modified version of truffle  (dunno why it issn't anyway)
-const truffleCommand = `node ${joinPath("node_modules", "truffle-core-migrate-without-compile", "cli")}`;
+// this is needed to force travis to use our modified version of truffle
+const truffleIsInternal = fs.existsSync(joinPath("node_modules", "truffle-core-migrate-without-compile"));
+const truffleCommand = `node ${joinPath(truffleIsInternal ? "node_modules" : "../", "truffle-core-migrate-without-compile", "cli")}`;
 
 module.exports = {
   scripts: {
@@ -43,7 +44,7 @@ module.exports = {
     test: {
       default: series("nps lint", "nps test.automated"),
       automated: {
-        default: "mocha --require babel-register --require chai --timeout 15000",
+        default: "mocha --require babel-register --require babel-polyfill --require chai --timeout 15000",
         bail: 'nps "test.automated --bail"'
       },
       watch: 'nps "test.automated --watch"',
@@ -105,8 +106,9 @@ module.exports = {
     },
     build: {
       default: series(
-        rimraf("dist"),
-        "babel lib --presets babel-preset-es2015 --out-dir dist --source-maps"
+        rimraf(joinPath(pathArcJsRoot, "dist")),
+        mkdirp(joinPath(pathArcJsRoot, "dist")),
+        copy(`${joinPath(pathArcJsRoot, "lib", "*")} ${joinPath(pathArcJsRoot, "dist")}`)
       )
     },
     deploy: {
