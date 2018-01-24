@@ -52,7 +52,7 @@ declare module "daostack-arc-js" {
     /**
      * All deployed global constraints
      */
-    globalConstraints: Array<ArcContractInfo>;
+    getGlobalConstraints: Array<ArcContractInfo>;
   }
 
   /********************************
@@ -185,7 +185,7 @@ declare module "daostack-arc-js" {
   }
 
   /********************************
-   * Returned from DAO.schemes
+   * Returned from DAO.getSchemes
    */
   export interface DaoSchemeInfo {
     name: string;
@@ -194,7 +194,7 @@ declare module "daostack-arc-js" {
   }
 
   /********************************
-   * Returned from DAO.globalConstraints
+   * Returned from DAO.getGlobalConstraints
    */
   export interface DaoGlobalConstraintInfo {
     name: string;
@@ -231,12 +231,12 @@ declare module "daostack-arc-js" {
      * returns schemes currently registered into this DAO, as Array<DaoSchemeInfo>
      * @param contractName like "SchemeRegistrar"
      */
-    schemes(contractName?: string): Promise<Array<DaoSchemeInfo>>;
+    getSchemes(contractName?: string): Promise<Array<DaoSchemeInfo>>;
     /**
      * Returns global constraints currently registered into this DAO, as Array<DaoGlobalConstraintInfo>
      * @param contractName like "TokenCapGC"
      */
-    globalConstraints(contractName?: string): Promise<Array<DaoGlobalConstraintInfo>>;
+    getGlobalConstraints(contractName?: string): Promise<Array<DaoGlobalConstraintInfo>>;
     /**
      * Returns promise of a scheme as ExtendTruffleScheme, or ? if not found
      * @param contract name of scheme, like "SchemeRegistrar"

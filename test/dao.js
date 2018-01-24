@@ -48,11 +48,11 @@ describe("DAO", () => {
     );
   });
 
-  it("has a working schemes() function to access its schemes", async () => {
+  it("has a working getSchemes() function to access its schemes", async () => {
     dao = await helpers.forgeDao();
     const contracts = await helpers.contractsForTest();
     // a new dao comes with three known schemes
-    assert.equal((await dao.schemes()).length, 3);
+    assert.equal((await dao.getSchemes()).length, 3);
     let scheme = await dao.scheme("GlobalConstraintRegistrar");
     assert.equal(
       scheme.address,
@@ -75,13 +75,13 @@ describe("DAO", () => {
     // now we add another known scheme
     await proposeContributionReward(dao);
 
-    assert.equal((await dao.schemes()).length, 4);
+    assert.equal((await dao.getSchemes()).length, 4);
   });
 
-  it("has a working globalConstraints() function to access its constraints", async () => {
+  it("has a working getGlobalConstraints() function to access its constraints", async () => {
     const dao = await helpers.forgeDao();
 
-    assert.equal((await dao.globalConstraints()).length, 0);
+    assert.equal((await dao.getGlobalConstraints()).length, 0);
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 0);
 
     const tokenCapGC = await dao.scheme("TokenCapGC");
@@ -120,7 +120,7 @@ describe("DAO", () => {
     // next is decisive vote: the proposal will be executed
     await dao.vote(proposalId, 1, { from: web3.eth.accounts[2] });
 
-    const gcs = await dao.globalConstraints();
+    const gcs = await dao.getGlobalConstraints();
     assert.equal(gcs.length, 1);
     assert.equal(gcs[0].address, tokenCapGC.address);
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 1);
@@ -137,7 +137,7 @@ describe("DAO", () => {
     // next is decisive vote: the proposal will be executed
     await dao.vote(proposalId, 1, { from: web3.eth.accounts[2] });
 
-    assert.equal((await dao.globalConstraints()).length, 0);
+    assert.equal((await dao.getGlobalConstraints()).length, 0);
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 0);
   });
 });
