@@ -7,7 +7,7 @@ describe("SchemeRegistrar", () => {
     const contracts = await contractsForTest();
 
     const schemeRegistrar = await dao.scheme("SchemeRegistrar");
-    const ContributionReward = await dao.schemes("ContributionReward");
+    const ContributionReward = await dao.getSchemes("ContributionReward");
     assert.equal(ContributionReward.length, 0, "scheme is already present");
 
     const contributionRewardAddress =
@@ -39,7 +39,7 @@ describe("SchemeRegistrar", () => {
     const dao = await forgeDao();
 
     const schemeRegistrar = await dao.scheme("SchemeRegistrar");
-    const upgradeScheme = await dao.schemes("SchemeRegistrar");
+    const upgradeScheme = await dao.getSchemes("SchemeRegistrar");
     assert.equal(upgradeScheme.length, 1, "scheme is not present");
 
     const modifiedSchemeAddress = upgradeScheme[0].address;
