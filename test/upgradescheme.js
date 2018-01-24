@@ -1,4 +1,5 @@
 import { getValueFromLogs, requireContract } from "../lib/utils.js";
+import { vote } from "./helpers.js";
 const Controller = requireContract("Controller");
 const AbsoluteVote = requireContract("AbsoluteVote");
 const DAOToken = requireContract("DAOToken");
@@ -44,7 +45,7 @@ describe("UpgradeScheme", () => {
 
     const proposalId = getValueFromLogs(tx, "_proposalId");
 
-    dao.vote(proposalId, 1, { from: accounts[2] });
+    vote(dao, proposalId, 1, { from: accounts[2] });
 
     // now the ugprade should have been executed
     assert.equal(await dao.controller.newController(), newController.address);
@@ -100,11 +101,11 @@ describe("UpgradeScheme", () => {
     const newUpgradeScheme = await UpgradeScheme.new();
 
     assert.isFalse(
-      await dao.controller.isSchemeRegistered(newUpgradeScheme.address, dao.avatar.address),
+      await dao.isSchemeRegistered(newUpgradeScheme.address),
       "new scheme is already registered into the controller"
     );
     assert.isTrue(
-      await dao.controller.isSchemeRegistered(upgradeScheme.address, dao.avatar.address),
+      await dao.isSchemeRegistered(upgradeScheme.address),
       "original scheme is not registered into the controller"
     );
 
@@ -118,10 +119,10 @@ describe("UpgradeScheme", () => {
 
     const proposalId = getValueFromLogs(tx, "_proposalId");
 
-    dao.vote(proposalId, 1, { from: accounts[2] });
+    vote(dao, proposalId, 1, { from: accounts[2] });
 
     assert.isTrue(
-      await dao.controller.isSchemeRegistered(newUpgradeScheme.address, dao.avatar.address),
+      await dao.isSchemeRegistered(newUpgradeScheme.address),
       "new scheme is not registered into the controller"
     );
   });
@@ -132,7 +133,7 @@ describe("UpgradeScheme", () => {
     const upgradeScheme = await dao.scheme("UpgradeScheme");
 
     assert.isTrue(
-      await dao.controller.isSchemeRegistered(upgradeScheme.address, dao.avatar.address),
+      await dao.isSchemeRegistered(upgradeScheme.address),
       "upgrade scheme is not registered into the controller"
     );
 
@@ -146,10 +147,10 @@ describe("UpgradeScheme", () => {
 
     const proposalId = getValueFromLogs(tx, "_proposalId");
 
-    dao.vote(proposalId, 1, { from: accounts[2] });
+    vote(dao, proposalId, 1, { from: accounts[2] });
 
     assert.isTrue(
-      await dao.controller.isSchemeRegistered(upgradeScheme.address, dao.avatar.address),
+      await dao.isSchemeRegistered(upgradeScheme.address),
       "upgrade scheme is no longer registered into the controller"
     );
 

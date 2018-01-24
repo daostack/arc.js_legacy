@@ -186,6 +186,12 @@ export async function transferTokensToAvatar(avatar, amount, fromAddress) {
   return tokenAddress;
 }
 
+export function vote(dao, proposalId, choice, params) {
+  // vote for the proposal given by proposalId using this.votingMachine
+  // NB: this will not work for proposals using votingMachine's that are not the default one
+  return dao.votingMachine.vote(proposalId, choice, params);
+}
+
 export const outOfGasMessage =
   "VM Exception while processing transaction: out of gas";
 

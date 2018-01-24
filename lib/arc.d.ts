@@ -246,10 +246,12 @@ declare module "daostack-arc-js" {
       contractName: string,
       address?: string
     ): Promise<ExtendTruffleScheme>;
-    // checkSchemeConditions(contractName:string);
-    // proposeScheme(options?);
-    // proposeGlobalConstraint(options?);
-    // vote(proposalId, choice, params);
+
+    /**
+     * returns whether the scheme with the given address is registered to this DAO's controller
+     */
+    isSchemeRegistered(schemeAddress: string): boolean;
+
     static new(options: DaoNewConfig): Promise<DAO>;
     static at(avatarAddress: string): Promise<DAO>;
 
