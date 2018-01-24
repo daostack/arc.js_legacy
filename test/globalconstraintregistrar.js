@@ -74,15 +74,15 @@ describe("GlobalConstraintRegistrar", () => {
 
 
     // serveral users now cast their vote
-    await dao.vote(proposalId, 1, { from: web3.eth.accounts[0] });
+    await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[0] });
     // next is decisive vote: the proposal will be executed
-    await dao.vote(proposalId, 1, { from: web3.eth.accounts[2] });
+    await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[2] });
 
     // now the tokencap is enforced: up to 3141 tokens
     // minting 1111 tokens should be fine
     // TODO: this is complex: we must create a proposal to mint these tokens and accept that
     // proposalId = await dao.proposeScheme('ContributionScheme');
-    // await dao.vote(proposalId, true, {from: web3.eth.accounts[2]});
+    // await helpers.vote(dao, proposalId, true, {from: web3.eth.accounts[2]});
 
     // minting 9999 tokens should be out
   });
@@ -93,7 +93,7 @@ describe("GlobalConstraintRegistrar", () => {
     // do some sanity checks on the globalconstriantregistrar
     const gcr = (await dao.scheme("GlobalConstraintRegistrar")).contract;
     // check if indeed the registrar is registered as a scheme on  the controller
-    assert.equal(await dao.controller.isSchemeRegistered(gcr.address, dao.avatar.address), true);
+    assert.equal(await dao.isSchemeRegistered(gcr.address), true);
     // DAO.new standardly registers no global constraints
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 0);
 

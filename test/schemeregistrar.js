@@ -1,5 +1,5 @@
 import { NULL_HASH, getValueFromLogs } from "../lib/utils";
-import { forgeDao, contractsForTest } from "./helpers";
+import { vote, forgeDao, contractsForTest } from "./helpers";
 
 describe("SchemeRegistrar", () => {
   it("proposeToAddModifyScheme javascript wrapper should add new scheme", async () => {
@@ -14,7 +14,7 @@ describe("SchemeRegistrar", () => {
       contracts.allContracts.ContributionReward.address;
 
     assert.isFalse(
-      await dao.controller.isSchemeRegistered(contributionRewardAddress, dao.avatar.address),
+      await dao.isSchemeRegistered(contributionRewardAddress),
       "scheme is registered into the controller"
     );
 
@@ -27,10 +27,10 @@ describe("SchemeRegistrar", () => {
 
     const proposalId = getValueFromLogs(tx, "_proposalId");
 
-    dao.vote(proposalId, 1, { from: accounts[2] });
+    vote(dao, proposalId, 1, { from: accounts[2] });
 
     assert.isTrue(
-      await dao.controller.isSchemeRegistered(contributionRewardAddress, dao.avatar.address),
+      await dao.isSchemeRegistered(contributionRewardAddress, dao.avatar.address),
       "scheme is not registered into the controller"
     );
   });
@@ -53,10 +53,10 @@ describe("SchemeRegistrar", () => {
 
     const proposalId = getValueFromLogs(tx, "_proposalId");
 
-    dao.vote(proposalId, 1, { from: accounts[2] });
+    vote(dao, proposalId, 1, { from: accounts[2] });
 
     assert.isTrue(
-      await dao.controller.isSchemeRegistered(modifiedSchemeAddress, dao.avatar.address),
+      await dao.isSchemeRegistered(modifiedSchemeAddress),
       "scheme is not registered into the controller"
     );
 
@@ -78,10 +78,10 @@ describe("SchemeRegistrar", () => {
 
     const proposalId = getValueFromLogs(tx, "_proposalId");
 
-    dao.vote(proposalId, 1, { from: accounts[2] });
+    vote(dao, proposalId, 1, { from: accounts[2] });
 
     assert.isFalse(
-      await dao.controller.isSchemeRegistered(removedScheme.address, dao.avatar.address),
+      await dao.isSchemeRegistered(removedScheme.address),
       "scheme is still registered into the controller"
     );
   });

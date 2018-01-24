@@ -116,9 +116,9 @@ describe("DAO", () => {
 
     let proposalId = getValueFromLogs(tx, "_proposalId");
     // several users now cast their vote
-    await dao.vote(proposalId, 1, { from: web3.eth.accounts[0] });
+    await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[0] });
     // next is decisive vote: the proposal will be executed
-    await dao.vote(proposalId, 1, { from: web3.eth.accounts[2] });
+    await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[2] });
 
     const gcs = await dao.getGlobalConstraints();
     assert.equal(gcs.length, 1);
@@ -133,9 +133,9 @@ describe("DAO", () => {
 
     proposalId = getValueFromLogs(tx, "_proposalId");
     // several users now cast their vote
-    await dao.vote(proposalId, 1, { from: web3.eth.accounts[0] });
+    await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[0] });
     // next is decisive vote: the proposal will be executed
-    await dao.vote(proposalId, 1, { from: web3.eth.accounts[2] });
+    await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[2] });
 
     assert.equal((await dao.getGlobalConstraints()).length, 0);
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 0);

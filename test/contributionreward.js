@@ -1,4 +1,4 @@
-import { forgeDao, SOME_HASH, SOME_ADDRESS } from "./helpers";
+import { vote, forgeDao, SOME_HASH, SOME_ADDRESS } from "./helpers";
 import { SHA3, getValueFromLogs, requireContract } from "../lib/utils.js";
 
 const ContributionReward = requireContract("ContributionReward");
@@ -25,7 +25,7 @@ export async function proposeContributionReward(dao) {
 
   const proposalId = getValueFromLogs(tx, "_proposalId");
 
-  dao.vote(proposalId, 1, { from: accounts[2] });
+  vote(dao, proposalId, 1, { from: accounts[2] });
 
   return contributionReward;
 }
@@ -50,7 +50,7 @@ describe("ContributionReward scheme", () => {
     const proposalId = getValueFromLogs(tx, "_proposalId");
 
     // now vote with a majority account and accept this contribution
-    dao.vote(proposalId, 1, { from: accounts[2] });
+    vote(dao, proposalId, 1, { from: accounts[2] });
 
     // TODO: check that the proposal is indeed accepted
   });
@@ -123,7 +123,7 @@ describe("ContributionReward scheme", () => {
     assert.equal(schemeFromController[1], "0x00000001");
 
     // is the dao registered?
-    const orgFromContributionScheme = await dao.controller.isSchemeRegistered(contributionReward.address, dao.avatar.address);
+    const orgFromContributionScheme = await dao.isSchemeRegistered(contributionReward.address);
 
     assert.equal(orgFromContributionScheme, true);
     // check the configuration for proposing new contributions
