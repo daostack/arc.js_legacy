@@ -169,11 +169,11 @@ declare module "daostack-arc-js" {
 
   export interface FounderConfig {
     address: string;
-    tokens: string|number; // in Wei
-    reputation: string|number;
+    tokens: string | number; // in Wei
+    reputation: string | number;
   }
 
-  export interface OrganizationNewConfig {
+  export interface DaoNewConfig {
     orgName: string;
     tokenName: string;
     tokenSymbol: string;
@@ -185,27 +185,27 @@ declare module "daostack-arc-js" {
   }
 
   /********************************
-   * Returned from Organization.schemes
+   * Returned from DAO.schemes
    */
-  export interface OrganizationSchemeInfo {
+  export interface DaoSchemeInfo {
     name: string;
     address: string;
     permissions: string;
   }
 
   /********************************
-   * Returned from Organization.globalConstraints
+   * Returned from DAO.globalConstraints
    */
-  export interface OrganizationGlobalConstraintInfo {
+  export interface DaoGlobalConstraintInfo {
     name: string;
     address: string;
     paramsHash: string;
   }
 
   /********************************
-   * Organization
+   * DAO
    */
-  export class Organization {
+  export class DAO {
     /**
      * includes static `new` and `at`
      */
@@ -228,15 +228,15 @@ declare module "daostack-arc-js" {
     votingMachine: any;
 
     /**
-     * returns schemes currently registered into this DAO, as Array<OrganizationSchemeInfo>
+     * returns schemes currently registered into this DAO, as Array<DaoSchemeInfo>
      * @param contractName like "SchemeRegistrar"
      */
-    schemes(contractName?: string): Promise<Array<OrganizationSchemeInfo>>;
+    schemes(contractName?: string): Promise<Array<DaoSchemeInfo>>;
     /**
-     * Returns global constraints currently registered into this DAO, as Array<OrganizationGlobalConstraintInfo>
+     * Returns global constraints currently registered into this DAO, as Array<DaoGlobalConstraintInfo>
      * @param contractName like "TokenCapGC"
      */
-    globalConstraints(contractName?: string): Promise<Array<OrganizationGlobalConstraintInfo>>;
+    globalConstraints(contractName?: string): Promise<Array<DaoGlobalConstraintInfo>>;
     /**
      * Returns promise of a scheme as ExtendTruffleScheme, or ? if not found
      * @param contract name of scheme, like "SchemeRegistrar"
@@ -250,11 +250,11 @@ declare module "daostack-arc-js" {
     // proposeScheme(options?);
     // proposeGlobalConstraint(options?);
     // vote(proposalId, choice, params);
-    static new(options: OrganizationNewConfig): Promise<Organization>;
-    static at(avatarAddress: string): Promise<Organization>;
+    static new(options: DaoNewConfig): Promise<DAO>;
+    static at(avatarAddress: string): Promise<DAO>;
 
     /**
-     * The Organization name, from the Avatar
+     * The DAO name, from the Avatar
      */
     getName(): string;
 
@@ -515,8 +515,8 @@ declare module "daostack-arc-js" {
     /**
      * Event functions as defined by the parent Truffle contract
      */
-    LogNewContributionProposal(filters : any, options : any) : any;
-    LogProposalExecuted(filters : any, options : any) : any;
-    LogProposalDeleted(filters : any, options : any): any;
+    LogNewContributionProposal(filters: any, options: any): any;
+    LogProposalExecuted(filters: any, options: any): any;
+    LogProposalDeleted(filters: any, options: any): any;
   }
 }

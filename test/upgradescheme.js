@@ -6,7 +6,7 @@ const Avatar = requireContract("Avatar");
 const Reputation = requireContract("Reputation");
 const UpgradeScheme = requireContract("UpgradeScheme");
 import {
-  forgeOrganization,
+  forgeDao,
   contractsForTest,
   SOME_HASH,
   NULL_ADDRESS
@@ -24,53 +24,53 @@ describe("UpgradeScheme", () => {
   });
 
   it("proposeController javascript wrapper should change controller", async () => {
-    const organization = await forgeOrganization();
+    const dao = await forgeDao();
 
-    const upgradeScheme = await organization.scheme("UpgradeScheme");
+    const upgradeScheme = await dao.scheme("UpgradeScheme");
     const newController = await Controller.new(avatar.address);
 
     assert.equal(
-      await organization.controller.newController(),
+      await dao.controller.newController(),
       NULL_ADDRESS,
       "there is already a new controller"
     );
 
     const tx = await upgradeScheme.proposeController({
-      avatar: organization.avatar.address,
+      avatar: dao.avatar.address,
       controller: newController.address
     });
 
-    // newUpgradeScheme.registerOrganization(organization.avatar.address);
+    // newUpgradeScheme.registerDao(dao.avatar.address);
 
     const proposalId = getValueFromLogs(tx, "_proposalId");
 
-    organization.vote(proposalId, 1, { from: accounts[2] });
+    dao.vote(proposalId, 1, { from: accounts[2] });
 
     // now the ugprade should have been executed
-    assert.equal(await organization.controller.newController(), newController.address);
+    assert.equal(await dao.controller.newController(), newController.address);
 
     // avatar, token and reputation ownership shold have been transferred to the new controller
-    assert.equal(await organization.token.owner(), newController.address);
-    assert.equal(await organization.reputation.owner(), newController.address);
-    assert.equal(await organization.avatar.owner(), newController.address);
+    assert.equal(await dao.token.owner(), newController.address);
+    assert.equal(await dao.reputation.owner(), newController.address);
+    assert.equal(await dao.avatar.owner(), newController.address);
   });
 
   it("controller upgrade should work as expected", async () => {
 
-    const organization = await forgeOrganization();
+    const dao = await forgeDao();
 
-    const upgradeScheme = await organization.scheme("UpgradeScheme");
+    const upgradeScheme = await dao.scheme("UpgradeScheme");
     const contracts = await contractsForTest();
     const votingMachine = await AbsoluteVote.at(contracts.defaultVotingMachine.address);
 
-    // the organization has not bene upgraded yet, so newController is the NULL address
-    assert.equal(await organization.controller.newController(), NULL_ADDRESS);
+    // the dao has not bene upgraded yet, so newController is the NULL address
+    assert.equal(await dao.controller.newController(), NULL_ADDRESS);
 
     // we create a new controller to which to upgrade
     const newController = await Controller.new(avatar.address);
 
     let tx = await upgradeScheme.proposeUpgrade(
-      organization.avatar.address,
+      dao.avatar.address,
       newController.address
     );
 
@@ -80,81 +80,81 @@ describe("UpgradeScheme", () => {
 
     // now the ugprade should have been executed
     assert.equal(
-      await organization.controller.newController(),
+      await dao.controller.newController(),
       newController.address
     );
 
     // avatar, token and reputation ownership shold have been transferred to the new controller
-    assert.equal(await organization.token.owner(), newController.address);
-    assert.equal(await organization.reputation.owner(), newController.address);
-    assert.equal(await organization.avatar.owner(), newController.address);
+    assert.equal(await dao.token.owner(), newController.address);
+    assert.equal(await dao.reputation.owner(), newController.address);
+    assert.equal(await dao.avatar.owner(), newController.address);
 
     // TODO: we also want to reflect this upgrade in our Controller object!
   });
 
   it("proposeUpgradingScheme javascript wrapper should change upgrade scheme", async () => {
-    const org = await forgeOrganization();
+    const dao = await forgeDao();
 
-    const upgradeScheme = await org.scheme("UpgradeScheme");
+    const upgradeScheme = await dao.scheme("UpgradeScheme");
 
     const newUpgradeScheme = await UpgradeScheme.new();
 
     assert.isFalse(
-      await org.controller.isSchemeRegistered(newUpgradeScheme.address, org.avatar.address),
+      await dao.controller.isSchemeRegistered(newUpgradeScheme.address, dao.avatar.address),
       "new scheme is already registered into the controller"
     );
     assert.isTrue(
-      await org.controller.isSchemeRegistered(upgradeScheme.address, org.avatar.address),
+      await dao.controller.isSchemeRegistered(upgradeScheme.address, dao.avatar.address),
       "original scheme is not registered into the controller"
     );
 
     const tx = await upgradeScheme.proposeUpgradingScheme({
-      avatar: org.avatar.address,
+      avatar: dao.avatar.address,
       scheme: newUpgradeScheme.address,
-      schemeParametersHash: await org.controller.getSchemeParameters(upgradeScheme.address, org.avatar.address)
+      schemeParametersHash: await dao.controller.getSchemeParameters(upgradeScheme.address, dao.avatar.address)
     });
 
-    // newUpgradeScheme.registerOrganization(organization.avatar.address);
+    // newUpgradeScheme.registerDao(dao.avatar.address);
 
     const proposalId = getValueFromLogs(tx, "_proposalId");
 
-    org.vote(proposalId, 1, { from: accounts[2] });
+    dao.vote(proposalId, 1, { from: accounts[2] });
 
     assert.isTrue(
-      await org.controller.isSchemeRegistered(newUpgradeScheme.address, org.avatar.address),
+      await dao.controller.isSchemeRegistered(newUpgradeScheme.address, dao.avatar.address),
       "new scheme is not registered into the controller"
     );
   });
 
   it("proposeUpgradingScheme javascript wrapper should modify the modifying scheme", async () => {
-    const org = await forgeOrganization();
+    const dao = await forgeDao();
 
-    const upgradeScheme = await org.scheme("UpgradeScheme");
+    const upgradeScheme = await dao.scheme("UpgradeScheme");
 
     assert.isTrue(
-      await org.controller.isSchemeRegistered(upgradeScheme.address, org.avatar.address),
+      await dao.controller.isSchemeRegistered(upgradeScheme.address, dao.avatar.address),
       "upgrade scheme is not registered into the controller"
     );
 
     const tx = await upgradeScheme.proposeUpgradingScheme({
-      avatar: org.avatar.address,
+      avatar: dao.avatar.address,
       scheme: upgradeScheme.address,
       schemeParametersHash: SOME_HASH
     });
 
-    // newUpgradeScheme.registerOrganization(organization.avatar.address);
+    // newUpgradeScheme.registerDao(dao.avatar.address);
 
     const proposalId = getValueFromLogs(tx, "_proposalId");
 
-    org.vote(proposalId, 1, { from: accounts[2] });
+    dao.vote(proposalId, 1, { from: accounts[2] });
 
     assert.isTrue(
-      await org.controller.isSchemeRegistered(upgradeScheme.address, org.avatar.address),
+      await dao.controller.isSchemeRegistered(upgradeScheme.address, dao.avatar.address),
       "upgrade scheme is no longer registered into the controller"
     );
 
     assert.equal(
-      await org.controller.getSchemeParameters(upgradeScheme.address, org.avatar.address),
+      await dao.controller.getSchemeParameters(upgradeScheme.address, dao.avatar.address),
       SOME_HASH,
       "parameters were not updated"
     );
