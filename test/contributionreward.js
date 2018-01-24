@@ -1,14 +1,14 @@
-import { forgeOrganization, SOME_HASH, SOME_ADDRESS } from "./helpers";
+import { forgeDao, SOME_HASH, SOME_ADDRESS } from "./helpers";
 import { SHA3, getValueFromLogs, requireContract } from "../lib/utils.js";
 
 const ContributionReward = requireContract("ContributionReward");
 
-export async function proposeContributionReward(org) {
-  const schemeRegistrar = await org.scheme("SchemeRegistrar");
-  const contributionReward = await org.scheme("ContributionReward");
+export async function proposeContributionReward(dao) {
+  const schemeRegistrar = await dao.scheme("SchemeRegistrar");
+  const contributionReward = await dao.scheme("ContributionReward");
 
-  const votingMachineHash = await org.votingMachine.configHash__;
-  const votingMachineAddress = org.votingMachine.address;
+  const votingMachineHash = await dao.votingMachine.configHash__;
+  const votingMachineAddress = dao.votingMachine.address;
 
   const schemeParametersHash = await contributionReward.setParams({
     orgNativeTokenFee: 0,
@@ -17,7 +17,7 @@ export async function proposeContributionReward(org) {
   });
 
   const tx = await schemeRegistrar.proposeToAddModifyScheme({
-    avatar: org.avatar.address,
+    avatar: dao.avatar.address,
     scheme: contributionReward.address,
     schemeName: "ContributionReward",
     schemeParametersHash: schemeParametersHash
@@ -25,7 +25,7 @@ export async function proposeContributionReward(org) {
 
   const proposalId = getValueFromLogs(tx, "_proposalId");
 
-  org.vote(proposalId, 1, { from: accounts[2] });
+  dao.vote(proposalId, 1, { from: accounts[2] });
 
   return contributionReward;
 }
@@ -36,12 +36,12 @@ describe("ContributionReward scheme", () => {
   it("submit and accept a contribution - complete workflow", async () => {
 
     /* note this will give accounts[0,1,2] enough tokens to register some schemes */
-    const org = await forgeOrganization();
+    const dao = await forgeDao();
 
-    const scheme = await proposeContributionReward(org);
+    const scheme = await proposeContributionReward(dao);
 
     tx = await scheme.proposeContributionReward({
-      avatar: org.avatar.address, // Avatar _avatar,
+      avatar: dao.avatar.address, // Avatar _avatar,
       description: "A new contribution", // string _contributionDesciption,
       beneficiary: accounts[1], // address _beneficiary
       nativeTokenReward: 1
@@ -50,7 +50,7 @@ describe("ContributionReward scheme", () => {
     const proposalId = getValueFromLogs(tx, "_proposalId");
 
     // now vote with a majority account and accept this contribution
-    org.vote(proposalId, 1, { from: accounts[2] });
+    dao.vote(proposalId, 1, { from: accounts[2] });
 
     // TODO: check that the proposal is indeed accepted
   });
@@ -73,20 +73,20 @@ describe("ContributionReward scheme", () => {
       }
     ];
 
-    const org = await forgeOrganization({ founders });
+    const dao = await forgeDao({ founders });
 
-    const avatar = org.avatar;
-    const controller = org.controller;
+    const avatar = dao.avatar;
+    const controller = dao.controller;
 
-    const votingMachine = org.votingMachine;    // create a contribution Scheme
+    const votingMachine = dao.votingMachine;    // create a contribution Scheme
     const contributionReward = await ContributionReward.new();
 
     const votingMachineHash = await votingMachine.getParametersHash(
-      org.reputation.address,
+      dao.reputation.address,
       50,
       true
     );
-    await votingMachine.setParameters(org.reputation.address, 50, true);
+    await votingMachine.setParameters(dao.reputation.address, 50, true);
     const votingMachineAddress = votingMachine.address;
 
     const schemeParametersHash = await contributionReward.getParametersHash(
@@ -101,7 +101,7 @@ describe("ContributionReward scheme", () => {
       votingMachineAddress
     );
 
-    const schemeRegistrar = await org.scheme("SchemeRegistrar");
+    const schemeRegistrar = await dao.scheme("SchemeRegistrar");
 
     tx = await schemeRegistrar.proposeToAddModifyScheme({
       avatar: avatar.address,
@@ -122,13 +122,13 @@ describe("ContributionReward scheme", () => {
     // we expect to have only the first bit set (it is a registered scheme without nay particular permissions)
     assert.equal(schemeFromController[1], "0x00000001");
 
-    // is the organization registered?
-    const orgFromContributionScheme = await org.controller.isSchemeRegistered(contributionReward.address, org.avatar.address);
+    // is the dao registered?
+    const orgFromContributionScheme = await dao.controller.isSchemeRegistered(contributionReward.address, dao.avatar.address);
 
     assert.equal(orgFromContributionScheme, true);
     // check the configuration for proposing new contributions
 
-    paramsHash = await controller.getSchemeParameters(contributionReward.address, org.avatar.address);
+    paramsHash = await controller.getSchemeParameters(contributionReward.address, dao.avatar.address);
 
     // params are: uint orgNativeTokenFee; bytes32 voteApproveParams; uint schemeNativeTokenFee;         BoolVoteInterface boolVote;
     params = await contributionReward.parameters(paramsHash);

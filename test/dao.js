@@ -1,30 +1,30 @@
-import { Organization } from "../lib/organization.js";
+import { DAO } from "../lib/dao.js";
 import * as helpers from "./helpers";
 import { proposeContributionReward } from "./contributionreward.js";
 import { getValueFromLogs } from "../lib/utils.js";
 
-describe("Organization", () => {
-  let organization;
+describe("DAO", () => {
+  let dao;
 
   it("can be created with 'new' using default settings", async () => {
-    organization = await Organization.new({
+    dao = await DAO.new({
       orgName: "Skynet",
       tokenName: "Tokens of skynet",
       tokenSymbol: "SNT"
     });
-    // an organization has an avatar
-    assert.ok(organization.avatar, "Organization must have an avatar defined");
+    // an dao has an avatar
+    assert.ok(dao.avatar, "DAO must have an avatar defined");
   });
 
   it("can be instantiated with 'at' if it was already deployed", async () => {
-    // first create an organization
-    const org1 = await Organization.new({
+    // first create an dao
+    const org1 = await DAO.new({
       orgName: "Skynet",
       tokenName: "Tokens of skynet",
       tokenSymbol: "SNT"
     });
     // then instantiate it with .at
-    const org2 = await Organization.at(org1.avatar.address);
+    const org2 = await DAO.at(org1.avatar.address);
 
     // check if the two orgs are indeed the same
     assert.equal(org1.avatar.address, org2.avatar.address);
@@ -49,23 +49,23 @@ describe("Organization", () => {
   });
 
   it("has a working schemes() function to access its schemes", async () => {
-    organization = await helpers.forgeOrganization();
+    dao = await helpers.forgeDao();
     const contracts = await helpers.contractsForTest();
-    // a new organization comes with three known schemes
-    assert.equal((await organization.schemes()).length, 3);
-    let scheme = await organization.scheme("GlobalConstraintRegistrar");
+    // a new dao comes with three known schemes
+    assert.equal((await dao.schemes()).length, 3);
+    let scheme = await dao.scheme("GlobalConstraintRegistrar");
     assert.equal(
       scheme.address,
       contracts.allContracts.GlobalConstraintRegistrar.address
     );
     assert.isTrue(!!scheme.contract, "contract must be set");
-    scheme = await organization.scheme("SchemeRegistrar");
+    scheme = await dao.scheme("SchemeRegistrar");
     assert.equal(
       scheme.address,
       contracts.allContracts.SchemeRegistrar.address
     );
     assert.isTrue(!!scheme.contract, "contract must be set");
-    scheme = await organization.scheme("UpgradeScheme");
+    scheme = await dao.scheme("UpgradeScheme");
     assert.equal(
       scheme.address,
       contracts.allContracts.UpgradeScheme.address
@@ -73,41 +73,41 @@ describe("Organization", () => {
     assert.isTrue(!!scheme.contract, "contract must be set");
 
     // now we add another known scheme
-    await proposeContributionReward(organization);
+    await proposeContributionReward(dao);
 
-    assert.equal((await organization.schemes()).length, 4);
+    assert.equal((await dao.schemes()).length, 4);
   });
 
   it("has a working globalConstraints() function to access its constraints", async () => {
-    const org = await helpers.forgeOrganization();
+    const dao = await helpers.forgeDao();
 
-    assert.equal((await org.globalConstraints()).length, 0);
-    assert.equal((await org.controller.globalConstraintsCount(org.avatar.address)).toNumber(), 0);
+    assert.equal((await dao.globalConstraints()).length, 0);
+    assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 0);
 
-    const tokenCapGC = await org.scheme("TokenCapGC");
+    const tokenCapGC = await dao.scheme("TokenCapGC");
 
     const globalConstraintParametersHash = await tokenCapGC.getParametersHash(
-      org.token.address,
+      dao.token.address,
       3141
     );
-    await tokenCapGC.setParameters(org.token.address, 3141);
+    await tokenCapGC.setParameters(dao.token.address, 3141);
 
-    const votingMachineHash = await org.votingMachine.getParametersHash(
-      org.reputation.address,
+    const votingMachineHash = await dao.votingMachine.getParametersHash(
+      dao.reputation.address,
       50,
       true
     );
 
-    await org.votingMachine.setParameters(
-      org.reputation.address,
+    await dao.votingMachine.setParameters(
+      dao.reputation.address,
       50,
       true
     );
 
-    const globalConstraintRegistrar = await org.scheme("GlobalConstraintRegistrar");
+    const globalConstraintRegistrar = await dao.scheme("GlobalConstraintRegistrar");
 
     let tx = await globalConstraintRegistrar.proposeToAddModifyGlobalConstraint({
-      avatar: org.avatar.address,
+      avatar: dao.avatar.address,
       globalConstraint: tokenCapGC.address,
       globalConstraintParametersHash: globalConstraintParametersHash,
       votingMachineHash: votingMachineHash
@@ -116,28 +116,28 @@ describe("Organization", () => {
 
     let proposalId = getValueFromLogs(tx, "_proposalId");
     // several users now cast their vote
-    await org.vote(proposalId, 1, { from: web3.eth.accounts[0] });
+    await dao.vote(proposalId, 1, { from: web3.eth.accounts[0] });
     // next is decisive vote: the proposal will be executed
-    await org.vote(proposalId, 1, { from: web3.eth.accounts[2] });
+    await dao.vote(proposalId, 1, { from: web3.eth.accounts[2] });
 
-    const gcs = await org.globalConstraints();
+    const gcs = await dao.globalConstraints();
     assert.equal(gcs.length, 1);
     assert.equal(gcs[0].address, tokenCapGC.address);
-    assert.equal((await org.controller.globalConstraintsCount(org.avatar.address)).toNumber(), 1);
+    assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 1);
 
     tx = await globalConstraintRegistrar.proposeToRemoveGlobalConstraint({
-      avatar: org.avatar.address,
+      avatar: dao.avatar.address,
       globalConstraint: tokenCapGC.address
     }
     );
 
     proposalId = getValueFromLogs(tx, "_proposalId");
     // several users now cast their vote
-    await org.vote(proposalId, 1, { from: web3.eth.accounts[0] });
+    await dao.vote(proposalId, 1, { from: web3.eth.accounts[0] });
     // next is decisive vote: the proposal will be executed
-    await org.vote(proposalId, 1, { from: web3.eth.accounts[2] });
+    await dao.vote(proposalId, 1, { from: web3.eth.accounts[2] });
 
-    assert.equal((await org.globalConstraints()).length, 0);
-    assert.equal((await org.controller.globalConstraintsCount(org.avatar.address)).toNumber(), 0);
+    assert.equal((await dao.globalConstraints()).length, 0);
+    assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 0);
   });
 });

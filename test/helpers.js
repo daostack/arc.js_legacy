@@ -11,7 +11,7 @@ beforeEach(async () => {
   await etherForEveryone();
 });
 
-import { Organization } from "../lib/organization.js";
+import { DAO } from "../lib/dao.js";
 import { getDeployedContracts } from "../lib/contracts.js";
 const GenesisScheme = requireContract("GenesisScheme");
 const Avatar = requireContract("Avatar");
@@ -87,8 +87,8 @@ async function setupAbsoluteVote(
   return votingMachine;
 }
 
-async function setupOrganization(founders) {
-  const org = new Organization();
+async function setupDao(founders) {
+  const dao = new DAO();
   const genesisScheme = await GenesisScheme.deployed();
 
   const tx = await genesisScheme.forgeOrg(
@@ -103,15 +103,15 @@ async function setupOrganization(founders) {
   assert.equal(tx.logs.length, 1);
   assert.equal(tx.logs[0].event, "NewOrg");
   const avatarAddress = tx.logs[0].args._avatar;
-  org.avatar = await Avatar.at(avatarAddress);
-  const tokenAddress = await org.avatar.nativeToken();
-  org.token = await DAOToken.at(tokenAddress);
-  const reputationAddress = await org.avatar.nativeReputation();
-  org.reputation = await Reputation.at(reputationAddress);
-  const controllerAddress = await org.avatar.owner();
-  org.controller = await Controller.at(controllerAddress);
+  dao.avatar = await Avatar.at(avatarAddress);
+  const tokenAddress = await dao.avatar.nativeToken();
+  dao.token = await DAOToken.at(tokenAddress);
+  const reputationAddress = await dao.avatar.nativeReputation();
+  dao.reputation = await Reputation.at(reputationAddress);
+  const controllerAddress = await dao.avatar.owner();
+  dao.controller = await Controller.at(controllerAddress);
 
-  org.votingMachine = await setupAbsoluteVote(org.avatar);
+  dao.votingMachine = await setupAbsoluteVote(dao.avatar);
 
   const contracts = await getDeployedContracts();
 
@@ -136,8 +136,8 @@ async function setupOrganization(founders) {
     // when that changes we can improve this
     await scheme
       .setParams({
-        voteParametersHash: org.votingMachine.configHash__,
-        votingMachine: org.votingMachine.address
+        voteParametersHash: dao.votingMachine.configHash__,
+        votingMachine: dao.votingMachine.address
       })
       .then(hash => {
         params.push(hash);
@@ -145,16 +145,16 @@ async function setupOrganization(founders) {
   }
 
   await genesisScheme.setSchemes(
-    org.avatar.address,
+    dao.avatar.address,
     defaultSchemes.map(s => s.address),
     params,
     defaultSchemes.map(s => s.getDefaultPermissions())
   );
 
-  return org;
+  return dao;
 }
 
-export async function forgeOrganization(opts = {}) {
+export async function forgeDao(opts = {}) {
   const founders =
     opts && opts.founders
       ? opts.founders
@@ -176,7 +176,7 @@ export async function forgeOrganization(opts = {}) {
         }
       ];
 
-  return await setupOrganization(founders);
+  return await setupDao(founders);
 }
 
 export async function transferTokensToAvatar(avatar, amount, fromAddress) {
