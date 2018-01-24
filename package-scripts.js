@@ -87,11 +87,11 @@ module.exports = {
          *
          *    npm start test
          */
-        run: `ganache-cli --db ${pathDaostackArcGanacheDb} -l ${config.get("gasLimit")} --networkId 1512051714758 --mnemonic "behave pipe turkey animal voyage dial relief menu blush match jeans general"`,
-        runAsync: series(
+        run: series(
           mkdirp(pathDaostackArcGanacheDb),
-          runInNewWindow("npm start test.ganacheDb.run")
+          `ganache-cli --db ${pathDaostackArcGanacheDb} -l ${config.get("gasLimit")} --networkId 1512051714758 --mnemonic "behave pipe turkey animal voyage dial relief menu blush match jeans general"`,
         ),
+        runAsync: runInNewWindow("npm start test.ganacheDb.run"),
         clean: rimraf(pathDaostackArcGanacheDb),
         zip: `node ./package-scripts/archiveGanacheDb.js ${pathDaostackArcGanacheDbZip} ${pathDaostackArcGanacheDb}`,
         unzip: series(
