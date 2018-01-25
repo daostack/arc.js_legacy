@@ -140,7 +140,8 @@ declare module "daostack-arc-js" {
     public contract: any;
     /**
      * Call setParameters on this contract, returning promise of the parameters hash.
-     * @params Should contain property names expected by the specific contract type.
+     * @param {any} params -- object with properties whose names are expected by the scheme to correspond to parameters.
+     * Currently all params are required, contract wrappers do not as yet apply default values.
      */
     public setParams(params: any): Promise<string>;
   }

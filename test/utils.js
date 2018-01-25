@@ -1,5 +1,6 @@
 "use strict";
-import { ExtendTruffleContract, requireContract } from "../lib/utils.js";
+import { requireContract } from "../lib/utils.js";
+import { ExtendTruffleContract } from "../lib/ExtendTruffleContract";
 import * as helpers from "./helpers";
 
 const ContributionRewardContract = requireContract("ContributionReward");
