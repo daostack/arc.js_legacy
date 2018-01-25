@@ -1,7 +1,7 @@
 const helpers = require("./helpers");
-import { getValueFromLogs, requireContract } from "../lib/utils.js";
+import { Utils } from "../lib/utils";
 
-const TokenCapGC = requireContract("TokenCapGC");
+const TokenCapGC = Utils.requireContract("TokenCapGC");
 
 describe("GlobalConstraintRegistrar", () => {
   let tx, proposalId;
@@ -70,7 +70,7 @@ describe("GlobalConstraintRegistrar", () => {
       votingMachineHash
     );
 
-    const proposalId = getValueFromLogs(tx, "_proposalId");
+    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
 
 
     // serveral users now cast their vote
@@ -133,7 +133,7 @@ describe("GlobalConstraintRegistrar", () => {
     );
 
     // check if the proposal is known on the GlobalConstraintRegistrar
-    proposalId = getValueFromLogs(tx, "_proposalId");
+    proposalId = Utils.getValueFromLogs(tx, "_proposalId");
     // TODO: read the proposal in the contract:
     // const proposal = await gcr.proposals(proposalId);
     // // the proposal looks like gc-address, params, proposaltype, removeParams
@@ -191,7 +191,7 @@ describe("GlobalConstraintRegistrar", () => {
       votingMachineHash
     );
 
-    let proposalId = getValueFromLogs(tx, "_proposalId");
+    let proposalId = Utils.getValueFromLogs(tx, "_proposalId");
     assert.isOk(proposalId);
 
     // proposalId = await dao.proposeGlobalConstraint({
@@ -225,7 +225,7 @@ describe("GlobalConstraintRegistrar", () => {
       votingMachineHash
     );
 
-    proposalId = getValueFromLogs(tx, "_proposalId");
+    proposalId = Utils.getValueFromLogs(tx, "_proposalId");
 
     assert.isOk(proposalId);
 

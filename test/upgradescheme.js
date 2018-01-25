@@ -1,11 +1,11 @@
-import { getValueFromLogs, requireContract } from "../lib/utils.js";
+import { Utils } from "../lib/utils";
 import { vote } from "./helpers.js";
-const Controller = requireContract("Controller");
-const AbsoluteVote = requireContract("AbsoluteVote");
-const DAOToken = requireContract("DAOToken");
-const Avatar = requireContract("Avatar");
-const Reputation = requireContract("Reputation");
-const UpgradeScheme = requireContract("UpgradeScheme");
+const Controller = Utils.requireContract("Controller");
+const AbsoluteVote = Utils.requireContract("AbsoluteVote");
+const DAOToken = Utils.requireContract("DAOToken");
+const Avatar = Utils.requireContract("Avatar");
+const Reputation = Utils.requireContract("Reputation");
+const UpgradeScheme = Utils.requireContract("UpgradeScheme");
 import {
   forgeDao,
   contractsForTest,
@@ -43,7 +43,7 @@ describe("UpgradeScheme", () => {
 
     // newUpgradeScheme.registerDao(dao.avatar.address);
 
-    const proposalId = getValueFromLogs(tx, "_proposalId");
+    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
 
     vote(dao, proposalId, 1, { from: accounts[2] });
 
@@ -75,7 +75,7 @@ describe("UpgradeScheme", () => {
       newController.address
     );
 
-    const proposalId = getValueFromLogs(tx, "_proposalId");
+    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
     // now vote with the majority for the proposal
     tx = await votingMachine.vote(proposalId, 1, { from: accounts[1] });
 
@@ -117,7 +117,7 @@ describe("UpgradeScheme", () => {
 
     // newUpgradeScheme.registerDao(dao.avatar.address);
 
-    const proposalId = getValueFromLogs(tx, "_proposalId");
+    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
 
     vote(dao, proposalId, 1, { from: accounts[2] });
 
@@ -145,7 +145,7 @@ describe("UpgradeScheme", () => {
 
     // newUpgradeScheme.registerDao(dao.avatar.address);
 
-    const proposalId = getValueFromLogs(tx, "_proposalId");
+    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
 
     vote(dao, proposalId, 1, { from: accounts[2] });
 

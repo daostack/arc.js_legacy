@@ -1,7 +1,7 @@
 import { proposeContributionReward, vote, forgeDao, SOME_HASH, SOME_ADDRESS } from "./helpers";
-import { SHA3, getValueFromLogs, requireContract } from "../lib/utils.js";
+import { Utils } from "../lib/utils.js";
 
-const ContributionReward = requireContract("ContributionReward");
+const ContributionReward = Utils.requireContract("ContributionReward");
 
 describe("ContributionReward scheme", () => {
   let params, paramsHash, tx, proposal;
@@ -20,7 +20,7 @@ describe("ContributionReward scheme", () => {
       nativeTokenReward: 1
     });
 
-    const proposalId = getValueFromLogs(tx, "_proposalId");
+    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
 
     // now vote with a majority account and accept this contribution
     vote(dao, proposalId, 1, { from: accounts[2] });
@@ -83,7 +83,7 @@ describe("ContributionReward scheme", () => {
       schemeParametersHash: schemeParametersHash
     });
 
-    const proposalId = getValueFromLogs(tx, "_proposalId");
+    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
 
     // this will vote-and-execute
     tx = await votingMachine.vote(proposalId, 1, { from: accounts[1] });
@@ -112,7 +112,7 @@ describe("ContributionReward scheme", () => {
     tx = await contributionReward.proposeContributionReward(
       avatar.address, // Avatar _avatar,
       // web3.utils.soliditySha3('a fair play'), this is available in web3 1.0
-      SHA3("a fair play"),
+      Utils.SHA3("a fair play"),
       [
         0, // uint _nativeTokenReward,
         0, // uint _reputationReward,

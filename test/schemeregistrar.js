@@ -1,4 +1,4 @@
-import { NULL_HASH, getValueFromLogs } from "../lib/utils";
+import { Utils } from "../lib/utils";
 import { vote, forgeDao, contractsForTest } from "./helpers";
 
 describe("SchemeRegistrar", () => {
@@ -22,10 +22,10 @@ describe("SchemeRegistrar", () => {
       avatar: dao.avatar.address,
       scheme: contributionRewardAddress,
       schemeName: "ContributionReward",
-      schemeParametersHash: NULL_HASH
+      schemeParametersHash: Utils.NULL_HASH
     });
 
-    const proposalId = getValueFromLogs(tx, "_proposalId");
+    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
 
     vote(dao, proposalId, 1, { from: accounts[2] });
 
@@ -48,10 +48,10 @@ describe("SchemeRegistrar", () => {
       avatar: dao.avatar.address,
       scheme: modifiedSchemeAddress,
       schemeName: "SchemeRegistrar",
-      schemeParametersHash: NULL_HASH
+      schemeParametersHash: Utils.NULL_HASH
     });
 
-    const proposalId = getValueFromLogs(tx, "_proposalId");
+    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
 
     vote(dao, proposalId, 1, { from: accounts[2] });
 
@@ -62,7 +62,7 @@ describe("SchemeRegistrar", () => {
 
     const paramsHash = await dao.controller.getSchemeParameters(modifiedSchemeAddress, dao.avatar.address);
 
-    assert.equal(paramsHash, NULL_HASH, "parameters hash is not correct");
+    assert.equal(paramsHash, Utils.NULL_HASH, "parameters hash is not correct");
   });
 
   it("proposeToRemoveScheme javascript wrapper should remove scheme", async () => {
@@ -76,7 +76,7 @@ describe("SchemeRegistrar", () => {
       scheme: removedScheme.address
     });
 
-    const proposalId = getValueFromLogs(tx, "_proposalId");
+    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
 
     vote(dao, proposalId, 1, { from: accounts[2] });
 
