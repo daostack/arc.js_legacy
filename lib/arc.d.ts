@@ -246,7 +246,7 @@ declare module "daostack-arc-js" {
     getScheme(
       contractName: string,
       address?: string
-    ): ExtendTruffleScheme;
+    ): Promise<ExtendTruffleScheme>;
 
     /**
      * returns whether the scheme with the given address is registered to this DAO's controller
