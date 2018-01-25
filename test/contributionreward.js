@@ -1,34 +1,7 @@
-import { vote, forgeDao, SOME_HASH, SOME_ADDRESS } from "./helpers";
+import { proposeContributionReward, vote, forgeDao, SOME_HASH, SOME_ADDRESS } from "./helpers";
 import { SHA3, getValueFromLogs, requireContract } from "../lib/utils.js";
 
 const ContributionReward = requireContract("ContributionReward");
-
-export async function proposeContributionReward(dao) {
-  const schemeRegistrar = await dao.scheme("SchemeRegistrar");
-  const contributionReward = await dao.scheme("ContributionReward");
-
-  const votingMachineHash = await dao.votingMachine.configHash__;
-  const votingMachineAddress = dao.votingMachine.address;
-
-  const schemeParametersHash = await contributionReward.setParams({
-    orgNativeTokenFee: 0,
-    voteParametersHash: votingMachineHash,
-    votingMachine: votingMachineAddress
-  });
-
-  const tx = await schemeRegistrar.proposeToAddModifyScheme({
-    avatar: dao.avatar.address,
-    scheme: contributionReward.address,
-    schemeName: "ContributionReward",
-    schemeParametersHash: schemeParametersHash
-  });
-
-  const proposalId = getValueFromLogs(tx, "_proposalId");
-
-  vote(dao, proposalId, 1, { from: accounts[2] });
-
-  return contributionReward;
-}
 
 describe("ContributionReward scheme", () => {
   let params, paramsHash, tx, proposal;
@@ -101,7 +74,7 @@ describe("ContributionReward scheme", () => {
       votingMachineAddress
     );
 
-    const schemeRegistrar = await dao.scheme("SchemeRegistrar");
+    const schemeRegistrar = await dao.getScheme("SchemeRegistrar");
 
     tx = await schemeRegistrar.proposeToAddModifyScheme({
       avatar: avatar.address,

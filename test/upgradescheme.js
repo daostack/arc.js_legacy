@@ -27,7 +27,7 @@ describe("UpgradeScheme", () => {
   it("proposeController javascript wrapper should change controller", async () => {
     const dao = await forgeDao();
 
-    const upgradeScheme = await dao.scheme("UpgradeScheme");
+    const upgradeScheme = await dao.getScheme("UpgradeScheme");
     const newController = await Controller.new(avatar.address);
 
     assert.equal(
@@ -60,7 +60,7 @@ describe("UpgradeScheme", () => {
 
     const dao = await forgeDao();
 
-    const upgradeScheme = await dao.scheme("UpgradeScheme");
+    const upgradeScheme = await dao.getScheme("UpgradeScheme");
     const contracts = await contractsForTest();
     const votingMachine = await AbsoluteVote.at(contracts.defaultVotingMachine.address);
 
@@ -96,7 +96,7 @@ describe("UpgradeScheme", () => {
   it("proposeUpgradingScheme javascript wrapper should change upgrade scheme", async () => {
     const dao = await forgeDao();
 
-    const upgradeScheme = await dao.scheme("UpgradeScheme");
+    const upgradeScheme = await dao.getScheme("UpgradeScheme");
 
     const newUpgradeScheme = await UpgradeScheme.new();
 
@@ -130,7 +130,7 @@ describe("UpgradeScheme", () => {
   it("proposeUpgradingScheme javascript wrapper should modify the modifying scheme", async () => {
     const dao = await forgeDao();
 
-    const upgradeScheme = await dao.scheme("UpgradeScheme");
+    const upgradeScheme = await dao.getScheme("UpgradeScheme");
 
     assert.isTrue(
       await dao.isSchemeRegistered(upgradeScheme.address),

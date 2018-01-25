@@ -1,7 +1,7 @@
 /**
     helpers for tests
 */
-import { getWeb3, requireContract } from "../lib/utils.js";
+import { getValueFromLogs, getWeb3, requireContract } from "../lib/utils.js";
 import { assert } from "chai";
 
 beforeEach(async () => {
@@ -177,6 +177,33 @@ export async function forgeDao(opts = {}) {
       ];
 
   return await setupDao(founders);
+}
+
+export async function proposeContributionReward(dao) {
+  const schemeRegistrar = await dao.getScheme("SchemeRegistrar");
+  const contributionReward = await dao.getScheme("ContributionReward");
+
+  const votingMachineHash = await dao.votingMachine.configHash__;
+  const votingMachineAddress = dao.votingMachine.address;
+
+  const schemeParametersHash = await contributionReward.setParams({
+    orgNativeTokenFee: 0,
+    voteParametersHash: votingMachineHash,
+    votingMachine: votingMachineAddress
+  });
+
+  const tx = await schemeRegistrar.proposeToAddModifyScheme({
+    avatar: dao.avatar.address,
+    scheme: contributionReward.address,
+    schemeName: "ContributionReward",
+    schemeParametersHash: schemeParametersHash
+  });
+
+  const proposalId = getValueFromLogs(tx, "_proposalId");
+
+  vote(dao, proposalId, 1, { from: accounts[2] });
+
+  return contributionReward;
 }
 
 export async function transferTokensToAvatar(avatar, amount, fromAddress) {

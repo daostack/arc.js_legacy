@@ -238,14 +238,14 @@ declare module "daostack-arc-js" {
      */
     getGlobalConstraints(contractName?: string): Promise<Array<DaoGlobalConstraintInfo>>;
     /**
-     * Returns promise of a scheme as ExtendTruffleScheme, or ? if not found
-     * @param contract name of scheme, like "SchemeRegistrar"
-     * @param scheme optional scheme address
+     * Returns an Arc-Js scheme wrapper, or undefined if not found
+     * @param contract - name of an Arc scheme, like "SchemeRegistrar"
+     * @param address - optional
      */
-    scheme(
+    getScheme(
       contractName: string,
       address?: string
-    ): Promise<ExtendTruffleScheme>;
+    ): ExtendTruffleScheme;
 
     /**
      * returns whether the scheme with the given address is registered to this DAO's controller
