@@ -6,7 +6,7 @@ describe("SchemeRegistrar", () => {
     const dao = await forgeDao();
     const contracts = await contractsForTest();
 
-    const schemeRegistrar = await dao.scheme("SchemeRegistrar");
+    const schemeRegistrar = await dao.getScheme("SchemeRegistrar");
     const ContributionReward = await dao.getSchemes("ContributionReward");
     assert.equal(ContributionReward.length, 0, "scheme is already present");
 
@@ -38,7 +38,7 @@ describe("SchemeRegistrar", () => {
   it("proposeToAddModifyScheme javascript wrapper should modify existing scheme", async () => {
     const dao = await forgeDao();
 
-    const schemeRegistrar = await dao.scheme("SchemeRegistrar");
+    const schemeRegistrar = await dao.getScheme("SchemeRegistrar");
     const upgradeScheme = await dao.getSchemes("SchemeRegistrar");
     assert.equal(upgradeScheme.length, 1, "scheme is not present");
 
@@ -68,7 +68,7 @@ describe("SchemeRegistrar", () => {
   it("proposeToRemoveScheme javascript wrapper should remove scheme", async () => {
     const dao = await forgeDao();
 
-    const schemeRegistrar = await dao.scheme("SchemeRegistrar");
+    const schemeRegistrar = await dao.getScheme("SchemeRegistrar");
     const removedScheme = schemeRegistrar;
 
     const tx = await schemeRegistrar.proposeToRemoveScheme({

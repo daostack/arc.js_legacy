@@ -43,9 +43,9 @@ for each of these types we have a convenient function that will return the singl
 (or an error if there is no such scheme, or if there is more than 1):
 
 
-    organization.scheme('SchemeRegistrar'); // return the scheme official daostack schemeregistrar
-    organization.scheme('UpgradeScheme');
-    organization.scheme('GlobalConstraintRegistrar');
+    organization.getScheme('SchemeRegistrar'); // return the scheme official daostack schemeregistrar
+    organization.getScheme('UpgradeScheme');
+    organization.getScheme('GlobalConstraintRegistrar');
 
 
 We can use our schemeRegistrar to propose to add a new Scheme - say one for making contributions:

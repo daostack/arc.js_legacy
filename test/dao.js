@@ -1,7 +1,9 @@
 import { DAO } from "../lib/dao.js";
 import * as helpers from "./helpers";
-import { proposeContributionReward } from "./contributionreward.js";
 import { getValueFromLogs } from "../lib/utils.js";
+import { GlobalConstraintRegistrar } from "../lib/contracts/globalconstraintregistrar";
+import { UpgradeScheme } from "../lib/contracts/upgradescheme";
+import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
 
 describe("DAO", () => {
   let dao;
@@ -30,18 +32,14 @@ describe("DAO", () => {
     assert.equal(org1.avatar.address, org2.avatar.address);
     assert.equal(await org1.getName(), await org2.getName());
     assert.equal(await org1.getTokenName(), await org2.getTokenName());
-    const schemeRegistrar1 = await org1.scheme("SchemeRegistrar");
-    const schemeRegistrar2 = await org2.scheme("SchemeRegistrar");
+    const schemeRegistrar1 = await org1.getScheme("SchemeRegistrar");
+    const schemeRegistrar2 = await org2.getScheme("SchemeRegistrar");
     assert.equal(schemeRegistrar1.address, schemeRegistrar2.address);
-    const upgradeScheme1 = await org1.scheme("UpgradeScheme");
-    const upgradeScheme2 = await org2.scheme("UpgradeScheme");
+    const upgradeScheme1 = await org1.getScheme("UpgradeScheme");
+    const upgradeScheme2 = await org2.getScheme("UpgradeScheme");
     assert.equal(upgradeScheme1.address, upgradeScheme2.address);
-    const globalConstraintRegistrar1 = await org1.scheme(
-      "GlobalConstraintRegistrar"
-    );
-    const globalConstraintRegistrar2 = await org2.scheme(
-      "GlobalConstraintRegistrar"
-    );
+    const globalConstraintRegistrar1 = await org1.getScheme("GlobalConstraintRegistrar");
+    const globalConstraintRegistrar2 = await org2.getScheme("GlobalConstraintRegistrar");
     assert.equal(
       globalConstraintRegistrar1.address,
       globalConstraintRegistrar2.address
@@ -53,29 +51,46 @@ describe("DAO", () => {
     const contracts = await helpers.contractsForTest();
     // a new dao comes with three known schemes
     assert.equal((await dao.getSchemes()).length, 3);
-    let scheme = await dao.scheme("GlobalConstraintRegistrar");
+    let scheme = await dao.getScheme("GlobalConstraintRegistrar");
     assert.equal(
       scheme.address,
       contracts.allContracts.GlobalConstraintRegistrar.address
     );
     assert.isTrue(!!scheme.contract, "contract must be set");
-    scheme = await dao.scheme("SchemeRegistrar");
+    assert.isTrue(scheme instanceof GlobalConstraintRegistrar);
+
+    scheme = await dao.getScheme("SchemeRegistrar");
     assert.equal(
       scheme.address,
       contracts.allContracts.SchemeRegistrar.address
     );
     assert.isTrue(!!scheme.contract, "contract must be set");
-    scheme = await dao.scheme("UpgradeScheme");
+    assert.isTrue(scheme instanceof SchemeRegistrar);
+
+    scheme = await dao.getScheme("UpgradeScheme");
     assert.equal(
       scheme.address,
       contracts.allContracts.UpgradeScheme.address
     );
     assert.isTrue(!!scheme.contract, "contract must be set");
+    assert.isTrue(scheme instanceof UpgradeScheme);
 
     // now we add another known scheme
-    await proposeContributionReward(dao);
+    await helpers.proposeContributionReward(dao);
 
     assert.equal((await dao.getSchemes()).length, 4);
+  });
+
+  it("getScheme() function handles bad scheme", async () => {
+    const dao = await helpers.forgeDao();
+    const scheme = await dao.getScheme("NoSuchScheme");
+    assert.equal(scheme, undefined);
+  });
+
+  it("getScheme() function handles bad address", async () => {
+    const dao = await helpers.forgeDao();
+    const scheme = await dao.getScheme("UpgradeScheme", helpers.NULL_ADDRESS);
+    assert.equal(scheme, undefined);
   });
 
   it("has a working getGlobalConstraints() function to access its constraints", async () => {
@@ -84,7 +99,7 @@ describe("DAO", () => {
     assert.equal((await dao.getGlobalConstraints()).length, 0);
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 0);
 
-    const tokenCapGC = await dao.scheme("TokenCapGC");
+    const tokenCapGC = await dao.getScheme("TokenCapGC");
 
     const globalConstraintParametersHash = await tokenCapGC.getParametersHash(
       dao.token.address,
@@ -104,7 +119,7 @@ describe("DAO", () => {
       true
     );
 
-    const globalConstraintRegistrar = await dao.scheme("GlobalConstraintRegistrar");
+    const globalConstraintRegistrar = await dao.getScheme("GlobalConstraintRegistrar");
 
     let tx = await globalConstraintRegistrar.proposeToAddModifyGlobalConstraint({
       avatar: dao.avatar.address,

@@ -9,7 +9,7 @@ describe("GlobalConstraintRegistrar", () => {
   it("proposeToAddModifyGlobalConstraint javascript wrapper should work", async () => {
     const dao = await helpers.forgeDao();
 
-    const tokenCapGC = await dao.scheme("TokenCapGC");
+    const tokenCapGC = await dao.getScheme("TokenCapGC");
 
     const globalConstraintParametersHash = await tokenCapGC.getParametersHash(
       dao.token.address,
@@ -28,7 +28,7 @@ describe("GlobalConstraintRegistrar", () => {
       true
     );
 
-    const globalConstraintRegistrar = await dao.scheme(
+    const globalConstraintRegistrar = await dao.getScheme(
       "GlobalConstraintRegistrar"
     );
 
@@ -43,7 +43,7 @@ describe("GlobalConstraintRegistrar", () => {
   it("should register and enforce a global constraint", async () => {
     const dao = await helpers.forgeDao();
 
-    const tokenCapGC = await dao.scheme("TokenCapGC");
+    const tokenCapGC = await dao.getScheme("TokenCapGC");
     const globalConstraintParametersHash = await tokenCapGC.getParametersHash(
       dao.token.address,
       3141
@@ -61,7 +61,7 @@ describe("GlobalConstraintRegistrar", () => {
       true
     );
 
-    const globalConstraintRegistrar = (await dao.scheme("GlobalConstraintRegistrar")).contract;
+    const globalConstraintRegistrar = (await dao.getScheme("GlobalConstraintRegistrar")).contract;
 
     const tx = await globalConstraintRegistrar.proposeGlobalConstraint(
       dao.avatar.address,
@@ -91,7 +91,7 @@ describe("GlobalConstraintRegistrar", () => {
     const dao = await helpers.forgeDao();
 
     // do some sanity checks on the globalconstriantregistrar
-    const gcr = (await dao.scheme("GlobalConstraintRegistrar")).contract;
+    const gcr = (await dao.getScheme("GlobalConstraintRegistrar")).contract;
     // check if indeed the registrar is registered as a scheme on  the controller
     assert.equal(await dao.isSchemeRegistered(gcr.address), true);
     // DAO.new standardly registers no global constraints
@@ -161,7 +161,7 @@ describe("GlobalConstraintRegistrar", () => {
   it("organisation.proposalGlobalConstraint() should accept different parameters [TODO]", async () => {
     const dao = await helpers.forgeDao();
 
-    const tokenCapGC = await dao.scheme("TokenCapGC");
+    const tokenCapGC = await dao.getScheme("TokenCapGC");
 
     let globalConstraintParametersHash = await tokenCapGC.getParametersHash(
       dao.token.address,
@@ -180,7 +180,7 @@ describe("GlobalConstraintRegistrar", () => {
       true
     );
 
-    const globalConstraintRegistrar = (await dao.scheme(
+    const globalConstraintRegistrar = (await dao.getScheme(
       "GlobalConstraintRegistrar"
     )).contract;
 
