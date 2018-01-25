@@ -1,11 +1,11 @@
 /**
     helpers for tests
 */
-import { getValueFromLogs, getWeb3, requireContract } from "../lib/utils.js";
+import { Utils } from "../lib/utils.js";
 import { assert } from "chai";
 
 beforeEach(async () => {
-  global.web3 = getWeb3();
+  global.web3 = Utils.getWeb3();
   global.assert = assert;
   global.accounts = [];
   await etherForEveryone();
@@ -13,22 +13,20 @@ beforeEach(async () => {
 
 import { DAO } from "../lib/dao.js";
 import { getDeployedContracts } from "../lib/contracts.js";
-const GenesisScheme = requireContract("GenesisScheme");
-const Avatar = requireContract("Avatar");
-const DAOToken = requireContract("DAOToken");
-const Reputation = requireContract("Reputation");
-const AbsoluteVote = requireContract("AbsoluteVote");
-const Controller = requireContract("Controller");
+const GenesisScheme = Utils.requireContract("GenesisScheme");
+const Avatar = Utils.requireContract("Avatar");
+const DAOToken = Utils.requireContract("DAOToken");
+const Reputation = Utils.requireContract("Reputation");
+const AbsoluteVote = Utils.requireContract("AbsoluteVote");
+const Controller = Utils.requireContract("Controller");
 
-export const NULL_HASH =
-  "0x0000000000000000000000000000000000000000000000000000000000000000";
-export const SOME_HASH =
-  "0x1000000000000000000000000000000000000000000000000000000000000000";
-export const NULL_ADDRESS = "0x0000000000000000000000000000000000000000";
+export const NULL_HASH = Utils.NULL_HASH;
+export const NULL_ADDRESS = Utils.NULL_ADDRESS;
+export const SOME_HASH = "0x1000000000000000000000000000000000000000000000000000000000000000";
 export const SOME_ADDRESS = "0x1000000000000000000000000000000000000000";
 
 beforeEach(async () => {
-  global.web3 = getWeb3();
+  global.web3 = Utils.getWeb3();
   global.assert = assert;
   global.accounts = [];
   await etherForEveryone();
@@ -98,7 +96,7 @@ async function setupDao(founders) {
     founders.map(x => x.address),
     founders.map(x => x.tokens),
     founders.map(x => x.reputation),
-    NULL_ADDRESS
+    Utils.NULL_ADDRESS
   );
   assert.equal(tx.logs.length, 1);
   assert.equal(tx.logs[0].event, "NewOrg");
@@ -199,7 +197,7 @@ export async function proposeContributionReward(dao) {
     schemeParametersHash: schemeParametersHash
   });
 
-  const proposalId = getValueFromLogs(tx, "_proposalId");
+  const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
 
   vote(dao, proposalId, 1, { from: accounts[2] });
 

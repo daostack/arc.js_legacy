@@ -1,6 +1,6 @@
 import { DAO } from "../lib/dao.js";
 import * as helpers from "./helpers";
-import { getValueFromLogs } from "../lib/utils.js";
+import { Utils } from "../lib/utils";
 import { GlobalConstraintRegistrar } from "../lib/contracts/globalconstraintregistrar";
 import { UpgradeScheme } from "../lib/contracts/upgradescheme";
 import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
@@ -129,7 +129,7 @@ describe("DAO", () => {
     }
     );
 
-    let proposalId = getValueFromLogs(tx, "_proposalId");
+    let proposalId = Utils.getValueFromLogs(tx, "_proposalId");
     // several users now cast their vote
     await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[0] });
     // next is decisive vote: the proposal will be executed
@@ -146,7 +146,7 @@ describe("DAO", () => {
     }
     );
 
-    proposalId = getValueFromLogs(tx, "_proposalId");
+    proposalId = Utils.getValueFromLogs(tx, "_proposalId");
     // several users now cast their vote
     await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[0] });
     // next is decisive vote: the proposal will be executed
