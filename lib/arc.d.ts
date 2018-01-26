@@ -1,5 +1,6 @@
 import * as BigNumber from "bignumber.js";
-import * as Web3 from "web3";
+import Web3 from "web3";
+import * as Transaction from 'ethereumjs-tx';
 
 declare module "daostack-arc-js" {
   /*******************************
@@ -19,6 +20,25 @@ declare module "daostack-arc-js" {
     address: string;
   }
 
+  /**
+   * Base or actual type returned by all contract wrapper methods that generate a transaction.
+   */
+  export class ArcTransactionReturnType {
+    Tx: Transaction;
+  }
+  /**
+   * Base or actual type returned by all contract wrapper methods that generate a transaction and initiate a proposal.
+   */
+  export class ArcTransactionProposalReturnType extends ArcTransactionReturnType {
+    Tx: Transaction;
+    ProposalId: number;
+  }
+  /**
+   * Base or actual type returned by all contract wrapper methods that generate a transaction and any other result.
+   */
+  export class ArcTransactionResultReturnType extends ArcTransactionReturnType {
+    Result: any;
+  }
   /**
    * An object with property names being a contract key and property value as the corresponding ArcContractInfo.
    * For all deployed contracts exposed by Arc.
@@ -139,11 +159,12 @@ declare module "daostack-arc-js" {
      */
     public contract: any;
     /**
-     * Call setParameters on this contract, returning promise of the parameters hash.
+     * Call setParameters on this contract.
+     * Returns promise of ArcTransactionResultReturnType where Result is the parameters hash.
      * @param {any} params -- object with properties whose names are expected by the scheme to correspond to parameters.
      * Currently all params are required, contract wrappers do not as yet apply default values.
      */
-    public setParams(params: any): Promise<string>;
+    public setParams(params: any): Promise<ArcTransactionResultReturnType>;
   }
 
   export class ExtendTruffleScheme extends ExtendTruffleContract {
@@ -258,7 +279,7 @@ declare module "daostack-arc-js" {
      * Extra permissions on the scheme.  The minimum permissions for the scheme
      * will be enforced (or'd with anything you supply).
      * See ExtendTruffleContract.getDefaultPermissions for what this string
-     * should look like and how we will obtain the minimum permissions for a scheme.
+     * should look like and how we obtain the minimum permissions for a scheme.
      */
     permissions?: string;
     /**
@@ -272,7 +293,7 @@ declare module "daostack-arc-js" {
     votingMachineParams?: NewDaoVotingMachineConfig;
     /**
      * Other scheme parameters, any params besides those already provided in votingMachineParams. 
-     * For example, ContributionReward requires orgNativeTokenFee and schemeNativeTokenFee.
+     * For example, ContributionReward requires orgNativeTokenFee.
      * 
      * Default is {}
      */
@@ -445,7 +466,7 @@ declare module "daostack-arc-js" {
       opts: ProposeToRemoveGlobalConstraintParams
     ): Promise<TransactionReceiptTruffle>;
 
-    setParams(params: GlobalConstraintRegistrarParams): Promise<string>;
+    setParams(params: GlobalConstraintRegistrarParams): Promise<ArcTransactionResultReturnType>;
   }
 
   /********************************
@@ -511,7 +532,7 @@ declare module "daostack-arc-js" {
     proposeToRemoveScheme(
       opts: ProposeToRemoveSchemeParams
     ): Promise<TransactionReceiptTruffle>;
-    setParams(params: SchemeRegistrarParams): Promise<string>;
+    setParams(params: SchemeRegistrarParams): Promise<ArcTransactionResultReturnType>;
   }
 
   /********************************
@@ -565,7 +586,7 @@ declare module "daostack-arc-js" {
     proposeController(
       opts: ProposeControllerParams
     ): Promise<TransactionReceiptTruffle>;
-    setParams(params: UpgradeSchemeParams): Promise<string>;
+    setParams(params: UpgradeSchemeParams): Promise<ArcTransactionResultReturnType>;
   }
 
   /********************************
@@ -625,7 +646,7 @@ declare module "daostack-arc-js" {
     proposeContributionReward(
       opts: ProposeContributionParams
     ): Promise<TransactionReceiptTruffle>;
-    setParams(params: ContributionRewardParams): Promise<string>;
+    setParams(params: ContributionRewardParams): Promise<ArcTransactionResultReturnType>;
 
     /**
      * Event functions as defined by the parent Truffle contract

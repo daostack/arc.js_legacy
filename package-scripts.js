@@ -44,6 +44,16 @@ module.exports = {
     test: {
       default: series("nps lint", "nps test.automated"),
       automated: {
+        /**
+         * if you want to run an individual script module, you can do it like this:
+         *
+         *   npm start "test.automated ./test/dao.js"
+         *
+         * to also bail:
+         *
+         *   npm start "test.automated --bail ./test/dao.js"
+         *
+         */
         default: "mocha --require babel-register --require babel-polyfill --require chai --timeout 15000",
         bail: 'nps "test.automated --bail"'
       },

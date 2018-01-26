@@ -137,8 +137,8 @@ async function setupDao(founders) {
         voteParametersHash: dao.votingMachine.configHash__,
         votingMachine: dao.votingMachine.address
       })
-      .then(hash => {
-        params.push(hash);
+      .then(result => {
+        params.push(result.Result);
       });
   }
 
@@ -184,11 +184,11 @@ export async function proposeContributionReward(dao) {
   const votingMachineHash = await dao.votingMachine.configHash__;
   const votingMachineAddress = dao.votingMachine.address;
 
-  const schemeParametersHash = await contributionReward.setParams({
+  const schemeParametersHash = (await contributionReward.setParams({
     orgNativeTokenFee: 0,
     voteParametersHash: votingMachineHash,
     votingMachine: votingMachineAddress
-  });
+  })).Result;
 
   const tx = await schemeRegistrar.proposeToAddModifyScheme({
     avatar: dao.avatar.address,

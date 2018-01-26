@@ -1,15 +1,20 @@
 {
   "compilerOptions": {
+    "target": "es6",
     "module": "commonjs",
+    "moduleResolution": "node",
     "noImplicitAny": true,
     "preserveConstEnums": true,
     "sourceMap": true
   },
   "include": [
-    "lib/**/*",
-    "./node_modules/web3-typescript-typings/index.d.ts",
+    "lib/**/*"
   ],
-  "typeRoots" : [
+  "exclude": [
+    "node_modules",
+    "dist",
+  ],
+  "typeRoots": [
     "node_modules/@types",
     "node_modules/web3-typescript-typings"
   ]
