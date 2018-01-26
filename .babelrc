@@ -1,6 +1,11 @@
 {
-  "presets": ["es2015"],
-  "plugins": ["syntax-async-functions"],
+  "presets": [
+    "es2015"
+  ],
+  "plugins": [
+    "syntax-async-functions",
+    "transform-class-properties"
+  ],
   // for VS Code test code debugging
   "sourceMaps": "inline"
 }

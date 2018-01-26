@@ -1,6 +1,5 @@
 import * as BigNumber from "bignumber.js";
 import Web3 from "web3";
-import * as Transaction from 'ethereumjs-tx';
 
 declare module "daostack-arc-js" {
   /*******************************
@@ -23,26 +22,25 @@ declare module "daostack-arc-js" {
   /**
    * Base or actual type returned by all contract wrapper methods that generate a transaction.
    */
-  export class ArcTransactionReturnType {
-    Tx: Transaction;
+  export interface ArcTransactionReturnType {
+    tx: TransactionReceiptTruffle;
   }
   /**
    * Base or actual type returned by all contract wrapper methods that generate a transaction and initiate a proposal.
    */
-  export class ArcTransactionProposalReturnType extends ArcTransactionReturnType {
-    Tx: Transaction;
-    ProposalId: number;
+  export interface ArcTransactionProposalReturnType extends ArcTransactionReturnType {
+    proposalId: number;
   }
   /**
    * Base or actual type returned by all contract wrapper methods that generate a transaction and any other result.
    */
-  export class ArcTransactionResultReturnType extends ArcTransactionReturnType {
-    Result: any;
+  export interface ArcTransactionResultReturnType extends ArcTransactionReturnType {
+    result: any;
   }
   /**
-   * An object with property names being a contract key and property value as the corresponding ArcContractInfo.
-   * For all deployed contracts exposed by Arc.
-   */
+     * An object with property names being a contract key and property value as the corresponding ArcContractInfo.
+     * For all deployed contracts exposed by Arc.
+     */
   export interface ArcDeployedContractNames {
     ContributionReward: ArcContractInfo;
     GenesisScheme: ArcContractInfo;
@@ -448,6 +446,7 @@ declare module "daostack-arc-js" {
     static new(
       options: GlobalConstraintRegistrarNewParams
     ): GlobalConstraintRegistrar;
+
     static at(address: string): GlobalConstraintRegistrar;
     static deployed(): GlobalConstraintRegistrar;
 
@@ -457,14 +456,14 @@ declare module "daostack-arc-js" {
      */
     proposeToAddModifyGlobalConstraint(
       opts: ProposeToAddModifyGlobalConstraintParams
-    ): Promise<TransactionReceiptTruffle>;
+    ): Promise<ArcTransactionProposalReturnType>;
     /**
      * propose to remove a global constraint
      * @param opts ProposeToRemoveGlobalConstraintParams
      */
     proposeToRemoveGlobalConstraint(
       opts: ProposeToRemoveGlobalConstraintParams
-    ): Promise<TransactionReceiptTruffle>;
+    ): Promise<ArcTransactionProposalReturnType>;
 
     setParams(params: GlobalConstraintRegistrarParams): Promise<ArcTransactionResultReturnType>;
   }
@@ -524,14 +523,15 @@ declare module "daostack-arc-js" {
      */
     proposeToAddModifyScheme(
       opts: ProposeToAddModifySchemeParams
-    ): Promise<TransactionReceiptTruffle>;
+    ): Promise<ArcTransactionProposalReturnType>;
     /**
      * propose to remove a scheme
      * @param opts ProposeToRemoveSchemeParams
      */
     proposeToRemoveScheme(
       opts: ProposeToRemoveSchemeParams
-    ): Promise<TransactionReceiptTruffle>;
+    ): Promise<ArcTransactionProposalReturnType>;
+
     setParams(params: SchemeRegistrarParams): Promise<ArcTransactionResultReturnType>;
   }
 
@@ -578,14 +578,15 @@ declare module "daostack-arc-js" {
      */
     proposeUpgradingScheme(
       opts: ProposeUpgradingSchemeParams
-    ): Promise<TransactionReceiptTruffle>;
+    ): Promise<ArcTransactionProposalReturnType>;
     /**
      * propose to replace this DAO's controller
      * @param opts ProposeControllerParams
      */
     proposeController(
       opts: ProposeControllerParams
-    ): Promise<TransactionReceiptTruffle>;
+    ): Promise<ArcTransactionProposalReturnType>;
+
     setParams(params: UpgradeSchemeParams): Promise<ArcTransactionResultReturnType>;
   }
 
@@ -645,7 +646,8 @@ declare module "daostack-arc-js" {
      */
     proposeContributionReward(
       opts: ProposeContributionParams
-    ): Promise<TransactionReceiptTruffle>;
+    ): Promise<ArcTransactionProposalReturnType>;
+
     setParams(params: ContributionRewardParams): Promise<ArcTransactionResultReturnType>;
 
     /**
