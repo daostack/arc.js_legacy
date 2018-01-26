@@ -46,7 +46,6 @@
   },
   "homepage": "https://github.com/daostack/arc.js#readme",
   "dependencies": {
-    "@types/bignumber.js": "^5.0.0",
     "@types/nconf": "^0.0.36",
     "archiver": "^2.1.0",
     "bignumber.js": "^5.0.0",
@@ -57,7 +56,6 @@
     "default-options": "^1.0.0",
     "env-variable": "0.0.3",
     "ethereumjs-abi": "^0.6.5",
-    "ethereumjs-testrpc": "^6.0.3",
     "ganache-cli": "^6.0.3",
     "has-flag": "^3.0.0",
     "locate-path": "^2.0.0",
