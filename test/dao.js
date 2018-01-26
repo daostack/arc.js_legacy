@@ -4,6 +4,7 @@ import { Utils } from "../lib/utils";
 import { GlobalConstraintRegistrar } from "../lib/contracts/globalconstraintregistrar";
 import { UpgradeScheme } from "../lib/contracts/upgradescheme";
 import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
+import { AbsoluteVote } from "../lib/contracts/absolutevote";
 
 describe("DAO", () => {
   let dao;
@@ -14,12 +15,12 @@ describe("DAO", () => {
       tokenName: "Tokens of skynet",
       tokenSymbol: "SNT"
     });
-    // an dao has an avatar
+    // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
   });
 
   it("can be instantiated with 'at' if it was already deployed", async () => {
-    // first create an dao
+    // first create the dao
     const org1 = await DAO.new({
       orgName: "Skynet",
       tokenName: "Tokens of skynet",
@@ -44,6 +45,123 @@ describe("DAO", () => {
       globalConstraintRegistrar1.address,
       globalConstraintRegistrar2.address
     );
+  });
+
+  it("can be created with founders", async () => {
+    dao = await DAO.new({
+      orgName: "Skynet",
+      tokenName: "Tokens of skynet",
+      tokenSymbol: "SNT",
+      founders: [
+        {
+          address: accounts[0],
+          reputation: 1000,
+          tokens: web3.toWei(40)
+        },
+        {
+          address: accounts[1],
+          reputation: 1000,
+          tokens: web3.toWei(40)
+        },
+        {
+          address: accounts[2],
+          reputation: 1000,
+          tokens: web3.toWei(40)
+        }
+      ]
+    });
+    // the dao has an avatar
+    assert.ok(dao.avatar, "DAO must have an avatar defined");
+  });
+
+  it("can be created with schemes and default votingMachineParams", async () => {
+    dao = await DAO.new({
+      orgName: "Skynet",
+      tokenName: "Tokens of skynet",
+      tokenSymbol: "SNT",
+      schemes: [
+        { name: "SchemeRegistrar" },
+        { name: "UpgradeScheme" },
+        { name: "GlobalConstraintRegistrar" }
+      ]
+    });
+    // the dao has an avatar
+    assert.ok(dao.avatar, "DAO must have an avatar defined");
+    const scheme = await dao.getScheme("SchemeRegistrar");
+    assert.equal(scheme.getDefaultPermissions(), await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address));
+  });
+
+  it("can be created with schemes and global votingMachineParams", async () => {
+    dao = await DAO.new({
+      orgName: "Skynet",
+      tokenName: "Tokens of skynet",
+      tokenSymbol: "SNT",
+      schemes: [
+        { name: "SchemeRegistrar" },
+        { name: "UpgradeScheme" },
+        { name: "GlobalConstraintRegistrar" }
+      ],
+      votingMachineParams: {
+        votePerc: 45,
+        ownerVote: true
+      }
+    });
+    // the dao has an avatar
+    assert.ok(dao.avatar, "DAO must have an avatar defined");
+    const scheme = await dao.getScheme("UpgradeScheme");
+    assert.equal(scheme.getDefaultPermissions(), await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address));
+    const paramsHash = await dao.controller.getSchemeParameters(scheme.address, dao.avatar.address);
+    const schemeParams = await scheme.parameters(paramsHash);
+    const votingMachineParamsHash = await schemeParams[0];
+    const votingMachineAddress = await schemeParams[1];
+    const votingMachine = await AbsoluteVote.at(votingMachineAddress);
+    const votingMachineParams = await votingMachine.parameters(votingMachineParamsHash);
+    assert.equal(votingMachineParams[1].toNumber(), 45);
+  });
+
+  it("can be created with schemes and scheme-specific votingMachineParams", async () => {
+    dao = await DAO.new({
+      orgName: "Skynet",
+      tokenName: "Tokens of skynet",
+      tokenSymbol: "SNT",
+      schemes: [
+        { name: "SchemeRegistrar" },
+        { name: "UpgradeScheme" },
+        {
+          name: "GlobalConstraintRegistrar",
+          votingMachineParams: {
+            votePerc: 30,
+            ownerVote: true
+          }
+        }
+      ],
+      votingMachineParams: {
+        votePerc: 45,
+        ownerVote: true
+      }
+    });
+    // the dao has an avatar
+    assert.ok(dao.avatar, "DAO must have an avatar defined");
+    let scheme = await dao.getScheme("GlobalConstraintRegistrar");
+    assert.equal(scheme.getDefaultPermissions(), await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address));
+    let paramsHash = await dao.controller.getSchemeParameters(scheme.address, dao.avatar.address);
+    let schemeParams = await scheme.parameters(paramsHash);
+    let votingMachineParamsHash = await schemeParams[0];
+    let votingMachineAddress = await schemeParams[1];
+    let votingMachine = await AbsoluteVote.at(votingMachineAddress);
+    let votingMachineParams = await votingMachine.parameters(votingMachineParamsHash);
+    assert.equal(votingMachineParams[1].toNumber(), 30);
+
+    scheme = await dao.getScheme("UpgradeScheme");
+    assert.equal(scheme.getDefaultPermissions(), await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address));
+    paramsHash = await dao.controller.getSchemeParameters(scheme.address, dao.avatar.address);
+    schemeParams = await scheme.parameters(paramsHash);
+    votingMachineParamsHash = await schemeParams[0];
+    votingMachineAddress = await schemeParams[1];
+    votingMachine = await AbsoluteVote.at(votingMachineAddress);
+    votingMachineParams = await votingMachine.parameters(votingMachineParamsHash);
+    assert.equal(votingMachineParams[1].toNumber(), 45);
+
   });
 
   it("has a working getSchemes() function to access its schemes", async () => {

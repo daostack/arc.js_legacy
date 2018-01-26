@@ -148,14 +148,16 @@ declare module "daostack-arc-js" {
 
   export class ExtendTruffleScheme extends ExtendTruffleContract {
     /**
-     * Returns a string containing 1s and 0s representing scheme permissions as follows:
+     * Returns a string containing an 8-digit hex number whose binary 
+     * 1s and 0s represent scheme permissions as follows:
      *
      * All 0: Not registered,
-     * 1st bit: Flag if the scheme is registered,
+     * 1st bit: Scheme is registered
      * 2nd bit: Scheme can register other schemes
      * 3th bit: Scheme can add/remove global constraints
      * 4rd bit: Scheme can upgrade the controller
      *
+     * Example:  "0x00000003" has the 1st and 2nd bits set.
      */
     getDefaultPermissions(overrideValue: string): string;
   }
@@ -174,23 +176,126 @@ declare module "daostack-arc-js" {
     reputation: string | number;
   }
 
-  export interface DaoNewConfig {
+  export interface NewDaoVotingMachineConfig {
+    /**
+     * Optional Reputation address.
+     * Default is the new DAO's native reputation.
+     */
+    reputationAddress?: string;
+    /**
+     * Optional VotingMachine address
+     * Default is AbsoluteVote
+     */
+    votingMachineAddress?: string;
+    /**
+     * Optional Voting percentage that decides a vote.
+     * Default is 50.
+     */
+    votePerc?: number;
+    /**
+     * Optional true to automatically give a proposer a vote "for" the proposed scheme.
+     * Default is true;
+     */
+    ownerVote?: boolean;
+  }
+
+  export interface NewDaoConfig {
+    /**
+     * The GenesisScheme to use.  Default is the GenesisScheme supplied in this release of Arc-Js.
+     */
+    genesisScheme?: string;
+    /**
+     * The name of the DAO.
+     */
     orgName: string;
+    /**
+     * The name of the token that will become the DAO's native token.
+     */
     tokenName: string;
+    /**
+     * The symbol of the token that will become the DAO's native token.
+     */
     tokenSymbol: string;
+    /**
+     * A collection of founders.
+     */
     founders: Array<FounderConfig>;
-    votingMachine?: string, // address
-    votePrec?: Number,
-    ownerVote?: boolean,
-    schemes?: Array<{ name: string, address?: string }>
+    /**
+     * default votingMachine parameters if you have not configured a scheme you want to register with the
+     * new DAO with its own voting parameters.
+     * 
+     * New schemes will be created these parameters.
+     * 
+     * Defaults are described in NewDaoVotingMachineConfig.
+     */
+    votingMachineParams: NewDaoVotingMachineConfig;
+    /**
+     * Any Arc schemes you would like to automatically register with the new DAO.
+     * Non-Arc schemes are not allowed here.  You may add them later in your application's workflow
+     * using SchemeRegistrar.
+     */
+    schemes?: Array<NewDaoSchemeConfig>;
+    /**
+     * true to use the UniversalController contract, false to use the Controller contract.
+     * The default is UniversalController.
+     */
+    universalController?: boolean;
+  }
+
+  /**
+   * Configuration of an Arc scheme that you want to automatically register with a new DAO.
+   */
+  export interface NewDaoSchemeConfig {
+    /**
+     * The name of the Arc scheme.  It must be an Arc scheme.
+     */
+    name: string;
+    /**
+     * Scheme address if you don't want to use the scheme supplied in this release of Arc-Js.
+     */
+    address?: string;
+    /**
+     * Extra permissions on the scheme.  The minimum permissions for the scheme
+     * will be enforced (or'd with anything you supply).
+     * See ExtendTruffleContract.getDefaultPermissions for what this string
+     * should look like and how we will obtain the minimum permissions for a scheme.
+     */
+    permissions?: string;
+    /**
+     * Optional votingMachine parameters if you have not supplied them in NewDaoConfig or want to override them.
+     * Note it costs more gas to add them here.
+     * 
+     * New schemes will be created these parameters and the DAO's native reputation contract.
+     * 
+     * Default is {}
+     */
+    votingMachineParams?: NewDaoVotingMachineConfig;
+    /**
+     * Other scheme parameters, any params besides those already provided in votingMachineParams. 
+     * For example, ContributionReward requires orgNativeTokenFee and schemeNativeTokenFee.
+     * 
+     * Default is {}
+     */
+    additionalParams?: any;
   }
 
   /********************************
    * Returned from DAO.getSchemes
    */
   export interface DaoSchemeInfo {
-    name: string;
+    /**
+     * Arc scheme name.  Will be undefined if not an Arc scheme.
+     */
+    name?: string;
+    /**
+     * Scheme address
+     */
     address: string;
+    /**
+     * The scheme's permissions.
+     * See ExtendTruffleContract.getDefaultPermissions for what this string
+     * looks like.
+     */
     permissions: string;
   }
 
@@ -208,7 +313,18 @@ declare module "daostack-arc-js" {
    */
   export class DAO {
     /**
-     * includes static `new` and `at`
+     * Migrate a new DAO to the current network, returning the corresponding DAO instance.
+     * @param options 
+     */
+    static new(options: NewDaoConfig): Promise<DAO>;
+
+    /**
+     * Return an instance of DAO representing the migrated DAO at the given address
+     * @param avatarAddress
+     */
+    static at(avatarAddress: string): Promise<DAO>;
+    /**
+     * Avatar truffle contract
      */
     avatar: any;
     /**
@@ -252,10 +368,6 @@ declare module "daostack-arc-js" {
      * returns whether the scheme with the given address is registered to this DAO's controller
      */
     isSchemeRegistered(schemeAddress: string): boolean;
-
-    static new(options: DaoNewConfig): Promise<DAO>;
-    static at(avatarAddress: string): Promise<DAO>;
-
     /**
      * The DAO name, from the Avatar
      */
