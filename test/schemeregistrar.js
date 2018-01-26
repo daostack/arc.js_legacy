@@ -18,14 +18,14 @@ describe("SchemeRegistrar", () => {
       "scheme is registered into the controller"
     );
 
-    const tx = await schemeRegistrar.proposeToAddModifyScheme({
+    const result = await schemeRegistrar.proposeToAddModifyScheme({
       avatar: dao.avatar.address,
       scheme: contributionRewardAddress,
       schemeName: "ContributionReward",
       schemeParametersHash: Utils.NULL_HASH
     });
 
-    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
+    const proposalId = result.proposalId;
 
     vote(dao, proposalId, 1, { from: accounts[2] });
 
@@ -44,14 +44,14 @@ describe("SchemeRegistrar", () => {
 
     const modifiedSchemeAddress = upgradeScheme[0].address;
 
-    const tx = await schemeRegistrar.proposeToAddModifyScheme({
+    const result = await schemeRegistrar.proposeToAddModifyScheme({
       avatar: dao.avatar.address,
       scheme: modifiedSchemeAddress,
       schemeName: "SchemeRegistrar",
       schemeParametersHash: Utils.NULL_HASH
     });
 
-    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
+    const proposalId = result.proposalId;
 
     vote(dao, proposalId, 1, { from: accounts[2] });
 
@@ -71,12 +71,12 @@ describe("SchemeRegistrar", () => {
     const schemeRegistrar = await dao.getScheme("SchemeRegistrar");
     const removedScheme = schemeRegistrar;
 
-    const tx = await schemeRegistrar.proposeToRemoveScheme({
+    const result = await schemeRegistrar.proposeToRemoveScheme({
       avatar: dao.avatar.address,
       scheme: removedScheme.address
     });
 
-    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
+    const proposalId = result.proposalId;
 
     vote(dao, proposalId, 1, { from: accounts[2] });
 

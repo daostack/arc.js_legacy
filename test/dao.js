@@ -1,6 +1,5 @@
 import { DAO } from "../lib/dao.js";
 import * as helpers from "./helpers";
-import { Utils } from "../lib/utils";
 import { GlobalConstraintRegistrar } from "../lib/contracts/globalconstraintregistrar";
 import { UpgradeScheme } from "../lib/contracts/upgradescheme";
 import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
@@ -239,7 +238,7 @@ describe("DAO", () => {
 
     const globalConstraintRegistrar = await dao.getScheme("GlobalConstraintRegistrar");
 
-    let tx = await globalConstraintRegistrar.proposeToAddModifyGlobalConstraint({
+    let result = await globalConstraintRegistrar.proposeToAddModifyGlobalConstraint({
       avatar: dao.avatar.address,
       globalConstraint: tokenCapGC.address,
       globalConstraintParametersHash: globalConstraintParametersHash,
@@ -247,7 +246,7 @@ describe("DAO", () => {
     }
     );
 
-    let proposalId = Utils.getValueFromLogs(tx, "_proposalId");
+    let proposalId = result.proposalId;
     // several users now cast their vote
     await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[0] });
     // next is decisive vote: the proposal will be executed
@@ -258,13 +257,12 @@ describe("DAO", () => {
     assert.equal(gcs[0].address, tokenCapGC.address);
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 1);
 
-    tx = await globalConstraintRegistrar.proposeToRemoveGlobalConstraint({
+    result = await globalConstraintRegistrar.proposeToRemoveGlobalConstraint({
       avatar: dao.avatar.address,
       globalConstraint: tokenCapGC.address
-    }
-    );
+    });
 
-    proposalId = Utils.getValueFromLogs(tx, "_proposalId");
+    proposalId = result.proposalId;
     // several users now cast their vote
     await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[0] });
     // next is decisive vote: the proposal will be executed

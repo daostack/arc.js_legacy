@@ -17,7 +17,7 @@ const GenesisScheme = Utils.requireContract("GenesisScheme");
 const Avatar = Utils.requireContract("Avatar");
 const DAOToken = Utils.requireContract("DAOToken");
 const Reputation = Utils.requireContract("Reputation");
-const AbsoluteVote = Utils.requireContract("AbsoluteVote");
+import { AbsoluteVote } from "../lib/contracts/absoluteVote";
 const Controller = Utils.requireContract("Controller");
 
 export const NULL_HASH = Utils.NULL_HASH;
@@ -60,28 +60,28 @@ async function etherForEveryone() {
 
 async function setupAbsoluteVote(
   avatar,
-  isOwnedVote = true,
-  precReq = 50,
+  ownerVote = true,
+  votePerc = 50,
   reputations = []
 ) {
-  const votingMachine = await AbsoluteVote.at((await AbsoluteVote.deployed()).address);
+  const votingMachine = await AbsoluteVote.deployed();
 
   // set up a reputation system
   const reputation = await Reputation.at(await avatar.nativeReputation());
-
 
   for (const r of reputations) {
     await reputation.mint(r.address, r.reputation);
   }
 
   // register some parameters
-  await votingMachine.setParameters(reputation.address, precReq, isOwnedVote);
-  const configHash = await votingMachine.getParametersHash(
-    reputation.address,
-    precReq,
-    isOwnedVote
-  );
+  const configHash = (await votingMachine.setParams({
+    reputation: reputation.address,
+    votePerc: votePerc,
+    ownerVote: ownerVote
+  })).result;
+
   votingMachine.configHash__ = configHash; // for reuse by tests
+
   return votingMachine;
 }
 
@@ -138,7 +138,7 @@ async function setupDao(founders) {
         votingMachine: dao.votingMachine.address
       })
       .then(result => {
-        params.push(result.Result);
+        params.push(result.result);
       });
   }
 
@@ -188,16 +188,16 @@ export async function proposeContributionReward(dao) {
     orgNativeTokenFee: 0,
     voteParametersHash: votingMachineHash,
     votingMachine: votingMachineAddress
-  })).Result;
+  })).result;
 
-  const tx = await schemeRegistrar.proposeToAddModifyScheme({
+  const result = await schemeRegistrar.proposeToAddModifyScheme({
     avatar: dao.avatar.address,
     scheme: contributionReward.address,
     schemeName: "ContributionReward",
     schemeParametersHash: schemeParametersHash
   });
 
-  const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
+  const proposalId = result.proposalId;
 
   vote(dao, proposalId, 1, { from: accounts[2] });
 

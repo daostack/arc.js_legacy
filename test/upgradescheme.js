@@ -36,14 +36,14 @@ describe("UpgradeScheme", () => {
       "there is already a new controller"
     );
 
-    const tx = await upgradeScheme.proposeController({
+    const result = await upgradeScheme.proposeController({
       avatar: dao.avatar.address,
       controller: newController.address
     });
 
     // newUpgradeScheme.registerDao(dao.avatar.address);
 
-    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
+    const proposalId = result.proposalId;
 
     vote(dao, proposalId, 1, { from: accounts[2] });
 
@@ -70,14 +70,15 @@ describe("UpgradeScheme", () => {
     // we create a new controller to which to upgrade
     const newController = await Controller.new(avatar.address);
 
-    let tx = await upgradeScheme.proposeUpgrade(
-      dao.avatar.address,
-      newController.address
+    const result = await upgradeScheme.proposeController({
+      avatar: dao.avatar.address,
+      controller: newController.address
+    }
     );
 
-    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
+    const proposalId = result.proposalId;
     // now vote with the majority for the proposal
-    tx = await votingMachine.vote(proposalId, 1, { from: accounts[1] });
+    await votingMachine.vote(proposalId, 1, { from: accounts[1] });
 
     // now the ugprade should have been executed
     assert.equal(
@@ -109,7 +110,7 @@ describe("UpgradeScheme", () => {
       "original scheme is not registered into the controller"
     );
 
-    const tx = await upgradeScheme.proposeUpgradingScheme({
+    const result = await upgradeScheme.proposeUpgradingScheme({
       avatar: dao.avatar.address,
       scheme: newUpgradeScheme.address,
       schemeParametersHash: await dao.controller.getSchemeParameters(upgradeScheme.address, dao.avatar.address)
@@ -117,7 +118,7 @@ describe("UpgradeScheme", () => {
 
     // newUpgradeScheme.registerDao(dao.avatar.address);
 
-    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
+    const proposalId = result.proposalId;
 
     vote(dao, proposalId, 1, { from: accounts[2] });
 
@@ -137,7 +138,7 @@ describe("UpgradeScheme", () => {
       "upgrade scheme is not registered into the controller"
     );
 
-    const tx = await upgradeScheme.proposeUpgradingScheme({
+    const result = await upgradeScheme.proposeUpgradingScheme({
       avatar: dao.avatar.address,
       scheme: upgradeScheme.address,
       schemeParametersHash: SOME_HASH
@@ -145,7 +146,7 @@ describe("UpgradeScheme", () => {
 
     // newUpgradeScheme.registerDao(dao.avatar.address);
 
-    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
+    const proposalId = result.proposalId;
 
     vote(dao, proposalId, 1, { from: accounts[2] });
 

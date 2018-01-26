@@ -13,14 +13,14 @@ describe("ContributionReward scheme", () => {
 
     const scheme = await proposeContributionReward(dao);
 
-    tx = await scheme.proposeContributionReward({
+    const result = await scheme.proposeContributionReward({
       avatar: dao.avatar.address, // Avatar _avatar,
       description: "A new contribution", // string _contributionDesciption,
       beneficiary: accounts[1], // address _beneficiary
       nativeTokenReward: 1
     });
 
-    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
+    const proposalId = result.proposalId;
 
     // now vote with a majority account and accept this contribution
     vote(dao, proposalId, 1, { from: accounts[2] });
@@ -76,14 +76,14 @@ describe("ContributionReward scheme", () => {
 
     const schemeRegistrar = await dao.getScheme("SchemeRegistrar");
 
-    tx = await schemeRegistrar.proposeToAddModifyScheme({
+    const result = await schemeRegistrar.proposeToAddModifyScheme({
       avatar: avatar.address,
       scheme: contributionReward.address,
       schemeName: "ContributionReward",
       schemeParametersHash: schemeParametersHash
     });
 
-    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
+    const proposalId = result.proposalId;
 
     // this will vote-and-execute
     tx = await votingMachine.vote(proposalId, 1, { from: accounts[1] });

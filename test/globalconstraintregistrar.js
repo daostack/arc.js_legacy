@@ -4,87 +4,21 @@ import { Utils } from "../lib/utils";
 const TokenCapGC = Utils.requireContract("TokenCapGC");
 
 describe("GlobalConstraintRegistrar", () => {
-  let tx, proposalId;
-
   it("proposeToAddModifyGlobalConstraint javascript wrapper should work", async () => {
     const dao = await helpers.forgeDao();
 
     const tokenCapGC = await dao.getScheme("TokenCapGC");
 
-    const globalConstraintParametersHash = await tokenCapGC.getParametersHash(
-      dao.token.address,
-      3141
-    );
-    await tokenCapGC.setParameters(dao.token.address, 3141);
+    const globalConstraintParametersHash = (await tokenCapGC.setParams({ token: dao.token.address, cap: 3141 })).result;
 
-    const votingMachineHash = await dao.votingMachine.getParametersHash(
-      dao.reputation.address,
-      50,
-      true
-    );
-    await dao.votingMachine.setParameters(
-      dao.reputation.address,
-      50,
-      true
-    );
-
-    const globalConstraintRegistrar = await dao.getScheme(
-      "GlobalConstraintRegistrar"
-    );
+    const globalConstraintRegistrar = await dao.getScheme("GlobalConstraintRegistrar");
 
     await globalConstraintRegistrar.proposeToAddModifyGlobalConstraint({
       avatar: dao.avatar.address,
       globalConstraint: tokenCapGC.address,
       globalConstraintParametersHash: globalConstraintParametersHash,
-      votingMachineHash: votingMachineHash
+      votingMachineHash: dao.votingMachine.configHash__
     });
-  });
-
-  it("should register and enforce a global constraint", async () => {
-    const dao = await helpers.forgeDao();
-
-    const tokenCapGC = await dao.getScheme("TokenCapGC");
-    const globalConstraintParametersHash = await tokenCapGC.getParametersHash(
-      dao.token.address,
-      3141
-    );
-    await tokenCapGC.setParameters(dao.token.address, 3141);
-
-    const votingMachineHash = await dao.votingMachine.getParametersHash(
-      dao.reputation.address,
-      50,
-      true
-    );
-    await dao.votingMachine.setParameters(
-      dao.reputation.address,
-      50,
-      true
-    );
-
-    const globalConstraintRegistrar = (await dao.getScheme("GlobalConstraintRegistrar")).contract;
-
-    const tx = await globalConstraintRegistrar.proposeGlobalConstraint(
-      dao.avatar.address,
-      tokenCapGC.address,
-      globalConstraintParametersHash,
-      votingMachineHash
-    );
-
-    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
-
-
-    // serveral users now cast their vote
-    await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[0] });
-    // next is decisive vote: the proposal will be executed
-    await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[2] });
-
-    // now the tokencap is enforced: up to 3141 tokens
-    // minting 1111 tokens should be fine
-    // TODO: this is complex: we must create a proposal to mint these tokens and accept that
-    // proposalId = await dao.proposeScheme('ContributionScheme');
-    // await helpers.vote(dao, proposalId, true, {from: web3.eth.accounts[2]});
-
-    // minting 9999 tokens should be out
   });
 
   it("should satisfy a number of basic checks", async () => {
@@ -125,7 +59,7 @@ describe("GlobalConstraintRegistrar", () => {
     const msg = "These parameters are not known the voting machine...";
     assert.notEqual(voteRegisterParams[0], "0x0000000000000000000000000000000000000000", msg);
 
-    tx = await gcr.proposeGlobalConstraint(
+    const tx = await gcr.proposeGlobalConstraint(
       dao.avatar.address,
       tokenCapGC.address,
       tokenCapGCParamsHash,
@@ -133,7 +67,7 @@ describe("GlobalConstraintRegistrar", () => {
     );
 
     // check if the proposal is known on the GlobalConstraintRegistrar
-    proposalId = Utils.getValueFromLogs(tx, "_proposalId");
+    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
     // TODO: read the proposal in the contract:
     // const proposal = await gcr.proposals(proposalId);
     // // the proposal looks like gc-address, params, proposaltype, removeParams
@@ -142,56 +76,33 @@ describe("GlobalConstraintRegistrar", () => {
     // TODO: the voting machine should be taken from the address at parametersForVotingInGCR[1]
     const votingMachine = dao.votingMachine;
     // first vote (minority)
-    tx = await votingMachine.vote(proposalId, 1, {
+    await votingMachine.vote(proposalId, 1, {
       from: web3.eth.accounts[1]
     });
 
     // at this point, our global constrait has been registered at the dao
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 1);
-    return;
-    // // get the first global constraint
-    // const gc = await dao.controller.globalConstraints(0);
-    // const params = await dao.controller.globalConstraintsParams(0);
-    // // see which global constraints are satisfied
-    // assert.equal(gc, tokenCapGC.address);
-    // assert.equal(params, tokenCapGCParamsHash);
   });
 
 
-  it("organisation.proposalGlobalConstraint() should accept different parameters [TODO]", async () => {
+  it("proposeGlobalConstraint() should accept different parameters [TODO]", async () => {
     const dao = await helpers.forgeDao();
 
     const tokenCapGC = await dao.getScheme("TokenCapGC");
 
-    let globalConstraintParametersHash = await tokenCapGC.getParametersHash(
-      dao.token.address,
-      21e9
-    );
-    await tokenCapGC.setParameters(dao.token.address, 21e9);
+    let globalConstraintParametersHash = (await tokenCapGC.setParams({ token: dao.token.address, cap: 21e9 })).result;
 
-    let votingMachineHash = await dao.votingMachine.getParametersHash(
-      dao.reputation.address,
-      50,
-      true
-    );
-    await dao.votingMachine.setParameters(
-      dao.reputation.address,
-      50,
-      true
-    );
+    const globalConstraintRegistrar = await dao.getScheme("GlobalConstraintRegistrar");
 
-    const globalConstraintRegistrar = (await dao.getScheme(
-      "GlobalConstraintRegistrar"
-    )).contract;
+    let result = await globalConstraintRegistrar.proposeToAddModifyGlobalConstraint({
+      avatar: dao.avatar.address,
+      globalConstraint: tokenCapGC.address,
+      globalConstraintParametersHash: globalConstraintParametersHash,
+      votingMachineHash: dao.votingMachine.configHash__
+    });
 
-    let tx = await globalConstraintRegistrar.proposeGlobalConstraint(
-      dao.avatar.address,
-      tokenCapGC.address,
-      globalConstraintParametersHash,
-      votingMachineHash
-    );
+    let proposalId = result.proposalId;
 
-    let proposalId = Utils.getValueFromLogs(tx, "_proposalId");
     assert.isOk(proposalId);
 
     // proposalId = await dao.proposeGlobalConstraint({
@@ -201,31 +112,16 @@ describe("GlobalConstraintRegistrar", () => {
     //
     // assert.isOk(proposalId);
 
-    globalConstraintParametersHash = await tokenCapGC.getParametersHash(
-      dao.token.address,
-      1234
-    );
-    await tokenCapGC.setParameters(dao.token.address, 1234);
+    globalConstraintParametersHash = (await tokenCapGC.setParams({ token: dao.token.address, cap: 1234 })).result;
 
-    votingMachineHash = await dao.votingMachine.getParametersHash(
-      dao.reputation.address,
-      1,
-      false
-    );
-    await dao.votingMachine.setParameters(
-      dao.reputation.address,
-      1,
-      false
-    );
+    result = await globalConstraintRegistrar.proposeToAddModifyGlobalConstraint({
+      avatar: dao.avatar.address,
+      globalConstraint: tokenCapGC.address,
+      globalConstraintParametersHash: globalConstraintParametersHash,
+      votingMachineHash: dao.votingMachine.configHash__
+    });
 
-    tx = await globalConstraintRegistrar.proposeGlobalConstraint(
-      dao.avatar.address,
-      tokenCapGC.address,
-      globalConstraintParametersHash,
-      votingMachineHash
-    );
-
-    proposalId = Utils.getValueFromLogs(tx, "_proposalId");
+    proposalId = result.proposalId;
 
     assert.isOk(proposalId);
 
