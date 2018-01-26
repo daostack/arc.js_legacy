@@ -4,7 +4,7 @@ import { Utils } from "../lib/utils";
 import { GlobalConstraintRegistrar } from "../lib/contracts/globalconstraintregistrar";
 import { UpgradeScheme } from "../lib/contracts/upgradescheme";
 import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
-import { AbsoluteVote } from "../lib/contracts/absolutevote";
+import { AbsoluteVote } from "../lib/contracts/absoluteVote";
 
 describe("DAO", () => {
   let dao;
