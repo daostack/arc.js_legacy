@@ -103,9 +103,9 @@ describe("ContributionReward scheme", () => {
 
     paramsHash = await controller.getSchemeParameters(contributionReward.address, dao.avatar.address);
 
-    // params are: uint orgNativeTokenFee; bytes32 voteApproveParams; uint schemeNativeTokenFee;         BoolVoteInterface boolVote;
+    // params are: uint orgNativeTokenFee; bytes32 voteApproveParams; BoolVoteInterface boolVote;
     params = await contributionReward.parameters(paramsHash);
-    // check if they are not trivial - the 4th item should be a valid boolVote address
+    // check if they are not trivial - the 3rd item should be a valid boolVote address
     assert.notEqual(params[2], "0x0000000000000000000000000000000000000000");
     assert.equal(params[2], votingMachine.address);
     // now we can propose a contribution

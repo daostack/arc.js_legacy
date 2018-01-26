@@ -37,11 +37,11 @@ describe("ExtendTruffleContract", () => {
     assert.equal(scheme.foo(), "bar");
     assert.equal(scheme.proposeContributionReward(), "abc");
     assert.equal(
-      await scheme.setParams({
+      (await scheme.setParams({
         orgNativeTokenFee: 0,
         voteParametersHash: helpers.SOME_HASH,
         votingMachine: helpers.SOME_ADDRESS
-      }),
+      })).Result,
       "0x59af66fa0cefc060220aa22b6d9420988e6037221ca060f3140baa53883138ba"
     );
     assert.equal(scheme.getDefaultPermissions(), "0x00000009");
