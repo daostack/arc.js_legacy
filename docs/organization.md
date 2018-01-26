@@ -102,7 +102,7 @@ With all possible options:
       address: '0x1245', // address of the scheme to use; default is settings.ContributionReward
       params: {
         boolVote: organization.votingMachine, // votingMachine used to accept or reject contributions, default is organizaiton.votingMAchine
-        votePrec: 50, // percentage conditions under which a contribution is accepted, default is 50
+        votePerc: 50, // percentage conditions under which a contribution is accepted, default is 50
         orgNativeTokenFee: 0, // fee that is to be paid for proposing a contribution
         schemeTokenFee: 0, // fee that is to be paid for proposing a contribution
       }
