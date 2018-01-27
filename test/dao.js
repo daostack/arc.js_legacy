@@ -273,7 +273,9 @@ describe("DAO", () => {
   });
 
   it("getDAOstack() function returns an address", async () => {
-    const avatar = await DAO.getDAOstack();
-    assert.isOk(avatar);
+    const avatarAddress = await DAO.getDAOstack();
+    assert.isOk(avatarAddress);
+    const dao = await DAO.at(avatarAddress);
+    assert.equal(await dao.getName(), "Genesis");
   });
 });

@@ -343,7 +343,7 @@ declare module "daostack-arc-js" {
      */
     static at(avatarAddress: string): Promise<DAO>;
     /**
-     * Returns promise of the DAOstack avatar address, or undefined if not found
+     * Returns promise of the DAOstack (Genesis) avatar address, or undefined if not found
      * @param genesisSchemeAddress - Optional address of GenesisScheme to use
      */
     static getDAOstack(genesisSchemeAddress?: string): Promise<string | undefined>
