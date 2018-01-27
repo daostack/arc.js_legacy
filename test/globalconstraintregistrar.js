@@ -105,13 +105,6 @@ describe("GlobalConstraintRegistrar", () => {
 
     assert.isOk(proposalId);
 
-    // proposalId = await dao.proposeGlobalConstraint({
-    //   contract: 'TokenCapGC',
-    //   paramsHash: tokenCapGCParamsHash,
-    // });
-    //
-    // assert.isOk(proposalId);
-
     globalConstraintParametersHash = (await tokenCapGC.setParams({ token: dao.token.address, cap: 1234 })).result;
 
     result = await globalConstraintRegistrar.proposeToAddModifyGlobalConstraint({
@@ -124,16 +117,5 @@ describe("GlobalConstraintRegistrar", () => {
     proposalId = result.proposalId;
 
     assert.isOk(proposalId);
-
-    // // we can also register an 'anonymous' constraint
-    // const tokenCapGC = await TokenCapGC.new();
-    // const tokenCapGCParamsHash = await tokenCapGC.setParameters(dao.token.address, 3000);
-    //
-    // proposalId = await dao.proposeGlobalConstraint({
-    //   address: tokenCapGC.address,
-    //   paramsHash: tokenCapGCParamsHash,
-    // });
-    //
-    // assert.isOk(proposalId);
   });
 });

@@ -343,6 +343,11 @@ declare module "daostack-arc-js" {
      */
     static at(avatarAddress: string): Promise<DAO>;
     /**
+     * Returns promise of the DAOstack avatar address, or undefined if not found
+     * @param genesisSchemeAddress - Optional address of GenesisScheme to use
+     */
+    static getDAOstack(genesisSchemeAddress?: string): Promise<string | undefined>
+    /**
      * Avatar truffle contract
      */
     avatar: any;
@@ -381,7 +386,7 @@ declare module "daostack-arc-js" {
     getScheme(
       contractName: string,
       address?: string
-    ): Promise<ExtendTruffleScheme>;
+    ): Promise<ExtendTruffleScheme | undefined>;
 
     /**
      * returns whether the scheme with the given address is registered to this DAO's controller
