@@ -1,4 +1,4 @@
-import { DAO } from "../lib/dao.js";
+import { DAO } from "../lib/dao";
 import * as helpers from "./helpers";
 import { GlobalConstraintRegistrar } from "../lib/contracts/globalconstraintregistrar";
 import { UpgradeScheme } from "../lib/contracts/upgradescheme";
@@ -270,5 +270,10 @@ describe("DAO", () => {
 
     assert.equal((await dao.getGlobalConstraints()).length, 0);
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 0);
+  });
+
+  it("getDAOstack() function returns an address", async () => {
+    const avatar = await DAO.getDAOstack();
+    assert.isOk(avatar);
   });
 });
