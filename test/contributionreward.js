@@ -1,10 +1,9 @@
 import { proposeContributionReward, vote, forgeDao, SOME_HASH, SOME_ADDRESS } from "./helpers";
-import { Utils } from "../lib/utils.js";
 
-const ContributionReward = Utils.requireContract("ContributionReward");
+import { ContributionReward } from "../lib/contracts/contributionreward";
 
 describe("ContributionReward scheme", () => {
-  let params, paramsHash, tx, proposal;
+  let params, paramsHash, proposal;
 
   it("submit and accept a contribution - complete workflow", async () => {
 
@@ -54,29 +53,23 @@ describe("ContributionReward scheme", () => {
     const votingMachine = dao.votingMachine;    // create a contribution Scheme
     const contributionReward = await ContributionReward.new();
 
-    const votingMachineHash = await votingMachine.getParametersHash(
-      dao.reputation.address,
-      50,
-      true
-    );
-    await votingMachine.setParameters(dao.reputation.address, 50, true);
+    const votingMachineHash = (await votingMachine.setParams({
+      reputation: dao.reputation.address,
+      votePerc: 50,
+      ownerVote: true
+    })).result;
+
     const votingMachineAddress = votingMachine.address;
 
-    const schemeParametersHash = await contributionReward.getParametersHash(
-      0,
-      votingMachineHash,
-      votingMachineAddress
-    );
-
-    await contributionReward.setParameters(
-      0,
-      votingMachineHash,
-      votingMachineAddress
-    );
+    const schemeParametersHash = (await contributionReward.setParams({
+      orgNativeTokenFee: 0,
+      voteParametersHash: votingMachineHash,
+      votingMachine: votingMachineAddress
+    })).result;
 
     const schemeRegistrar = await dao.getScheme("SchemeRegistrar");
 
-    const result = await schemeRegistrar.proposeToAddModifyScheme({
+    let result = await schemeRegistrar.proposeToAddModifyScheme({
       avatar: avatar.address,
       scheme: contributionReward.address,
       schemeName: "ContributionReward",
@@ -86,12 +79,10 @@ describe("ContributionReward scheme", () => {
     const proposalId = result.proposalId;
 
     // this will vote-and-execute
-    tx = await votingMachine.vote(proposalId, 1, { from: accounts[1] });
+    await votingMachine.vote(proposalId, 1, { from: accounts[1] });
 
     // now our scheme should be registered on the controller
-    const schemeFromController = await controller.schemes(
-      contributionReward.address
-    );
+    const schemeFromController = await controller.schemes(contributionReward.address);
     // we expect to have only the first bit set (it is a registered scheme without nay particular permissions)
     assert.equal(schemeFromController[1], "0x00000001");
 
@@ -109,21 +100,14 @@ describe("ContributionReward scheme", () => {
     assert.notEqual(params[2], "0x0000000000000000000000000000000000000000");
     assert.equal(params[2], votingMachine.address);
     // now we can propose a contribution
-    tx = await contributionReward.proposeContributionReward(
-      avatar.address, // Avatar _avatar,
-      // web3.utils.soliditySha3('a fair play'), this is available in web3 1.0
-      Utils.SHA3("a fair play"),
-      [
-        0, // uint _nativeTokenReward,
-        0, // uint _reputationReward,
-        0, // uint _ethReward,
-        0
-      ], // uint _externalTokenReward,
-      "0x0008e8314d3f08fd072e06b6253d62ed526038a0", // StandardToken _externalToken, we provide some arbitrary address
-      accounts[2] // address _beneficiary
-    );
+    result = await contributionReward.proposeContributionReward({
+      avatar: avatar.address,
+      description: "a fair play",
+      nativeTokenReward: 1,
+      beneficiary: accounts[2]
+    });
 
-    const contributionId = tx.logs[0].args._proposalId;
+    const contributionId = result.proposalId;
     // let us vote for it (is there a way to get the votingmachine from the contributionReward?)
     // this is a minority vote for 'yes'
     // check preconditions for the vote
@@ -143,9 +127,9 @@ describe("ContributionReward scheme", () => {
     // first we check if our executable (proposal[3]) is indeed the contributionReward
     assert.equal(proposal[3], contributionReward.address);
 
-    tx = await votingMachine.vote(contributionId, 1, { from: accounts[0] });
+    await votingMachine.vote(contributionId, 1, { from: accounts[0] });
     // and this is the majority vote (which will also call execute on the executable
-    tx = await votingMachine.vote(contributionId, 1, { from: accounts[1] });
+    await votingMachine.vote(contributionId, 1, { from: accounts[1] });
 
     // TODO: check if proposal was deleted from contribution Scheme
     // proposal = await contributionReward.proposals(contributionId);

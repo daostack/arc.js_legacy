@@ -17,7 +17,7 @@ class ExtendTruffleContractSubclass extends ExtendTruffleContract(
   }
 
   async setParams(params) {
-    return await this._setParameters(
+    return await super.setParams(
       params.orgNativeTokenFee,
       params.voteParametersHash,
       params.votingMachine

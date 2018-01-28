@@ -64,7 +64,7 @@ describe("UpgradeScheme", () => {
     const contracts = await contractsForTest();
     const votingMachine = await AbsoluteVote.at(contracts.defaultVotingMachine.address);
 
-    // the dao has not bene upgraded yet, so newController is the NULL address
+    // the dao has not been upgraded yet, so newController is the NULL address
     assert.equal(await dao.controller.newController(), NULL_ADDRESS);
 
     // we create a new controller to which to upgrade
@@ -116,8 +116,6 @@ describe("UpgradeScheme", () => {
       schemeParametersHash: await dao.controller.getSchemeParameters(upgradeScheme.address, dao.avatar.address)
     });
 
-    // newUpgradeScheme.registerDao(dao.avatar.address);
-
     const proposalId = result.proposalId;
 
     vote(dao, proposalId, 1, { from: accounts[2] });
@@ -143,8 +141,6 @@ describe("UpgradeScheme", () => {
       scheme: upgradeScheme.address,
       schemeParametersHash: SOME_HASH
     });
-
-    // newUpgradeScheme.registerDao(dao.avatar.address);
 
     const proposalId = result.proposalId;
 

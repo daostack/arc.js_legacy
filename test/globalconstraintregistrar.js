@@ -1,7 +1,7 @@
 const helpers = require("./helpers");
 import { Utils } from "../lib/utils";
 
-const TokenCapGC = Utils.requireContract("TokenCapGC");
+import { TokenCapGC } from "../lib/contracts/tokenCapGC";
 
 describe("GlobalConstraintRegistrar", () => {
   it("proposeToAddModifyGlobalConstraint javascript wrapper should work", async () => {
@@ -34,8 +34,7 @@ describe("GlobalConstraintRegistrar", () => {
     // create a new global constraint - a TokenCapGC instance
     const tokenCapGC = await TokenCapGC.new();
     // register paramets for setting a cap on the nativeToken of our dao of 21 million
-    await tokenCapGC.setParameters(dao.token.address, 21e9);
-    const tokenCapGCParamsHash = await tokenCapGC.getParametersHash(dao.token.address, 21e9);
+    const tokenCapGCParamsHash = (await tokenCapGC.setParams({ token: dao.token.address, cap: 21e9 })).result;
 
     // next line needs some real hash for the conditions for removing this scheme
     const votingMachineHash = tokenCapGCParamsHash;

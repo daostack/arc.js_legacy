@@ -71,7 +71,6 @@
     "web3-typescript-typings": "^0.7.2"
   },
   "devDependencies": {
-    "@types/bignumber.js": "^5.0.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^7.2.3",
     "babel-plugin-syntax-async-functions": "^6.13.0",

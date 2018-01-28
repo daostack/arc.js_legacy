@@ -22,19 +22,27 @@ declare module "daostack-arc-js" {
   /**
    * Base or actual type returned by all contract wrapper methods that generate a transaction.
    */
-  export interface ArcTransactionReturnType {
+  export interface ArcTransactionResult {
     tx: TransactionReceiptTruffle;
+    /**
+     * Return a value from the transaction logs.
+     * @param valueName - The name of the property whose value we wish to return
+     * @param eventName - Name of the event in whose log we are to look for the value
+     * @param index - Index of the log in which to look for the value, when eventName is not given.
+     * Default is the index of the last log in the transaction.
+     */
+    getValueFromTx(valueName: string, eventName: string, index: number): any;
   }
   /**
    * Base or actual type returned by all contract wrapper methods that generate a transaction and initiate a proposal.
    */
-  export interface ArcTransactionProposalReturnType extends ArcTransactionReturnType {
+  export interface ArcTransactionProposalResult extends ArcTransactionResult {
     proposalId: number;
   }
   /**
    * Base or actual type returned by all contract wrapper methods that generate a transaction and any other result.
    */
-  export interface ArcTransactionResultReturnType extends ArcTransactionReturnType {
+  export interface ArcTransactionDataResult extends ArcTransactionResult {
     result: any;
   }
   /**
@@ -158,11 +166,11 @@ declare module "daostack-arc-js" {
     public contract: any;
     /**
      * Call setParameters on this contract.
-     * Returns promise of ArcTransactionResultReturnType where Result is the parameters hash.
+     * Returns promise of ArcTransactionDataResult where Result is the parameters hash.
      * @param {any} params -- object with properties whose names are expected by the scheme to correspond to parameters.
      * Currently all params are required, contract wrappers do not as yet apply default values.
      */
-    public setParams(params: any): Promise<ArcTransactionResultReturnType>;
+    public setParams(params: any): Promise<ArcTransactionDataResult>;
   }
 
   export class ExtendTruffleScheme extends ExtendTruffleContract {
@@ -461,16 +469,16 @@ declare module "daostack-arc-js" {
      */
     proposeToAddModifyGlobalConstraint(
       opts: ProposeToAddModifyGlobalConstraintParams
-    ): Promise<ArcTransactionProposalReturnType>;
+    ): Promise<ArcTransactionProposalResult>;
     /**
      * propose to remove a global constraint
      * @param opts ProposeToRemoveGlobalConstraintParams
      */
     proposeToRemoveGlobalConstraint(
       opts: ProposeToRemoveGlobalConstraintParams
-    ): Promise<ArcTransactionProposalReturnType>;
+    ): Promise<ArcTransactionProposalResult>;
 
-    setParams(params: GlobalConstraintRegistrarParams): Promise<ArcTransactionResultReturnType>;
+    setParams(params: GlobalConstraintRegistrarParams): Promise<ArcTransactionDataResult>;
   }
 
   /********************************
@@ -528,16 +536,16 @@ declare module "daostack-arc-js" {
      */
     proposeToAddModifyScheme(
       opts: ProposeToAddModifySchemeParams
-    ): Promise<ArcTransactionProposalReturnType>;
+    ): Promise<ArcTransactionProposalResult>;
     /**
      * propose to remove a scheme
      * @param opts ProposeToRemoveSchemeParams
      */
     proposeToRemoveScheme(
       opts: ProposeToRemoveSchemeParams
-    ): Promise<ArcTransactionProposalReturnType>;
+    ): Promise<ArcTransactionProposalResult>;
 
-    setParams(params: SchemeRegistrarParams): Promise<ArcTransactionResultReturnType>;
+    setParams(params: SchemeRegistrarParams): Promise<ArcTransactionDataResult>;
   }
 
   /********************************
@@ -583,16 +591,16 @@ declare module "daostack-arc-js" {
      */
     proposeUpgradingScheme(
       opts: ProposeUpgradingSchemeParams
-    ): Promise<ArcTransactionProposalReturnType>;
+    ): Promise<ArcTransactionProposalResult>;
     /**
      * propose to replace this DAO's controller
      * @param opts ProposeControllerParams
      */
     proposeController(
       opts: ProposeControllerParams
-    ): Promise<ArcTransactionProposalReturnType>;
+    ): Promise<ArcTransactionProposalResult>;
 
-    setParams(params: UpgradeSchemeParams): Promise<ArcTransactionResultReturnType>;
+    setParams(params: UpgradeSchemeParams): Promise<ArcTransactionDataResult>;
   }
 
   /********************************
@@ -651,9 +659,9 @@ declare module "daostack-arc-js" {
      */
     proposeContributionReward(
       opts: ProposeContributionParams
-    ): Promise<ArcTransactionProposalReturnType>;
+    ): Promise<ArcTransactionProposalResult>;
 
-    setParams(params: ContributionRewardParams): Promise<ArcTransactionResultReturnType>;
+    setParams(params: ContributionRewardParams): Promise<ArcTransactionDataResult>;
 
     /**
      * Event functions as defined by the parent Truffle contract

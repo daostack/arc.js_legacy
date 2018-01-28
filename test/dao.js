@@ -218,23 +218,16 @@ describe("DAO", () => {
 
     const tokenCapGC = await dao.getScheme("TokenCapGC");
 
-    const globalConstraintParametersHash = await tokenCapGC.getParametersHash(
-      dao.token.address,
-      3141
-    );
-    await tokenCapGC.setParameters(dao.token.address, 3141);
+    const globalConstraintParametersHash = (await tokenCapGC.setParams({
+      token: dao.token.address,
+      cap: 3141
+    })).result;
 
-    const votingMachineHash = await dao.votingMachine.getParametersHash(
-      dao.reputation.address,
-      50,
-      true
-    );
-
-    await dao.votingMachine.setParameters(
-      dao.reputation.address,
-      50,
-      true
-    );
+    const votingMachineHash = (await dao.votingMachine.setParams({
+      reputation: dao.reputation.address,
+      votePerc: 50,
+      ownerVote: true
+    })).result;
 
     const globalConstraintRegistrar = await dao.getScheme("GlobalConstraintRegistrar");
 
