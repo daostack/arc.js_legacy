@@ -1,6 +1,4 @@
 const helpers = require("./helpers");
-import { Utils } from "../lib/utils";
-
 import { TokenCapGC } from "../lib/contracts/tokenCapGC";
 
 describe("GlobalConstraintRegistrar", () => {
@@ -25,7 +23,7 @@ describe("GlobalConstraintRegistrar", () => {
     const dao = await helpers.forgeDao();
 
     // do some sanity checks on the globalconstriantregistrar
-    const gcr = (await dao.getScheme("GlobalConstraintRegistrar")).contract;
+    const gcr = (await dao.getScheme("GlobalConstraintRegistrar"));
     // check if indeed the registrar is registered as a scheme on  the controller
     assert.equal(await dao.isSchemeRegistered(gcr.address), true);
     // DAO.new standardly registers no global constraints
@@ -58,15 +56,15 @@ describe("GlobalConstraintRegistrar", () => {
     const msg = "These parameters are not known the voting machine...";
     assert.notEqual(voteRegisterParams[0], "0x0000000000000000000000000000000000000000", msg);
 
-    const tx = await gcr.proposeGlobalConstraint(
-      dao.avatar.address,
-      tokenCapGC.address,
-      tokenCapGCParamsHash,
-      votingMachineHash
-    );
+    const result = await gcr.proposeToAddModifyGlobalConstraint({
+      avatar: dao.avatar.address,
+      globalConstraint: tokenCapGC.address,
+      globalConstraintParametersHash: tokenCapGCParamsHash,
+      votingMachineHash: votingMachineHash
+    });
 
     // check if the proposal is known on the GlobalConstraintRegistrar
-    const proposalId = Utils.getValueFromLogs(tx, "_proposalId");
+    const proposalId = result.proposalId;
     // TODO: read the proposal in the contract:
     // const proposal = await gcr.proposals(proposalId);
     // // the proposal looks like gc-address, params, proposaltype, removeParams
