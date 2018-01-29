@@ -118,7 +118,7 @@ module.exports = {
       default: series(
         rimraf(joinPath(pathArcJsRoot, "dist")),
         mkdirp(joinPath(pathArcJsRoot, "dist")),
-        copy(`${joinPath(pathArcJsRoot, "lib", "*")} ${joinPath(pathArcJsRoot, "dist")}`)
+        `node ./package-scripts/recursiveCopy.js ${joinPath(pathArcJsRoot, "lib")} ${joinPath(pathArcJsRoot, "dist")}`
       )
     },
     deploy: {
