@@ -1,5 +1,5 @@
 import * as BigNumber from "bignumber.js";
-import Web3 from "web3";
+import * as Web3 from "web3";
 
 declare module "daostack-arc-js" {
   /*******************************
@@ -31,7 +31,7 @@ declare module "daostack-arc-js" {
      * @param index - Index of the log in which to look for the value, when eventName is not given.
      * Default is the index of the last log in the transaction.
      */
-    getValueFromTx(valueName: string, eventName: string, index: number): any;
+    getValueFromTx(valueName: string, eventName?: string, index?: number): any;
   }
   /**
    * Base or actual type returned by all contract wrapper methods that generate a transaction and initiate a proposal.
@@ -175,7 +175,7 @@ declare module "daostack-arc-js" {
 
   export class ExtendTruffleScheme extends ExtendTruffleContract {
     /**
-     * Returns a string containing an 8-digit hex number whose binary 
+     * Returns a string containing an 8-digit hex number whose binary
      * 1s and 0s represent scheme permissions as follows:
      *
      * All 0: Not registered,
@@ -250,12 +250,12 @@ declare module "daostack-arc-js" {
     /**
      * default votingMachine parameters if you have not configured a scheme you want to register with the
      * new DAO with its own voting parameters.
-     * 
+     *
      * New schemes will be created these parameters.
-     * 
+     *
      * Defaults are described in NewDaoVotingMachineConfig.
      */
-    votingMachineParams: NewDaoVotingMachineConfig;
+    votingMachineParams?: NewDaoVotingMachineConfig;
     /**
      * Any Arc schemes you would like to automatically register with the new DAO.
      * Non-Arc schemes are not allowed here.  You may add them later in your application's workflow
@@ -291,16 +291,16 @@ declare module "daostack-arc-js" {
     /**
      * Optional votingMachine parameters if you have not supplied them in NewDaoConfig or want to override them.
      * Note it costs more gas to add them here.
-     * 
+     *
      * New schemes will be created these parameters and the DAO's native reputation contract.
-     * 
+     *
      * Default is {}
      */
     votingMachineParams?: NewDaoVotingMachineConfig;
     /**
-     * Other scheme parameters, any params besides those already provided in votingMachineParams. 
+     * Other scheme parameters, any params besides those already provided in votingMachineParams.
      * For example, ContributionReward requires orgNativeTokenFee.
-     * 
+     *
      * Default is {}
      */
     additionalParams?: any;
@@ -341,7 +341,7 @@ declare module "daostack-arc-js" {
   export class DAO {
     /**
      * Migrate a new DAO to the current network, returning the corresponding DAO instance.
-     * @param options 
+     * @param options
      */
     static new(options: NewDaoConfig): Promise<DAO>;
 
