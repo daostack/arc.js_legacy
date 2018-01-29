@@ -8,7 +8,7 @@ module.exports = {
   networks: {
     live: {
       host: "localhost",
-      port: 8545,
+      port: 8546,
       network_id: "1",
       gas: 4543760
     },
@@ -20,21 +20,15 @@ module.exports = {
     },
     ropsten: {
       host: "localhost",
-      port: 8545,
+      port: 8548,
       network_id: "3",
       gas: 4543760
     },
     kovan: {
       host: "localhost",
-      port: 8545,
+      port: 8547,
       network_id: "42",
       gas: 4543760
-    }
-  },
-  solc: {
-    optimizer: {
-      enabled: true,
-      runs: 200
     }
   },
   rpc: {

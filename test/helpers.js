@@ -1,34 +1,32 @@
 /**
     helpers for tests
 */
-import { getWeb3, requireContract } from "../lib/utils.js";
+import { Utils } from "../lib/utils.js";
 import { assert } from "chai";
 
 beforeEach(async () => {
-  global.web3 = getWeb3();
+  global.web3 = Utils.getWeb3();
   global.assert = assert;
   global.accounts = [];
   await etherForEveryone();
 });
 
-import { Organization } from "../lib/organization.js";
+import { DAO } from "../lib/dao.js";
 import { getDeployedContracts } from "../lib/contracts.js";
-const GenesisScheme = requireContract("GenesisScheme");
-const Avatar = requireContract("Avatar");
-const DAOToken = requireContract("DAOToken");
-const Reputation = requireContract("Reputation");
-const AbsoluteVote = requireContract("AbsoluteVote");
-const Controller = requireContract("Controller");
+const GenesisScheme = Utils.requireContract("GenesisScheme");
+const Avatar = Utils.requireContract("Avatar");
+const DAOToken = Utils.requireContract("DAOToken");
+const Reputation = Utils.requireContract("Reputation");
+import { AbsoluteVote } from "../lib/contracts/absoluteVote";
+const Controller = Utils.requireContract("Controller");
 
-export const NULL_HASH =
-  "0x0000000000000000000000000000000000000000000000000000000000000000";
-export const SOME_HASH =
-  "0x1000000000000000000000000000000000000000000000000000000000000000";
-export const NULL_ADDRESS = "0x0000000000000000000000000000000000000000";
+export const NULL_HASH = Utils.NULL_HASH;
+export const NULL_ADDRESS = Utils.NULL_ADDRESS;
+export const SOME_HASH = "0x1000000000000000000000000000000000000000000000000000000000000000";
 export const SOME_ADDRESS = "0x1000000000000000000000000000000000000000";
 
 beforeEach(async () => {
-  global.web3 = getWeb3();
+  global.web3 = Utils.getWeb3();
   global.assert = assert;
   global.accounts = [];
   await etherForEveryone();
@@ -62,33 +60,33 @@ async function etherForEveryone() {
 
 async function setupAbsoluteVote(
   avatar,
-  isOwnedVote = true,
-  precReq = 50,
+  ownerVote = true,
+  votePerc = 50,
   reputations = []
 ) {
-  const votingMachine = await AbsoluteVote.at((await AbsoluteVote.deployed()).address);
+  const votingMachine = await AbsoluteVote.deployed();
 
   // set up a reputation system
   const reputation = await Reputation.at(await avatar.nativeReputation());
-
 
   for (const r of reputations) {
     await reputation.mint(r.address, r.reputation);
   }
 
   // register some parameters
-  await votingMachine.setParameters(reputation.address, precReq, isOwnedVote);
-  const configHash = await votingMachine.getParametersHash(
-    reputation.address,
-    precReq,
-    isOwnedVote
-  );
+  const configHash = (await votingMachine.setParams({
+    reputation: reputation.address,
+    votePerc: votePerc,
+    ownerVote: ownerVote
+  })).result;
+
   votingMachine.configHash__ = configHash; // for reuse by tests
+
   return votingMachine;
 }
 
-async function setupOrganization(founders) {
-  const org = new Organization();
+async function setupDao(founders) {
+  const dao = new DAO();
   const genesisScheme = await GenesisScheme.deployed();
 
   const tx = await genesisScheme.forgeOrg(
@@ -98,20 +96,20 @@ async function setupOrganization(founders) {
     founders.map(x => x.address),
     founders.map(x => x.tokens),
     founders.map(x => x.reputation),
-    NULL_ADDRESS
+    Utils.NULL_ADDRESS
   );
   assert.equal(tx.logs.length, 1);
   assert.equal(tx.logs[0].event, "NewOrg");
   const avatarAddress = tx.logs[0].args._avatar;
-  org.avatar = await Avatar.at(avatarAddress);
-  const tokenAddress = await org.avatar.nativeToken();
-  org.token = await DAOToken.at(tokenAddress);
-  const reputationAddress = await org.avatar.nativeReputation();
-  org.reputation = await Reputation.at(reputationAddress);
-  const controllerAddress = await org.avatar.owner();
-  org.controller = await Controller.at(controllerAddress);
+  dao.avatar = await Avatar.at(avatarAddress);
+  const tokenAddress = await dao.avatar.nativeToken();
+  dao.token = await DAOToken.at(tokenAddress);
+  const reputationAddress = await dao.avatar.nativeReputation();
+  dao.reputation = await Reputation.at(reputationAddress);
+  const controllerAddress = await dao.avatar.owner();
+  dao.controller = await Controller.at(controllerAddress);
 
-  org.votingMachine = await setupAbsoluteVote(org.avatar);
+  dao.votingMachine = await setupAbsoluteVote(dao.avatar);
 
   const contracts = await getDeployedContracts();
 
@@ -136,25 +134,25 @@ async function setupOrganization(founders) {
     // when that changes we can improve this
     await scheme
       .setParams({
-        voteParametersHash: org.votingMachine.configHash__,
-        votingMachine: org.votingMachine.address
+        voteParametersHash: dao.votingMachine.configHash__,
+        votingMachine: dao.votingMachine.address
       })
-      .then(hash => {
-        params.push(hash);
+      .then(result => {
+        params.push(result.result);
       });
   }
 
   await genesisScheme.setSchemes(
-    org.avatar.address,
+    dao.avatar.address,
     defaultSchemes.map(s => s.address),
     params,
     defaultSchemes.map(s => s.getDefaultPermissions())
   );
 
-  return org;
+  return dao;
 }
 
-export async function forgeOrganization(opts = {}) {
+export async function forgeDao(opts = {}) {
   const founders =
     opts && opts.founders
       ? opts.founders
@@ -176,7 +174,34 @@ export async function forgeOrganization(opts = {}) {
         }
       ];
 
-  return await setupOrganization(founders);
+  return await setupDao(founders);
+}
+
+export async function proposeContributionReward(dao) {
+  const schemeRegistrar = await dao.getScheme("SchemeRegistrar");
+  const contributionReward = await dao.getScheme("ContributionReward");
+
+  const votingMachineHash = await dao.votingMachine.configHash__;
+  const votingMachineAddress = dao.votingMachine.address;
+
+  const schemeParametersHash = (await contributionReward.setParams({
+    orgNativeTokenFee: 0,
+    voteParametersHash: votingMachineHash,
+    votingMachine: votingMachineAddress
+  })).result;
+
+  const result = await schemeRegistrar.proposeToAddModifyScheme({
+    avatar: dao.avatar.address,
+    scheme: contributionReward.address,
+    schemeName: "ContributionReward",
+    schemeParametersHash: schemeParametersHash
+  });
+
+  const proposalId = result.proposalId;
+
+  vote(dao, proposalId, 1, { from: accounts[2] });
+
+  return contributionReward;
 }
 
 export async function transferTokensToAvatar(avatar, amount, fromAddress) {
@@ -184,6 +209,12 @@ export async function transferTokensToAvatar(avatar, amount, fromAddress) {
   const schemeToken = await DAOToken.at(tokenAddress);
   await schemeToken.transfer(avatar.address, amount, { from: fromAddress });
   return tokenAddress;
+}
+
+export function vote(dao, proposalId, choice, params) {
+  // vote for the proposal given by proposalId using this.votingMachine
+  // NB: this will not work for proposals using votingMachine's that are not the default one
+  return dao.votingMachine.vote(proposalId, choice, params);
 }
 
 export const outOfGasMessage =

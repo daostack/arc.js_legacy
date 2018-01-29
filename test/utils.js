@@ -1,8 +1,9 @@
 "use strict";
-import { ExtendTruffleContract, requireContract } from "../lib/utils.js";
+import { Utils } from "../lib/utils";
+import { ExtendTruffleContract } from "../lib/ExtendTruffleContract";
 import * as helpers from "./helpers";
 
-const ContributionRewardContract = requireContract("ContributionReward");
+const ContributionRewardContract = Utils.requireContract("ContributionReward");
 
 class ExtendTruffleContractSubclass extends ExtendTruffleContract(
   ContributionRewardContract
@@ -11,12 +12,12 @@ class ExtendTruffleContractSubclass extends ExtendTruffleContract(
     return "bar";
   }
 
-  proposeContributionReward() {
+  aMethod() {
     return "abc";
   }
 
   async setParams(params) {
-    return await this._setParameters(
+    return await super.setParams(
       params.orgNativeTokenFee,
       params.voteParametersHash,
       params.votingMachine
@@ -34,21 +35,21 @@ describe("ExtendTruffleContract", () => {
 
     scheme = await ExtendTruffleContractSubclass.new();
     assert.equal(scheme.foo(), "bar");
-    assert.equal(scheme.proposeContributionReward(), "abc");
+    assert.equal(scheme.aMethod(), "abc");
     assert.equal(
-      await scheme.setParams({
+      (await scheme.setParams({
         orgNativeTokenFee: 0,
         voteParametersHash: helpers.SOME_HASH,
         votingMachine: helpers.SOME_ADDRESS
-      }),
+      })).result,
       "0x59af66fa0cefc060220aa22b6d9420988e6037221ca060f3140baa53883138ba"
     );
     assert.equal(scheme.getDefaultPermissions(), "0x00000009");
 
     scheme = await ExtendTruffleContractSubclass.at(
-      (await ContributionRewardContract.deployed()).address
+      (await ContributionRewardContract.deployed()).address // an address will do
     );
     assert.equal(scheme.foo(), "bar");
-    assert.equal(scheme.proposeContributionReward(), "abc");
+    assert.equal(scheme.aMethod(), "abc");
   });
 });

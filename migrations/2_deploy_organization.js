@@ -35,7 +35,7 @@ let controllerAddress;
 
 // DAOstack parameters for universal schemes:
 let voteParametersHash;
-const votePrec = 50;
+const votePerc = 50;
 let schemeRegisterParams;
 let schemeGCRegisterParams;
 let schemeUpgradeParams;
@@ -68,13 +68,13 @@ module.exports = async function (deployer) {
     globalConstraintRegistrarInst = await GlobalConstraintRegistrar.deployed();
 
     // Voting parameters and schemes params:
-    voteParametersHash = await AbsoluteVoteInst.getParametersHash(reputationAddress, votePrec, true);
+    voteParametersHash = await AbsoluteVoteInst.getParametersHash(reputationAddress, votePerc, true);
 
     await schemeRegistrarInst.setParameters(voteParametersHash, voteParametersHash, AbsoluteVoteInst.address);
     schemeRegisterParams = await schemeRegistrarInst.getParametersHash(voteParametersHash, voteParametersHash, AbsoluteVoteInst.address);
 
-    await globalConstraintRegistrarInst.setParameters(reputationAddress, votePrec);
-    schemeGCRegisterParams = await globalConstraintRegistrarInst.getParametersHash(reputationAddress, votePrec);
+    await globalConstraintRegistrarInst.setParameters(reputationAddress, votePerc);
+    schemeGCRegisterParams = await globalConstraintRegistrarInst.getParametersHash(reputationAddress, votePerc);
 
     await upgradeSchemeInst.setParameters(voteParametersHash, AbsoluteVoteInst.address);
     schemeUpgradeParams = await upgradeSchemeInst.getParametersHash(voteParametersHash, AbsoluteVoteInst.address);
