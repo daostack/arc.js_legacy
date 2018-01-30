@@ -10,7 +10,7 @@ describe("DAO", () => {
 
   it("can be created with 'new' using default settings", async () => {
     dao = await DAO.new({
-      orgName: "Skynet",
+      name: "Skynet",
       tokenName: "Tokens of skynet",
       tokenSymbol: "SNT"
     });
@@ -21,7 +21,7 @@ describe("DAO", () => {
   it("can be instantiated with 'at' if it was already deployed", async () => {
     // first create the dao
     const org1 = await DAO.new({
-      orgName: "Skynet",
+      name: "Skynet",
       tokenName: "Tokens of skynet",
       tokenSymbol: "SNT"
     });
@@ -48,7 +48,7 @@ describe("DAO", () => {
 
   it("can be created with founders", async () => {
     dao = await DAO.new({
-      orgName: "Skynet",
+      name: "Skynet",
       tokenName: "Tokens of skynet",
       tokenSymbol: "SNT",
       founders: [
@@ -75,7 +75,7 @@ describe("DAO", () => {
 
   it("can be created with schemes and default votingMachineParams", async () => {
     dao = await DAO.new({
-      orgName: "Skynet",
+      name: "Skynet",
       tokenName: "Tokens of skynet",
       tokenSymbol: "SNT",
       schemes: [
@@ -92,7 +92,7 @@ describe("DAO", () => {
 
   it("can be created with schemes and global votingMachineParams", async () => {
     dao = await DAO.new({
-      orgName: "Skynet",
+      name: "Skynet",
       tokenName: "Tokens of skynet",
       tokenSymbol: "SNT",
       schemes: [
@@ -120,7 +120,7 @@ describe("DAO", () => {
 
   it("can be created with schemes and scheme-specific votingMachineParams", async () => {
     dao = await DAO.new({
-      orgName: "Skynet",
+      name: "Skynet",
       tokenName: "Tokens of skynet",
       tokenSymbol: "SNT",
       schemes: [

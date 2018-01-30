@@ -65,7 +65,6 @@ declare module "daostack-arc.js" {
    */
   export interface ArcDeployedContracts {
     allContracts: ArcDeployedContractNames;
-    defaultVotingMachine: ArcContractInfo;
 
     /**
      * All deployed schemes
@@ -118,9 +117,9 @@ declare module "daostack-arc.js" {
   }
 
 
-   /********************************
-   * ExtendTruffleContract.js
-   */
+  /********************************
+  * ExtendTruffleContract.js
+  */
   export interface TransactionLog {
     address: string;
     blockHash: string;
@@ -207,9 +206,20 @@ declare module "daostack-arc.js" {
   }
 
   export interface FounderConfig {
+    /**
+     * Founders' address
+     */
     address: string;
-    tokens: string | number; // in Wei
-    reputation: string | number;
+    /**
+     * string | BigNumber array of token amounts to be awarded to each founder.
+     * Should be given in Wei.
+     */
+    tokens: string | BigNumber.BigNumber;
+    /**
+     * string | BigNumber array of reputation amounts to be awarded to each founder.
+     * Should be given in Wei.
+     */
+    reputation: string | BigNumber.BigNumber;
   }
 
   export interface NewDaoVotingMachineConfig {
@@ -235,29 +245,44 @@ declare module "daostack-arc.js" {
     ownerVote?: boolean;
   }
 
-  export interface NewDaoConfig {
+  /**
+   * options for DAO.new
+   */
+  export interface NewDaoConfig extends DaoConfig {
     /**
      * The GenesisScheme to use.  Default is the GenesisScheme supplied in this release of Arc.js.
      */
     genesisScheme?: string;
+  }
+
+  /**
+   * options for GenesisScheme.forgeOrg
+   */
+  export interface DaoConfig {
     /**
-     * The name of the DAO.
+     * The name of the new DAO.
      */
-    orgName: string;
+    name: string;
     /**
-     * The name of the token that will become the DAO's native token.
+     * The name of the token to be associated with the DAO
      */
     tokenName: string;
     /**
-     * The symbol of the token that will become the DAO's native token.
+     * The symbol of the token to be associated with the DAO
      */
     tokenSymbol: string;
     /**
-     * A collection of founders.
+     * Optional array describing founders.
+     * Default is [].
      */
     founders: Array<FounderConfig>;
     /**
-     * default votingMachine parameters if you have not configured a scheme you want to register with the
+     * true to use the UniversalController contract, false to instantiate and use a new Controller contract.
+     * The default is true.
+     */
+    universalController?: boolean;
+    /**
+     * default votingMachine parameters if you have not configured a scheme that you want to register with the
      * new DAO with its own voting parameters.
      *
      * New schemes will be created these parameters.
@@ -271,11 +296,6 @@ declare module "daostack-arc.js" {
      * using SchemeRegistrar.
      */
     schemes?: Array<NewDaoSchemeConfig>;
-    /**
-     * true to use the UniversalController contract, false to use the Controller contract.
-     * The default is UniversalController.
-     */
-    universalController?: boolean;
   }
 
   /**
@@ -294,14 +314,14 @@ declare module "daostack-arc.js" {
      * Extra permissions on the scheme.  The minimum permissions for the scheme
      * will be enforced (or'd with anything you supply).
      * See ExtendTruffleContract.getDefaultPermissions for what this string
-     * should look like and how we obtain the minimum permissions for a scheme.
+     * should look like.
      */
     permissions?: string;
     /**
      * Optional votingMachine parameters if you have not supplied them in NewDaoConfig or want to override them.
      * Note it costs more gas to add them here.
      *
-     * New schemes will be created these parameters and the DAO's native reputation contract.
+     * New schemes will be created with these parameters and the DAO's native reputation contract.
      *
      * Default is {}
      */
@@ -678,5 +698,44 @@ declare module "daostack-arc.js" {
     LogNewContributionProposal(filters: any, options: any): any;
     LogProposalExecuted(filters: any, options: any): any;
     LogProposalDeleted(filters: any, options: any): any;
+  }
+
+  export class AvatarService {
+
+    /**
+     * AvatarService constructor
+     * @param avatarAddress - the avatar address.
+     */
+    constructor(avatarAddress: string);
+    /**
+     * Returns the Avatar TruffleContract
+     */
+    getAvatar(): any;
+    /**
+     * returns the address of the controller
+     */
+    getControllerAddress(): string;
+    /**
+     * Returns a TruffleContract for the controller.  Could be
+     * either UController or Controller.  You can know which one
+     * by checking the AvatarSerrvice instance property `isUController`.
+     */
+    getController(): any;
+    /**
+     * Returns the address of the avatar's native reputation.
+     */
+    getNativeReputationAddress(): string;
+    /**
+     * Returns the avatar's native reputation TruffleContract.
+     */
+    getNativeReputation(): any;
+    /**
+     * Returns the address of the avatar's native token.
+     */
+    getNativeTokenAddress(): string;
+    /**
+     * Returns the avatar's native token TruffleContract.
+     */
+    getNativeToken(): any;
   }
 }

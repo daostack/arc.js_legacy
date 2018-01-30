@@ -1,6 +1,7 @@
 // Imports:
 const Avatar = artifacts.require("Avatar.sol");
 const Controller = artifacts.require("Controller.sol");
+const UController = artifacts.require("UController.sol");
 
 const GlobalConstraintRegistrar = artifacts.require("GlobalConstraintRegistrar.sol");
 const TokenCapGC = artifacts.require("TokenCapGC.sol");
@@ -93,5 +94,7 @@ module.exports = async function (deployer) {
     await deployer.deploy(SimpleICO);
     await deployer.deploy(ContributionReward);
     await deployer.deploy(TokenCapGC);
+    await deployer.deploy(UController);
   });
 };
+
