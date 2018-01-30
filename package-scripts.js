@@ -142,7 +142,7 @@ module.exports = {
      *
      *    npm start migrateContracts
      *
-     * And you're ready to run arc-js tests or your application against arc-js.
+     * And you're ready to run arc.js tests or your application against arc.js.
      *
      * Notes:
      *
