@@ -92,7 +92,34 @@ declare module "daostack-arc-js" {
   export function getDeployedContracts(): ArcDeployedContracts;
 
   /********************************
-   * Utils
+   * utils.js
+   */
+
+  export class Utils {
+    /**
+     * Returns TruffleContract given the name of the contract (like "SchemeRegistrar"), or undefined
+     * if not found or any other error occurs.
+     * @param contractName like "SchemeRegistrar"
+     */
+    static requireContract(
+      contractName: string
+    ): any;
+
+    static getWeb3(): Web3;
+
+    static getValueFromLogs(
+      tx: TransactionReceiptTruffle,
+      arg: string,
+      eventName: string,
+      index: number
+    ): string;
+
+    static getDefaultAccount(): any;
+  }
+
+
+   /********************************
+   * ExtendTruffleContract.js
    */
   export interface TransactionLog {
     address: string;
@@ -137,24 +164,6 @@ declare module "daostack-arc-js" {
     receipt: TransactionReceipt;
     tx: string; // address of the transaction
   }
-
-  /**
-   * Returns TruffleContract given the name of the contract (like "SchemeRegistrar"), or undefined
-   * if not found or any other error occurs.
-   * @param contractName like "SchemeRegistrar"
-   */
-  export function requireContract(
-    contractName: string
-  ): any;
-
-  export function getWeb3(): Web3;
-  export function getValueFromLogs(
-    tx: TransactionReceiptTruffle,
-    arg: string,
-    eventName: string,
-    index: number
-  ): string;
-  export function getDefaultAccount(): any;
 
   export class ExtendTruffleContract {
     static new(options: any): any;
