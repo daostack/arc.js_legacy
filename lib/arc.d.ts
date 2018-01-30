@@ -1,7 +1,7 @@
 import * as BigNumber from "bignumber.js";
 import * as Web3 from "web3";
 
-declare module "daostack-arc-js" {
+declare module "daostack-arc.js" {
   /*******************************
    * Arc contract information as contained in ArcDeployedContractNames (see settings)
    */
@@ -237,7 +237,7 @@ declare module "daostack-arc-js" {
 
   export interface NewDaoConfig {
     /**
-     * The GenesisScheme to use.  Default is the GenesisScheme supplied in this release of Arc-Js.
+     * The GenesisScheme to use.  Default is the GenesisScheme supplied in this release of Arc.js.
      */
     genesisScheme?: string;
     /**
@@ -287,7 +287,7 @@ declare module "daostack-arc-js" {
      */
     name: string;
     /**
-     * Scheme address if you don't want to use the scheme supplied in this release of Arc-Js.
+     * Scheme address if you don't want to use the scheme supplied in this release of Arc.js.
      */
     address?: string;
     /**
@@ -396,7 +396,7 @@ declare module "daostack-arc-js" {
      */
     getGlobalConstraints(contractName?: string): Promise<Array<DaoGlobalConstraintInfo>>;
     /**
-     * Returns an Arc-Js scheme wrapper, or undefined if not found
+     * Returns an Arc.js scheme wrapper, or undefined if not found
      * @param contract - name of an Arc scheme, like "SchemeRegistrar"
      * @param address - optional
      */
