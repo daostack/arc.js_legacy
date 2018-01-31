@@ -717,7 +717,7 @@ declare module "daostack-arc.js" {
     /**
      * Returns a TruffleContract for the controller.  Could be
      * either UController or Controller.  You can know which one
-     * by checking the AvatarSerrvice instance property `isUController`.
+     * by checking the AvatarService instance property `isUController`.
      */
     getController(): any;
     /**
