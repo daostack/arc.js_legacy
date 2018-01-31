@@ -701,7 +701,6 @@ declare module "daostack-arc.js" {
   }
 
   export class AvatarService {
-
     /**
      * AvatarService constructor
      * @param avatarAddress - the avatar address.
