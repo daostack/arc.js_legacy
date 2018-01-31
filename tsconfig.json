@@ -3,9 +3,11 @@
     "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
-    "noImplicitAny": true,
     "preserveConstEnums": true,
-    "sourceMap": true
+    "sourceRoot": "lib",
+    "sourceMap": true,
+    "baseUrl": "lib",
+    "allowJs": true
   },
   "include": [
     "lib/**/*"
@@ -15,7 +17,6 @@
     "dist",
   ],
   "typeRoots": [
-    "node_modules/@types",
-    "node_modules/web3-typescript-typings"
+    "node_modules/@types"
   ]
 }

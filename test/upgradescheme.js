@@ -62,7 +62,7 @@ describe("UpgradeScheme", () => {
 
     const upgradeScheme = await dao.getScheme("UpgradeScheme");
     const contracts = await contractsForTest();
-    const votingMachine = await AbsoluteVote.at(contracts.defaultVotingMachine.address);
+    const votingMachine = await AbsoluteVote.at(contracts.allContracts.AbsoluteVote.address);
 
     // the dao has not been upgraded yet, so newController is the NULL address
     assert.equal(await dao.controller.newController(), NULL_ADDRESS);

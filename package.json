@@ -68,8 +68,7 @@
     "pug": "^2.0.0-rc.1",
     "truffle-contract": "^3.0.1",
     "truffle-core-migrate-without-compile": "^4.0.7",
-    "uint32": "^0.2.1",
-    "web3-typescript-typings": "^0.7.2"
+    "uint32": "^0.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
