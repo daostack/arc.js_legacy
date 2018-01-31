@@ -118,6 +118,47 @@ declare module "daostack-arc.js" {
 
 
   /********************************
+   * AvatarServive
+   */
+  export class AvatarService {
+    /**
+     * AvatarService constructor
+     * @param avatarAddress - the avatar address.
+     */
+    constructor(avatarAddress: string);
+    /**
+     * Returns the Avatar TruffleContract
+     */
+    getAvatar(): any;
+    /**
+     * returns the address of the controller
+     */
+    getControllerAddress(): string;
+    /**
+     * Returns a TruffleContract for the controller.  Could be
+     * either UController or Controller.  You can know which one
+     * by checking the AvatarService instance property `isUController`.
+     */
+    getController(): any;
+    /**
+     * Returns the address of the avatar's native reputation.
+     */
+    getNativeReputationAddress(): string;
+    /**
+     * Returns the avatar's native reputation TruffleContract.
+     */
+    getNativeReputation(): any;
+    /**
+     * Returns the address of the avatar's native token.
+     */
+    getNativeTokenAddress(): string;
+    /**
+     * Returns the avatar's native token TruffleContract.
+     */
+    getNativeToken(): any;
+  }
+
+  /********************************
   * ExtendTruffleContract.js
   */
   export interface TransactionLog {
@@ -145,23 +186,56 @@ declare module "daostack-arc.js" {
   }
 
   export interface TransactionReceipt {
-    blockHash: string; // 32 Bytes - hash of the block where this transaction was in.
-    blockNumber: number; // block number where this transaction was in.
-    transactionHash: string; // 32 Bytes - hash of the transaction.
-    transactionIndex: number; //integer of the transactions index position in the block.
-    from: string; // 20 Bytes - address of the sender.
-    to: string; // 20 Bytes - address of the receiver. null when its a contract creation transaction.
-    cumulativeGasUsed: number; //The total amount of gas used when this transaction was executed in the block.
-    gasUsed: number; //  The amount of gas used by this specific transaction alone.
-    contractAddress: string; // 20 Bytes - The contract address created, if the transaction was a contract creation, otherwise null.
-    logs: Array<TransactionLog>; // Array of log objects, which this transaction generated.
+    /**
+     * hash of the block where this transaction was in.
+     */
+    blockHash: string;
+    /**
+     * block number where this transaction was in.
+     */
+    blockNumber: number;
+    /**
+     * hash of the transaction.
+     */
+    transactionHash: string;
+    /**
+     * transactions index position in the block.
+     */
+    transactionIndex: number;
+    /**
+     * address of the sender.
+     */
+    from: string;
+    /**
+     * address of the receiver. null when its a contract creation transaction.
+     */
+    to: string;
+    /**
+     * The total amount of gas used when this transaction was executed in the block.
+     */
+    cumulativeGasUsed: number;
+    /**
+     * The amount of gas used by this specific transaction alone.
+     */
+    gasUsed: number;
+    /**
+     * The contract address created, if the transaction was a contract creation, otherwise null.
+     */
+    contractAddress: string;
+    /**
+     * Array of log objects, which this transaction generated.
+     */
+    logs: Array<TransactionLog>;
   }
 
   export interface TransactionReceiptTruffle {
     transactionHash: string;
     logs: Array<TransactionLogTruffle>;
     receipt: TransactionReceipt;
-    tx: string; // address of the transaction
+    /**
+     * address of the transaction
+     */
+    tx: string;
   }
 
   export class ExtendTruffleContract {
@@ -197,14 +271,15 @@ declare module "daostack-arc.js" {
     getDefaultPermissions(overrideValue: string): string;
   }
 
-  export interface StandardNewSchemeParams {
-  }
-
   export interface StandardSchemeParams {
     voteParametersHash: string;
     votingMachine: string; // address
   }
 
+
+  /********************************
+   * GenesisScheme
+   */
   export interface FounderConfig {
     /**
      * Founders' address
@@ -246,19 +321,9 @@ declare module "daostack-arc.js" {
   }
 
   /**
-   * options for DAO.new
-   */
-  export interface NewDaoConfig extends DaoConfig {
-    /**
-     * The GenesisScheme to use.  Default is the GenesisScheme supplied in this release of Arc.js.
-     */
-    genesisScheme?: string;
-  }
-
-  /**
    * options for GenesisScheme.forgeOrg
    */
-  export interface DaoConfig {
+  export interface ForgeOrgConfig {
     /**
      * The name of the new DAO.
      */
@@ -281,27 +346,13 @@ declare module "daostack-arc.js" {
      * The default is true.
      */
     universalController?: boolean;
-    /**
-     * default votingMachine parameters if you have not configured a scheme that you want to register with the
-     * new DAO with its own voting parameters.
-     *
-     * New schemes will be created these parameters.
-     *
-     * Defaults are described in NewDaoVotingMachineConfig.
-     */
-    votingMachineParams?: NewDaoVotingMachineConfig;
-    /**
-     * Any Arc schemes you would like to automatically register with the new DAO.
-     * Non-Arc schemes are not allowed here.  You may add them later in your application's workflow
-     * using SchemeRegistrar.
-     */
-    schemes?: Array<NewDaoSchemeConfig>;
   }
+
 
   /**
    * Configuration of an Arc scheme that you want to automatically register with a new DAO.
    */
-  export interface NewDaoSchemeConfig {
+  export interface SchemeConfig {
     /**
      * The name of the Arc scheme.  It must be an Arc scheme.
      */
@@ -335,7 +386,60 @@ declare module "daostack-arc.js" {
     additionalParams?: any;
   }
 
+  export interface SchemesConfig {
+    /**
+     * default votingMachine parameters if you have not configured a scheme that you want to register with the
+     * new DAO with its own voting parameters.
+     *
+     * New schemes will be created these parameters.
+     *
+     * Defaults are described in NewDaoVotingMachineConfig.
+     */
+    votingMachineParams?: NewDaoVotingMachineConfig;
+    /**
+     * Any Arc schemes you would like to automatically register with the new DAO.
+     * Non-Arc schemes are not allowed here.  You may add them later in your application's workflow
+     * using SchemeRegistrar.
+     */
+    schemes?: Array<SchemeConfig>;
+  }
+
+  export interface SetSchemesConfig extends SchemesConfig {
+    /**
+     * avatar address
+     */
+    avatar: string
+  }
+
+  export class GenesisScheme extends ExtendTruffleScheme {
+    static new(): GenesisScheme;
+    static at(address: string): GenesisScheme;
+    static deployed(): GenesisScheme;
+    /**
+     * Create a new DAO
+     * @param {ForgeOrgConfig} options 
+     */
+    forgeOrg(options: ForgeOrgConfig): Promise<ArcTransactionResult>;
+    /**
+     * Register schemes with newly-created DAO.
+     * Can only be invoked by the agent that created the DAO
+     * via forgeOrg, and at that, can only be called one time. 
+     * @param {SetSchemesConfig} options 
+     */
+    setSchemes(options: SetSchemesConfig): Promise<ArcTransactionResult>;
+  }
+
   /********************************
+    * DAO
+    */
+  export interface NewDaoConfig extends ForgeOrgConfig {
+    /**
+     * The GenesisScheme to use.  Default is the GenesisScheme supplied in this release of Arc.js.
+     */
+    genesisScheme?: string;
+  }
+
+  /**
    * Returned from DAO.getSchemes
    */
   export interface DaoSchemeInfo {
@@ -364,15 +468,12 @@ declare module "daostack-arc.js" {
     paramsHash: string;
   }
 
-  /********************************
-   * DAO
-   */
   export class DAO {
     /**
      * Migrate a new DAO to the current network, returning the corresponding DAO instance.
      * @param options
      */
-    static new(options: NewDaoConfig): Promise<DAO>;
+    static new(options: NewDaoConfig & SchemesConfig): Promise<DAO>;
 
     /**
      * Return an instance of DAO representing the migrated DAO at the given address
@@ -448,9 +549,6 @@ declare module "daostack-arc.js" {
   /********************************
    * GlobalConstraintRegistrar
    */
-  export interface GlobalConstraintRegistrarNewParams
-    extends StandardNewSchemeParams { }
-
   export interface GlobalConstraintRegistrarParams
     extends StandardSchemeParams { }
 
@@ -485,26 +583,24 @@ declare module "daostack-arc.js" {
   }
 
   export class GlobalConstraintRegistrar extends ExtendTruffleScheme {
-    static new(
-      options: GlobalConstraintRegistrarNewParams
-    ): GlobalConstraintRegistrar;
+    static new(): GlobalConstraintRegistrar;
 
     static at(address: string): GlobalConstraintRegistrar;
     static deployed(): GlobalConstraintRegistrar;
 
     /**
      *  propose to add or modify a global constraint
-     * @param opts ProposeToAddModifyGlobalConstraintParams
+     * @param options ProposeToAddModifyGlobalConstraintParams
      */
     proposeToAddModifyGlobalConstraint(
-      opts: ProposeToAddModifyGlobalConstraintParams
+      options: ProposeToAddModifyGlobalConstraintParams
     ): Promise<ArcTransactionProposalResult>;
     /**
      * propose to remove a global constraint
-     * @param opts ProposeToRemoveGlobalConstraintParams
+     * @param options ProposeToRemoveGlobalConstraintParams
      */
     proposeToRemoveGlobalConstraint(
-      opts: ProposeToRemoveGlobalConstraintParams
+      options: ProposeToRemoveGlobalConstraintParams
     ): Promise<ArcTransactionProposalResult>;
 
     setParams(params: GlobalConstraintRegistrarParams): Promise<ArcTransactionDataResult>;
@@ -513,8 +609,6 @@ declare module "daostack-arc.js" {
   /********************************
    * SchemeRegistrar
    */
-  export interface SchemeRegistrarNewParams extends StandardNewSchemeParams { }
-
   export interface SchemeRegistrarParams extends StandardSchemeParams { }
 
   export interface ProposeToAddModifySchemeParams {
@@ -556,22 +650,22 @@ declare module "daostack-arc.js" {
   }
 
   export class SchemeRegistrar extends ExtendTruffleScheme {
-    static new(options: SchemeRegistrarNewParams): SchemeRegistrar;
+    static new(): SchemeRegistrar;
     static at(address: string): SchemeRegistrar;
     static deployed(): SchemeRegistrar;
     /**
      *  propose to add or modify a scheme
-     * @param opts ProposeToAddModifySchemeParams
+     * @param options ProposeToAddModifySchemeParams
      */
     proposeToAddModifyScheme(
-      opts: ProposeToAddModifySchemeParams
+      options: ProposeToAddModifySchemeParams
     ): Promise<ArcTransactionProposalResult>;
     /**
      * propose to remove a scheme
-     * @param opts ProposeToRemoveSchemeParams
+     * @param options ProposeToRemoveSchemeParams
      */
     proposeToRemoveScheme(
-      opts: ProposeToRemoveSchemeParams
+      options: ProposeToRemoveSchemeParams
     ): Promise<ArcTransactionProposalResult>;
 
     setParams(params: SchemeRegistrarParams): Promise<ArcTransactionDataResult>;
@@ -580,8 +674,6 @@ declare module "daostack-arc.js" {
   /********************************
    * UpgradeScheme
    */
-  export interface UpgradeSchemeNewParams extends StandardNewSchemeParams { }
-
   export interface UpgradeSchemeParams extends StandardSchemeParams { }
 
   export interface ProposeUpgradingSchemeParams {
@@ -611,22 +703,22 @@ declare module "daostack-arc.js" {
   }
 
   export class UpgradeScheme extends ExtendTruffleScheme {
-    static new(options: UpgradeSchemeNewParams): UpgradeScheme;
+    static new(): UpgradeScheme;
     static at(address: string): UpgradeScheme;
     static deployed(): UpgradeScheme;
     /**
      * propose to replace this UpgradingScheme
-     * @param opts ProposeUpgradingSchemeParams
+     * @param options ProposeUpgradingSchemeParams
      */
     proposeUpgradingScheme(
-      opts: ProposeUpgradingSchemeParams
+      options: ProposeUpgradingSchemeParams
     ): Promise<ArcTransactionProposalResult>;
     /**
      * propose to replace this DAO's controller
-     * @param opts ProposeControllerParams
+     * @param options ProposeControllerParams
      */
     proposeController(
-      opts: ProposeControllerParams
+      options: ProposeControllerParams
     ): Promise<ArcTransactionProposalResult>;
 
     setParams(params: UpgradeSchemeParams): Promise<ArcTransactionDataResult>;
@@ -635,9 +727,6 @@ declare module "daostack-arc.js" {
   /********************************
    * ContributionReward
    */
-  export interface ContributionRewardNewParams
-    extends StandardNewSchemeParams { }
-
   export interface ContributionRewardParams extends StandardSchemeParams {
     orgNativeTokenFee: BigNumber.BigNumber | string;
   }
@@ -679,15 +768,15 @@ declare module "daostack-arc.js" {
   }
 
   export class ContributionReward extends ExtendTruffleScheme {
-    static new(options: ContributionRewardNewParams): ContributionReward;
+    static new(): ContributionReward;
     static at(address: string): ContributionReward;
     static deployed(): ContributionReward;
     /**
      * propose to make a contribution
-     * @param opts ProposeContributionParams
+     * @param options ProposeContributionParams
      */
     proposeContributionReward(
-      opts: ProposeContributionParams
+      options: ProposeContributionParams
     ): Promise<ArcTransactionProposalResult>;
 
     setParams(params: ContributionRewardParams): Promise<ArcTransactionDataResult>;
@@ -700,41 +789,115 @@ declare module "daostack-arc.js" {
     LogProposalDeleted(filters: any, options: any): any;
   }
 
-  export class AvatarService {
+  /********************************
+   * VestingScheme
+   */
+  export interface CreateVestingAgreementConfig {
     /**
-     * AvatarService constructor
-     * @param avatarAddress - the avatar address.
+     * Address of the recipient of the proposed agreement.
      */
-    constructor(avatarAddress: string);
+    beneficiary: string,
     /**
-     * Returns the Avatar TruffleContract
+     * Where to send the tokens in case of cancellation
      */
-    getAvatar(): any;
+    returnOnCancelAddress: string,
     /**
-     * returns the address of the controller
+     * Optional ethereum block number at which the agreement starts.
+     * Default is the current block number.
+     * Must be greater than or equal to zero.
      */
-    getControllerAddress(): string;
+    startingBlock: number,
     /**
-     * Returns a TruffleContract for the controller.  Could be
-     * either UController or Controller.  You can know which one
-     * by checking the AvatarService instance property `isUController`.
+     * The number of tokens to pay per period.
+     * Period is calculated as (number of blocks / periodLength).
+     * Should be expressed in Wei.
+     * Must be greater than zero.
      */
-    getController(): any;
+    amountPerPeriod: BigNumber.BigNumber | string,
     /**
-     * Returns the address of the avatar's native reputation.
+     * number of blocks in a "period".
+     * Must be greater than zero.
      */
-    getNativeReputationAddress(): string;
+    periodLength: number,
     /**
-     * Returns the avatar's native reputation TruffleContract.
+     * maximum number of periods that can be paid out.
+     * Must be greater than zero.
      */
-    getNativeReputation(): any;
+    numOfAgreedPeriods: number,
     /**
-     * Returns the address of the avatar's native token.
+     * The minimum number of periods that must pass before the beneficiary
+     * may collect tokens under the agreement.
+     * Must be greater than or equal to zero.
      */
-    getNativeTokenAddress(): string;
+    cliffInPeriods: number,
     /**
-     * Returns the avatar's native token TruffleContract.
+     * The number of signatures required to cancel agreement.
+     * See signToCancel.
      */
-    getNativeToken(): any;
+    signaturesReqToCancel: number,
+    /**
+     * An array of addresses of those who will be allowed to sign to cancel an agreement.
+     * The length of this array must be greater than or equal to signaturesReqToCancel.
+     */
+    signers: Array<string>
+  }
+
+  export interface ProposeVestingAgreementConfig extends CreateVestingAgreementConfig {
+    /**
+     * The address of the avatar in which the proposal is being be made.
+     */
+    avatar: string;
+  }
+
+  export interface SignToCancelVestingAgreementConfig {
+    /**
+     * the agreementId
+     */
+    agreementId: number;
+  }
+
+  export interface RevokeSignToCancelVestingAgreementConfig {
+    /**
+     * the agreementId
+     */
+    agreementId: number;
+  }
+
+  export interface CollectVestingAgreementConfig {
+    /**
+     * the agreementId
+     */
+    agreementId: number;
+  }
+
+  export class VestingScheme extends ExtendTruffleScheme {
+    static new(): VestingScheme;
+    static at(address: string): VestingScheme;
+    static deployed(): VestingScheme;
+    /**
+     * Propose a new vesting agreement
+     * @param {ProposeVestingAgreementConfig} options 
+     */
+    propose(options: ProposeVestingAgreementConfig);
+    /**
+      * Create a new vesting agreement
+      * @param {CreateVestingAgreementConfig} options 
+      */
+    create(options: CreateVestingAgreementConfig);
+    /**
+     * Sign to cancel a vesting agreement
+     * @param {SignToCancelVestingAgreementConfig} options 
+     */
+    signToCancel(options: SignToCancelVestingAgreementConfig);
+    /**
+     * Revoke vote for cancelling a vesting agreement
+     * @param {RevokeSignToCancelVestingAgreementConfig} options 
+     */
+    revokeSignToCancel(options: RevokeSignToCancelVestingAgreementConfig);
+    /**
+     * Collects for a beneficiary, according to the agreement
+     * @param {CollectVestingAgreementConfig} options 
+     */
+    collect(options: CollectVestingAgreementConfig);
   }
 }
