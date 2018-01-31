@@ -6,13 +6,6 @@ describe("VestingScheme scheme", () => {
   let dao;
   let vestingScheme;
 
-  const createAgreement = async function (options) {
-
-    await dao.token.approve(vestingScheme.address, options.amountPerPeriod * options.numOfAgreedPeriods);
-
-    return await vestingScheme.create(options);
-  };
-
   beforeEach(async () => {
 
     dao = await DAO.new({
@@ -39,99 +32,6 @@ describe("VestingScheme scheme", () => {
 
   });
 
-  it("collect on the agreement", async () => {
-
-    const options = {
-      token: await dao.token.address,
-      beneficiary: accounts[0],
-      returnOnCancelAddress: SOME_ADDRESS,
-      startingBlock: (await web3.eth.blockNumber) - 1,
-      amountPerPeriod: web3.toWei(10),
-      periodLength: 1,
-      numOfAgreedPeriods: 1,
-      cliffInPeriods: 0,
-      signaturesReqToCancel: 1,
-      signers: [accounts[0]]
-    };
-
-    let result = await createAgreement(options);
-    const agreementId = result.agreementId;
-
-    result = await vestingScheme.collect({ agreementId: agreementId });
-
-    assert.isOk(result);
-    assert.isOk(result.tx);
-    assert.equal(result.tx.logs.length, 1); // no other event
-    // TODO: remove "Log"
-    assert.equal(result.tx.logs[0].event, "LogCollect");
-  });
-
-  it("revert sign to cancel agreement", async () => {
-
-    const options = {
-      token: await dao.token.address,
-      beneficiary: SOME_ADDRESS,
-      returnOnCancelAddress: SOME_ADDRESS,
-      // startingBlock: null,
-      amountPerPeriod: web3.toWei(10),
-      periodLength: 1,
-      numOfAgreedPeriods: 1,
-      cliffInPeriods: 0,
-      signaturesReqToCancel: 2,
-      signers: [accounts[0], accounts[1]]
-    };
-
-    let result = await createAgreement(options);
-    const agreementId = result.agreementId;
-
-    // approve cancellation return of fees
-    await dao.token.approve(vestingScheme.address, options.amountPerPeriod * options.numOfAgreedPeriods);
-
-    result = await vestingScheme.signToCancel({ agreementId: agreementId });
-
-    assert.isOk(result);
-    assert.isOk(result.tx);
-    assert.equal(result.tx.logs.length, 1); // no cancelled event
-    assert.equal(result.tx.logs[0].event, "SignToCancelAgreement");
-
-    result = await vestingScheme.revokeSignToCancel({ agreementId: agreementId });
-
-    assert.isOk(result);
-    assert.isOk(result.tx);
-    assert.equal(result.tx.logs.length, 1); // no other event
-    assert.equal(result.tx.logs[0].event, "RevokeSignToCancelAgreement");
-  });
-
-
-  it("sign to cancel agreement", async () => {
-
-    const options = {
-      token: await dao.token.address,
-      beneficiary: SOME_ADDRESS,
-      returnOnCancelAddress: accounts[0],
-      // startingBlock: null,
-      amountPerPeriod: web3.toWei(10),
-      periodLength: 1,
-      numOfAgreedPeriods: 1,
-      cliffInPeriods: 0,
-      signaturesReqToCancel: 1,
-      signers: [accounts[0]]
-    };
-
-    let result = await createAgreement(options);
-    const agreementId = result.agreementId;
-
-    // approve cancellation return of fees
-    await dao.token.approve(vestingScheme.address, options.amountPerPeriod * options.numOfAgreedPeriods);
-
-    result = await vestingScheme.signToCancel({ agreementId: agreementId });
-
-    assert.isOk(result);
-    assert.isOk(result.tx);
-    assert.equal(result.tx.logs[0].event, "SignToCancelAgreement");
-    // TODO will need to change to AgreementCancel
-    assert.equal(result.tx.logs[1].event, "LogAgreementCancel");
-  });
 
   it("create agreement", async () => {
 
@@ -145,10 +45,12 @@ describe("VestingScheme scheme", () => {
       numOfAgreedPeriods: 1,
       cliffInPeriods: 0,
       signaturesReqToCancel: 1,
-      signers: [accounts[0]]
+      signers: [SOME_ADDRESS]
     };
 
-    const result = await createAgreement(options);
+    await dao.token.approve(vestingScheme.address, options.amountPerPeriod * options.numOfAgreedPeriods);
+
+    const result = await vestingScheme.create(options);
 
     assert.isOk(result);
     assert.isOk(result.tx);
@@ -167,7 +69,7 @@ describe("VestingScheme scheme", () => {
       numOfAgreedPeriods: 1,
       cliffInPeriods: 0,
       signaturesReqToCancel: 1,
-      signers: [accounts[0]]
+      signers: [SOME_ADDRESS]
     };
 
     const result = await vestingScheme.propose(Object.assign({ avatar: dao.avatar.address }, options));
@@ -175,9 +77,10 @@ describe("VestingScheme scheme", () => {
     assert.isOk(result);
     assert.isOk(result.tx);
     assert.isOk(result.proposalId);
+    assert.notEqual(result.proposalId, 0);
   });
 
-  it("propose agreement fails when no period is given", async () => {
+  it("propose agreement fails on no period", async () => {
 
     const options = {
       beneficiary: SOME_ADDRESS,
@@ -188,7 +91,7 @@ describe("VestingScheme scheme", () => {
       numOfAgreedPeriods: 1,
       cliffInPeriods: 0,
       signaturesReqToCancel: 1,
-      signers: [accounts[0]]
+      signers: [SOME_ADDRESS]
     };
 
     try {
