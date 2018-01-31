@@ -803,6 +803,10 @@ declare module "daostack-arc.js" {
    * VestingScheme
    */
   export interface CommonVestingAgreementConfig {
+  /********************************
+   * VestingScheme
+   */
+  export interface CreateVestingAgreementConfig {
     /**
      * Address of the recipient of the proposed agreement.
      */
@@ -919,5 +923,64 @@ declare module "daostack-arc.js" {
      * @param {CollectVestingAgreementConfig} options 
      */
     collect(options: CollectVestingAgreementConfig): Promise<ArcTransactionResult>;
+  }
+
+  export interface ProposeVestingAgreementConfig extends CreateVestingAgreementConfig {
+    /**
+     * The address of the avatar in which the proposal is being be made.
+     */
+    avatar: string;
+  }
+
+  export interface SignToCancelVestingAgreementConfig {
+    /**
+     * the agreementId
+     */
+    agreementId: number;
+  }
+
+  export interface RevokeSignToCancelVestingAgreementConfig {
+    /**
+     * the agreementId
+     */
+    agreementId: number;
+  }
+
+  export interface CollectVestingAgreementConfig {
+    /**
+     * the agreementId
+     */
+    agreementId: number;
+  }
+
+  export class VestingScheme extends ExtendTruffleScheme {
+    static new(): VestingScheme;
+    static at(address: string): VestingScheme;
+    static deployed(): VestingScheme;
+    /**
+     * Propose a new vesting agreement
+     * @param {ProposeVestingAgreementConfig} options 
+     */
+    propose(options: ProposeVestingAgreementConfig);
+    /**
+      * Create a new vesting agreement
+      * @param {CreateVestingAgreementConfig} options 
+      */
+    create(options: CreateVestingAgreementConfig);
+    /**
+     * Sign to cancel a vesting agreement
+     * @param {SignToCancelVestingAgreementConfig} options 
+     */
+    signToCancel(options: SignToCancelVestingAgreementConfig);
+    /**
+     * Revoke vote for cancelling a vesting agreement
+     * @param {RevokeSignToCancelVestingAgreementConfig} options 
+     */
+    revokeSignToCancel(options: RevokeSignToCancelVestingAgreementConfig);
+    /**
+     * Collects for a beneficiary, according to the agreement
+     * @param {CollectVestingAgreementConfig} options 
+     */
+    collect(options: CollectVestingAgreementConfig);
   }
 }
