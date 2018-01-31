@@ -45,6 +45,13 @@ declare module "daostack-arc.js" {
   export interface ArcTransactionDataResult extends ArcTransactionResult {
     result: any;
   }
+
+  /**
+   * returned by the create method in VestingScheme
+   */
+  export interface ArcTransactionAgreementResult extends ArcTransactionResult {
+    agreementId: number;
+  }
   /**
      * An object with property names being a contract key and property value as the corresponding ArcContractInfo.
      * For all deployed contracts exposed by Arc.
@@ -792,7 +799,7 @@ declare module "daostack-arc.js" {
   /********************************
    * VestingScheme
    */
-  export interface CreateVestingAgreementConfig {
+  export interface CommonVestingAgreementConfig {
     /**
      * Address of the recipient of the proposed agreement.
      */
@@ -842,7 +849,15 @@ declare module "daostack-arc.js" {
     signers: Array<string>
   }
 
-  export interface ProposeVestingAgreementConfig extends CreateVestingAgreementConfig {
+  export interface CreateVestingAgreementConfig extends CommonVestingAgreementConfig {
+    /**
+     * The address of the token that will be used to pay for the creation of the agreement.
+     * The caller (msg.Sender) must have the funds to pay in that token.
+     */
+    token: string;
+  }
+
+  export interface ProposeVestingAgreementConfig extends CommonVestingAgreementConfig {
     /**
      * The address of the avatar in which the proposal is being be made.
      */
@@ -875,29 +890,30 @@ declare module "daostack-arc.js" {
     static at(address: string): VestingScheme;
     static deployed(): VestingScheme;
     /**
-     * Propose a new vesting agreement
+     * Propose a new vesting agreement. The required funds will be minted to the avatar on approval of the proposal.
      * @param {ProposeVestingAgreementConfig} options 
      */
-    propose(options: ProposeVestingAgreementConfig);
+    propose(options: ProposeVestingAgreementConfig): Promise<ArcTransactionProposalResult>;
     /**
-      * Create a new vesting agreement
+      * Create a new vesting agreement, without a vote.
+      * The caller (msg.Sender) pays for the creation of the agreement.
       * @param {CreateVestingAgreementConfig} options 
       */
-    create(options: CreateVestingAgreementConfig);
+    create(options: CreateVestingAgreementConfig): Promise<ArcTransactionAgreementResult>;
     /**
-     * Sign to cancel a vesting agreement
+     * Sign to cancel a vesting agreement.
      * @param {SignToCancelVestingAgreementConfig} options 
      */
-    signToCancel(options: SignToCancelVestingAgreementConfig);
+    signToCancel(options: SignToCancelVestingAgreementConfig): Promise<ArcTransactionResult>;
     /**
      * Revoke vote for cancelling a vesting agreement
      * @param {RevokeSignToCancelVestingAgreementConfig} options 
      */
-    revokeSignToCancel(options: RevokeSignToCancelVestingAgreementConfig);
+    revokeSignToCancel(options: RevokeSignToCancelVestingAgreementConfig): Promise<ArcTransactionResult>;
     /**
      * Collects for a beneficiary, according to the agreement
      * @param {CollectVestingAgreementConfig} options 
      */
-    collect(options: CollectVestingAgreementConfig);
+    collect(options: CollectVestingAgreementConfig): Promise<ArcTransactionResult>;
   }
 }
