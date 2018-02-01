@@ -920,4 +920,40 @@ declare module "daostack-arc.js" {
      */
     collect(options: CollectVestingAgreementConfig): Promise<ArcTransactionResult>;
   }
+
+  /********************************
+   * VoteInOrganizationScheme
+   */
+  export interface VoteInOrganizationProposeVoteConfig {
+    /**
+     * Avatar whose voters are being given the chance to vote on the original proposal. 
+     */
+    avatar: string,
+    /**
+     * Address of the voting machine used by the original proposal.  The voting machine must
+     * implement IntVoteInterface (as defined in Arc).
+     */
+    originalIntVote: string,
+    /**
+     * Address of the "original" proposal for which the DAO's vote will cast.
+     */
+    originalProposalId: string
+  }
+
+  export class VoteInOrganizationScheme extends ExtendTruffleScheme {
+    static new(): VoteInOrganizationScheme;
+    static at(address: string): VoteInOrganizationScheme;
+    static deployed(): VoteInOrganizationScheme;
+    /**
+     * Create a proposal whose choices look just like a proposal from another DAO.
+     * When the vote on this proposal is concluded, the result is sent to the
+     * "original" voting machine.
+     * 
+     * This new proposal is thus effectively a proxy for the "original" proposal created
+     * by another DAO, but this DAO only gets one vote in the original.
+     * 
+     * @param {VoteInOrganizationProposeVoteConfig} opts
+     */
+    proposeVote(options: VoteInOrganizationProposeVoteConfig): Promise<ArcTransactionProposalResult>;
+  }
 }
