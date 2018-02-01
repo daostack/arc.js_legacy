@@ -11,6 +11,7 @@ const SchemeRegistrar = artifacts.require("SchemeRegistrar.sol");
 const ContributionReward = artifacts.require("ContributionReward.sol");
 const UpgradeScheme = artifacts.require("UpgradeScheme.sol");
 const VestingScheme = artifacts.require("VestingScheme.sol");
+const VoteInOrganizationScheme = artifacts.require("VoteInOrganizationScheme.sol");
 const SimpleICO = artifacts.require("SimpleICO.sol");
 
 const AbsoluteVote = artifacts.require("AbsoluteVote.sol");
@@ -97,6 +98,7 @@ module.exports = async function (deployer) {
     await deployer.deploy(TokenCapGC);
     await deployer.deploy(UController);
     await deployer.deploy(VestingScheme);
+    await deployer.deploy(VoteInOrganizationScheme);
   });
 };
 
