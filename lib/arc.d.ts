@@ -920,76 +920,7 @@ declare module "daostack-arc.js" {
     revokeSignToCancel(options: RevokeSignToCancelVestingAgreementConfig): Promise<ArcTransactionResult>;
     /**
      * Collects for a beneficiary, according to the agreement
-      * The caller (msg.Sender) pays the beneficiary the accrued amount of tokens.
-     * @param {CollectVestingAgreementConfig} options 
-     */
-    collect(options: CollectVestingAgreementConfig): Promise<ArcTransactionResult>;
-  }
-
-  export interface ProposeVestingAgreementConfig extends CreateVestingAgreementConfig {
-  export interface CreateVestingAgreementConfig extends CommonVestingAgreementConfig {
-    /**
-     * The address of the token that will be used to pay for the creation of the agreement.
-     * The caller (msg.Sender) must have the funds to pay in that token.
-     */
-    token: string;
-  }
-
-  export interface ProposeVestingAgreementConfig extends CommonVestingAgreementConfig {
-    /**
-     * The address of the avatar in which the proposal is being be made.
-     */
-    avatar: string;
-  }
-
-  export interface SignToCancelVestingAgreementConfig {
-    /**
-     * the agreementId
-     */
-    agreementId: number;
-  }
-
-  export interface RevokeSignToCancelVestingAgreementConfig {
-    /**
-     * the agreementId
-     */
-    agreementId: number;
-  }
-
-  export interface CollectVestingAgreementConfig {
-    /**
-     * the agreementId
-     */
-    agreementId: number;
-  }
-
-  export class VestingScheme extends ExtendTruffleScheme {
-    static new(): VestingScheme;
-    static at(address: string): VestingScheme;
-    static deployed(): VestingScheme;
-    /**
-     * Propose a new vesting agreement. The required funds will be minted to the avatar on approval of the proposal.
-     * @param {ProposeVestingAgreementConfig} options 
-     */
-    propose(options: ProposeVestingAgreementConfig): Promise<ArcTransactionProposalResult>;
-    /**
-      * Create a new vesting agreement, without a vote.
-      * The caller (msg.Sender) pays for the creation of the agreement.
-      * @param {CreateVestingAgreementConfig} options 
-      */
-    create(options: CreateVestingAgreementConfig): Promise<ArcTransactionAgreementResult>;
-    /**
-     * Sign to cancel a vesting agreement.
-     * @param {SignToCancelVestingAgreementConfig} options 
-     */
-    signToCancel(options: SignToCancelVestingAgreementConfig): Promise<ArcTransactionResult>;
-    /**
-     * Revoke vote for cancelling a vesting agreement
-     * @param {RevokeSignToCancelVestingAgreementConfig} options 
-     */
-    revokeSignToCancel(options: RevokeSignToCancelVestingAgreementConfig): Promise<ArcTransactionResult>;
-    /**
-     * Collects for a beneficiary, according to the agreement
+      * The caller (msg.Sender) ??? pays the beneficiary the accrued amount of tokens.
      * @param {CollectVestingAgreementConfig} options 
      */
     collect(options: CollectVestingAgreementConfig): Promise<ArcTransactionResult>;
