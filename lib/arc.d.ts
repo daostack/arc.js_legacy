@@ -38,7 +38,7 @@ declare module "daostack-arc.js" {
    */
   export interface ArcTransactionProposalResult extends ArcTransactionResult {
     /**
-     * address of proposal
+     * unique hash identifying a proposal
      */
     proposalId: string;
   }
@@ -554,6 +554,14 @@ declare module "daostack-arc.js" {
      * The native token symbol
      */
     getTokenSymbol(): string;
+    /**
+     * Given a scheme wrapper, returns an array of the scheme's parameter values.
+     * The order of values in the array corresponds to the
+     * order in which they are defined in the structure in which they
+     * are stored in the scheme contract.
+     * @param {string} schemeAddress 
+     */
+    getSchemeParameters(scheme: ExtendTruffleContract): Promise<Array<any>>;
   }
 
   /********************************

@@ -69,6 +69,7 @@ describe("SchemeRegistrar", () => {
     const dao = await forgeDao();
 
     const schemeRegistrar = await dao.getScheme("SchemeRegistrar");
+    // schemeRegistrar can't remove a scheme wit greater permissions that it has
     const removedScheme = schemeRegistrar;
 
     const result = await schemeRegistrar.proposeToRemoveScheme({
@@ -78,7 +79,7 @@ describe("SchemeRegistrar", () => {
 
     const proposalId = result.proposalId;
 
-    vote(dao, proposalId, 1, { from: accounts[2] });
+    await vote(dao, proposalId, 1, { from: accounts[2] });
 
     assert.isFalse(
       await dao.isSchemeRegistered(removedScheme.address),
