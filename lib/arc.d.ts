@@ -37,7 +37,10 @@ declare module "daostack-arc.js" {
    * Base or actual type returned by all contract wrapper methods that generate a transaction and initiate a proposal.
    */
   export interface ArcTransactionProposalResult extends ArcTransactionResult {
-    proposalId: number;
+    /**
+     * address of proposal
+     */
+    proposalId: string;
   }
   /**
    * Base or actual type returned by all contract wrapper methods that generate a transaction and any other result.
@@ -890,13 +893,13 @@ declare module "daostack-arc.js" {
     static at(address: string): VestingScheme;
     static deployed(): VestingScheme;
     /**
-     * Propose a new vesting agreement. The required funds will be minted to the avatar on approval of the proposal.
+     * Propose a new vesting agreement. The required funds will be minted to the vesting scheme on approval of the proposal.
      * @param {ProposeVestingAgreementConfig} options 
      */
     propose(options: ProposeVestingAgreementConfig): Promise<ArcTransactionProposalResult>;
     /**
       * Create a new vesting agreement, without a vote.
-      * The caller (msg.Sender) pays for the creation of the agreement.
+      * The caller (msg.Sender) pays the vesting scheme for the creation of the agreement.
       * @param {CreateVestingAgreementConfig} options 
       */
     create(options: CreateVestingAgreementConfig): Promise<ArcTransactionAgreementResult>;
@@ -912,6 +915,7 @@ declare module "daostack-arc.js" {
     revokeSignToCancel(options: RevokeSignToCancelVestingAgreementConfig): Promise<ArcTransactionResult>;
     /**
      * Collects for a beneficiary, according to the agreement
+      * The caller (msg.Sender) ??? pays the beneficiary the accrued amount of tokens.
      * @param {CollectVestingAgreementConfig} options 
      */
     collect(options: CollectVestingAgreementConfig): Promise<ArcTransactionResult>;
