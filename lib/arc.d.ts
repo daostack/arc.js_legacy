@@ -915,7 +915,7 @@ declare module "daostack-arc.js" {
     revokeSignToCancel(options: RevokeSignToCancelVestingAgreementConfig): Promise<ArcTransactionResult>;
     /**
      * Collects for a beneficiary, according to the agreement
-      * The caller (msg.Sender) ??? pays the beneficiary the accrued amount of tokens.
+      * The caller (msg.Sender) pays the beneficiary the accrued amount of tokens.
      * @param {CollectVestingAgreementConfig} options 
      */
     collect(options: CollectVestingAgreementConfig): Promise<ArcTransactionResult>;
