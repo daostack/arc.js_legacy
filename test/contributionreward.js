@@ -35,13 +35,13 @@ describe("ContributionReward scheme", () => {
     const founders = [
       {
         address: accounts[0],
-        tokens: 30,
-        reputation: 30
+        tokens: web3.toWei(30),
+        reputation: web3.toWei(30)
       },
       {
         address: accounts[1],
-        tokens: 70,
-        reputation: 70
+        tokens: web3.toWei(70),
+        reputation: web3.toWei(70)
       }
     ];
 

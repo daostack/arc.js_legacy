@@ -159,17 +159,17 @@ export async function forgeDao(opts = {}) {
       : [
         {
           address: accounts[0],
-          reputation: 1000,
+          reputation: web3.toWei(1000),
           tokens: web3.toWei(40)
         },
         {
           address: accounts[1],
-          reputation: 1000,
+          reputation: web3.toWei(1000),
           tokens: web3.toWei(40)
         },
         {
           address: accounts[2],
-          reputation: 1000,
+          reputation: web3.toWei(1000),
           tokens: web3.toWei(40)
         }
       ];

@@ -8,6 +8,18 @@ import { AbsoluteVote } from "../lib/contracts/absoluteVote";
 describe("DAO", () => {
   let dao;
 
+  it("can create with non-universal controller", async () => {
+    dao = await DAO.new({
+      name: "Skynet",
+      tokenName: "Tokens of skynet",
+      tokenSymbol: "SNT",
+      universalController: false
+    });
+    // the dao has an avatar
+    assert.ok(dao.avatar, "DAO must have an avatar defined");
+    assert.equal(dao.hasUController, false);
+  });
+
   it("can be created with 'new' using default settings", async () => {
     dao = await DAO.new({
       name: "Skynet",
@@ -16,6 +28,7 @@ describe("DAO", () => {
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
+    assert.equal(dao.hasUController, true);
   });
 
   it("can be instantiated with 'at' if it was already deployed", async () => {
@@ -54,17 +67,17 @@ describe("DAO", () => {
       founders: [
         {
           address: accounts[0],
-          reputation: 1000,
+          reputation: web3.toWei(1000),
           tokens: web3.toWei(40)
         },
         {
           address: accounts[1],
-          reputation: 1000,
+          reputation: web3.toWei(1000),
           tokens: web3.toWei(40)
         },
         {
           address: accounts[2],
-          reputation: 1000,
+          reputation: web3.toWei(1000),
           tokens: web3.toWei(40)
         }
       ]
