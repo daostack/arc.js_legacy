@@ -3,48 +3,49 @@ import { VoteInOrganizationScheme } from "../lib/contracts/voteInOrganizationSch
 import { getVotingMachineForScheme } from "./helpers";
 import { Utils } from "../lib/utils";
 
-describe("VoteInOrganization Scheme", () => {
-  let dao, originalDao;
-  let voteInOrganizationScheme;
+const createProposal = async function () {
 
-  const createProposal = async function () {
+  const originalDao = await DAO.new({
+    name: "Original",
+    tokenName: "Tokens of Original",
+    tokenSymbol: "ORG",
+    schemes: [
+      { name: "ContributionReward" }
+      , { name: "SchemeRegistrar" }
+    ],
+    founders: [{
+      address: accounts[0],
+      reputation: web3.toWei(1000),
+      tokens: web3.toWei(1000)
+    }]
+  });
 
-    originalDao = await DAO.new({
-      name: "Original",
-      tokenName: "Tokens of Original",
-      tokenSymbol: "ORG",
-      schemes: [
-        { name: "ContributionReward" }
-        , { name: "SchemeRegistrar" }
-      ],
-      founders: [{
-        address: accounts[0],
-        reputation: web3.toWei(1000),
-        tokens: web3.toWei(1000)
-      }]
+  const schemeToDelete = (await originalDao.getSchemes("ContributionReward"))[0].address;
+  assert.isOk(schemeToDelete);
+  const schemeRegistrar = await originalDao.getScheme("SchemeRegistrar");
+  assert.isOk(schemeRegistrar);
+  const result = await schemeRegistrar.proposeToRemoveScheme(
+    {
+      avatar: originalDao.avatar.address,
+      scheme: schemeToDelete
     });
 
-    const schemeToDelete = (await originalDao.getSchemes("ContributionReward"))[0].address;
-    assert.isOk(schemeToDelete);
-    const schemeRegistrar = await originalDao.getScheme("SchemeRegistrar");
-    assert.isOk(schemeRegistrar);
-    const result = await schemeRegistrar.proposeToRemoveScheme(
-      {
-        avatar: originalDao.avatar.address,
-        scheme: schemeToDelete
-      });
+  assert.isOk(result.proposalId);
 
-    assert.isOk(result.proposalId);
+  /**
+       * get the voting machine will be used for this proposal
+       */
+  const votingMachine = await getVotingMachineForScheme(originalDao, schemeRegistrar, 2);
 
-    /**
-         * get the voting machine will be used for this proposal
-         */
-    const votingMachine = await getVotingMachineForScheme(originalDao, schemeRegistrar, 2);
+  assert.isOk(votingMachine);
 
-    assert.isOk(votingMachine);
+  return { proposalId: result.proposalId, votingMachine: votingMachine.address };
+};
 
-    return { proposalId: result.proposalId, votingMachine: votingMachine.address };
-  };
+describe("VoteInOrganization Scheme", () => {
+  let dao;
+  let voteInOrganizationScheme;
+
 
   beforeEach(async () => {
 
