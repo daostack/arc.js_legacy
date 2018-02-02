@@ -5,7 +5,7 @@ import { Utils } from "../lib/utils";
 
 const createProposal = async function () {
 
-  originalDao = await DAO.new({
+  const originalDao = await DAO.new({
     name: "Original",
     tokenName: "Tokens of Original",
     tokenSymbol: "ORG",
@@ -42,7 +42,7 @@ const createProposal = async function () {
   return { proposalId: result.proposalId, votingMachine: votingMachine.address };
 };
 
-describe("VoteInOrganization Scheme", () => {
+describe("VoteInOrganizationScheme", () => {
   let dao;
   let voteInOrganizationScheme;
   beforeEach(async () => {
