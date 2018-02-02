@@ -249,11 +249,22 @@ declare module "@daostack/arc.js" {
   }
 
   export class ExtendTruffleContract {
-    static new(options: any): any;
+    /**
+     * Instantiate the class.  It will not yet be associated with a migrated contract.
+     */
+    static new(): any;
+    /**
+     * Instantiate the class as it was migrated to the given address on
+     * the current network.
+     * @param address 
+     */
     static at(address: string): any;
+    /**
+     * Instantiate the class as it was migrated by Arc-Js on the given network.
+     */
     static deployed(): any;
     /**
-     * the underlying truffle contract object
+     * The underlying truffle contract object
      */
     public contract: any;
     /**
@@ -267,10 +278,10 @@ declare module "@daostack/arc.js" {
 
   export class ExtendTruffleScheme extends ExtendTruffleContract {
     /**
-     * Returns a string containing an 8-digit hex number whose binary
-     * 1s and 0s represent scheme permissions as follows:
+     * Returns a string containing an 8-digit hex number representing the minimum 
+     * permissions that the scheme may have, as follows:
      *
-     * All 0: Not registered,
+     * All 0: No permissions (note a scheme is always registered when added to a DAO)
      * 1st bit: Scheme is registered
      * 2nd bit: Scheme can register other schemes
      * 3th bit: Scheme can add/remove global constraints
