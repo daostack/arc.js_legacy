@@ -810,9 +810,6 @@ declare module "daostack-arc.js" {
   /********************************
    * VestingScheme
    */
-  /********************************
-   * VestingScheme
-   */
   export interface CommonVestingAgreementConfig {
     /**
      * Address of the recipient of the proposed agreement.
