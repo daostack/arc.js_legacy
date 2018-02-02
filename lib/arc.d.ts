@@ -119,8 +119,8 @@ declare module "daostack-arc.js" {
     static getValueFromLogs(
       tx: TransactionReceiptTruffle,
       arg: string,
-      eventName: string,
-      index: number
+      eventName?: string,
+      index?: number
     ): string;
 
     static getDefaultAccount(): any;
@@ -512,11 +512,6 @@ declare module "daostack-arc.js" {
      */
     reputation: any;
     /**
-     * AbsoluteVote truffle contract
-     */
-    votingMachine: any;
-
-    /**
      * returns schemes currently registered into this DAO, as Array<DaoSchemeInfo>
      * @param contractName like "SchemeRegistrar"
      */
@@ -539,21 +534,21 @@ declare module "daostack-arc.js" {
     /**
      * returns whether the scheme with the given address is registered to this DAO's controller
      */
-    isSchemeRegistered(schemeAddress: string): boolean;
+    isSchemeRegistered(schemeAddress: string): Promise<boolean>;
     /**
      * The DAO name, from the Avatar
      */
-    getName(): string;
+    getName(): Promise<string>;
 
     /**
      * The native token name
      */
-    getTokenName(): string;
+    getTokenName(): Promise<string>;
 
     /**
      * The native token symbol
      */
-    getTokenSymbol(): string;
+    getTokenSymbol(): Promise<string>;
     /**
      * Given a scheme wrapper, returns an array of the scheme's parameter values.
      * The order of values in the array corresponds to the
