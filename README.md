@@ -84,6 +84,8 @@ To override a configuration setting at runtime:
 ```javascript
 import { config } from '@daostack/arc.js';
 config.set('network', 'ropsten');
+import { config } from 'daostack-arc.js';
+config.set('network', 'kovan');
 ```
 
 You can also override the default configuration settings by setting values on properties of `node.env` (see [here](http://nodejs.org/dist/latest-v9.x/docs/api/process.html#process_process_env)) with the same name as the corresponding arc.js configuration setting.  This enables you to use environment variables to control the arc.js configuration.
@@ -103,7 +105,7 @@ You can pull those wrappers into your code as follows:
 ```javascript
 let arcContracts = await ArcJs.getDeployedContracts();
 ```
-To Come: [the above API may change](http://github.com/daostack/arc.js/issues/8)
+Heads up: [the above API may change](http://github.com/daostack/arc.js/issues/8)
 
 To Come: [automated generation and references to API documentation](http://github.com/daostack/arc.js/issues/63)
 
@@ -150,7 +152,7 @@ All of the scripts are defined and documented in the package-scripts.js file.  Y
 See also  [Running Against a Ganache Database](#running-against-a-ganache-database), [Deploying to Other Testnets](#deploying-to-other-testnets) and [Run Lint and Tests](#run-lint-and-tests)
 
 ## Deploying to Other Testnets
-The "network" environment variable defines which network arc.js understands you to be deploying to when you run the "migrateContracts" script.  For safety it assumes a different HTTP port for each network. Can be "live" (the mainnet), "kovan" or "ganache" (To Come: [support for Ropsten and Rinkeby testnets](http://github.com/daostack/arc.js/issues/50)).  The default is "ganache".
+The "network" environment variable defines which network arc.js understands you to be deploying to when you run the "migrateContracts" script.  For safety it assumes a different HTTP port for each network. Can be "live" (the mainnet), "kovan" or "ganache" (To Come: [Support for Ropsten and Rinkeby testnets](http://github.com/daostack/arc.js/issues/50)).  The default is "ganache".
 
 ## Running Against a Ganache Database
 
