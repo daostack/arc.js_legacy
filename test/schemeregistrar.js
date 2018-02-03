@@ -69,7 +69,7 @@ describe("SchemeRegistrar", () => {
     const dao = await forgeDao();
 
     const schemeRegistrar = await dao.getScheme("SchemeRegistrar");
-    // schemeRegistrar can't remove a scheme wit greater permissions that it has
+    // schemeRegistrar can't remove a scheme with greater permissions that it has
     const removedScheme = schemeRegistrar;
 
     const result = await schemeRegistrar.proposeToRemoveScheme({
