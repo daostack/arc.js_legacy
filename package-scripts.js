@@ -32,8 +32,8 @@ const pathDaostackArcGanacheDbZip = joinPath(pathArcJsRoot, "ganacheDb.zip");
 const network = env.network || config.get('network');
 
 // this is needed to force travis to use our modified version of truffle
-const truffleIsInternal = fs.existsSync(joinPath("node_modules", "truffle-core-migrate-without-compile"));
-const truffleCommand = `node ${joinPath(truffleIsInternal ? "node_modules" : "../", "truffle-core-migrate-without-compile", "cli")}`;
+const truffleIsInternal = fs.existsSync(joinPath(pathArcJsRoot, "node_modules", "truffle-core-migrate-without-compile"));
+const truffleCommand = `node ${joinPath(pathArcJsRoot, truffleIsInternal ? "node_modules" : "../", "truffle-core-migrate-without-compile", "cli")}`;
 
 module.exports = {
   scripts: {
@@ -169,8 +169,9 @@ module.exports = {
         )
       },
       /**
-       * Fetch the unmigrated contract json files from DAOstack Arc.
-       * Run this only when we want to start with fresh unmigrated contracts from @daostack/arc.
+       * Fetch the unmigrated contract json files from DAOstack-Arc.
+       * Run this ONLY when you want to start with fresh UNMIGRATED contracts from daostack-arc.
+       * Best to run "migrateContracts.clean" first.
        */
       fetchFromArc: copy(`${joinPath(pathDaostackArcRepo, "build", "contracts", "*")}  ${pathArcJsContracts}`)
     }
