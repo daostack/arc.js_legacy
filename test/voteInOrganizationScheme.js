@@ -101,8 +101,6 @@ describe("VoteInOrganizationScheme", () => {
          */
     const tx = await votingMachine.vote(result.proposalId, 1, { from: web3.eth.accounts[0] });
     // TODO: Update these to use ProposalExecuted
-    // const eventAvatar = Utils.getValueFromLogs(tx, "_avatar", "LogExecuteProposal", 1);
-    // assert.equal(eventAvatar, dao.avatar.address);
     const eventProposal = Utils.getValueFromLogs(tx, "_proposalId", "LogExecuteProposal", 1);
     assert.equal(eventProposal, result.proposalId);
   });
