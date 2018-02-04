@@ -113,7 +113,7 @@ describe("VoteInOrganizationScheme", () => {
      */
     const originalVoteEvent = proposalInfo.votingMachine.LogVoteProposal({}, { fromBlock: 0 });
 
-    await new Promise(async (resolve, reject) => {
+    await new Promise(async (resolve) => {
       originalVoteEvent.get((err, eventsArray) => {
 
         const foundVoteProposalEvent = eventsArray.filter(e => {
