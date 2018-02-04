@@ -58,6 +58,9 @@ For more on Arc.js scripts, see [Working with Arc.js Scripts](#working-with-arcj
 ### Using the Arc.js Library in your Code
 
 #### Importing Arc.js
+
+Import everything from ArcJs as follows:
+
 ```javascript
 import * as ArcJs from 'daostack-arc.js';
 ```
@@ -92,28 +95,176 @@ You can also override the default configuration settings by setting values on pr
 
 Heads up: Soon will be required to [prefix env variable names](http://github.com/daostack/arc.js/issues/42)
 
-#### Using the Arc Contracts
-Now that you've got Arc.js plugged into your application and configured, and contracts migrated to a running testnet, you are ready to start coding against the Arc contracts.  The following sections describe how to work with the Arc contracts.
+#### Working with DAOs and Arc Contracts
+Now that you've got Arc.js plugged into your application and configured, and contracts migrated to a running testnet, you are ready to start coding against DAOs and Arc contracts.  The following sections describe how.
+
+One thing to remember:  All token and reputation amounts should be expressed in Wei.
+
+[API docs to come](http://github.com/daostack/arc.js/issues/63)
+
+## Working with DAOs
+
+Arc.js provides a class named "DAO" that enables you to create new DAOs and obtain information about them.
+
+To come: [reference to automated API documentation using comments in arc.d.ts](http://github.com/daostack/arc.js/issues/63)
+
+To create a new DAO, use `DAO.new`.
+
+### Create a new DAO with all defaults
+
+The simplest example will create a DAO with all defaults:  no schemes nor founders, using the Universal Controller and default DaoCreator scheme.  See `NewDaoConfig`.
+
+```javascript
+const newDao = await DAO.new({
+  name: "My New DAO",
+  tokenName: "My new Token",
+  tokenSymbol: "MNT"
+});
+```
+
+You can add and remove schemes later using `SchemeRegistrar`.
+
+### Create a new DAO with founders
+
+You may create a new DAO with founders by including a "founders" array.  This will automatically mint tokens and reputation to each founder.   See `NewDaoConfig`.
+
+```javascript
+const newDao = await DAO.new({
+  name: "My New DAO",
+  tokenName: "My new Token",
+  tokenSymbol: "MNT",
+  founders: [
+    {
+      // the current user
+      address: accounts[0],
+      reputation: web3.toWei(1000),
+      tokens: web3.toWei(40)
+    },
+    {
+      address: anyAddress,
+      reputation: web3.toWei(1000),
+      tokens: web3.toWei(40)
+    },
+    {
+      address: anyAddress,
+      reputation: web3.toWei(1000),
+      tokens: web3.toWei(40)
+    }
+  ]
+});
+```
+
+### Create a new DAO with schemes
+
+You may create a new DAO with schemes by including a "schemes" array.  This will register the schemes with all default permissions and voting machines. See `SchemesConfig` and `SchemeConfig`.
+
+```javascript
+const newDao = await DAO.new({
+  name: "My New DAO",
+  tokenName: "My new Token",
+  tokenSymbol: "MNT",
+  schemes: [
+    { name: "SchemeRegistrar" },
+    { name: "UpgradeScheme" },
+    { name: "GlobalConstraintRegistrar" }
+  ]
+});
+```
+
+### Create a new DAO overriding the default voting machine
+
+You may override the default voting machine by adding a "votingMachines" element.  This will override the default voting machine, either at the root level to apply to all schemes, or within each scheme element to override for the specific scheme. See `NewDaoVotingMachineConfig` and `SchemesConfig`.
+
+#### Default root-level override for all schemes
+
+```javascript
+const newDao = await DAO.new({
+  name: "My New DAO",
+  tokenName: "My new Token",
+  tokenSymbol: "MNT",
+  votingMachineParams: {
+    votePerc: 45,
+    ownerVote:false
+  }
+});
+```
+
+#### Scheme-specific override
+
+```javascript
+const newDao = await DAO.new({
+  name: "My New DAO",
+  tokenName: "My new Token",
+  tokenSymbol: "MNT",
+  schemes: [
+    { name: "SchemeRegistrar" },
+    { name: "UpgradeScheme" },
+    {
+      name: "GlobalConstraintRegistrar",
+      votingMachineParams: {
+        votePerc: 30,
+      }
+    }
+  ]
+});
+```
+
+### Create a new DAO with a non-Universal Controller
+
+You can create a DAO using the DAOstack `Controller` contract by passing `false` for `universalController`.
+
+TODO:  Pros and Cons?
+
+```javascript
+const newDao = await DAO.new({
+  name: "My New DAO",
+  tokenName: "My new Token",
+  tokenSymbol: "MNT",
+  universalController: false
+});
+```
+
+### Create a new DAO with a non-default DaoCreator scheme.
+
+You can create a DAO using an alternative `DaoCreator` scheme by passing its address for `daoCreatorScheme`.  The alternative scheme must implement the same interface as the Arc `DaoCreator` contract.
+
+```javascript
+const newDao = await DAO.new({
+  name: "My New DAO",
+  tokenName: "My new Token",
+  tokenSymbol: "MNT",
+  daoCreatorScheme: anAddress
+});
+```
+
+### Get a previously-created DAO
+
+Get a previously-created DAO using the avatar address:
+
+```javascript
+const dao = await DAO.at(daoAvatarAddress);
+```
+
+### Get all the DAOs ever created
+
+[To Come](https://github.com/daostack/arc.js/issues/40)
+
+### Get the DAOstack Genesis DAO
+
+The DAOstack DAO is named "Genesis".  Obtain it like this:
+
+```javascript
+const genesisDao = await DAO.getGenesisDao();
+```
 
 ## Using the Arc Contracts
 
+Arc.js wraps every Arc contract in a JavaScript "wrapper" class.  Every wrapper class inherits from `ExtendTruffleContract` which provides a common set of functions in addition to all of the functions implemented by the specific Arc contract being wrapped.
 
-Arc.js wraps every Arc contract in a JavaScript class.
+### Categories of Arc Contracts
+Arc contracts and associated Arc.js contract wrapper classes can be categorized as follows:
 
-You can pull those wrappers into your code as follows:
-
-```javascript
-let arcContracts = await ArcJs.getDeployedContracts();
-```
-Heads up: [the above API may change](http://github.com/daostack/arc.js/issues/8)
-
-To Come: [automated generation and references to API documentation](http://github.com/daostack/arc.js/issues/63)
-
-Every contract wrapper class inherits from `ExtendTruffleContract` which provides common functions for all contract wrappers.
-
-The Arc contracts and associated Arc.js contract wrapper classes can be categorized as follows.
-
-### Schemes
+#### Schemes
 * SchemeRegistrar
 * UpgradeScheme
 * GlobalConstraintRegistrar
@@ -121,23 +272,94 @@ The Arc contracts and associated Arc.js contract wrapper classes can be categori
 * VoteInOrganizationScheme
 * VestingScheme
 
-### Voting Machines
+#### Voting Machines
 * AbsoluteVote
 * GenesisProtocol
 
-### Global Constraints
+#### Global Constraints
 
 * TokenCapGC
 
-### Others
-* GenesisScheme (Heads up:  Soon to be "DaoCreator")
+#### Others
+* DaoCreator
 
-## Working with DAOs
+You can pull those categorizations into your code as follows:
 
-Arc.js provides a class called "DAO" that lets you create a new DAO and obtain information about DAOs.
+```javascript
+import * as ArcJs from 'daostack-arc.js';
+const arcJsWrappers = await ArcJs.getDeployedContracts();
+```
 
-To come: [reference to automated API documentation using comments in arc.d.ts](http://github.com/daostack/arc.js/issues/63)
+Note `getDeployedContracts()` does not currently cache its results and is fairly time-consuming to run, so best to cache the results yourself.
 
+Heads up: [getDeployedContracts is going to change](http://github.com/daostack/arc.js/issues/8)
+
+See also [Obtaining a wrapper from getDeployedContracts](#obtaining-a-wrapper-from-getdeployedcontracts) and the following sections for several ways of instantiating Arc.js contract wrappers.
+
+### Obtaining a DAO's Scheme
+
+You may obtain the wrapper for a scheme that is registered with a DAO using `DAO.getScheme`.  Here is how to get the wrapper for the `UpgradeScheme` registered with a DAO:
+
+```javascript
+const upgradeScheme = await myDao.getScheme("UpgradeScheme);
+```
+
+### Obtaining a wrapper using the wrapper's factory class 
+
+Each wrapper has a factory that provides static `.new()`, `.deployed()` and `.at()` methods.  These methods are implemented by `ExtendTruffleContract`.
+
+Examples of their use:
+
+#### deployed
+
+Obtain the instance of the contract as deployed by Arc.js:
+
+```javascript
+import { UpgradeScheme } from "daostack-arc.js";
+const deployedContract = await UpgradeScheme.deployed();
+```
+
+#### new
+
+Call `new()` to migrate a new instance of the contract:
+
+```javascript
+import { UpgradeScheme } from "daostack-arc.js";
+const newInstance = await UpgradeScheme.new();
+```
+
+#### at
+
+Obtain the wrapper from a given address:
+
+```javascript
+import { UpgradeScheme } from "daostack-arc.js";
+const newInstance = await UpgradeScheme.at(anAddress);
+```
+
+### Obtaining a wrapper from getDeployedContracts
+
+Recall from [Categories of Arc Contracts](#categories-of-arc-contracts) that `getDeployedContracts()` returns categories of Arc contract wrappers.   You can use this information to obtain the wrappers themselves:
+
+```javascript
+import * as ArcJs from 'daostack-arc.js';
+const arcJsWrappers = ArcJs.getDeployedContracts();
+const contractAddress = arcJsWrappers.allContracts.UpgradeScheme.address;
+const contractFactory = arcJsWrappers.allContracts.UpgradeScheme.contract;
+const upgradeScheme = await contractFactory.contract.at(contractAddress);
+```
+
+Heads up: [getDeployedContracts is going to change](http://github.com/daostack/arc.js/issues/8)
+
+
+### Obtainined any Arc contract using Utils.requireContract
+
+Not all Arc contracts have been given wrapper classes, for example, `Avatar`, `UController` and many more.  But you can still obtain a raw TruffleContract enabling you to work with these contracts:
+
+```javascript
+import { Utils } from "daostack-arc.js";
+const truffleContract = await Utils.requireContract("Avatar");
+```
 
 ## Working with Arc.js Scripts
 Arc.js contains a set of scripts for building, publishing, running tests and migrating contracts to any network.  These scripts are meant to be accessible and readily usable by client applications.

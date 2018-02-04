@@ -250,7 +250,7 @@ declare module "@daostack/arc.js" {
 
   export class ExtendTruffleContract {
     /**
-     * Instantiate the class.  It will not yet be associated with a migrated contract.
+     * Instantiate the class.  This will migrate a new instance of the contract to the net.
      */
     static new(): any;
     /**
@@ -395,7 +395,7 @@ declare module "@daostack/arc.js" {
      *
      * New schemes will be created with these parameters and the DAO's native reputation contract.
      *
-     * Default is {}
+     * Defaults are the Arc.js-deployed AbsoluteVote, the Arc.js-deployed Reputation, votePerc 50%, ownerVote true 
      */
     votingMachineParams?: NewDaoVotingMachineConfig;
     /**
