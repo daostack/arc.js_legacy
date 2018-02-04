@@ -39,7 +39,7 @@ const createProposal = async function () {
 
   assert.isOk(votingMachine);
 
-  return { proposalId: result.proposalId, votingMachine: votingMachine.address };
+  return { proposalId: result.proposalId, votingMachine: votingMachine, scheme: schemeRegistrar };
 };
 
 describe("VoteInOrganizationScheme", () => {
@@ -78,7 +78,7 @@ describe("VoteInOrganizationScheme", () => {
 
     const options = {
       avatar: dao.avatar.address,
-      originalIntVote: proposalInfo.votingMachine,
+      originalIntVote: proposalInfo.votingMachine.address,
       originalProposalId: proposalInfo.proposalId
     };
 
@@ -96,12 +96,49 @@ describe("VoteInOrganizationScheme", () => {
     assert.isOk(votingMachine);
 
     /**
-         * cast a vote using voteInOrganizationScheme's voting machine.
-         * assert that the proposal is executed.
-         */
+     * cast a vote using voteInOrganizationScheme's voting machine.
+     * assert that the proposal is executed.
+     */
     const tx = await votingMachine.vote(result.proposalId, 1, { from: web3.eth.accounts[0] });
+    /**
+     * confirm vote was cast in the current DAO scheme
+     */
     // TODO: Update these to use ProposalExecuted
     const eventProposal = Utils.getValueFromLogs(tx, "_proposalId", "LogExecuteProposal", 1);
     assert.equal(eventProposal, result.proposalId);
+
+    /**
+     * confirm that a vote was cast by the original DAO's scheme
+     * TODO: remove 'Log'
+     */
+    const originalVoteEvent = proposalInfo.votingMachine.LogVoteProposal({}, { fromBlock: 0 });
+
+    await new Promise(async (resolve, reject) => {
+      originalVoteEvent.get((err, eventsArray) => {
+
+        const foundVoteProposalEvent = eventsArray.filter(e => {
+          return e.args._proposalId == proposalInfo.proposalId;
+        });
+
+        if (foundVoteProposalEvent.length === 1) {
+          const originalVoteEvent = foundVoteProposalEvent[0];
+          /**
+           * expect a vote 'for'
+           */
+          assert.equal(originalVoteEvent.args._vote.toNumber(), 1);
+          /**
+           * expect the vote to have been cast on behalf of the scheme that created the proposal
+           * TODO: confirm that accounts[0] is correct.
+           */
+          assert.equal(originalVoteEvent.args._voter, accounts[0]);
+        }
+        else {
+          assert(false, "proposal vote not found in original scheme");
+        }
+
+        resolve();
+
+      });
+    });
   });
 });
