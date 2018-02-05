@@ -47,7 +47,6 @@ module.exports = async function (deployer) {
   // Deploy DaoCreator:
   // apparently we must wrap the first deploy call in a then to avoid
   // what seem to be race conditions during deployment
-  // await deployer.deploy(DaoCreator)
   deployer.deploy(DaoCreator, { gas: 6015000 }).then(async () => {
     daoCreatorInst = await DaoCreator.deployed();
     // Create Genesis (DAOstack):
