@@ -38,7 +38,7 @@ declare module "daostack-arc.js" {
    */
   export interface ArcTransactionProposalResult extends ArcTransactionResult {
     /**
-     * address of proposal
+     * unique hash identifying a proposal
      */
     proposalId: string;
   }
@@ -119,8 +119,8 @@ declare module "daostack-arc.js" {
     static getValueFromLogs(
       tx: TransactionReceiptTruffle,
       arg: string,
-      eventName: string,
-      index: number
+      eventName?: string,
+      index?: number
     ): string;
 
     static getDefaultAccount(): any;
@@ -512,11 +512,6 @@ declare module "daostack-arc.js" {
      */
     reputation: any;
     /**
-     * AbsoluteVote truffle contract
-     */
-    votingMachine: any;
-
-    /**
      * returns schemes currently registered into this DAO, as Array<DaoSchemeInfo>
      * @param contractName like "SchemeRegistrar"
      */
@@ -539,21 +534,29 @@ declare module "daostack-arc.js" {
     /**
      * returns whether the scheme with the given address is registered to this DAO's controller
      */
-    isSchemeRegistered(schemeAddress: string): boolean;
+    isSchemeRegistered(schemeAddress: string): Promise<boolean>;
     /**
      * The DAO name, from the Avatar
      */
-    getName(): string;
+    getName(): Promise<string>;
 
     /**
      * The native token name
      */
-    getTokenName(): string;
+    getTokenName(): Promise<string>;
 
     /**
      * The native token symbol
      */
-    getTokenSymbol(): string;
+    getTokenSymbol(): Promise<string>;
+    /**
+     * Given a scheme wrapper, returns an array of the scheme's parameter values.
+     * The order of values in the array corresponds to the
+     * order in which they are defined in the structure in which they
+     * are stored in the scheme contract.
+     * @param {string} schemeAddress 
+     */
+    getSchemeParameters(scheme: ExtendTruffleContract): Promise<Array<any>>;
   }
 
   /********************************
@@ -919,5 +922,41 @@ declare module "daostack-arc.js" {
      * @param {CollectVestingAgreementConfig} options 
      */
     collect(options: CollectVestingAgreementConfig): Promise<ArcTransactionResult>;
+  }
+
+  /********************************
+   * VoteInOrganizationScheme
+   */
+  export interface VoteInOrganizationProposeVoteConfig {
+    /**
+     * Avatar whose voters are being given the chance to vote on the original proposal. 
+     */
+    avatar: string,
+    /**
+     * Address of the voting machine used by the original proposal.  The voting machine must
+     * implement IntVoteInterface (as defined in Arc).
+     */
+    originalIntVote: string,
+    /**
+     * Address of the "original" proposal for which the DAO's vote will cast.
+     */
+    originalProposalId: string
+  }
+
+  export class VoteInOrganizationScheme extends ExtendTruffleScheme {
+    static new(): VoteInOrganizationScheme;
+    static at(address: string): VoteInOrganizationScheme;
+    static deployed(): VoteInOrganizationScheme;
+    /**
+     * Create a proposal whose choices look just like a proposal from another DAO.
+     * When the vote on this proposal is concluded, the result is sent to the
+     * "original" voting machine.
+     * 
+     * This new proposal is thus effectively a proxy for the "original" proposal created
+     * by another DAO, but this DAO only gets one vote in the original.
+     * 
+     * @param {VoteInOrganizationProposeVoteConfig} opts
+     */
+    proposeVote(options: VoteInOrganizationProposeVoteConfig): Promise<ArcTransactionProposalResult>;
   }
 }

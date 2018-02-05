@@ -1,16 +1,5 @@
-/**
-    helpers for tests
-*/
 import { Utils } from "../lib/utils.js";
 import { assert } from "chai";
-
-beforeEach(async () => {
-  global.web3 = Utils.getWeb3();
-  global.assert = assert;
-  global.accounts = [];
-  await etherForEveryone();
-});
-
 import { DAO } from "../lib/dao.js";
 import { getDeployedContracts } from "../lib/contracts.js";
 const GenesisScheme = Utils.requireContract("GenesisScheme");
@@ -211,10 +200,20 @@ export async function transferTokensToAvatar(avatar, amount, fromAddress) {
   return tokenAddress;
 }
 
+/**
+ * vote for the proposal given by proposalId using this.votingMachine
+ * This will not work for proposals using votingMachines that are not the default one.
+ * Also doesn't work for DAOs created using DAO.new or GenesisScheme (the DAO won't have .votingMachine)
+ * See getVotingMachineForScheme() below.
+ */
 export function vote(dao, proposalId, choice, params) {
-  // vote for the proposal given by proposalId using this.votingMachine
-  // NB: this will not work for proposals using votingMachine's that are not the default one
   return dao.votingMachine.vote(proposalId, choice, params);
+}
+
+export async function getVotingMachineForScheme(dao, scheme, ndxParam) {
+  const schemeParams = await dao.getSchemeParameters(scheme);
+  const votingMachineAddress = schemeParams[ndxParam];
+  return await AbsoluteVote.at(votingMachineAddress);
 }
 
 export const outOfGasMessage =
