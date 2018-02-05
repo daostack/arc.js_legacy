@@ -243,7 +243,6 @@ describe("DAO", () => {
     })).result;
 
     const globalConstraintRegistrar = await dao.getScheme("GlobalConstraintRegistrar");
-
     let result = await globalConstraintRegistrar.proposeToAddModifyGlobalConstraint({
       avatar: dao.avatar.address,
       globalConstraint: tokenCapGC.address,
@@ -276,12 +275,5 @@ describe("DAO", () => {
 
     assert.equal((await dao.getGlobalConstraints()).length, 0);
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 0);
-  });
-
-  it("getDAOstack() function returns an address", async () => {
-    const avatarAddress = await DAO.getDAOstack();
-    assert.isOk(avatarAddress);
-    const dao = await DAO.at(avatarAddress);
-    assert.equal(await dao.getName(), "Genesis");
   });
 });

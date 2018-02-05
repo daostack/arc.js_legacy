@@ -62,8 +62,7 @@ describe("VestingScheme scheme", () => {
     assert.isOk(result);
     assert.isOk(result.tx);
     assert.equal(result.tx.logs.length, 1); // no other event
-    // TODO: remove "Log"
-    assert.equal(result.tx.logs[0].event, "LogCollect");
+    assert.equal(result.tx.logs[0].event, "Collect");
   });
 
   it("revert sign to cancel agreement", async () => {
@@ -129,8 +128,7 @@ describe("VestingScheme scheme", () => {
     assert.isOk(result);
     assert.isOk(result.tx);
     assert.equal(result.tx.logs[0].event, "SignToCancelAgreement");
-    // TODO will need to change to AgreementCancel
-    assert.equal(result.tx.logs[1].event, "LogAgreementCancel");
+    assert.equal(result.tx.logs[1].event, "AgreementCancel");
   });
 
   it("create agreement", async () => {
