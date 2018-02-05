@@ -1,4 +1,6 @@
-master: [![Build Status](https://travis-ci.org/daostack/arc.js/images/dao-icon.png?branch=master)](https://travis-ci.org/daostack/arc.js)
+
+[![Build Status](https://travis-ci.org/daostack/arc.js.svg?branch=master)](https://travis-ci.org/daostack/arc.js)
+[![NPM Package](https://img.shields.io/npm/v/daostack-arc.js.svg?style=flat-square)](https://www.npmjs.org/package/daostack-arc.js)
 
 # Mission Statement
 
