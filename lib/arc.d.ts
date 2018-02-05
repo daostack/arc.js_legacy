@@ -494,7 +494,7 @@ declare module "daostack-arc.js" {
      * Returns promise of the DAOstack (Genesis) avatar address, or undefined if not found
      * @param daoCreatorAddress - Optional address of DaoCreator to use
      */
-    static getGenesisDao(daoCreatorAddress?: string): Promise<string | undefined>
+    static getDaoCreator(daoCreatorAddress?: string): Promise<string | undefined>
     /**
      * Avatar truffle contract
      */
