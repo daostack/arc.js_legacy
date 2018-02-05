@@ -174,7 +174,22 @@ module.exports = {
        */
       clean: {
         default: rimraf(joinPath(pathArcJsContracts, "*")),
-        andMigrate: series("nps migrateContracts.clean", "nps migrateContracts.fetchFromArc", "nps migrateContracts")
+        /**
+         * clean and fetch.
+         * Run this ONLY when you want to start with fresh UNMIGRATED contracts from daostack-arc.
+         */
+        andFetchFromArc: series(
+          "nps migrateContracts.clean",
+          "nps migrateContracts.fetchFromArc"
+        ),
+        /**
+         * clean, fetch and migrate.
+         * Run this ONLY when you want to start with fresh UNMIGRATED contracts from daostack-arc.
+         */
+        andMigrate: series(
+          "nps migrateContracts.andFetchFromArc",
+          "nps migrateContracts"
+        )
       },
       /**
        * Fetch the unmigrated contract json files from DAOstack-Arc.

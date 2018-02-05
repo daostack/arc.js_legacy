@@ -104,14 +104,13 @@ describe("VoteInOrganizationScheme", () => {
      * confirm vote was cast in the current DAO scheme
      */
     // TODO: Update these to use ProposalExecuted
-    const eventProposal = Utils.getValueFromLogs(tx, "_proposalId", "LogExecuteProposal", 1);
+    const eventProposal = Utils.getValueFromLogs(tx, "_proposalId", "ExecuteProposal", 1);
     assert.equal(eventProposal, result.proposalId);
 
     /**
      * confirm that a vote was cast by the original DAO's scheme
-     * TODO: remove 'Log'
      */
-    const originalVoteEvent = proposalInfo.votingMachine.LogVoteProposal({}, { fromBlock: 0 });
+    const originalVoteEvent = proposalInfo.votingMachine.VoteProposal({}, { fromBlock: 0 });
 
     await new Promise(async (resolve) => {
       originalVoteEvent.get((err, eventsArray) => {

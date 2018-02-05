@@ -61,7 +61,7 @@ declare module "daostack-arc.js" {
      */
   export interface ArcDeployedContractNames {
     ContributionReward: ArcContractInfo;
-    GenesisScheme: ArcContractInfo;
+    DaoCreator: ArcContractInfo;
     GlobalConstraintRegistrar: ArcContractInfo;
     SchemeRegistrar: ArcContractInfo;
     SimpleICO: ArcContractInfo;
@@ -288,7 +288,7 @@ declare module "daostack-arc.js" {
 
 
   /********************************
-   * GenesisScheme
+   * DaoCreator
    */
   export interface FounderConfig {
     /**
@@ -331,7 +331,7 @@ declare module "daostack-arc.js" {
   }
 
   /**
-   * options for GenesisScheme.forgeOrg
+   * options for DaoCreator.forgeOrg
    */
   export interface ForgeOrgConfig {
     /**
@@ -421,10 +421,10 @@ declare module "daostack-arc.js" {
     avatar: string
   }
 
-  export class GenesisScheme extends ExtendTruffleScheme {
-    static new(): GenesisScheme;
-    static at(address: string): GenesisScheme;
-    static deployed(): GenesisScheme;
+  export class DaoCreator extends ExtendTruffleScheme {
+    static new(): DaoCreator;
+    static at(address: string): DaoCreator;
+    static deployed(): DaoCreator;
     /**
      * Create a new DAO
      * @param {ForgeOrgConfig} options 
@@ -444,9 +444,9 @@ declare module "daostack-arc.js" {
     */
   export interface NewDaoConfig extends ForgeOrgConfig {
     /**
-     * The GenesisScheme to use.  Default is the GenesisScheme supplied in this release of Arc.js.
+     * The DaoCreator to use.  Default is the DaoCreator supplied in this release of Arc.js.
      */
-    genesisScheme?: string;
+    daoCreator?: string;
   }
 
   /**
@@ -492,9 +492,9 @@ declare module "daostack-arc.js" {
     static at(avatarAddress: string): Promise<DAO>;
     /**
      * Returns promise of the DAOstack (Genesis) avatar address, or undefined if not found
-     * @param genesisSchemeAddress - Optional address of GenesisScheme to use
+     * @param daoCreatorAddress - Optional address of DaoCreator to use
      */
-    static getDAOstack(genesisSchemeAddress?: string): Promise<string | undefined>
+    static getDaoCreator(daoCreatorAddress?: string): Promise<string | undefined>
     /**
      * Avatar truffle contract
      */
@@ -797,9 +797,9 @@ declare module "daostack-arc.js" {
     /**
      * Event functions as defined by the parent Truffle contract
      */
-    LogNewContributionProposal(filters: any, options: any): any;
-    LogProposalExecuted(filters: any, options: any): any;
-    LogProposalDeleted(filters: any, options: any): any;
+    NewContributionProposal(filters: any, options: any): any;
+    ProposalExecuted(filters: any, options: any): any;
+    ProposalDeleted(filters: any, options: any): any;
   }
 
   /********************************

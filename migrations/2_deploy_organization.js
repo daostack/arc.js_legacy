@@ -6,7 +6,7 @@ const UController = artifacts.require("UController.sol");
 const GlobalConstraintRegistrar = artifacts.require("GlobalConstraintRegistrar.sol");
 const TokenCapGC = artifacts.require("TokenCapGC.sol");
 
-const GenesisScheme = artifacts.require("GenesisScheme.sol");
+const DaoCreator = artifacts.require("DaoCreator.sol");
 const SchemeRegistrar = artifacts.require("SchemeRegistrar.sol");
 const ContributionReward = artifacts.require("ContributionReward.sol");
 const UpgradeScheme = artifacts.require("UpgradeScheme.sol");
@@ -44,14 +44,14 @@ let schemeGCRegisterParams;
 let schemeUpgradeParams;
 
 module.exports = async function (deployer) {
-  // Deploy GenesisScheme:
+  // Deploy DaoCreator:
   // apparently we must wrap the first deploy call in a then to avoid
   // what seem to be race conditions during deployment
-  // await deployer.deploy(GenesisScheme)
-  deployer.deploy(GenesisScheme, { gas: 6015000 }).then(async () => {
-    genesisSchemeInst = await GenesisScheme.deployed();
+  // await deployer.deploy(DaoCreator)
+  deployer.deploy(DaoCreator, { gas: 6015000 }).then(async () => {
+    daoCreatorInst = await DaoCreator.deployed();
     // Create Genesis (DAOstack):
-    returnedParams = await genesisSchemeInst.forgeOrg(orgName, tokenName, tokenSymbol, founders,
+    returnedParams = await daoCreatorInst.forgeOrg(orgName, tokenName, tokenSymbol, founders,
       initTokenInWei, initRepInWei, 0);
     AvatarInst = await Avatar.at(returnedParams.logs[0].args._avatar);
     controllerAddress = await AvatarInst.owner();
@@ -87,7 +87,7 @@ module.exports = async function (deployer) {
     const permissionArray = ["0x00000003", "0x00000005", "0x00000009"];
 
     // set DAOstack initial schmes:
-    await genesisSchemeInst.setSchemes(
+    await daoCreatorInst.setSchemes(
       AvatarInst.address,
       schemesArray,
       paramsArray,

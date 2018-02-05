@@ -2,7 +2,7 @@ import { Utils } from "../lib/utils.js";
 import { assert } from "chai";
 import { DAO } from "../lib/dao.js";
 import { getDeployedContracts } from "../lib/contracts.js";
-const GenesisScheme = Utils.requireContract("GenesisScheme");
+const DaoCreator = Utils.requireContract("DaoCreator");
 const Avatar = Utils.requireContract("Avatar");
 const DAOToken = Utils.requireContract("DAOToken");
 const Reputation = Utils.requireContract("Reputation");
@@ -76,9 +76,9 @@ async function setupAbsoluteVote(
 
 async function setupDao(founders) {
   const dao = new DAO();
-  const genesisScheme = await GenesisScheme.deployed();
+  const daoCreator = await DaoCreator.deployed();
 
-  const tx = await genesisScheme.forgeOrg(
+  const tx = await daoCreator.forgeOrg(
     "testOrg",
     "TEST",
     "TST",
@@ -131,7 +131,7 @@ async function setupDao(founders) {
       });
   }
 
-  await genesisScheme.setSchemes(
+  await daoCreator.setSchemes(
     dao.avatar.address,
     defaultSchemes.map(s => s.address),
     params,
@@ -203,7 +203,7 @@ export async function transferTokensToAvatar(avatar, amount, fromAddress) {
 /**
  * vote for the proposal given by proposalId using this.votingMachine
  * This will not work for proposals using votingMachines that are not the default one.
- * Also doesn't work for DAOs created using DAO.new or GenesisScheme (the DAO won't have .votingMachine)
+ * Also doesn't work for DAOs created using DAO.new or DaoCreator (the DAO won't have .votingMachine)
  * See getVotingMachineForScheme() below.
  */
 export function vote(dao, proposalId, choice, params) {
