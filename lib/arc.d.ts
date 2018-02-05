@@ -1,7 +1,7 @@
 import * as BigNumber from "bignumber.js";
 import * as Web3 from "web3";
 
-declare module "daostack-arc.js" {
+declare module "@daostack/arc.js" {
   /*******************************
    * Arc contract information as contained in ArcDeployedContractNames (see settings)
    */
@@ -958,5 +958,124 @@ declare module "daostack-arc.js" {
      * @param {VoteInOrganizationProposeVoteConfig} opts
      */
     proposeVote(options: VoteInOrganizationProposeVoteConfig): Promise<ArcTransactionProposalResult>;
+  }
+
+  /*******************
+   * GenesisProtocol
+   */
+  export interface GenesisProtocolParams {
+    /**
+     * the absolute vote percentages bar
+     * Must be greater than zero.
+     * Default is 50.
+     */
+    preBoostedVoteRequiredPercentage: number;
+    /**
+     * the time limit for a proposal to be in an absolute voting mode.
+     * TODO: Units? Default?
+     * Default is 60.
+     */
+    preBoostedVotePeriodLimit: number;
+    /**
+     * the time limit for a proposal to be in an relative voting mode.
+     * TODO: Units? Default?
+     * Default is 60.
+     */
+    boostedVotePeriodLimit: number;
+    /**
+     * TODO: Purpose?
+     * Default is 1
+     */
+    thresholdConstA: number;
+    /**
+     * TODO: Purpose?
+     * Default is 1
+     */
+    thresholdConstB: number;
+    /**
+     * GenesisProtocolFormulasInterface address
+     */
+    governanceFormulasInterface?: string;
+    /**
+     * Default is 0
+     */
+    minimumStakingFee: number;
+    /**
+     * TODO: Purpose?
+     * Default is 0
+     */
+    quietEndingPeriod: number;
+    /**
+     * TODO: Purpose?
+     * Default is 1
+     */
+    proposingRepRewardConstA: number;
+    /**
+     * TODO: Purpose?
+     * Default is 1
+     */
+    proposingRepRewardConstB: number;
+    /**
+     * a value between 0-100
+     * TODO: Purpose?
+     * Default is 1 (?)
+     */
+    stakerFeeRatioForVoters: number;
+    /**
+     * a value between 0-100
+     * TODO: Purpose?
+     * Default is 10
+     */
+    votersReputationLossRatio: number;
+    /**
+     * a value between 0-100
+     * TODO: Purpose?
+     * Default is 80
+     */
+    votersGainRepRatioFromLostRep: number;
+  }
+
+  /**
+   * Javascript version of the Arc ExecutableInterface,
+   * for information purposes.
+   */
+  export interface ExecutableInterface {
+    execute(proposalId: number, avatar: string, vote: number): Promise<boolean>;
+  }
+
+  export interface GenesisProtocolProposeVoteConfig {
+    /**
+     * The DAO's avatar under which the proposal is being made.
+     */
+    avatar: string;
+    /**
+     * address of the agent making the proposal.
+     * Default is the current default account.
+     */
+    proposer: string;
+    /**
+     * number of choices when voting.  Must be between 1 and 10.
+     */
+    numOfChoices: number;
+    /**
+     * GenesisProtocol parameters to apply to this proposal
+     */
+    paramsHash: string;
+    /**
+     * contract that implements ExecutableInterface to invoke if/when the vote passes
+     */
+    executable: string;
+  }
+
+  export class GenesisProtocol extends ExtendTruffleScheme {
+    static new(): GenesisProtocol;
+    static at(address: string): GenesisProtocol;
+    static deployed(): GenesisProtocol;
+
+    /**
+     * Create a proposal
+     * @param {GenesisProtocolProposeVoteConfig} options 
+     */
+    propose(options: GenesisProtocolProposeVoteConfig): Promise<ArcTransactionProposalResult>;
   }
 }

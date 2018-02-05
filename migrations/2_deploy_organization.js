@@ -15,6 +15,8 @@ const VoteInOrganizationScheme = artifacts.require("VoteInOrganizationScheme.sol
 const SimpleICO = artifacts.require("SimpleICO.sol");
 
 const AbsoluteVote = artifacts.require("AbsoluteVote.sol");
+const GenesisProtocol = artifacts.require("GenesisProtocol.sol");
+const ExecutableTest = artifacts.require("ExecutableTest.sol");
 
 // Instances:
 let AbsoluteVoteInst;
@@ -35,6 +37,7 @@ const initToken = 1000;
 const initTokenInWei = [web3.toWei(initToken)];
 let reputationAddress;
 let controllerAddress;
+let nativeTokenAddress;
 
 // DAOstack parameters for universal schemes:
 let voteParametersHash;
@@ -56,6 +59,7 @@ module.exports = async function (deployer) {
     controllerAddress = await AvatarInst.owner();
     ControllerInst = await Controller.at(controllerAddress);
     reputationAddress = await ControllerInst.nativeReputation();
+    nativeTokenAddress = await ControllerInst.nativeToken();
     await deployer.deploy(AbsoluteVote);
     // Deploy AbsoluteVote:
     AbsoluteVoteInst = await AbsoluteVote.deployed();
@@ -98,6 +102,8 @@ module.exports = async function (deployer) {
     await deployer.deploy(UController);
     await deployer.deploy(VestingScheme);
     await deployer.deploy(VoteInOrganizationScheme);
+    await deployer.deploy(GenesisProtocol, nativeTokenAddress);
+    await deployer.deploy(ExecutableTest);
   });
 };
 

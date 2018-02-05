@@ -29,13 +29,13 @@ The default configuration settings for Arc can be found in config/default.json, 
 
 To get a configuration setting use:
 ```javascript
-import { config } from 'daostack-arc.js';
+import { config } from '@daostack/arc.js';
 config.get('network');
 ```
 
 You can override configuration settings at runtime with:
 ```javascript
-import { config } from 'daostack-arc.js';
+import { config } from '@daostack/arc.js';
 config.set('network', 'ropsten');
 ```
 
