@@ -108,11 +108,9 @@ Arc.js provides a class named "DAO" that enables you to create new DAOs and obta
 
 To come: [reference to automated API documentation using comments in arc.d.ts](http://github.com/daostack/arc.js/issues/63)
 
-To create a new DAO, use `DAO.new`.
-
 ### Create a new DAO with all defaults
 
-The simplest example will create a DAO with all defaults:  no schemes nor founders, using the Universal Controller and default DaoCreator scheme.  See `NewDaoConfig`.
+The simplest example of how to create a new DAO uses all defaults:  no schemes nor founders, using the Universal Controller and default DaoCreator scheme.  See `NewDaoConfig`.
 
 ```javascript
 const newDao = await DAO.new({
@@ -122,11 +120,11 @@ const newDao = await DAO.new({
 });
 ```
 
-You can add and remove schemes later using `SchemeRegistrar`.
+Add and remove schemes later using `SchemeRegistrar`.
 
 ### Create a new DAO with founders
 
-You may create a new DAO with founders by including a "founders" array.  This will automatically mint tokens and reputation to each founder.   See `NewDaoConfig`.
+Create a new DAO with founders by including a "founders" array.  This will automatically mint tokens and reputation to each founder.   See `NewDaoConfig`.
 
 ```javascript
 const newDao = await DAO.new({
@@ -156,7 +154,7 @@ const newDao = await DAO.new({
 
 ### Create a new DAO with schemes
 
-You may create a new DAO with schemes by including a "schemes" array.  This will register the schemes with all default permissions and voting machines. See `SchemesConfig` and `SchemeConfig`.
+Create a new DAO with schemes by including a "schemes" array.  This will register the schemes with all default permissions and voting machines. See `SchemesConfig` and `SchemeConfig`.
 
 ```javascript
 const newDao = await DAO.new({
@@ -173,7 +171,7 @@ const newDao = await DAO.new({
 
 ### Create a new DAO overriding the default voting machine
 
-You may override the default voting machine by adding a "votingMachines" element.  This will override the default voting machine, either at the root level to apply to all schemes, or within each scheme element to override for the specific scheme. See `NewDaoVotingMachineConfig` and `SchemesConfig`.
+Override the default voting machine by adding a "votingMachines" element.  This will override the default voting machine, either at the root level to apply to all schemes, or within each scheme element to override for the specific scheme. See `NewDaoVotingMachineConfig` and `SchemesConfig`.
 
 #### Default root-level override for all schemes
 
@@ -211,7 +209,7 @@ const newDao = await DAO.new({
 
 ### Create a new DAO with a non-Universal Controller
 
-You can create a DAO using the DAOstack `Controller` contract by passing `false` for `universalController`.
+Create a DAO using the DAOstack `Controller` contract by passing `false` for `universalController`.
 
 TODO:  Pros and Cons?
 
@@ -226,7 +224,7 @@ const newDao = await DAO.new({
 
 ### Create a new DAO with a non-default DaoCreator scheme.
 
-You can create a DAO using an alternative `DaoCreator` scheme by passing its address for `daoCreatorScheme`.  The alternative scheme must implement the same interface as the Arc `DaoCreator` contract.
+Create a DAO using an alternative `DaoCreator` scheme by passing its address for `daoCreatorScheme`.  The alternative scheme must implement the same interface as the Arc `DaoCreator` contract.
 
 ```javascript
 const newDao = await DAO.new({
@@ -301,7 +299,7 @@ See also [Obtaining a wrapper from getDeployedContracts](#obtaining-a-wrapper-fr
 You may obtain the wrapper for a scheme that is registered with a DAO using `DAO.getScheme`.  Here is how to get the wrapper for the `UpgradeScheme` registered with a DAO:
 
 ```javascript
-const upgradeScheme = await myDao.getScheme("UpgradeScheme);
+const upgradeScheme = await myDao.getScheme("UpgradeScheme");
 ```
 
 ### Obtaining a wrapper using the wrapper's factory class 
