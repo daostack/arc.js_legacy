@@ -350,7 +350,7 @@ const upgradeScheme = await contractFactory.contract.at(contractAddress);
 Heads up: [getDeployedContracts is going to change](http://github.com/daostack/arc.js/issues/8)
 
 
-### Obtainined any Arc contract using Utils.requireContract
+### Obtaining any Arc contract using Utils.requireContract
 
 Not all Arc contracts have been given wrapper classes, for example, `Avatar`, `UController` and many more.  But you can still obtain a raw TruffleContract enabling you to work with these contracts:
 
