@@ -4,7 +4,7 @@
 
 # Mission Statement
 
-DAOstack Arc.js is a javascript library providing access to DAOstack Arc ethereum smart contracts (DAOstack Arc).
+DAOstack Arc.js is a javascript library providing access to DAOstack Arc ethereum smart contracts.
 
 DAOstack Arc is a widely open collaboration to build the basic framework for [Decentralized Autonomous Organizations](https://en.wikipedia.org/wiki/Decentralized_autonomous_organization) (DAO) through bootstrap, or dogfooding.  Find the DAOstack Arc repository [here](https://github.com/daostack/arc).
 
