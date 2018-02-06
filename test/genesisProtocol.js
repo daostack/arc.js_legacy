@@ -2,7 +2,7 @@ import { DAO } from "../lib/dao";
 import { getDeployedContracts } from "../lib/contracts.js";
 import { GenesisProtocol } from "../lib/contracts/genesisProtocol";
 import { Utils } from "../lib/utils";
-import * as helpers from "./helpers";
+import "./helpers";
 const ExecutableTest = Utils.requireContract("ExecutableTest");
 
 describe("GenesisProtocol", () => {
@@ -63,17 +63,17 @@ describe("GenesisProtocol", () => {
   it("register new proposal with no params", async () => {
 
     try {
-      const result = await genesisProtocol.propose({});
+      await genesisProtocol.propose({});
       assert(false, "Should have thrown validation exception");
     } catch (ex) {
-      assert.equal(ex, "Error: Missing required properties: avatar, paramsHash, executable")
+      assert.equal(ex, "Error: Missing required properties: avatar, paramsHash, executable");
     }
   });
 
   it("register new proposal with out of range numOfChoices", async () => {
 
     try {
-      const result = await genesisProtocol.propose({
+      await genesisProtocol.propose({
         avatar: dao.avatar.address,
         numOfChoices: 13,
         paramsHash: paramsHash,
@@ -81,7 +81,7 @@ describe("GenesisProtocol", () => {
       });
       assert(false, "Should have thrown validation exception");
     } catch (ex) {
-      assert.equal(ex, "Error: numOfChoices must be between 1 and 10")
+      assert.equal(ex, "Error: numOfChoices must be between 1 and 10");
     }
   });
 });
