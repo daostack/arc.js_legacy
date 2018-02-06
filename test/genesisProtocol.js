@@ -254,44 +254,44 @@ describe("GenesisProtocol", () => {
     assert(typeof result !== "undefined");
   });
 
-  it("can call getRedeemAmount", async () => {
+  it("can call getRedeemableTokensStaker", async () => {
     const proposalId = await createProposal();
-    const result = await genesisProtocol.getRedeemAmount({
+    const result = await genesisProtocol.getRedeemableTokensStaker({
       proposalId: proposalId,
       beneficiary: accounts[0]
     });
     assert(typeof result !== "undefined");
   });
 
-  it("can call getRedeemProposerReputation", async () => {
+  it("can call getRedeemableReputationProposer", async () => {
     const proposalId = await createProposal();
-    const result = await genesisProtocol.getRedeemProposerReputation({
+    const result = await genesisProtocol.getRedeemableReputationProposer({
       proposalId: proposalId
     });
     assert(typeof result !== "undefined");
   });
 
-  it("can call getRedeemVoterAmount", async () => {
+  it("can call getRedeemableTokensVoter", async () => {
     const proposalId = await createProposal();
-    const result = await genesisProtocol.getRedeemVoterAmount({
+    const result = await genesisProtocol.getRedeemableTokensVoter({
       proposalId: proposalId,
       beneficiary: accounts[0]
     });
     assert(typeof result !== "undefined");
   });
 
-  it("can call getRedeemVoterReputation", async () => {
+  it("can call getRedeemableReputationVoter", async () => {
     const proposalId = await createProposal();
-    const result = await genesisProtocol.getRedeemVoterReputation({
+    const result = await genesisProtocol.getRedeemableReputationVoter({
       proposalId: proposalId,
       beneficiary: accounts[0]
     });
     assert(typeof result !== "undefined");
   });
 
-  it("can call getRedeemStakerRepAmount", async () => {
+  it("can call getRedeemableReputationStaker", async () => {
     const proposalId = await createProposal();
-    const result = await genesisProtocol.getRedeemStakerRepAmount({
+    const result = await genesisProtocol.getRedeemableReputationStaker({
       proposalId: proposalId,
       beneficiary: accounts[0]
     });

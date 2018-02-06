@@ -1164,7 +1164,7 @@ declare module "@daostack/arc.js" {
   /**
    * return the amount of tokens to which the staker will be entitled as an outcome of the proposal
   */
-  export interface getRedeemAmountConfig {
+  export interface getRedeemableTokensStakerConfig {
     /**
      * unique hash of proposal index in the scope of the scheme
      */
@@ -1178,7 +1178,7 @@ declare module "@daostack/arc.js" {
   /**
    * return the amount of reputation to which the proposer will be entitled as an outcome of the proposal
   */
-  export interface getRedeemProposerReputationConfig {
+  export interface getRedeemableReputationProposerConfig {
     /**
      * unique hash of proposal index in the scope of the scheme
      */
@@ -1188,7 +1188,7 @@ declare module "@daostack/arc.js" {
   /**
    * return the amount of tokens to which the voter will be entitled as an outcome of the proposal
   */
-  export interface getRedeemVoterAmountConfig {
+  export interface getRedeemableTokensVoterConfig {
     /**
      * unique hash of proposal index in the scope of the scheme
      */
@@ -1202,7 +1202,7 @@ declare module "@daostack/arc.js" {
   /**
    * return the amount of reputation to which the voter will be entitled as an outcome of the proposal
   */
-  export interface getRedeemVoterReputationConfig {
+  export interface getRedeemableReputationVoterConfig {
     /**
      * unique hash of proposal index in the scope of the scheme
      */
@@ -1216,7 +1216,7 @@ declare module "@daostack/arc.js" {
   /**
    * return the amount of reputation to which the staker will be entitled as an outcome of the proposal
   */
-  export interface getRedeemStakerRepAmountConfig {
+  export interface getRedeemableReputationStakerConfig {
     /**
      * unique hash of proposal index in the scope of the scheme
      */
@@ -1337,11 +1337,11 @@ declare module "@daostack/arc.js" {
     getShouldBoost(options: any): Promise<boolean>;
     getScore(options: any): Promise<BigNumber.BigNumber>;
     getThreshold(options: any): Promise<BigNumber.BigNumber>;
-    getRedeemAmount(options: any): Promise<BigNumber.BigNumber>;
-    getRedeemProposerReputation(options: any): Promise<BigNumber.BigNumber>;
-    getRedeemVoterAmount(options: any): Promise<BigNumber.BigNumber>;
-    getRedeemVoterReputation(options: any): Promise<BigNumber.BigNumber>;
-    getRedeemStakerRepAmount(options: any): Promise<BigNumber.BigNumber>;
+    getRedeemableTokensStaker(options: any): Promise<BigNumber.BigNumber>;
+    getRedeemableReputationProposer(options: any): Promise<BigNumber.BigNumber>;
+    getRedeemableTokensVoter(options: any): Promise<BigNumber.BigNumber>;
+    getRedeemableReputationVoter(options: any): Promise<BigNumber.BigNumber>;
+    getRedeemableReputationStaker(options: any): Promise<BigNumber.BigNumber>;
     getNumberOfChoices(options: any): Promise<number>;
     getVoterInfo(options: any): Promise<getVoterInfoResult>;
     getVotesStatus(options: any): Array<Promise<BigNumber.BigNumber>>;
