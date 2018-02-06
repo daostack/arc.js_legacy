@@ -1067,6 +1067,259 @@ declare module "@daostack/arc.js" {
     executable: string;
   }
 
+  export interface getVoterInfoResult {
+    vote: number,
+    reputation: BigNumber.BigNumber
+  }
+
+  export interface getProposalStatusResult {
+    totalVotes: BigNumber.BigNumber,
+    totalStakes: BigNumber.BigNumber,
+    votersStakes: BigNumber.BigNumber
+  }
+
+  export interface getScoreThresholdParamsResult {
+    thresholdConstA: number,
+    thresholdConstB: number
+  }
+
+  export interface getStakerInfoResult {
+    vote: number,
+    stake: BigNumber.BigNumber
+  }
+
+  export interface stakeConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string,
+    /**
+     * vote choice index
+     */
+    vote: number,
+    /**
+     * token amount to stake on the outcome resulting in this vote, in Wei
+     */
+    amount: BigNumber.BigNumber | string
+  }
+
+  export interface voteConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string,
+    /**
+     * vote choice index
+     */
+    vote: number
+  }
+
+  export interface voteWithSpecifiedAmountsConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string,
+    /**
+     * vote choice index
+     */
+    vote: number,
+    /**
+     * reputation to put behind this vote, in Wei
+     */
+    reputation: BigNumber.BigNumber | string
+  }
+
+  export interface redeemConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string,
+    /**
+     * agent to whom to award the proposal payoffs
+     */
+    beneficiary: string
+  }
+
+  export interface getShouldBoostConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string
+  }
+
+  export interface getScoreConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string
+  }
+
+  export interface getThresholdConfig {
+    /**
+     * the DAO's avatar address
+     */
+    avatar: string
+  }
+
+  /**
+   * return the amount of tokens to which the staker will be entitled as an outcome of the proposal
+  */
+  export interface getRedeemAmountConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string,
+    /**
+     * the staker
+     */
+    beneficiary: string
+  }
+
+  /**
+   * return the amount of reputation to which the proposer will be entitled as an outcome of the proposal
+  */
+  export interface getRedeemProposerReputationConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string
+  }
+
+  /**
+   * return the amount of tokens to which the voter will be entitled as an outcome of the proposal
+  */
+  export interface getRedeemVoterAmountConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string,
+    /**
+     * the voter
+     */
+    beneficiary: string
+  }
+
+  /**
+   * return the amount of reputation to which the voter will be entitled as an outcome of the proposal
+  */
+  export interface getRedeemVoterReputationConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string,
+    /**
+     * the voter
+     */
+    beneficiary: string
+  }
+
+  /**
+   * return the amount of reputation to which the staker will be entitled as an outcome of the proposal
+  */
+  export interface getRedeemStakerRepAmountConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string,
+    /**
+     * the staker
+     */
+    beneficiary: string
+  }
+
+  export interface getNumberOfChoicesConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string
+  }
+
+  export interface getVoterInfoConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string,
+    voter: string
+  }
+
+  export interface getVotesStatusConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string
+  }
+
+  export interface getIsVotableConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string
+  }
+
+  export interface getProposalStatusConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string
+  }
+
+  export interface getTotalReputationSupplyConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string
+  }
+
+  export interface getProposalAvatarConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string
+  }
+
+  export interface getScoreThresholdParamsConfig {
+    /**
+     * the DAO's avatar address
+     */
+    avatar: string
+  }
+
+  export interface getStakerInfoConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string,
+    /**
+     * address of the staking agent
+     */
+    staker: string
+  }
+
+  export interface getVoteStakeConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string,
+    /**
+     * vote choice index
+     */
+    vote: number
+  }
+
+  export interface getWinningVoteConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string
+  }
+
+  export interface getStateConfig {
+    /**
+     * unique hash of proposal index in the scope of the scheme
+     */
+    proposalId: string
+  }
+
   export class GenesisProtocol extends ExtendTruffleScheme {
     static new(): GenesisProtocol;
     static at(address: string): GenesisProtocol;
@@ -1077,5 +1330,29 @@ declare module "@daostack/arc.js" {
      * @param {GenesisProtocolProposeVoteConfig} options 
      */
     propose(options: GenesisProtocolProposeVoteConfig): Promise<ArcTransactionProposalResult>;
+    stake(options: any): Promise<ArcTransactionResult>;
+    vote(options: any): Promise<ArcTransactionResult>;
+    voteWithSpecifiedAmounts(options: any): Promise<ArcTransactionResult>;
+    redeem(options: any): Promise<ArcTransactionResult>;
+    getShouldBoost(options: any): Promise<boolean>;
+    getScore(options: any): Promise<BigNumber.BigNumber>;
+    getThreshold(options: any): Promise<BigNumber.BigNumber>;
+    getRedeemAmount(options: any): Promise<BigNumber.BigNumber>;
+    getRedeemProposerReputation(options: any): Promise<BigNumber.BigNumber>;
+    getRedeemVoterAmount(options: any): Promise<BigNumber.BigNumber>;
+    getRedeemVoterReputation(options: any): Promise<BigNumber.BigNumber>;
+    getRedeemStakerRepAmount(options: any): Promise<BigNumber.BigNumber>;
+    getNumberOfChoices(options: any): Promise<number>;
+    getVoterInfo(options: any): Promise<getVoterInfoResult>;
+    getVotesStatus(options: any): Array<Promise<BigNumber.BigNumber>>;
+    getIsVotable(options: any): Promise<boolean>;
+    getProposalStatus(options: any): Promise<getProposalStatusResult>;
+    getTotalReputationSupply(options: any): Promise<BigNumber.BigNumber>;
+    getProposalAvatar(options: any): Promise<string>;
+    getScoreThresholdParams(options: any): Promise<getScoreThresholdParamsResult>;
+    getStakerInfo(options: any): Promise<getStakerInfoResult>;
+    getVoteStake(options: any): Promise<BigNumber.BigNumber>;
+    getWinningVote(options: any): Promise<number>;
+    getState(options: any): Promise<number>;
   }
 }
