@@ -34,7 +34,7 @@ describe("GenesisProtocol", () => {
       proposalId: proposalId,
       vote: how
     });
-  }
+  };
 
   const stakeProposalVote = function (proposalId, how, amount) {
     return genesisProtocol.stake({
@@ -42,7 +42,7 @@ describe("GenesisProtocol", () => {
       vote: how,
       amount: web3.toWei(amount)
     });
-  }
+  };
 
   beforeEach(async () => {
 
