@@ -1,4 +1,5 @@
 import { DAO } from "../lib/dao";
+const DAOToken = Utils.requireContract("DAOToken");
 import { getDeployedContracts } from "../lib/contracts.js";
 import { GenesisProtocol } from "../lib/contracts/genesisProtocol";
 import { Utils } from "../lib/utils";
@@ -8,6 +9,26 @@ const ExecutableTest = Utils.requireContract("ExecutableTest");
 describe("GenesisProtocol", () => {
   let dao, genesisProtocol, paramsHash, executableTest;
 
+  const createProposal = async function () {
+
+    const result = await genesisProtocol.propose({
+      avatar: dao.avatar.address,
+      numOfChoices: 2,
+      paramsHash: paramsHash,
+      executable: executableTest.address
+    });
+
+    assert.isOk(result);
+    assert.isOk(result.proposalId);
+
+    const stakingToken = await DAOToken.at(await genesisProtocol.stakingToken());
+
+    await stakingToken.approve(accounts[0], web3.toWei(10));
+    await stakingToken.approve(genesisProtocol.address, web3.toWei(10));
+
+    return result.proposalId;
+  };
+
   beforeEach(async () => {
 
     dao = await DAO.new({
@@ -16,6 +37,12 @@ describe("GenesisProtocol", () => {
       tokenSymbol: "SNT",
       schemes: [
         { name: "GenesisProtocol" }
+      ],
+      founders: [{
+        address: accounts[0],
+        reputation: web3.toWei(1000),
+        tokens: web3.toWei(1000)
+      }
       ]
     });
 
@@ -36,6 +63,215 @@ describe("GenesisProtocol", () => {
   });
 
 
+  it("can call stake", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.stake({
+      proposalId: proposalId,
+      vote: 1,
+      amount: web3.toWei(10)
+    });
+    assert.isOk(result);
+  });
+
+  it("can call vote", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.vote({
+      proposalId: proposalId,
+      vote: 1
+    });
+    assert.isOk(result);
+  });
+
+  it("can call voteWithSpecifiedAmounts", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.voteWithSpecifiedAmounts({
+      proposalId: proposalId,
+      vote: 1,
+      reputation: web3.toWei(10)
+    });
+    assert.isOk(result);
+  });
+
+  it("can call redeem", async () => {
+    const proposalId = await createProposal();
+
+    await genesisProtocol.vote({
+      proposalId: proposalId,
+      vote: 1
+    });
+
+    const result = await genesisProtocol.redeem({
+      proposalId: proposalId,
+      beneficiary: accounts[0]
+    });
+    assert.isOk(result);
+  });
+
+  it("can call getShouldBoost", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getShouldBoost({
+      proposalId: proposalId
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getScore", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getScore({
+      proposalId: proposalId
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getThreshold", async () => {
+    const result = await genesisProtocol.getThreshold({
+      avatar: dao.avatar.address
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getRedeemAmount", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getRedeemAmount({
+      proposalId: proposalId,
+      beneficiary: accounts[0]
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getRedeemProposerReputation", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getRedeemProposerReputation({
+      proposalId: proposalId
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getRedeemVoterAmount", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getRedeemVoterAmount({
+      proposalId: proposalId,
+      beneficiary: accounts[0]
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getRedeemVoterReputation", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getRedeemVoterReputation({
+      proposalId: proposalId,
+      beneficiary: accounts[0]
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getRedeemStakerRepAmount", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getRedeemStakerRepAmount({
+      proposalId: proposalId,
+      beneficiary: accounts[0]
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getNumberOfChoices", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getNumberOfChoices({
+      proposalId: proposalId
+    });
+    assert.equal(result, 2);
+  });
+
+  it("can call getVoterInfo", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getVoterInfo({
+      proposalId: proposalId,
+      voter: accounts[0]
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getVotesStatus", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getVotesStatus({
+      proposalId: proposalId
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getIsVotable", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getIsVotable({
+      proposalId: proposalId
+    });
+    assert.equal(result, true);
+  });
+
+  it("can call getProposalStatus", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getProposalStatus({
+      proposalId: proposalId
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getTotalReputationSupply", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getTotalReputationSupply({
+      proposalId: proposalId
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getProposalAvatar", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getProposalAvatar({
+      proposalId: proposalId
+    });
+    assert.equal(result, dao.avatar.address);
+  });
+
+  it("can call getScoreThresholdParams", async () => {
+    const result = await genesisProtocol.getScoreThresholdParams({
+      avatar: dao.avatar.address,
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getStakerInfo", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getStakerInfo({
+      proposalId: proposalId,
+      staker: accounts[0]
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getVoteStake", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getVoteStake({
+      proposalId: proposalId,
+      vote: 1
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getWinningVote", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getWinningVote({
+      proposalId: proposalId
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getState", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getState({
+      proposalId: proposalId
+    });
+    assert(typeof result !== "undefined");
+  });
+
   it("can do new", async () => {
     const scheme = await GenesisProtocol.new(Utils.NULL_ADDRESS);
     assert.isOk(scheme);
@@ -47,20 +283,11 @@ describe("GenesisProtocol", () => {
     assert.equal(scheme.address, (await getDeployedContracts()).allContracts.GenesisProtocol.address);
   });
 
-  it("register new proposal", async () => {
-
-    const result = await genesisProtocol.propose({
-      avatar: dao.avatar.address,
-      numOfChoices: 3,
-      paramsHash: paramsHash,
-      executable: executableTest.address
-    });
-
-    assert.isOk(result);
-    assert.isOk(result.proposalId);
+  it("can register new proposal", async () => {
+    await createProposal();
   });
 
-  it("register new proposal with no params", async () => {
+  it("cannot register new proposal with no params", async () => {
 
     try {
       await genesisProtocol.propose({});
@@ -70,7 +297,7 @@ describe("GenesisProtocol", () => {
     }
   });
 
-  it("register new proposal with out of range numOfChoices", async () => {
+  it("cannot register new proposal with out of range numOfChoices", async () => {
 
     try {
       await genesisProtocol.propose({
