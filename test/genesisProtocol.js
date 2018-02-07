@@ -87,9 +87,9 @@ describe("GenesisProtocol", () => {
     assert.equal(result.thresholdConstB, 1);
   });
 
-  it("can call getShouldBoost", async () => {
+  it("can call shouldBoost", async () => {
     const proposalId = await createProposal();
-    const result = await genesisProtocol.getShouldBoost({
+    const result = await genesisProtocol.shouldBoost({
       proposalId: proposalId
     });
     assert.equal(result, false);
@@ -306,9 +306,9 @@ describe("GenesisProtocol", () => {
     assert.equal(result, 2);
   });
 
-  it("can call getIsVotable", async () => {
+  it("can call isVotable", async () => {
     const proposalId = await createProposal();
-    const result = await genesisProtocol.getIsVotable({
+    const result = await genesisProtocol.isVotable({
       proposalId: proposalId
     });
     assert.equal(result, true);

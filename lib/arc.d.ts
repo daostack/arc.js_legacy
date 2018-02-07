@@ -1140,7 +1140,7 @@ declare module "@daostack/arc.js" {
     beneficiary: string
   }
 
-  export interface getShouldBoostConfig {
+  export interface shouldBoostConfig {
     /**
      * unique hash of proposal index in the scope of the scheme
      */
@@ -1249,7 +1249,7 @@ declare module "@daostack/arc.js" {
     proposalId: string
   }
 
-  export interface getIsVotableConfig {
+  export interface isVotableConfig {
     /**
      * unique hash of proposal index in the scope of the scheme
      */
@@ -1334,7 +1334,7 @@ declare module "@daostack/arc.js" {
     vote(options: any): Promise<ArcTransactionResult>;
     voteWithSpecifiedAmounts(options: any): Promise<ArcTransactionResult>;
     redeem(options: any): Promise<ArcTransactionResult>;
-    getShouldBoost(options: any): Promise<boolean>;
+    shouldBoost(options: any): Promise<boolean>;
     getScore(options: any): Promise<BigNumber.BigNumber>;
     getThreshold(options: any): Promise<BigNumber.BigNumber>;
     getRedeemableTokensStaker(options: any): Promise<BigNumber.BigNumber>;
@@ -1345,7 +1345,7 @@ declare module "@daostack/arc.js" {
     getNumberOfChoices(options: any): Promise<number>;
     getVoterInfo(options: any): Promise<getVoterInfoResult>;
     getVotesStatus(options: any): Array<Promise<BigNumber.BigNumber>>;
-    getIsVotable(options: any): Promise<boolean>;
+    isVotable(options: any): Promise<boolean>;
     getProposalStatus(options: any): Promise<getProposalStatusResult>;
     getTotalReputationSupply(options: any): Promise<BigNumber.BigNumber>;
     getProposalAvatar(options: any): Promise<string>;
