@@ -1,12 +1,12 @@
 
 [![Build Status](https://travis-ci.org/daostack/arc.js.svg?branch=master)](https://travis-ci.org/daostack/arc.js)
-[![NPM Package](https://img.shields.io/npm/v/daostack-arc.js.svg?style=flat-square)](https://www.npmjs.org/package/daostack-arc.js)
+[![NPM Package](https://img.shields.io/npm/v/@daostack/arc.js.svg?style=flat-square)](https://www.npmjs.org/package/@daostack/arc.js)
 
 # Mission Statement
 
-DaoStack-Arc.js is a javascript library providing access to DAOStack Arc ethereum smart contracts (Daostack-Arc).
+DAOstack Arc.js is a javascript library providing access to [DAOstack Arc](https://github.com/daostack/arc) ethereum smart contracts.
 
-Daostack-Arc is a widely open collaboration to build the basic framework for [Decentralized Autonomous Organizations](https://en.wikipedia.org/wiki/Decentralized_autonomous_organization) (DAO) through bootstrap, or dogfooding.  Find the DaoStack-Arc repository [here](https://github.com/daostack/daostack).
+DAOstack is a widely open collaboration to build the basic framework for [Decentralized Autonomous Organizations](https://en.wikipedia.org/wiki/Decentralized_autonomous_organization) (DAO) through bootstrap, or dogfooding.
 
 
 # Contributing
@@ -29,13 +29,13 @@ The default configuration settings for Arc can be found in config/default.json, 
 
 To get a configuration setting use:
 ```javascript
-import { config } from 'daostack-arc.js';
+import { config } from '@daostack/arc.js';
 config.get('network');
 ```
 
 You can override configuration settings at runtime with:
 ```javascript
-import { config } from 'daostack-arc.js';
+import { config } from '@daostack/arc.js';
 config.set('network', 'ropsten');
 ```
 

@@ -24,7 +24,7 @@ const pathArcJsContracts =
 
 const pathDaostackArcRepo =
   env.pathDaostackArcRepo ||
-  joinPath(pathArcJsRoot, "node_modules/daostack-arc");
+  joinPath(pathArcJsRoot, "node_modules/@daostack/arc");
 
 const pathDaostackArcGanacheDb = joinPath(pathArcJsRoot, "ganacheDb");
 const pathDaostackArcGanacheDbZip = joinPath(pathArcJsRoot, "ganacheDb.zip");
@@ -161,7 +161,7 @@ module.exports = {
        *
        * Truffle will merge this migration with whatever previous ones are already present in the contract json files.
        *
-       * Run migrateContracts.fetchFromArc first if you want to start with fresh unmigrated contracts from daostack-arc.
+       * Run migrateContracts.fetchFromArc first if you want to start with fresh unmigrated contracts from @daostack/arc.
        */
       default: `${truffleCommand} migrate --contracts_build_directory ${pathArcJsContracts} --without-compile ${network ? `--network ${network}` : "ganache"}`,
       /**
@@ -176,7 +176,7 @@ module.exports = {
         default: rimraf(joinPath(pathArcJsContracts, "*")),
         /**
          * clean and fetch.
-         * Run this ONLY when you want to start with fresh UNMIGRATED contracts from daostack-arc.
+         * Run this ONLY when you want to start with fresh UNMIGRATED contracts from @daostack/arc.
          */
         andFetchFromArc: series(
           "nps migrateContracts.clean",
@@ -184,7 +184,7 @@ module.exports = {
         ),
         /**
          * clean, fetch and migrate.
-         * Run this ONLY when you want to start with fresh UNMIGRATED contracts from daostack-arc.
+         * Run this ONLY when you want to start with fresh UNMIGRATED contracts from @daostack/arc.
          */
         andMigrate: series(
           "nps migrateContracts.andFetchFromArc",
@@ -192,8 +192,8 @@ module.exports = {
         )
       },
       /**
-       * Fetch the unmigrated contract json files from DAOstack-Arc.
-       * Run this only when we want to start with fresh unmigrated contracts from daostack-arc.
+       * Fetch the unmigrated contract json files from DAOstack Arc.
+       * Run this only when we want to start with fresh unmigrated contracts from @daostack/arc.
        */
       fetchFromArc: copy(`${joinPath(pathDaostackArcRepo, "build", "contracts", "*")}  ${pathArcJsContracts}`)
     }
