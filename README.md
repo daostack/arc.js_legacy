@@ -5,7 +5,47 @@
 
 Daostack Arc.js is a library that faciliates javascript application access to ethereum smart contracts provided by [DAOstack Arc](http://github.com/daostack/daostack). Arc.js sits just above DAOstack Arc on the lower layer of the DAO stack.
 
-## Contribute to Arc.js
+# Table of Contents
+- [Contribute to Arc.js](#)
+- [Security](#)
+- [Getting Started](#)
+  - [Installation](#)
+  - [Setting up a Testnet with Arc Contracts](#)
+  - [Using the Arc.js Library in your Code](#)
+    - [Importing Arc.js](#)
+    - [Configuring Arc.js](#)
+    - [Working with DAOs and Arc Contracts](#)
+- [Working with DAOs](#)
+  - [Create a new DAO with all defaults](#)
+  - [Create a new DAO with founders](#)
+  - [Create a new DAO with schemes](#)
+  - [Create a new DAO overriding the default voting machine](#)
+    - [Default root-level override for all schemes](#)
+    - [Scheme-specific override](#)
+  - [Create a new DAO with a non-Universal Controller](#)
+  - [Create a new DAO with a non-default DaoCreator scheme](#)
+  - [Get a previously-created DAO](#)
+  - [Get all the DAOs ever created](#)
+  - [Get the DAOstack Genesis DAO](#)
+- [Using the Arc Contracts](#)
+  - [Categories of Arc Contracts](#)
+    - [Schemes](#)
+    - [Voting Machines](#)
+    - [Global Constraints](#)
+    - [Others](#)
+  - [Obtaining a DAO's Scheme](#)
+  - [Obtaining a wrapper using the wrapper's factory class](#)
+    - [deployed](#)
+    - [new](#)
+    - [at](#)
+  - [Obtaining a wrapper from getDeployedContracts](#)
+  - [Obtaining any Arc contract using Utils.requireContract](#)
+- [Working with Arc.js Scripts](#)
+- [Deploying to Other Testnets](#)
+- [Running Against a Ganache Database](#)
+- [Run Lint and Tests](#)
+  
+  ## Contribute to Arc.js
 
 Contributions and pull requests are very welcome. Join us on [Slack](http://daostack.slack.com/messages).
 
@@ -222,7 +262,7 @@ const newDao = await DAO.new({
 });
 ```
 
-### Create a new DAO with a non-default DaoCreator scheme.
+### Create a new DAO with a non-default DaoCreator scheme
 
 Create a DAO using an alternative `DaoCreator` scheme by passing its address for `daoCreatorScheme`.  The alternative scheme must implement the same interface as the Arc `DaoCreator` contract.
 
