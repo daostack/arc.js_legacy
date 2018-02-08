@@ -235,6 +235,8 @@ const newDao = await DAO.new({
 
 Create a DAO using the DAOstack `Controller` contract by passing `false` for `universalController`.
 
+For more information about choosing between Universal an Single Controller, see [this article](https://daostack.github.io/arc/generated_docs/controller/UController/#universal-vs-single-controller).
+
 ```javascript
 const newDao = await DAO.new({
   name: "My New DAO",
@@ -426,4 +428,4 @@ Join us on [Telegram](https://t.me/daostackcommunity)!
 DAOstack Arc.js is still on its alpha version.  It is meant to provide secure, tested and community-audited code, but please use common sense when doing anything that deals with real money! We take no responsibility for your implementation decisions and any security problem you might experience.
 
 ## License
-This is an open source project ([GPL license](https://github.com/daostack/daostack/blob/master/LICENSE)).
+This is an open source project ([GPL license](https://github.com/daostack/arc.js/blob/master/LICENSE)).

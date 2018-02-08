@@ -281,8 +281,7 @@ declare module "@daostack/arc.js" {
      * Returns a string containing an 8-digit hex number representing the minimum 
      * permissions that the scheme may have, as follows:
      *
-     * All 0: No permissions (note a scheme is always registered when added to a DAO)
-     * 1st bit: Scheme is registered
+     * 1st bit: Scheme is registered (a scheme always gets this bit when registered to a DAO)
      * 2nd bit: Scheme can register other schemes
      * 3th bit: Scheme can add/remove global constraints
      * 4rd bit: Scheme can upgrade the controller

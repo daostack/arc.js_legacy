@@ -1,6 +1,4 @@
 # Contribution Guide
-
-# Contribution Guide
 ___
 
 Firstly, thanks for wanting to help with the development of DAOSTACK. All contributions, code or documents, should come from a forked version of the respective repository. Then the proposed changes must be submitted via a pull request to the master branch. All pull requests must be reviewed by the maintainers of the repository in question. Once a pull request has been reviewed & approved; you should merge and rebase, and then delete the branch.
