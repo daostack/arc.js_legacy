@@ -114,7 +114,6 @@ describe("GenesisProtocol", () => {
       proposalId: proposalId
     });
     assert.isOk(result);
-    // TODO: currently failing. assert.equal(result.length, 2);  see: https://github.com/daostack/arc/issues/328
   });
 
   it("can call getProposalStatus", async () => {
