@@ -279,10 +279,6 @@ Get a previously-created DAO using the avatar address:
 const dao = await DAO.at(daoAvatarAddress);
 ```
 
-### Get all the DAOs ever created
-
-[To Come](https://github.com/daostack/arc.js/issues/40)
-
 ### Get the DAOstack Genesis DAO
 
 The DAOstack DAO is named "Genesis".  Obtain it like this:
