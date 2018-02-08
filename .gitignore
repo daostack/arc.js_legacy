@@ -8,3 +8,4 @@ dist/
 ganacheDb.zip
 migrated_contracts/
 *.sublime-project
+yarn.lock
