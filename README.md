@@ -32,13 +32,13 @@ DAOstack Arc.js sits just above [DAOstack Arc](http://github.com/daostack/daosta
       - [Voting Machines](#voting-machines)
       - [Global Constraints](#global-constraints)
       - [Others](#others)
-    - [Obtaining a DAO's Scheme](#obtaining-a-daos-scheme)
-    - [Obtaining a wrapper using the wrapper's factory class](#obtaining-a-wrapper-using-the-wrappers-factory-class)
+    - [Obtain a DAO's Scheme](#obtain-a-daos-scheme)
+    - [Obtain a wrapper using the wrapper's factory class](#obtain-a-wrapper-using-the-wrappers-factory-class)
       - [deployed](#deployed)
       - [new](#new)
       - [at](#at)
-    - [Obtaining a wrapper from getDeployedContracts](#obtaining-a-wrapper-from-getdeployedcontracts)
-    - [Obtaining any Arc contract using Utils.requireContract](#obtaining-any-arc-contract-using-utilsrequirecontract)
+    - [Obtain a wrapper from getDeployedContracts](#obtain-a-wrapper-from-getdeployedcontracts)
+    - [Obtain any Arc contract using Utils.requireContract](#obtain-any-arc-contract-using-utilsrequirecontract)
   - [Working with Arc.js Scripts](#working-with-arcjs-scripts)
   - [Deploying to Other Testnets](#deploying-to-other-testnets)
   - [Running Against a Ganache Database](#running-against-a-ganache-database)
@@ -308,9 +308,9 @@ const arcJsWrappers = await ArcJs.getDeployedContracts();
 
 Note `getDeployedContracts()` does not currently cache its results and is fairly time-consuming to run, so best to cache the results yourself.
 
-See also [Obtaining a wrapper from getDeployedContracts](#obtaining-a-wrapper-from-getdeployedcontracts) and the following sections for several ways of instantiating Arc.js contract wrappers.
+See also [Obtain a wrapper from getDeployedContracts](#obtain-a-wrapper-from-getdeployedcontracts) and the following sections for several ways of instantiating Arc.js contract wrappers.
 
-### Obtaining a DAO's Scheme
+### Obtain a DAO's Scheme
 
 You may obtain the wrapper for a scheme that is registered with a DAO using `DAO.getScheme`.  Here is how to get the wrapper for the `UpgradeScheme` registered with a DAO:
 
@@ -318,7 +318,7 @@ You may obtain the wrapper for a scheme that is registered with a DAO using `DAO
 const upgradeScheme = await myDao.getScheme("UpgradeScheme");
 ```
 
-### Obtaining a wrapper using the wrapper's factory class 
+### Obtain a wrapper using the wrapper's factory class 
 
 Each wrapper has a factory that provides static `.new()`, `.deployed()` and `.at()` methods.  These methods are implemented by `ExtendTruffleContract`.
 
@@ -351,7 +351,7 @@ import { UpgradeScheme } from "@daostack/arc.js";
 const newInstance = await UpgradeScheme.at(anAddress);
 ```
 
-### Obtaining a wrapper from getDeployedContracts
+### Obtain a wrapper from getDeployedContracts
 
 Recall from [Categories of Arc Contracts](#categories-of-arc-contracts) that `getDeployedContracts()` returns categories of Arc contract wrappers.   You can use this information to obtain the wrappers themselves:
 
@@ -363,7 +363,7 @@ const contractFactory = arcJsWrappers.allContracts.UpgradeScheme.contract;
 const upgradeScheme = await contractFactory.contract.at(contractAddress);
 ```
 
-### Obtaining any Arc contract using Utils.requireContract
+### Obtain any Arc contract using Utils.requireContract
 
 Not all Arc contracts have been given wrapper classes, for example, `Avatar`, `UController` and many more.  But you can still obtain a raw TruffleContract enabling you to work with these contracts:
 
