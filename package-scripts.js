@@ -33,7 +33,7 @@ const network = env.network || config.get('network');
 
 // this is needed to force travis to use our modified version of truffle
 const truffleIsInternal = fs.existsSync(joinPath(pathArcJsRoot, "node_modules", "truffle-core-migrate-without-compile"));
-const truffleCommand = `node ${joinPath(pathArcJsRoot, truffleIsInternal ? "node_modules" : "../", "truffle-core-migrate-without-compile", "cli")}`;
+const truffleCommand = `node ${joinPath(pathArcJsRoot, truffleIsInternal ? "node_modules" : "../../", "truffle-core-migrate-without-compile", "cli")}`;
 
 module.exports = {
   scripts: {
