@@ -123,14 +123,10 @@ config.set('network', 'kovan');
 
 You can also override the default configuration settings by setting values on properties of `node.env` (see [here](http://nodejs.org/dist/latest-v9.x/docs/api/process.html#process_process_env)) with the same name as the corresponding arc.js configuration setting.  This enables you to use environment variables to control the arc.js configuration.
 
-Heads up: Soon will be required to [prefix env variable names](http://github.com/daostack/arc.js/issues/42)
-
 #### Working with DAOs and Arc Contracts
 Now that you've got Arc.js plugged into your application and configured, and contracts migrated to a running testnet, you are ready to start coding against DAOs and Arc contracts.  The following sections describe how.
 
 One thing to remember:  All token and reputation amounts should be expressed in Wei.
-
-[API docs to come](http://github.com/daostack/arc.js/issues/63)
 
 ## Working with DAOs
 
@@ -312,8 +308,6 @@ const arcJsWrappers = await ArcJs.getDeployedContracts();
 
 Note `getDeployedContracts()` does not currently cache its results and is fairly time-consuming to run, so best to cache the results yourself.
 
-Heads up: [getDeployedContracts is going to change](http://github.com/daostack/arc.js/issues/8)
-
 See also [Obtaining a wrapper from getDeployedContracts](#obtaining-a-wrapper-from-getdeployedcontracts) and the following sections for several ways of instantiating Arc.js contract wrappers.
 
 ### Obtaining a DAO's Scheme
@@ -369,9 +363,6 @@ const contractFactory = arcJsWrappers.allContracts.UpgradeScheme.contract;
 const upgradeScheme = await contractFactory.contract.at(contractAddress);
 ```
 
-Heads up: [getDeployedContracts is going to change](http://github.com/daostack/arc.js/issues/8)
-
-
 ### Obtaining any Arc contract using Utils.requireContract
 
 Not all Arc contracts have been given wrapper classes, for example, `Avatar`, `UController` and many more.  But you can still obtain a raw TruffleContract enabling you to work with these contracts:
@@ -394,7 +385,7 @@ All of the scripts are defined and documented in the package-scripts.js file.  Y
 See also  [Running Against a Ganache Database](#running-against-a-ganache-database), [Deploying to Other Testnets](#deploying-to-other-testnets) and [Run Lint and Tests](#run-lint-and-tests)
 
 ## Deploying to Other Testnets
-The "network" environment variable defines which network arc.js understands you to be deploying to when you run the "migrateContracts" script.  For safety it assumes a different HTTP port for each network. Can be "live" (the mainnet), "kovan" or "ganache" (To Come: [Support for Ropsten and Rinkeby testnets](http://github.com/daostack/arc.js/issues/50)).  The default is "ganache".
+The "network" environment variable defines which network arc.js understands you to be deploying to when you run the "migrateContracts" script.  For safety it assumes a different HTTP port for each network. Can be "live" (the mainnet), "kovan" or "ganache".  The default is "ganache".
 
 ## Running Against a Ganache Database
 
