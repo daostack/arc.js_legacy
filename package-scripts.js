@@ -174,6 +174,7 @@ module.exports = {
        * Best to run "migrateContracts.clean" first.
        */
       fetchFromArc: copy(`${joinPath(pathDaostackArcRepo, "build", "contracts", "*")}  ${pathArcJsContracts}`)
-    }
+    },
+    "docs": "node ./package-scripts/docs/createMarkdown.js"
   }
 };

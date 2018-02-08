@@ -89,6 +89,7 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "^7.4.0",
     "eslint-plugin-standard": "^3.0.1",
-    "mocha": "^4.0.1"
+    "mocha": "^4.0.1",
+    "typedoc": "^0.10.0"
   }
 }
