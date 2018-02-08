@@ -122,7 +122,7 @@ module.exports = {
       default: series(
         rimraf(joinPath(pathArcJsRoot, "dist")),
         mkdirp(joinPath(pathArcJsRoot, "dist")),
-        `node ./package-scripts/recursiveCopy.js ${joinPath(pathArcJsRoot, "lib")} ${joinPath(pathArcJsRoot, "dist")}`
+        `node node_modules/typescript/bin/tsc --outDir ${joinPath(pathArcJsRoot, "dist")}`
       )
     },
     deploy: {
