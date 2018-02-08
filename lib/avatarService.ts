@@ -15,6 +15,16 @@ import { Contracts } from "./contracts.js";
  */
 export class AvatarService {
 
+  _avatarAddress: string;
+  isUController: boolean;
+  _avatar: any;
+  _controllerAddress: any;
+  _controller: any;
+  _nativeReputationAddress: any;
+  _nativeReputation: any;
+  _nativeTokenAddress: any;
+  _nativeToken: any;
+
   constructor(avatarAddress) {
     this._avatarAddress = avatarAddress;
     this.isUController = undefined;
