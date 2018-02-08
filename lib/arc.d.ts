@@ -260,7 +260,7 @@ declare module "@daostack/arc.js" {
      */
     static at(address: string): any;
     /**
-     * Instantiate the class as it was migrated by Arc-Js on the given network.
+     * Instantiate the class as it was migrated by Arc.js on the given network.
      */
     static deployed(): any;
     /**

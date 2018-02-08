@@ -169,8 +169,8 @@ module.exports = {
         )
       },
       /**
-       * Fetch the unmigrated contract json files from DAOstack-Arc.
-       * Run this ONLY when you want to start with fresh UNMIGRATED contracts from daostack-arc.
+       * Fetch the unmigrated contract json files from DAOstack Arc.
+       * Run this ONLY when you want to start with fresh UNMIGRATED contracts from DAOstack Arc.
        * Best to run "migrateContracts.clean" first.
        */
       fetchFromArc: copy(`${joinPath(pathDaostackArcRepo, "build", "contracts", "*")}  ${pathArcJsContracts}`)
