@@ -146,8 +146,6 @@ One thing to remember:  All token and reputation amounts should be expressed in 
 
 Arc.js provides a class named "DAO" that enables you to create new DAOs and obtain information about them.
 
-To come: [reference to automated API documentation using comments in arc.d.ts](http://github.com/daostack/arc.js/issues/63)
-
 ### Create a new DAO with all defaults
 
 The simplest example of how to create a new DAO uses all defaults:  no schemes nor founders, using the Universal Controller and default DaoCreator scheme.  See `NewDaoConfig`.
