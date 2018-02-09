@@ -764,24 +764,41 @@ declare module "@daostack/arc.js" {
      */
     description: string;
     /**
-     * reward in the DAO's native token.  In Wei. Default is 0;
+     * Amount of reputation change requested, per period.
+     * Can be negative.  In Wei. Default is 0;
+     */
+    reputationChange?: BigNumber.BigNumber | string;
+    /**
+     * Reward in tokens per period, in the DAO's native token.
+     * Must be >= 0.
+     * In Wei. Default is 0;
      */
     nativeTokenReward?: BigNumber.BigNumber | string;
     /**
-     * reward in the DAO's native reputation.  In Wei. Default is 0;
-     */
-    reputationReward?: BigNumber.BigNumber | string;
-    /**
-     * reward in ethers.  In Wei. Default is 0;
+     * Reward per period, in ethers.
+     * Must be >= 0.
+     * In Wei. Default is 0;
      */
     ethReward?: BigNumber.BigNumber | string;
     /**
-     * reward in the given external token.  In Wei. Default is 0;
+     * Reward per period in the given external token.
+     * Must be >= 0.
+     * In Wei. Default is 0;
      */
     externalTokenReward?: BigNumber.BigNumber | string;
     /**
-     * the address of an external token (for externalTokenReward)
-     * Only required when externalTokenReward is given and non-zero.
+     * The number of blocks in a period. 
+     * Must be > 0.
+     */
+    periodLength: number;
+    /**
+     * Maximum number of periods that can be paid out.
+     * Must be > 0.
+     */
+    numberOfPeriods: number;
+    /**
+     * The address of the external token (for externalTokenReward)
+     * Only required when externalTokenReward is non-zero.
      */
     externalToken?: string;
     /**
@@ -838,7 +855,7 @@ declare module "@daostack/arc.js" {
      */
     amountPerPeriod: BigNumber.BigNumber | string,
     /**
-     * number of blocks in a "period".
+     * number of blocks in a period.
      * Must be greater than zero.
      */
     periodLength: number,
