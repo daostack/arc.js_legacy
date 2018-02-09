@@ -197,7 +197,7 @@ const newDao = await DAO.new({
 
 Override the default voting machine by adding a "votingMachineParams" element.  This will override the default voting machine, either at the root level to apply to all schemes, or within each scheme element to override for the specific scheme. See `NewDaoVotingMachineConfig` and `SchemesConfig`.
 
-#### Default root-level override for all schemes
+#### Root-level applying to all schemes
 
 ```javascript
 const newDao = await DAO.new({
@@ -211,7 +211,22 @@ const newDao = await DAO.new({
 });
 ```
 
-#### Scheme-specific override
+#### With alternate voting machine
+
+```javascript
+const newDao = await DAO.new({
+  name: "My New DAO",
+  tokenName: "My new Token",
+  tokenSymbol: "MNT",
+  votingMachineParams: {
+    votePerc: 45,
+    ownerVote:false
+    votingMachineAddress: anAddress
+  }
+});
+```
+
+#### Scheme-specific
 
 ```javascript
 const newDao = await DAO.new({
