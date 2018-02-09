@@ -1104,7 +1104,7 @@ declare module "@daostack/arc.js" {
      */
     proposalId: string,
     /**
-     * vote choice index
+     * the choice of vote. Can be 1 (YES) or 2 (NO).
      */
     vote: number,
     /**
@@ -1119,7 +1119,7 @@ declare module "@daostack/arc.js" {
      */
     proposalId: string,
     /**
-     * vote choice index
+     * the choice of vote. Can be 1 (YES) or 2 (NO).
      */
     vote: number
   }
@@ -1130,7 +1130,7 @@ declare module "@daostack/arc.js" {
      */
     proposalId: string,
     /**
-     * vote choice index
+     * the choice of vote. Can be 1 (YES) or 2 (NO).
      */
     vote: number,
     /**
@@ -1252,11 +1252,15 @@ declare module "@daostack/arc.js" {
     voter: string
   }
 
-  export interface GetVotesStatusConfig {
+  export interface GetVoteStatusConfig {
     /**
      * unique hash of proposal index in the scope of the scheme
      */
-    proposalId: string
+    proposalId: string,
+    /**
+     * the choice of vote. Can be 1 (YES) or 2 (NO).
+     */
+    vote: number
   }
 
   export interface IsVotableConfig {
@@ -1311,7 +1315,7 @@ declare module "@daostack/arc.js" {
      */
     proposalId: string,
     /**
-     * vote choice index
+     * the choice of vote. Can be 1 (YES) or 2 (NO).
      */
     vote: number
   }
@@ -1350,7 +1354,7 @@ declare module "@daostack/arc.js" {
     getRedeemableReputationStaker(options: GetRedeemableReputationStakerConfig): Promise<BigNumber.BigNumber>;
     getNumberOfChoices(options: GetNumberOfChoicesConfig): Promise<number>;
     getVoterInfo(options: GetVoterInfoConfig): Promise<GetVoterInfoResult>;
-    getVotesStatus(options: GetVotesStatusConfig): Array<Promise<BigNumber.BigNumber>>;
+    getVoteStatus(options: GetVoteStatusConfig): Promise<BigNumber.BigNumber>;
     isVotable(options: IsVotableConfig): Promise<boolean>;
     getProposalStatus(options: GetProposalStatusConfig): Promise<GetProposalStatusResult>;
     getTotalReputationSupply(options: GetTotalReputationSupplyConfig): Promise<BigNumber.BigNumber>;

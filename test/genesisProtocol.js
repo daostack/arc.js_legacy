@@ -77,7 +77,6 @@ describe("GenesisProtocol", () => {
     executableTest = await ExecutableTest.deployed();
   });
 
-
   it("can call getScoreThresholdParams", async () => {
     const result = await genesisProtocol.getScoreThresholdParams({
       avatar: dao.avatar.address,
@@ -108,12 +107,23 @@ describe("GenesisProtocol", () => {
     assert.equal(web3.fromWei(result), 10);
   });
 
-  it("can call getVotesStatus", async () => {
+  it("can call getVoteStatus", async () => {
     const proposalId = await createProposal();
-    const result = await genesisProtocol.getVotesStatus({
-      proposalId: proposalId
+
+    let result = await genesisProtocol.getVoteStatus({
+      proposalId: proposalId,
+      vote: 1
     });
-    assert.isOk(result);
+    assert.equal(result, 0);
+
+    voteProposal(proposalId, 1);
+
+    result = await genesisProtocol.getVoteStatus({
+      proposalId: proposalId,
+      vote: 1
+    });
+
+    assert.equal(web3.fromWei(result), 1000);
   });
 
   it("can call getProposalStatus", async () => {

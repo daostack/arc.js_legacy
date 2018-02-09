@@ -1,6 +1,6 @@
 {
   "name": "@daostack/arc.js",
-  "version": "0.0.0-alpha.20",
+  "version": "0.0.0-alpha.22",
   "description": "A JavaScript library for interacting with @daostack/arc ethereum smart contracts",
   "main": "dist/arc.js",
   "types": "lib/arc.d.ts",
@@ -74,7 +74,7 @@
     "uint32": "^0.2.1"
   },
   "devDependencies": {
-    "@daostack/arc": "0.0.0-alpha.29",
+    "@daostack/arc": "0.0.0-alpha.30",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^7.2.3",
     "babel-plugin-syntax-async-functions": "^6.13.0",

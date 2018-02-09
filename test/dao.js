@@ -227,7 +227,7 @@ describe("DAO", () => {
     const dao = await helpers.forgeDao();
 
     assert.equal((await dao.getGlobalConstraints()).length, 0);
-    assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 0);
+    assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address))[1].toNumber(), 0);
 
     const tokenCapGC = await dao.getScheme("TokenCapGC");
 
@@ -260,7 +260,7 @@ describe("DAO", () => {
     const gcs = await dao.getGlobalConstraints();
     assert.equal(gcs.length, 1);
     assert.equal(gcs[0].address, tokenCapGC.address);
-    assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 1);
+    assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address))[1].toNumber(), 1);
 
     result = await globalConstraintRegistrar.proposeToRemoveGlobalConstraint({
       avatar: dao.avatar.address,
@@ -274,6 +274,6 @@ describe("DAO", () => {
     await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[2] });
 
     assert.equal((await dao.getGlobalConstraints()).length, 0);
-    assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 0);
+    assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address))[1].toNumber(), 0);
   });
 });

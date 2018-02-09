@@ -27,7 +27,7 @@ describe("GlobalConstraintRegistrar", () => {
     // check if indeed the registrar is registered as a scheme on  the controller
     assert.equal(await dao.isSchemeRegistered(gcr.address), true);
     // DAO.new standardly registers no global constraints
-    assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 0);
+    assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address))[1].toNumber(), 0);
 
     // create a new global constraint - a TokenCapGC instance
     const tokenCapGC = await TokenCapGC.new();
@@ -78,7 +78,7 @@ describe("GlobalConstraintRegistrar", () => {
     });
 
     // at this point, our global constrait has been registered at the dao
-    assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address)).toNumber(), 1);
+    assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address))[1].toNumber(), 1);
   });
 
 
