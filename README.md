@@ -36,8 +36,8 @@ For more information about Arc contracts and the entire DAOstack ecosystem, plea
       - [Voting Machines](#voting-machines)
       - [Global Constraints](#global-constraints)
       - [Others](#others)
-    - [Obtain the Names and Addresses of a DAO's Schemes](#obtain-the-names-and-addresses-of-a-daos-schemes)
-    - [Obtain an Arc.js Wrapper by its Name](#obtain-an-arcjs-wrapper-by-its-name)
+    - [Obtain the names and addresses of a DAO's schemes](#obtain-the-names-and-addresses-of-a-daos-schemes)
+    - [Obtain an Arc.js wrapper by its name](#obtain-an-arcjs-wrapper-by-its-name)
       - [Deployed by arc.js](#deployed-by-arcjs)
       - [At a specific address](#at-a-specific-address)
     - [Obtain a wrapper using the wrapper's factory class](#obtain-a-wrapper-using-the-wrappers-factory-class)
@@ -334,7 +334,7 @@ Note `getDeployedContracts()` does not currently cache its results and is fairly
 
 Although one can [obtain wrappers from getDeployedContracts](#obtain-a-wrapper-from-getdeployedcontracts), it is not the most efficient way.  See the following sections for better ways of instantiating Arc.js contract wrappers.
 
-### Obtain the Names and Addresses of a DAO's Schemes
+### Obtain the names and addresses of a DAO's schemes
 
 You may obtain the names and addresses of all of the schemes that are registered with a DAO using `DAO.getSchemes`:
 
@@ -351,7 +351,7 @@ const upgradeSchemeInfo = daoSchemeInfos[0];
 
 `DAO.getSchemes` returns a object that contains `name` and `address` properties.  The following sections show how you can get the scheme wrapper using the address.
 
-### Obtain an Arc.js Wrapper by its Name
+### Obtain an Arc.js wrapper by its name
 
 You may obtain any wrapper by passing its name to `DAO.getScheme`, it doesn't matter whether the scheme is registered with the DAO, by default it returns the scheme that was deployed by Arc.js.  For example:
 
