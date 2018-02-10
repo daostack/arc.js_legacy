@@ -1,5 +1,4 @@
 import { proposeContributionReward, vote, forgeDao, increaseTime } from "./helpers";
-import { Utils } from "../lib/utils";
 
 describe("ContributionReward scheme", () => {
 
@@ -36,8 +35,8 @@ describe("ContributionReward scheme", () => {
 
     assert.isOk(result);
 
-    const eventProposalId = Utils.getValueFromLogs(result.tx, "_proposalId", "RedeemNativeToken");
-    const amount = Utils.getValueFromLogs(result.tx, "_amount", "RedeemNativeToken");
+    const eventProposalId = result.getValueFromTx("_proposalId", "RedeemNativeToken");
+    const amount = result.getValueFromTx("_amount", "RedeemNativeToken");
     assert.equal(eventProposalId, proposalId);
     assert.equal(web3.fromWei(amount), 10);
   });
