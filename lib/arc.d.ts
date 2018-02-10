@@ -270,7 +270,7 @@ declare module "@daostack/arc.js" {
     /**
      * Call setParameters on this contract.
      * Returns promise of ArcTransactionDataResult where Result is the parameters hash.
-     * @param {any} params -- object with properties whose names are expected by the scheme to correspond to parameters.
+     * @param {Promise<ArcTransactionDataResult<string>>} params -- object with properties whose names are expected by the scheme to correspond to parameters.
      * Currently all params are required, contract wrappers do not as yet apply default values.
      */
     public setParams(params: any): Promise<ArcTransactionDataResult>;
@@ -572,9 +572,6 @@ declare module "@daostack/arc.js" {
   /********************************
    * GlobalConstraintRegistrar
    */
-  export interface GlobalConstraintRegistrarParams
-    extends StandardSchemeParams { }
-
   export interface ProposeToAddModifyGlobalConstraintParams {
     /**
      * avatar address
@@ -626,14 +623,12 @@ declare module "@daostack/arc.js" {
       options: ProposeToRemoveGlobalConstraintParams
     ): Promise<ArcTransactionProposalResult>;
 
-    setParams(params: GlobalConstraintRegistrarParams): Promise<ArcTransactionDataResult>;
+    setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult>;
   }
 
   /********************************
    * SchemeRegistrar
    */
-  export interface SchemeRegistrarParams extends StandardSchemeParams { }
-
   export interface ProposeToAddModifySchemeParams {
     /**
      * avatar address
@@ -691,14 +686,12 @@ declare module "@daostack/arc.js" {
       options: ProposeToRemoveSchemeParams
     ): Promise<ArcTransactionProposalResult>;
 
-    setParams(params: SchemeRegistrarParams): Promise<ArcTransactionDataResult>;
+    setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult>;
   }
 
   /********************************
    * UpgradeScheme
    */
-  export interface UpgradeSchemeParams extends StandardSchemeParams { }
-
   export interface ProposeUpgradingSchemeParams {
     /**
      * avatar address
@@ -744,7 +737,7 @@ declare module "@daostack/arc.js" {
       options: ProposeControllerParams
     ): Promise<ArcTransactionProposalResult>;
 
-    setParams(params: UpgradeSchemeParams): Promise<ArcTransactionDataResult>;
+    setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult>;
   }
 
   /********************************
@@ -807,6 +800,56 @@ declare module "@daostack/arc.js" {
     beneficiary: string;
   }
 
+  export interface ContributionRewardRedeemResult {
+    /**
+     * true if reputation changed
+     */
+    reputation: boolean;
+    /**
+     * true if native tokens were rewarded
+     */
+    nativeTokens: boolean;
+    /**
+     * true if ethers were rewarded
+     */
+    ethers: boolean;
+    /**
+     * true if external tokens were rewarded
+     */
+    externalTokens: boolean;
+  }
+
+  export interface ContributionRewardRedeemParams {
+    /**
+     * The reward proposal
+     */
+    proposalId: string;
+    /**
+     * The avatar under which the proposal was made
+     */
+    avatar: string;
+    /**
+     * true to credit/debit reputation
+     * Default is false
+     */
+    reputation?: boolean;
+    /**
+     * true to reward native tokens
+     * Default is false
+     */
+    nativeTokens?: boolean;
+    /**
+     * true to reward ethers
+     * Default is false
+     */
+    eths?: boolean;
+    /**
+     * true to reward external tokens
+     * Default is false
+     */
+    externalTokens?: boolean;
+  }
+
   export class ContributionReward extends ExtendTruffleScheme {
     static new(): ContributionReward;
     static at(address: string): ContributionReward;
@@ -818,6 +861,12 @@ declare module "@daostack/arc.js" {
     proposeContributionReward(
       options: ProposeContributionParams
     ): Promise<ArcTransactionProposalResult>;
+
+    /**
+     * Redeem reward for proposal
+     * @param {Promise<ArcTransactionDataResult<ContributionRewardRedeemResult>><ContributionRewardRedeemParams>} opts 
+     */
+    redeemContributionReward(options: ContributionRewardRedeemParams): Promise<ArcTransactionResult>;
 
     setParams(params: ContributionRewardParams): Promise<ArcTransactionDataResult>;
 
@@ -949,6 +998,8 @@ declare module "@daostack/arc.js" {
      * @param {CollectVestingAgreementConfig} options 
      */
     collect(options: CollectVestingAgreementConfig): Promise<ArcTransactionResult>;
+
+    setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult>;
   }
 
   /********************************
@@ -985,6 +1036,8 @@ declare module "@daostack/arc.js" {
      * @param {VoteInOrganizationProposeVoteConfig} opts
      */
     proposeVote(options: VoteInOrganizationProposeVoteConfig): Promise<ArcTransactionProposalResult>;
+
+    setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult>;
   }
 
   /*******************
@@ -1381,5 +1434,6 @@ declare module "@daostack/arc.js" {
     getVoteStake(options: GetVoteStakeConfig): Promise<BigNumber.BigNumber>;
     getWinningVote(options: GetWinningVoteConfig): Promise<number>;
     getState(options: GetStateConfig): Promise<number>;
+    setParams(params: GenesisProtocolParams): Promise<ArcTransactionDataResult>;
   }
 }
