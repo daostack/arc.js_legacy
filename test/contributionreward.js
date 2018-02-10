@@ -1,5 +1,5 @@
 import { proposeContributionReward, vote, forgeDao, increaseTime } from "./helpers";
-import { Utils } from "../lib/Utils";
+import { Utils } from "../lib/utils";
 
 describe("ContributionReward scheme", () => {
 
