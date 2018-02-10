@@ -329,12 +329,35 @@ Note `getDeployedContracts()` does not currently cache its results and is fairly
 
 Although one can [obtain wrappers from getDeployedContracts](#obtain-a-wrapper-from-getdeployedcontracts), it is not the most efficient way.  See the following sections for better ways of instantiating Arc.js contract wrappers.
 
-### Obtain a DAO's Scheme
+### Obtain the Names and Addresses of a DAO's Schemes
 
-You may obtain the wrapper for a scheme that is registered with a DAO using `DAO.getScheme`.  Here is how to get the wrapper for the `UpgradeScheme` registered with a DAO:
+You may obtain the names and addresses of all of the schemes that are registered with a DAO using `DAO.getSchemes`:
 
 ```javascript
+const daoSchemeInfos = await myDao.getSchemes();
+```
+
+Or the info about a single scheme:
+
+```javascript
+const daoSchemeInfos =  = await myDao.getSchemes("UpgradeScheme");
+const upgradeSchemeInfo = daoSchemeInfos[0];
+```
+
+`DAO.getSchemes` returns a object that contains `name` and `address` properties.  The following sections show how you can get the scheme wrapper using the address.
+
+### Obtain an Arc.js Wrapper by its Name
+
+You may obtain any wrapper by passing its name to `DAO.getScheme`, it doesn't matter whether the scheme is registered with the DAO, by default it returns the scheme that was deployed by Arc.js.  For example:
+
+#### Deployed by arc.js
+```javascript
 const upgradeScheme = await myDao.getScheme("UpgradeScheme");
+```
+
+#### At a specific address
+```javascript
+const upgradeScheme = await myDao.getScheme("UpgradeScheme", anAddress);
 ```
 
 ### Obtain a wrapper using the wrapper's factory class 
@@ -384,7 +407,7 @@ const upgradeScheme = await contractFactory.contract.at(contractAddress);
 
 ### Obtain any Arc contract using Utils.requireContract
 
-Not all Arc contracts have been given wrapper classes, for example, `Avatar`, `UController` and many more.  But you can still obtain a raw TruffleContract enabling you to work with these contracts:
+Not all Arc contracts have been given wrapper classes, for example, `Avatar`, `UController` and many more.  But you can obtain a raw TruffleContract for any contract, enabling you to work with the contract:
 
 ```javascript
 import { Utils } from "@daostack/arc.js";
