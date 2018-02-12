@@ -9,10 +9,18 @@
     "semi": 2,
     "curly": 2,
     "no-undef": "off",
-    "object-curly-newline": ["error", { "consistent": true }],
+    "object-curly-newline": [
+      "error",
+      {
+        "consistent": true
+      }
+    ],
     "no-trailing-spaces": [
       "error",
-      { "skipBlankLines": false, "ignoreComments": false }
+      {
+        "skipBlankLines": false,
+        "ignoreComments": false
+      }
     ],
     "no-tabs": 2,
     "no-var": 2,
@@ -26,7 +34,19 @@
     "no-confusing-arrow": 2,
     "no-lonely-if": 2,
     "no-continue": 2,
-    "indent": ["error", 2, { "SwitchCase": 1 }],
-    "quotes": [2, "double", "avoid-escape"]
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "quotes": [
+      2,
+      "double",
+      "avoid-escape"
+    ],
+    "no-unused-vars": 2,
+    "no-useless-constructor": 2
   }
 }

@@ -32,8 +32,8 @@ const pathDaostackArcGanacheDbZip = joinPath(pathArcJsRoot, "ganacheDb.zip");
 const network = env.network || config.get('network');
 
 // this is needed to force travis to use our modified version of truffle
-const truffleIsInternal = fs.existsSync(joinPath("node_modules", "truffle-core-migrate-without-compile"));
-const truffleCommand = `node ${joinPath(truffleIsInternal ? "node_modules" : "../../", "truffle-core-migrate-without-compile", "cli")}`;
+const truffleIsInternal = fs.existsSync(joinPath(pathArcJsRoot, "node_modules", "truffle-core-migrate-without-compile"));
+const truffleCommand = `node ${joinPath(pathArcJsRoot, truffleIsInternal ? "node_modules" : "../../", "truffle-core-migrate-without-compile", "cli")}`;
 
 module.exports = {
   scripts: {
@@ -89,6 +89,10 @@ module.exports = {
          *
          *    npm start test.ganacheDb.zip
          *
+         * You can later unzip the database:
+         *
+         *    npm start test.ganacheDb.restoreFromZip
+         *
          * Now you can restart ganache against the new database:
          *
          *    npm start test.ganacheDb.runAsync
@@ -126,34 +130,7 @@ module.exports = {
       publish: series("nps build", "npm publish")
     },
     /**
-     *
-     * Typical workflow for migrating to ganache (Ganache):
-     *
-     * Fire up ganache (Ganache) in a separate window.
-     *
-     *    npm start test.ganache.runAsync
-     *
-     * If the window didn't fire up in your OS, then run this
-     * in a separate window of your own creation:
-     *
-     *    npm start test.ganache.run
-     *
-     * Then run the migrations:
-     *
-     *    npm start migrateContracts
-     *
-     * And you're ready to run arc.js tests or your application against arc.js.
-     *
-     * Notes:
-     *
-     * If you want to migrate to another network, kovan for example:
-     *
-     *    Set the "network" config value to "kovan" (see "Arc Configuration" in the root readme.md)
-     *    Start a local network node listening at http://127.0.0.1:8584
-     *    Run:  npm start migrateContracts
-     *
-     * To deploy to the mainnet, Set the "network" config value to "live" and proceed as above.
-     * (see "Arc Configuration" in the root readme.md)
+     * See README.md for how to use these scripts in a workflow to migrate contracts
      */
     migrateContracts: {
       /**
@@ -193,7 +170,8 @@ module.exports = {
       },
       /**
        * Fetch the unmigrated contract json files from DAOstack Arc.
-       * Run this only when we want to start with fresh unmigrated contracts from @daostack/arc.
+       * Run this ONLY when you want to start with fresh UNMIGRATED contracts from DAOstack Arc.
+       * Best to run "migrateContracts.clean" first.
        */
       fetchFromArc: copy(`${joinPath(pathDaostackArcRepo, "build", "contracts", "*")}  ${pathArcJsContracts}`)
     }
