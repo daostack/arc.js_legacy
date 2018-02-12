@@ -8,6 +8,30 @@ import { AbsoluteVote } from "../lib/contracts/absoluteVote";
 describe("DAO", () => {
   let dao;
 
+  it("default config for counting the number of transactions", async () => {
+    dao = await DAO.new({
+      name: "Skynet",
+      tokenName: "Tokens of skynet",
+      tokenSymbol: "SNT",
+      founders: [
+        {
+          address: accounts[0],
+          reputation: web3.toWei(1000),
+          tokens: web3.toWei(40)
+        }
+      ],
+      schemes: [
+        { name: "SchemeRegistrar" },
+        { name: "UpgradeScheme" },
+        { name: "GlobalConstraintRegistrar" }
+      ]
+    });
+    // the dao has an avatar
+    assert.ok(dao.avatar, "DAO must have an avatar defined");
+    const scheme = await dao.getScheme("SchemeRegistrar");
+    assert.equal(scheme.getDefaultPermissions(), await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address));
+  });
+
   it("can create with non-universal controller", async () => {
     dao = await DAO.new({
       name: "Skynet",
