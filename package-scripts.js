@@ -54,7 +54,7 @@ module.exports = {
          *   npm start "test.automated --bail ./test/dao.js"
          *
          */
-        default: "mocha --require babel-register --require babel-polyfill --require chai --timeout 15000",
+        default: "mocha --require babel-register --require babel-polyfill --require chai --timeout 999999",
         bail: 'nps "test.automated --bail"'
       },
       watch: 'nps "test.automated --watch"',
@@ -164,7 +164,7 @@ module.exports = {
          * Run this ONLY when you want to start with fresh UNMIGRATED contracts from @daostack/arc.
          */
         andMigrate: series(
-          "nps migrateContracts.andFetchFromArc",
+          "nps migrateContracts.clean.andFetchFromArc",
           "nps migrateContracts"
         )
       },

@@ -50,7 +50,7 @@ module.exports = async function (deployer) {
   // Deploy DaoCreator:
   // apparently we must wrap the first deploy call in a then to avoid
   // what seem to be race conditions during deployment
-  deployer.deploy(DaoCreator, { gas: 6015000 }).then(async () => {
+  deployer.deploy(DaoCreator, { gas: 6300000 }).then(async () => {
     daoCreatorInst = await DaoCreator.deployed();
     // Create Genesis (DAOstack):
     returnedParams = await daoCreatorInst.forgeOrg(orgName, tokenName, tokenSymbol, founders,
@@ -99,7 +99,7 @@ module.exports = async function (deployer) {
     await deployer.deploy(SimpleICO);
     await deployer.deploy(ContributionReward);
     await deployer.deploy(TokenCapGC);
-    await deployer.deploy(UController);
+    await deployer.deploy(UController, { gas: 6300000 });
     await deployer.deploy(VestingScheme);
     await deployer.deploy(VoteInOrganizationScheme);
     await deployer.deploy(GenesisProtocol, nativeTokenAddress);

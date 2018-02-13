@@ -1,5 +1,5 @@
 import { DAO } from "../lib/dao";
-import { SOME_ADDRESS } from "./helpers";
+import { SOME_ADDRESS, increaseTime } from "./helpers";
 import { VestingScheme } from "../lib/contracts/vestingscheme";
 
 describe("VestingScheme scheme", () => {
@@ -45,7 +45,6 @@ describe("VestingScheme scheme", () => {
       token: await dao.token.address,
       beneficiary: accounts[0],
       returnOnCancelAddress: SOME_ADDRESS,
-      startingBlock: (await web3.eth.blockNumber) - 1,
       amountPerPeriod: web3.toWei(10),
       periodLength: 1,
       numOfAgreedPeriods: 1,
@@ -56,6 +55,9 @@ describe("VestingScheme scheme", () => {
 
     let result = await createAgreement(options);
     const agreementId = result.agreementId;
+
+    // this will mine a block, allowing the award to be redeemed
+    await increaseTime(1);
 
     result = await vestingScheme.collect({ agreementId: agreementId });
 
@@ -71,7 +73,6 @@ describe("VestingScheme scheme", () => {
       token: await dao.token.address,
       beneficiary: SOME_ADDRESS,
       returnOnCancelAddress: SOME_ADDRESS,
-      // startingBlock: null,
       amountPerPeriod: web3.toWei(10),
       periodLength: 1,
       numOfAgreedPeriods: 1,
@@ -108,7 +109,6 @@ describe("VestingScheme scheme", () => {
       token: await dao.token.address,
       beneficiary: SOME_ADDRESS,
       returnOnCancelAddress: accounts[0],
-      // startingBlock: null,
       amountPerPeriod: web3.toWei(10),
       periodLength: 1,
       numOfAgreedPeriods: 1,
@@ -137,7 +137,6 @@ describe("VestingScheme scheme", () => {
       token: await dao.token.address,
       beneficiary: SOME_ADDRESS,
       returnOnCancelAddress: SOME_ADDRESS,
-      // startingBlock: null,
       amountPerPeriod: web3.toWei(10),
       periodLength: 1,
       numOfAgreedPeriods: 1,
@@ -159,7 +158,6 @@ describe("VestingScheme scheme", () => {
     const options = {
       beneficiary: SOME_ADDRESS,
       returnOnCancelAddress: SOME_ADDRESS,
-      // startingBlock: null,
       amountPerPeriod: web3.toWei(10),
       periodLength: 1,
       numOfAgreedPeriods: 1,
@@ -180,7 +178,6 @@ describe("VestingScheme scheme", () => {
     const options = {
       beneficiary: SOME_ADDRESS,
       returnOnCancelAddress: SOME_ADDRESS,
-      // startingBlock: null,
       amountPerPeriod: web3.toWei(10),
       // periodLength: 1,
       numOfAgreedPeriods: 1,

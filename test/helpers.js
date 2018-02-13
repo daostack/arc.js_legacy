@@ -166,6 +166,11 @@ export async function forgeDao(opts = {}) {
   return await setupDao(founders);
 }
 
+/**
+ * Register a ContributionReward with the given DAO.
+ * @param {*} dao
+ * @returns the ContributionReward wrapper
+ */
 export async function proposeContributionReward(dao) {
   const schemeRegistrar = await dao.getScheme("SchemeRegistrar");
   const contributionReward = await dao.getScheme("ContributionReward");
@@ -256,4 +261,28 @@ export function assertJump(error) {
 
 export async function contractsForTest() {
   return await getDeployedContracts();
+}
+
+// Increases ganache time by the passed duration in seconds
+export async function increaseTime(duration) {
+  const id = new Date().getTime();
+
+  return new Promise((resolve, reject) => {
+    web3.currentProvider.sendAsync({
+      jsonrpc: "2.0",
+      method: "evm_increaseTime",
+      params: [duration],
+      id: id,
+    }, err1 => {
+      if (err1) {return reject(err1);}
+
+      web3.currentProvider.sendAsync({
+        jsonrpc: "2.0",
+        method: "evm_mine",
+        id: id + 1,
+      }, (err2, res) => {
+        return err2 ? reject(err2) : resolve(res);
+      });
+    });
+  });
 }
