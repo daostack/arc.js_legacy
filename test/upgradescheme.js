@@ -1,17 +1,11 @@
 import { Utils } from "../lib/utils";
 import { vote } from "./helpers.js";
 const Controller = Utils.requireContract("Controller");
-const AbsoluteVote = Utils.requireContract("AbsoluteVote");
 const DAOToken = Utils.requireContract("DAOToken");
 const Avatar = Utils.requireContract("Avatar");
 const Reputation = Utils.requireContract("Reputation");
-const UpgradeScheme = Utils.requireContract("UpgradeScheme");
-import {
-  forgeDao,
-  contractsForTest,
-  SOME_HASH,
-  NULL_ADDRESS
-} from "./helpers";
+import { UpgradeScheme } from "../lib/contracts/upgradescheme";
+import * as helpers from "./helpers";
 
 describe("UpgradeScheme", () => {
   let avatar;
@@ -25,14 +19,14 @@ describe("UpgradeScheme", () => {
   });
 
   it("proposeController javascript wrapper should change controller", async () => {
-    const dao = await forgeDao();
+    const dao = await helpers.forgeDao();
 
-    const upgradeScheme = await dao.getScheme("UpgradeScheme");
+    const upgradeScheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
     const newController = await Controller.new(avatar.address);
 
     assert.equal(
-      await dao.controller.newController(),
-      NULL_ADDRESS,
+      await dao.controller.newControllers(dao.avatar.address),
+      helpers.NULL_ADDRESS,
       "there is already a new controller"
     );
 
@@ -45,10 +39,11 @@ describe("UpgradeScheme", () => {
 
     const proposalId = result.proposalId;
 
-    vote(dao, proposalId, 1, { from: accounts[2] });
+    const votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
+    await vote(votingMachine, proposalId, 1, accounts[0]);
 
     // now the ugprade should have been executed
-    assert.equal(await dao.controller.newController(), newController.address);
+    assert.equal(await dao.controller.newControllers(dao.avatar.address), newController.address);
 
     // avatar, token and reputation ownership shold have been transferred to the new controller
     assert.equal(await dao.token.owner(), newController.address);
@@ -58,14 +53,12 @@ describe("UpgradeScheme", () => {
 
   it("controller upgrade should work as expected", async () => {
 
-    const dao = await forgeDao();
+    const dao = await helpers.forgeDao();
 
-    const upgradeScheme = await dao.getScheme("UpgradeScheme");
-    const contracts = await contractsForTest();
-    const votingMachine = await AbsoluteVote.at(contracts.allContracts.AbsoluteVote.address);
+    const upgradeScheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
 
     // the dao has not been upgraded yet, so newController is the NULL address
-    assert.equal(await dao.controller.newController(), NULL_ADDRESS);
+    assert.equal(await dao.controller.newControllers(dao.avatar.address), helpers.NULL_ADDRESS);
 
     // we create a new controller to which to upgrade
     const newController = await Controller.new(avatar.address);
@@ -78,11 +71,12 @@ describe("UpgradeScheme", () => {
 
     const proposalId = result.proposalId;
     // now vote with the majority for the proposal
-    await votingMachine.vote(proposalId, 1, { from: accounts[1] });
+    const votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
+    await vote(votingMachine, proposalId, 1, web3.eth.accounts[0]);
 
     // now the ugprade should have been executed
     assert.equal(
-      await dao.controller.newController(),
+      await dao.controller.newControllers(dao.avatar.address),
       newController.address
     );
 
@@ -95,9 +89,9 @@ describe("UpgradeScheme", () => {
   });
 
   it("proposeUpgradingScheme javascript wrapper should change upgrade scheme", async () => {
-    const dao = await forgeDao();
+    const dao = await helpers.forgeDao();
 
-    const upgradeScheme = await dao.getScheme("UpgradeScheme");
+    const upgradeScheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
 
     const newUpgradeScheme = await UpgradeScheme.new();
 
@@ -118,7 +112,8 @@ describe("UpgradeScheme", () => {
 
     const proposalId = result.proposalId;
 
-    vote(dao, proposalId, 1, { from: accounts[2] });
+    const votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
+    await vote(votingMachine, proposalId, 1, accounts[0]);
 
     assert.isTrue(
       await dao.isSchemeRegistered(newUpgradeScheme.address),
@@ -127,9 +122,9 @@ describe("UpgradeScheme", () => {
   });
 
   it("proposeUpgradingScheme javascript wrapper should modify the modifying scheme", async () => {
-    const dao = await forgeDao();
+    const dao = await helpers.forgeDao();
 
-    const upgradeScheme = await dao.getScheme("UpgradeScheme");
+    const upgradeScheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
 
     assert.isTrue(
       await dao.isSchemeRegistered(upgradeScheme.address),
@@ -139,12 +134,13 @@ describe("UpgradeScheme", () => {
     const result = await upgradeScheme.proposeUpgradingScheme({
       avatar: dao.avatar.address,
       scheme: upgradeScheme.address,
-      schemeParametersHash: SOME_HASH
+      schemeParametersHash: helpers.SOME_HASH
     });
 
     const proposalId = result.proposalId;
 
-    vote(dao, proposalId, 1, { from: accounts[2] });
+    const votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
+    await vote(votingMachine, proposalId, 1, accounts[0]);
 
     assert.isTrue(
       await dao.isSchemeRegistered(upgradeScheme.address),
@@ -153,7 +149,7 @@ describe("UpgradeScheme", () => {
 
     assert.equal(
       await dao.controller.getSchemeParameters(upgradeScheme.address, dao.avatar.address),
-      SOME_HASH,
+      helpers.SOME_HASH,
       "parameters were not updated"
     );
   });

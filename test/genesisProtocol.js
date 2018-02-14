@@ -1,9 +1,8 @@
-import { DAO } from "../lib/dao";
 const DAOToken = Utils.requireContract("DAOToken");
 import { getDeployedContracts } from "../lib/contracts.js";
 import { GenesisProtocol } from "../lib/contracts/genesisProtocol";
 import { Utils } from "../lib/utils";
-import "./helpers";
+import * as helpers from "./helpers";
 const ExecutableTest = Utils.requireContract("ExecutableTest");
 
 describe("GenesisProtocol", () => {
@@ -46,10 +45,7 @@ describe("GenesisProtocol", () => {
 
   beforeEach(async () => {
 
-    dao = await DAO.new({
-      name: "Skynet",
-      tokenName: "Tokens of skynet",
-      tokenSymbol: "SNT",
+    dao = await helpers.forgeDao({
       schemes: [
         { name: "GenesisProtocol" }
       ],
