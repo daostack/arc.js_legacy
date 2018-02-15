@@ -1,13 +1,10 @@
-import { Utils } from "../lib/utils.js";
+import { Utils } from "../lib/utils";
+import { config } from "../lib/config.js";
 import { assert } from "chai";
 import { DAO } from "../lib/dao.js";
-import { getDeployedContracts } from "../lib/contracts.js";
-const DaoCreator = Utils.requireContract("DaoCreator");
-const Avatar = Utils.requireContract("Avatar");
+import { Contracts } from "../lib/contracts.js";
 const DAOToken = Utils.requireContract("DAOToken");
-const Reputation = Utils.requireContract("Reputation");
-import { AbsoluteVote } from "../lib/contracts/absoluteVote";
-const Controller = Utils.requireContract("Controller");
+import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
 
 export const NULL_HASH = Utils.NULL_HASH;
 export const NULL_ADDRESS = Utils.NULL_ADDRESS;
@@ -47,123 +44,39 @@ async function etherForEveryone() {
   }
 }
 
-async function setupAbsoluteVote(
-  avatar,
-  ownerVote = true,
-  votePerc = 50,
-  reputations = []
-) {
-  const votingMachine = await AbsoluteVote.deployed();
-
-  // set up a reputation system
-  const reputation = await Reputation.at(await avatar.nativeReputation());
-
-  for (const r of reputations) {
-    await reputation.mint(r.address, r.reputation);
-  }
-
-  // register some parameters
-  const configHash = (await votingMachine.setParams({
-    reputation: reputation.address,
-    votePerc: votePerc,
-    ownerVote: ownerVote
-  })).result;
-
-  votingMachine.configHash__ = configHash; // for reuse by tests
-
-  return votingMachine;
-}
-
-async function setupDao(founders) {
-  const dao = new DAO();
-  const daoCreator = await DaoCreator.deployed();
-
-  const tx = await daoCreator.forgeOrg(
-    "testOrg",
-    "TEST",
-    "TST",
-    founders.map(x => x.address),
-    founders.map(x => x.tokens),
-    founders.map(x => x.reputation),
-    Utils.NULL_ADDRESS
-  );
-  assert.equal(tx.logs.length, 1);
-  assert.equal(tx.logs[0].event, "NewOrg");
-  const avatarAddress = tx.logs[0].args._avatar;
-  dao.avatar = await Avatar.at(avatarAddress);
-  const tokenAddress = await dao.avatar.nativeToken();
-  dao.token = await DAOToken.at(tokenAddress);
-  const reputationAddress = await dao.avatar.nativeReputation();
-  dao.reputation = await Reputation.at(reputationAddress);
-  const controllerAddress = await dao.avatar.owner();
-  dao.controller = await Controller.at(controllerAddress);
-
-  dao.votingMachine = await setupAbsoluteVote(dao.avatar);
-
-  const contracts = await getDeployedContracts();
-
-  const defaultSchemes = [];
-
-  for (const name of [
-    "SchemeRegistrar",
-    "UpgradeScheme",
-    "GlobalConstraintRegistrar"
-  ]) {
-    await contracts.allContracts[name].contract
-      .at(contracts.allContracts[name].address)
-      .then(scheme => {
-        defaultSchemes.push(scheme);
-      });
-  }
-
-  const params = [];
-
-  for (const scheme of defaultSchemes) {
-    // yes, this set of schemes all have the same params
-    // when that changes we can improve this
-    await scheme
-      .setParams({
-        voteParametersHash: dao.votingMachine.configHash__,
-        votingMachine: dao.votingMachine.address
-      })
-      .then(result => {
-        params.push(result.result);
-      });
-  }
-
-  await daoCreator.setSchemes(
-    dao.avatar.address,
-    defaultSchemes.map(s => s.address),
-    params,
-    defaultSchemes.map(s => s.getDefaultPermissions())
-  );
-
-  return dao;
-}
-
 export async function forgeDao(opts = {}) {
-  const founders =
-    opts && opts.founders
-      ? opts.founders
-      : [
-        {
-          address: accounts[0],
-          reputation: web3.toWei(1000),
-          tokens: web3.toWei(40)
-        },
-        {
-          address: accounts[1],
-          reputation: web3.toWei(1000),
-          tokens: web3.toWei(40)
-        },
-        {
-          address: accounts[2],
-          reputation: web3.toWei(1000),
-          tokens: web3.toWei(40)
-        }
-      ];
+  const founders = Array.isArray(opts.founders) ? opts.founders :
+    [
+      {
+        address: accounts[0],
+        reputation: web3.toWei(1000),
+        tokens: web3.toWei(100)
+      },
+      {
+        address: accounts[1],
+        reputation: web3.toWei(1000),
+        tokens: web3.toWei(100)
+      },
+      {
+        address: accounts[2],
+        reputation: web3.toWei(1000),
+        tokens: web3.toWei(100)
+      }
+    ];
 
-  return await setupDao(founders);
+  const schemes = Array.isArray(opts.schemes) ? opts.schemes : [
+    { name: "SchemeRegistrar" },
+    { name: "UpgradeScheme" },
+    { name: "GlobalConstraintRegistrar" }
+  ];
+
+  return DAO.new({
+    name: opts.name || "Skynet",
+    tokenName: opts.tokenName || "Tokens of skynet",
+    tokenSymbol: opts.tokenSymbol || "SNT",
+    schemes: schemes,
+    founders: founders
+  });
 }
 
 /**
@@ -171,17 +84,17 @@ export async function forgeDao(opts = {}) {
  * @param {*} dao
  * @returns the ContributionReward wrapper
  */
-export async function proposeContributionReward(dao) {
-  const schemeRegistrar = await dao.getScheme("SchemeRegistrar");
+export async function addProposeContributionReward(dao) {
+  const schemeRegistrar = await getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
   const contributionReward = await dao.getScheme("ContributionReward");
 
-  const votingMachineHash = await dao.votingMachine.configHash__;
-  const votingMachineAddress = dao.votingMachine.address;
+  const votingMachineHash = await getSchemeVotingMachineParametersHash(dao, schemeRegistrar, 0);
+  const votingMachine = await getSchemeVotingMachine(dao, schemeRegistrar, 2);
 
   const schemeParametersHash = (await contributionReward.setParams({
     orgNativeTokenFee: 0,
     voteParametersHash: votingMachineHash,
-    votingMachine: votingMachineAddress
+    votingMachine: votingMachine.address
   })).result;
 
   const result = await schemeRegistrar.proposeToAddModifyScheme({
@@ -193,8 +106,7 @@ export async function proposeContributionReward(dao) {
 
   const proposalId = result.proposalId;
 
-  vote(dao, proposalId, 1, { from: accounts[2] });
-
+  await vote(votingMachine, proposalId, 1, accounts[1]);
   return contributionReward;
 }
 
@@ -205,20 +117,48 @@ export async function transferTokensToAvatar(avatar, amount, fromAddress) {
   return tokenAddress;
 }
 
-/**
- * vote for the proposal given by proposalId using this.votingMachine
- * This will not work for proposals using votingMachines that are not the default one.
- * Also doesn't work for DAOs created using DAO.new or DaoCreator (the DAO won't have .votingMachine)
- * See getVotingMachineForScheme() below.
- */
-export function vote(dao, proposalId, choice, params) {
-  return dao.votingMachine.vote(proposalId, choice, params);
+export async function getSchemeParameter(dao, scheme, ndxParameter) {
+  const schemeParams = await dao.getSchemeParameters(scheme);
+  return schemeParams[ndxParameter];
 }
 
-export async function getVotingMachineForScheme(dao, scheme, ndxParam) {
-  const schemeParams = await dao.getSchemeParameters(scheme);
-  const votingMachineAddress = schemeParams[ndxParam];
-  return await AbsoluteVote.at(votingMachineAddress);
+export async function getSchemeVotingMachineParametersHash(dao, scheme, ndxVotingMachineParametersHash = 0) {
+  return getSchemeParameter(dao, scheme, ndxVotingMachineParametersHash);
+}
+
+export async function getSchemeVotingMachine(dao, scheme, ndxVotingMachineParameter = 1, votingMachineName) {
+  const votingMachineAddress = await getSchemeParameter(dao, scheme, ndxVotingMachineParameter);
+  votingMachineName = votingMachineName || config.get("defaultVotingMachine");
+  return Contracts.getScheme(votingMachineName, votingMachineAddress);
+}
+
+export async function getVotingMachineParameters(votingMachine, votingMachineParamsHash) {
+  return votingMachine.parameters(votingMachineParamsHash);
+}
+
+/**
+ * vote for the proposal given by proposalId.
+ * votingMachine must be the raw contract, not a wrapper.
+ */
+export async function vote(votingMachine, proposalId, vote, voter) {
+  voter = (voter ? voter : accounts[0]);
+  votingMachine = votingMachine.contract ? votingMachine.contract : votingMachine;
+  return await votingMachine.vote(proposalId, vote, { from: voter });
+}
+
+export async function voteWasExecuted(votingMachine, proposalId) {
+  return new Promise(async (resolve) => {
+    const event = votingMachine.ExecuteProposal({}, { fromBlock: 0 });
+    let found = false;
+    event.get((err, eventsArray) => {
+      for (const event of eventsArray) {
+        found = event.args._proposalId === proposalId;
+        if (found) { break; }
+      }
+      event.stopWatching(); // maybe not necessary, but just in case...
+      resolve(found);
+    });
+  });
 }
 
 export const outOfGasMessage =
@@ -260,7 +200,7 @@ export function assertJump(error) {
 }
 
 export async function contractsForTest() {
-  return await getDeployedContracts();
+  return await Contracts.getDeployedContracts();
 }
 
 // Increases ganache time by the passed duration in seconds
@@ -274,7 +214,7 @@ export async function increaseTime(duration) {
       params: [duration],
       id: id,
     }, err1 => {
-      if (err1) {return reject(err1);}
+      if (err1) { return reject(err1); }
 
       web3.currentProvider.sendAsync({
         jsonrpc: "2.0",
@@ -285,4 +225,8 @@ export async function increaseTime(duration) {
       });
     });
   });
+}
+
+export async function getDaoScheme(dao, schemeName, factory) {
+  return factory.at((await dao.getSchemes(schemeName))[0].address);
 }

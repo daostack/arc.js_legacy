@@ -3,7 +3,6 @@ import * as helpers from "./helpers";
 import { GlobalConstraintRegistrar } from "../lib/contracts/globalconstraintregistrar";
 import { UpgradeScheme } from "../lib/contracts/upgradescheme";
 import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
-import { AbsoluteVote } from "../lib/contracts/absoluteVote";
 
 describe("DAO", () => {
   let dao;
@@ -28,7 +27,7 @@ describe("DAO", () => {
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
-    const scheme = await dao.getScheme("SchemeRegistrar");
+    const scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
     assert.equal(scheme.getDefaultPermissions(), await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address));
   });
 
@@ -57,11 +56,7 @@ describe("DAO", () => {
 
   it("can be instantiated with 'at' if it was already deployed", async () => {
     // first create the dao
-    const org1 = await DAO.new({
-      name: "Skynet",
-      tokenName: "Tokens of skynet",
-      tokenSymbol: "SNT"
-    });
+    const org1 = await helpers.forgeDao();
     // then instantiate it with .at
     const org2 = await DAO.at(org1.avatar.address);
 
@@ -69,14 +64,14 @@ describe("DAO", () => {
     assert.equal(org1.avatar.address, org2.avatar.address);
     assert.equal(await org1.getName(), await org2.getName());
     assert.equal(await org1.getTokenName(), await org2.getTokenName());
-    const schemeRegistrar1 = await org1.getScheme("SchemeRegistrar");
-    const schemeRegistrar2 = await org2.getScheme("SchemeRegistrar");
+    const schemeRegistrar1 = await helpers.getDaoScheme(org1, "SchemeRegistrar", SchemeRegistrar);
+    const schemeRegistrar2 = await helpers.getDaoScheme(org2, "SchemeRegistrar", SchemeRegistrar);
     assert.equal(schemeRegistrar1.address, schemeRegistrar2.address);
-    const upgradeScheme1 = await org1.getScheme("UpgradeScheme");
-    const upgradeScheme2 = await org2.getScheme("UpgradeScheme");
+    const upgradeScheme1 = await helpers.getDaoScheme(org1, "UpgradeScheme", UpgradeScheme);
+    const upgradeScheme2 = await helpers.getDaoScheme(org2, "UpgradeScheme", UpgradeScheme);
     assert.equal(upgradeScheme1.address, upgradeScheme2.address);
-    const globalConstraintRegistrar1 = await org1.getScheme("GlobalConstraintRegistrar");
-    const globalConstraintRegistrar2 = await org2.getScheme("GlobalConstraintRegistrar");
+    const globalConstraintRegistrar1 = await helpers.getDaoScheme(org1, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
+    const globalConstraintRegistrar2 = await helpers.getDaoScheme(org2, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
     assert.equal(
       globalConstraintRegistrar1.address,
       globalConstraintRegistrar2.address
@@ -123,7 +118,7 @@ describe("DAO", () => {
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
-    const scheme = await dao.getScheme("SchemeRegistrar");
+    const scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
     assert.equal(scheme.getDefaultPermissions(), await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address));
   });
 
@@ -144,14 +139,12 @@ describe("DAO", () => {
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
-    const scheme = await dao.getScheme("UpgradeScheme");
+    const scheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
     assert.equal(scheme.getDefaultPermissions(), await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address));
-    const paramsHash = await dao.controller.getSchemeParameters(scheme.address, dao.avatar.address);
-    const schemeParams = await scheme.parameters(paramsHash);
-    const votingMachineParamsHash = await schemeParams[0];
-    const votingMachineAddress = await schemeParams[1];
-    const votingMachine = await AbsoluteVote.at(votingMachineAddress);
-    const votingMachineParams = await votingMachine.parameters(votingMachineParamsHash);
+
+    const votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, scheme);
+    const votingMachine = await helpers.getSchemeVotingMachine(dao, scheme);
+    const votingMachineParams = await helpers.getVotingMachineParameters(votingMachine, votingMachineParamsHash);
     assert.equal(votingMachineParams[1].toNumber(), 45);
   });
 
@@ -178,26 +171,20 @@ describe("DAO", () => {
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
-    let scheme = await dao.getScheme("GlobalConstraintRegistrar");
+    let scheme = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
     assert.equal(scheme.getDefaultPermissions(), await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address));
-    let paramsHash = await dao.controller.getSchemeParameters(scheme.address, dao.avatar.address);
-    let schemeParams = await scheme.parameters(paramsHash);
-    let votingMachineParamsHash = await schemeParams[0];
-    let votingMachineAddress = await schemeParams[1];
-    let votingMachine = await AbsoluteVote.at(votingMachineAddress);
-    let votingMachineParams = await votingMachine.parameters(votingMachineParamsHash);
+    let votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, scheme);
+    let votingMachine = await helpers.getSchemeVotingMachine(dao, scheme);
+    let votingMachineParams = await helpers.getVotingMachineParameters(votingMachine, votingMachineParamsHash);
     assert.equal(votingMachineParams[1].toNumber(), 30);
 
-    scheme = await dao.getScheme("UpgradeScheme");
+    scheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
     assert.equal(scheme.getDefaultPermissions(), await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address));
-    paramsHash = await dao.controller.getSchemeParameters(scheme.address, dao.avatar.address);
-    schemeParams = await scheme.parameters(paramsHash);
-    votingMachineParamsHash = await schemeParams[0];
-    votingMachineAddress = await schemeParams[1];
-    votingMachine = await AbsoluteVote.at(votingMachineAddress);
-    votingMachineParams = await votingMachine.parameters(votingMachineParamsHash);
-    assert.equal(votingMachineParams[1].toNumber(), 45);
 
+    votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, scheme);
+    votingMachine = await helpers.getSchemeVotingMachine(dao, scheme);
+    votingMachineParams = await helpers.getVotingMachineParameters(votingMachine, votingMachineParamsHash);
+    assert.equal(votingMachineParams[1].toNumber(), 45);
   });
 
   it("has a working getSchemes() function to access its schemes", async () => {
@@ -205,7 +192,7 @@ describe("DAO", () => {
     const contracts = await helpers.contractsForTest();
     // a new dao comes with three known schemes
     assert.equal((await dao.getSchemes()).length, 3);
-    let scheme = await dao.getScheme("GlobalConstraintRegistrar");
+    let scheme = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
     assert.equal(
       scheme.address,
       contracts.allContracts.GlobalConstraintRegistrar.address
@@ -213,7 +200,7 @@ describe("DAO", () => {
     assert.isTrue(!!scheme.contract, "contract must be set");
     assert.isTrue(scheme instanceof GlobalConstraintRegistrar);
 
-    scheme = await dao.getScheme("SchemeRegistrar");
+    scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
     assert.equal(
       scheme.address,
       contracts.allContracts.SchemeRegistrar.address
@@ -221,7 +208,7 @@ describe("DAO", () => {
     assert.isTrue(!!scheme.contract, "contract must be set");
     assert.isTrue(scheme instanceof SchemeRegistrar);
 
-    scheme = await dao.getScheme("UpgradeScheme");
+    scheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
     assert.equal(
       scheme.address,
       contracts.allContracts.UpgradeScheme.address
@@ -230,7 +217,7 @@ describe("DAO", () => {
     assert.isTrue(scheme instanceof UpgradeScheme);
 
     // now we add another known scheme
-    await helpers.proposeContributionReward(dao);
+    await helpers.addProposeContributionReward(dao);
 
     assert.equal((await dao.getSchemes()).length, 4);
   });
@@ -260,26 +247,21 @@ describe("DAO", () => {
       cap: 3141
     })).result;
 
-    const votingMachineHash = (await dao.votingMachine.setParams({
-      reputation: dao.reputation.address,
-      votePerc: 50,
-      ownerVote: true
-    })).result;
+    const globalConstraintRegistrar = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
 
-    const globalConstraintRegistrar = await dao.getScheme("GlobalConstraintRegistrar");
+    const votingMachineHash = await helpers.getSchemeVotingMachineParametersHash(dao, globalConstraintRegistrar);
+    const votingMachine = await helpers.getSchemeVotingMachine(dao, globalConstraintRegistrar);
+
     let result = await globalConstraintRegistrar.proposeToAddModifyGlobalConstraint({
       avatar: dao.avatar.address,
       globalConstraint: tokenCapGC.address,
       globalConstraintParametersHash: globalConstraintParametersHash,
       votingMachineHash: votingMachineHash
-    }
-    );
+    });
 
     let proposalId = result.proposalId;
-    // several users now cast their vote
-    await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[0] });
-    // next is decisive vote: the proposal will be executed
-    await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[2] });
+
+    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
     const gcs = await dao.getGlobalConstraints();
     assert.equal(gcs.length, 1);
@@ -292,10 +274,7 @@ describe("DAO", () => {
     });
 
     proposalId = result.proposalId;
-    // several users now cast their vote
-    await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[0] });
-    // next is decisive vote: the proposal will be executed
-    await helpers.vote(dao, proposalId, 1, { from: web3.eth.accounts[2] });
+    await helpers.vote(votingMachine, proposalId, 1, accounts[2]);
 
     assert.equal((await dao.getGlobalConstraints()).length, 0);
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address))[1].toNumber(), 0);

@@ -19,32 +19,47 @@ const GenesisProtocol = artifacts.require("GenesisProtocol.sol");
 const ExecutableTest = artifacts.require("ExecutableTest.sol");
 
 // Instances:
-let AbsoluteVoteInst;
 let schemeRegistrarInst;
 let globalConstraintRegistrarInst;
 let upgradeSchemeInst;
 let ControllerInst;
 let AvatarInst;
+let genesisProtocolInst;
+let contributionRewardInst;
 
 // DAOstack ORG parameters:
 const orgName = "Genesis";
-const tokenName = "Genes";
+const tokenName = "Gen";
 const tokenSymbol = "GEN";
 const founders = [web3.eth.accounts[0]];
 const initRep = 10;
 const initRepInWei = [web3.toWei(initRep)];
 const initToken = 1000;
 const initTokenInWei = [web3.toWei(initToken)];
-let reputationAddress;
 let controllerAddress;
 let nativeTokenAddress;
 
 // DAOstack parameters for universal schemes:
-let voteParametersHash;
-const votePerc = 50;
+let genesisProtocolParams;
 let schemeRegisterParams;
 let schemeGCRegisterParams;
 let schemeUpgradeParams;
+let contributionRewardParams;
+const defaultVotingMachineParams = {
+  preBoostedVoteRequiredPercentage: 50,
+  preBoostedVotePeriodLimit: 60,
+  boostedVotePeriodLimit: 60,
+  thresholdConstA: 1,
+  thresholdConstB: 1,
+  minimumStakingFee: 0,
+  quietEndingPeriod: 0,
+  proposingRepRewardConstA: 1,
+  proposingRepRewardConstB: 1,
+  stakerFeeRatioForVoters: 1,
+  votersReputationLossRatio: 10,
+  votersGainRepRatioFromLostRep: 80,
+  governanceFormulasInterface: "0x0000000000000000000000000000000000000000"
+};
 
 module.exports = async function (deployer) {
   // Deploy DaoCreator:
@@ -58,11 +73,11 @@ module.exports = async function (deployer) {
     AvatarInst = await Avatar.at(returnedParams.logs[0].args._avatar);
     controllerAddress = await AvatarInst.owner();
     ControllerInst = await Controller.at(controllerAddress);
-    reputationAddress = await ControllerInst.nativeReputation();
     nativeTokenAddress = await ControllerInst.nativeToken();
-    await deployer.deploy(AbsoluteVote);
-    // Deploy AbsoluteVote:
-    AbsoluteVoteInst = await AbsoluteVote.deployed();
+
+    await deployer.deploy(GenesisProtocol, nativeTokenAddress);
+    genesisProtocolInst = await GenesisProtocol.deployed();
+
     // Deploy SchemeRegistrar:
     await deployer.deploy(SchemeRegistrar);
     schemeRegistrarInst = await SchemeRegistrar.deployed();
@@ -73,21 +88,72 @@ module.exports = async function (deployer) {
     await deployer.deploy(GlobalConstraintRegistrar);
     globalConstraintRegistrarInst = await GlobalConstraintRegistrar.deployed();
 
-    // Voting parameters and schemes params:
-    voteParametersHash = await AbsoluteVoteInst.getParametersHash(reputationAddress, votePerc, true);
+    await deployer.deploy(ContributionReward);
+    contributionRewardInst = await ContributionReward.deployed();
 
-    await schemeRegistrarInst.setParameters(voteParametersHash, voteParametersHash, AbsoluteVoteInst.address);
-    schemeRegisterParams = await schemeRegistrarInst.getParametersHash(voteParametersHash, voteParametersHash, AbsoluteVoteInst.address);
+    genesisProtocolParams = await genesisProtocolInst.getParametersHash(
+      [
+        defaultVotingMachineParams.preBoostedVoteRequiredPercentage,
+        defaultVotingMachineParams.preBoostedVotePeriodLimit,
+        defaultVotingMachineParams.boostedVotePeriodLimit,
+        defaultVotingMachineParams.thresholdConstA,
+        defaultVotingMachineParams.thresholdConstB,
+        defaultVotingMachineParams.minimumStakingFee,
+        defaultVotingMachineParams.quietEndingPeriod,
+        defaultVotingMachineParams.proposingRepRewardConstA,
+        defaultVotingMachineParams.proposingRepRewardConstB,
+        defaultVotingMachineParams.stakerFeeRatioForVoters,
+        defaultVotingMachineParams.votersReputationLossRatio,
+        defaultVotingMachineParams.votersGainRepRatioFromLostRep
+      ],
+      defaultVotingMachineParams.governanceFormulasInterface
+    );
 
-    await globalConstraintRegistrarInst.setParameters(reputationAddress, votePerc);
-    schemeGCRegisterParams = await globalConstraintRegistrarInst.getParametersHash(reputationAddress, votePerc);
+    await genesisProtocolInst.setParameters(
+      [
+        defaultVotingMachineParams.preBoostedVoteRequiredPercentage,
+        defaultVotingMachineParams.preBoostedVotePeriodLimit,
+        defaultVotingMachineParams.boostedVotePeriodLimit,
+        defaultVotingMachineParams.thresholdConstA,
+        defaultVotingMachineParams.thresholdConstB,
+        defaultVotingMachineParams.minimumStakingFee,
+        defaultVotingMachineParams.quietEndingPeriod,
+        defaultVotingMachineParams.proposingRepRewardConstA,
+        defaultVotingMachineParams.proposingRepRewardConstB,
+        defaultVotingMachineParams.stakerFeeRatioForVoters,
+        defaultVotingMachineParams.votersReputationLossRatio,
+        defaultVotingMachineParams.votersGainRepRatioFromLostRep
+      ],
+      defaultVotingMachineParams.governanceFormulasInterface
+    );
 
-    await upgradeSchemeInst.setParameters(voteParametersHash, AbsoluteVoteInst.address);
-    schemeUpgradeParams = await upgradeSchemeInst.getParametersHash(voteParametersHash, AbsoluteVoteInst.address);
+    await schemeRegistrarInst.setParameters(genesisProtocolParams, genesisProtocolParams, genesisProtocolInst.address);
+    schemeRegisterParams = await schemeRegistrarInst.getParametersHash(genesisProtocolParams, genesisProtocolParams, genesisProtocolInst.address);
 
-    const schemesArray = [schemeRegistrarInst.address, globalConstraintRegistrarInst.address, upgradeSchemeInst.address];
-    const paramsArray = [schemeRegisterParams, schemeGCRegisterParams, schemeUpgradeParams];
-    const permissionArray = ["0x00000003", "0x00000005", "0x00000009"];
+    await globalConstraintRegistrarInst.setParameters(genesisProtocolParams, genesisProtocolInst.address);
+    schemeGCRegisterParams = await globalConstraintRegistrarInst.getParametersHash(genesisProtocolParams, genesisProtocolInst.address);
+
+    await upgradeSchemeInst.setParameters(genesisProtocolParams, genesisProtocolInst.address);
+    schemeUpgradeParams = await upgradeSchemeInst.getParametersHash(genesisProtocolParams, genesisProtocolInst.address);
+
+    await contributionRewardInst.setParameters(0, genesisProtocolParams, genesisProtocolInst.address);
+    contributionRewardParams = await contributionRewardInst.getParametersHash(0, genesisProtocolParams, genesisProtocolInst.address);
+
+    const schemesArray = [
+      schemeRegistrarInst.address,
+      globalConstraintRegistrarInst.address,
+      upgradeSchemeInst.address,
+      contributionRewardInst.address,
+      genesisProtocolInst.address];
+
+    const paramsArray = [
+      schemeRegisterParams,
+      schemeGCRegisterParams,
+      schemeUpgradeParams,
+      contributionRewardParams,
+      genesisProtocolParams];
+
+    const permissionArray = ["0x00000003", "0x00000005", "0x00000009", "0x00000001", "0x00000001"];
 
     // set DAOstack initial schmes:
     await daoCreatorInst.setSchemes(
@@ -96,13 +162,12 @@ module.exports = async function (deployer) {
       paramsArray,
       permissionArray);
 
+    await deployer.deploy(AbsoluteVote);
     await deployer.deploy(SimpleICO);
-    await deployer.deploy(ContributionReward);
     await deployer.deploy(TokenCapGC);
     await deployer.deploy(UController, { gas: 6300000 });
     await deployer.deploy(VestingScheme);
     await deployer.deploy(VoteInOrganizationScheme);
-    await deployer.deploy(GenesisProtocol, nativeTokenAddress);
     await deployer.deploy(ExecutableTest);
   });
 };

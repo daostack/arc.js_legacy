@@ -1,10 +1,12 @@
 {
   "presets": [
-    "env"
+    [
+      "env",
+      {
+        "useBuiltIns": true
+      }
+    ]
   ],
-  "plugins": [
-    "syntax-async-functions"
-  ],
-  // for VS Code test code debugging
-  "sourceMaps": "inline"
+  "sourceMaps": "inline",
+  "retainLines": true
 }

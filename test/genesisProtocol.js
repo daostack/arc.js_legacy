@@ -1,9 +1,9 @@
-import { DAO } from "../lib/dao";
 const DAOToken = Utils.requireContract("DAOToken");
-import { getDeployedContracts } from "../lib/contracts.js";
+import { Contracts } from "../lib/contracts.js";
 import { GenesisProtocol } from "../lib/contracts/genesisProtocol";
+import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
 import { Utils } from "../lib/utils";
-import "./helpers";
+import * as helpers from "./helpers";
 const ExecutableTest = Utils.requireContract("ExecutableTest");
 
 describe("GenesisProtocol", () => {
@@ -46,10 +46,7 @@ describe("GenesisProtocol", () => {
 
   beforeEach(async () => {
 
-    dao = await DAO.new({
-      name: "Skynet",
-      tokenName: "Tokens of skynet",
-      tokenSymbol: "SNT",
+    dao = await helpers.forgeDao({
       schemes: [
         { name: "GenesisProtocol" }
       ],
@@ -75,6 +72,62 @@ describe("GenesisProtocol", () => {
     paramsHash = (await genesisProtocol.setParams({})).result;
 
     executableTest = await ExecutableTest.deployed();
+  });
+
+  it("scheme can use GenesisProtocol", async () => {
+
+    dao = await helpers.forgeDao({
+      schemes: [
+        { name: "GenesisProtocol" },
+        { name: "ContributionReward" },
+        {
+          name: "SchemeRegistrar",
+          votingMachineParams: {
+            votingMachineName: "GenesisProtocol"
+          }
+        }
+      ],
+      founders: [{
+        address: accounts[0],
+        reputation: web3.toWei(1001),
+        tokens: web3.toWei(1000)
+      },
+      {
+        address: accounts[1],
+        reputation: web3.toWei(1000),
+        tokens: web3.toWei(1000)
+      }
+      ]
+    });
+
+    const schemeToDelete = (await dao.getSchemes("ContributionReward"))[0].address;
+    assert.isOk(schemeToDelete);
+
+    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
+    assert.isOk(schemeRegistrar);
+    /**
+     * propose to remove ContributionReward.  It should get the ownerVote, then requiring just 30 more reps to execute.
+    */
+    const result = await schemeRegistrar.proposeToRemoveScheme(
+      {
+        avatar: dao.avatar.address,
+        scheme: schemeToDelete
+      });
+
+    assert.isOk(result.proposalId);
+
+    /**
+     * get the voting machine to use to vote for this proposal
+     */
+    const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar, 2, "GenesisProtocol");
+
+    assert.isOk(votingMachine);
+    assert.equal(votingMachine.constructor.name, "GenesisProtocol", "schemeRegistrar is not using GeneisisProtocol");
+    assert.isFalse(await helpers.voteWasExecuted(votingMachine, result.proposalId));
+
+    await helpers.vote(votingMachine, result.proposalId, 1, accounts[0]);
+
+    assert(await helpers.voteWasExecuted(votingMachine, result.proposalId), "vote was not executed");
   });
 
   it("can call getScoreThresholdParams", async () => {
@@ -368,7 +421,7 @@ describe("GenesisProtocol", () => {
 
   it("can do deployed", async () => {
     const scheme = await GenesisProtocol.deployed();
-    assert.equal(scheme.address, (await getDeployedContracts()).allContracts.GenesisProtocol.address);
+    assert.equal(scheme.address, (await Contracts.getDeployedContracts()).allContracts.GenesisProtocol.address);
   });
 
   it("can register new proposal", async () => {

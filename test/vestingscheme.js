@@ -1,5 +1,4 @@
-import { DAO } from "../lib/dao";
-import { SOME_ADDRESS, increaseTime } from "./helpers";
+import * as helpers from "./helpers";
 import { VestingScheme } from "../lib/contracts/vestingscheme";
 
 describe("VestingScheme scheme", () => {
@@ -15,10 +14,7 @@ describe("VestingScheme scheme", () => {
 
   beforeEach(async () => {
 
-    dao = await DAO.new({
-      name: "Skynet",
-      tokenName: "Tokens of skynet",
-      tokenSymbol: "SNT",
+    dao = await helpers.forgeDao({
       schemes: [{ name: "VestingScheme" }],
       founders: [{
         address: accounts[0],
@@ -44,7 +40,7 @@ describe("VestingScheme scheme", () => {
     const options = {
       token: await dao.token.address,
       beneficiary: accounts[0],
-      returnOnCancelAddress: SOME_ADDRESS,
+      returnOnCancelAddress: helpers.SOME_ADDRESS,
       amountPerPeriod: web3.toWei(10),
       periodLength: 1,
       numOfAgreedPeriods: 1,
@@ -57,7 +53,7 @@ describe("VestingScheme scheme", () => {
     const agreementId = result.agreementId;
 
     // this will mine a block, allowing the award to be redeemed
-    await increaseTime(1);
+    await helpers.increaseTime(1);
 
     result = await vestingScheme.collect({ agreementId: agreementId });
 
@@ -71,8 +67,8 @@ describe("VestingScheme scheme", () => {
 
     const options = {
       token: await dao.token.address,
-      beneficiary: SOME_ADDRESS,
-      returnOnCancelAddress: SOME_ADDRESS,
+      beneficiary: helpers.SOME_ADDRESS,
+      returnOnCancelAddress: helpers.SOME_ADDRESS,
       amountPerPeriod: web3.toWei(10),
       periodLength: 1,
       numOfAgreedPeriods: 1,
@@ -107,7 +103,7 @@ describe("VestingScheme scheme", () => {
 
     const options = {
       token: await dao.token.address,
-      beneficiary: SOME_ADDRESS,
+      beneficiary: helpers.SOME_ADDRESS,
       returnOnCancelAddress: accounts[0],
       amountPerPeriod: web3.toWei(10),
       periodLength: 1,
@@ -135,8 +131,8 @@ describe("VestingScheme scheme", () => {
 
     const options = {
       token: await dao.token.address,
-      beneficiary: SOME_ADDRESS,
-      returnOnCancelAddress: SOME_ADDRESS,
+      beneficiary: helpers.SOME_ADDRESS,
+      returnOnCancelAddress: helpers.SOME_ADDRESS,
       amountPerPeriod: web3.toWei(10),
       periodLength: 1,
       numOfAgreedPeriods: 1,
@@ -156,8 +152,8 @@ describe("VestingScheme scheme", () => {
   it("propose agreement", async () => {
 
     const options = {
-      beneficiary: SOME_ADDRESS,
-      returnOnCancelAddress: SOME_ADDRESS,
+      beneficiary: helpers.SOME_ADDRESS,
+      returnOnCancelAddress: helpers.SOME_ADDRESS,
       amountPerPeriod: web3.toWei(10),
       periodLength: 1,
       numOfAgreedPeriods: 1,
@@ -176,8 +172,8 @@ describe("VestingScheme scheme", () => {
   it("propose agreement fails when no period is given", async () => {
 
     const options = {
-      beneficiary: SOME_ADDRESS,
-      returnOnCancelAddress: SOME_ADDRESS,
+      beneficiary: helpers.SOME_ADDRESS,
+      returnOnCancelAddress: helpers.SOME_ADDRESS,
       amountPerPeriod: web3.toWei(10),
       // periodLength: 1,
       numOfAgreedPeriods: 1,

@@ -1,13 +1,17 @@
-import { proposeContributionReward, vote, forgeDao, increaseTime } from "./helpers";
+import * as helpers from "./helpers";
+import { ContributionReward } from "../lib/contracts/contributionreward";
 
 describe("ContributionReward scheme", () => {
 
   it("can propose, vote and redeem", async () => {
 
-    /* note this will give accounts[0,1,2] enough tokens to register some schemes */
-    const dao = await forgeDao();
+    const dao = await helpers.forgeDao({
+      schemes: [
+        { name: "ContributionReward" }
+      ]
+    });
 
-    const scheme = await proposeContributionReward(dao);
+    const scheme = await helpers.getDaoScheme(dao, "ContributionReward", ContributionReward);
 
     let result = await scheme.proposeContributionReward({
       avatar: dao.avatar.address,
@@ -20,11 +24,12 @@ describe("ContributionReward scheme", () => {
 
     const proposalId = result.proposalId;
 
-    // now vote with a majority account and accept this contribution
-    await vote(dao, proposalId, 1, { from: accounts[2] });
+    const votingMachine = await helpers.getSchemeVotingMachine(dao, scheme, 2);
+
+    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
     // this will mine a block, allowing the award to be redeemed
-    await increaseTime(1);
+    await helpers.increaseTime(1);
 
     // now try to redeem some native tokens
     result = await scheme.redeemContributionReward({
