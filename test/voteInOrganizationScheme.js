@@ -34,7 +34,7 @@ const createProposal = async function () {
 
   const schemeRegistrar = await helpers.getDaoScheme(originalDao, "SchemeRegistrar", SchemeRegistrar);
   assert.isOk(schemeRegistrar);
-  /** 
+  /**
    * propose to remove ContributionReward.  It should get the ownerVote, then requiring just 30 more reps to execute.
   */
   const result = await schemeRegistrar.proposeToRemoveScheme(
