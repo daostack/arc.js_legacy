@@ -342,15 +342,8 @@ declare module "@daostack/arc.js" {
      */
     votingMachine?: string;
     /**
-     * Optional Voting percentage that decides a vote.
-     * Default is 50.
+     * You can add your voting-machine parameters here, like ownerVote, votePerc, etc
      */
-    votePerc?: number;
-    /**
-     * Optional true to automatically give a proposer a vote "for" the proposed scheme.
-     * Default is true;
-     */
-    ownerVote?: boolean;
   }
 
   /**
