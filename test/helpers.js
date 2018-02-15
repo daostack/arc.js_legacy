@@ -1,9 +1,9 @@
 import { Utils } from "../lib/utils";
+import { config } from "../lib/config.js";
 import { assert } from "chai";
 import { DAO } from "../lib/dao.js";
 import { Contracts } from "../lib/contracts.js";
 const DAOToken = Utils.requireContract("DAOToken");
-import { AbsoluteVote } from "../lib/contracts/absoluteVote";
 import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
 
 export const NULL_HASH = Utils.NULL_HASH;
@@ -126,9 +126,10 @@ export async function getSchemeVotingMachineParametersHash(dao, scheme, ndxVotin
   return getSchemeParameter(dao, scheme, ndxVotingMachineParametersHash);
 }
 
-export async function getSchemeVotingMachine(dao, scheme, ndxVotingMachineParameter = 1) {
+export async function getSchemeVotingMachine(dao, scheme, ndxVotingMachineParameter = 1, votingMachineName) {
   const votingMachineAddress = await getSchemeParameter(dao, scheme, ndxVotingMachineParameter);
-  return AbsoluteVote.at(votingMachineAddress);
+  votingMachineName = votingMachineName || config.get("defaultVotingMachine");
+  return Contracts.getScheme(votingMachineName, votingMachineAddress);
 }
 
 export async function getVotingMachineParameters(votingMachine, votingMachineParamsHash) {
