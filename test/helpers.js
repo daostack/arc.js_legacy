@@ -141,20 +141,9 @@ export async function getVotingMachineParameters(votingMachine, votingMachinePar
  * votingMachine must be the raw contract, not a wrapper.
  */
 export async function vote(votingMachine, proposalId, vote, voter) {
-
   voter = (voter ? voter : accounts[0]);
-
-  // console.log(`voting: ${vote} on ${proposalId} on behalf of: ${voter}`);
-
   votingMachine = votingMachine.contract ? votingMachine.contract : votingMachine;
-  const tx = await votingMachine.vote(proposalId, vote, { from: voter });
-
-  // const status = await votingMachine.voteInfo(proposalId, voter);
-  // console.log(`voted: ${status[0]}, using reputation: ${web3.fromWei(status[1])}`);
-
-  // console.log(`executed: ${await voteWasExecuted(votingMachine, proposalId)}`);
-
-  return tx;
+  return await votingMachine.vote(proposalId, vote, { from: voter });
 }
 
 export async function voteWasExecuted(votingMachine, proposalId) {
