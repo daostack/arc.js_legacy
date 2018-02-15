@@ -439,7 +439,7 @@ const newInstance = await UpgradeScheme.at(anAddress);
 Not all Arc contracts have been given wrapper classes, for example, `Avatar`, `UController` and many more.  But you can obtain a raw TruffleContract for any contract, enabling you to work with the contract:
 
 ```javascript
-import { Utils } from "@daostack/arc.js";
+import Utils from "@daostack/arc.js";
 const truffleContract = await Utils.requireContract("Avatar");
 ```
 

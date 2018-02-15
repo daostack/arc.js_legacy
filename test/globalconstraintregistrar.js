@@ -1,6 +1,6 @@
 import * as helpers from "./helpers";
-import { TokenCapGC } from "../lib/contracts/tokenCapGC";
-import { GlobalConstraintRegistrar } from "../lib/contracts/globalconstraintregistrar";
+import { TokenCapGC } from "../dist/contracts/tokenCapGC";
+import { GlobalConstraintRegistrar } from "../dist/contracts/globalconstraintregistrar";
 
 describe("GlobalConstraintRegistrar", () => {
   it("proposeToAddModifyGlobalConstraint javascript wrapper should work", async () => {

@@ -9,10 +9,10 @@ Object.assign(options, {
   "module": "commonjs"
 });
 
-typeDocApp.options.setValue("includeDeclarations", true);
+// typeDocApp.options.setValue("includeDeclarations", true);
 // typeDocApp.options.setValue("externalPattern", "node_modules");
 typeDocApp.options.setValue("excludeExternals", true);
 typeDocApp.options.setValue("hideGenerator", true);
 
-typeDocApp.generateDocs(["./lib/arc.d.ts"], "./docs");
+typeDocApp.generateDocs(["./custom_typings/system.d.ts", "./lib/utils.ts", "./lib/contracts.ts"], "./docs");
 

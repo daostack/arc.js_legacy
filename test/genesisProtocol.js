@@ -1,8 +1,8 @@
 const DAOToken = Utils.requireContract("DAOToken");
-import { Contracts } from "../lib/contracts.js";
-import { GenesisProtocol } from "../lib/contracts/genesisProtocol";
-import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
-import { Utils } from "../lib/utils";
+import { Contracts } from "../dist/contracts.js";
+import { GenesisProtocol } from "../dist/contracts/genesisProtocol";
+import { SchemeRegistrar } from "../dist/contracts/schemeregistrar";
+import { Utils } from "../dist/utils";
 import * as helpers from "./helpers";
 const ExecutableTest = Utils.requireContract("ExecutableTest");
 

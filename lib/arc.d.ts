@@ -91,12 +91,12 @@ declare module "@daostack/arc.js" {
   }
 
   /********************************
-   * config.js
+   * config
    */
   export var config: any;
 
   /********************************
-   * contracts.js
+   * contracts
    */
   export class Contracts {
     static getDeployedContracts(): ArcDeployedContracts;
@@ -105,11 +105,11 @@ declare module "@daostack/arc.js" {
      * @param contract - name of an Arc scheme, like "SchemeRegistrar"
      * @param address - optional
      */
-    static getScheme(contract: string, address?: string): Promise<ExtendTruffleScheme | undefined>;;
+    static getScheme(contract: string, address?: string): Promise<ExtendTruffleScheme | undefined>;
   }
 
   /********************************
-   * utils.js
+   * utils
    */
 
   export class Utils {
@@ -177,7 +177,7 @@ declare module "@daostack/arc.js" {
   }
 
   /********************************
-  * ExtendTruffleContract.js
+  * ExtendTruffleContract
   */
   export interface TransactionLog {
     address: string;

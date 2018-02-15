@@ -6,7 +6,6 @@
   "types": "lib/arc.d.ts",
   "files": [
     "dist/",
-    "lib/",
     "docs/",
     "test/",
     "migrations/",

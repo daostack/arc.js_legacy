@@ -1,8 +1,8 @@
-import { DAO } from "../lib/dao";
+import { DAO } from "../dist/dao";
 import * as helpers from "./helpers";
-import { GlobalConstraintRegistrar } from "../lib/contracts/globalconstraintregistrar";
-import { UpgradeScheme } from "../lib/contracts/upgradescheme";
-import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
+import { GlobalConstraintRegistrar } from "../dist/contracts/globalconstraintregistrar";
+import { UpgradeScheme } from "../dist/contracts/upgradescheme";
+import { SchemeRegistrar } from "../dist/contracts/schemeregistrar";
 
 describe("DAO", () => {
   let dao;

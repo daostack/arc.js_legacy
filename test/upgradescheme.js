@@ -1,9 +1,9 @@
-import { Utils } from "../lib/utils";
+import { Utils } from "../dist/utils";
 const Controller = Utils.requireContract("Controller");
 const DAOToken = Utils.requireContract("DAOToken");
 const Avatar = Utils.requireContract("Avatar");
 const Reputation = Utils.requireContract("Reputation");
-import { UpgradeScheme } from "../lib/contracts/upgradescheme";
+import { UpgradeScheme } from "../dist/contracts/upgradescheme";
 import * as helpers from "./helpers";
 
 describe("UpgradeScheme", () => {

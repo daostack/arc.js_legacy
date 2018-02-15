@@ -1,12 +1,14 @@
-import { config } from "./config.js";
-import Web3 from "web3";
+import Config from "./config";
 const TruffleContract = require("truffle-contract");
 const abi = require("ethereumjs-abi");
+const Web3 = require("web3");
 
-export class Utils {
+export default class Utils {
 
   static get NULL_ADDRESS() { return "0x0000000000000000000000000000000000000000"; }
   static get NULL_HASH() { return "0x0000000000000000000000000000000000000000000000000000000000000000"; }
+  static _web3 = undefined;
+  static _alreadyTriedAndFailed = false;
 
   /**
    * Returns TruffleContract given the name of the contract (like "SchemeRegistrar"), or undefined
@@ -18,9 +20,9 @@ export class Utils {
    * Side effect:  It initializes (and uses) `web3` if a global `web3` is not already present, which
    * happens when running in the context of an application (as opposed to tests or migration).
    *
-   * @param contractName
+   * @param contractName: string - The name of the contract, like "UpgradeScheme"
    */
-  static requireContract(contractName) {
+  public static requireContract(contractName: string): any {
     try {
       const myWeb3 = Utils.getWeb3();
 
@@ -30,7 +32,7 @@ export class Utils {
       contract.setProvider(myWeb3.currentProvider);
       contract.defaults({
         from: Utils.getDefaultAccount(),
-        gas: config.get("gasLimit")
+        gas: Config.get("gasLimit")
       });
       return contract;
     } catch (ex) {
@@ -39,9 +41,11 @@ export class Utils {
   }
 
   /**
-   * throws an exception when web3 cannot be initialized or there is no default client
+   * Returns the web2 object.
+   * When called for the first time, web3 is initialized from the Arc.js configuration.
+   * Throws an exception when web3 cannot be initialized or there is no default client
    */
-  static getWeb3() {
+  public static getWeb3(): any {
     if (Utils._web3) {
       return Utils._web3;
     }
@@ -60,7 +64,7 @@ export class Utils {
       // No web3 is injected, look for a provider at providerUrl (which defaults to localhost)
       // This happens when running tests, or in a browser that is not running MetaMask
       preWeb3 = new Web3(
-        new Web3.providers.HttpProvider(config.get("providerUrl"))
+        new Web3.providers.HttpProvider(Config.get("providerUrl"))
       );
     }
 
@@ -78,12 +82,14 @@ export class Utils {
   }
 
   /**
+   * Returns a value from the given transaction log.
+   * 
    * @param tx The transaction
    * @param arg The name of the property whose value we wish to return, from  the args object: tx.logs[index].args[argName]
    * @param eventName Overrides index, identifies which log, where tx.logs[n].event  === eventName
    * @param index Identifies which log, when eventName is not given
    */
-  static getValueFromLogs(tx, arg, eventName = null, index = 0) {
+  public static getValueFromLogs(tx, arg, eventName = null, index = 0): string {
     /**
      *
      * tx is an object with the following values:
@@ -136,10 +142,13 @@ export class Utils {
   }
 
   /**
-   * side-effect is to set web3.eth.defaultAccount.
-   * throws an exception on failure.
+   * Returns the address of the default user account.
+   * 
+   * Has the side-effect of setting web3.eth.defaultAccount.
+   * 
+   * Throws an exception on failure.
    */
-  static getDefaultAccount() {
+  public static getDefaultAccount(): string {
     const web3 = Utils.getWeb3();
     const defaultAccount = (web3.eth.defaultAccount =
       web3.eth.defaultAccount || web3.eth.accounts[0]);
@@ -151,10 +160,10 @@ export class Utils {
   }
 
   /**
-   * Hash a string the same way solidity does, and to a format that will be properly translated into a bytes32 that solidity expects
+   * Return the hash of a string the same way solidity would, and to a format that will be properly translated into a bytes32 that solidity expects
    * @param str a string
    */
-  static SHA3(str) {
+  public static SHA3(str): string {
     return `0x${abi.soliditySHA3(["string"], [str]).toString("hex")}`;
   }
 
@@ -162,7 +171,7 @@ export class Utils {
    * Convert scheme permissions string to a number
    * @param {string} permissions
    */
-  static permissionsStringToNumber(permissions) {
+  public static permissionsStringToNumber(permissions): number {
     if (!permissions) { return 0; }
     return Number(permissions);
   }
@@ -171,14 +180,8 @@ export class Utils {
    * Convert number to a scheme permissions string
    * @param {Number} permissions
    */
-  static numberToPermissionsString(permissions) {
+  public static numberToPermissionsString(permissions): string {
     if (!permissions) { return "0x00000000"; }
     return `0x${("00000000" + permissions.toString(16)).substr(-8)}`;
   }
 }
-
-/**
- * static members
- */
-Utils._web3 = undefined;
-Utils._alreadyTriedAndFailed = false;

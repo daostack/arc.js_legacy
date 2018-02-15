@@ -1,4 +1,4 @@
-import { Utils } from "./utils";
+import Utils from "./utils";
 const UControllerContract = Utils.requireContract("UController");
 const ControllerContract = Utils.requireContract("Controller");
 const DAOToken = Utils.requireContract("DAOToken");
@@ -13,7 +13,7 @@ import { Contracts } from "./contracts.js";
  * let avatarService = new AvatarService(avatarAddress);
  *
  */
-export class AvatarService {
+export default class AvatarService {
 
   _avatarAddress: string;
   isUController: boolean;

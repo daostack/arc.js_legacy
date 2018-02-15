@@ -1,6 +1,6 @@
-import { Utils } from "../lib/utils";
+import { Utils } from "../dist/utils";
 import * as helpers from "./helpers";
-import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
+import { SchemeRegistrar } from "../dist/contracts/schemeregistrar";
 
 describe("SchemeRegistrar", () => {
   it("proposeToAddModifyScheme javascript wrapper should add new scheme", async () => {

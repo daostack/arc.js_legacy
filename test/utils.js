@@ -1,6 +1,6 @@
 "use strict";
-import { Utils } from "../lib/utils";
-import { ExtendTruffleContract } from "../lib/ExtendTruffleContract";
+import Utils from "../dist/utils";
+import { ExtendTruffleContract } from "../dist/ExtendTruffleContract";
 import * as helpers from "./helpers";
 
 const ContributionRewardContract = Utils.requireContract("ContributionReward");
