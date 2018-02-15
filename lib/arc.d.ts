@@ -342,7 +342,7 @@ declare module "@daostack/arc.js" {
      */
     votingMachine?: string;
     /**
-     * You can add your voting-machine parameters here, like ownerVote, votePerc, etc
+     * You can add your voting-machine-specific parameters here, like ownerVote, votePerc, etc
      */
   }
 
