@@ -23,8 +23,9 @@ For more information about Arc contracts and the entire DAOstack ecosystem, plea
     - [Create a new DAO with founders](#create-a-new-dao-with-founders)
     - [Create a new DAO with schemes](#create-a-new-dao-with-schemes)
     - [Create a new DAO overriding the default voting machine](#create-a-new-dao-overriding-the-default-voting-machine)
-      - [Root-level applying to all schemes](#root-level-applying-to-all-schemes)
-      - [With alternate voting machine](#with-alternate-voting-machine)
+      - [Root-level, applying to all schemes](#root-level-applying-to-all-schemes)
+      - [With alternate AbsoluteVote voting machine address](#with-alternate-absolutevote-voting-machine-address)
+      - [With GenesisProtocol](#with-genesisprotocol)
       - [Scheme-specific](#scheme-specific)
     - [Create a new DAO with a non-Universal Controller](#create-a-new-dao-with-a-non-universal-controller)
     - [Create a new DAO with a non-default DaoCreator scheme](#create-a-new-dao-with-a-non-default-daocreator-scheme)
@@ -38,20 +39,22 @@ For more information about Arc contracts and the entire DAOstack ecosystem, plea
       - [Others](#others)
     - [Obtain the names and addresses of a DAO's schemes](#obtain-the-names-and-addresses-of-a-daos-schemes)
     - [Obtain an Arc.js wrapper by its name](#obtain-an-arcjs-wrapper-by-its-name)
-      - [Deployed by arc.js](#deployed-by-arcjs)
+      - [The deployed contract](#the-deployed-contract)
       - [At a specific address](#at-a-specific-address)
+      - [Via the DAO](#via-the-dao)
     - [Obtain a wrapper using the wrapper's factory class](#obtain-a-wrapper-using-the-wrappers-factory-class)
       - [deployed](#deployed)
       - [new](#new)
       - [at](#at)
-    - [Obtain a wrapper from getDeployedContracts](#obtain-a-wrapper-from-getdeployedcontracts)
     - [Obtain any Arc contract using Utils.requireContract](#obtain-any-arc-contract-using-utilsrequirecontract)
+    - [Obtain a DAO scheme's parameters](#obtain-a-dao-schemes-parameters)
   - [Working with Arc.js Scripts](#working-with-arcjs-scripts)
   - [Deploying to Other Testnets](#deploying-to-other-testnets)
   - [Running Against a Ganache Database](#running-against-a-ganache-database)
   - [Contribute to Arc.js](#contribute-to-arcjs)
   - [Security](#security)
   - [License](#license)
+
 
 ## Getting Started
 
@@ -128,7 +131,7 @@ import { config } from '@daostack/arc.js';
 config.set('network', 'kovan');
 ```
 
-You can also override the default configuration settings by setting values on properties of `node.env` (see [here](http://nodejs.org/dist/latest-v9.x/docs/api/process.html#process_process_env)) with the same name as the corresponding arc.js configuration setting.  This enables you to use environment variables to control the arc.js configuration.
+You can also override the default configuration settings by setting values on properties of `node.env` (see [here](http://nodejs.org/dist/latest-v9.x/docs/api/process.html#process-process-env)) with the same name as the corresponding arc.js configuration setting.  This enables you to use environment variables to control the arc.js configuration.
 
 #### Working with DAOs and Arc Contracts
 Now that you've got Arc.js plugged into your application and configured, and contracts migrated to a running testnet, you are ready to start coding against DAOs and Arc contracts.  The following sections describe how.
@@ -202,9 +205,9 @@ const newDao = await DAO.new({
 
 ### Create a new DAO overriding the default voting machine
 
-Override the default voting machine by adding a "votingMachineParams" element.  This will override the default voting machine, either at the root level to apply to all schemes, or within each scheme element to override for the specific scheme. See `NewDaoVotingMachineConfig` and `SchemesConfig`.
+By default, `DAO.new` assigns the AbsoluteVote voting machine to each scheme, with default parameter values for AbsoluteVote.  You may override the voting machine's default parameters by adding a "votingMachineParams" element, either at the root level or on individual schemes. You can also specify that you want to assign a completely different type of voting machine, such as GenesisProtocol.  See `NewDaoVotingMachineConfig` and `SchemesConfig`.
 
-#### Root-level applying to all schemes
+#### Root-level, applying to all schemes
 
 ```javascript
 const newDao = await DAO.new({
@@ -218,7 +221,7 @@ const newDao = await DAO.new({
 });
 ```
 
-#### With alternate voting machine
+#### With alternate AbsoluteVote voting machine address
 
 ```javascript
 const newDao = await DAO.new({
@@ -232,6 +235,22 @@ const newDao = await DAO.new({
   }
 });
 ```
+
+#### With GenesisProtocol
+
+This will tell `DAO.new` to assign the Arc.js-deployed GenesisProtocol voting machine to every scheme, using default GenesisProtocol parameters.
+
+```javascript
+const newDao = await DAO.new({
+  name: "My New DAO",
+  tokenName: "My new Token",
+  tokenSymbol: "MNT",
+  votingMachineParams: {
+    votingMachineName: "GenesisProtocol"
+  }
+});
+```
+**Important note**:  If you want to use GenesisProtocol on _any_ scheme, you must also add GenesisProtocol as scheme on the DAO itself (see [Create a new DAO with schemes](#create-a-new-dao-with-schemes)).
 
 #### Scheme-specific
 
@@ -257,7 +276,7 @@ const newDao = await DAO.new({
 
 Create a DAO using the DAOstack `Controller` contract by passing `false` for `universalController`.
 
-For more information about choosing between Universal an Single Controller, see [this article](https://daostack.github.io/arc/generated_docs/controller/UController/#universal-vs-single-controller).
+For more information about choosing between Universal an Single Controller, see [this article](https://daostack.github.io/arc/generated-docs/controller/UController/#universal-vs-single-controller).
 
 ```javascript
 const newDao = await DAO.new({
@@ -311,6 +330,7 @@ Arc contracts and associated Arc.js contract wrapper classes can be categorized 
 * ContributionReward
 * VoteInOrganizationScheme
 * VestingScheme
+* GenesisProtocol
 
 #### Voting Machines
 * AbsoluteVote
@@ -327,12 +347,15 @@ You can pull those categorizations into your code as follows:
 
 ```javascript
 import * as ArcJs from '@daostack/arc.js';
-const arcJsWrappers = await ArcJs.getDeployedContracts();
+const arcJsWrapperCategories = await ArcJs.Contracts.getDeployedContracts();
 ```
 
-Note `getDeployedContracts()` does not currently cache its results and is fairly time-consuming to run, so best to cache the results yourself.
+You may find that `getDeployedContracts()` is somewhat time-consuming to run the first time because it fetches all of the wrappers from the chain, but it does cache its results and run much faster thereafter.
 
-Although one can [obtain wrappers from getDeployedContracts](#obtain-a-wrapper-from-getdeployedcontracts), it is not the most efficient way.  See the following sections for better ways of instantiating Arc.js contract wrappers.
+`getDeployedContracts()` returns a object that contains a wrapper factory and address of each deployed contract that has a wrapper, keyed by the contract `name`.  See `ArcDeployedContracts`.  
+
+The following sections show how you can obtain contract wrappers using factories, names and addresses.
+
 
 ### Obtain the names and addresses of a DAO's schemes
 
@@ -342,27 +365,40 @@ You may obtain the names and addresses of all of the schemes that are registered
 const daoSchemeInfos = await myDao.getSchemes();
 ```
 
-Or the info about a single scheme:
+Or info about a single scheme:
 
 ```javascript
 const daoSchemeInfos =  = await myDao.getSchemes("UpgradeScheme");
 const upgradeSchemeInfo = daoSchemeInfos[0];
 ```
 
-`DAO.getSchemes` returns a object that contains `name` and `address` properties.  The following sections show how you can get the scheme wrapper using the address.
+`DAO.getSchemes` returns a object that contains `name` and `address` properties.  See `DaoSchemeInfo`.
+
+The following sections show how you can get contract wrappers using names and addresses.
 
 ### Obtain an Arc.js wrapper by its name
 
-You may obtain any wrapper by passing its name to `DAO.getScheme`, it doesn't matter whether the scheme is registered with the DAO, by default it returns the scheme that was deployed by Arc.js.  For example:
+Recall from [Categories of Arc Contracts](#categories-of-arc-contracts) that `getDeployedContracts()` returns categorized factories, names and addresses of Arc contracts that have wrappers. That information can be used to obtain the wrappers themselves.
 
-#### Deployed by arc.js
+#### The deployed contract
+
 ```javascript
-const upgradeScheme = await myDao.getScheme("UpgradeScheme");
+import * as ArcJs from '@daostack/arc.js';
+const upgradeScheme = await ArcJs.Contracts.getScheme("UpgradeScheme");
 ```
 
 #### At a specific address
 ```javascript
-const upgradeScheme = await myDao.getScheme("UpgradeScheme", anAddress);
+import * as ArcJs from '@daostack/arc.js';
+const upgradeScheme = await ArcJs.Contracts.getScheme("UpgradeScheme", anAddress);
+```
+
+#### Via the DAO
+
+The identical method is available on the DAO class:
+
+```javascript
+const upgradeScheme = await DAO.getScheme("UpgradeScheme");
 ```
 
 ### Obtain a wrapper using the wrapper's factory class 
@@ -398,18 +434,6 @@ import { UpgradeScheme } from "@daostack/arc.js";
 const newInstance = await UpgradeScheme.at(anAddress);
 ```
 
-### Obtain a wrapper from getDeployedContracts
-
-Recall from [Categories of Arc Contracts](#categories-of-arc-contracts) that `getDeployedContracts()` returns categories of Arc contract wrappers.   You can use this information to obtain the wrappers themselves:
-
-```javascript
-import * as ArcJs from '@daostack/arc.js';
-const arcJsWrappers = ArcJs.getDeployedContracts();
-const contractAddress = arcJsWrappers.allContracts.UpgradeScheme.address;
-const contractFactory = arcJsWrappers.allContracts.UpgradeScheme.contract;
-const upgradeScheme = await contractFactory.contract.at(contractAddress);
-```
-
 ### Obtain any Arc contract using Utils.requireContract
 
 Not all Arc contracts have been given wrapper classes, for example, `Avatar`, `UController` and many more.  But you can obtain a raw TruffleContract for any contract, enabling you to work with the contract:
@@ -418,6 +442,18 @@ Not all Arc contracts have been given wrapper classes, for example, `Avatar`, `U
 import { Utils } from "@daostack/arc.js";
 const truffleContract = await Utils.requireContract("Avatar");
 ```
+
+### Obtain a DAO scheme's parameters
+
+Although you can always register your own schemes with a DAO, whether they be totally custom non-Arc schemes, or redeployed Arc schemes, by default a DAO is created with Arc schemes that are universal in the sense that the code is implemented in one place, without redundancy.  But every scheme registered with a DAO is configured with its own DAO-scoped parameter values, and references DAO-scoped data, such as proposals. All are stored in the DAO's controller where each universal scheme is able to find them.  (If the controller is the Universal Controller then the parameters and data are keyed by the DAO's avatar address.)
+
+If you want to obtain a DAO scheme's parameters, you can do it like this, using a method on the DAO class:
+
+```
+const schemeParameters = DAO.getSchemeParameters(schemeWrapper);
+```
+
+This will return an array of the scheme's parameter values where the order of values in the array corresponds to the order in which they are defined in the structure in which they are stored in the scheme contract.
 
 ## Working with Arc.js Scripts
 Arc.js contains a set of scripts for building, publishing, running tests and migrating contracts to any network.  These scripts are meant to be accessible and readily usable by client applications.
@@ -459,6 +495,27 @@ npm install
 npm start test.ganache.runAsync
 npm start migrateContracts
 npm test
+```
+
+
+### Stop on the first failure
+
+```
+npm start test.bail
+```
+
+### Run an individual test module
+
+Sometimes you want to run just a single test module:
+
+```
+npm start "test.automated test/[filename]"
+```
+
+To bail:
+
+```
+npm start "test.automated test/[filename] --bail"
 ```
 
 ## Contribute to Arc.js

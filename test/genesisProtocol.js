@@ -83,8 +83,7 @@ describe("GenesisProtocol", () => {
         {
           name: "SchemeRegistrar",
           votingMachineParams: {
-            votingMachineName: "GenesisProtocol",
-            votingMachine: null
+            votingMachineName: "GenesisProtocol"
           }
         }
       ],
