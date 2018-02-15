@@ -848,7 +848,7 @@ declare module "@daostack/arc.js" {
      * true to reward ethers
      * Default is false
      */
-    eths?: boolean;
+    ethers?: boolean;
     /**
      * true to reward external tokens
      * Default is false
