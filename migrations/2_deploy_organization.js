@@ -25,25 +25,10 @@ let upgradeSchemeInst;
 let ControllerInst;
 let AvatarInst;
 let defaultVotingMachineInst;
-const defaultVotingMachineParams = {
-  preBoostedVoteRequiredPercentage: 50,
-  preBoostedVotePeriodLimit: 60,
-  boostedVotePeriodLimit: 60,
-  thresholdConstA: 1,
-  thresholdConstB: 1,
-  minimumStakingFee: 0,
-  quietEndingPeriod: 0,
-  proposingRepRewardConstA: 1,
-  proposingRepRewardConstB: 1,
-  stakerFeeRatioForVoters: 1,
-  votersReputationLossRatio: 10,
-  votersGainRepRatioFromLostRep: 80,
-  governanceFormulasInterface: "0x0000000000000000000000000000000000000000"
-};
 
 // DAOstack ORG parameters:
 const orgName = "Genesis";
-const tokenName = "Genes";
+const tokenName = "Gen";
 const tokenSymbol = "GEN";
 const founders = [web3.eth.accounts[0]];
 const initRep = 10;
@@ -53,7 +38,6 @@ const initTokenInWei = [web3.toWei(initToken)];
 let reputationAddress;
 let controllerAddress;
 let nativeTokenAddress;
-const votePerc = 50;
 
 // DAOstack parameters for universal schemes:
 let voteParametersHash;
@@ -76,10 +60,7 @@ module.exports = async function (deployer) {
     reputationAddress = await ControllerInst.nativeReputation();
     nativeTokenAddress = await ControllerInst.nativeToken();
     await deployer.deploy(AbsoluteVote);
-    await AbsoluteVote.deployed();
-
-    await deployer.deploy(GenesisProtocol, nativeTokenAddress);
-    defaultVotingMachineInst = await GenesisProtocol.deployed();
+    defaultVotingMachineInst = await AbsoluteVote.deployed();
 
     // Deploy SchemeRegistrar:
     await deployer.deploy(SchemeRegistrar);
@@ -91,30 +72,13 @@ module.exports = async function (deployer) {
     await deployer.deploy(GlobalConstraintRegistrar);
     globalConstraintRegistrarInst = await GlobalConstraintRegistrar.deployed();
 
-    // Voting parameters and schemes defaultVotingMachineParams:
-    voteParametersHash = await defaultVotingMachineInst.getParametersHash(
-      [
-        defaultVotingMachineParams.preBoostedVoteRequiredPercentage,
-        defaultVotingMachineParams.preBoostedVotePeriodLimit,
-        defaultVotingMachineParams.boostedVotePeriodLimit,
-        defaultVotingMachineParams.thresholdConstA,
-        defaultVotingMachineParams.thresholdConstB,
-        defaultVotingMachineParams.minimumStakingFee,
-        defaultVotingMachineParams.quietEndingPeriod,
-        defaultVotingMachineParams.proposingRepRewardConstA,
-        defaultVotingMachineParams.proposingRepRewardConstB,
-        defaultVotingMachineParams.stakerFeeRatioForVoters,
-        defaultVotingMachineParams.votersReputationLossRatio,
-        defaultVotingMachineParams.votersGainRepRatioFromLostRep
-      ],
-      defaultVotingMachineParams.governanceFormulasInterface
-    );
+    voteParametersHash = await defaultVotingMachineInst.getParametersHash(reputationAddress, 50, true);
 
     await schemeRegistrarInst.setParameters(voteParametersHash, voteParametersHash, defaultVotingMachineInst.address);
     schemeRegisterParams = await schemeRegistrarInst.getParametersHash(voteParametersHash, voteParametersHash, defaultVotingMachineInst.address);
 
-    await globalConstraintRegistrarInst.setParameters(reputationAddress, votePerc);
-    schemeGCRegisterParams = await globalConstraintRegistrarInst.getParametersHash(reputationAddress, votePerc);
+    await globalConstraintRegistrarInst.setParameters(voteParametersHash, defaultVotingMachineInst.address);
+    schemeGCRegisterParams = await globalConstraintRegistrarInst.getParametersHash(voteParametersHash, defaultVotingMachineInst.address);
 
     await upgradeSchemeInst.setParameters(voteParametersHash, defaultVotingMachineInst.address);
     schemeUpgradeParams = await upgradeSchemeInst.getParametersHash(voteParametersHash, defaultVotingMachineInst.address);
@@ -136,6 +100,7 @@ module.exports = async function (deployer) {
     await deployer.deploy(UController, { gas: 6300000 });
     await deployer.deploy(VestingScheme);
     await deployer.deploy(VoteInOrganizationScheme);
+    await deployer.deploy(GenesisProtocol, nativeTokenAddress);
     await deployer.deploy(ExecutableTest);
   });
 };

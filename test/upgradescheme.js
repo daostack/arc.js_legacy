@@ -1,5 +1,4 @@
 import { Utils } from "../lib/utils";
-import { vote } from "./helpers.js";
 const Controller = Utils.requireContract("Controller");
 const DAOToken = Utils.requireContract("DAOToken");
 const Avatar = Utils.requireContract("Avatar");
@@ -40,7 +39,7 @@ describe("UpgradeScheme", () => {
     const proposalId = result.proposalId;
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
-    await vote(votingMachine, proposalId, 1, accounts[0]);
+    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
     // now the ugprade should have been executed
     assert.equal(await dao.controller.newControllers(dao.avatar.address), newController.address);
@@ -72,7 +71,7 @@ describe("UpgradeScheme", () => {
     const proposalId = result.proposalId;
     // now vote with the majority for the proposal
     const votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
-    await vote(votingMachine, proposalId, 1, web3.eth.accounts[0]);
+    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
     // now the ugprade should have been executed
     assert.equal(
@@ -113,7 +112,7 @@ describe("UpgradeScheme", () => {
     const proposalId = result.proposalId;
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
-    await vote(votingMachine, proposalId, 1, accounts[0]);
+    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
     assert.isTrue(
       await dao.isSchemeRegistered(newUpgradeScheme.address),
@@ -140,7 +139,7 @@ describe("UpgradeScheme", () => {
     const proposalId = result.proposalId;
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
-    await vote(votingMachine, proposalId, 1, accounts[0]);
+    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
     assert.isTrue(
       await dao.isSchemeRegistered(upgradeScheme.address),

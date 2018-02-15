@@ -98,7 +98,15 @@ declare module "@daostack/arc.js" {
   /********************************
    * contracts.js
    */
-  export function getDeployedContracts(): ArcDeployedContracts;
+  export class Contracts {
+    static getDeployedContracts(): ArcDeployedContracts;
+    /**
+     * Returns an Arc.js scheme wrapper, or undefined if not found
+     * @param contract - name of an Arc scheme, like "SchemeRegistrar"
+     * @param address - optional
+     */
+    static getScheme(contract: string, address?: string): Promise<ExtendTruffleScheme | undefined>;;
+  }
 
   /********************************
    * utils.js
@@ -322,12 +330,17 @@ declare module "@daostack/arc.js" {
      * Optional Reputation address.
      * Default is the new DAO's native reputation.
      */
-    reputationAddress?: string;
+    reputation?: string;
     /**
-     * Optional VotingMachine address
+     * Optional VotingMachine name
      * Default is AbsoluteVote
      */
-    votingMachineAddress?: string;
+    votingMachineName?: string;
+    /**
+     * Optional VotingMachine address
+     * Default is that of AbsoluteVote
+     */
+    votingMachine?: string;
     /**
      * Optional Voting percentage that decides a vote.
      * Default is 50.

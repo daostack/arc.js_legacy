@@ -1,9 +1,9 @@
-import { Utils } from "../lib/utils.js";
+import { Utils } from "../lib/utils";
 import { assert } from "chai";
 import { DAO } from "../lib/dao.js";
-import { getDeployedContracts } from "../lib/contracts.js";
+import { Contracts } from "../lib/contracts.js";
 const DAOToken = Utils.requireContract("DAOToken");
-import { GenesisProtocol } from "../lib/contracts/genesisProtocol";
+import { AbsoluteVote } from "../lib/contracts/absoluteVote";
 import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
 
 export const NULL_HASH = Utils.NULL_HASH;
@@ -56,14 +56,18 @@ export async function forgeDao(opts = {}) {
         address: accounts[1],
         reputation: web3.toWei(1000),
         tokens: web3.toWei(100)
+      },
+      {
+        address: accounts[2],
+        reputation: web3.toWei(1000),
+        tokens: web3.toWei(100)
       }
     ];
 
   const schemes = Array.isArray(opts.schemes) ? opts.schemes : [
     { name: "SchemeRegistrar" },
     { name: "UpgradeScheme" },
-    { name: "GlobalConstraintRegistrar" },
-    { name: "GenesisProtocol" }
+    { name: "GlobalConstraintRegistrar" }
   ];
 
   return DAO.new({
@@ -81,11 +85,11 @@ export async function forgeDao(opts = {}) {
  * @returns the ContributionReward wrapper
  */
 export async function addProposeContributionReward(dao) {
-  const schemeRegistrar = await this.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
+  const schemeRegistrar = await getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
   const contributionReward = await dao.getScheme("ContributionReward");
 
-  const votingMachineHash = await this.getSchemeVotingMachineParametersHash(dao, schemeRegistrar, 0);
-  const votingMachine = await this.getSchemeVotingMachine(dao, schemeRegistrar, 2);
+  const votingMachineHash = await getSchemeVotingMachineParametersHash(dao, schemeRegistrar, 0);
+  const votingMachine = await getSchemeVotingMachine(dao, schemeRegistrar, 2);
 
   const schemeParametersHash = (await contributionReward.setParams({
     orgNativeTokenFee: 0,
@@ -102,7 +106,7 @@ export async function addProposeContributionReward(dao) {
 
   const proposalId = result.proposalId;
 
-  await this.vote(votingMachine, proposalId, 1, accounts[0]);
+  await vote(votingMachine, proposalId, 1, accounts[1]);
   return contributionReward;
 }
 
@@ -119,13 +123,12 @@ export async function getSchemeParameter(dao, scheme, ndxParameter) {
 }
 
 export async function getSchemeVotingMachineParametersHash(dao, scheme, ndxVotingMachineParametersHash = 0) {
-  return this.getSchemeParameter(dao, scheme, ndxVotingMachineParametersHash);
+  return getSchemeParameter(dao, scheme, ndxVotingMachineParametersHash);
 }
 
 export async function getSchemeVotingMachine(dao, scheme, ndxVotingMachineParameter = 1) {
-  const votingMachineAddress = await this.getSchemeParameter(dao, scheme, ndxVotingMachineParameter);
-  // GenesisProtocol is the voting machine used when creating DAOs with the test code
-  return GenesisProtocol.at(votingMachineAddress);
+  const votingMachineAddress = await getSchemeParameter(dao, scheme, ndxVotingMachineParameter);
+  return AbsoluteVote.at(votingMachineAddress);
 }
 
 export async function getVotingMachineParameters(votingMachine, votingMachineParamsHash) {
@@ -137,13 +140,35 @@ export async function getVotingMachineParameters(votingMachine, votingMachinePar
  * votingMachine must be the raw contract, not a wrapper.
  */
 export async function vote(votingMachine, proposalId, vote, voter) {
-  console.log(`votingMachine.contract: ${votingMachine.contract}`);
+
+  voter = (voter ? voter : accounts[0]);
+
+  // console.log(`voting: ${vote} on ${proposalId} on behalf of: ${voter}`);
 
   votingMachine = votingMachine.contract ? votingMachine.contract : votingMachine;
-  await votingMachine.vote(proposalId, vote, { from: voter ? voter : accounts[0] });
+  const tx = await votingMachine.vote(proposalId, vote, { from: voter });
 
-  const status = await votingMachine.voteInfo(proposalId, voter ? voter : accounts[0]);
-  console.log(`status: ${status[0]}, ${web3.fromWei(status[1])}`);
+  // const status = await votingMachine.voteInfo(proposalId, voter);
+  // console.log(`voted: ${status[0]}, using reputation: ${web3.fromWei(status[1])}`);
+
+  // console.log(`executed: ${await voteWasExecuted(votingMachine, proposalId)}`);
+
+  return tx;
+}
+
+export async function voteWasExecuted(votingMachine, proposalId) {
+  return new Promise(async (resolve) => {
+    const event = votingMachine.ExecuteProposal({}, { fromBlock: 0 });
+    let found = false;
+    event.get((err, eventsArray) => {
+      for (const event of eventsArray) {
+        found = event.args._proposalId === proposalId;
+        if (found) { break; }
+      }
+      event.stopWatching(); // maybe not necessary, but just in case...
+      resolve(found);
+    });
+  });
 }
 
 export const outOfGasMessage =
@@ -185,7 +210,7 @@ export function assertJump(error) {
 }
 
 export async function contractsForTest() {
-  return await getDeployedContracts();
+  return await Contracts.getDeployedContracts();
 }
 
 // Increases ganache time by the passed duration in seconds

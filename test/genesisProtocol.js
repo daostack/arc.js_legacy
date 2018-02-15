@@ -1,5 +1,5 @@
 const DAOToken = Utils.requireContract("DAOToken");
-import { getDeployedContracts } from "../lib/contracts.js";
+import { Contracts } from "../lib/contracts.js";
 import { GenesisProtocol } from "../lib/contracts/genesisProtocol";
 import { Utils } from "../lib/utils";
 import * as helpers from "./helpers";
@@ -364,7 +364,7 @@ describe("GenesisProtocol", () => {
 
   it("can do deployed", async () => {
     const scheme = await GenesisProtocol.deployed();
-    assert.equal(scheme.address, (await getDeployedContracts()).allContracts.GenesisProtocol.address);
+    assert.equal(scheme.address, (await Contracts.getDeployedContracts()).allContracts.GenesisProtocol.address);
   });
 
   it("can register new proposal", async () => {

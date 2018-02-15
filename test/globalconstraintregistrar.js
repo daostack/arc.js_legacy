@@ -75,7 +75,7 @@ describe("GlobalConstraintRegistrar", () => {
     // // the proposal looks like gc-address, params, proposaltype, removeParams
     // assert.equal(proposal[0], tokenCapGC.address);
 
-    await helpers.vote(votingMachine, proposalId, 1, web3.eth.accounts[0]);
+    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
     // at this point, our global constrait has been registered at the dao
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address))[1].toNumber(), 1);

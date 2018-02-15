@@ -74,7 +74,7 @@ describe("VestingScheme scheme", () => {
       numOfAgreedPeriods: 1,
       cliffInPeriods: 0,
       signaturesReqToCancel: 2,
-      signers: [accounts[0], accounts[0]]
+      signers: [accounts[0], accounts[1]]
     };
 
     let result = await createAgreement(options);

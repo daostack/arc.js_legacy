@@ -8,7 +8,6 @@ describe("ContributionReward scheme", () => {
     const dao = await helpers.forgeDao({
       schemes: [
         { name: "ContributionReward" }
-        , { name: "GenesisProtocol" }
       ]
     });
 
@@ -27,8 +26,7 @@ describe("ContributionReward scheme", () => {
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, scheme, 2);
 
-    // now helpers.vote with a majority account and accept this contribution
-    await helpers.vote(votingMachine, proposalId, 1, accounts[0]);
+    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
     // this will mine a block, allowing the award to be redeemed
     await helpers.increaseTime(1);

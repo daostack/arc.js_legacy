@@ -1,6 +1,5 @@
 import { VoteInOrganizationScheme } from "../lib/contracts/voteInOrganizationScheme";
 import * as helpers from "./helpers";
-import { Utils } from "../lib/utils";
 import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
 
 const createProposal = async function () {
@@ -12,12 +11,11 @@ const createProposal = async function () {
     schemes: [
       { name: "ContributionReward" }
       , { name: "SchemeRegistrar" }
-      , { name: "GenesisProtocol" }
     ],
     founders: [{
       address: accounts[0],
       reputation: web3.toWei(1000),
-      tokens: web3.toWei(1000)
+      tokens: web3.toWei(100)
     }]
   });
 
@@ -51,22 +49,15 @@ describe("VoteInOrganizationScheme", () => {
     dao = await helpers.forgeDao({
       schemes: [
         { name: "VoteInOrganizationScheme" }
-        , { name: "GenesisProtocol" }
       ],
       founders: [{
         address: accounts[0],
         reputation: web3.toWei(1000),
-        tokens: web3.toWei(1000)
+        tokens: web3.toWei(100)
       }]
     });
 
-    const schemeInDao = await dao.getSchemes("VoteInOrganizationScheme");
-
-    assert.isOk(schemeInDao);
-    assert.equal(schemeInDao.length, 1);
-    assert.equal(schemeInDao[0].name, "VoteInOrganizationScheme");
-
-    voteInOrganizationScheme = await VoteInOrganizationScheme.at(schemeInDao[0].address);
+    voteInOrganizationScheme = await helpers.getDaoScheme(dao, "VoteInOrganizationScheme", VoteInOrganizationScheme);
 
     assert.isOk(voteInOrganizationScheme);
   });
@@ -95,19 +86,16 @@ describe("VoteInOrganizationScheme", () => {
     assert.isOk(votingMachine);
 
     /**
-     * cast a helpers.vote using voteInOrganizationScheme's voting machine.
+     * cast a vote using voteInOrganizationScheme's voting machine.
      * assert that the proposal is executed.
      */
-    const tx = await helpers.vote(votingMachine, result.proposalId, 1, web3.eth.accounts[0]);
+    await helpers.vote(votingMachine, result.proposalId, 1, accounts[1]);
     /**
-     * confirm helpers.vote was cast in the current DAO scheme
+     * confirm vote was cast in the current DAO scheme
      */
-    // TODO: Update these to use ProposalExecuted
-    const eventProposal = Utils.getValueFromLogs(tx, "_proposalId", "ExecuteProposal", 1);
-    assert.equal(eventProposal, result.proposalId);
-
+    assert(await helpers.voteWasExecuted(votingMachine, proposalId));
     /**
-     * confirm that a helpers.vote was cast by the original DAO's scheme
+     * confirm that a vote was cast by the original DAO's scheme
      */
     const originalVoteEvent = proposalInfo.votingMachine.VoteProposal({}, { fromBlock: 0 });
 
@@ -121,17 +109,17 @@ describe("VoteInOrganizationScheme", () => {
         if (foundVoteProposalEvent.length === 1) {
           const originalVoteEvent = foundVoteProposalEvent[0];
           /**
-           * expect a helpers.vote 'for'
+           * expect a vote 'for'
            */
           assert.equal(originalVoteEvent.args._vote.toNumber(), 1);
           /**
-           * expect the helpers.vote to have been cast on behalf of the scheme that created the proposal
+           * expect the vote to have been cast on behalf of the scheme that created the proposal
            * TODO: confirm that accounts[0] is correct.
            */
           assert.equal(originalVoteEvent.args._voter, accounts[0]);
         }
         else {
-          assert(false, "proposal helpers.vote not found in original scheme");
+          assert(false, "proposal vote not found in original scheme");
         }
 
         resolve();

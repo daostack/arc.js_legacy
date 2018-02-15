@@ -29,7 +29,7 @@ describe("SchemeRegistrar", () => {
     const proposalId = result.proposalId;
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar, 2);
-    await helpers.vote(votingMachine, proposalId, 1, accounts[0]);
+    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
     assert.isTrue(
       await dao.isSchemeRegistered(contributionRewardAddress, dao.avatar.address),
@@ -56,7 +56,7 @@ describe("SchemeRegistrar", () => {
     const proposalId = result.proposalId;
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar, 2);
-    await helpers.vote(votingMachine, proposalId, 1, accounts[0]);
+    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
     assert.isTrue(
       await dao.isSchemeRegistered(modifiedSchemeAddress),
@@ -83,7 +83,7 @@ describe("SchemeRegistrar", () => {
     const proposalId = result.proposalId;
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar, 2);
-    await helpers.vote(votingMachine, proposalId, 1, accounts[0]);
+    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
     assert.isFalse(
       await dao.isSchemeRegistered(removedScheme.address),
