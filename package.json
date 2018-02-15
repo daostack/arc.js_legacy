@@ -74,7 +74,7 @@
     "uint32": "^0.2.1"
   },
   "devDependencies": {
-    "@daostack/arc": "0.0.0-alpha.31",
+    "@daostack/arc": "0.0.0-alpha.32",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.3",

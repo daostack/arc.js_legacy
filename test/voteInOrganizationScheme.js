@@ -10,19 +10,33 @@ const createProposal = async function () {
     tokenSymbol: "ORG",
     schemes: [
       { name: "ContributionReward" }
-      , { name: "SchemeRegistrar" }
+      , {
+        name: "SchemeRegistrar",
+        votingMachineParams: {
+          ownerVote: false
+        }
+      }
     ],
     founders: [{
       address: accounts[0],
-      reputation: web3.toWei(1000),
+      reputation: web3.toWei(30),
+      tokens: web3.toWei(100)
+    },
+    {
+      address: accounts[1],
+      reputation: web3.toWei(30),
       tokens: web3.toWei(100)
     }]
   });
 
   const schemeToDelete = (await originalDao.getSchemes("ContributionReward"))[0].address;
   assert.isOk(schemeToDelete);
+
   const schemeRegistrar = await helpers.getDaoScheme(originalDao, "SchemeRegistrar", SchemeRegistrar);
   assert.isOk(schemeRegistrar);
+  /** 
+   * propose to remove ContributionReward.  It should get the ownerVote, then requiring just 30 more reps to execute.
+  */
   const result = await schemeRegistrar.proposeToRemoveScheme(
     {
       avatar: originalDao.avatar.address,
@@ -32,11 +46,12 @@ const createProposal = async function () {
   assert.isOk(result.proposalId);
 
   /**
-   * get the voting machine will be used for this proposal
+   * get the voting machine that will be used to vote for this proposal
    */
   const votingMachine = await helpers.getSchemeVotingMachine(originalDao, schemeRegistrar, 2);
 
   assert.isOk(votingMachine);
+  assert.isFalse(await helpers.voteWasExecuted(votingMachine, result.proposalId));
 
   return { proposalId: result.proposalId, votingMachine: votingMachine, scheme: schemeRegistrar };
 };
@@ -48,13 +63,29 @@ describe("VoteInOrganizationScheme", () => {
 
     dao = await helpers.forgeDao({
       schemes: [
-        { name: "VoteInOrganizationScheme" }
+        {
+          name: "VoteInOrganizationScheme",
+          votingMachineParams: {
+            ownerVote: false
+          }
+        }
       ],
       founders: [{
         address: accounts[0],
-        reputation: web3.toWei(1000),
+        reputation: web3.toWei(30),
         tokens: web3.toWei(100)
-      }]
+      },
+      {
+        address: accounts[1],
+        reputation: web3.toWei(30),
+        tokens: web3.toWei(100)
+      },
+      {
+        address: accounts[2],
+        reputation: web3.toWei(30),
+        tokens: web3.toWei(100)
+      }
+      ]
     });
 
     voteInOrganizationScheme = await helpers.getDaoScheme(dao, "VoteInOrganizationScheme", VoteInOrganizationScheme);
@@ -64,6 +95,9 @@ describe("VoteInOrganizationScheme", () => {
 
   it("proposeVote organization vote", async () => {
 
+    /**
+     * this is the proposal we'll vote on remotely
+     */
     const proposalInfo = await createProposal();
 
     const options = {
@@ -81,19 +115,15 @@ describe("VoteInOrganizationScheme", () => {
     assert.equal(result.tx.logs.length, 1); // no other event
     assert.equal(result.tx.logs[0].event, "NewVoteProposal");
 
-    const votingMachine = await helpers.getSchemeVotingMachine(dao, voteInOrganizationScheme, 1);
+    const votingMachine = await helpers.getSchemeVotingMachine(dao, voteInOrganizationScheme, 0);
 
     assert.isOk(votingMachine);
 
     /**
      * cast a vote using voteInOrganizationScheme's voting machine.
-     * assert that the proposal is executed.
      */
     await helpers.vote(votingMachine, result.proposalId, 1, accounts[1]);
-    /**
-     * confirm vote was cast in the current DAO scheme
-     */
-    assert(await helpers.voteWasExecuted(votingMachine, proposalId));
+    await helpers.vote(votingMachine, result.proposalId, 1, accounts[2]);
     /**
      * confirm that a vote was cast by the original DAO's scheme
      */
@@ -113,10 +143,9 @@ describe("VoteInOrganizationScheme", () => {
            */
           assert.equal(originalVoteEvent.args._vote.toNumber(), 1);
           /**
-           * expect the vote to have been cast on behalf of the scheme that created the proposal
-           * TODO: confirm that accounts[0] is correct.
+           * expect the vote to have been cast on behalf of the DAO
            */
-          assert.equal(originalVoteEvent.args._voter, accounts[0]);
+          assert.equal(originalVoteEvent.args._voter, dao.avatar.address, "wrong user voted");
         }
         else {
           assert(false, "proposal vote not found in original scheme");
