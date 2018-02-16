@@ -15,7 +15,8 @@ export default class Utils {
    * if not found or any other error occurs.
    *
    * This is not an Arc javascript wrapper, rather it is the straight TruffleContract
-   * that one references in the Arc javascript wrapper as ".contract".
+   * that one references in the Arc javascript wrapper as ".contract", once it has been
+   * populated by a persisted instance of the contract.
    *
    * Side effect:  It initializes (and uses) `web3` if a global `web3` is not already present, which
    * happens when running in the context of an application (as opposed to tests or migration).
