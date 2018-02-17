@@ -139,7 +139,7 @@ module.exports = {
           mkdirp(pathArcTestBuild),
           `node node_modules/typescript/bin/tsc --outDir ${pathArcTestBuild} --project ${pathArcTest}`
         ),
-        clean: rimraf(pathArcTestBuild)
+        clean: rimraf(joinPath(pathArcTestBuild, "*"))
       },
     },
     build: {

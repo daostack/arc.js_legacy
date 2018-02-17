@@ -16,7 +16,6 @@
     "truffle.js",
     ".babelrc",
     ".eslintignore",
-    ".eslintignore",
     ".eslintrc"
   ],
   "scripts": {
