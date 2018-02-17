@@ -1,5 +1,5 @@
 import * as helpers from "./helpers";
-import { ContributionReward } from "../dist/contracts/contributionreward";
+import { ContributionReward } from "../test-dist/contracts/contributionreward";
 
 describe("ContributionReward scheme", () => {
 

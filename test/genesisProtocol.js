@@ -1,8 +1,8 @@
+import { Utils } from "../test-dist/utils";
 const DAOToken = Utils.requireContract("DAOToken");
-import { Contracts } from "../dist/contracts.js";
-import { GenesisProtocol } from "../dist/contracts/genesisProtocol";
-import { SchemeRegistrar } from "../dist/contracts/schemeregistrar";
-import { Utils } from "../dist/utils";
+import { Contracts } from "../test-dist/contracts.js";
+import { GenesisProtocol } from "../test-dist/contracts/genesisProtocol";
+import { SchemeRegistrar } from "../test-dist/contracts/schemeregistrar";
 import * as helpers from "./helpers";
 const ExecutableTest = Utils.requireContract("ExecutableTest");
 
@@ -122,7 +122,8 @@ describe("GenesisProtocol", () => {
     const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar, 2, "GenesisProtocol");
 
     assert.isOk(votingMachine);
-    assert.equal(votingMachine.constructor.name, "GenesisProtocol", "schemeRegistrar is not using GeneisisProtocol");
+    assert.equal(votingMachine.constructor.name, "GenesisProtocolWrapper", "schemeRegistrar is not using GeneisisProtocol");
+    assert.equal(votingMachine.address, (await Contracts.getDeployedContracts()).allContracts.GenesisProtocol.address, "voting machine address is not that of GenesisProtocol");
     assert.isFalse(await helpers.voteWasExecuted(votingMachine, result.proposalId));
 
     await helpers.vote(votingMachine, result.proposalId, 1, accounts[0]);

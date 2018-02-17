@@ -1,4 +1,4 @@
-import Utils from "./utils";
+import { Utils } from "./utils";
 import { ExtendTruffleContract } from "./ExtendTruffleContract";
 import { AbsoluteVote } from "./contracts/absoluteVote.js";
 import { GenesisProtocol } from "./contracts/genesisProtocol.js";
@@ -99,31 +99,31 @@ export class Contracts {
       const contracts = {
         AbsoluteVote: {
           contract: AbsoluteVote,
-          address: absoluteVote.address,
+          address: absoluteVote.contract.address,
         },
         ContributionReward: {
           contract: ContributionReward,
-          address: contributionReward.address,
+          address: contributionReward.contract.address,
         },
         DaoCreator: {
           contract: DaoCreator,
-          address: daoCreator.address,
+          address: daoCreator.contract.address,
         },
         GenesisProtocol: {
           contract: GenesisProtocol,
-          address: genesisProtocol.address,
+          address: genesisProtocol.contract.address,
         },
         GlobalConstraintRegistrar: {
           contract: GlobalConstraintRegistrar,
-          address: globalConstraintRegistrar.address,
+          address: globalConstraintRegistrar.contract.address,
         },
         SchemeRegistrar: {
           contract: SchemeRegistrar,
-          address: schemeRegistrar.address,
+          address: schemeRegistrar.contract.address,
         },
         TokenCapGC: {
           contract: TokenCapGC,
-          address: tokenCapGC.address,
+          address: tokenCapGC.contract.address,
         },
         UController: {
           contract: UController,
@@ -131,15 +131,15 @@ export class Contracts {
         },
         UpgradeScheme: {
           contract: UpgradeScheme,
-          address: upgradeScheme.address,
+          address: upgradeScheme.contract.address,
         },
         VestingScheme: {
           contract: VestingScheme,
-          address: vestingScheme.address,
+          address: vestingScheme.contract.address,
         },
         VoteInOrganizationScheme: {
           contract: VoteInOrganizationScheme,
-          address: voteInOrganizationScheme.address,
+          address: voteInOrganizationScheme.contract.address,
         }
       };
 
@@ -177,7 +177,7 @@ export class Contracts {
     if (!contractInfo) {
       return undefined;
     }
-    return await contractInfo.contract.at(address ? address : contractInfo.address)
+    return contractInfo.contract.at(address ? address : contractInfo.address)
       .then((contract) => contract, () => undefined);
   }
 }

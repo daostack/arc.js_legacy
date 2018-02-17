@@ -26,6 +26,14 @@ const pathDaostackArcRepo =
   env.pathDaostackArcRepo ||
   joinPath(pathArcJsRoot, "node_modules/@daostack/arc");
 
+const pathArcTest =
+  env.pathArcTest ||
+  joinPath(pathArcJsRoot, "test");
+
+const pathArcTestBuild =
+  env.pathArcTestBuild ||
+  joinPath(pathArcJsRoot, "test-dist");
+
 const pathDaostackArcGanacheDb = joinPath(pathArcJsRoot, "ganacheDb");
 const pathDaostackArcGanacheDbZip = joinPath(pathArcJsRoot, "ganacheDb.zip");
 
@@ -55,7 +63,7 @@ module.exports = {
          *
          */
         default: series(
-          "nps build",
+          "nps test.build",
           "mocha --require babel-register --require babel-polyfill --require chai --timeout 999999"),
         bail: series(
           'nps "test.automated --bail"'
@@ -124,13 +132,22 @@ module.exports = {
           "nps test.ganacheDb.clean",
           "nps test.ganacheDb.unzip"
         )
-      }
+      },
+      build: {
+        default: series(
+          "nps test.build.clean",
+          mkdirp(pathArcTestBuild),
+          `node node_modules/typescript/bin/tsc --outDir ${pathArcTestBuild} --project ${pathArcTest}`
+        ),
+        clean: rimraf(pathArcTestBuild)
+      },
     },
     build: {
       default: series(
         "nps build.clean",
         mkdirp(joinPath(pathArcJsRoot, "dist")),
         `node node_modules/typescript/bin/tsc --outDir ${joinPath(pathArcJsRoot, "dist")}`
+
       ),
       clean: rimraf(joinPath(pathArcJsRoot, "dist"))
     },

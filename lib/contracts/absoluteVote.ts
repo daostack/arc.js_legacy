@@ -1,14 +1,11 @@
 "use strict";
 
-import Utils from "../utils";
+import { Utils } from "../utils";
 import { ExtendTruffleContract } from "../ExtendTruffleContract";
-const SolidityAbsoluteVote = Utils.requireContract("AbsoluteVote");
+const SolidityContract = Utils.requireContract("AbsoluteVote");
+import ContractWrapperFactory from "../ContractWrapperFactory";
 
-export class AbsoluteVote extends ExtendTruffleContract(SolidityAbsoluteVote) {
-  static async new() {
-    const contract = await SolidityAbsoluteVote.new();
-    return new this(contract);
-  }
+export class AbsoluteVoteWrapper extends ExtendTruffleContract {
 
   async setParams(params) {
 
@@ -30,3 +27,6 @@ export class AbsoluteVote extends ExtendTruffleContract(SolidityAbsoluteVote) {
     );
   }
 }
+
+const AbsoluteVote = new ContractWrapperFactory(SolidityContract, AbsoluteVoteWrapper);
+export { AbsoluteVote };

@@ -1,7 +1,7 @@
 /**
  * get and set global Arc.js settings
  */
-export default class Config {
+export class Config {
   static instance: Config;
   static _data: any;
 

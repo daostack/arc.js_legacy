@@ -2,17 +2,11 @@
 const dopts = require("default-options");
 
 import { ExtendTruffleContract, ArcTransactionProposalResult, ArcTransactionResult } from "../ExtendTruffleContract";
-import Utils from "../utils";
-const SolidityContributionReward = Utils.requireContract("ContributionReward");
+import { Utils } from "../utils";
+const SolidityContract = Utils.requireContract("ContributionReward");
+import ContractWrapperFactory from "../ContractWrapperFactory";
 
-export class ContributionReward extends ExtendTruffleContract(
-  SolidityContributionReward
-) {
-  static async new() {
-    const contract = await SolidityContributionReward.new();
-    return new this(contract);
-  }
-
+export class ContributionRewardWrapper extends ExtendTruffleContract {
   /**
    * Submit a proposal for a reward for a contribution
    * @param {ProposeContributionParams} opts
@@ -151,7 +145,10 @@ export class ContributionReward extends ExtendTruffleContract(
     );
   }
 
-  getDefaultPermissions(overrideValue) {
+  getDefaultPermissions(overrideValue?: string) {
     return overrideValue || "0x00000001";
   }
 }
+
+const ContributionReward = new ContractWrapperFactory(SolidityContract, ContributionRewardWrapper);
+export { ContributionReward };

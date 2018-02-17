@@ -1,19 +1,13 @@
 "use strict";
 const dopts = require("default-options");
 
-import Utils from "../utils";
+import { Utils } from "../utils";
 import { ExtendTruffleContract, ArcTransactionProposalResult } from "../ExtendTruffleContract";
 
-const SolidityUpgradeScheme = Utils.requireContract("UpgradeScheme");
+import ContractWrapperFactory from "../ContractWrapperFactory";
+const SolidityContract = Utils.requireContract("UpgradeScheme");
 
-export class UpgradeScheme extends ExtendTruffleContract(
-  SolidityUpgradeScheme
-) {
-  static async new() {
-    const contract = await SolidityUpgradeScheme.new();
-    return new this(contract);
-  }
-
+export class UpgradeSchemeWrapper extends ExtendTruffleContract {
   /*******************************************
    * proposeController
    */
@@ -100,7 +94,10 @@ export class UpgradeScheme extends ExtendTruffleContract(
     );
   }
 
-  getDefaultPermissions(overrideValue) {
+  getDefaultPermissions(overrideValue?: string) {
     return overrideValue || "0x0000000b";
   }
 }
+
+const UpgradeScheme = new ContractWrapperFactory(SolidityContract, UpgradeSchemeWrapper);
+export { UpgradeScheme };

@@ -296,7 +296,7 @@ declare module "@daostack/arc.js" {
      *
      * Example:  "0x00000003" has the 1st and 2nd bits set.
      */
-    getDefaultPermissions(overrideValue: string): string;
+    getDefaultPermissions(overrideValue?: string): string;
   }
 
   export interface StandardSchemeParams {
@@ -527,6 +527,10 @@ declare module "@daostack/arc.js" {
      * Reputation truffle contract
      */
     reputation: any;
+    /**
+     * has a universal Controller
+     */
+    hasUController: boolean;
     /**
      * returns schemes currently registered into this DAO, as Array<DaoSchemeInfo>
      * @param contractName like "SchemeRegistrar"

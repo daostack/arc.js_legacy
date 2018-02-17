@@ -2,19 +2,11 @@
 const dopts = require("default-options");
 
 import { ExtendTruffleContract, ArcTransactionResult, ArcTransactionProposalResult } from "../ExtendTruffleContract";
-import Utils from "../utils";
+import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("GenesisProtocol");
+import ContractWrapperFactory from "../ContractWrapperFactory";
 
-export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
-  /**
-   * Address of token to use when staking
-   * @param {string} token
-   */
-  static async new(token) {
-    const contract = await SolidityContract.new(token);
-    return new this(contract);
-  }
-
+export class GenesisProtocolWrapper extends ExtendTruffleContract {
   /**
    * Create a proposal
    * @param {ProposeVoteConfig} options
@@ -795,7 +787,10 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     );
   }
 
-  getDefaultPermissions(overrideValue) {
+  getDefaultPermissions(overrideValue?: string) {
     return overrideValue || "0x00000001";
   }
 }
+
+const GenesisProtocol = new ContractWrapperFactory(SolidityContract, GenesisProtocolWrapper);
+export { GenesisProtocol };

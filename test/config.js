@@ -1,5 +1,5 @@
 "use strict";
-import Config from "../dist/config";
+import { Config } from "../test-dist/config";
 import "./helpers";
 
 describe("Config", () => {
@@ -11,7 +11,7 @@ describe("Config", () => {
   });
 
   it("doesn't reload default values when imported again", () => {
-    const Config = require("../dist/config.js").default;
+    const Config = require("../test-dist/config").Config;
     assert.equal(Config.get("providerUrl"), "http://localhost:8545");
   });
 

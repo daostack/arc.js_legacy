@@ -1,20 +1,14 @@
 "use strict";
 const dopts = require("default-options");
 
-import Utils from "../utils";
+import { Utils } from "../utils";
 import { Contracts } from "../contracts.js";
 import { ExtendTruffleContract, ArcTransactionProposalResult } from "../ExtendTruffleContract";
 
-const SoliditySchemeRegistrar = Utils.requireContract("SchemeRegistrar");
+const SolidityContract = Utils.requireContract("SchemeRegistrar");
+import ContractWrapperFactory from "../ContractWrapperFactory";
 
-export class SchemeRegistrar extends ExtendTruffleContract(
-  SoliditySchemeRegistrar
-) {
-  static async new() {
-    const contract = await SoliditySchemeRegistrar.new();
-    return new this(contract);
-  }
-
+export class SchemeRegistrarWrapper extends ExtendTruffleContract {
   /**
    * Note relating to permissions: According rules defined in the Controller,
    * this SchemeRegistrar is only capable of registering schemes that have
@@ -88,7 +82,7 @@ export class SchemeRegistrar extends ExtendTruffleContract(
         // actually coming from a different version of Arc, then theoretically the permissions could be different from this version.
         const permissions = Number(newScheme.getDefaultPermissions());
 
-        if (permissions > this.getDefaultPermissions()) {
+        if (permissions > Number(this.getDefaultPermissions())) {
           throw new Error(
             "SchemeRegistrar cannot work with schemes having greater permissions than its own"
           );
@@ -158,7 +152,10 @@ export class SchemeRegistrar extends ExtendTruffleContract(
     );
   }
 
-  getDefaultPermissions(overrideValue) {
+  getDefaultPermissions(overrideValue?: string) {
     return overrideValue || "0x00000003";
   }
 }
+
+const SchemeRegistrar = new ContractWrapperFactory(SolidityContract, SchemeRegistrarWrapper);
+export { SchemeRegistrar };

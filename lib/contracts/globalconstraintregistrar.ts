@@ -1,21 +1,13 @@
 "use strict";
 const dopts = require("default-options");
 
-import Utils from "../utils";
+import { Utils } from "../utils";
 import { ExtendTruffleContract, ArcTransactionProposalResult } from "../ExtendTruffleContract";
+import ContractWrapperFactory from "../ContractWrapperFactory";
 
-const SolidityGlobalConstraintRegistrar = Utils.requireContract(
-  "GlobalConstraintRegistrar"
-);
+const SolidityContract = Utils.requireContract("GlobalConstraintRegistrar");
 
-export class GlobalConstraintRegistrar extends ExtendTruffleContract(
-  SolidityGlobalConstraintRegistrar
-) {
-  static async new() {
-    const contract = await SolidityGlobalConstraintRegistrar.new();
-    return new this(contract);
-  }
-
+export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
   async proposeToAddModifyGlobalConstraint(opts = {}) {
     const defaults = {
       /**
@@ -101,7 +93,10 @@ export class GlobalConstraintRegistrar extends ExtendTruffleContract(
     );
   }
 
-  getDefaultPermissions(overrideValue) {
+  getDefaultPermissions(overrideValue?: string) {
     return overrideValue || "0x00000007";
   }
 }
+
+const GlobalConstraintRegistrar = new ContractWrapperFactory(SolidityContract, GlobalConstraintRegistrarWrapper);
+export { GlobalConstraintRegistrar };

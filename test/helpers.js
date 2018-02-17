@@ -1,10 +1,10 @@
-import { Utils } from "../dist/utils";
-import { config } from "../dist/config.js";
+import { Utils } from "../test-dist/utils";
+import { Config } from "../test-dist/config.js";
 import { assert } from "chai";
-import { DAO } from "../dist/dao.js";
-import { Contracts } from "../dist/contracts.js";
+import { DAO } from "../test-dist/dao.js";
+import { Contracts } from "../test-dist/contracts.js";
 const DAOToken = Utils.requireContract("DAOToken");
-import { SchemeRegistrar } from "../dist/contracts/schemeregistrar";
+import { SchemeRegistrar } from "../test-dist/contracts/schemeregistrar";
 
 export const NULL_HASH = Utils.NULL_HASH;
 export const NULL_ADDRESS = Utils.NULL_ADDRESS;
@@ -68,7 +68,6 @@ export async function forgeDao(opts = {}) {
 
 /**
  * Register a ContributionReward with the given DAO.
- * @param {*} dao
  * @returns the ContributionReward wrapper
  */
 export async function addProposeContributionReward(dao) {
@@ -115,7 +114,7 @@ export async function getSchemeVotingMachineParametersHash(dao, scheme, ndxVotin
 
 export async function getSchemeVotingMachine(dao, scheme, ndxVotingMachineParameter = 1, votingMachineName) {
   const votingMachineAddress = await getSchemeParameter(dao, scheme, ndxVotingMachineParameter);
-  votingMachineName = votingMachineName || config.get("defaultVotingMachine");
+  votingMachineName = votingMachineName || Config.get("defaultVotingMachine");
   return Contracts.getScheme(votingMachineName, votingMachineAddress);
 }
 

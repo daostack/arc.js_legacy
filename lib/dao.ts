@@ -2,9 +2,16 @@
 import AvatarService from "./avatarService";
 import { DaoCreator } from "./contracts/daocreator";
 import { Contracts } from "./contracts.js";
-import Utils from "./utils";
+import { Utils } from "./utils";
 
 export class DAO {
+
+  public avatar: any;
+  public controller: any;
+  public hasUController: boolean;
+  public token: any;
+  public reputation: any;
+
   static async new(opts) {
 
     let daoCreator;
@@ -111,7 +118,7 @@ export class DAO {
     arcTypesMap,
     schemesMap // : Promise<void>
   ) {
-    if (!(eventsArray instanceof Array)) {
+    if (!Array.isArray(eventsArray)) {
       eventsArray = [eventsArray];
     }
     const count = eventsArray.length;
@@ -221,7 +228,7 @@ export class DAO {
     arcTypesMap,
     constraintsMap // : Promise<void>
   ) {
-    if (!(eventsArray instanceof Array)) {
+    if (!Array.isArray(eventsArray)) {
       eventsArray = [eventsArray];
     }
     const count = eventsArray.length;

@@ -2,8 +2,9 @@
 const dopts = require("default-options");
 
 import { ExtendTruffleContract, ArcTransactionResult, ArcTransactionProposalResult } from "../ExtendTruffleContract";
-import Utils from "../utils";
+import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("VestingScheme");
+import ContractWrapperFactory from "../ContractWrapperFactory";
 
 /**
  * see CreateVestingAgreementConfig
@@ -20,12 +21,7 @@ const _defaultCreateOptions = {
   signers: undefined
 };
 
-export class VestingScheme extends ExtendTruffleContract(SolidityContract) {
-  static async new() {
-    const contract = await SolidityContract.new();
-    return new this(contract);
-  }
-
+export class VestingSchemeWrapper extends ExtendTruffleContract {
   async _validateCreateParams(options) {
     if (!Number.isInteger(options.periodLength) || (options.periodLength <= 0)) {
       throw new Error("periodLength must be greater than zero");
@@ -195,14 +191,20 @@ export class VestingScheme extends ExtendTruffleContract(SolidityContract) {
     );
   }
 
-  getDefaultPermissions(overrideValue) {
+  getDefaultPermissions(overrideValue?: string) {
     return overrideValue || "0x00000001";
   }
 }
 
 export class ArcTransactionAgreementResult extends ArcTransactionResult {
+
+  public agreementId: number;
+
   constructor(tx) {
     super(tx);
     this.agreementId = this.getValueFromTx("_agreementId").toNumber();
   }
 }
+
+const VestingScheme = new ContractWrapperFactory(SolidityContract, VestingSchemeWrapper);
+export { VestingScheme };

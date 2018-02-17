@@ -1,19 +1,15 @@
 "use strict";
 const dopts = require("default-options");
 
-import Utils from "../utils";
+import { Utils } from "../utils";
 const Avatar = Utils.requireContract("Avatar");
 import { Contracts } from "../contracts.js";
-import { config } from "../config.js";
+import { Config } from "../config";
 import { ExtendTruffleContract, ArcTransactionResult } from "../ExtendTruffleContract";
 const SolidityContract = Utils.requireContract("DaoCreator");
+import ContractWrapperFactory from "../ContractWrapperFactory";
 
-export class DaoCreator extends ExtendTruffleContract(SolidityContract) {
-  static async new() {
-    const contract = await SolidityContract.new();
-    return new this(contract);
-  }
-
+export class DaoCreatorWrapper extends ExtendTruffleContract {
   /**
    * Create a new DAO
    * @param {ForgeOrgConfig} opts
@@ -98,7 +94,7 @@ export class DaoCreator extends ExtendTruffleContract(SolidityContract) {
     const contracts = await Contracts.getDeployedContracts();
 
     const reputationAddress = await avatar.nativeReputation();
-    const configuredVotingMachineName = config.get("defaultVotingMachine");
+    const configuredVotingMachineName = Config.get("defaultVotingMachine");
     const defaultVotingMachineParams = Object.assign({
       // voting machines can't supply reputation as a default -- they don't know what it is
       reputation: reputationAddress,
@@ -136,29 +132,38 @@ export class DaoCreator extends ExtendTruffleContract(SolidityContract) {
         schemeOptions.address || arcSchemeInfo.address
       );
 
-      let schemeVotingMachineParams = {};
+      let schemeVotingMachineParams = schemeOptions.votingMachineParams;
       let schemeVoteParametersHash;
       let schemeVotingMachine;
 
-      if (schemeOptions.votingMachineParams) {
+      if (schemeVotingMachineParams) {
+        const schemeVotingMachineName = schemeVotingMachineParams.votingMachineName;
+        const schemeVotingMachineAddress = schemeVotingMachineParams.votingMachine;
         /**
-         * get the hash of the voting machine params
+         * get the voting machine contract
          */
-        if (schemeOptions.votingMachineParams.votingMachineName === defaultVotingMachine.votingMachineName) {
+        if (!schemeVotingMachineAddress &&
+          (!schemeVotingMachineName ||
+            (schemeVotingMachineName === defaultVotingMachineParams.votingMachineName))) {
           /**
            *  scheme is using the default voting machine
            */
           schemeVotingMachine = defaultVotingMachine;
         } else {
-          // scheme has its own voting machine. get it.
-          schemeVotingMachine = await Contracts.getScheme(schemeOptions.votingMachineParams.votingMachineName, schemeOptions.votingMachineParams.votingMachine);
-          schemeOptions.votingMachineParams.votingMachine = schemeVotingMachine.address; // in case it wasn't supplied in order to get the default
+          /**
+           * scheme has its own voting machine. Go get it.
+           */
+          if (!schemeVotingMachineName) {
+            schemeVotingMachineParams.votingMachineName = defaultVotingMachineParams.votingMachineName;
+          }
+          schemeVotingMachine = await Contracts.getScheme(schemeVotingMachineParams.votingMachineName, schemeVotingMachineParams.votingMachine);
+          schemeVotingMachineParams.votingMachine = schemeVotingMachine.address; // in case it wasn't supplied in order to get the default
         }
 
+        schemeVotingMachineParams = Object.assign(defaultVotingMachineParams, schemeVotingMachineParams);
         /**
-         * take the scheme-specific voting machine parameters to override the global defaults
+         * get the voting machine parameters
          */
-        Object.assign(schemeVotingMachineParams, defaultVotingMachineParams, schemeOptions.votingMachineParams);
         schemeVoteParametersHash = (await schemeVotingMachine.setParams(schemeVotingMachineParams)).result;
 
       } else {
@@ -200,4 +205,11 @@ export class DaoCreator extends ExtendTruffleContract(SolidityContract) {
 
     return new ArcTransactionResult(tx);
   }
+
+  public InitialSchemesSet(...rest): any {
+    return this.contract.InitialSchemesSet(...rest);
+  }
 }
+
+const DaoCreator = new ContractWrapperFactory(SolidityContract, DaoCreatorWrapper);
+export { DaoCreator };

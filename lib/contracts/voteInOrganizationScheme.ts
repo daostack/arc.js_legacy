@@ -2,14 +2,11 @@
 const dopts = require("default-options");
 
 import { ExtendTruffleContract, ArcTransactionProposalResult } from "../ExtendTruffleContract";
-import Utils from "../utils";
+import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("VoteInOrganizationScheme");
+import ContractWrapperFactory from "../ContractWrapperFactory";
 
-export class VoteInOrganizationScheme extends ExtendTruffleContract(SolidityContract) {
-  static async new() {
-    const contract = await SolidityContract.new();
-    return new this(contract);
-  }
+export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
 
   async proposeVote(opts = {}) {
     /**
@@ -51,7 +48,10 @@ export class VoteInOrganizationScheme extends ExtendTruffleContract(SolidityCont
     );
   }
 
-  getDefaultPermissions(overrideValue) {
+  getDefaultPermissions(overrideValue?: string) {
     return overrideValue || "0x00000001";
   }
 }
+
+const VoteInOrganizationScheme = new ContractWrapperFactory(SolidityContract, VoteInOrganizationSchemeWrapper);
+export { VoteInOrganizationScheme };

@@ -1,8 +1,8 @@
-import { DAO } from "../dist/dao";
+import { DAO } from "../test-dist/dao";
 import * as helpers from "./helpers";
-import { GlobalConstraintRegistrar } from "../dist/contracts/globalconstraintregistrar";
-import { UpgradeScheme } from "../dist/contracts/upgradescheme";
-import { SchemeRegistrar } from "../dist/contracts/schemeregistrar";
+import { GlobalConstraintRegistrar, GlobalConstraintRegistrarWrapper } from "../test-dist/contracts/globalconstraintregistrar";
+import { UpgradeScheme, UpgradeSchemeWrapper } from "../test-dist/contracts/upgradescheme";
+import { SchemeRegistrar, SchemeRegistrarWrapper } from "../test-dist/contracts/schemeregistrar";
 
 describe("DAO", () => {
   let dao;
@@ -193,33 +193,46 @@ describe("DAO", () => {
     // a new dao comes with three known schemes
     assert.equal((await dao.getSchemes()).length, 3);
     let scheme = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
+    assert.isOk(scheme, "scheme not found");
     assert.equal(
       scheme.address,
       contracts.allContracts.GlobalConstraintRegistrar.address
     );
     assert.isTrue(!!scheme.contract, "contract must be set");
-    assert.isTrue(scheme instanceof GlobalConstraintRegistrar);
+    assert.isTrue(!!scheme.address, "address must be set");
+    assert.isTrue(scheme instanceof GlobalConstraintRegistrarWrapper);
 
     scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
+    assert.isOk(scheme, "scheme not found");
     assert.equal(
       scheme.address,
       contracts.allContracts.SchemeRegistrar.address
     );
     assert.isTrue(!!scheme.contract, "contract must be set");
-    assert.isTrue(scheme instanceof SchemeRegistrar);
+    assert.isTrue(!!scheme.address, "address must be set");
+    assert.isTrue(scheme instanceof SchemeRegistrarWrapper);
 
     scheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
+    assert.isOk(scheme, "scheme not found");
     assert.equal(
       scheme.address,
       contracts.allContracts.UpgradeScheme.address
     );
     assert.isTrue(!!scheme.contract, "contract must be set");
-    assert.isTrue(scheme instanceof UpgradeScheme);
+    assert.isTrue(!!scheme.address, "address must be set");
+    assert.isTrue(scheme instanceof UpgradeSchemeWrapper);
 
     // now we add another known scheme
     await helpers.addProposeContributionReward(dao);
 
     assert.equal((await dao.getSchemes()).length, 4);
+  });
+
+  it("has a working getScheme() function", async () => {
+    const dao = await helpers.forgeDao();
+    const scheme = await dao.getScheme("UpgradeScheme");
+    assert.isOk(scheme);
+    assert(scheme instanceof UpgradeSchemeWrapper);
   });
 
   it("getScheme() function handles bad scheme", async () => {

@@ -1,9 +1,9 @@
-import Config from "./config";
+import { Config } from "./config";
 const TruffleContract = require("truffle-contract");
 const abi = require("ethereumjs-abi");
 const Web3 = require("web3");
 
-export default class Utils {
+export class Utils {
 
   static get NULL_ADDRESS() { return "0x0000000000000000000000000000000000000000"; }
   static get NULL_HASH() { return "0x0000000000000000000000000000000000000000000000000000000000000000"; }

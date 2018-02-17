@@ -1,101 +1,116 @@
-import Utils from "./utils";
-import Config from "./config";
+import { Utils } from "./utils";
+import { Config } from "./config";
+
 /**
  * Abstract base class for all Arc contract wrapper classes
  *
  * Example of how to define a sub class:
  *
- *  export class AbsoluteVote extends ExtendTruffleContract(SolidityAbsoluteVote) {}
+ * 
+ * import { ExtendTruffleContract } from "../ExtendTruffleContract";
+ * const SolidityAbsoluteVote = Utils.requireContract("AbsoluteVote");
+ * import ContractWrapperFactory from "../ContractWrapperFactory";
+ * 
+ * export class AbsoluteVote extends ExtendTruffleContract {
+ *   protected static factory = new ContractWrapperFactory(SolidityAbsoluteVote, AbsoluteVote);
+ * }
  *
  * @param {any} superclass -- TruffleContract
  */
-export const ExtendTruffleContract = superclass =>
-  class {
+export abstract class ExtendTruffleContract {
+  /**
+   * The underlying truffle contract object
+   */
+  public contract: any;
 
-    /**
-     * The underlying truffle contract object
-     */
-    public contract: any;
+  /**
+   * base classes invoke this constructor
+   * @param factory - TruffleContract such as is returned by Utils.requireContract()
+   */
+  constructor(private solidityFactory: any) {
+    // Make sure this contract is configured with the web3 provider and default config values
+    solidityFactory.setProvider(Utils.getWeb3().currentProvider);
+    solidityFactory.defaults({
+      // Use web3.eth.defaultAccount as the from account for all transactions
+      from: Utils.getDefaultAccount(),
+      gas: Config.get("gasLimit")
+    });
+  }
 
-    constructor(contract) {
-      // Make sure this contract is configured with the web3 provider and default config values
-      superclass.setProvider(Utils.getWeb3().currentProvider);
-      superclass.defaults({
-        from: Utils.getDefaultAccount(), // Use web3.eth.defaultAccount as the from account for all transactions
-        gas: Config.get("gasLimit")
-      });
-      this.contract = contract;
-      for (const i in this.contract) {
-        if (this[i] === undefined) {
-          this[i] = this.contract[i];
-        }
+  /**
+   * Hypdrate from a newly-migrated instance.
+   * This will migrate a new instance of the contract to the net.
+   * @returns this
+   */
+  public async new(...rest) {
+    this.contract = await this.solidityFactory.new(...rest)
+      .then((contract) => contract, (error) => { throw error });
+    this.hydrate();
+    return this;
+  }
+
+  /**
+   * Hydrate from a given address on the current network.
+   * @param address of the deployed contract
+   * @returns this
+   */
+  public async at(address) {
+    try {
+      this.contract = await this.solidityFactory.at(address)
+        .then((contract) => contract, (error) => { throw error });
+    } catch {
+      return undefined;
+    }
+    this.hydrate();
+    return this;
+  }
+
+  /**
+   * Hydrate as it was migrated by Arc.js on the given network.
+   * @returns this
+   */
+  public async deployed() {
+    try {
+      this.contract = await this.solidityFactory.deployed()
+        .then((contract) => contract, (error) => { throw error });
+    } catch {
+      return undefined;
+    }
+    this.hydrate();
+    return this;
+  }
+
+  /**
+   * Call setParameters on this contract.
+   * Returns promise of ArcTransactionDataResult where Result is the parameters hash.
+   * 
+   * @param {any} params -- object with properties whose names are expected by the scheme to correspond to parameters.
+   * Currently all params are required, contract wrappers do not as yet apply default values.
+   */
+  public async setParams(...args) {
+    const parametersHash = await this.contract.getParametersHash(...args);
+    const tx = await this.contract.setParameters(...args);
+    return new ArcTransactionDataResult(tx, parametersHash);
+  }
+
+  /**
+   * The subclass must override this for there to be any permissions at all, unless caller provides a value.
+   */
+  public getDefaultPermissions(overrideValue?: string) {
+    return overrideValue || "0x00000000";
+  }
+
+  public get address() { return this.contract.address; }
+
+  private hydrate() {
+    for (const i in this.contract) {
+      if (this[i] === undefined) {
+        this[i] = this.contract[i];
       }
     }
+  }
 
-    /**
-     * Instantiate the class.  This will migrate a new instance of the contract to the net.
-     */
-    public static async new() {
-      return superclass.new().then(
-        contract => {
-          return new this(contract);
-        },
-        ex => {
-          throw ex;
-        }
-      );
-    }
-
-    /**
-     * Instantiate the class as it was migrated to the given address on
-     * the current network.
-     * @param address 
-     */
-    public static async at(address) {
-      return superclass.at(address).then(
-        contract => {
-          return new this(contract);
-        },
-        ex => {
-          throw ex;
-        }
-      );
-    }
-
-    /**
-     * Instantiate the class as it was migrated by Arc.js on the given network.
-     */
-    public static async deployed() {
-      return superclass.deployed().then(
-        contract => {
-          return new this(contract);
-        },
-        ex => {
-          throw ex;
-        }
-      );
-    }
-
-    /**
-     * Call setParameters on this contract.
-     * Returns promise of ArcTransactionDataResult where Result is the parameters hash.
-     * 
-     * @param {any} params -- object with properties whose names are expected by the scheme to correspond to parameters.
-     * Currently all params are required, contract wrappers do not as yet apply default values.
-     */
-    public async setParams(...args) {
-      const parametersHash = await this.contract.getParametersHash(...args);
-      const tx = await this.contract.setParameters(...args);
-      return new ArcTransactionDataResult(tx, parametersHash);
-    }
-
-    /**
-     * The subclass must override this for there to be any permissions at all, unless caller provides a value.
-     */
-    protected getDefaultPermissions(overrideValue) {
-      return overrideValue || "0x00000000";
-    }
-  };
+};
 
 /**
  * A log as bundled in a TransactionReceipt
@@ -202,7 +217,7 @@ export class ArcTransactionResult {
    * @param index - Index of the log in which to look for the value, when eventName is not given.
    * Default is the index of the last log in the transaction.
    */
-  public getValueFromTx(valueName, eventName = null, index = 0): string {
+  public getValueFromTx(valueName, eventName = null, index = 0): any {
     return Utils.getValueFromLogs(this.tx, valueName, eventName, index);
   }
 }

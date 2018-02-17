@@ -1,4 +1,4 @@
-import Utils from "./utils";
+import { Utils } from "./utils";
 const UControllerContract = Utils.requireContract("UController");
 const ControllerContract = Utils.requireContract("Controller");
 const DAOToken = Utils.requireContract("DAOToken");
@@ -25,7 +25,7 @@ export default class AvatarService {
   _nativeTokenAddress: any;
   _nativeToken: any;
 
-  constructor(avatarAddress) {
+  constructor(avatarAddress: string) {
     this._avatarAddress = avatarAddress;
     this.isUController = undefined;
   }
@@ -33,7 +33,7 @@ export default class AvatarService {
   /**
    * Returns the Avatar TruffleContract
    */
-  async getAvatar() {
+  async getAvatar(): Promise<any> {
     if (!this._avatar) {
       this._avatar = await Avatar.at(this._avatarAddress);
     }
@@ -43,7 +43,7 @@ export default class AvatarService {
   /**
    * returns the address of the controller
    */
-  async getControllerAddress() {
+  async getControllerAddress(): Promise<string> {
     if (!this._controllerAddress) {
       const avatar = await this.getAvatar();
       this._controllerAddress = await avatar.owner();
@@ -56,7 +56,7 @@ export default class AvatarService {
    * either UController or Controller.  You can know which one
    * by checking the AvatarService instance property `isUController`.
    */
-  async getController() {
+  async getController(): Promise<any> {
 
     if (!this._controller) {
       const contracts = await Contracts.getDeployedContracts();
@@ -76,7 +76,7 @@ export default class AvatarService {
   /**
    * Returns the address of the avatar's native reputation.
    */
-  async getNativeReputationAddress() {
+  async getNativeReputationAddress(): Promise<string> {
     if (!this._nativeReputationAddress) {
       const avatar = await this.getAvatar();
       this._nativeReputationAddress = await avatar.nativeReputation();
@@ -87,7 +87,7 @@ export default class AvatarService {
   /**
    * Returns the avatar's native reputation TruffleContract.
    */
-  async getNativeReputation() {
+  async getNativeReputation(): Promise<any> {
     if (!this._nativeReputation) {
       const reputationAddress = await this.getNativeReputationAddress();
       this._nativeReputation = await Reputation.at(reputationAddress);
@@ -98,7 +98,7 @@ export default class AvatarService {
   /**
    * Returns the address of the avatar's native token.
    */
-  async getNativeTokenAddress() {
+  async getNativeTokenAddress(): Promise<string> {
     if (!this._nativeTokenAddress) {
       const avatar = await this.getAvatar();
       this._nativeTokenAddress = await avatar.nativeToken();
@@ -109,7 +109,7 @@ export default class AvatarService {
   /**
    * Returns the avatar's native token TruffleContract.
    */
-  async getNativeToken() {
+  async getNativeToken(): Promise<any> {
     if (!this._nativeToken) {
       const tokenAddress = await this.getNativeTokenAddress();
       this._nativeToken = await DAOToken.at(tokenAddress);
