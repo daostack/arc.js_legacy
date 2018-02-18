@@ -3,7 +3,7 @@
   "version": "0.0.0-alpha.25",
   "description": "A JavaScript library for interacting with @daostack/arc ethereum smart contracts",
   "main": "dist/arc.js",
-  "types": "lib/arc.d.ts",
+  "types": "index.d.ts",
   "files": [
     "dist/",
     "docs/",
@@ -11,6 +11,7 @@
     "migrations/",
     "migrated_contracts/",
     "config/",
+    "index.d.ts",
     "package-scripts.js",
     "package-scripts/",
     "truffle.js",

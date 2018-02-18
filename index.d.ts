@@ -91,9 +91,9 @@ declare module "@daostack/arc.js" {
   }
 
   /********************************
-   * config
+   * Config
    */
-  export var config: any;
+  export class Config { static get(key: string): any; static set(key: string, value: any): void }
 
   /********************************
    * contracts
@@ -344,6 +344,7 @@ declare module "@daostack/arc.js" {
     /**
      * You can add your voting-machine-specific parameters here, like ownerVote, votePerc, etc
      */
+    [x: string]: any;
   }
 
   /**

@@ -1,5 +1,6 @@
 export * from "./avatarService";
 export * from "./config";
+export * from "./ContractWrapperFactory";
 export * from "./contracts";
 export * from "./contracts/absoluteVote";
 export * from "./contracts/contributionreward";
