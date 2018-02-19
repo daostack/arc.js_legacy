@@ -13,7 +13,7 @@ import { Contracts } from "./contracts.js";
  * let avatarService = new AvatarService(avatarAddress);
  *
  */
-export default class AvatarService {
+export class AvatarService {
 
   _avatarAddress: string;
   isUController: boolean;

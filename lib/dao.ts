@@ -1,5 +1,5 @@
 "use strict";
-import AvatarService from "./avatarService";
+import { AvatarService } from "./avatarService";
 import { DaoCreator } from "./contracts/daocreator";
 import { Contracts } from "./contracts.js";
 import { Utils } from "./utils";

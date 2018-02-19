@@ -87,7 +87,7 @@ declare module "@daostack/arc.js" {
     /**
      * All deployed global constraints
      */
-    getGlobalConstraints: Array<ArcContractInfo>;
+    globalConstraints: Array<ArcContractInfo>;
   }
 
   /********************************
@@ -132,48 +132,6 @@ declare module "@daostack/arc.js" {
     ): string;
 
     static getDefaultAccount(): any;
-  }
-
-
-  /********************************
-   * AvatarServive
-   */
-  export class AvatarService {
-    /**
-     * AvatarService constructor
-     * @param avatarAddress - the avatar address.
-     */
-    constructor(avatarAddress: string);
-    /**
-     * Returns the Avatar TruffleContract
-     */
-    getAvatar(): any;
-    /**
-     * returns the address of the controller
-     */
-    getControllerAddress(): string;
-    /**
-     * Returns a TruffleContract for the controller.  Could be
-     * either UController or Controller.  You can know which one
-     * by checking the AvatarService instance property `isUController`.
-     */
-    getController(): any;
-    /**
-     * Returns the address of the avatar's native reputation.
-     */
-    getNativeReputationAddress(): string;
-    /**
-     * Returns the avatar's native reputation TruffleContract.
-     */
-    getNativeReputation(): any;
-    /**
-     * Returns the address of the avatar's native token.
-     */
-    getNativeTokenAddress(): string;
-    /**
-     * Returns the avatar's native token TruffleContract.
-     */
-    getNativeToken(): any;
   }
 
   /********************************
