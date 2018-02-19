@@ -240,6 +240,11 @@ declare module "@daostack/arc.js" {
      * Currently all params are required, contract wrappers do not as yet apply default values.
      */
     public setParams(params: any): Promise<ArcTransactionDataResult>;
+    /**
+     * the address of the deployed contract
+     */
+    public address: string;
+
   }
 
   export class ExtendTruffleScheme extends ExtendTruffleContract {
