@@ -133,7 +133,7 @@ describe("VoteInOrganizationScheme", () => {
       originalVoteEvent.get((err, eventsArray) => {
 
         const foundVoteProposalEvent = eventsArray.filter(e => {
-          return e.args._proposalId == proposalInfo.proposalId;
+          return e.args._proposalId === proposalInfo.proposalId;
         });
 
         if (foundVoteProposalEvent.length === 1) {

@@ -1,18 +1,18 @@
 "use strict";
 
-import { Utils } from "../utils";
 import { ExtendTruffleContract } from "../ExtendTruffleContract";
+import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("AbsoluteVote");
 import ContractWrapperFactory from "../ContractWrapperFactory";
 
 export class AbsoluteVoteWrapper extends ExtendTruffleContract {
 
-  async setParams(params) {
+  public async setParams(params) {
 
     params = Object.assign({},
       {
+        ownerVote: true,
         votePerc: 50,
-        ownerVote: true
       },
       params);
 
@@ -23,7 +23,7 @@ export class AbsoluteVoteWrapper extends ExtendTruffleContract {
     return super.setParams(
       params.reputation,
       params.votePerc,
-      params.ownerVote
+      params.ownerVote,
     );
   }
 }

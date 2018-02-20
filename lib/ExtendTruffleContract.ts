@@ -1,16 +1,16 @@
-import { Utils } from "./utils";
 import { Config } from "./config";
+import { Utils } from "./utils";
 
 /**
  * Abstract base class for all Arc contract wrapper classes
  *
  * Example of how to define a sub class:
  *
- * 
+ *
  * import { ExtendTruffleContract } from "../ExtendTruffleContract";
  * const SolidityAbsoluteVote = Utils.requireContract("AbsoluteVote");
  * import ContractWrapperFactory from "../ContractWrapperFactory";
- * 
+ *
  * export class AbsoluteVote extends ExtendTruffleContract {
  *   protected static factory = new ContractWrapperFactory(SolidityAbsoluteVote, AbsoluteVote);
  * }
@@ -33,7 +33,7 @@ export abstract class ExtendTruffleContract {
     solidityFactory.defaults({
       // Use web3.eth.defaultAccount as the from account for all transactions
       from: Utils.getDefaultAccount(),
-      gas: Config.get("gasLimit")
+      gas: Config.get("gasLimit"),
     });
   }
 
@@ -44,7 +44,7 @@ export abstract class ExtendTruffleContract {
    */
   public async new(...rest) {
     this.contract = await this.solidityFactory.new(...rest)
-      .then((contract) => contract, (error) => { throw error });
+      .then((contract) => contract, (error) => { throw error; });
     this.hydrate();
     return this;
   }
@@ -57,7 +57,7 @@ export abstract class ExtendTruffleContract {
   public async at(address) {
     try {
       this.contract = await this.solidityFactory.at(address)
-        .then((contract) => contract, (error) => { throw error });
+        .then((contract) => contract, (error) => { throw error; });
     } catch {
       return undefined;
     }
@@ -72,7 +72,7 @@ export abstract class ExtendTruffleContract {
   public async deployed() {
     try {
       this.contract = await this.solidityFactory.deployed()
-        .then((contract) => contract, (error) => { throw error });
+        .then((contract) => contract, (error) => { throw error; });
     } catch {
       return undefined;
     }
@@ -83,7 +83,7 @@ export abstract class ExtendTruffleContract {
   /**
    * Call setParameters on this contract.
    * Returns promise of ArcTransactionDataResult where Result is the parameters hash.
-   * 
+   *
    * @param {any} params -- object with properties whose names are expected by the scheme to correspond to parameters.
    * Currently all params are required, contract wrappers do not as yet apply default values.
    */
@@ -110,7 +110,7 @@ export abstract class ExtendTruffleContract {
     }
   }
 
-};
+}
 
 /**
  * A log as bundled in a TransactionReceipt
@@ -121,7 +121,7 @@ export interface TransactionLog {
   blockNumber: number;
   data: string;
   logIndex: number;
-  topics: Array<string>;
+  topics: string[];
   transactionHash: string;
   transactionIndex: number;
   type: string;
@@ -182,7 +182,7 @@ export interface TransactionReceipt {
   /**
    * Array of log objects, which this transaction generated.
    */
-  logs: Array<TransactionLog>;
+  logs: TransactionLog[];
 }
 
 /**
@@ -191,7 +191,7 @@ export interface TransactionReceipt {
  */
 export interface TransactionReceiptTruffle {
   transactionHash: string;
-  logs: Array<TransactionLogTruffle>;
+  logs: TransactionLogTruffle[];
   receipt: TransactionReceipt;
   /**
    * address of the transaction

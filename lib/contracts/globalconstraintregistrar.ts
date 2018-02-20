@@ -1,14 +1,14 @@
 "use strict";
-const dopts = require("default-options");
+import dopts = require("default-options");
 
-import { Utils } from "../utils";
-import { ExtendTruffleContract, ArcTransactionProposalResult } from "../ExtendTruffleContract";
 import ContractWrapperFactory from "../ContractWrapperFactory";
+import { ArcTransactionProposalResult, ExtendTruffleContract } from "../ExtendTruffleContract";
+import { Utils } from "../utils";
 
 const SolidityContract = Utils.requireContract("GlobalConstraintRegistrar");
 
 export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
-  async proposeToAddModifyGlobalConstraint(opts = {}) {
+  public async proposeToAddModifyGlobalConstraint(opts = {}) {
     const defaults = {
       /**
        * avatar address
@@ -25,7 +25,7 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
       /**
        * voting machine to use when voting to remove the global constraint
        */
-      votingMachineHash: undefined
+      votingMachineHash: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -50,13 +50,13 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
       options.avatar,
       options.globalConstraint,
       options.globalConstraintParametersHash,
-      options.votingMachineHash
+      options.votingMachineHash,
     );
 
     return new ArcTransactionProposalResult(tx);
   }
 
-  async proposeToRemoveGlobalConstraint(opts = {}) {
+  public async proposeToRemoveGlobalConstraint(opts = {}) {
     const defaults = {
       /**
        * avatar address
@@ -65,7 +65,7 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
       /**
        *  the address of the global constraint to remove
        */
-      globalConstraint: undefined
+      globalConstraint: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -80,20 +80,20 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
 
     const tx = await this.contract.proposeToRemoveGC(
       options.avatar,
-      options.globalConstraint
+      options.globalConstraint,
     );
 
     return new ArcTransactionProposalResult(tx);
   }
 
-  async setParams(params) {
+  public async setParams(params) {
     return super.setParams(
       params.voteParametersHash,
-      params.votingMachine
+      params.votingMachine,
     );
   }
 
-  getDefaultPermissions(overrideValue?: string) {
+  public getDefaultPermissions(overrideValue?: string) {
     return overrideValue || "0x00000007";
   }
 }

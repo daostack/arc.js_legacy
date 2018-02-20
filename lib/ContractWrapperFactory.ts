@@ -16,4 +16,4 @@ export default class ContractWrapperFactory<TContract extends ExtendTruffleContr
   public async deployed(): Promise<TContract> {
     return new this.wrapper(this.solidityContract).deployed();
   }
-};
+}

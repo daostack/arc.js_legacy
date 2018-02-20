@@ -2,8 +2,16 @@
  * get and set global Arc.js settings
  */
 export class Config {
-  static instance: Config;
-  static _data: any;
+  public static instance: Config;
+  public static data: any;
+
+  public static get(setting: string): any {
+    return Config.data[setting];
+  }
+
+  public static set(setting: string, value: any): void {
+    Config.data[setting] = value;
+  }
 
   constructor() {
     if (!Config.instance) {
@@ -17,18 +25,10 @@ export class Config {
         });
       }
 
-      Config._data = defaults;
+      Config.data = defaults;
       Config.instance = this;
     }
     return Config.instance;
-  }
-
-  public static get(setting: string): any {
-    return Config._data[setting];
-  }
-
-  public static set(setting: string, value: any): void {
-    Config._data[setting] = value;
   }
 }
 

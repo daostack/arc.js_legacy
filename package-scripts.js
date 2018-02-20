@@ -46,8 +46,22 @@ const truffleCommand = `node ${joinPath(pathArcJsRoot, truffleIsInternal ? "node
 module.exports = {
   scripts: {
     lint: {
-      default: "eslint .",
-      fix: 'nps "lint --fix ."'
+      default: series(
+        "nps lint.ts",
+        "nps lint.js"
+      ),
+      ts: {
+        default: "tslint --project .",
+        andFix: "nps \"lint.ts --fix\""
+      },
+      js: {
+        default: "eslint ./test",
+        andFix: "nps \"lint.js --fix\""
+      },
+      andFix: series(
+        "nps lint.ts.andFix",
+        "nps lint.js.andFix"
+      )
     },
     test: {
       default: series("nps lint", "nps test.automated"),

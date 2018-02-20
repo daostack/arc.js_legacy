@@ -152,7 +152,7 @@ export const outOfGasMessage =
 
 export function assertJumpOrOutOfGas(error) {
   const condition =
-    error.message == outOfGasMessage ||
+    error.message === outOfGasMessage ||
     error.message.search("invalid JUMP") > -1;
   assert.isTrue(
     condition,

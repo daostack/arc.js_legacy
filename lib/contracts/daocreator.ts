@@ -1,11 +1,11 @@
 "use strict";
-const dopts = require("default-options");
+import dopts = require("default-options");
 
 import { Utils } from "../utils";
 const Avatar = Utils.requireContract("Avatar");
-import { Contracts } from "../contracts.js";
 import { Config } from "../config";
-import { ExtendTruffleContract, ArcTransactionResult } from "../ExtendTruffleContract";
+import { Contracts } from "../contracts.js";
+import { ArcTransactionResult, ExtendTruffleContract } from "../ExtendTruffleContract";
 const SolidityContract = Utils.requireContract("DaoCreator");
 import ContractWrapperFactory from "../ContractWrapperFactory";
 
@@ -14,16 +14,16 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
    * Create a new DAO
    * @param {ForgeOrgConfig} opts
    */
-  async forgeOrg(opts = {}) {
+  public async forgeOrg(opts = {}) {
     /**
-       * See these properties in ForgeOrgConfig
+     * See these properties in ForgeOrgConfig
      */
     const defaults = {
+      founders: [],
       name: undefined,
       tokenName: undefined,
       tokenSymbol: undefined,
-      founders: [],
-      universalController: true
+      universalController: true,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -54,10 +54,10 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
       options.name,
       options.tokenName,
       options.tokenSymbol,
-      options.founders.map(founder => web3.toBigNumber(founder.address)),
-      options.founders.map(founder => web3.toBigNumber(founder.tokens)),
-      options.founders.map(founder => web3.toBigNumber(founder.reputation)),
-      controllerAddress
+      options.founders.map((founder) => web3.toBigNumber(founder.address)),
+      options.founders.map((founder) => web3.toBigNumber(founder.tokens)),
+      options.founders.map((founder) => web3.toBigNumber(founder.reputation)),
+      controllerAddress,
     );
 
     return new ArcTransactionResult(tx);
@@ -69,7 +69,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
    * via forgeOrg, and at that, can only be called one time.
    * @param {SetSchemesConfig} opts
    */
-  async setSchemes(opts = {}) {
+  public async setSchemes(opts = {}) {
 
     /**
      * See SetSchemesConfig
@@ -79,8 +79,8 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
        * avatar address
        */
       avatar: undefined,
+      schemes: [],
       votingMachineParams: {},
-      schemes: []
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -98,15 +98,19 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
     const defaultVotingMachineParams = Object.assign({
       // voting machines can't supply reputation as a default -- they don't know what it is
       reputation: reputationAddress,
-      votingMachineName: configuredVotingMachineName
+      votingMachineName: configuredVotingMachineName,
     }, options.votingMachineParams || {});
 
-    const defaultVotingMachine = await Contracts.getScheme(defaultVotingMachineParams.votingMachineName, defaultVotingMachineParams.votingMachine);
-    defaultVotingMachineParams.votingMachine = defaultVotingMachine.address; // in case it wasn't supplied in order to get the default
+    const defaultVotingMachine = await Contracts.getScheme(
+      defaultVotingMachineParams.votingMachineName,
+      defaultVotingMachineParams.votingMachine);
+
+    // in case it wasn't supplied in order to get the default
+    defaultVotingMachineParams.votingMachine = defaultVotingMachine.address;
 
     /**
      * each voting machine applies its own default values in setParams
-    */
+     */
     const defaultVoteParametersHash = (await defaultVotingMachine.setParams(defaultVotingMachineParams)).result;
 
     const initialSchemesSchemes = [];
@@ -129,7 +133,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
        * scheme will be a contract wrapper
        */
       const scheme = await arcSchemeInfo.contract.at(
-        schemeOptions.address || arcSchemeInfo.address
+        schemeOptions.address || arcSchemeInfo.address,
       );
 
       let schemeVotingMachineParams = schemeOptions.votingMachineParams;
@@ -156,8 +160,12 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
           if (!schemeVotingMachineName) {
             schemeVotingMachineParams.votingMachineName = defaultVotingMachineParams.votingMachineName;
           }
-          schemeVotingMachine = await Contracts.getScheme(schemeVotingMachineParams.votingMachineName, schemeVotingMachineParams.votingMachine);
-          schemeVotingMachineParams.votingMachine = schemeVotingMachine.address; // in case it wasn't supplied in order to get the default
+          schemeVotingMachine = await Contracts.getScheme(
+            schemeVotingMachineParams.votingMachineName,
+            schemeVotingMachineParams.votingMachine);
+
+          // in case it wasn't supplied in order to get the default
+          schemeVotingMachineParams.votingMachine = schemeVotingMachine.address;
         }
 
         schemeVotingMachineParams = Object.assign(defaultVotingMachineParams, schemeVotingMachineParams);
@@ -179,9 +187,9 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
         Object.assign(
           {
             voteParametersHash: schemeVoteParametersHash,
-            votingMachine: schemeVotingMachineParams.votingMachine
+            votingMachine: schemeVotingMachineParams.votingMachine,
           },
-          schemeOptions.additionalParams || {}
+          schemeOptions.additionalParams || {},
         ))).result;
 
       initialSchemesSchemes.push(scheme.address);
@@ -192,6 +200,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
        */
       const requiredPermissions = Utils.permissionsStringToNumber(scheme.getDefaultPermissions());
       const additionalPermissions = Utils.permissionsStringToNumber(schemeOptions.permissions);
+      /* tslint:disable:no-bitwise */
       initialSchemesPermissions.push(Utils.numberToPermissionsString(requiredPermissions | additionalPermissions));
     }
 
@@ -200,7 +209,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
       options.avatar,
       initialSchemesSchemes,
       initialSchemesParams,
-      initialSchemesPermissions
+      initialSchemesPermissions,
     );
 
     return new ArcTransactionResult(tx);

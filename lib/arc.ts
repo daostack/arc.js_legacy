@@ -13,4 +13,3 @@ export * from "./contracts/voteInOrganizationScheme";
 export * from "./dao";
 export * from "./ExtendTruffleContract";
 export * from "./utils";
-

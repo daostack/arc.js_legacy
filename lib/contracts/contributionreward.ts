@@ -1,7 +1,7 @@
 "use strict";
-const dopts = require("default-options");
+import dopts = require("default-options");
 
-import { ExtendTruffleContract, ArcTransactionProposalResult, ArcTransactionResult } from "../ExtendTruffleContract";
+import { ArcTransactionProposalResult, ArcTransactionResult, ExtendTruffleContract } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("ContributionReward");
 import ContractWrapperFactory from "../ContractWrapperFactory";
@@ -11,22 +11,22 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
    * Submit a proposal for a reward for a contribution
    * @param {ProposeContributionParams} opts
    */
-  async proposeContributionReward(opts = {}) {
+  public async proposeContributionReward(opts = {}) {
     /**
      * Note that explicitly supplying any property with a value of undefined will prevent the property
      * from taking on its default value (weird behavior of default-options)
      */
     const defaults = {
       avatar: undefined,
+      beneficiary: undefined,
       description: undefined,
-      reputationChange: 0,
-      nativeTokenReward: 0,
       ethReward: 0,
-      externalTokenReward: 0,
       externalToken: null,
-      periodLength: undefined,
+      externalTokenReward: 0,
+      nativeTokenReward: 0,
       numberOfPeriods: undefined,
-      beneficiary: undefined
+      periodLength: undefined,
+      reputationChange: 0,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -66,7 +66,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
 
     if (
       !(
-        (reputationChange != 0) ||
+        (reputationChange !== 0) ||
         (nativeTokenReward > 0) ||
         (reputationChange > 0) ||
         (ethReward > 0) ||
@@ -78,7 +78,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
 
     if ((externalTokenReward > 0) && !options.externalToken) {
       throw new Error(
-        "external token reward is proposed but externalToken is not defined"
+        "external token reward is proposed but externalToken is not defined",
       );
     }
 
@@ -92,7 +92,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
       reputationChange,
       [nativeTokenReward, ethReward, externalTokenReward, options.periodLength, options.numberOfPeriods],
       options.externalToken,
-      options.beneficiary
+      options.beneficiary,
     );
     return new ArcTransactionProposalResult(tx);
   }
@@ -101,14 +101,14 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
    * Redeem reward for proposal
    * @param {ContributionRewardRedeemParams} opts
    */
-  async redeemContributionReward(opts = {}) {
+  public async redeemContributionReward(opts = {}) {
     const defaults = {
-      proposalId: undefined,
       avatar: undefined,
-      reputation: false,
-      nativeTokens: false,
       ethers: false,
       externalTokens: false,
+      nativeTokens: false,
+      proposalId: undefined,
+      reputation: false,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -124,28 +124,28 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
     const tx = await this.contract.redeem(
       options.proposalId,
       options.avatar,
-      [options.reputation, options.nativeTokens, options.ethers, options.externalTokens]
+      [options.reputation, options.nativeTokens, options.ethers, options.externalTokens],
     );
 
     return new ArcTransactionResult(tx);
   }
 
-  async setParams(params) {
+  public async setParams(params) {
 
     params = Object.assign({},
       {
-        orgNativeTokenFee: 0
+        orgNativeTokenFee: 0,
       },
       params);
 
     return super.setParams(
       params.orgNativeTokenFee,
       params.voteParametersHash,
-      params.votingMachine
+      params.votingMachine,
     );
   }
 
-  getDefaultPermissions(overrideValue?: string) {
+  public getDefaultPermissions(overrideValue?: string) {
     return overrideValue || "0x00000001";
   }
 }

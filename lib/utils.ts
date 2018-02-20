@@ -1,14 +1,12 @@
+import abi = require("ethereumjs-abi");
+import TruffleContract = require("truffle-contract");
+import Web3 = require("web3");
 import { Config } from "./config";
-const TruffleContract = require("truffle-contract");
-const abi = require("ethereumjs-abi");
-const Web3 = require("web3");
 
 export class Utils {
 
   static get NULL_ADDRESS() { return "0x0000000000000000000000000000000000000000"; }
   static get NULL_HASH() { return "0x0000000000000000000000000000000000000000000000000000000000000000"; }
-  static _web3 = undefined;
-  static _alreadyTriedAndFailed = false;
 
   /**
    * Returns TruffleContract given the name of the contract (like "SchemeRegistrar"), or undefined
@@ -33,7 +31,7 @@ export class Utils {
       contract.setProvider(myWeb3.currentProvider);
       contract.defaults({
         from: Utils.getDefaultAccount(),
-        gas: Config.get("gasLimit")
+        gas: Config.get("gasLimit"),
       });
       return contract;
     } catch (ex) {
@@ -47,8 +45,8 @@ export class Utils {
    * Throws an exception when web3 cannot be initialized or there is no default client
    */
   public static getWeb3(): any {
-    if (Utils._web3) {
-      return Utils._web3;
+    if (Utils.web3) {
+      return Utils.web3;
     }
 
     let preWeb3;
@@ -56,21 +54,22 @@ export class Utils {
     if (typeof web3 !== "undefined") {
       // Look for injected web3 e.g. by truffle in migrations, or MetaMask in the browser window
       // Instead of using the injected Web3.js directly best practice is to use the version of web3.js we have bundled
+      /* tslint:disable:max-line-length */
       // see https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#partly_sunny-web3---ethereum-browser-environment-check
       preWeb3 = new Web3(web3.currentProvider);
-    } else if (Utils._alreadyTriedAndFailed) {
+    } else if (Utils.alreadyTriedAndFailed) {
       // then avoid time-consuming and futile retry
       throw new Error("already tried and failed");
     } else {
       // No web3 is injected, look for a provider at providerUrl (which defaults to localhost)
       // This happens when running tests, or in a browser that is not running MetaMask
       preWeb3 = new Web3(
-        new Web3.providers.HttpProvider(Config.get("providerUrl"))
+        new Web3.providers.HttpProvider(Config.get("providerUrl")),
       );
     }
 
     if (!preWeb3) {
-      Utils._alreadyTriedAndFailed = true;
+      Utils.alreadyTriedAndFailed = true;
       throw new Error("web3 not found");
     }
 
@@ -79,14 +78,15 @@ export class Utils {
       window.web3 = preWeb3;
     }
 
-    return (Utils._web3 = preWeb3);
+    return (Utils.web3 = preWeb3);
   }
 
   /**
    * Returns a value from the given transaction log.
-   * 
+   *
    * @param tx The transaction
-   * @param arg The name of the property whose value we wish to return, from  the args object: tx.logs[index].args[argName]
+   * @param arg The name of the property whose value we wish to return,
+   *            from the args object: tx.logs[index].args[argName]
    * @param eventName Overrides index, identifies which log, where tx.logs[n].event  === eventName
    * @param index Identifies which log, when eventName is not given
    */
@@ -144,9 +144,9 @@ export class Utils {
 
   /**
    * Returns the address of the default user account.
-   * 
+   *
    * Has the side-effect of setting web3.eth.defaultAccount.
-   * 
+   *
    * Throws an exception on failure.
    */
   public static getDefaultAccount(): string {
@@ -161,7 +161,8 @@ export class Utils {
   }
 
   /**
-   * Return the hash of a string the same way solidity would, and to a format that will be properly translated into a bytes32 that solidity expects
+   * Return the hash of a string the same way solidity would, and to a format that will be
+   * properly translated into a bytes32 that solidity expects
    * @param str a string
    */
   public static SHA3(str): string {
@@ -185,4 +186,7 @@ export class Utils {
     if (!permissions) { return "0x00000000"; }
     return `0x${("00000000" + permissions.toString(16)).substr(-8)}`;
   }
+
+  private static web3 = undefined;
+  private static alreadyTriedAndFailed = false;
 }
