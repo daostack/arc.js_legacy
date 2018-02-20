@@ -1,6 +1,6 @@
 "use strict";
 import "./helpers";
-import { TestWrapper } from "../test-dist/contracts/testWrapper";
+import { TestWrapper } from "../test-dist/test/contracts/testWrapper";
 import { AbsoluteVote } from "../test-dist/contracts/absoluteVote";
 
 describe("ExtendTruffleContract", () => {

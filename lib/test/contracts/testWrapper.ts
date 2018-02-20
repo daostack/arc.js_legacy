@@ -1,9 +1,9 @@
 "use strict";
 
-import { ExtendTruffleContract } from "../ExtendTruffleContract";
-import { Utils } from "../utils";
+import { ExtendTruffleContract } from "../../ExtendTruffleContract";
+import { Utils } from "../../utils";
 const SolidityContract = Utils.requireContract("AbsoluteVote");
-import ContractWrapperFactory from "../ContractWrapperFactory";
+import ContractWrapperFactory from "../../ContractWrapperFactory";
 
 export class TestWrapperWrapper extends ExtendTruffleContract {
 
