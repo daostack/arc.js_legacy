@@ -9,8 +9,6 @@ Object.assign(options, {
   "module": "commonjs"
 });
 
-// typeDocApp.options.setValue("includeDeclarations", true);
-// typeDocApp.options.setValue("externalPattern", "node_modules");
 typeDocApp.options.setValue("excludeExternals", true);
 typeDocApp.options.setValue("hideGenerator", true);
 

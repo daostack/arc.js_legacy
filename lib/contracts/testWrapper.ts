@@ -20,7 +20,6 @@ export class TestWrapperWrapper extends ExtendTruffleContract {
     }
 
     async setParams(params) {
-        console.log(`testWrapper: ${params}`);
         params = Object.assign({},
             {
                 reputation: "0x1000000000000000000000000000000000000000",
