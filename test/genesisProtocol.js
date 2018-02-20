@@ -435,7 +435,7 @@ describe("GenesisProtocol", () => {
       await genesisProtocol.propose({});
       assert(false, "Should have thrown validation exception");
     } catch (ex) {
-      assert.equal(ex, "Error: Missing required properties: avatar, paramsHash, executable");
+      assert.equal(ex, "Error: Missing required properties: avatar, executable, paramsHash");
     }
   });
 
