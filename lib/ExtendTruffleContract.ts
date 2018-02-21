@@ -43,8 +43,12 @@ export abstract class ExtendTruffleContract {
    * @returns this
    */
   public async new(...rest) {
-    this.contract = await this.solidityFactory.new(...rest)
-      .then((contract) => contract, (error) => { throw error; });
+    try {
+      this.contract = await this.solidityFactory.new(...rest)
+        .then((contract) => contract, (error) => { throw error; });
+    } catch {
+      return undefined;
+    }
     this.hydrate();
     return this;
   }
