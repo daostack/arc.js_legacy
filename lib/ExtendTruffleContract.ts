@@ -10,7 +10,7 @@ import { Utils } from "./utils";
  *   const SolidityContract = Utils.requireContract("AbsoluteVote");
  *   import ContractWrapperFactory from "../ContractWrapperFactory";
  *
- *   export class AbsoluteVote extends ExtendTruffleContract {
+ *   export class AbsoluteVoteWrapper extends ExtendTruffleContract {
  *     [ wrapper properties and methods ]
  *   }
  *
