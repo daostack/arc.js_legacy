@@ -12,6 +12,11 @@
         "max-classes-per-file": [
             false,
             1
+        ],
+        "indent": [
+            true,
+            "spaces",
+            2
         ]
     },
     "rulesDirectory": []

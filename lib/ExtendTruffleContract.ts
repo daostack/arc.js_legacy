@@ -27,10 +27,10 @@ export abstract class ExtendTruffleContract {
    * base classes invoke this constructor
    * @param factory - TruffleContract such as is returned by Utils.requireContract()
    */
-  constructor(private solidityFactory: any) {
+  constructor(private solidityContract: any) {
     // Make sure this contract is configured with the web3 provider and default config values
-    solidityFactory.setProvider(Utils.getWeb3().currentProvider);
-    solidityFactory.defaults({
+    solidityContract.setProvider(Utils.getWeb3().currentProvider);
+    solidityContract.defaults({
       // Use web3.eth.defaultAccount as the from account for all transactions
       from: Utils.getDefaultAccount(),
       gas: Config.get("gasLimit"),
@@ -44,7 +44,7 @@ export abstract class ExtendTruffleContract {
    */
   public async new(...rest) {
     try {
-      this.contract = await this.solidityFactory.new(...rest)
+      this.contract = await this.solidityContract.new(...rest)
         .then((contract) => contract, (error) => { throw error; });
     } catch {
       return undefined;
@@ -60,7 +60,7 @@ export abstract class ExtendTruffleContract {
    */
   public async at(address) {
     try {
-      this.contract = await this.solidityFactory.at(address)
+      this.contract = await this.solidityContract.at(address)
         .then((contract) => contract, (error) => { throw error; });
     } catch {
       return undefined;
@@ -70,12 +70,12 @@ export abstract class ExtendTruffleContract {
   }
 
   /**
-   * Hydrate as it was migrated by Arc.js on the given network.
+   * Hydrate as it was migrated by Arc.js on the current network.
    * @returns this
    */
   public async deployed() {
     try {
-      this.contract = await this.solidityFactory.deployed()
+      this.contract = await this.solidityContract.deployed()
         .then((contract) => contract, (error) => { throw error; });
     } catch {
       return undefined;

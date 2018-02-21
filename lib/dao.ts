@@ -6,7 +6,7 @@ import { Utils } from "./utils";
 
 export class DAO {
 
-  public static async new(opts) {
+  public static async new(opts): Promise<DAO> {
 
     let daoCreator;
 
@@ -25,7 +25,7 @@ export class DAO {
     return DAO.at(avatarAddress);
   }
 
-  public static async at(avatarAddress) {
+  public static async at(avatarAddress): Promise<DAO> {
     const dao = new DAO();
 
     const avatarService = new AvatarService(avatarAddress);
@@ -41,8 +41,8 @@ export class DAO {
   /**
    * Returns promise of the DAOstack Genesis avatar address, or undefined if not found
    */
-  public static async getGenesisDao(daoCreatorAddress) {
-    return new Promise(async (resolve, reject) => {
+  public static async getGenesisDao(daoCreatorAddress): Promise<string> {
+    return new Promise<string>(async (resolve, reject) => {
       try {
         const contracts = await Contracts.getDeployedContracts();
         const daoCreator = await DaoCreator.at(

@@ -7,37 +7,37 @@ import ContractWrapperFactory from "../../ContractWrapperFactory";
 
 export class TestWrapperWrapper extends ExtendTruffleContract {
 
-    constructor() {
-        super(SolidityContract);
-    }
+  constructor() {
+    super(SolidityContract);
+  }
 
-    public foo() {
-        return "bar";
-    }
+  public foo() {
+    return "bar";
+  }
 
-    public aMethod() {
-        return "abc";
-    }
+  public aMethod() {
+    return "abc";
+  }
 
-    public async setParams(params) {
-        params = Object.assign({},
-            {
-                ownerVote: true,
-                reputation: "0x1000000000000000000000000000000000000000",
-                votePerc: 50,
-            },
-            params);
+  public async setParams(params) {
+    params = Object.assign({},
+      {
+        ownerVote: true,
+        reputation: "0x1000000000000000000000000000000000000000",
+        votePerc: 50,
+      },
+      params);
 
-        return super.setParams(
-            params.reputation,
-            params.votePerc,
-            params.ownerVote,
-        );
-    }
+    return super.setParams(
+      params.reputation,
+      params.votePerc,
+      params.ownerVote,
+    );
+  }
 
-    public getDefaultPermissions(overrideValue?: string) {
-        return overrideValue || "0x00000009";
-    }
+  public getDefaultPermissions(overrideValue?: string) {
+    return overrideValue || "0x00000009";
+  }
 }
 
 const TestWrapper = new ContractWrapperFactory(SolidityContract, TestWrapperWrapper);
