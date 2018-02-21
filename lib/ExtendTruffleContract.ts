@@ -4,18 +4,18 @@ import { Utils } from "./utils";
 /**
  * Abstract base class for all Arc contract wrapper classes
  *
- * Example of how to define a sub class:
+ * Example of how to define a wrapper:
  *
+ *   import { ExtendTruffleContract } from "../ExtendTruffleContract";
+ *   const SolidityContract = Utils.requireContract("AbsoluteVote");
+ *   import ContractWrapperFactory from "../ContractWrapperFactory";
  *
- * import { ExtendTruffleContract } from "../ExtendTruffleContract";
- * const SolidityAbsoluteVote = Utils.requireContract("AbsoluteVote");
- * import ContractWrapperFactory from "../ContractWrapperFactory";
+ *   export class AbsoluteVote extends ExtendTruffleContract {
+ *     [ wrapper properties and methods ]
+ *   }
  *
- * export class AbsoluteVote extends ExtendTruffleContract {
- *   protected static factory = new ContractWrapperFactory(SolidityAbsoluteVote, AbsoluteVote);
- * }
- *
- * @param {any} superclass -- TruffleContract
+ *   const AbsoluteVote = new ContractWrapperFactory(SolidityContract, AbsoluteVoteWrapper);
+ *   export { AbsoluteVote };
  */
 export abstract class ExtendTruffleContract {
   /**
