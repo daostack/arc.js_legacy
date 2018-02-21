@@ -85,9 +85,9 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const tx = await this.contract.stake(
-      options.proposalId
-      , options.vote
-      , amount,
+      options.proposalId,
+      options.vote,
+      amount,
     );
 
     return new ArcTransactionResult(tx);
@@ -114,8 +114,8 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     this._validateVote(options.vote, options.proposalId);
 
     const tx = await this.contract.vote(
-      options.proposalId
-      , options.vote,
+      options.proposalId,
+      options.vote,
     );
 
     return new ArcTransactionResult(tx);
@@ -147,10 +147,10 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const tx = await this.contract.voteWithSpecifiedAmounts(
-      options.proposalId
-      , options.vote
-      , options.reputation
-      , 0,
+      options.proposalId,
+      options.vote,
+      options.reputation,
+      0,
     );
 
     return new ArcTransactionResult(tx);
@@ -179,8 +179,8 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const tx = await this.contract.redeem(
-      options.proposalId
-      , options.beneficiary,
+      options.proposalId,
+      options.beneficiary,
     );
 
     return new ArcTransactionResult(tx);
@@ -283,8 +283,8 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const redeemAmount = await this.contract.getRedeemableTokensStaker(
-      options.proposalId
-      , options.beneficiary,
+      options.proposalId,
+      options.beneficiary,
     );
 
     return redeemAmount;
@@ -337,8 +337,8 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const amount = await this.contract.getRedeemableTokensVoter(
-      options.proposalId
-      , options.beneficiary,
+      options.proposalId,
+      options.beneficiary,
     );
 
     return amount;
@@ -367,8 +367,8 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const reputation = await this.contract.getRedeemableReputationVoter(
-      options.proposalId
-      , options.beneficiary,
+      options.proposalId,
+      options.beneficiary,
     );
 
     return reputation;
@@ -397,8 +397,8 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const reputation = await this.contract.getRedeemableReputationStaker(
-      options.proposalId
-      , options.beneficiary,
+      options.proposalId,
+      options.beneficiary,
     );
 
     return reputation;
@@ -451,8 +451,8 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const result = await this.contract.voteInfo(
-      options.proposalId
-      , options.voter,
+      options.proposalId,
+      options.voter,
     );
 
     return {
@@ -643,8 +643,8 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const result = await this.contract.staker(
-      options.proposalId
-      , options.staker,
+      options.proposalId,
+      options.staker,
     );
 
     return {
@@ -673,8 +673,8 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     this._validateVote(options.vote, options.proposalId);
 
     const stake = await this.contract.voteStake(
-      options.proposalId
-      , options.vote,
+      options.proposalId,
+      options.vote,
     );
 
     return stake;

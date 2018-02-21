@@ -149,13 +149,13 @@ export class Contracts {
           contracts.TokenCapGC,
         ],
         schemes: [
-          contracts.SchemeRegistrar
-          , contracts.UpgradeScheme
-          , contracts.GlobalConstraintRegistrar
-          , contracts.ContributionReward
-          , contracts.VestingScheme
-          , contracts.VoteInOrganizationScheme
-          , contracts.GenesisProtocol,
+          contracts.SchemeRegistrar,
+          contracts.UpgradeScheme,
+          contracts.GlobalConstraintRegistrar,
+          contracts.ContributionReward,
+          contracts.VestingScheme,
+          contracts.VoteInOrganizationScheme,
+          contracts.GenesisProtocol,
         ],
         votingMachines: [
           contracts.AbsoluteVote
