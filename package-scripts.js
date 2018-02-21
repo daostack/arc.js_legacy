@@ -55,7 +55,7 @@ module.exports = {
         andFix: "nps \"lint.ts --fix\""
       },
       js: {
-        default: "eslint ./test",
+        default: "eslint .",
         andFix: "nps \"lint.js --fix\""
       },
       andFix: series(
