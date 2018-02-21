@@ -1,20 +1,14 @@
 "use strict";
-const dopts = require("default-options");
+import dopts = require("default-options");
 
 import { Contracts } from "../contracts.js";
+import { ArcTransactionProposalResult, ExtendTruffleContract } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
-import { ExtendTruffleContract, ArcTransactionProposalResult } from "../ExtendTruffleContract";
 
-const SoliditySchemeRegistrar = Utils.requireContract("SchemeRegistrar");
+const SolidityContract = Utils.requireContract("SchemeRegistrar");
+import ContractWrapperFactory from "../ContractWrapperFactory";
 
-export class SchemeRegistrar extends ExtendTruffleContract(
-  SoliditySchemeRegistrar
-) {
-  static async new() {
-    const contract = await SoliditySchemeRegistrar.new();
-    return new this(contract);
-  }
-
+export class SchemeRegistrarWrapper extends ExtendTruffleContract {
   /**
    * Note relating to permissions: According rules defined in the Controller,
    * this SchemeRegistrar is only capable of registering schemes that have
@@ -25,7 +19,7 @@ export class SchemeRegistrar extends ExtendTruffleContract(
    * The Controller will throw an exception when an attempt is made
    * to add or remove schemes having greater permissions than the scheme attempting the change.
    */
-  async proposeToAddModifyScheme(opts = {}) {
+  public async proposeToAddModifyScheme(opts = {}) {
     /**
      * Note that explicitly supplying any property with a value of undefined will prevent the property
      * from taking on its default value (weird behavior of default-options).
@@ -36,6 +30,13 @@ export class SchemeRegistrar extends ExtendTruffleContract(
        * avatar address
        */
       avatar: undefined,
+      /**
+       * true if the given scheme is able to register/unregister/modify schemes.
+       *
+       * isRegistering should only be supplied when schemeName is not given (and thus the scheme is non-Arc).
+       * Otherwise we determine it's value based on scheme and schemeName.
+       */
+      isRegistering: null,
       /**
        * scheme address
        */
@@ -49,13 +50,6 @@ export class SchemeRegistrar extends ExtendTruffleContract(
        * hash of scheme parameters. These must be already registered with the new scheme.
        */
       schemeParametersHash: undefined,
-      /**
-       * true if the given scheme is able to register/unregister/modify schemes.
-       *
-       * isRegistering should only be supplied when schemeName is not given (and thus the scheme is non-Arc).
-       * Otherwise we determine it's value based on scheme and schemeName.
-       */
-      isRegistering: null
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -84,20 +78,25 @@ export class SchemeRegistrar extends ExtendTruffleContract(
           options.schemeName
         ].contract.at(options.scheme);
 
-        // Note that the javascript wrapper "newScheme" we've gotten here is defined in this version of Arc.  If newScheme is
-        // actually coming from a different version of Arc, then theoretically the permissions could be different from this version.
+        /**
+         * Note that the javascript wrapper "newScheme" we've gotten here is defined in this version of Arc.
+         * If newScheme is actually coming from a different version of Arc, then theoretically
+         * the permissions could be different from this version.
+         */
         const permissions = Number(newScheme.getDefaultPermissions());
 
-        if (permissions > this.getDefaultPermissions()) {
+        if (permissions > Number(this.getDefaultPermissions())) {
           throw new Error(
-            "SchemeRegistrar cannot work with schemes having greater permissions than its own"
+            "SchemeRegistrar cannot work with schemes having greater permissions than its own",
           );
         }
 
-        isRegistering = (permissions & 2) != 0;
+        /* tslint:disable:no-bitwise */
+        isRegistering = (permissions & 2) !== 0;
       } catch (ex) {
         throw new Error(
-          `Unable to obtain default information from the given scheme address. The address is invalid or the scheme is not an Arc scheme and in that case you must supply fee and tokenAddress. ${ex}`
+          /* tslint:disable:max-line-length */
+          `Unable to obtain default information from the given scheme address. The address is invalid or the scheme is not an Arc scheme and in that case you must supply fee and tokenAddress. ${ex}`,
         );
       }
     } else {
@@ -105,7 +104,7 @@ export class SchemeRegistrar extends ExtendTruffleContract(
 
       if (isRegistering === null) {
         throw new Error(
-          "isRegistering is not defined; it is required for non-Arc schemes (schemeName is undefined)"
+          "isRegistering is not defined; it is required for non-Arc schemes (schemeName is undefined)",
         );
       }
     }
@@ -114,13 +113,13 @@ export class SchemeRegistrar extends ExtendTruffleContract(
       options.avatar,
       options.scheme,
       options.schemeParametersHash,
-      isRegistering
+      isRegistering,
     );
 
     return new ArcTransactionProposalResult(tx);
   }
 
-  async proposeToRemoveScheme(opts = {}) {
+  public async proposeToRemoveScheme(opts = {}) {
     const defaults = {
       /**
        * avatar address
@@ -129,7 +128,7 @@ export class SchemeRegistrar extends ExtendTruffleContract(
       /**
        * scheme address
        */
-      scheme: undefined
+      scheme: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -144,21 +143,24 @@ export class SchemeRegistrar extends ExtendTruffleContract(
 
     const tx = await this.contract.proposeToRemoveScheme(
       options.avatar,
-      options.scheme
+      options.scheme,
     );
 
     return new ArcTransactionProposalResult(tx);
   }
 
-  async setParams(params) {
+  public async setParams(params) {
     return super.setParams(
       params.voteParametersHash,
       params.voteParametersHash,
-      params.votingMachine
+      params.votingMachine,
     );
   }
 
-  getDefaultPermissions(overrideValue) {
+  public getDefaultPermissions(overrideValue?: string) {
     return overrideValue || "0x00000003";
   }
 }
+
+const SchemeRegistrar = new ContractWrapperFactory(SolidityContract, SchemeRegistrarWrapper);
+export { SchemeRegistrar };

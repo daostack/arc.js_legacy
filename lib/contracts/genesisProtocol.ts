@@ -1,35 +1,27 @@
 "use strict";
-const dopts = require("default-options");
+import dopts = require("default-options");
 
+import { ArcTransactionProposalResult, ArcTransactionResult, ExtendTruffleContract } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
-import { ExtendTruffleContract, ArcTransactionResult, ArcTransactionProposalResult } from "../ExtendTruffleContract";
 const SolidityContract = Utils.requireContract("GenesisProtocol");
+import ContractWrapperFactory from "../ContractWrapperFactory";
 
-export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
-  /**
-   * Address of token to use when staking
-   * @param {string} token
-   */
-  static async new(token) {
-    const contract = await SolidityContract.new(token);
-    return new this(contract);
-  }
-
+export class GenesisProtocolWrapper extends ExtendTruffleContract {
   /**
    * Create a proposal
    * @param {ProposeVoteConfig} options
    * @returns Promise<ArcTransactionProposalResult>
    */
-  async propose(opts = {}) {
+  public async propose(opts = {}) {
     /**
      * see GenesisProtocolProposeVoteConfig
      */
     const defaults = {
       avatar: undefined,
+      executable: undefined,
       numOfChoices: 0,
-      proposer: Utils.getDefaultAccount(),
       paramsHash: undefined,
-      executable: undefined
+      proposer: Utils.getDefaultAccount(),
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -59,7 +51,7 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
       options.paramsHash,
       options.avatar,
       options.executable,
-      options.proposer
+      options.proposer,
     );
 
     return new ArcTransactionProposalResult(tx);
@@ -70,12 +62,12 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {StakeConfig} opts
    * @returns Promise<ArcTransactionResult>
    */
-  async stake(opts = {}) {
+  public async stake(opts = {}) {
 
     const defaults = {
+      amount: undefined,
       proposalId: undefined,
       vote: undefined,
-      amount: undefined
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -93,9 +85,9 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const tx = await this.contract.stake(
-      options.proposalId
-      , options.vote
-      , amount
+      options.proposalId,
+      options.vote,
+      amount,
     );
 
     return new ArcTransactionResult(tx);
@@ -106,11 +98,11 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {VoteConfig} opts
    * @returns Promise<ArcTransactionResult>
    */
-  async vote(opts = {}) {
+  public async vote(opts = {}) {
 
     const defaults = {
       proposalId: undefined,
-      vote: undefined
+      vote: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -122,8 +114,8 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     this._validateVote(options.vote, options.proposalId);
 
     const tx = await this.contract.vote(
-      options.proposalId
-      , options.vote
+      options.proposalId,
+      options.vote,
     );
 
     return new ArcTransactionResult(tx);
@@ -135,11 +127,11 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {VoteWithSpecifiedAmountsConfig} opts
    * @returns Promise<ArcTransactionResult>
    */
-  async voteWithSpecifiedAmounts(opts = {}) {
+  public async voteWithSpecifiedAmounts(opts = {}) {
     const defaults = {
       proposalId: undefined,
+      reputation: undefined,
       vote: undefined,
-      reputation: undefined
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -155,10 +147,10 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const tx = await this.contract.voteWithSpecifiedAmounts(
-      options.proposalId
-      , options.vote
-      , options.reputation
-      , 0
+      options.proposalId,
+      options.vote,
+      options.reputation,
+      0,
     );
 
     return new ArcTransactionResult(tx);
@@ -169,11 +161,11 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {RedeemConfig} opts
    * @returns Promise<ArcTransactionResult>
    */
-  async redeem(opts = {}) {
+  public async redeem(opts = {}) {
 
     const defaults = {
+      beneficiary: undefined,
       proposalId: undefined,
-      beneficiary: undefined
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -187,8 +179,8 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const tx = await this.contract.redeem(
-      options.proposalId
-      , options.beneficiary
+      options.proposalId,
+      options.beneficiary,
     );
 
     return new ArcTransactionResult(tx);
@@ -199,10 +191,10 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {ShouldBoostConfig} opts
    * @returns Promise<boolean>
    */
-  async shouldBoost(opts = {}) {
+  public async shouldBoost(opts = {}) {
 
     const defaults = {
-      proposalId: undefined
+      proposalId: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -212,7 +204,7 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const shouldBoost = await this.contract.shouldBoost(
-      options.proposalId
+      options.proposalId,
     );
 
     return shouldBoost;
@@ -223,10 +215,10 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetScoreCOnfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  async getScore(opts = {}) {
+  public async getScore(opts = {}) {
 
     const defaults = {
-      proposalId: undefined
+      proposalId: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -236,7 +228,7 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const score = await this.contract.score(
-      options.proposalId
+      options.proposalId,
     );
 
     // TODO: convert to number?
@@ -248,10 +240,10 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetThresholdConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  async getThreshold(opts = {}) {
+  public async getThreshold(opts = {}) {
 
     const defaults = {
-      avatar: undefined
+      avatar: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -261,7 +253,7 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const threshold = await this.contract.threshold(
-      options.avatar
+      options.avatar,
     );
 
     // TODO: convert to number?
@@ -273,11 +265,11 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetRedeemableTokensStakerConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  async getRedeemableTokensStaker(opts = {}) {
+  public async getRedeemableTokensStaker(opts = {}) {
 
     const defaults = {
+      beneficiary: undefined,
       proposalId: undefined,
-      beneficiary: undefined
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -291,8 +283,8 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const redeemAmount = await this.contract.getRedeemableTokensStaker(
-      options.proposalId
-      , options.beneficiary
+      options.proposalId,
+      options.beneficiary,
     );
 
     return redeemAmount;
@@ -303,10 +295,10 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetRedeemableReputationProposerConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  async getRedeemableReputationProposer(opts = {}) {
+  public async getRedeemableReputationProposer(opts = {}) {
 
     const defaults = {
-      proposalId: undefined
+      proposalId: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -316,7 +308,7 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const reputation = await this.contract.getRedeemableReputationProposer(
-      options.proposalId
+      options.proposalId,
     );
 
     return reputation;
@@ -327,11 +319,11 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetRedeemableTokensVoterConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  async getRedeemableTokensVoter(opts = {}) {
+  public async getRedeemableTokensVoter(opts = {}) {
 
     const defaults = {
+      beneficiary: undefined,
       proposalId: undefined,
-      beneficiary: undefined
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -345,8 +337,8 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const amount = await this.contract.getRedeemableTokensVoter(
-      options.proposalId
-      , options.beneficiary
+      options.proposalId,
+      options.beneficiary,
     );
 
     return amount;
@@ -357,11 +349,11 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {RetRedeemableReputationVoterConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  async getRedeemableReputationVoter(opts = {}) {
+  public async getRedeemableReputationVoter(opts = {}) {
 
     const defaults = {
+      beneficiary: undefined,
       proposalId: undefined,
-      beneficiary: undefined
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -375,8 +367,8 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const reputation = await this.contract.getRedeemableReputationVoter(
-      options.proposalId
-      , options.beneficiary
+      options.proposalId,
+      options.beneficiary,
     );
 
     return reputation;
@@ -387,11 +379,11 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetRedeemableReputationStakerConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  async getRedeemableReputationStaker(opts = {}) {
+  public async getRedeemableReputationStaker(opts = {}) {
 
     const defaults = {
+      beneficiary: undefined,
       proposalId: undefined,
-      beneficiary: undefined
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -405,8 +397,8 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const reputation = await this.contract.getRedeemableReputationStaker(
-      options.proposalId
-      , options.beneficiary
+      options.proposalId,
+      options.beneficiary,
     );
 
     return reputation;
@@ -417,10 +409,10 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetNumberOfChoicesConfig} opts
    * @returns Promise<number>
    */
-  async getNumberOfChoices(opts = {}) {
+  public async getNumberOfChoices(opts = {}) {
 
     const defaults = {
-      proposalId: undefined
+      proposalId: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -430,7 +422,7 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const numOfChoices = await this.contract.getNumberOfChoices(
-      options.proposalId
+      options.proposalId,
     );
 
     return numOfChoices.toNumber();
@@ -441,11 +433,11 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetVoterInfo} opts
    * @returns Promise<GetVoterInfoResult>
    */
-  async getVoterInfo(opts = {}) {
+  public async getVoterInfo(opts = {}) {
 
     const defaults = {
       proposalId: undefined,
-      voter: undefined
+      voter: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -459,13 +451,13 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const result = await this.contract.voteInfo(
-      options.proposalId
-      , options.voter
+      options.proposalId,
+      options.voter,
     );
 
     return {
+      reputation: result[1],
       vote: result[0].toNumber(),
-      reputation: result[1]
     };
   }
 
@@ -474,11 +466,11 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetVoteStatusConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  async getVoteStatus(opts = {}) {
+  public async getVoteStatus(opts = {}) {
 
     const defaults = {
       proposalId: undefined,
-      vote: undefined
+      vote: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -491,7 +483,7 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
 
     const reputation = await this.contract.voteStatus(
       options.proposalId,
-      options.vote
+      options.vote,
     );
 
     /**
@@ -505,10 +497,10 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {IsVotableConfig} opts
    * @returns Promise<boolean>
    */
-  async isVotable(opts = {}) {
+  public async isVotable(opts = {}) {
 
     const defaults = {
-      proposalId: undefined
+      proposalId: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -518,7 +510,7 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const votable = await this.contract.isVotable(
-      options.proposalId
+      options.proposalId,
     );
 
     return votable;
@@ -529,10 +521,10 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetProposalStatusConfig} opts
    * @returns Promise<GetProposalStatusResult>
    */
-  async getProposalStatus(opts = {}) {
+  public async getProposalStatus(opts = {}) {
 
     const defaults = {
-      proposalId: undefined
+      proposalId: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -542,13 +534,13 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const result = await this.contract.proposalStatus(
-      options.proposalId
+      options.proposalId,
     );
 
     return {
-      totalVotes: result[0],
       totalStakes: result[1],
-      votersStakes: result[2]
+      totalVotes: result[0],
+      votersStakes: result[2],
     };
   }
 
@@ -557,10 +549,10 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetTotalReputationSupplyConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  async getTotalReputationSupply(opts = {}) {
+  public async getTotalReputationSupply(opts = {}) {
 
     const defaults = {
-      proposalId: undefined
+      proposalId: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -570,7 +562,7 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const supply = await this.contract.totalReputationSupply(
-      options.proposalId
+      options.proposalId,
     );
 
     return supply;
@@ -581,10 +573,10 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetProposalAvatarConfig} opts
    * @returns Promise<string>
    */
-  async getProposalAvatar(opts = {}) {
+  public async getProposalAvatar(opts = {}) {
 
     const defaults = {
-      proposalId: undefined
+      proposalId: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -594,7 +586,7 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const avatar = await this.contract.proposalAvatar(
-      options.proposalId
+      options.proposalId,
     );
 
     return avatar;
@@ -605,7 +597,7 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetScoreThresholdParamsConfig} opts
    * @returns Promise<GetScoreThresholdParamsResult>
    */
-  async getScoreThresholdParams(opts = {}) {
+  public async getScoreThresholdParams(opts = {}) {
 
     const defaults = {
       avatar: undefined,
@@ -618,13 +610,13 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const result = await this.contract.scoreThresholdParams(
-      options.avatar
+      options.avatar,
     );
 
     // TODO:  convert to number??  dunno what these values represent.
     return {
       thresholdConstA: result[0],
-      thresholdConstB: result[1]
+      thresholdConstB: result[1],
     };
   }
 
@@ -633,11 +625,11 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetStakerInfoConfig} opts
    * @returns Promise<getStakerInfoResult>
    */
-  async getStakerInfo(opts = {}) {
+  public async getStakerInfo(opts = {}) {
 
     const defaults = {
       proposalId: undefined,
-      staker: undefined
+      staker: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -651,13 +643,13 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const result = await this.contract.staker(
-      options.proposalId
-      , options.staker
+      options.proposalId,
+      options.staker,
     );
 
     return {
+      stake: result[1],
       vote: result[0].toNumber(),
-      stake: result[1]
     };
   }
 
@@ -666,10 +658,10 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetVoteStakeConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  async getVoteStake(opts = {}) {
+  public async getVoteStake(opts = {}) {
     const defaults = {
       proposalId: undefined,
-      vote: undefined
+      vote: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -681,8 +673,8 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     this._validateVote(options.vote, options.proposalId);
 
     const stake = await this.contract.voteStake(
-      options.proposalId
-      , options.vote
+      options.proposalId,
+      options.vote,
     );
 
     return stake;
@@ -693,10 +685,10 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetWinningVoteConfig} opts
    * @returns Promise<number>
    */
-  async getWinningVote(opts = {}) {
+  public async getWinningVote(opts = {}) {
 
     const defaults = {
-      proposalId: undefined
+      proposalId: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -706,7 +698,7 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const winningVote = await this.contract.winningVote(
-      options.proposalId
+      options.proposalId,
     );
 
     return winningVote.toNumber();
@@ -717,10 +709,10 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GetStateConfig} opts
    * @returns Promise<number>
    */
-  async getState(opts = {}) {
+  public async getState(opts = {}) {
 
     const defaults = {
-      proposalId: undefined
+      proposalId: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -730,14 +722,14 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
     }
 
     const state = await this.contract.state(
-      options.proposalId
+      options.proposalId,
     );
 
     return state;
   }
 
-  async _validateVote(vote, proposalId) {
-    const numChoices = await this.getNumberOfChoices({ proposalId: proposalId });
+  public async _validateVote(vote, proposalId) {
+    const numChoices = await this.getNumberOfChoices({ proposalId });
     if (!Number.isInteger(vote) || (vote < 0) || (vote > numChoices)) {
       throw new Error("vote is not valid");
     }
@@ -748,23 +740,23 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
    * @param {GenesisProtocolParams} params
    * @returns parameters hash
    */
-  async setParams(params) {
+  public async setParams(params) {
 
     params = Object.assign({},
       {
-        preBoostedVoteRequiredPercentage: 50,
-        preBoostedVotePeriodLimit: 60,
         boostedVotePeriodLimit: 60,
-        thresholdConstA: 1,
-        thresholdConstB: 1,
+        governanceFormulasInterface: Utils.NULL_ADDRESS,
         minimumStakingFee: 0,
-        quietEndingPeriod: 0,
+        preBoostedVotePeriodLimit: 60,
+        preBoostedVoteRequiredPercentage: 50,
         proposingRepRewardConstA: 1,
         proposingRepRewardConstB: 1,
+        quietEndingPeriod: 0,
         stakerFeeRatioForVoters: 1,
-        votersReputationLossRatio: 10,
+        thresholdConstA: 1,
+        thresholdConstB: 1,
         votersGainRepRatioFromLostRep: 80,
-        governanceFormulasInterface: Utils.NULL_ADDRESS
+        votersReputationLossRatio: 10,
       },
       params);
 
@@ -789,13 +781,16 @@ export class GenesisProtocol extends ExtendTruffleContract(SolidityContract) {
         params.proposingRepRewardConstB,
         params.stakerFeeRatioForVoters,
         params.votersReputationLossRatio,
-        params.votersGainRepRatioFromLostRep
+        params.votersGainRepRatioFromLostRep,
       ],
-      params.governanceFormulasInterface
+      params.governanceFormulasInterface,
     );
   }
 
-  getDefaultPermissions(overrideValue) {
+  public getDefaultPermissions(overrideValue?: string) {
     return overrideValue || "0x00000001";
   }
 }
+
+const GenesisProtocol = new ContractWrapperFactory(SolidityContract, GenesisProtocolWrapper);
+export { GenesisProtocol };

@@ -1,23 +1,17 @@
 "use strict";
-const dopts = require("default-options");
+import dopts = require("default-options");
 
+import { ArcTransactionProposalResult, ExtendTruffleContract } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
-import { ExtendTruffleContract, ArcTransactionProposalResult } from "../ExtendTruffleContract";
 
-const SolidityUpgradeScheme = Utils.requireContract("UpgradeScheme");
+import ContractWrapperFactory from "../ContractWrapperFactory";
+const SolidityContract = Utils.requireContract("UpgradeScheme");
 
-export class UpgradeScheme extends ExtendTruffleContract(
-  SolidityUpgradeScheme
-) {
-  static async new() {
-    const contract = await SolidityUpgradeScheme.new();
-    return new this(contract);
-  }
-
+export class UpgradeSchemeWrapper extends ExtendTruffleContract {
   /*******************************************
    * proposeController
    */
-  async proposeController(opts = {}) {
+  public async proposeController(opts = {}) {
     const defaults = {
       /**
        * avatar address
@@ -26,7 +20,7 @@ export class UpgradeScheme extends ExtendTruffleContract(
       /**
        *  controller address
        */
-      controller: undefined
+      controller: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -41,7 +35,7 @@ export class UpgradeScheme extends ExtendTruffleContract(
 
     const tx = await this.contract.proposeUpgrade(
       options.avatar,
-      options.controller
+      options.controller,
     );
 
     return new ArcTransactionProposalResult(tx);
@@ -50,7 +44,7 @@ export class UpgradeScheme extends ExtendTruffleContract(
   /********************************************
    * proposeUpgradingScheme
    */
-  async proposeUpgradingScheme(opts = {}) {
+  public async proposeUpgradingScheme(opts = {}) {
     /**
      * Note that explicitly supplying any property with a value of undefined will prevent the property
      * from taking on its default value (weird behavior of default-options)
@@ -87,20 +81,23 @@ export class UpgradeScheme extends ExtendTruffleContract(
     const tx = await this.contract.proposeChangeUpgradingScheme(
       options.avatar,
       options.scheme,
-      options.schemeParametersHash
+      options.schemeParametersHash,
     );
 
     return new ArcTransactionProposalResult(tx);
   }
 
-  async setParams(params) {
+  public async setParams(params) {
     return super.setParams(
       params.voteParametersHash,
-      params.votingMachine
+      params.votingMachine,
     );
   }
 
-  getDefaultPermissions(overrideValue) {
+  public getDefaultPermissions(overrideValue?: string) {
     return overrideValue || "0x0000000b";
   }
 }
+
+const UpgradeScheme = new ContractWrapperFactory(SolidityContract, UpgradeSchemeWrapper);
+export { UpgradeScheme };

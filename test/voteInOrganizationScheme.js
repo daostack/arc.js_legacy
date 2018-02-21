@@ -1,6 +1,6 @@
-import { VoteInOrganizationScheme } from "../lib/contracts/voteInOrganizationScheme";
+import { VoteInOrganizationScheme } from "../test-dist/contracts/voteInOrganizationScheme";
 import * as helpers from "./helpers";
-import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
+import { SchemeRegistrar } from "../test-dist/contracts/schemeregistrar";
 
 const createProposal = async function () {
 
@@ -133,7 +133,7 @@ describe("VoteInOrganizationScheme", () => {
       originalVoteEvent.get((err, eventsArray) => {
 
         const foundVoteProposalEvent = eventsArray.filter(e => {
-          return e.args._proposalId == proposalInfo.proposalId;
+          return e.args._proposalId === proposalInfo.proposalId;
         });
 
         if (foundVoteProposalEvent.length === 1) {

@@ -1,24 +1,21 @@
 "use strict";
-const dopts = require("default-options");
+import dopts = require("default-options");
 
-import { ExtendTruffleContract, ArcTransactionProposalResult } from "../ExtendTruffleContract";
+import { ArcTransactionProposalResult, ExtendTruffleContract } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("VoteInOrganizationScheme");
+import ContractWrapperFactory from "../ContractWrapperFactory";
 
-export class VoteInOrganizationScheme extends ExtendTruffleContract(SolidityContract) {
-  static async new() {
-    const contract = await SolidityContract.new();
-    return new this(contract);
-  }
+export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
 
-  async proposeVote(opts = {}) {
+  public async proposeVote(opts = {}) {
     /**
      * see VoteInOrganizationProposeVoteConfig
      */
     const defaults = {
       avatar: undefined,
       originalIntVote: undefined,
-      originalProposalId: undefined
+      originalProposalId: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -44,14 +41,17 @@ export class VoteInOrganizationScheme extends ExtendTruffleContract(SolidityCont
     return new ArcTransactionProposalResult(tx);
   }
 
-  async setParams(params) {
+  public async setParams(params) {
     return super.setParams(
       params.voteParametersHash,
-      params.votingMachine
+      params.votingMachine,
     );
   }
 
-  getDefaultPermissions(overrideValue) {
+  public getDefaultPermissions(overrideValue?: string) {
     return overrideValue || "0x00000001";
   }
 }
+
+const VoteInOrganizationScheme = new ContractWrapperFactory(SolidityContract, VoteInOrganizationSchemeWrapper);
+export { VoteInOrganizationScheme };

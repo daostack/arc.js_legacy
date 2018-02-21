@@ -7,18 +7,14 @@
     "sourceRoot": "lib",
     "sourceMap": true,
     "baseUrl": "lib",
-    "allowJs": true,
-    // "checkJs": true
+    "allowJs": true
   },
   "include": [
-    "lib/**/*"
+    "lib/**/*",
+    "custom_typings/system.d.ts"
   ],
   "exclude": [
     "node_modules",
     "dist",
-  ],
-  "typeRoots": [
-    "node_modules/@types",
-    "custom_typings"
   ]
 }

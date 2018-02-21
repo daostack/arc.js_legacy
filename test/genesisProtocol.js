@@ -1,8 +1,8 @@
+import { Utils } from "../test-dist/utils";
 const DAOToken = Utils.requireContract("DAOToken");
-import { Contracts } from "../lib/contracts.js";
-import { GenesisProtocol } from "../lib/contracts/genesisProtocol";
-import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
-import { Utils } from "../lib/utils";
+import { Contracts } from "../test-dist/contracts.js";
+import { GenesisProtocol } from "../test-dist/contracts/genesisProtocol";
+import { SchemeRegistrar } from "../test-dist/contracts/schemeregistrar";
 import * as helpers from "./helpers";
 const ExecutableTest = Utils.requireContract("ExecutableTest");
 
@@ -122,7 +122,8 @@ describe("GenesisProtocol", () => {
     const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar, 2, "GenesisProtocol");
 
     assert.isOk(votingMachine);
-    assert.equal(votingMachine.constructor.name, "GenesisProtocol", "schemeRegistrar is not using GeneisisProtocol");
+    assert.equal(votingMachine.constructor.name, "GenesisProtocolWrapper", "schemeRegistrar is not using GeneisisProtocol");
+    assert.equal(votingMachine.address, (await Contracts.getDeployedContracts()).allContracts.GenesisProtocol.address, "voting machine address is not that of GenesisProtocol");
     assert.isFalse(await helpers.voteWasExecuted(votingMachine, result.proposalId));
 
     await helpers.vote(votingMachine, result.proposalId, 1, accounts[0]);
@@ -434,7 +435,7 @@ describe("GenesisProtocol", () => {
       await genesisProtocol.propose({});
       assert(false, "Should have thrown validation exception");
     } catch (ex) {
-      assert.equal(ex, "Error: Missing required properties: avatar, paramsHash, executable");
+      assert.equal(ex, "Error: Missing required properties: avatar, executable, paramsHash");
     }
   });
 

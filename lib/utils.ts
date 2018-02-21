@@ -1,7 +1,7 @@
-import { config } from "./config.js";
-import Web3 from "web3";
-const TruffleContract = require("truffle-contract");
-const abi = require("ethereumjs-abi");
+import abi = require("ethereumjs-abi");
+import TruffleContract = require("truffle-contract");
+import Web3 = require("web3");
+import { Config } from "./config";
 
 export class Utils {
 
@@ -13,14 +13,15 @@ export class Utils {
    * if not found or any other error occurs.
    *
    * This is not an Arc javascript wrapper, rather it is the straight TruffleContract
-   * that one references in the Arc javascript wrapper as ".contract".
+   * that one references in the Arc javascript wrapper as ".contract", once it has been
+   * populated by a persisted instance of the contract.
    *
    * Side effect:  It initializes (and uses) `web3` if a global `web3` is not already present, which
    * happens when running in the context of an application (as opposed to tests or migration).
    *
-   * @param contractName
+   * @param contractName: string - The name of the contract, like "UpgradeScheme"
    */
-  static requireContract(contractName) {
+  public static requireContract(contractName: string): any {
     try {
       const myWeb3 = Utils.getWeb3();
 
@@ -30,7 +31,7 @@ export class Utils {
       contract.setProvider(myWeb3.currentProvider);
       contract.defaults({
         from: Utils.getDefaultAccount(),
-        gas: config.get("gasLimit")
+        gas: Config.get("gasLimit"),
       });
       return contract;
     } catch (ex) {
@@ -39,11 +40,13 @@ export class Utils {
   }
 
   /**
-   * throws an exception when web3 cannot be initialized or there is no default client
+   * Returns the web2 object.
+   * When called for the first time, web3 is initialized from the Arc.js configuration.
+   * Throws an exception when web3 cannot be initialized or there is no default client
    */
-  static getWeb3() {
-    if (Utils._web3) {
-      return Utils._web3;
+  public static getWeb3(): any {
+    if (Utils.web3) {
+      return Utils.web3;
     }
 
     let preWeb3;
@@ -51,21 +54,22 @@ export class Utils {
     if (typeof web3 !== "undefined") {
       // Look for injected web3 e.g. by truffle in migrations, or MetaMask in the browser window
       // Instead of using the injected Web3.js directly best practice is to use the version of web3.js we have bundled
+      /* tslint:disable:max-line-length */
       // see https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#partly_sunny-web3---ethereum-browser-environment-check
       preWeb3 = new Web3(web3.currentProvider);
-    } else if (Utils._alreadyTriedAndFailed) {
+    } else if (Utils.alreadyTriedAndFailed) {
       // then avoid time-consuming and futile retry
       throw new Error("already tried and failed");
     } else {
       // No web3 is injected, look for a provider at providerUrl (which defaults to localhost)
       // This happens when running tests, or in a browser that is not running MetaMask
       preWeb3 = new Web3(
-        new Web3.providers.HttpProvider(config.get("providerUrl"))
+        new Web3.providers.HttpProvider(Config.get("providerUrl")),
       );
     }
 
     if (!preWeb3) {
-      Utils._alreadyTriedAndFailed = true;
+      Utils.alreadyTriedAndFailed = true;
       throw new Error("web3 not found");
     }
 
@@ -74,16 +78,19 @@ export class Utils {
       window.web3 = preWeb3;
     }
 
-    return (Utils._web3 = preWeb3);
+    return (Utils.web3 = preWeb3);
   }
 
   /**
+   * Returns a value from the given transaction log.
+   *
    * @param tx The transaction
-   * @param arg The name of the property whose value we wish to return, from  the args object: tx.logs[index].args[argName]
+   * @param arg The name of the property whose value we wish to return,
+   *            from the args object: tx.logs[index].args[argName]
    * @param eventName Overrides index, identifies which log, where tx.logs[n].event  === eventName
    * @param index Identifies which log, when eventName is not given
    */
-  static getValueFromLogs(tx, arg, eventName = null, index = 0) {
+  public static getValueFromLogs(tx, arg, eventName = null, index = 0): string {
     /**
      *
      * tx is an object with the following values:
@@ -136,10 +143,13 @@ export class Utils {
   }
 
   /**
-   * side-effect is to set web3.eth.defaultAccount.
-   * throws an exception on failure.
+   * Returns the address of the default user account.
+   *
+   * Has the side-effect of setting web3.eth.defaultAccount.
+   *
+   * Throws an exception on failure.
    */
-  static getDefaultAccount() {
+  public static getDefaultAccount(): string {
     const web3 = Utils.getWeb3();
     const defaultAccount = (web3.eth.defaultAccount =
       web3.eth.defaultAccount || web3.eth.accounts[0]);
@@ -151,10 +161,11 @@ export class Utils {
   }
 
   /**
-   * Hash a string the same way solidity does, and to a format that will be properly translated into a bytes32 that solidity expects
+   * Return the hash of a string the same way solidity would, and to a format that will be
+   * properly translated into a bytes32 that solidity expects
    * @param str a string
    */
-  static SHA3(str) {
+  public static SHA3(str): string {
     return `0x${abi.soliditySHA3(["string"], [str]).toString("hex")}`;
   }
 
@@ -162,7 +173,7 @@ export class Utils {
    * Convert scheme permissions string to a number
    * @param {string} permissions
    */
-  static permissionsStringToNumber(permissions) {
+  public static permissionsStringToNumber(permissions): number {
     if (!permissions) { return 0; }
     return Number(permissions);
   }
@@ -171,14 +182,11 @@ export class Utils {
    * Convert number to a scheme permissions string
    * @param {Number} permissions
    */
-  static numberToPermissionsString(permissions) {
+  public static numberToPermissionsString(permissions): string {
     if (!permissions) { return "0x00000000"; }
     return `0x${("00000000" + permissions.toString(16)).substr(-8)}`;
   }
-}
 
-/**
- * static members
- */
-Utils._web3 = undefined;
-Utils._alreadyTriedAndFailed = false;
+  private static web3 = undefined;
+  private static alreadyTriedAndFailed = false;
+}

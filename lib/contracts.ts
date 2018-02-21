@@ -1,26 +1,84 @@
-import { Utils } from "./utils";
 import { AbsoluteVote } from "./contracts/absoluteVote.js";
-import { GenesisProtocol } from "./contracts/genesisProtocol.js";
 import { ContributionReward } from "./contracts/contributionreward.js";
 import { DaoCreator } from "./contracts/daocreator.js";
+import { GenesisProtocol } from "./contracts/genesisProtocol.js";
 import { GlobalConstraintRegistrar } from "./contracts/globalconstraintregistrar.js";
 import { SchemeRegistrar } from "./contracts/schemeregistrar.js";
 import { TokenCapGC } from "./contracts/tokenCapGC.js";
 import { UpgradeScheme } from "./contracts/upgradescheme.js";
 import { VestingScheme } from "./contracts/vestingscheme.js";
 import { VoteInOrganizationScheme } from "./contracts/voteInOrganizationScheme.js";
+import { ExtendTruffleContract } from "./ExtendTruffleContract";
+import { Utils } from "./utils";
 
 const UController = Utils.requireContract("UController");
 
+/*******************************
+ * Arc contract information as contained in ArcDeployedContractNames
+ */
+export interface ArcContractInfo {
+  /**
+   * An uninitialized instance of ExtendTruffleContract,
+   * basically the class factory with static methods.
+   */
+  contract: any;
+  /**
+   * address of the instance deployed by Arc.
+   * Calling contract.at() (a static method on ExtendTruffleContract) will return a
+   * the properly initialized instance of ExtendTruffleContract.
+   */
+  address: string;
+}
+
+/**
+ * An object with property names being a contract key and property value as the corresponding ArcContractInfo.
+ * For all deployed contracts exposed by Arc.
+ */
+export interface ArcDeployedContractNames {
+  AbsoluteVote: ArcContractInfo;
+  ContributionReward: ArcContractInfo;
+  DaoCreator: ArcContractInfo;
+  GenesisProtocol: ArcContractInfo;
+  GlobalConstraintRegistrar: ArcContractInfo;
+  SchemeRegistrar: ArcContractInfo;
+  TokenCapGC: ArcContractInfo;
+  UController: ArcContractInfo;
+  UpgradeScheme: ArcContractInfo;
+  VestingScheme: ArcContractInfo;
+  VoteInOrganizationScheme: ArcContractInfo;
+}
+
+/**
+ * ArcDeployedContractNames, and those contracts organized by type.
+ * Call it.at(it.address) to get javascript wrapper
+ */
+export interface ArcDeployedContracts {
+  allContracts: ArcDeployedContractNames;
+  /**
+   * All deployed schemes
+   */
+  schemes: ArcContractInfo[];
+  /**
+   * All deployed voting machines
+   */
+  votingMachines: ArcContractInfo[];
+  /**
+   * All deployed global constraints
+   */
+  globalConstraints: ArcContractInfo[];
+}
+
 export class Contracts {
 
-  static async getDeployedContracts() {
+  public static contracts: ArcDeployedContracts;
+
+  public static async getDeployedContracts() {
 
     if (!Contracts.contracts) {
       /**
        * These are deployed contract instances represented by their respective Arc
        * javascript wrappers (ExtendTruffleContract).
-       **/
+       */
       const absoluteVote = await AbsoluteVote.deployed();
       const genesisProtocol = await GenesisProtocol.deployed();
       const contributionReward = await ContributionReward.deployed();
@@ -40,69 +98,69 @@ export class Contracts {
        */
       const contracts = {
         AbsoluteVote: {
+          address: absoluteVote.contract.address,
           contract: AbsoluteVote,
-          address: absoluteVote.address,
         },
         ContributionReward: {
+          address: contributionReward.contract.address,
           contract: ContributionReward,
-          address: contributionReward.address,
         },
         DaoCreator: {
+          address: daoCreator.contract.address,
           contract: DaoCreator,
-          address: daoCreator.address,
         },
         GenesisProtocol: {
+          address: genesisProtocol.contract.address,
           contract: GenesisProtocol,
-          address: genesisProtocol.address,
         },
         GlobalConstraintRegistrar: {
+          address: globalConstraintRegistrar.contract.address,
           contract: GlobalConstraintRegistrar,
-          address: globalConstraintRegistrar.address,
         },
         SchemeRegistrar: {
+          address: schemeRegistrar.contract.address,
           contract: SchemeRegistrar,
-          address: schemeRegistrar.address,
         },
         TokenCapGC: {
+          address: tokenCapGC.contract.address,
           contract: TokenCapGC,
-          address: tokenCapGC.address,
-        },
-        UpgradeScheme: {
-          contract: UpgradeScheme,
-          address: upgradeScheme.address,
         },
         UController: {
-          contract: UController,
           address: uController.address,
+          contract: UController,
+        },
+        UpgradeScheme: {
+          address: upgradeScheme.contract.address,
+          contract: UpgradeScheme,
         },
         VestingScheme: {
+          address: vestingScheme.contract.address,
           contract: VestingScheme,
-          address: vestingScheme.address,
         },
         VoteInOrganizationScheme: {
+          address: voteInOrganizationScheme.contract.address,
           contract: VoteInOrganizationScheme,
-          address: voteInOrganizationScheme.address,
-        }
+        },
       };
 
       Contracts.contracts = {
         allContracts: contracts,
+        globalConstraints: [
+          contracts.TokenCapGC,
+        ],
         schemes: [
-          contracts.SchemeRegistrar
-          , contracts.UpgradeScheme
-          , contracts.GlobalConstraintRegistrar
-          , contracts.ContributionReward
-          , contracts.VestingScheme
-          , contracts.VoteInOrganizationScheme
-          , contracts.GenesisProtocol
+          contracts.SchemeRegistrar,
+          contracts.UpgradeScheme,
+          contracts.GlobalConstraintRegistrar,
+          contracts.ContributionReward,
+          contracts.VestingScheme,
+          contracts.VoteInOrganizationScheme,
+          contracts.GenesisProtocol,
         ],
         votingMachines: [
           contracts.AbsoluteVote
-          , contracts.GenesisProtocol
+          , contracts.GenesisProtocol,
         ],
-        globalConstraints: [
-          contracts.TokenCapGC
-        ]
       };
     }
     return Contracts.contracts;
@@ -113,15 +171,13 @@ export class Contracts {
    * @param contract - name of an Arc scheme, like "SchemeRegistrar"
    * @param address - optional
    */
-  static async getScheme(contract, address) {
+  public static async getScheme(contract: string, address?: string): Promise<ExtendTruffleContract | undefined> {
     const contracts = await Contracts.getDeployedContracts();
     const contractInfo = contracts.allContracts[contract];
     if (!contractInfo) {
       return undefined;
     }
-    return await contractInfo.contract.at(address ? address : contractInfo.address)
-      .then((contract) => contract, () => undefined);
+    return contractInfo.contract.at(address ? address : contractInfo.address)
+      .then((resultingContract) => resultingContract, () => undefined);
   }
 }
-
-Contracts.contracts = undefined;

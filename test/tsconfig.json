@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "preserveConstEnums": true,
+    "sourceRoot": "../lib",
+    "sourceMap": true,
+    "baseUrl": "../lib",
+    "allowJs": true,
+    "lib": [
+      "es2015"
+    ],
+    "downlevelIteration": true
+  },
+  "include": [
+    "../lib/**/*",
+    "../custom_typings/system.d.ts"
+  ],
+  "exclude": [
+    "../node_modules"
+  ]
+}

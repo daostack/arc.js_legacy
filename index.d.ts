@@ -87,16 +87,16 @@ declare module "@daostack/arc.js" {
     /**
      * All deployed global constraints
      */
-    getGlobalConstraints: Array<ArcContractInfo>;
+    globalConstraints: Array<ArcContractInfo>;
   }
 
   /********************************
-   * config.js
+   * Config
    */
-  export var config: any;
+  export class Config { static get(key: string): any; static set(key: string, value: any): void }
 
   /********************************
-   * contracts.js
+   * contracts
    */
   export class Contracts {
     static getDeployedContracts(): ArcDeployedContracts;
@@ -105,11 +105,11 @@ declare module "@daostack/arc.js" {
      * @param contract - name of an Arc scheme, like "SchemeRegistrar"
      * @param address - optional
      */
-    static getScheme(contract: string, address?: string): Promise<ExtendTruffleScheme | undefined>;;
+    static getScheme(contract: string, address?: string): Promise<ExtendTruffleScheme | undefined>;
   }
 
   /********************************
-   * utils.js
+   * utils
    */
 
   export class Utils {
@@ -134,50 +134,8 @@ declare module "@daostack/arc.js" {
     static getDefaultAccount(): any;
   }
 
-
   /********************************
-   * AvatarServive
-   */
-  export class AvatarService {
-    /**
-     * AvatarService constructor
-     * @param avatarAddress - the avatar address.
-     */
-    constructor(avatarAddress: string);
-    /**
-     * Returns the Avatar TruffleContract
-     */
-    getAvatar(): any;
-    /**
-     * returns the address of the controller
-     */
-    getControllerAddress(): string;
-    /**
-     * Returns a TruffleContract for the controller.  Could be
-     * either UController or Controller.  You can know which one
-     * by checking the AvatarService instance property `isUController`.
-     */
-    getController(): any;
-    /**
-     * Returns the address of the avatar's native reputation.
-     */
-    getNativeReputationAddress(): string;
-    /**
-     * Returns the avatar's native reputation TruffleContract.
-     */
-    getNativeReputation(): any;
-    /**
-     * Returns the address of the avatar's native token.
-     */
-    getNativeTokenAddress(): string;
-    /**
-     * Returns the avatar's native token TruffleContract.
-     */
-    getNativeToken(): any;
-  }
-
-  /********************************
-  * ExtendTruffleContract.js
+  * ExtendTruffleContract
   */
   export interface TransactionLog {
     address: string;
@@ -282,6 +240,11 @@ declare module "@daostack/arc.js" {
      * Currently all params are required, contract wrappers do not as yet apply default values.
      */
     public setParams(params: any): Promise<ArcTransactionDataResult>;
+    /**
+     * the address of the deployed contract
+     */
+    public address: string;
+
   }
 
   export class ExtendTruffleScheme extends ExtendTruffleContract {
@@ -296,7 +259,7 @@ declare module "@daostack/arc.js" {
      *
      * Example:  "0x00000003" has the 1st and 2nd bits set.
      */
-    getDefaultPermissions(overrideValue: string): string;
+    getDefaultPermissions(overrideValue?: string): string;
   }
 
   export interface StandardSchemeParams {
@@ -344,6 +307,7 @@ declare module "@daostack/arc.js" {
     /**
      * You can add your voting-machine-specific parameters here, like ownerVote, votePerc, etc
      */
+    [x: string]: any;
   }
 
   /**
@@ -527,6 +491,10 @@ declare module "@daostack/arc.js" {
      * Reputation truffle contract
      */
     reputation: any;
+    /**
+     * has a universal Controller
+     */
+    hasUController: boolean;
     /**
      * returns schemes currently registered into this DAO, as Array<DaoSchemeInfo>
      * @param contractName like "SchemeRegistrar"

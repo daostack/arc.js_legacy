@@ -8,5 +8,9 @@
     ]
   ],
   "sourceMaps": "inline",
-  "retainLines": true
+  "retainLines": true,
+  "ignore": [
+    "test-dist",
+    "node_modules"
+  ]
 }

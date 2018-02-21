@@ -108,7 +108,7 @@ import * as ArcJs from '@daostack/arc.js';
 ```
 
 #### Configuring Arc.js
-The default configuration settings for Arc.js can be found in its `config/default.json` file. A few  examples:
+The default configuration settings for Arc.js can be found in its `config/default.json` file. A few examples:
 
 ```json
 {
@@ -121,14 +121,14 @@ The default configuration settings for Arc.js can be found in its `config/defaul
 To obtain a configuration setting:
 
 ```javascript
-import { config } from '@daostack/arc.js';
-config.get('network');
+import { Config } from '@daostack/arc.js';
+Config.get('network');
 ```
 
 To override a configuration setting at runtime:
 ```javascript
-import { config } from '@daostack/arc.js';
-config.set('network', 'kovan');
+import { Config } from '@daostack/arc.js';
+Config.set('network', 'kovan');
 ```
 
 You can also override the default configuration settings by setting values on properties of `node.env` (see [here](http://nodejs.org/dist/latest-v9.x/docs/api/process.html#process-process-env)) with the same name as the corresponding arc.js configuration setting.  This enables you to use environment variables to control the arc.js configuration.
@@ -376,7 +376,7 @@ const upgradeSchemeInfo = daoSchemeInfos[0];
 
 The following sections show how you can get contract wrappers using names and addresses.
 
-### Obtain an Arc.js wrapper by its name
+### Obtain an Arc.js wrapper by its Arc contract name
 
 Recall from [Categories of Arc Contracts](#categories-of-arc-contracts) that `getDeployedContracts()` returns categorized factories, names and addresses of Arc contracts that have wrappers. That information can be used to obtain the wrappers themselves.
 
@@ -403,7 +403,7 @@ const upgradeScheme = await DAO.getScheme("UpgradeScheme");
 
 ### Obtain a wrapper using the wrapper's factory class 
 
-Each wrapper has a factory that provides static `.new()`, `.deployed()` and `.at()` methods.  These methods are implemented by `ExtendTruffleContract`.
+Each wrapper has a factory that provides static `.new()`, `.deployed()` and `.at()` methods.  These methods are implemented by `ContractWrapperFactory`.
 
 Examples of their use:
 

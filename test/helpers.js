@@ -1,10 +1,10 @@
-import { Utils } from "../lib/utils";
-import { config } from "../lib/config.js";
+import { Utils } from "../test-dist/utils";
+import { Config } from "../test-dist/config.js";
 import { assert } from "chai";
-import { DAO } from "../lib/dao.js";
-import { Contracts } from "../lib/contracts.js";
+import { DAO } from "../test-dist/dao.js";
+import { Contracts } from "../test-dist/contracts.js";
 const DAOToken = Utils.requireContract("DAOToken");
-import { SchemeRegistrar } from "../lib/contracts/schemeregistrar";
+import { SchemeRegistrar } from "../test-dist/contracts/schemeregistrar";
 
 export const NULL_HASH = Utils.NULL_HASH;
 export const NULL_ADDRESS = Utils.NULL_ADDRESS;
@@ -17,19 +17,6 @@ beforeEach(async () => {
   global.accounts = [];
   await etherForEveryone();
 });
-
-function getProposalAddress(tx) {
-  // helper function that returns a proposal object from the ProposalCreated event
-  // in the logs of tx
-
-  ual(tx.logs[0].event, "ProposalCreated");
-  const proposalAddress = tx.logs[0].args.proposaladdress;
-  return proposalAddress;
-}
-
-export async function getProposal(tx) {
-  return await Proposal.at(getProposalAddress(tx));
-}
 
 async function etherForEveryone() {
   // give all web3.eth.accounts some ether
@@ -81,7 +68,6 @@ export async function forgeDao(opts = {}) {
 
 /**
  * Register a ContributionReward with the given DAO.
- * @param {*} dao
  * @returns the ContributionReward wrapper
  */
 export async function addProposeContributionReward(dao) {
@@ -128,7 +114,7 @@ export async function getSchemeVotingMachineParametersHash(dao, scheme, ndxVotin
 
 export async function getSchemeVotingMachine(dao, scheme, ndxVotingMachineParameter = 1, votingMachineName) {
   const votingMachineAddress = await getSchemeParameter(dao, scheme, ndxVotingMachineParameter);
-  votingMachineName = votingMachineName || config.get("defaultVotingMachine");
+  votingMachineName = votingMachineName || Config.get("defaultVotingMachine");
   return Contracts.getScheme(votingMachineName, votingMachineAddress);
 }
 
@@ -166,7 +152,7 @@ export const outOfGasMessage =
 
 export function assertJumpOrOutOfGas(error) {
   const condition =
-    error.message == outOfGasMessage ||
+    error.message === outOfGasMessage ||
     error.message.search("invalid JUMP") > -1;
   assert.isTrue(
     condition,

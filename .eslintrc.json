@@ -47,6 +47,7 @@
       "avoid-escape"
     ],
     "no-unused-vars": 2,
-    "no-useless-constructor": 2
+    "no-useless-constructor": 2,
+    "eqeqeq": 2
   }
 }
