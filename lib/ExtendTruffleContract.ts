@@ -106,10 +106,6 @@ export abstract class ExtendTruffleContract {
 
   public get address() { return this.contract.address; }
 
-  protected setContract(contract: any): void {
-    this.contract = contract;
-  }
-
   /**
    * Return a function that creates an EventFetcher<TArgs>.
    * For subclasses to use to create their event handlers.
