@@ -1799,6 +1799,16 @@ declare module "@daostack/arc.js" {
     static at(address: string): GenesisProtocol;
     static deployed(): GenesisProtocol;
 
+    NewProposal: FetcherFactory<NewProposalEventResult>;
+    /**
+     * _param in this case is the ExecutionState
+     */
+    ExecuteProposal: FetcherFactory<ExecuteProposalEventResult>;
+    VoteProposal: FetcherFactory<VoteProposalEventResult>;
+    Stake: FetcherFactory<StakeEventResult>;
+    Redeem: FetcherFactory<RedeemEventResult>;
+    RedeemReputation: FetcherFactory<RedeemReputationEventResult>;
+
     propose(options: ProposeVoteConfig): Promise<ArcTransactionProposalResult>;
     stake(options: StakeConfig): Promise<ArcTransactionResult>;
     vote(options: VoteConfig): Promise<ArcTransactionResult>;
