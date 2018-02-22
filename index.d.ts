@@ -1800,9 +1800,6 @@ declare module "@daostack/arc.js" {
     static deployed(): GenesisProtocol;
 
     NewProposal: FetcherFactory<NewProposalEventResult>;
-    /**
-     * _param in this case is the ExecutionState
-     */
     ExecuteProposal: FetcherFactory<ExecuteProposalEventResult>;
     VoteProposal: FetcherFactory<VoteProposalEventResult>;
     Stake: FetcherFactory<StakeEventResult>;

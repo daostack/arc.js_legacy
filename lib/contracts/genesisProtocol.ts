@@ -26,9 +26,6 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    */
 
   public NewProposal = this.createEventFetcherFactory<NewProposalEventResult>("NewProposal");
-  /**
-   * _param in this case is the ExecutionState
-   */
   public ExecuteProposal = this.createEventFetcherFactory<ExecuteProposalEventResult>("ExecuteProposal");
   public VoteProposal = this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal");
   public Stake = this.createEventFetcherFactory<StakeEventResult>("Stake");
