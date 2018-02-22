@@ -2,12 +2,30 @@
 import dopts = require("default-options");
 
 import ContractWrapperFactory from "../ContractWrapperFactory";
-import { ArcTransactionProposalResult, ExtendTruffleContract } from "../ExtendTruffleContract";
+import {
+  Address,
+  ArcTransactionProposalResult,
+  ExtendTruffleContract,
+  Hash,
+} from "../ExtendTruffleContract";
 import { Utils } from "../utils";
+import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 const SolidityContract = Utils.requireContract("GlobalConstraintRegistrar");
 
 export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
+
+  /**
+   * Events
+   */
+
+  /* tslint:disable:max-line-length */
+  public NewGlobalConstraintsProposal = this.createEventFetcherFactory<NewGlobalConstraintsProposalEventResult>("NewGlobalConstraintsProposal");
+  public RemoveGlobalConstraintsProposal = this.createEventFetcherFactory<RemoveGlobalConstraintsProposalEventResult>("RemoveGlobalConstraintsProposal");
+  public ProposalExecuted = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
+  public ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
+  /* tslint:enable:max-line-length */
+
   public async proposeToAddModifyGlobalConstraint(opts = {}) {
     const defaults = {
       /**
@@ -100,3 +118,37 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
 
 const GlobalConstraintRegistrar = new ContractWrapperFactory(SolidityContract, GlobalConstraintRegistrarWrapper);
 export { GlobalConstraintRegistrar };
+
+export interface NewGlobalConstraintsProposalEventResult {
+  /**
+   * indexed
+   */
+  _avatar: Address;
+  /**
+   * indexed
+   */
+  _intVoteInterface: Address;
+  _gc: Address;
+  _params: Hash;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+  _voteToRemoveParams: Hash;
+}
+
+export interface RemoveGlobalConstraintsProposalEventResult {
+  /**
+   * indexed
+   */
+  _avatar: Address;
+  _gc: Address;
+  /**
+   * indexed
+   */
+  _intVoteInterface: Address;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+}

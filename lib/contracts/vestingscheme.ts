@@ -1,10 +1,18 @@
 "use strict";
 import dopts = require("default-options");
 
-import { ArcTransactionProposalResult, ArcTransactionResult, ExtendTruffleContract } from "../ExtendTruffleContract";
+import {
+  Address,
+  ArcTransactionProposalResult,
+  ArcTransactionResult,
+  ExtendTruffleContract,
+  Hash,
+} from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("VestingScheme");
+import * as BigNumber from "bignumber.js";
 import ContractWrapperFactory from "../ContractWrapperFactory";
+import { ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 /**
  * see CreateVestingAgreementConfig
@@ -22,6 +30,21 @@ const defaultCreateOptions = {
 };
 
 export class VestingSchemeWrapper extends ExtendTruffleContract {
+
+  /**
+   * Events
+   */
+
+  /* tslint:disable:max-line-length */
+  public ProposalExecuted = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
+  public AgreementProposal = this.createEventFetcherFactory<AgreementProposalEventResult>("AgreementProposal");
+  public NewVestedAgreement = this.createEventFetcherFactory<NewVestedAgreementEventResult>("NewVestedAgreement");
+  public SignToCancelAgreement = this.createEventFetcherFactory<SignToCancelAgreementEventResult>("SignToCancelAgreement");
+  public RevokeSignToCancelAgreement = this.createEventFetcherFactory<RevokeSignToCancelAgreementEventResult>("RevokeSignToCancelAgreement");
+  public AgreementCancel = this.createEventFetcherFactory<AgreementCancelEventResult>("AgreementCancel");
+  public Collect = this.createEventFetcherFactory<CollectEventResult>("Collect");
+  /* tslint:enable:max-line-length */
+
   /**
    * Propose a new vesting agreement
    * @param {ProposeVestingAgreementConfig} opts
@@ -168,6 +191,10 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
     return overrideValue || "0x00000001";
   }
 
+  /**
+   * Private methods
+   */
+
   private async validateCreateParams(options) {
     if (!Number.isInteger(options.periodLength) || (options.periodLength <= 0)) {
       throw new Error("periodLength must be greater than zero");
@@ -209,3 +236,54 @@ export class ArcTransactionAgreementResult extends ArcTransactionResult {
 
 const VestingScheme = new ContractWrapperFactory(SolidityContract, VestingSchemeWrapper);
 export { VestingScheme };
+
+export interface AgreementProposalEventResult {
+  /**
+   * indexed
+   */
+  _avatar: Address;
+  _proposalId: Hash;
+}
+
+export interface NewVestedAgreementEventResult {
+  /**
+   * indexed
+   */
+  _agreementId: BigNumber.BigNumber;
+}
+
+export interface SignToCancelAgreementEventResult {
+  /**
+   * indexed
+   */
+  _agreementId: BigNumber.BigNumber;
+  /**
+   * indexed
+   */
+  _signer: Address;
+}
+
+export interface RevokeSignToCancelAgreementEventResult {
+  /**
+   * indexed
+   */
+  _agreementId: BigNumber.BigNumber;
+  /**
+   * indexed
+   */
+  _signer: Address;
+}
+
+export interface AgreementCancelEventResult {
+  /**
+   * indexed
+   */
+  _agreementId: BigNumber.BigNumber;
+}
+
+export interface CollectEventResult {
+  /**
+   * indexed
+   */
+  _agreementId: BigNumber.BigNumber;
+}

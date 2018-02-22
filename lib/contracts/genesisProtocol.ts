@@ -1,12 +1,37 @@
 "use strict";
 import dopts = require("default-options");
 
-import { ArcTransactionProposalResult, ArcTransactionResult, ExtendTruffleContract } from "../ExtendTruffleContract";
+import {
+  Address,
+  ArcTransactionProposalResult,
+  ArcTransactionResult,
+  ExtendTruffleContract,
+  Hash,
+} from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("GenesisProtocol");
+import * as BigNumber from "bignumber.js";
 import ContractWrapperFactory from "../ContractWrapperFactory";
+import {
+  ExecuteProposalEventResult,
+  NewProposalEventResult,
+  RedeemReputationEventResult,
+  VoteProposalEventResult,
+} from "./commonEventInterfaces";
 
 export class GenesisProtocolWrapper extends ExtendTruffleContract {
+
+  /**
+   * Events
+   */
+
+  public NewProposal = this.createEventFetcherFactory<NewProposalEventResult>("NewProposal");
+  public ExecuteProposal = this.createEventFetcherFactory<ExecuteProposalEventResult>("ExecuteProposal");
+  public VoteProposal = this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal");
+  public Stake = this.createEventFetcherFactory<StakeEventResult>("Stake");
+  public Redeem = this.createEventFetcherFactory<RedeemEventResult>("Redeem");
+  public RedeemReputation = this.createEventFetcherFactory<RedeemReputationEventResult>("RedeemReputation");
+
   /**
    * Create a proposal
    * @param {ProposeVoteConfig} options
@@ -794,3 +819,28 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
 const GenesisProtocol = new ContractWrapperFactory(SolidityContract, GenesisProtocolWrapper);
 export { GenesisProtocol };
+
+export interface StakeEventResult {
+  _amount: BigNumber.BigNumber;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+  _vote: number;
+  /**
+   * indexed
+   */
+  _voter: Address;
+}
+
+export interface RedeemEventResult {
+  _amount: BigNumber.BigNumber;
+  /**
+   * indexed
+   */
+  _beneficiary: Address;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+}

@@ -54,7 +54,7 @@ export class Utils {
     if (typeof web3 !== "undefined") {
       // Look for injected web3 e.g. by truffle in migrations, or MetaMask in the browser window
       // Instead of using the injected Web3.js directly best practice is to use the version of web3.js we have bundled
-      /* tslint:disable:max-line-length */
+      /* tslint:disable-next-line:max-line-length */
       // see https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#partly_sunny-web3---ethereum-browser-environment-check
       preWeb3 = new Web3(web3.currentProvider);
     } else if (Utils.alreadyTriedAndFailed) {

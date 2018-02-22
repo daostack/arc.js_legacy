@@ -2,13 +2,29 @@
 import dopts = require("default-options");
 
 import { Contracts } from "../contracts.js";
-import { ArcTransactionProposalResult, ExtendTruffleContract } from "../ExtendTruffleContract";
+import {
+  Address,
+  ArcTransactionProposalResult,
+  ExtendTruffleContract,
+  Hash,
+} from "../ExtendTruffleContract";
 import { Utils } from "../utils";
+import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 const SolidityContract = Utils.requireContract("SchemeRegistrar");
 import ContractWrapperFactory from "../ContractWrapperFactory";
 
 export class SchemeRegistrarWrapper extends ExtendTruffleContract {
+
+  /**
+   * Events
+   */
+
+  public NewSchemeProposal = this.createEventFetcherFactory<NewSchemeProposalEventResult>("NewSchemeProposal");
+  public RemoveSchemeProposal = this.createEventFetcherFactory<RemoveSchemeProposalEventResult>("RemoveSchemeProposal");
+  public ProposalExecuted = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
+  public ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
+
   /**
    * Note relating to permissions: According rules defined in the Controller,
    * this SchemeRegistrar is only capable of registering schemes that have
@@ -91,11 +107,11 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
           );
         }
 
-        /* tslint:disable:no-bitwise */
+        /* tslint:disable-next-line:no-bitwise */
         isRegistering = (permissions & 2) !== 0;
       } catch (ex) {
         throw new Error(
-          /* tslint:disable:max-line-length */
+          /* tslint:disable-next-line:max-line-length */
           `Unable to obtain default information from the given scheme address. The address is invalid or the scheme is not an Arc scheme and in that case you must supply fee and tokenAddress. ${ex}`,
         );
       }
@@ -164,3 +180,37 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
 
 const SchemeRegistrar = new ContractWrapperFactory(SolidityContract, SchemeRegistrarWrapper);
 export { SchemeRegistrar };
+
+export interface NewSchemeProposalEventResult {
+  /**
+   * indexed
+   */
+  _avatar: Address;
+  /**
+   * indexed
+   */
+  _intVoteInterface: Address;
+  _isRegistering: boolean;
+  _parametersHash: Hash;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+  _scheme: Address;
+}
+
+export interface RemoveSchemeProposalEventResult {
+  /**
+   * indexed
+   */
+  _avatar: Address;
+  /**
+   * indexed
+   */
+  _intVoteInterface: Address;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+  _scheme: Address;
+}

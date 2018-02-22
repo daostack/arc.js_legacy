@@ -47,15 +47,13 @@ export class DAO {
         const contracts = await Contracts.getDeployedContracts();
         const daoCreator = await DaoCreator.at(
           daoCreatorAddress ? daoCreatorAddress : contracts.allContracts.DaoCreator.address);
-        const event = daoCreator.InitialSchemesSet({}, { fromBlock: 0 });
         let avatarAddress;
+        const event = daoCreator.InitialSchemesSet({}, { fromBlock: 0 });
         /**
          * this first DAO returned will be DAOstack
          */
         event.get((err, eventsArray) => {
-          if (eventsArray.length) {
-            avatarAddress = eventsArray[0].args._avatar;
-          }
+          avatarAddress = eventsArray[0].args._avatar;
           event.stopWatching(); // maybe not necessary, but just in case...
           resolve(avatarAddress);
         });
@@ -102,7 +100,7 @@ export class DAO {
      * TODO:  This should pull in all known versions of the schemes, names
      * and versions in one fell swoop.
      */
-    /* tslint:disable:forin */
+    /* tslint:disable-next-line:forin */
     for (const name in contracts.allContracts) {
       const contract = contracts.allContracts[name];
       arcTypesMap.set(contract.address, name);
@@ -213,7 +211,7 @@ export class DAO {
      * TODO:  This should pull in all known versions of the constraints, names
      * and versions in one fell swoop.
      */
-    /* tslint:disable:forin */
+    /* tslint:disable-next-line:forin */
     for (const name in contracts.allContracts) {
       const contract = contracts.allContracts[name];
       arcTypesMap.set(contract.address, name);

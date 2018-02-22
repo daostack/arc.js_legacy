@@ -1,6 +1,7 @@
 export * from "./config";
 export * from "./contracts";
 export * from "./contracts/absoluteVote";
+export * from "./contracts/commonEventInterfaces";
 export * from "./contracts/contributionreward";
 export * from "./contracts/daocreator";
 export * from "./contracts/genesisProtocol";

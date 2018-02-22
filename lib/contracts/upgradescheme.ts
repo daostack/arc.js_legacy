@@ -1,13 +1,31 @@
 "use strict";
 import dopts = require("default-options");
 
-import { ArcTransactionProposalResult, ExtendTruffleContract } from "../ExtendTruffleContract";
+import {
+  Address,
+  ArcTransactionProposalResult,
+  ExtendTruffleContract,
+  Hash,
+} from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 
 import ContractWrapperFactory from "../ContractWrapperFactory";
 const SolidityContract = Utils.requireContract("UpgradeScheme");
+import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 export class UpgradeSchemeWrapper extends ExtendTruffleContract {
+
+  /**
+   * Events
+   */
+
+  /* tslint:disable:max-line-length */
+  public NewUpgradeProposal = this.createEventFetcherFactory<NewUpgradeProposalEventResult>("NewUpgradeProposal");
+  public ChangeUpgradeSchemeProposal = this.createEventFetcherFactory<ChangeUpgradeSchemeProposalEventResult>("ChangeUpgradeSchemeProposal");
+  public ProposalExecuted = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
+  public ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
+  /* tslint:enable:max-line-length */
+
   /*******************************************
    * proposeController
    */
@@ -101,3 +119,36 @@ export class UpgradeSchemeWrapper extends ExtendTruffleContract {
 
 const UpgradeScheme = new ContractWrapperFactory(SolidityContract, UpgradeSchemeWrapper);
 export { UpgradeScheme };
+
+export interface NewUpgradeProposalEventResult {
+  /**
+   * indexed
+   */
+  _avatar: Address;
+  /**
+   * indexed
+   */
+  _intVoteInterface: Address;
+  _newController: Address;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+}
+
+export interface ChangeUpgradeSchemeProposalEventResult {
+  /**
+   * indexed
+   */
+  _avatar: Address;
+  /**
+   * indexed
+   */
+  _intVoteInterface: Address;
+  _params: Hash;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+  newUpgradeScheme: Address;
+}

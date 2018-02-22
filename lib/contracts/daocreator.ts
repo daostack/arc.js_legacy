@@ -5,11 +5,24 @@ import { Utils } from "../utils";
 const Avatar = Utils.requireContract("Avatar");
 import { Config } from "../config";
 import { Contracts } from "../contracts.js";
-import { ArcTransactionResult, ExtendTruffleContract } from "../ExtendTruffleContract";
+import {
+  Address,
+  ArcTransactionResult,
+  ExtendTruffleContract,
+  Hash,
+} from "../ExtendTruffleContract";
 const SolidityContract = Utils.requireContract("DaoCreator");
 import ContractWrapperFactory from "../ContractWrapperFactory";
 
 export class DaoCreatorWrapper extends ExtendTruffleContract {
+
+  /**
+   * Events
+   */
+
+  public NewOrg = this.createEventFetcherFactory<NewOrgEventResult>("NewOrg");
+  public InitialSchemesSet = this.createEventFetcherFactory<InitialSchemesSetEventResult>("InitialSchemesSet");
+
   /**
    * Create a new DAO
    * @param {ForgeOrgConfig} opts
@@ -200,7 +213,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
        */
       const requiredPermissions = Utils.permissionsStringToNumber(scheme.getDefaultPermissions());
       const additionalPermissions = Utils.permissionsStringToNumber(schemeOptions.permissions);
-      /* tslint:disable:no-bitwise */
+      /* tslint:disable-next-line:no-bitwise */
       initialSchemesPermissions.push(Utils.numberToPermissionsString(requiredPermissions | additionalPermissions));
     }
 
@@ -214,11 +227,14 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
 
     return new ArcTransactionResult(tx);
   }
-
-  public InitialSchemesSet(...rest): any {
-    return this.contract.InitialSchemesSet(...rest);
-  }
 }
 
 const DaoCreator = new ContractWrapperFactory(SolidityContract, DaoCreatorWrapper);
 export { DaoCreator };
+
+export interface NewOrgEventResult {
+  _avatar: Address;
+}
+export interface InitialSchemesSetEventResult {
+  _avatar: Address;
+}
