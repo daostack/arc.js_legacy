@@ -2,12 +2,8 @@
 const fs = require("fs");
 const {
   series,
-  //  crossEnv,
-  //  concurrent,
   rimraf,
   copy,
-  //  ifWindows,
-  runInNewWindow,
   mkdirp
 } = require("nps-utils");
 const env = require("env-variable")();
@@ -43,6 +39,9 @@ const network = env.network || Config.network || "ganache";
 const truffleIsInternal = fs.existsSync(joinPath(pathArcJsRoot, "node_modules", "truffle-core-migrate-without-compile"));
 const truffleCommand = `node ${joinPath(pathArcJsRoot, truffleIsInternal ? "node_modules" : "../../", "truffle-core-migrate-without-compile", "cli")}`;
 
+const ganacheCommand = `ganache-cli -l ${Config.gasLimit} --account="0x0191ecbd1b150b8a3c27c27010ba51b45521689611e669109e034fd66ae69621,9999999999999999999999999999999999999999999" --account="0x00f360233e89c65970a41d4a85990ec6669526b2230e867c352130151453180d,9999999999999999999999999999999999999999999" --account="0x987a26abca7432016104ce2f24ce639340e25afe06ac69f68791399e7a5d1028,9999999999999999999999999999999999999999999" --account="0x89af34b1b7347834048b99423dad174a14bf14540d720d72c16ae92e94b987cb,9999999999999999999999999999999999999999999" --account="0xc867be647eb2bc51e4c0d61066859875cf3634fe949b6f5f85c69ab90e485b37,9999999999999999999999999999999999999999999" --account="0xefabcc2377dee5e51b5a9e65a3854aec85fbbec3cb584d8ad4f9679869fb33c6,9999999999999999999999999999999999999999999"`;
+const ganacheDbCommand = `ganache-cli --db ${pathDaostackArcGanacheDb} -l ${Config.gasLimit} --networkId 1512051714758 --mnemonic "behave pipe turkey animal voyage dial relief menu blush match jeans general"`;
+
 module.exports = {
   scripts: {
     lint: {
@@ -66,16 +65,6 @@ module.exports = {
     test: {
       default: series("nps lint", "nps test.automated"),
       automated: {
-        /**
-         * if you want to run an individual script module, you can do it like this:
-         *
-         *   npm start "test.automated ./test/dao.js"
-         *
-         * to also bail:
-         *
-         *   npm start "test.automated --bail ./test/dao.js"
-         *
-         */
         default: series(
           "nps test.build",
           "mocha --require babel-register --require babel-polyfill --require chai --timeout 999999"),
@@ -90,52 +79,18 @@ module.exports = {
         'nps test.automated.bail'
       ),
       ganache: {
-        run: `ganache-cli -l ${Config.gasLimit} --account="0x0191ecbd1b150b8a3c27c27010ba51b45521689611e669109e034fd66ae69621,9999999999999999999999999999999999999999999" --account="0x00f360233e89c65970a41d4a85990ec6669526b2230e867c352130151453180d,9999999999999999999999999999999999999999999" --account="0x987a26abca7432016104ce2f24ce639340e25afe06ac69f68791399e7a5d1028,9999999999999999999999999999999999999999999" --account="0x89af34b1b7347834048b99423dad174a14bf14540d720d72c16ae92e94b987cb,9999999999999999999999999999999999999999999" --account="0xc867be647eb2bc51e4c0d61066859875cf3634fe949b6f5f85c69ab90e485b37,9999999999999999999999999999999999999999999" --account="0xefabcc2377dee5e51b5a9e65a3854aec85fbbec3cb584d8ad4f9679869fb33c6,9999999999999999999999999999999999999999999"`,
-        runAsync: runInNewWindow("npm start test.ganache.run")
+        run: ganacheCommand,
+        runAsync: `node node_modules/run-with-ganache/bin/run-with-ganache --ganache-cmd "${ganacheCommand}" " "`
       },
       ganacheDb: {
-        /**
-         * ganacheDb scripts are handy for doing development against ganache, enabling you to
-         * take a snapshot (the database of the chain at any point, such as right after migration,
-         * and easily reuse it.
-         *
-         * Follow these steps to set up the database:
-         *
-         * This can take a long time as there may be thousands of files to delete:
-         *
-         *    npm start test.ganacheDb.clean
-         *
-         * The following will open a window with ganache running in it:
-         *
-         *    npm start test.ganacheDb.runAsync
-         *
-         * This will migrate the contracts and pull them into the project where they need to be:
-         *
-         *    npm start migrateContracts
-         *
-         * Now zip database for later reuse.
-         * But first you must close the window in which ganache is running.
-         * (You must do this yourself, in your OS.)
-         *
-         *    npm start test.ganacheDb.zip
-         *
-         * You can later unzip the database:
-         *
-         *    npm start test.ganacheDb.restoreFromZip
-         *
-         * Now you can restart ganache against the new database:
-         *
-         *    npm start test.ganacheDb.runAsync
-         *
-         * And run tests or your application:
-         *
-         *    npm start test
-         */
         run: series(
           mkdirp(pathDaostackArcGanacheDb),
-          `ganache-cli --db ${pathDaostackArcGanacheDb} -l ${Config.gasLimit} --networkId 1512051714758 --mnemonic "behave pipe turkey animal voyage dial relief menu blush match jeans general"`
+          ganacheDbCommand,
         ),
-        runAsync: runInNewWindow("npm start test.ganacheDb.run"),
+        runAsync: series(
+          mkdirp(pathDaostackArcGanacheDb),
+          `node node_modules/run-with-ganache/bin/run-with-ganache --ganache-cmd "${ganacheDbCommand}" " "`
+        ),
         clean: rimraf(pathDaostackArcGanacheDb),
         zip: `node ./package-scripts/archiveGanacheDb.js ${pathDaostackArcGanacheDbZip} ${pathDaostackArcGanacheDb}`,
         unzip: series(

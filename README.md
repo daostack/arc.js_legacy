@@ -74,28 +74,28 @@ Now you can proceed with migrating contracts to a running testnet and configurin
 
 Arc.js runs against an Ethereum network where it assumes that the Arc contracts have been migrated.  Out of the box, Arc.js can find contracts migrated to the mainnet. But for testing, you will need to tell it to migrate the Arc contracts to a testnet of your choice.  You can do this by running a few Arc.js scripts.
 
-For example, to deploy contracts to a ganache testnet, run the following scripts from the root of your application:
+For example, to deploy contracts to a Ganache testnet, run the following scripts from the root of your application:
 
-On Linux and others [until runAsync is fixed for Linux](http://github.com/daostack/arc.js/issues/64), run this in a separate window of your own creation:
-
+Either synchronously in a separate shell window:
 ```script
 npm explore @daostack/arc.js -- npm start test.ganache.run
 ```
 
-On Windows: 
-```script
+Or asynchronously in the background of your current shell window:
 npm explore @daostack/arc.js -- npm start test.ganache.runAsync
 ```
 
-Now migrate the Arc contracts to ganache:
+Now migrate the Arc contracts to Ganache:
 
 ```script
 npm explore @daostack/arc.js -- npm start migrateContracts
 ```
 
-Now when your app uses Arc.js, it will be running against ganache and the contracts you just migrated.
+Now when your app uses Arc.js, it will be running against Ganache and the contracts you just migrated.
 
 For more on Arc.js scripts, see [Working with Arc.js Scripts](#working-with-arcjs-scripts).
+
+See [Deploying to Other Testnets](#deploying-to-other-testnets) if you want to run against a testnet other-than Ganache.
 
 ### Using the Arc.js Library in your Code
 
@@ -458,12 +458,14 @@ This will return an array of the scheme's parameter values where the order of va
 ## Working with Arc.js Scripts
 Arc.js contains a set of scripts for building, publishing, running tests and migrating contracts to any network.  These scripts are meant to be accessible and readily usable by client applications.
 
-Typically an application will run an Arc.js script by prefixing `npm explore @daostack/arc.js -- `  to the Arc.js script.  For example, to run the Arc.js script `npm start test.ganache.run` from your application, you would run:
+Typically an application will run an Arc.js script by prefixing "`npm explore @daostack/arc.js -- `" to the Arc.js script.  For example, to run the Arc.js script `npm start test.ganache.run` from your application, you would run:
 ```
 npm explore @daostack/arc.js -- npm start test.ganache.run
 ```
 
-All of the scripts are defined and documented in the package-scripts.js file.  You have already seen their [most typical use in an application context](#setting-up-a-testnet-with-arc-contracts).
+Otherwise, when running the scripts at the root of Arc.js, you must omit the `npm explore @daostack/arc.js -- `.
+
+All of the scripts are defined in the package-scripts.js file.  You have already seen their [most typical use in an application context](#setting-up-a-testnet-with-arc-contracts).
 
 See also  [Running Against a Ganache Database](#running-against-a-ganache-database), [Deploying to Other Testnets](#deploying-to-other-testnets) and [Run Lint and Tests](#run-lint-and-tests)
 
@@ -472,31 +474,16 @@ The "network" environment variable defines which network arc.js understands you 
 
 ## Running Against a Ganache Database
 
-It can be very handy to run against a ganache database that persists the state of the chain across instances of ganache.  The file package-scripts.js contains a number of scripts to help you manage this process.  Most simply, follow the steps above for building and running the application, except when you bring up ganache, use this script:
-
-On Linux and others [until runAsync is fixed for Linux](http://github.com/daostack/arc.js/issues/64), run this in a separate window of your own creation:
-
-```shell
-npm explore @daostack/arc.js -- npm start test.ganacheDb.run
-```
-
-On Windows:
- 
- ```shell
-npm explore @daostack/arc.js -- npm start test.ganacheDb.runAsync
-```
+It can be very handy to run Arc.js tests or your application against a Ganache database that persists the state of the chain across instances of Ganache.  Please refer [here for how to do it](./docs/GanacheDb.md).
 
 ## Run Lint and Tests
 
-To run lint and the Arc.js tests, run the following script in the Arc.js root folder:
+To run lint and the Arc.js tests, run the following script in the Arc.js root folder, assuming you have already
+(installed all the npm packages)(#installation), are (running a testnet with migrated Arc contracts)(#setting-up-a-testnet-with-arc-contracts):
 
 ```
-npm install
-npm start test.ganache.runAsync
-npm start migrateContracts
 npm test
 ```
-
 
 ### Stop on the first failure
 
