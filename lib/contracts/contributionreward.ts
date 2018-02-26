@@ -1,12 +1,39 @@
 "use strict";
 import dopts = require("default-options");
 
-import { ArcTransactionProposalResult, ArcTransactionResult, ExtendTruffleContract } from "../ExtendTruffleContract";
+import {
+  Address,
+  ArcTransactionProposalResult,
+  ArcTransactionResult,
+  ExtendTruffleContract,
+  Hash,
+} from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("ContributionReward");
+import * as BigNumber from "bignumber.js";
 import ContractWrapperFactory from "../ContractWrapperFactory";
+import {
+  ProposalDeletedEventResult,
+  ProposalExecutedEventResult,
+  RedeemReputationEventResult,
+} from "./commonEventInterfaces";
 
 export class ContributionRewardWrapper extends ExtendTruffleContract {
+
+  /**
+   * Events
+   */
+
+  /* tslint:disable:max-line-length */
+  public NewContributionProposal = this.createEventFetcherFactory<NewContributionProposalEventResult>("NewContributionProposal");
+  public ProposalExecuted = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
+  public ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
+  public RedeemReputation = this.createEventFetcherFactory<RedeemReputationEventResult>("RedeemReputation");
+  public RedeemEther = this.createEventFetcherFactory<RedeemEtherEventResult>("RedeemEther");
+  public RedeemNativeToken = this.createEventFetcherFactory<RedeemNativeTokenEventResult>("RedeemNativeToken");
+  public RedeemExternalToken = this.createEventFetcherFactory<RedeemExternalTokenEventResult>("RedeemExternalToken");
+  /* tslint:enable:max-line-length */
+
   /**
    * Submit a proposal for a reward for a contribution
    * @param {ProposeContributionParams} opts
@@ -152,3 +179,71 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
 
 const ContributionReward = new ContractWrapperFactory(SolidityContract, ContributionRewardWrapper);
 export { ContributionReward };
+
+export interface NewContributionProposalEventResult {
+  /**
+   * indexed
+   */
+  _avatar: Address;
+  _beneficiary: Address;
+  _contributionDescription: Hash;
+  _externalToken: Address;
+  /**
+   * indexed
+   */
+  _intVoteInterface: Address;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+  _reputationChange: BigNumber.BigNumber;
+  _rewards: BigNumber.BigNumber[];
+}
+
+export interface RedeemEtherEventResult {
+  _amount: BigNumber.BigNumber;
+  /**
+   * indexed
+   */
+  _avatar: Address;
+  /**
+   * indexed
+   */
+  _beneficiary: Address;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+}
+
+export interface RedeemNativeTokenEventResult {
+  _amount: BigNumber.BigNumber;
+  /**
+   * indexed
+   */
+  _avatar: Address;
+  /**
+   * indexed
+   */
+  _beneficiary: Address;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+}
+
+export interface RedeemExternalTokenEventResult {
+  _amount: BigNumber.BigNumber;
+  /**
+   * indexed
+   */
+  _avatar: Address;
+  /**
+   * indexed
+   */
+  _beneficiary: Address;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+}

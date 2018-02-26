@@ -57,16 +57,20 @@ declare module "@daostack/arc.js" {
   }
   /**
      * An object with property names being a contract key and property value as the corresponding ArcContractInfo.
-     * For all deployed contracts exposed by Arc.
+     * For all contracts deployed by Arc.js.
      */
   export interface ArcDeployedContractNames {
+    AbsoluteVote: ArcContractInfo;
     ContributionReward: ArcContractInfo;
     DaoCreator: ArcContractInfo;
+    GenesisProtocol: ArcContractInfo;
     GlobalConstraintRegistrar: ArcContractInfo;
     SchemeRegistrar: ArcContractInfo;
-    SimpleICO: ArcContractInfo;
+    TokenCapGC: ArcContractInfo;
+    UController: ArcContractInfo;
     UpgradeScheme: ArcContractInfo;
-    AbsoluteVote: ArcContractInfo;
+    VestingScheme: ArcContractInfo;
+    VoteInOrganizationScheme: ArcContractInfo;
   }
 
   /**
@@ -161,49 +165,6 @@ declare module "@daostack/arc.js" {
     type: string;
   }
 
-  export interface TransactionReceipt {
-    /**
-     * hash of the block where this transaction was in.
-     */
-    blockHash: string;
-    /**
-     * block number where this transaction was in.
-     */
-    blockNumber: number;
-    /**
-     * hash of the transaction.
-     */
-    transactionHash: string;
-    /**
-     * transactions index position in the block.
-     */
-    transactionIndex: number;
-    /**
-     * address of the sender.
-     */
-    from: string;
-    /**
-     * address of the receiver. null when its a contract creation transaction.
-     */
-    to: string;
-    /**
-     * The total amount of gas used when this transaction was executed in the block.
-     */
-    cumulativeGasUsed: number;
-    /**
-     * The amount of gas used by this specific transaction alone.
-     */
-    gasUsed: number;
-    /**
-     * The contract address created, if the transaction was a contract creation, otherwise null.
-     */
-    contractAddress: string;
-    /**
-     * Array of log objects, which this transaction generated.
-     */
-    logs: Array<TransactionLog>;
-  }
-
   export interface TransactionReceiptTruffle {
     transactionHash: string;
     logs: Array<TransactionLogTruffle>;
@@ -232,18 +193,18 @@ declare module "@daostack/arc.js" {
     /**
      * The underlying truffle contract object
      */
-    public contract: any;
+    contract: any;
     /**
      * Call setParameters on this contract.
      * Returns promise of ArcTransactionDataResult where Result is the parameters hash.
      * @param {Promise<ArcTransactionDataResult<string>>} params -- object with properties whose names are expected by the scheme to correspond to parameters.
      * Currently all params are required, contract wrappers do not as yet apply default values.
      */
-    public setParams(params: any): Promise<ArcTransactionDataResult>;
+    setParams(params: any): Promise<ArcTransactionDataResult>;
     /**
      * the address of the deployed contract
      */
-    public address: string;
+    address: string;
 
   }
 
@@ -262,11 +223,211 @@ declare module "@daostack/arc.js" {
     getDefaultPermissions(overrideValue?: string): string;
   }
 
+  export type Hash = string;
+  export type Address = string;
+
+  export type EventCallback<TArgs> =
+    (
+      err: Error,
+      result: Array<DecodedLogEntryEvent<TArgs>>,
+    ) => void;
+
+  interface TransactionReceipt {
+    blockHash: string;
+    blockNumber: number;
+    transactionHash: string;
+    transactionIndex: number;
+    from: string;
+    to: string;
+    status: null | string | 0 | 1;
+    cumulativeGasUsed: number;
+    gasUsed: number;
+    contractAddress: string | null;
+    logs: LogEntry[];
+  }
+
+  /**
+   * The generic type of every handler function that returns an event.  See this
+   * web3 documentation article for more information:
+   * https://github.com/ethereum/wiki/wiki/JavaScript-API#contract-events
+   *
+   * argsFilter - contains the return values by which you want to filter the logs, e.g.
+   * {'valueA': 1, 'valueB': [myFirstAddress, mySecondAddress]}
+   * By default all filter  values are set to null which means that they will match
+   * any event of given type sent from this contract.  Default is {}.
+   *
+   * filterObject - Additional filter options.  Typically something like { from: "latest" }.
+   *
+   * callback - (optional) If you pass a callback it will immediately
+   * start watching.  Otherwise you will need to call .get or .watch.
+   */
+  export type EventFetcherFactory<TArgs> =
+    (
+      argFilter: any,
+      filterObject: FilterObject,
+      callback?: EventCallback<TArgs>,
+    ) => EventFetcher<TArgs>;
+
+  export type EventFetcherHandler<TArgs> =
+    (
+      callback: EventCallback<TArgs>,
+    ) => void;
+
+  /**
+   * returned by EventFetcherFactory<TArgs> which is created by eventWrapperFactory.
+   */
+  export interface EventFetcher<TArgs> {
+    get: EventFetcherHandler<TArgs>;
+    watch: EventFetcherHandler<TArgs>;
+    stopWatching(): void;
+  }
+
+  type LogTopic = null | string | string[];
+
+  interface FilterObject {
+    fromBlock?: number | string;
+    toBlock?: number | string;
+    address?: string;
+    topics?: LogTopic[];
+  }
+
+  interface LogEntry {
+    logIndex: number | null;
+    transactionIndex: number | null;
+    transactionHash: string;
+    blockHash: string | null;
+    blockNumber: number | null;
+    address: string;
+    data: string;
+    topics: string[];
+  }
+
+  interface LogEntryEvent extends LogEntry {
+    removed: boolean;
+  }
+
+  interface DecodedLogEntry<TArgs> extends LogEntryEvent {
+    event: string;
+    args: TArgs;
+  }
+
+  interface DecodedLogEntryEvent<TArgs> extends DecodedLogEntry<TArgs> {
+    removed: boolean;
+  }
+
+  /*******************
+   * common event result interfaces
+   */
+  export interface NewProposalEventResult {
+    _numOfChoices: number;
+    _paramsHash: Hash;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+    _proposer: Address;
+  }
+
+  /**
+   * fired by voting machines
+   */
+  export interface ExecuteProposalEventResult {
+    _decision: number;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+  }
+
+  export interface VoteProposalEventResult {
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+    _reputation: BigNumber.BigNumber;
+    _vote: number;
+    /**
+     * indexed
+     */
+    _voter: Address;
+  }
+
+  export interface RedeemReputationEventResult {
+    _amount: BigNumber.BigNumber;
+    /**
+     * indexed
+     */
+    _avatar: Address;
+    /**
+     * indexed
+     */
+    _beneficiary: Address;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+  }
+
+  export interface ProposalDeletedEventResult {
+    /**
+     * indexed
+     */
+    _avatar: Address;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+  }
+
+  /**
+   * fired by schemes
+   */
+  export interface ProposalExecutedEventResult {
+    /**
+     * indexed
+     */
+    _avatar: Address;
+    _param: number;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+  }
+
   export interface StandardSchemeParams {
     voteParametersHash: string;
     votingMachine: string; // address
   }
 
+  /********************************
+   * AbsoluteVote
+   */
+  export interface CancelProposalEventResult {
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+  }
+
+  export interface CancelVotingEventResult {
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+    _voter: Address;
+  }
+
+  export class AbsoluteVote extends ExtendTruffleScheme {
+    static new(): AbsoluteVote;
+    static at(address: string): AbsoluteVote;
+    static deployed(): AbsoluteVote;
+
+    NewProposal: EventFetcherFactory<NewProposalEventResult>;
+    CancelProposal: EventFetcherFactory<CancelProposalEventResult>;
+    ExecuteProposal: EventFetcherFactory<ExecuteProposalEventResult>;
+    VoteProposal: EventFetcherFactory<VoteProposalEventResult>;
+    CancelVoting: EventFetcherFactory<CancelVotingEventResult>;
+  }
 
   /********************************
    * DaoCreator
@@ -401,10 +562,19 @@ declare module "@daostack/arc.js" {
     avatar: string
   }
 
+  export interface NewOrgEventResult {
+    _avatar: Address;
+  }
+  export interface InitialSchemesSetEventResult {
+    _avatar: Address;
+  }
+
   export class DaoCreator extends ExtendTruffleScheme {
     static new(): DaoCreator;
     static at(address: string): DaoCreator;
     static deployed(): DaoCreator;
+    NewOrg: EventFetcherFactory<NewOrgEventResult>;
+    InitialSchemesSet: EventFetcherFactory<InitialSchemesSetEventResult>;
     /**
      * Create a new DAO
      * @param {ForgeOrgConfig} options 
@@ -576,11 +746,49 @@ declare module "@daostack/arc.js" {
     globalConstraint: string;
   }
 
+  export interface NewGlobalConstraintsProposalEventResult {
+    /**
+     * indexed
+     */
+    _avatar: Address;
+    /**
+     * indexed
+     */
+    _intVoteInterface: Address;
+    _gc: Address;
+    _params: Hash;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+    _voteToRemoveParams: Hash;
+  }
+
+  export interface RemoveGlobalConstraintsProposalEventResult {
+    /**
+     * indexed
+     */
+    _avatar: Address;
+    _gc: Address;
+    /**
+     * indexed
+     */
+    _intVoteInterface: Address;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+  }
+
   export class GlobalConstraintRegistrar extends ExtendTruffleScheme {
     static new(): GlobalConstraintRegistrar;
 
     static at(address: string): GlobalConstraintRegistrar;
     static deployed(): GlobalConstraintRegistrar;
+    NewGlobalConstraintsProposal: EventFetcherFactory<NewGlobalConstraintsProposalEventResult>;
+    RemoveGlobalConstraintsProposal: EventFetcherFactory<RemoveGlobalConstraintsProposalEventResult>;
+    ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
+    ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
 
     /**
      *  propose to add or modify a global constraint
@@ -641,10 +849,48 @@ declare module "@daostack/arc.js" {
     scheme: string;
   }
 
+  export interface NewSchemeProposalEventResult {
+    /**
+     * indexed
+     */
+    _avatar: Address;
+    /**
+     * indexed
+     */
+    _intVoteInterface: Address;
+    _isRegistering: boolean;
+    _parametersHash: Hash;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+    _scheme: Address;
+  }
+
+  export interface RemoveSchemeProposalEventResult {
+    /**
+     * indexed
+     */
+    _avatar: Address;
+    /**
+     * indexed
+     */
+    _intVoteInterface: Address;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+    _scheme: Address;
+  }
+
   export class SchemeRegistrar extends ExtendTruffleScheme {
     static new(): SchemeRegistrar;
     static at(address: string): SchemeRegistrar;
     static deployed(): SchemeRegistrar;
+    NewSchemeProposal: EventFetcherFactory<NewSchemeProposalEventResult>;
+    RemoveSchemeProposal: EventFetcherFactory<RemoveSchemeProposalEventResult>;
+    ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
+    ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
     /**
      *  propose to add or modify a scheme
      * @param options ProposeToAddModifySchemeParams
@@ -692,10 +938,47 @@ declare module "@daostack/arc.js" {
     controller: string;
   }
 
+  export interface NewUpgradeProposalEventResult {
+    /**
+     * indexed
+     */
+    _avatar: Address;
+    /**
+     * indexed
+     */
+    _intVoteInterface: Address;
+    _newController: Address;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+  }
+
+  export interface ChangeUpgradeSchemeProposalEventResult {
+    /**
+     * indexed
+     */
+    _avatar: Address;
+    /**
+     * indexed
+     */
+    _intVoteInterface: Address;
+    _params: Hash;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+    newUpgradeScheme: Address;
+  }
+
   export class UpgradeScheme extends ExtendTruffleScheme {
     static new(): UpgradeScheme;
     static at(address: string): UpgradeScheme;
     static deployed(): UpgradeScheme;
+    NewUpgradeProposal: EventFetcherFactory<NewUpgradeProposalEventResult>;
+    ChangeUpgradeSchemeProposal: EventFetcherFactory<ChangeUpgradeSchemeProposalEventResult>;
+    ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
+    ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
     /**
      * propose to replace this UpgradingScheme
      * @param options ProposeUpgradingSchemeParams
@@ -824,10 +1107,85 @@ declare module "@daostack/arc.js" {
     externalTokens?: boolean;
   }
 
+  export interface NewContributionProposalEventResult {
+    /**
+     * indexed
+     */
+    _avatar: Address;
+    _beneficiary: Address;
+    _contributionDescription: Hash;
+    _externalToken: Address;
+    /**
+     * indexed
+     */
+    _intVoteInterface: Address;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+    _reputationChange: BigNumber.BigNumber;
+    _rewards: BigNumber.BigNumber[];
+  }
+
+  export interface RedeemEtherEventResult {
+    _amount: BigNumber.BigNumber;
+    /**
+     * indexed
+     */
+    _avatar: Address;
+    /**
+     * indexed
+     */
+    _beneficiary: Address;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+  }
+
+  export interface RedeemNativeTokenEventResult {
+    _amount: BigNumber.BigNumber;
+    /**
+     * indexed
+     */
+    _avatar: Address;
+    /**
+     * indexed
+     */
+    _beneficiary: Address;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+  }
+
+  export interface RedeemExternalTokenEventResult {
+    _amount: BigNumber.BigNumber;
+    /**
+     * indexed
+     */
+    _avatar: Address;
+    /**
+     * indexed
+     */
+    _beneficiary: Address;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+  }
+
   export class ContributionReward extends ExtendTruffleScheme {
     static new(): ContributionReward;
     static at(address: string): ContributionReward;
     static deployed(): ContributionReward;
+    NewContributionProposal: EventFetcherFactory<NewContributionProposalEventResult>;
+    ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
+    ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
+    RedeemReputation: EventFetcherFactory<RedeemReputationEventResult>;
+    RedeemEther: EventFetcherFactory<RedeemEtherEventResult>;
+    RedeemNativeToken: EventFetcherFactory<RedeemNativeTokenEventResult>;
+    RedeemExternalToken: EventFetcherFactory<RedeemExternalTokenEventResult>;
     /**
      * propose to make a contribution
      * @param options ProposeContributionParams
@@ -843,13 +1201,6 @@ declare module "@daostack/arc.js" {
     redeemContributionReward(options: ContributionRewardRedeemParams): Promise<ArcTransactionResult>;
 
     setParams(params: ContributionRewardParams): Promise<ArcTransactionDataResult>;
-
-    /**
-     * Event functions as defined by the parent Truffle contract
-     */
-    NewContributionProposal(filters: any, options: any): any;
-    ProposalExecuted(filters: any, options: any): any;
-    ProposalDeleted(filters: any, options: any): any;
   }
 
   /********************************
@@ -941,10 +1292,68 @@ declare module "@daostack/arc.js" {
     agreementId: number;
   }
 
+  export interface AgreementProposalEventResult {
+    /**
+     * indexed
+     */
+    _avatar: Address;
+    _proposalId: Hash;
+  }
+
+  export interface NewVestedAgreementEventResult {
+    /**
+     * indexed
+     */
+    _agreementId: BigNumber.BigNumber;
+  }
+
+  export interface SignToCancelAgreementEventResult {
+    /**
+     * indexed
+     */
+    _agreementId: BigNumber.BigNumber;
+    /**
+     * indexed
+     */
+    _signer: Address;
+  }
+
+  export interface RevokeSignToCancelAgreementEventResult {
+    /**
+     * indexed
+     */
+    _agreementId: BigNumber.BigNumber;
+    /**
+     * indexed
+     */
+    _signer: Address;
+  }
+
+  export interface AgreementCancelEventResult {
+    /**
+     * indexed
+     */
+    _agreementId: BigNumber.BigNumber;
+  }
+
+  export interface CollectEventResult {
+    /**
+     * indexed
+     */
+    _agreementId: BigNumber.BigNumber;
+  }
+
   export class VestingScheme extends ExtendTruffleScheme {
     static new(): VestingScheme;
     static at(address: string): VestingScheme;
     static deployed(): VestingScheme;
+    ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
+    AgreementProposal: EventFetcherFactory<AgreementProposalEventResult>;
+    NewVestedAgreement: EventFetcherFactory<NewVestedAgreementEventResult>;
+    SignToCancelAgreement: EventFetcherFactory<SignToCancelAgreementEventResult>;
+    RevokeSignToCancelAgreement: EventFetcherFactory<RevokeSignToCancelAgreementEventResult>;
+    AgreementCancel: EventFetcherFactory<AgreementCancelEventResult>;
+    Collect: EventFetcherFactory<CollectEventResult>;
     /**
      * Propose a new vesting agreement. The required funds will be minted to the vesting scheme on approval of the proposal.
      * @param {ProposeVestingAgreementConfig} options 
@@ -995,10 +1404,17 @@ declare module "@daostack/arc.js" {
     originalProposalId: string
   }
 
+  export interface VoteOnBehalfEventResult {
+    _params: Hash[];
+  }
+
   export class VoteInOrganizationScheme extends ExtendTruffleScheme {
     static new(): VoteInOrganizationScheme;
     static at(address: string): VoteInOrganizationScheme;
     static deployed(): VoteInOrganizationScheme;
+    ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
+    ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
+    VoteOnBehalf: EventFetcherFactory<VoteOnBehalfEventResult>;
     /**
      * Create a proposal whose choices look just like a proposal from another DAO.
      * When the vote on this proposal is concluded, the result is sent to the
@@ -1382,6 +1798,13 @@ declare module "@daostack/arc.js" {
     static new(): GenesisProtocol;
     static at(address: string): GenesisProtocol;
     static deployed(): GenesisProtocol;
+
+    NewProposal: FetcherFactory<NewProposalEventResult>;
+    ExecuteProposal: FetcherFactory<ExecuteProposalEventResult>;
+    VoteProposal: FetcherFactory<VoteProposalEventResult>;
+    Stake: FetcherFactory<StakeEventResult>;
+    Redeem: FetcherFactory<RedeemEventResult>;
+    RedeemReputation: FetcherFactory<RedeemReputationEventResult>;
 
     propose(options: ProposeVoteConfig): Promise<ArcTransactionProposalResult>;
     stake(options: StakeConfig): Promise<ArcTransactionResult>;

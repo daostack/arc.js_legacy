@@ -1,12 +1,26 @@
 "use strict";
 import dopts = require("default-options");
 
-import { ArcTransactionProposalResult, ExtendTruffleContract } from "../ExtendTruffleContract";
+import {
+  Address,
+  ArcTransactionProposalResult,
+  ExtendTruffleContract,
+  Hash,
+} from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("VoteInOrganizationScheme");
 import ContractWrapperFactory from "../ContractWrapperFactory";
+import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
+
+  /**
+   * Events
+   */
+
+  public ProposalExecuted = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
+  public ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
+  public VoteOnBehalf = this.createEventFetcherFactory<VoteOnBehalfEventResult>("VoteOnBehalf");
 
   public async proposeVote(opts = {}) {
     /**
@@ -55,3 +69,7 @@ export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
 
 const VoteInOrganizationScheme = new ContractWrapperFactory(SolidityContract, VoteInOrganizationSchemeWrapper);
 export { VoteInOrganizationScheme };
+
+export interface VoteOnBehalfEventResult {
+  _params: Hash[];
+}

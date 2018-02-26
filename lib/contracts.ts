@@ -32,7 +32,7 @@ export interface ArcContractInfo {
 
 /**
  * An object with property names being a contract key and property value as the corresponding ArcContractInfo.
- * For all deployed contracts exposed by Arc.
+ * For all contracts deployed by Arc.js.
  */
 export interface ArcDeployedContractNames {
   AbsoluteVote: ArcContractInfo;

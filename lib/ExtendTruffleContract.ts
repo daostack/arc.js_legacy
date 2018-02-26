@@ -1,6 +1,5 @@
 import { Config } from "./config";
 import { Utils } from "./utils";
-
 /**
  * Abstract base class for all Arc contract wrapper classes
  *
@@ -18,6 +17,7 @@ import { Utils } from "./utils";
  *   export { AbsoluteVote };
  */
 export abstract class ExtendTruffleContract {
+
   /**
    * The underlying truffle contract object
    */
@@ -106,6 +106,75 @@ export abstract class ExtendTruffleContract {
 
   public get address() { return this.contract.address; }
 
+  /**
+   * Return a function that creates an EventFetcher<TArgs>.
+   * For subclasses to use to create their event handlers.
+   * This is identical to what you get with Truffle, except that
+   * the result param of the callback is always guaranteed to be an array.
+   *
+   * Example:
+   *
+   *    public NewProposal = this.eventWrapperFactory<NewProposalEventResult>("NewProposal");
+   *    const event = NewProposal(...);
+   *    event.get(...).
+   *
+   * @type TArgs - name of the event args (EventResult) interface, like NewProposalEventResult
+   * @param eventName - Name of the event like "NewProposal"
+   */
+  protected createEventFetcherFactory<TArgs>(eventName: string): EventFetcherFactory<TArgs> {
+
+    const that = this;
+
+    /**
+     * This is the function that returns the EventFetcher<TArgs>
+     * @param argFilter
+     * @param filterObject
+     * @param callback
+     */
+    const eventFetcherFactory = (
+      argFilter: any,
+      filterObject: FilterObject,
+      rootCallback?: EventCallback<TArgs>,
+    ): EventFetcher<TArgs> => {
+
+      let baseEvent: EventFetcher<TArgs>;
+
+      const eventFetcher = {
+
+        get(callback?: EventCallback<TArgs>): void {
+          baseEvent.get((error, logs) => {
+            if (!Array.isArray(logs)) {
+              logs = [logs];
+            }
+            callback(error, logs);
+          });
+        },
+
+        watch(callback?: EventCallback<TArgs>): void {
+          baseEvent.watch((error, logs) => {
+            if (!Array.isArray(logs)) {
+              logs = [logs];
+            }
+            callback(error, logs);
+          });
+        },
+
+        stopWatching(): void {
+          baseEvent.stopWatching();
+        },
+      };
+      /**
+       * if callback is set then this will start watching immediately,
+       * otherwise caller must use `get` and `watch`
+       */
+      baseEvent = that.contract[eventName](argFilter, filterObject, rootCallback);
+
+      return eventFetcher;
+    };
+
+    return eventFetcherFactory;
+  }
+
   private hydrate() {
     for (const i in this.contract) {
       if (this[i] === undefined) {
@@ -113,80 +182,6 @@ export abstract class ExtendTruffleContract {
       }
     }
   }
-
-}
-
-/**
- * A log as bundled in a TransactionReceipt
- */
-export interface TransactionLog {
-  address: string;
-  blockHash: string;
-  blockNumber: number;
-  data: string;
-  logIndex: number;
-  topics: string[];
-  transactionHash: string;
-  transactionIndex: number;
-  type: string;
-}
-
-export interface TransactionLogTruffle {
-  address: string;
-  args: any;
-  blockHash: string;
-  blockNumber: number;
-  event: string;
-  logIndex: number;
-  transactionHash: string;
-  transactionIndex: number;
-  type: string;
-}
-
-/**
- * TransactionReceipt as bundled in TransactionReceiptTruffle
- */
-export interface TransactionReceipt {
-  /**
-   * hash of the block where this transaction was in.
-   */
-  blockHash: string;
-  /**
-   * block number where this transaction was in.
-   */
-  blockNumber: number;
-  /**
-   * hash of the transaction.
-   */
-  transactionHash: string;
-  /**
-   * transactions index position in the block.
-   */
-  transactionIndex: number;
-  /**
-   * address of the sender.
-   */
-  from: string;
-  /**
-   * address of the receiver. null when its a contract creation transaction.
-   */
-  to: string;
-  /**
-   * The total amount of gas used when this transaction was executed in the block.
-   */
-  cumulativeGasUsed: number;
-  /**
-   * The amount of gas used by this specific transaction alone.
-   */
-  gasUsed: number;
-  /**
-   * The contract address created, if the transaction was a contract creation, otherwise null.
-   */
-  contractAddress: string;
-  /**
-   * Array of log objects, which this transaction generated.
-   */
-  logs: TransactionLog[];
 }
 
 /**
@@ -194,9 +189,9 @@ export interface TransactionReceipt {
  * a contract function that causes a transaction.
  */
 export interface TransactionReceiptTruffle {
-  transactionHash: string;
-  logs: TransactionLogTruffle[];
+  logs: LogEntry[];
   receipt: TransactionReceipt;
+  transactionHash: string;
   /**
    * address of the transaction
    */
@@ -253,4 +248,96 @@ export class ArcTransactionDataResult extends ArcTransactionResult {
     super(tx);
     this.result = result;
   }
+}
+
+export type Hash = string;
+export type Address = string;
+
+export type EventCallback<TArgs> =
+  (
+    err: Error,
+    result: Array<DecodedLogEntryEvent<TArgs>>,
+  ) => void;
+
+interface TransactionReceipt {
+  blockHash: string;
+  blockNumber: number;
+  transactionHash: string;
+  transactionIndex: number;
+  from: string;
+  to: string;
+  status: null | string | 0 | 1;
+  cumulativeGasUsed: number;
+  gasUsed: number;
+  contractAddress: string | null;
+  logs: LogEntry[];
+}
+
+/**
+ * The generic type of every handler function that returns an event.  See this
+ * web3 documentation article for more information:
+ * https://github.com/ethereum/wiki/wiki/JavaScript-API#contract-events
+ *
+ * argsFilter - contains the return values by which you want to filter the logs, e.g.
+ * {'valueA': 1, 'valueB': [myFirstAddress, mySecondAddress]}
+ * By default all filter  values are set to null which means that they will match
+ * any event of given type sent from this contract.  Default is {}.
+ *
+ * filterObject - Additional filter options.  Typically something like { from: "latest" }.
+ *
+ * callback - (optional) If you pass a callback it will immediately
+ * start watching.  Otherwise you will need to call .get or .watch.
+ */
+export type EventFetcherFactory<TArgs> =
+  (
+    argFilter: any,
+    filterObject: FilterObject,
+    callback?: EventCallback<TArgs>,
+  ) => EventFetcher<TArgs>;
+
+export type EventFetcherHandler<TArgs> =
+  (
+    callback: EventCallback<TArgs>,
+  ) => void;
+
+/**
+ * returned by EventFetcherFactory<TArgs> which is created by eventWrapperFactory.
+ */
+export interface EventFetcher<TArgs> {
+  get: EventFetcherHandler<TArgs>;
+  watch: EventFetcherHandler<TArgs>;
+  stopWatching(): void;
+}
+
+type LogTopic = null | string | string[];
+
+interface FilterObject {
+  fromBlock?: number | string;
+  toBlock?: number | string;
+  address?: string;
+  topics?: LogTopic[];
+}
+
+interface LogEntry {
+  logIndex: number | null;
+  transactionIndex: number | null;
+  transactionHash: string;
+  blockHash: string | null;
+  blockNumber: number | null;
+  address: string;
+  data: string;
+  topics: string[];
+}
+
+interface LogEntryEvent extends LogEntry {
+  removed: boolean;
+}
+
+interface DecodedLogEntry<TArgs> extends LogEntryEvent {
+  event: string;
+  args: TArgs;
+}
+
+interface DecodedLogEntryEvent<TArgs> extends DecodedLogEntry<TArgs> {
+  removed: boolean;
 }
