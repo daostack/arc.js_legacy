@@ -155,7 +155,7 @@ module.exports = async (deployer) => {
     const schemeUpgradeParams = await upgradeSchemeInst.getParametersHash(genesisProtocolParams, genesisProtocolInst.address);
 
     await contributionRewardInst.setParameters(orgNativeTokenFee, genesisProtocolParams, genesisProtocolInst.address);
-    const contributionRewardParams = await contributionRewardInst.getParametersHash(orgNativeTokenFee0, genesisProtocolParams, genesisProtocolInst.address);
+    const contributionRewardParams = await contributionRewardInst.getParametersHash(orgNativeTokenFee, genesisProtocolParams, genesisProtocolInst.address);
 
     /**
      * Register the schemes with the Genesis DAO
