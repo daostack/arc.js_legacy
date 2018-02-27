@@ -1,97 +1,112 @@
-// Imports:
-const Avatar = artifacts.require("Avatar.sol");
-const Controller = artifacts.require("Controller.sol");
-const UController = artifacts.require("UController.sol");
-
-const GlobalConstraintRegistrar = artifacts.require("GlobalConstraintRegistrar.sol");
-const TokenCapGC = artifacts.require("TokenCapGC.sol");
-
-const DaoCreator = artifacts.require("DaoCreator.sol");
-const SchemeRegistrar = artifacts.require("SchemeRegistrar.sol");
-const ContributionReward = artifacts.require("ContributionReward.sol");
-const UpgradeScheme = artifacts.require("UpgradeScheme.sol");
-const VestingScheme = artifacts.require("VestingScheme.sol");
-const VoteInOrganizationScheme = artifacts.require("VoteInOrganizationScheme.sol");
-const SimpleICO = artifacts.require("SimpleICO.sol");
-
-const AbsoluteVote = artifacts.require("AbsoluteVote.sol");
-const GenesisProtocol = artifacts.require("GenesisProtocol.sol");
-const ExecutableTest = artifacts.require("ExecutableTest.sol");
-
-// Instances:
-let schemeRegistrarInst;
-let globalConstraintRegistrarInst;
-let upgradeSchemeInst;
-let ControllerInst;
-let AvatarInst;
-let genesisProtocolInst;
-let contributionRewardInst;
-
-// DAOstack ORG parameters:
-const orgName = "Genesis";
-const tokenName = "Gen";
-const tokenSymbol = "GEN";
-const founders = [web3.eth.accounts[0]];
-const initRep = 10;
-const initRepInWei = [web3.toWei(initRep)];
-const initToken = 1000;
-const initTokenInWei = [web3.toWei(initToken)];
-let controllerAddress;
-let nativeTokenAddress;
-
-// DAOstack parameters for universal schemes:
-let genesisProtocolParams;
-let schemeRegisterParams;
-let schemeGCRegisterParams;
-let schemeUpgradeParams;
-let contributionRewardParams;
-const defaultVotingMachineParams = {
-  preBoostedVoteRequiredPercentage: 50,
-  preBoostedVotePeriodLimit: 60,
-  boostedVotePeriodLimit: 60,
-  thresholdConstA: 1,
-  thresholdConstB: 1,
-  minimumStakingFee: 0,
-  quietEndingPeriod: 0,
-  proposingRepRewardConstA: 1,
-  proposingRepRewardConstB: 1,
-  stakerFeeRatioForVoters: 1,
-  votersReputationLossRatio: 10,
-  votersGainRepRatioFromLostRep: 80,
-  governanceFormulasInterface: "0x0000000000000000000000000000000000000000"
-};
-
+/**
+ * Migration callback
+ */
 module.exports = async (deployer) => {
-  // Deploy DaoCreator:
-  // apparently we must wrap the first deploy call in a then to avoid
-  // what seem to be race conditions during deployment
-  deployer.deploy(DaoCreator, { gas: 6300000 }).then(async () => {
-    daoCreatorInst = await DaoCreator.deployed();
-    // Create Genesis (DAOstack):
-    returnedParams = await daoCreatorInst.forgeOrg(orgName, tokenName, tokenSymbol, founders,
-      initTokenInWei, initRepInWei, 0);
-    AvatarInst = await Avatar.at(returnedParams.logs[0].args._avatar);
-    controllerAddress = await AvatarInst.owner();
-    ControllerInst = await Controller.at(controllerAddress);
-    nativeTokenAddress = await ControllerInst.nativeToken();
 
+  const gasAmount = 6300000;
+
+  /**
+   * Truffle Solidity artifact wrappers
+   */
+  const AbsoluteVote = artifacts.require("AbsoluteVote.sol");
+  const Avatar = artifacts.require("Avatar.sol");
+  const ContributionReward = artifacts.require("ContributionReward.sol");
+  const Controller = artifacts.require("Controller.sol");
+  const DaoCreator = artifacts.require("DaoCreator.sol");
+  // ExecutableTest is used only by tests
+  const ExecutableTest = artifacts.require("ExecutableTest.sol");
+  const GlobalConstraintRegistrar = artifacts.require("GlobalConstraintRegistrar.sol");
+  const SchemeRegistrar = artifacts.require("SchemeRegistrar.sol");
+  const SimpleICO = artifacts.require("SimpleICO.sol");
+  const TokenCapGC = artifacts.require("TokenCapGC.sol");
+  const UController = artifacts.require("UController.sol");
+  const UpgradeScheme = artifacts.require("UpgradeScheme.sol");
+  const VestingScheme = artifacts.require("VestingScheme.sol");
+  const VoteInOrganizationScheme = artifacts.require("VoteInOrganizationScheme.sol");
+  const GenesisProtocol = artifacts.require("GenesisProtocol.sol");
+  /**
+   *  Genesis DAO parameters
+   */
+  const orgName = "Genesis";
+  const tokenName = "Gen";
+  const tokenSymbol = "GEN";
+  const founders = [web3.eth.accounts[0]];
+  const initRep = 10;
+  const initRepInWei = [web3.toWei(initRep)];
+  const initToken = 1000;
+  const initTokenInWei = [web3.toWei(initToken)];
+  const orgNativeTokenFee = 0;
+  const defaultVotingMachineParams = {
+    preBoostedVoteRequiredPercentage: 50,
+    preBoostedVotePeriodLimit: 60,
+    boostedVotePeriodLimit: 60,
+    thresholdConstA: 1,
+    thresholdConstB: 1,
+    minimumStakingFee: 0,
+    quietEndingPeriod: 0,
+    proposingRepRewardConstA: 1,
+    proposingRepRewardConstB: 1,
+    stakerFeeRatioForVoters: 1,
+    votersReputationLossRatio: 10,
+    votersGainRepRatioFromLostRep: 80,
+    governanceFormulasInterface: "0x0000000000000000000000000000000000000000"
+  };
+  const schemeRegistrarPermissions = "0x00000003";
+  const globalConstraintRegistrarPermissions = "0x00000005";
+  const upgradeSchemePermissions = "0x00000009";
+  const contributionRewardPermissions = "0x00000001";
+  const genesisProtocolPermissions = "0x00000001";
+
+  /**
+   * Apparently we must wrap the first deploy call in a `then` to avoid
+   * what seems to be race conditions during deployment.
+   */
+  deployer.deploy(DaoCreator, { gas: gasAmount }).then(async () => {
+
+    const daoCreatorInst = await DaoCreator.deployed();
+    /**
+     * Create the Genesis DAO
+     */
+    const tx = await daoCreatorInst.forgeOrg(
+      orgName,
+      tokenName,
+      tokenSymbol,
+      founders,
+      initTokenInWei,
+      initRepInWei,
+      // use the universal controller
+      0);
+
+    const AvatarInst = await Avatar.at(tx.logs[0].args._avatar);
+    const controllerAddress = await AvatarInst.owner();
+    const ControllerInst = await Controller.at(controllerAddress);
+    const nativeTokenAddress = await ControllerInst.nativeToken();
+    /**
+     * The voting machine.  GenesisProtocol must be deployed as a scheme if it is
+     * to be used by schemes as a voting machine, which is what all of the
+     * Genesis schemes do.
+     */
     await deployer.deploy(GenesisProtocol, nativeTokenAddress);
-    genesisProtocolInst = await GenesisProtocol.deployed();
-
-    // Deploy SchemeRegistrar:
+    const genesisProtocolInst = await GenesisProtocol.deployed();
+    /**
+     * The rest of the Genesis DAO's schemes
+     */
     await deployer.deploy(SchemeRegistrar);
-    schemeRegistrarInst = await SchemeRegistrar.deployed();
-    // Deploy UniversalUpgrade:
+    const schemeRegistrarInst = await SchemeRegistrar.deployed();
+
     await deployer.deploy(UpgradeScheme);
-    upgradeSchemeInst = await UpgradeScheme.deployed();
-    // Deploy UniversalGCScheme register:
+    const upgradeSchemeInst = await UpgradeScheme.deployed();
+
     await deployer.deploy(GlobalConstraintRegistrar);
-    globalConstraintRegistrarInst = await GlobalConstraintRegistrar.deployed();
+    const globalConstraintRegistrarInst = await GlobalConstraintRegistrar.deployed();
 
     await deployer.deploy(ContributionReward);
-    contributionRewardInst = await ContributionReward.deployed();
-
-    genesisProtocolParams = await genesisProtocolInst.getParametersHash(
+    const contributionRewardInst = await ContributionReward.deployed();
+    /**
+     * Set/get the GenesisProtocol voting parameters that will be used as defaults
+     * for the schemes' voting machine as we add the schemes to the Genesis DAO, below.
+     */
+    const genesisProtocolParams = await genesisProtocolInst.getParametersHash(
       [
         defaultVotingMachineParams.preBoostedVoteRequiredPercentage,
         defaultVotingMachineParams.preBoostedVotePeriodLimit,
@@ -126,19 +141,25 @@ module.exports = async (deployer) => {
       ],
       defaultVotingMachineParams.governanceFormulasInterface
     );
-
+    /**
+     * Set/get the Genesis DAO's scheme parameters, using the GenesisProtocol voting machine
+     * parameters that we just obtained above.
+     */
     await schemeRegistrarInst.setParameters(genesisProtocolParams, genesisProtocolParams, genesisProtocolInst.address);
-    schemeRegisterParams = await schemeRegistrarInst.getParametersHash(genesisProtocolParams, genesisProtocolParams, genesisProtocolInst.address);
+    const schemeRegisterParams = await schemeRegistrarInst.getParametersHash(genesisProtocolParams, genesisProtocolParams, genesisProtocolInst.address);
 
     await globalConstraintRegistrarInst.setParameters(genesisProtocolParams, genesisProtocolInst.address);
-    schemeGCRegisterParams = await globalConstraintRegistrarInst.getParametersHash(genesisProtocolParams, genesisProtocolInst.address);
+    const schemeGCRegisterParams = await globalConstraintRegistrarInst.getParametersHash(genesisProtocolParams, genesisProtocolInst.address);
 
     await upgradeSchemeInst.setParameters(genesisProtocolParams, genesisProtocolInst.address);
-    schemeUpgradeParams = await upgradeSchemeInst.getParametersHash(genesisProtocolParams, genesisProtocolInst.address);
+    const schemeUpgradeParams = await upgradeSchemeInst.getParametersHash(genesisProtocolParams, genesisProtocolInst.address);
 
-    await contributionRewardInst.setParameters(0, genesisProtocolParams, genesisProtocolInst.address);
-    contributionRewardParams = await contributionRewardInst.getParametersHash(0, genesisProtocolParams, genesisProtocolInst.address);
+    await contributionRewardInst.setParameters(orgNativeTokenFee, genesisProtocolParams, genesisProtocolInst.address);
+    const contributionRewardParams = await contributionRewardInst.getParametersHash(orgNativeTokenFee0, genesisProtocolParams, genesisProtocolInst.address);
 
+    /**
+     * Register the schemes with the Genesis DAO
+     */
     const schemesArray = [
       schemeRegistrarInst.address,
       globalConstraintRegistrarInst.address,
@@ -153,19 +174,27 @@ module.exports = async (deployer) => {
       contributionRewardParams,
       genesisProtocolParams];
 
-    const permissionArray = ["0x00000003", "0x00000005", "0x00000009", "0x00000001", "0x00000001"];
+    const permissionArray = [
+      schemeRegistrarPermissions,
+      globalConstraintRegistrarPermissions,
+      upgradeSchemePermissions,
+      contributionRewardPermissions,
+      genesisProtocolPermissions
+    ];
 
-    // set DAOstack initial schmes:
     await daoCreatorInst.setSchemes(
       AvatarInst.address,
       schemesArray,
       paramsArray,
       permissionArray);
 
+    /**
+     * Deploy the other universal schemes, voting machines and global constraints
+     */
     await deployer.deploy(AbsoluteVote);
     await deployer.deploy(SimpleICO);
     await deployer.deploy(TokenCapGC);
-    await deployer.deploy(UController, { gas: 6300000 });
+    await deployer.deploy(UController, { gas: gasAmount });
     await deployer.deploy(VestingScheme);
     await deployer.deploy(VoteInOrganizationScheme);
     await deployer.deploy(ExecutableTest);
