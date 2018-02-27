@@ -2,6 +2,7 @@ import abi = require("ethereumjs-abi");
 import TruffleContract = require("truffle-contract");
 import Web3 = require("web3");
 import { Config } from "./config";
+import { TransactionReceiptTruffle } from "./ExtendTruffleContract";
 
 export class Utils {
 
@@ -85,12 +86,17 @@ export class Utils {
    * Returns a value from the given transaction log.
    *
    * @param tx The transaction
-   * @param arg The name of the property whose value we wish to return,
-   *            from the args object: tx.logs[index].args[argName]
-   * @param eventName Overrides index, identifies which log, where tx.logs[n].event  === eventName
-   * @param index Identifies which log, when eventName is not given
+   * @param arg The name of the property whose value we wish to return from the args object:
+   *  tx.logs[index].args[argName]
+   * @param eventName Overrides index, identifies which log,
+   *  where tx.logs[n].event === eventName
+   * @param index Identifies which log when eventName is not given
    */
-  public static getValueFromLogs(tx, arg, eventName = null, index = 0): string {
+  public static getValueFromLogs(
+    tx: TransactionReceiptTruffle,
+    arg: string,
+    eventName: string = null,
+    index: number = 0): string {
     /**
      *
      * tx is an object with the following values:

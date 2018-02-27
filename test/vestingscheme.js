@@ -5,7 +5,7 @@ describe("VestingScheme scheme", () => {
   let dao;
   let vestingScheme;
 
-  const createAgreement = async function (options) {
+  const createAgreement = async (options) => {
 
     await dao.token.approve(vestingScheme.address, options.amountPerPeriod * options.numOfAgreedPeriods);
 

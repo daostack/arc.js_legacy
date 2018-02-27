@@ -57,15 +57,15 @@ export interface ArcDeployedContracts {
   /**
    * All deployed schemes
    */
-  schemes: ArcContractInfo[];
+  schemes: Array<ArcContractInfo>;
   /**
    * All deployed voting machines
    */
-  votingMachines: ArcContractInfo[];
+  votingMachines: Array<ArcContractInfo>;
   /**
    * All deployed global constraints
    */
-  globalConstraints: ArcContractInfo[];
+  globalConstraints: Array<ArcContractInfo>;
 }
 
 export class Contracts {

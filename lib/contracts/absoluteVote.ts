@@ -7,7 +7,6 @@ import {
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("AbsoluteVote");
-import * as BigNumber from "bignumber.js";
 import ContractWrapperFactory from "../ContractWrapperFactory";
 import { ExecuteProposalEventResult, NewProposalEventResult, VoteProposalEventResult } from "./commonEventInterfaces";
 

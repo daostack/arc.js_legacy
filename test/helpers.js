@@ -3,7 +3,6 @@ import { Config } from "../test-dist/config.js";
 import { assert } from "chai";
 import { DAO } from "../test-dist/dao.js";
 import { Contracts } from "../test-dist/contracts.js";
-const DAOToken = Utils.requireContract("DAOToken");
 import { SchemeRegistrar } from "../test-dist/contracts/schemeregistrar";
 
 export const NULL_HASH = Utils.NULL_HASH;
@@ -96,13 +95,6 @@ export async function addProposeContributionReward(dao) {
   return contributionReward;
 }
 
-export async function transferTokensToAvatar(avatar, amount, fromAddress) {
-  const tokenAddress = await avatar.nativeToken();
-  const schemeToken = await DAOToken.at(tokenAddress);
-  await schemeToken.transfer(avatar.address, amount, { from: fromAddress });
-  return tokenAddress;
-}
-
 export async function getSchemeParameter(dao, scheme, ndxParameter) {
   const schemeParams = await dao.getSchemeParameters(scheme);
   return schemeParams[ndxParameter];
@@ -134,15 +126,9 @@ export async function vote(votingMachine, proposalId, vote, voter) {
 
 export async function voteWasExecuted(votingMachine, proposalId) {
   return new Promise(async (resolve) => {
-    const event = votingMachine.ExecuteProposal({}, { fromBlock: 0 });
-    let found = false;
-    event.get((err, eventsArray) => {
-      for (const event of eventsArray) {
-        found = event.args._proposalId === proposalId;
-        if (found) { break; }
-      }
-      event.stopWatching(); // maybe not necessary, but just in case...
-      resolve(found);
+    const event = votingMachine.ExecuteProposal({ "_proposalId": proposalId }, { fromBlock: 0 });
+    event.get((err, events) => {
+      resolve(events.length === 1);
     });
   });
 }
@@ -215,4 +201,42 @@ export async function increaseTime(duration) {
 
 export async function getDaoScheme(dao, schemeName, factory) {
   return factory.at((await dao.getSchemes(schemeName))[0].address);
+}
+
+/**
+ * Transfer tokens
+ * @param {DAO} dao
+ * @param {number} amount - will be converted to Wei
+ * @param {string} fromAddress - optional, default is accounts[0]
+ * @param {string} token - token contract.  optional, default is dao.token
+ */
+export async function transferTokensToDao(dao, amount, fromAddress, token) {
+  fromAddress = fromAddress || accounts[0];
+  token = token ? token : dao.token;
+  token.transfer(dao.avatar.address, web3.toWei(amount), { from: fromAddress });
+}
+
+/**
+ * Approve transfer of the dao's native token
+ * Amount will be converted to Wei
+ * @param {DAO} dao
+ * @param {number} amount - will be converted to Wei
+ * @param {string} fromAddress - optional, default is accounts[0]
+ * @param {string} token - token contract.  optional, default is dao.token
+ */
+export async function approveDaoTokenWithdrawal(dao, amount, fromAddress, token) {
+  fromAddress = fromAddress || accounts[0];
+  token = token ? token : dao.token;
+  return token.approve(fromAddress, web3.toWei(amount));
+}
+
+/**
+ * Send eth to the dao's avatar
+ * @param {DAO} dao
+ * @param {number} amount -- will be converted to Wei
+ * @param {string} fromAddress  - optional, default is accounts[0]
+ */
+export async function transferEthToDao(dao, amount, fromAddress) {
+  fromAddress = fromAddress || accounts[0];
+  web3.eth.sendTransaction({ from: fromAddress, to: dao.avatar.address, value: web3.toWei(amount) });
 }

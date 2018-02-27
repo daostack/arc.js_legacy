@@ -86,7 +86,7 @@ export abstract class ExtendTruffleContract {
 
   /**
    * Call setParameters on this contract.
-   * Returns promise of ArcTransactionDataResult where Result is the parameters hash.
+   * Returns promise of ArcTransactionDataResult<Hash> where Result is the parameters hash.
    *
    * @param {any} params -- object with properties whose names are expected by the scheme to correspond to parameters.
    * Currently all params are required, contract wrappers do not as yet apply default values.
@@ -94,7 +94,7 @@ export abstract class ExtendTruffleContract {
   public async setParams(...args) {
     const parametersHash = await this.contract.getParametersHash(...args);
     const tx = await this.contract.setParameters(...args);
-    return new ArcTransactionDataResult(tx, parametersHash);
+    return new ArcTransactionDataResult<Hash>(tx, parametersHash);
   }
 
   /**
@@ -189,13 +189,13 @@ export abstract class ExtendTruffleContract {
  * a contract function that causes a transaction.
  */
 export interface TransactionReceiptTruffle {
-  logs: LogEntry[];
+  logs: Array<any>;
   receipt: TransactionReceipt;
-  transactionHash: string;
+  transactionHash: Hash;
   /**
    * address of the transaction
    */
-  tx: string;
+  tx: Address;
 }
 
 export class ArcTransactionResult {
@@ -205,7 +205,7 @@ export class ArcTransactionResult {
    */
   public tx: TransactionReceiptTruffle;
 
-  constructor(tx) {
+  constructor(tx: TransactionReceiptTruffle) {
     this.tx = tx;
   }
 
@@ -230,7 +230,7 @@ export class ArcTransactionProposalResult extends ArcTransactionResult {
    */
   public proposalId: string;
 
-  constructor(tx) {
+  constructor(tx: TransactionReceiptTruffle) {
     super(tx);
     this.proposalId = Utils.getValueFromLogs(tx, "_proposalId");
   }
@@ -238,13 +238,13 @@ export class ArcTransactionProposalResult extends ArcTransactionResult {
 /**
  * Base or actual type returned by all contract wrapper methods that generate a transaction and any other result.
  */
-export class ArcTransactionDataResult extends ArcTransactionResult {
+export class ArcTransactionDataResult<TData> extends ArcTransactionResult {
   /**
    * The data result to be returned
    */
-  public result: any;
+  public result: TData;
 
-  constructor(tx, result) {
+  constructor(tx: TransactionReceiptTruffle, result: TData) {
     super(tx);
     this.result = result;
   }
@@ -270,7 +270,7 @@ interface TransactionReceipt {
   cumulativeGasUsed: number;
   gasUsed: number;
   contractAddress: string | null;
-  logs: LogEntry[];
+  logs: Array<LogEntry>;
 }
 
 /**
@@ -309,13 +309,13 @@ export interface EventFetcher<TArgs> {
   stopWatching(): void;
 }
 
-type LogTopic = null | string | string[];
+type LogTopic = null | string | Array<string>;
 
 interface FilterObject {
   fromBlock?: number | string;
   toBlock?: number | string;
   address?: string;
-  topics?: LogTopic[];
+  topics?: Array<LogTopic>;
 }
 
 interface LogEntry {
@@ -326,7 +326,7 @@ interface LogEntry {
   blockNumber: number | null;
   address: string;
   data: string;
-  topics: string[];
+  topics: Array<string>;
 }
 
 interface LogEntryEvent extends LogEntry {

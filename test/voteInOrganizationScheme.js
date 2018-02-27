@@ -2,7 +2,7 @@ import { VoteInOrganizationScheme } from "../test-dist/contracts/voteInOrganizat
 import * as helpers from "./helpers";
 import { SchemeRegistrar } from "../test-dist/contracts/schemeregistrar";
 
-const createProposal = async function () {
+const createProposal = async () => {
 
   const originalDao = await helpers.forgeDao({
     name: "Original",
