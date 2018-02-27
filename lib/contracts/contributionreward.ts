@@ -345,11 +345,19 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
     for (const proposal of proposals) {
 
       rewardsArray.push({
-        ethReward: await this.computeRemainingReward(proposal, "ethReward", options.avatar, RewardType.Eth),
-        externalTokenReward: await this.computeRemainingReward(proposal, "externalTokenReward", options.avatar, RewardType.ExternalToken),
-        nativeTokenReward: await this.computeRemainingReward(proposal, "nativeTokenReward", options.avatar, RewardType.NativeToken),
+        ethReward: await this.computeRemainingReward(
+          proposal, "ethReward", options.avatar, RewardType.Eth),
+
+        externalTokenReward: await this.computeRemainingReward(
+          proposal, "externalTokenReward", options.avatar, RewardType.ExternalToken),
+
+        nativeTokenReward: await this.computeRemainingReward(
+          proposal, "nativeTokenReward", options.avatar, RewardType.NativeToken),
+
         proposalId: proposal.proposalId,
-        reputationChange: await this.computeRemainingReward(proposal, "reputationChange", options.avatar, RewardType.Reputation),
+
+        reputationChange: await this.computeRemainingReward(
+          proposal, "reputationChange", options.avatar, RewardType.Reputation),
       });
     }
 
