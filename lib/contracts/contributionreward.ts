@@ -316,8 +316,10 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
   }
 
   /**
-   * Return a list of executed (passed) proposals that have rewards
-   * waiting to be redeemed by the given beneficiary.
+   * Return a list of `ProposalRewards` for executed (passed by vote) proposals
+   * that have rewards waiting to be redeemed by the given beneficiary.
+   * `ProposalRewards` includes both the total amount redeemable and the amount
+   * yet-to-be redeemed.
    * @param opts
    */
   public async getBeneficiaryRewards(opts = {}): Promise<Array<ProposalRewards>> {
@@ -344,21 +346,23 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
 
     for (const proposal of proposals) {
 
-      rewardsArray.push({
-        ethReward: await this.computeRemainingReward(
-          proposal, "ethReward", options.avatar, RewardType.Eth),
+      const proposalRewards = {} as ProposalRewards;
 
-        externalTokenReward: await this.computeRemainingReward(
-          proposal, "externalTokenReward", options.avatar, RewardType.ExternalToken),
+      proposalRewards.proposalId = proposal.proposalId;
 
-        nativeTokenReward: await this.computeRemainingReward(
-          proposal, "nativeTokenReward", options.avatar, RewardType.NativeToken),
+      await this.computeRemainingReward(proposalRewards,
+        proposal, "ethReward", options.avatar, RewardType.Eth);
 
-        proposalId: proposal.proposalId,
+      await this.computeRemainingReward(proposalRewards,
+        proposal, "externalTokenReward", options.avatar, RewardType.ExternalToken);
 
-        reputationChange: await this.computeRemainingReward(
-          proposal, "reputationChange", options.avatar, RewardType.Reputation),
-      });
+      await this.computeRemainingReward(proposalRewards,
+        proposal, "nativeTokenReward", options.avatar, RewardType.NativeToken);
+
+      await this.computeRemainingReward(proposalRewards,
+        proposal, "reputationChange", options.avatar, RewardType.Reputation);
+
+      rewardsArray.push(proposalRewards);
     }
 
     return rewardsArray;
@@ -384,16 +388,18 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
   }
 
   private async computeRemainingReward(
+    proposalRewards: ProposalRewards,
     proposal: ContributionProposal,
     rewardName: string,
     avatar: Address,
-    rewardType: RewardType): Promise<BigNumber.BigNumber> {
+    rewardType: RewardType): Promise<void> {
 
     const amountToRedeemPerPeriod = proposal[rewardName];
     const countRedeemedPeriods = await this.contract.getRedeemedPeriods(proposal.proposalId, avatar, rewardType);
     const totalReward = amountToRedeemPerPeriod.mul(proposal.numberOfPeriods);
     const amountRewarded = amountToRedeemPerPeriod.mul(countRedeemedPeriods);
-    return totalReward.sub(amountRewarded);
+    proposalRewards[rewardName] = totalReward;
+    proposalRewards[`${rewardName}Unredeemed`] = totalReward.sub(amountRewarded);
   }
 
   private orgProposalToContributionProposal(orgProposal: Array<any>, proposalId: Hash): ContributionProposal {
@@ -516,10 +522,14 @@ export interface GetDaoProposalsParams {
   proposalId?: Hash;
 }
 
-interface ProposalRewards {
+export interface ProposalRewards {
   ethReward: BigNumber.BigNumber;
+  ethRewardUnredeemed: BigNumber.BigNumber;
   externalTokenReward: BigNumber.BigNumber;
+  externalTokenRewardUnredeemed: BigNumber.BigNumber;
   nativeTokenReward: BigNumber.BigNumber;
+  nativeTokenRewardUnredeemed: BigNumber.BigNumber;
   proposalId: Hash;
   reputationChange: BigNumber.BigNumber;
+  reputationChangeUnredeemed: BigNumber.BigNumber;
 }

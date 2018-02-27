@@ -226,8 +226,11 @@ describe("ContributionReward scheme", () => {
     let rewards2 = rewards.filter(p => p.proposalId === reputationChangeProposalId);
     assert(rewards2.length, "reputationChange not found");
 
-    assert.equal(web3.fromWei(rewards1[0].nativeTokenReward).toNumber(), 10, "incorrect remaining nativeToken amount");
-    assert.equal(web3.fromWei(rewards2[0].reputationChange).toNumber(), 10, "incorrect remaining reputationChange amount");
+    assert.equal(web3.fromWei(rewards1[0].nativeTokenRewardUnredeemed).toNumber(), 10, "incorrect remaining nativeToken amount");
+    assert.equal(rewards1[0].nativeTokenRewardUnredeemed.toNumber(), proposals[0].nativeTokenReward.toNumber(), "undereemed should equal total to be redeemed");
+    assert.equal(web3.fromWei(rewards2[0].reputationChangeUnredeemed).toNumber(), 10, "incorrect remaining reputationChange amount");
+
+    assert.equal(proposals[0].nativeTokenReward.toNumber(), rewards1[0].nativeTokenReward.toNumber(), "total redeemable should equal total redeemable");
 
     rewards = await scheme.getBeneficiaryRewards({
       avatar: dao.avatar.address,
@@ -272,7 +275,7 @@ describe("ContributionReward scheme", () => {
     assert(rewards2.length, "reputationChange not found");
     rewards2 = rewards2[0];
 
-    assert.equal(web3.fromWei(rewards1.nativeTokenReward).toNumber(), 0, "incorrect remaining nativeToken amount");
-    assert.equal(web3.fromWei(rewards2.reputationChange).toNumber(), 10, "incorrect remaining reputationChange amount");
+    assert.equal(web3.fromWei(rewards1.nativeTokenRewardUnredeemed).toNumber(), 0, "incorrect remaining nativeToken amount");
+    assert.equal(web3.fromWei(rewards2.reputationChangeUnredeemed).toNumber(), 10, "incorrect remaining reputationChange amount");
   });
 });

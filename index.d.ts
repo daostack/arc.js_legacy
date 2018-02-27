@@ -1201,11 +1201,15 @@ declare module "@daostack/arc.js" {
   }
 
   export interface ProposalRewards {
-    ethReward: BigNumber.BigNumber
+    ethReward: BigNumber.BigNumber;
+    ethUnredeemedReward: BigNumber.BigNumber;
     externalTokenReward: BigNumber.BigNumber;
+    externalUnredeemedTokenReward: BigNumber.BigNumber;
     nativeTokenReward: BigNumber.BigNumber;
+    nativeUnredeemedTokenReward: BigNumber.BigNumber;
     proposalId: Hash;
     reputationChange: BigNumber.BigNumber;
+    reputationUnredeemedChange: BigNumber.BigNumber;
   }
 
   export interface GetDaoProposalsParams {
@@ -1219,7 +1223,7 @@ declare module "@daostack/arc.js" {
     proposalId?: string;
   }
 
-  export interface GetBeneficiaryRewards {
+  export interface getBeneficiaryRewards {
     /**
      * The avatar under which the proposals were created
      */
@@ -1263,7 +1267,7 @@ declare module "@daostack/arc.js" {
     redeemExternalToken(options: ContributionRewardSpecifiedRedemptionParams): Promise<ArcTransactionResult>;
 
     getDaoProposals(options: GetDaoProposalsParams): Promise<Array<ContributionProposal>>;
-    getBeneficiaryRewards(options: GetBeneficiaryRewards): Promise<Array<ProposalRewards>>;
+    getBeneficiaryRewards(options: getBeneficiaryRewards): Promise<Array<ProposalRewards>>;
 
     setParams(params: ContributionRewardParams): Promise<ArcTransactionDataResult<Hash>>;
 
