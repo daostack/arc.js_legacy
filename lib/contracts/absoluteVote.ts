@@ -1,7 +1,9 @@
 "use strict";
+import dopts = require("default-options");
 
 import {
   Address,
+  ArcTransactionResult,
   ExtendTruffleContract,
   Hash,
 } from "../ExtendTruffleContract";
@@ -22,6 +24,38 @@ export class AbsoluteVoteWrapper extends ExtendTruffleContract {
   public VoteProposal = this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal");
   public CancelVoting = this.createEventFetcherFactory<CancelVotingEventResult>("CancelVoting");
 
+  /**
+   * Vote on a proposal
+   * @param {VoteConfig} opts
+   * @returns Promise<ArcTransactionResult>
+   */
+  public async vote(opts = {}) {
+
+    const defaults = {
+      onBehalfOf: null,
+      proposalId: undefined,
+      vote: undefined,
+    };
+
+    const options = dopts(opts, defaults, { allowUnknown: true });
+
+    if (!options.proposalId) {
+      throw new Error("proposalId is not defined");
+    }
+
+    if (!Number.isInteger(options.vote) || (options.vote < 0) || (options.vote > 2)) {
+      throw new Error("vote is not valid");
+    }
+
+    const tx = await this.contract.vote(
+      options.proposalId,
+      options.vote,
+      options.onBehalfOf ? { from: options.onBehalfOf } : undefined
+    );
+
+    return new ArcTransactionResult(tx);
+  }
+
   public async setParams(params) {
 
     params = Object.assign({},
@@ -38,7 +72,7 @@ export class AbsoluteVoteWrapper extends ExtendTruffleContract {
     return super.setParams(
       params.reputation,
       params.votePerc,
-      params.ownerVote,
+      params.ownerVote
     );
   }
 }

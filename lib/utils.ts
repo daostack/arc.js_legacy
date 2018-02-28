@@ -65,7 +65,7 @@ export class Utils {
       // No web3 is injected, look for a provider at providerUrl (which defaults to localhost)
       // This happens when running tests, or in a browser that is not running MetaMask
       preWeb3 = new Web3(
-        new Web3.providers.HttpProvider(Config.get("providerUrl")),
+        new Web3.providers.HttpProvider(Config.get("providerUrl"))
       );
     }
 

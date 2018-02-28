@@ -48,7 +48,7 @@ export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
     const tx = await this.contract.proposeVote(
       options.avatar,
       options.originalIntVote,
-      options.originalProposalId,
+      options.originalProposalId
     );
 
     return new ArcTransactionProposalResult(tx);
@@ -57,7 +57,7 @@ export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
   public async setParams(params) {
     return super.setParams(
       params.voteParametersHash,
-      params.votingMachine,
+      params.votingMachine
     );
   }
 

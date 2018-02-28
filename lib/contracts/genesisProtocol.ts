@@ -76,7 +76,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
       options.paramsHash,
       options.avatar,
       options.executable,
-      options.proposer,
+      options.proposer
     );
 
     return new ArcTransactionProposalResult(tx);
@@ -112,7 +112,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     const tx = await this.contract.stake(
       options.proposalId,
       options.vote,
-      amount,
+      amount
     );
 
     return new ArcTransactionResult(tx);
@@ -126,6 +126,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
   public async vote(opts = {}) {
 
     const defaults = {
+      onBehalfOf: null,
       proposalId: undefined,
       vote: undefined,
     };
@@ -141,6 +142,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     const tx = await this.contract.vote(
       options.proposalId,
       options.vote,
+      options.onBehalfOf ? { from: options.onBehalfOf } : undefined
     );
 
     return new ArcTransactionResult(tx);
@@ -175,7 +177,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
       options.proposalId,
       options.vote,
       options.reputation,
-      0,
+      0
     );
 
     return new ArcTransactionResult(tx);
@@ -205,7 +207,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
     const tx = await this.contract.redeem(
       options.proposalId,
-      options.beneficiary,
+      options.beneficiary
     );
 
     return new ArcTransactionResult(tx);
@@ -229,7 +231,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const shouldBoost = await this.contract.shouldBoost(
-      options.proposalId,
+      options.proposalId
     );
 
     return shouldBoost;
@@ -253,7 +255,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const score = await this.contract.score(
-      options.proposalId,
+      options.proposalId
     );
 
     // TODO: convert to number?
@@ -278,7 +280,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const threshold = await this.contract.threshold(
-      options.avatar,
+      options.avatar
     );
 
     // TODO: convert to number?
@@ -309,7 +311,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
     const redeemAmount = await this.contract.getRedeemableTokensStaker(
       options.proposalId,
-      options.beneficiary,
+      options.beneficiary
     );
 
     return redeemAmount;
@@ -333,7 +335,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const reputation = await this.contract.getRedeemableReputationProposer(
-      options.proposalId,
+      options.proposalId
     );
 
     return reputation;
@@ -363,7 +365,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
     const amount = await this.contract.getRedeemableTokensVoter(
       options.proposalId,
-      options.beneficiary,
+      options.beneficiary
     );
 
     return amount;
@@ -393,7 +395,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
     const reputation = await this.contract.getRedeemableReputationVoter(
       options.proposalId,
-      options.beneficiary,
+      options.beneficiary
     );
 
     return reputation;
@@ -423,7 +425,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
     const reputation = await this.contract.getRedeemableReputationStaker(
       options.proposalId,
-      options.beneficiary,
+      options.beneficiary
     );
 
     return reputation;
@@ -447,7 +449,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const numOfChoices = await this.contract.getNumberOfChoices(
-      options.proposalId,
+      options.proposalId
     );
 
     return numOfChoices.toNumber();
@@ -477,7 +479,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
     const result = await this.contract.voteInfo(
       options.proposalId,
-      options.voter,
+      options.voter
     );
 
     return {
@@ -508,7 +510,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
     const reputation = await this.contract.voteStatus(
       options.proposalId,
-      options.vote,
+      options.vote
     );
 
     /**
@@ -535,7 +537,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const votable = await this.contract.isVotable(
-      options.proposalId,
+      options.proposalId
     );
 
     return votable;
@@ -559,7 +561,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const result = await this.contract.proposalStatus(
-      options.proposalId,
+      options.proposalId
     );
 
     return {
@@ -587,7 +589,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const supply = await this.contract.totalReputationSupply(
-      options.proposalId,
+      options.proposalId
     );
 
     return supply;
@@ -611,7 +613,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const avatar = await this.contract.proposalAvatar(
-      options.proposalId,
+      options.proposalId
     );
 
     return avatar;
@@ -635,7 +637,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const result = await this.contract.scoreThresholdParams(
-      options.avatar,
+      options.avatar
     );
 
     // TODO:  convert to number??  dunno what these values represent.
@@ -669,7 +671,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
     const result = await this.contract.staker(
       options.proposalId,
-      options.staker,
+      options.staker
     );
 
     return {
@@ -699,7 +701,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
     const stake = await this.contract.voteStake(
       options.proposalId,
-      options.vote,
+      options.vote
     );
 
     return stake;
@@ -723,7 +725,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const winningVote = await this.contract.winningVote(
-      options.proposalId,
+      options.proposalId
     );
 
     return winningVote.toNumber();
@@ -747,7 +749,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     }
 
     const state = await this.contract.state(
-      options.proposalId,
+      options.proposalId
     );
 
     return state;
@@ -808,7 +810,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
         params.votersReputationLossRatio,
         params.votersGainRepRatioFromLostRep,
       ],
-      params.governanceFormulasInterface,
+      params.governanceFormulasInterface
     );
   }
 

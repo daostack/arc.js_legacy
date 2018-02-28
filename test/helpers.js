@@ -111,22 +111,29 @@ export async function getSchemeVotingMachine(dao, scheme, ndxVotingMachineParame
 }
 
 export async function getVotingMachineParameters(votingMachine, votingMachineParamsHash) {
-  return votingMachine.parameters(votingMachineParamsHash);
+  return votingMachine.contract.parameters(votingMachineParamsHash);
 }
 
 /**
  * vote for the proposal given by proposalId.
- * votingMachine must be the raw contract, not a wrapper.
  */
 export async function vote(votingMachine, proposalId, vote, voter) {
   voter = (voter ? voter : accounts[0]);
-  votingMachine = votingMachine.contract ? votingMachine.contract : votingMachine;
-  return await votingMachine.vote(proposalId, vote, { from: voter });
+  if (votingMachine.contract) {
+    return await votingMachine.vote({ proposalId: proposalId, vote: vote, onBehalfOf: voter });
+  } else {
+    return await votingMachine.vote(proposalId, vote, { from: voter });
+  }
 }
 
 export async function voteWasExecuted(votingMachine, proposalId) {
   return new Promise(async (resolve) => {
-    const event = votingMachine.ExecuteProposal({ "_proposalId": proposalId }, { fromBlock: 0 });
+    let event;
+    if (votingMachine.contract) {
+      event = votingMachine.contract.ExecuteProposal({ "_proposalId": proposalId }, { fromBlock: 0 });
+    } else {
+      event = votingMachine.ExecuteProposal({ "_proposalId": proposalId }, { fromBlock: 0 });
+    }
     event.get((err, events) => {
       resolve(events.length === 1);
     });

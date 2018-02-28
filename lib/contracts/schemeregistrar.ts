@@ -103,7 +103,7 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
 
         if (permissions > Number(this.getDefaultPermissions())) {
           throw new Error(
-            "SchemeRegistrar cannot work with schemes having greater permissions than its own",
+            "SchemeRegistrar cannot work with schemes having greater permissions than its own"
           );
         }
 
@@ -112,7 +112,7 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
       } catch (ex) {
         throw new Error(
           /* tslint:disable-next-line:max-line-length */
-          `Unable to obtain default information from the given scheme address. The address is invalid or the scheme is not an Arc scheme and in that case you must supply fee and tokenAddress. ${ex}`,
+          `Unable to obtain default information from the given scheme address. The address is invalid or the scheme is not an Arc scheme and in that case you must supply fee and tokenAddress. ${ex}`
         );
       }
     } else {
@@ -120,7 +120,7 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
 
       if (isRegistering === null) {
         throw new Error(
-          "isRegistering is not defined; it is required for non-Arc schemes (schemeName is undefined)",
+          "isRegistering is not defined; it is required for non-Arc schemes (schemeName is undefined)"
         );
       }
     }
@@ -129,7 +129,7 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
       options.avatar,
       options.scheme,
       options.schemeParametersHash,
-      isRegistering,
+      isRegistering
     );
 
     return new ArcTransactionProposalResult(tx);
@@ -159,7 +159,7 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
 
     const tx = await this.contract.proposeToRemoveScheme(
       options.avatar,
-      options.scheme,
+      options.scheme
     );
 
     return new ArcTransactionProposalResult(tx);
@@ -169,7 +169,7 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
     return super.setParams(
       params.voteParametersHash,
       params.voteParametersHash,
-      params.votingMachine,
+      params.votingMachine
     );
   }
 

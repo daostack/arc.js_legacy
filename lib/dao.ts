@@ -107,7 +107,7 @@ export class DAO {
 
     const registerSchemeEvent = controller.RegisterScheme(
       {},
-      { fromBlock: 0, toBlock: "latest" },
+      { fromBlock: 0, toBlock: "latest" }
     );
 
     await new Promise((resolve) => {
@@ -117,10 +117,10 @@ export class DAO {
           eventsArray,
           true,
           arcTypesMap,
-          schemesMap,
+          schemesMap
         ).then(() => {
           resolve();
-        }),
+        })
       );
     });
 
@@ -140,7 +140,7 @@ export class DAO {
     eventsArray,
     adding,
     arcTypesMap,
-    schemesMap, // : Promise<void>
+    schemesMap // : Promise<void>
   ) {
     if (!Array.isArray(eventsArray)) {
       eventsArray = [eventsArray];
@@ -217,7 +217,7 @@ export class DAO {
 
     const event = controller.AddGlobalConstraint(
       {},
-      { fromBlock: 0, toBlock: "latest" },
+      { fromBlock: 0, toBlock: "latest" }
     );
 
     await new Promise((resolve) => {
@@ -227,10 +227,10 @@ export class DAO {
           eventsArray,
           true,
           arcTypesMap,
-          constraintsMap,
+          constraintsMap
         ).then(() => {
           resolve();
-        }),
+        })
       );
     });
 
@@ -250,7 +250,7 @@ export class DAO {
     eventsArray,
     adding,
     arcTypesMap,
-    constraintsMap, // : Promise<void>
+    constraintsMap // : Promise<void>
   ) {
     if (!Array.isArray(eventsArray)) {
       eventsArray = [eventsArray];
@@ -305,6 +305,6 @@ export class DAO {
    */
   public async getSchemeParameters(scheme) {
     const schemeParams = await this.controller.getSchemeParameters(scheme.address, this.avatar.address);
-    return await scheme.parameters(schemeParams);
+    return await scheme.contract.parameters(schemeParams);
   }
 }

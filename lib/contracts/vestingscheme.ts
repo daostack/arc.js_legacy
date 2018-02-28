@@ -73,7 +73,7 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
       options.cliffInPeriods,
       options.signaturesReqToCancel,
       options.signers,
-      options.avatar,
+      options.avatar
     );
 
     return new ArcTransactionProposalResult(tx);
@@ -105,7 +105,7 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
       options.numOfAgreedPeriods,
       options.cliffInPeriods,
       options.signaturesReqToCancel,
-      options.signers,
+      options.signers
     );
 
     return new ArcTransactionAgreementResult(tx);
@@ -183,7 +183,7 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
   public async setParams(params) {
     return super.setParams(
       params.voteParametersHash,
-      params.votingMachine,
+      params.votingMachine
     );
   }
 

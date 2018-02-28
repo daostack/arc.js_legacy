@@ -68,7 +68,7 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
       options.avatar,
       options.globalConstraint,
       options.globalConstraintParametersHash,
-      options.votingMachineHash,
+      options.votingMachineHash
     );
 
     return new ArcTransactionProposalResult(tx);
@@ -98,7 +98,7 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
 
     const tx = await this.contract.proposeToRemoveGC(
       options.avatar,
-      options.globalConstraint,
+      options.globalConstraint
     );
 
     return new ArcTransactionProposalResult(tx);
@@ -107,7 +107,7 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
   public async setParams(params) {
     return super.setParams(
       params.voteParametersHash,
-      params.votingMachine,
+      params.votingMachine
     );
   }
 
