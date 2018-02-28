@@ -9,7 +9,7 @@ const ExecutableTest = Utils.requireContract("ExecutableTest");
 describe("GenesisProtocol", () => {
   let dao, genesisProtocol, paramsHash, executableTest;
 
-  const createProposal = async function () {
+  const createProposal = async () => {
 
     const result = await genesisProtocol.propose({
       avatar: dao.avatar.address,

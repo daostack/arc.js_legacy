@@ -54,7 +54,6 @@ export class DAO {
          */
         event.get((err, eventsArray) => {
           avatarAddress = eventsArray[0].args._avatar;
-          event.stopWatching(); // maybe not necessary, but just in case...
           resolve(avatarAddress);
         });
       } catch (ex) {
@@ -120,7 +119,6 @@ export class DAO {
           arcTypesMap,
           schemesMap,
         ).then(() => {
-          registerSchemeEvent.stopWatching();
           resolve();
         }),
       );
@@ -231,7 +229,6 @@ export class DAO {
           arcTypesMap,
           constraintsMap,
         ).then(() => {
-          event.stopWatching();
           resolve();
         }),
       );

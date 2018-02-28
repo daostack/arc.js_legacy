@@ -1,23 +1,32 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended"
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {},
+  "rules": {
+    "interface-name": [
+      false,
+      "always-prefix"
     ],
-    "jsRules": {},
-    "rules": {
-        "interface-name": [
-            false,
-            "always-prefix"
-        ],
-        "max-classes-per-file": [
-            false,
-            1
-        ],
-        "indent": [
-            true,
-            "spaces",
-            2
-        ]
-    },
-    "rulesDirectory": []
+    "max-classes-per-file": [
+      false,
+      1
+    ],
+    "indent": [
+      true,
+      "spaces",
+      2
+    ],
+    "no-unused-expression": [
+      true,
+      "allow-fast-null-checks"
+    ],
+    "no-unused-variable": true,
+    "array-type": [
+      true,
+      "generic"
+    ]
+  },
+  "rulesDirectory": []
 }

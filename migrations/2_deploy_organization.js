@@ -61,7 +61,7 @@ const defaultVotingMachineParams = {
   governanceFormulasInterface: "0x0000000000000000000000000000000000000000"
 };
 
-module.exports = async function (deployer) {
+module.exports = async (deployer) => {
   // Deploy DaoCreator:
   // apparently we must wrap the first deploy call in a then to avoid
   // what seem to be race conditions during deployment

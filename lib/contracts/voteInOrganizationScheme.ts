@@ -2,7 +2,6 @@
 import dopts = require("default-options");
 
 import {
-  Address,
   ArcTransactionProposalResult,
   ExtendTruffleContract,
   Hash,
@@ -71,5 +70,5 @@ const VoteInOrganizationScheme = new ContractWrapperFactory(SolidityContract, Vo
 export { VoteInOrganizationScheme };
 
 export interface VoteOnBehalfEventResult {
-  _params: Hash[];
+  _params: Array<Hash>;
 }

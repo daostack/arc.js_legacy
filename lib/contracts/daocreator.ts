@@ -9,7 +9,6 @@ import {
   Address,
   ArcTransactionResult,
   ExtendTruffleContract,
-  Hash,
 } from "../ExtendTruffleContract";
 const SolidityContract = Utils.requireContract("DaoCreator");
 import ContractWrapperFactory from "../ContractWrapperFactory";

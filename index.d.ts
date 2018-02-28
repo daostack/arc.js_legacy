@@ -45,8 +45,8 @@ declare module "@daostack/arc.js" {
   /**
    * Base or actual type returned by all contract wrapper methods that generate a transaction and any other result.
    */
-  export interface ArcTransactionDataResult extends ArcTransactionResult {
-    result: any;
+  export interface ArcTransactionDataResult<TData> extends ArcTransactionResult {
+    result: TData;
   }
 
   /**
@@ -196,11 +196,11 @@ declare module "@daostack/arc.js" {
     contract: any;
     /**
      * Call setParameters on this contract.
-     * Returns promise of ArcTransactionDataResult where Result is the parameters hash.
-     * @param {Promise<ArcTransactionDataResult<string>>} params -- object with properties whose names are expected by the scheme to correspond to parameters.
+     * Returns promise of ArcTransactionDataResult<Hash> where Result is the parameters hash.
+     * @param {Promise<ArcTransactionDataResult<Hash>>} params -- object with properties whose names are expected by the scheme to correspond to parameters.
      * Currently all params are required, contract wrappers do not as yet apply default values.
      */
-    setParams(params: any): Promise<ArcTransactionDataResult>;
+    setParams(params: any): Promise<ArcTransactionDataResult<Hash>>;
     /**
      * the address of the deployed contract
      */
@@ -805,7 +805,7 @@ declare module "@daostack/arc.js" {
       options: ProposeToRemoveGlobalConstraintParams
     ): Promise<ArcTransactionProposalResult>;
 
-    setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult>;
+    setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
   }
 
   /********************************
@@ -906,7 +906,7 @@ declare module "@daostack/arc.js" {
       options: ProposeToRemoveSchemeParams
     ): Promise<ArcTransactionProposalResult>;
 
-    setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult>;
+    setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
   }
 
   /********************************
@@ -994,7 +994,7 @@ declare module "@daostack/arc.js" {
       options: ProposeControllerParams
     ): Promise<ArcTransactionProposalResult>;
 
-    setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult>;
+    setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
   }
 
   /********************************
@@ -1175,6 +1175,69 @@ declare module "@daostack/arc.js" {
     _proposalId: Hash;
   }
 
+  export interface ContributionRewardSpecifiedRedemptionParams {
+    /**
+     * The avatar under which the proposal was made
+     */
+    avatar: string;
+    /**
+     * The reward proposal
+     */
+    proposalId: string;
+  }
+
+  export interface ContributionProposal {
+    contributionDescriptionHash: string;
+    nativeTokenReward: BigNumber.BigNumber;
+    reputationChange: BigNumber.BigNumber;
+    ethReward: BigNumber.BigNumber;
+    externalToken: string;
+    externalTokenReward: BigNumber.BigNumber;
+    beneficiary: string;
+    periodLength: number;
+    numberOfPeriods: number;
+    executionTime: number;
+    redeemedPeriods: Array<number>;
+  }
+
+  export interface ProposalRewards {
+    ethReward: BigNumber.BigNumber;
+    ethUnredeemedReward: BigNumber.BigNumber;
+    externalTokenReward: BigNumber.BigNumber;
+    externalUnredeemedTokenReward: BigNumber.BigNumber;
+    nativeTokenReward: BigNumber.BigNumber;
+    nativeUnredeemedTokenReward: BigNumber.BigNumber;
+    proposalId: Hash;
+    reputationChange: BigNumber.BigNumber;
+    reputationUnredeemedChange: BigNumber.BigNumber;
+  }
+
+  export interface GetDaoProposalsParams {
+    /**
+     * The avatar under which the proposals were created
+     */
+    avatar: string;
+    /**
+     * Optionally filter on the given proposalId
+     */
+    proposalId?: string;
+  }
+
+  export interface getBeneficiaryRewards {
+    /**
+     * The avatar under which the proposals were created
+     */
+    avatar: string;
+    /**
+     * The agent who is to receive the rewards
+     */
+    beneficiary: string;
+    /**
+     * Optionally filter on the given proposalId
+     */
+    proposalId?: string;
+  }
+
   export class ContributionReward extends ExtendTruffleScheme {
     static new(): ContributionReward;
     static at(address: string): ContributionReward;
@@ -1196,11 +1259,24 @@ declare module "@daostack/arc.js" {
 
     /**
      * Redeem reward for proposal
-     * @param {Promise<ArcTransactionDataResult<ContributionRewardRedeemResult>><ContributionRewardRedeemParams>} opts 
      */
     redeemContributionReward(options: ContributionRewardRedeemParams): Promise<ArcTransactionResult>;
+    redeemNativeToken(options: ContributionRewardSpecifiedRedemptionParams): Promise<ArcTransactionResult>;
+    redeemEther(options: ContributionRewardSpecifiedRedemptionParams): Promise<ArcTransactionResult>;
+    redeemReputation(options: ContributionRewardSpecifiedRedemptionParams): Promise<ArcTransactionResult>;
+    redeemExternalToken(options: ContributionRewardSpecifiedRedemptionParams): Promise<ArcTransactionResult>;
 
-    setParams(params: ContributionRewardParams): Promise<ArcTransactionDataResult>;
+    getDaoProposals(options: GetDaoProposalsParams): Promise<Array<ContributionProposal>>;
+    getBeneficiaryRewards(options: getBeneficiaryRewards): Promise<Array<ProposalRewards>>;
+
+    setParams(params: ContributionRewardParams): Promise<ArcTransactionDataResult<Hash>>;
+
+    /**
+     * Event functions as defined by the parent Truffle contract
+     */
+    NewContributionProposal(filters: any, options: any): any;
+    ProposalExecuted(filters: any, options: any): any;
+    ProposalDeleted(filters: any, options: any): any;
   }
 
   /********************************
@@ -1382,7 +1458,7 @@ declare module "@daostack/arc.js" {
      */
     collect(options: CollectVestingAgreementConfig): Promise<ArcTransactionResult>;
 
-    setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult>;
+    setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
   }
 
   /********************************
@@ -1427,7 +1503,7 @@ declare module "@daostack/arc.js" {
      */
     proposeVote(options: VoteInOrganizationProposeVoteConfig): Promise<ArcTransactionProposalResult>;
 
-    setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult>;
+    setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
   }
 
   /*******************
@@ -1831,6 +1907,6 @@ declare module "@daostack/arc.js" {
     getVoteStake(options: GetVoteStakeConfig): Promise<BigNumber.BigNumber>;
     getWinningVote(options: GetWinningVoteConfig): Promise<number>;
     getState(options: GetStateConfig): Promise<number>;
-    setParams(params: GenesisProtocolParams): Promise<ArcTransactionDataResult>;
+    setParams(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>>;
   }
 }

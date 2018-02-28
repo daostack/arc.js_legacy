@@ -38,7 +38,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
    * Submit a proposal for a reward for a contribution
    * @param {ProposeContributionParams} opts
    */
-  public async proposeContributionReward(opts = {}) {
+  public async proposeContributionReward(opts = {}): Promise<ArcTransactionProposalResult> {
     /**
      * Note that explicitly supplying any property with a value of undefined will prevent the property
      * from taking on its default value (weird behavior of default-options)
@@ -125,10 +125,10 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
   }
 
   /**
-   * Redeem reward for proposal
+   * Redeem the specified rewards for the beneficiary of the proposal
    * @param {ContributionRewardRedeemParams} opts
    */
-  public async redeemContributionReward(opts = {}) {
+  public async redeemContributionReward(opts = {}): Promise<ArcTransactionResult> {
     const defaults = {
       avatar: undefined,
       ethers: false,
@@ -157,6 +157,217 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
     return new ArcTransactionResult(tx);
   }
 
+  /**
+   * Redeem external token reward for the beneficiary of the proposal
+   * @param {ContributionRewardSpecifiedRedemptionParams} opts
+   */
+  public async redeemExternalToken(opts = {}): Promise<ArcTransactionResult> {
+
+    const defaults = {
+      avatar: undefined,
+      proposalId: undefined,
+    };
+
+    const options = dopts(opts, defaults, { allowUnknown: true });
+
+    if (!options.proposalId) {
+      throw new Error("proposalId is not defined");
+    }
+
+    if (!options.avatar) {
+      throw new Error("avatar address is not defined");
+    }
+
+    const tx = await this.contract.redeemExternalToken(
+      options.proposalId,
+      options.avatar,
+    );
+
+    return new ArcTransactionResult(tx);
+  }
+
+  /**
+   * Redeem reputation reward for the beneficiary of the proposal
+   * @param {ContributionRewardSpecifiedRedemptionParams} opts
+   */
+  public async redeemReputation(opts = {}): Promise<ArcTransactionResult> {
+
+    const defaults = {
+      avatar: undefined,
+      proposalId: undefined,
+    };
+
+    const options = dopts(opts, defaults, { allowUnknown: true });
+
+    if (!options.proposalId) {
+      throw new Error("proposalId is not defined");
+    }
+
+    if (!options.avatar) {
+      throw new Error("avatar address is not defined");
+    }
+
+    const tx = await this.contract.redeemReputation(
+      options.proposalId,
+      options.avatar,
+    );
+
+    return new ArcTransactionResult(tx);
+  }
+
+  /**
+   * Redeem native token reward for the beneficiary of the proposal
+   * @param {ContributionRewardSpecifiedRedemptionParams} opts
+   */
+  public async redeemNativeToken(opts = {}): Promise<ArcTransactionResult> {
+
+    const defaults = {
+      avatar: undefined,
+      proposalId: undefined,
+    };
+
+    const options = dopts(opts, defaults, { allowUnknown: true });
+
+    if (!options.proposalId) {
+      throw new Error("proposalId is not defined");
+    }
+
+    if (!options.avatar) {
+      throw new Error("avatar address is not defined");
+    }
+
+    const tx = await this.contract.redeemNativeToken(
+      options.proposalId,
+      options.avatar,
+    );
+
+    return new ArcTransactionResult(tx);
+  }
+
+  /**
+   * Redeem ether reward for the beneficiary of the proposal
+   * @param {ContributionRewardSpecifiedRedemptionParams} opts
+   */
+  public async redeemEther(opts = {}): Promise<ArcTransactionResult> {
+
+    const defaults = {
+      avatar: undefined,
+      proposalId: undefined,
+    };
+
+    const options = dopts(opts, defaults, { allowUnknown: true });
+
+    if (!options.proposalId) {
+      throw new Error("proposalId is not defined");
+    }
+
+    if (!options.avatar) {
+      throw new Error("avatar address is not defined");
+    }
+
+    const tx = await this.contract.redeemEther(
+      options.proposalId,
+      options.avatar,
+    );
+
+    return new ArcTransactionResult(tx);
+  }
+
+  /**
+   * Return all proposals ever created under the given avatar.
+   * Filter by the optional proposalId.
+   * @param opts
+   */
+  public async getDaoProposals(opts = {}): Promise<Array<ContributionProposal>> {
+
+    const defaults: GetDaoProposalsParams = {
+      avatar: undefined,
+      proposalId: null,
+    };
+
+    const options: GetDaoProposalsParams = dopts(opts, defaults, { allowUnknown: true });
+
+    if (!options.avatar) {
+      throw new Error("avatar address is not defined");
+    }
+
+    const proposals = new Array<ContributionProposal>();
+
+    if (options.proposalId) {
+      const orgProposal = await this.contract.organizationsProposals(options.avatar, options.proposalId);
+      const proposal = this.orgProposalToContributionProposal(orgProposal, options.proposalId);
+      proposals.push(proposal);
+    } else {
+      const eventFetcher = this.contract.NewContributionProposal({ _avatar: options.avatar }, { fromBlock: 0 });
+      await new Promise((resolve) => {
+        eventFetcher.get(async (err, events) => {
+          for (const event of events) {
+            const proposalId = event.args._proposalId;
+            const orgProposal = await this.contract.organizationsProposals(options.avatar, proposalId);
+            const proposal = this.orgProposalToContributionProposal(orgProposal, proposalId);
+            proposals.push(proposal);
+          }
+          resolve();
+        });
+      });
+    }
+
+    return proposals;
+  }
+
+  /**
+   * Return a list of `ProposalRewards` for executed (passed by vote) proposals
+   * that have rewards waiting to be redeemed by the given beneficiary.
+   * `ProposalRewards` includes both the total amount redeemable and the amount
+   * yet-to-be redeemed.
+   * @param opts
+   */
+  public async getBeneficiaryRewards(opts = {}): Promise<Array<ProposalRewards>> {
+
+    const defaults = {
+      avatar: undefined,
+      beneficiary: undefined,
+      proposalId: null,
+    };
+
+    const options = dopts(opts, defaults, { allowUnknown: true });
+
+    if (!options.avatar) {
+      throw new Error("avatar address is not defined");
+    }
+
+    if (!options.beneficiary) {
+      throw new Error("beneficiary is not defined");
+    }
+
+    const proposals = await this.getDaoProposals(options);
+
+    const rewardsArray = new Array<ProposalRewards>();
+
+    for (const proposal of proposals) {
+
+      const proposalRewards = {} as ProposalRewards;
+
+      proposalRewards.proposalId = proposal.proposalId;
+
+      await this.computeRemainingReward(proposalRewards,
+        proposal, "ethReward", options.avatar, RewardType.Eth);
+
+      await this.computeRemainingReward(proposalRewards,
+        proposal, "externalTokenReward", options.avatar, RewardType.ExternalToken);
+
+      await this.computeRemainingReward(proposalRewards,
+        proposal, "nativeTokenReward", options.avatar, RewardType.NativeToken);
+
+      await this.computeRemainingReward(proposalRewards,
+        proposal, "reputationChange", options.avatar, RewardType.Reputation);
+
+      rewardsArray.push(proposalRewards);
+    }
+
+    return rewardsArray;
+  }
+
   public async setParams(params) {
 
     params = Object.assign({},
@@ -175,6 +386,44 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
   public getDefaultPermissions(overrideValue?: string) {
     return overrideValue || "0x00000001";
   }
+
+  private async computeRemainingReward(
+    proposalRewards: ProposalRewards,
+    proposal: ContributionProposal,
+    rewardName: string,
+    avatar: Address,
+    rewardType: RewardType): Promise<void> {
+
+    const amountToRedeemPerPeriod = proposal[rewardName];
+    const countRedeemedPeriods = await this.contract.getRedeemedPeriods(proposal.proposalId, avatar, rewardType);
+    const totalReward = amountToRedeemPerPeriod.mul(proposal.numberOfPeriods);
+    const amountRewarded = amountToRedeemPerPeriod.mul(countRedeemedPeriods);
+    proposalRewards[rewardName] = totalReward;
+    proposalRewards[`${rewardName}Unredeemed`] = totalReward.sub(amountRewarded);
+  }
+
+  private orgProposalToContributionProposal(orgProposal: Array<any>, proposalId: Hash): ContributionProposal {
+    return {
+      beneficiary: orgProposal[6],
+      contributionDescriptionHash: orgProposal[9],
+      ethReward: orgProposal[3],
+      executionTime: orgProposal[9],
+      externalToken: orgProposal[4],
+      externalTokenReward: orgProposal[5],
+      nativeTokenReward: orgProposal[1],
+      numberOfPeriods: orgProposal[8],
+      periodLength: orgProposal[7],
+      proposalId,
+      reputationChange: orgProposal[2],
+    };
+  }
+}
+
+enum RewardType {
+  Reputation = 0,
+  NativeToken = 1,
+  Eth = 2,
+  ExternalToken = 3,
 }
 
 const ContributionReward = new ContractWrapperFactory(SolidityContract, ContributionRewardWrapper);
@@ -197,7 +446,7 @@ export interface NewContributionProposalEventResult {
    */
   _proposalId: Hash;
   _reputationChange: BigNumber.BigNumber;
-  _rewards: BigNumber.BigNumber[];
+  _rewards: Array<BigNumber.BigNumber>;
 }
 
 export interface RedeemEtherEventResult {
@@ -246,4 +495,41 @@ export interface RedeemExternalTokenEventResult {
    * indexed
    */
   _proposalId: Hash;
+}
+
+export interface ContributionProposal {
+  proposalId: Hash;
+  beneficiary: Address;
+  contributionDescriptionHash: Hash;
+  ethReward: BigNumber.BigNumber;
+  executionTime: number;
+  externalToken: Address;
+  externalTokenReward: BigNumber.BigNumber;
+  nativeTokenReward: BigNumber.BigNumber;
+  numberOfPeriods: number;
+  periodLength: number;
+  reputationChange: BigNumber.BigNumber;
+}
+
+export interface GetDaoProposalsParams {
+  /**
+   * The avatar under which the proposals were created
+   */
+  avatar: Address;
+  /**
+   * Optionally filter on the given proposalId
+   */
+  proposalId?: Hash;
+}
+
+export interface ProposalRewards {
+  ethReward: BigNumber.BigNumber;
+  ethRewardUnredeemed: BigNumber.BigNumber;
+  externalTokenReward: BigNumber.BigNumber;
+  externalTokenRewardUnredeemed: BigNumber.BigNumber;
+  nativeTokenReward: BigNumber.BigNumber;
+  nativeTokenRewardUnredeemed: BigNumber.BigNumber;
+  proposalId: Hash;
+  reputationChange: BigNumber.BigNumber;
+  reputationChangeUnredeemed: BigNumber.BigNumber;
 }
