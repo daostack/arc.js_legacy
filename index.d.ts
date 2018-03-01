@@ -417,6 +417,12 @@ declare module "@daostack/arc.js" {
     _voter: Address;
   }
 
+  export interface AbsoluteVoteParams {
+    ownerVote?: boolean,
+    reputation: string,
+    votePerc?: number,
+  }
+
   export class AbsoluteVote extends ExtendTruffleScheme {
     static new(): AbsoluteVote;
     static at(address: string): AbsoluteVote;
@@ -427,6 +433,9 @@ declare module "@daostack/arc.js" {
     ExecuteProposal: EventFetcherFactory<ExecuteProposalEventResult>;
     VoteProposal: EventFetcherFactory<VoteProposalEventResult>;
     CancelVoting: EventFetcherFactory<CancelVotingEventResult>;
+
+    vote(options: VoteConfig): Promise<ArcTransactionResult>;
+    setParams(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>>;
   }
 
   /********************************
@@ -1867,17 +1876,42 @@ declare module "@daostack/arc.js" {
     proposalId: string
   }
 
+  export interface StakeEventResult {
+    _amount: BigNumber.BigNumber;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+    _vote: number;
+    /**
+     * indexed
+     */
+    _voter: Address;
+  }
+
+  export interface RedeemEventResult {
+    _amount: BigNumber.BigNumber;
+    /**
+     * indexed
+     */
+    _beneficiary: Address;
+    /**
+     * indexed
+     */
+    _proposalId: Hash;
+  }
+
   export class GenesisProtocol extends ExtendTruffleScheme {
     static new(): GenesisProtocol;
     static at(address: string): GenesisProtocol;
     static deployed(): GenesisProtocol;
 
-    NewProposal: FetcherFactory<NewProposalEventResult>;
-    ExecuteProposal: FetcherFactory<ExecuteProposalEventResult>;
-    VoteProposal: FetcherFactory<VoteProposalEventResult>;
-    Stake: FetcherFactory<StakeEventResult>;
-    Redeem: FetcherFactory<RedeemEventResult>;
-    RedeemReputation: FetcherFactory<RedeemReputationEventResult>;
+    NewProposal: EventFetcherFactory<NewProposalEventResult>;
+    ExecuteProposal: EventFetcherFactory<ExecuteProposalEventResult>;
+    VoteProposal: EventFetcherFactory<VoteProposalEventResult>;
+    Stake: EventFetcherFactory<StakeEventResult>;
+    Redeem: EventFetcherFactory<RedeemEventResult>;
+    RedeemReputation: EventFetcherFactory<RedeemReputationEventResult>;
 
     propose(options: ProposeVoteConfig): Promise<ArcTransactionProposalResult>;
     stake(options: StakeConfig): Promise<ArcTransactionResult>;
@@ -1905,23 +1939,5 @@ declare module "@daostack/arc.js" {
     getWinningVote(options: GetWinningVoteConfig): Promise<number>;
     getState(options: GetStateConfig): Promise<number>;
     setParams(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>>;
-  }
-
-  /*******************
-   * AbsoluteVote
-   */
-  export interface AbsoluteVoteParams {
-    ownerVote?: boolean,
-    reputation: string,
-    votePerc?: number,
-  }
-
-  export class AbsoluteVote extends ExtendTruffleScheme {
-    static new(): AbsoluteVote;
-    static at(address: string): AbsoluteVote;
-    static deployed(): AbsoluteVote;
-
-    vote(options: VoteConfig): Promise<ArcTransactionResult>;
-    setParams(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult>;
   }
 }
