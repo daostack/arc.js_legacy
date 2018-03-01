@@ -1,6 +1,6 @@
 {
   "name": "@daostack/arc.js",
-  "version": "0.0.0-alpha.26",
+  "version": "0.0.0-alpha.27",
   "description": "A JavaScript library for interacting with @daostack/arc ethereum smart contracts",
   "main": "dist/arc.js",
   "types": "index.d.ts",
@@ -69,6 +69,7 @@
     "pm2": "^1.1.3",
     "promisify": "0.0.3",
     "pug": "^2.0.0-rc.1",
+    "run-with-ganache": "^0.1.1",
     "truffle-contract": "^3.0.1",
     "truffle-core-migrate-without-compile": "^4.0.7",
     "uint32": "^0.2.1"
