@@ -82,7 +82,7 @@ On Linux and others [until runAsync is fixed for Linux](http://github.com/daosta
 npm explore @daostack/arc.js -- npm start test.ganache.run
 ```
 
-On Windows: 
+On Windows:
 ```script
 npm explore @daostack/arc.js -- npm start test.ganache.runAsync
 ```
@@ -141,6 +141,8 @@ One thing to remember:  All token and reputation amounts should be expressed in 
 ## Working with DAOs
 
 Arc.js provides a class named "DAO" that enables you to create new DAOs and obtain information about them.
+
+`import { DAO } from '@daostack/arc.js';`
 
 ### Create a new DAO with all defaults
 
@@ -352,7 +354,7 @@ const arcJsWrapperCategories = await ArcJs.Contracts.getDeployedContracts();
 
 You may find that `getDeployedContracts()` is somewhat time-consuming to run the first time because it fetches all of the wrappers from the chain, but it does cache its results and run much faster thereafter.
 
-`getDeployedContracts()` returns a object that contains a wrapper factory and address of each deployed contract that has a wrapper, keyed by the contract `name`.  See `ArcDeployedContracts`.  
+`getDeployedContracts()` returns a object that contains a wrapper factory and address of each deployed contract that has a wrapper, keyed by the contract `name`.  See `ArcDeployedContracts`.
 
 The following sections show how you can obtain contract wrappers using factories, names and addresses.
 
@@ -401,7 +403,7 @@ The identical method is available on the DAO class:
 const upgradeScheme = await DAO.getScheme("UpgradeScheme");
 ```
 
-### Obtain a wrapper using the wrapper's factory class 
+### Obtain a wrapper using the wrapper's factory class
 
 Each wrapper has a factory that provides static `.new()`, `.deployed()` and `.at()` methods.  These methods are implemented by `ExtendTruffleContract`.
 
@@ -481,7 +483,7 @@ npm explore @daostack/arc.js -- npm start test.ganacheDb.run
 ```
 
 On Windows:
- 
+
  ```shell
 npm explore @daostack/arc.js -- npm start test.ganacheDb.runAsync
 ```
