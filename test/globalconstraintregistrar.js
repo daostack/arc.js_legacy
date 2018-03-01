@@ -44,7 +44,7 @@ describe("GlobalConstraintRegistrar", () => {
     // in the right places:
     const parametersForGCR = await dao.controller.getSchemeParameters(gcr.address, dao.avatar.address);
     // parametersForVotingInGCR are (voteRegisterParams (a hash) and boolVote)
-    const parametersForVotingInGCR = await gcr.parameters(parametersForGCR);
+    const parametersForVotingInGCR = await gcr.contract.parameters(parametersForGCR);
 
     // the info we just got consists of paramsHash and permissions
     const gcrPermissionsOnOrg = await dao.controller.getSchemePermissions(gcr.address, dao.avatar.address);
@@ -56,7 +56,7 @@ describe("GlobalConstraintRegistrar", () => {
     assert.equal(votingMachine.address, parametersForVotingInGCR[1]);
     // while the voteRegisterParams are known on the voting machine
     // and consist of [reputationSystem address, treshold percentage]
-    const voteRegisterParams = await votingMachine.parameters(parametersForVotingInGCR[0]);
+    const voteRegisterParams = await votingMachine.contract.parameters(parametersForVotingInGCR[0]);
 
     const msg = "These parameters are not known the voting machine...";
     assert.notEqual(voteRegisterParams[0], "0x0000000000000000000000000000000000000000", msg);

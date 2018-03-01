@@ -31,7 +31,7 @@ export class TestWrapperWrapper extends ExtendTruffleContract {
     return super.setParams(
       params.reputation,
       params.votePerc,
-      params.ownerVote,
+      params.ownerVote
     );
   }
 

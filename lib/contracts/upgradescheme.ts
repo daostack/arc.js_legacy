@@ -53,7 +53,7 @@ export class UpgradeSchemeWrapper extends ExtendTruffleContract {
 
     const tx = await this.contract.proposeUpgrade(
       options.avatar,
-      options.controller,
+      options.controller
     );
 
     return new ArcTransactionProposalResult(tx);
@@ -99,7 +99,7 @@ export class UpgradeSchemeWrapper extends ExtendTruffleContract {
     const tx = await this.contract.proposeChangeUpgradingScheme(
       options.avatar,
       options.scheme,
-      options.schemeParametersHash,
+      options.schemeParametersHash
     );
 
     return new ArcTransactionProposalResult(tx);
@@ -108,7 +108,7 @@ export class UpgradeSchemeWrapper extends ExtendTruffleContract {
   public async setParams(params) {
     return super.setParams(
       params.voteParametersHash,
-      params.votingMachine,
+      params.votingMachine
     );
   }
 

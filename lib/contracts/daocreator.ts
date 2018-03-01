@@ -69,7 +69,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
       options.founders.map((founder) => web3.toBigNumber(founder.address)),
       options.founders.map((founder) => web3.toBigNumber(founder.tokens)),
       options.founders.map((founder) => web3.toBigNumber(founder.reputation)),
-      controllerAddress,
+      controllerAddress
     );
 
     return new ArcTransactionResult(tx);
@@ -145,7 +145,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
        * scheme will be a contract wrapper
        */
       const scheme = await arcSchemeInfo.contract.at(
-        schemeOptions.address || arcSchemeInfo.address,
+        schemeOptions.address || arcSchemeInfo.address
       );
 
       let schemeVotingMachineParams = schemeOptions.votingMachineParams;
@@ -201,7 +201,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
             voteParametersHash: schemeVoteParametersHash,
             votingMachine: schemeVotingMachineParams.votingMachine,
           },
-          schemeOptions.additionalParams || {},
+          schemeOptions.additionalParams || {}
         ))).result;
 
       initialSchemesSchemes.push(scheme.address);
@@ -221,7 +221,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
       options.avatar,
       initialSchemesSchemes,
       initialSchemesParams,
-      initialSchemesPermissions,
+      initialSchemesPermissions
     );
 
     return new ArcTransactionResult(tx);

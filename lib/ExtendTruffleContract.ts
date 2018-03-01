@@ -19,7 +19,8 @@ import { Utils } from "./utils";
 export abstract class ExtendTruffleContract {
 
   /**
-   * The underlying truffle contract object
+   * The underlying truffle contract object.  Use this to access
+   * parts of the contract that aren't accessible via the wrapper.
    */
   public contract: any;
 
@@ -38,7 +39,7 @@ export abstract class ExtendTruffleContract {
   }
 
   /**
-   * Hypdrate from a newly-migrated instance.
+   * Initialize from a newly-migrated instance.
    * This will migrate a new instance of the contract to the net.
    * @returns this
    */
@@ -49,12 +50,11 @@ export abstract class ExtendTruffleContract {
     } catch {
       return undefined;
     }
-    this.hydrate();
     return this;
   }
 
   /**
-   * Hydrate from a given address on the current network.
+   * Initialize from a given address on the current network.
    * @param address of the deployed contract
    * @returns this
    */
@@ -65,12 +65,11 @@ export abstract class ExtendTruffleContract {
     } catch {
       return undefined;
     }
-    this.hydrate();
     return this;
   }
 
   /**
-   * Hydrate as it was migrated by Arc.js on the current network.
+   * Initialize as it was migrated by Arc.js on the current network.
    * @returns this
    */
   public async deployed() {
@@ -80,7 +79,6 @@ export abstract class ExtendTruffleContract {
     } catch {
       return undefined;
     }
-    this.hydrate();
     return this;
   }
 
@@ -134,7 +132,7 @@ export abstract class ExtendTruffleContract {
     const eventFetcherFactory = (
       argFilter: any,
       filterObject: FilterObject,
-      rootCallback?: EventCallback<TArgs>,
+      rootCallback?: EventCallback<TArgs>
     ): EventFetcher<TArgs> => {
 
       let baseEvent: EventFetcher<TArgs>;
@@ -173,14 +171,6 @@ export abstract class ExtendTruffleContract {
     };
 
     return eventFetcherFactory;
-  }
-
-  private hydrate() {
-    for (const i in this.contract) {
-      if (this[i] === undefined) {
-        this[i] = this.contract[i];
-      }
-    }
   }
 }
 
@@ -256,7 +246,7 @@ export type Address = string;
 export type EventCallback<TArgs> =
   (
     err: Error,
-    result: Array<DecodedLogEntryEvent<TArgs>>,
+    result: Array<DecodedLogEntryEvent<TArgs>>
   ) => void;
 
 interface TransactionReceipt {
@@ -292,12 +282,12 @@ export type EventFetcherFactory<TArgs> =
   (
     argFilter: any,
     filterObject: FilterObject,
-    callback?: EventCallback<TArgs>,
+    callback?: EventCallback<TArgs>
   ) => EventFetcher<TArgs>;
 
 export type EventFetcherHandler<TArgs> =
   (
-    callback: EventCallback<TArgs>,
+    callback: EventCallback<TArgs>
   ) => void;
 
 /**

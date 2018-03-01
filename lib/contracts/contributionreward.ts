@@ -105,7 +105,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
 
     if ((externalTokenReward > 0) && !options.externalToken) {
       throw new Error(
-        "external token reward is proposed but externalToken is not defined",
+        "external token reward is proposed but externalToken is not defined"
       );
     }
 
@@ -119,7 +119,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
       reputationChange,
       [nativeTokenReward, ethReward, externalTokenReward, options.periodLength, options.numberOfPeriods],
       options.externalToken,
-      options.beneficiary,
+      options.beneficiary
     );
     return new ArcTransactionProposalResult(tx);
   }
@@ -151,7 +151,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
     const tx = await this.contract.redeem(
       options.proposalId,
       options.avatar,
-      [options.reputation, options.nativeTokens, options.ethers, options.externalTokens],
+      [options.reputation, options.nativeTokens, options.ethers, options.externalTokens]
     );
 
     return new ArcTransactionResult(tx);
@@ -180,7 +180,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
 
     const tx = await this.contract.redeemExternalToken(
       options.proposalId,
-      options.avatar,
+      options.avatar
     );
 
     return new ArcTransactionResult(tx);
@@ -209,7 +209,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
 
     const tx = await this.contract.redeemReputation(
       options.proposalId,
-      options.avatar,
+      options.avatar
     );
 
     return new ArcTransactionResult(tx);
@@ -238,7 +238,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
 
     const tx = await this.contract.redeemNativeToken(
       options.proposalId,
-      options.avatar,
+      options.avatar
     );
 
     return new ArcTransactionResult(tx);
@@ -267,7 +267,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
 
     const tx = await this.contract.redeemEther(
       options.proposalId,
-      options.avatar,
+      options.avatar
     );
 
     return new ArcTransactionResult(tx);
@@ -379,7 +379,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
     return super.setParams(
       params.orgNativeTokenFee,
       params.voteParametersHash,
-      params.votingMachine,
+      params.votingMachine
     );
   }
 

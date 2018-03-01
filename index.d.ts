@@ -1270,13 +1270,6 @@ declare module "@daostack/arc.js" {
     getBeneficiaryRewards(options: getBeneficiaryRewards): Promise<Array<ProposalRewards>>;
 
     setParams(params: ContributionRewardParams): Promise<ArcTransactionDataResult<Hash>>;
-
-    /**
-     * Event functions as defined by the parent Truffle contract
-     */
-    NewContributionProposal(filters: any, options: any): any;
-    ProposalExecuted(filters: any, options: any): any;
-    ProposalDeleted(filters: any, options: any): any;
   }
 
   /********************************
@@ -1651,6 +1644,10 @@ declare module "@daostack/arc.js" {
 
   export interface VoteConfig {
     /**
+     * optional address of agent casting the vote.
+     */
+    onBehalfOf?: string,
+    /**
      * unique hash of proposal index in the scope of the scheme
      */
     proposalId: string,
@@ -1908,5 +1905,23 @@ declare module "@daostack/arc.js" {
     getWinningVote(options: GetWinningVoteConfig): Promise<number>;
     getState(options: GetStateConfig): Promise<number>;
     setParams(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>>;
+  }
+
+  /*******************
+   * AbsoluteVote
+   */
+  export interface AbsoluteVoteParams {
+    ownerVote?: boolean,
+    reputation: string,
+    votePerc?: number,
+  }
+
+  export class AbsoluteVote extends ExtendTruffleScheme {
+    static new(): AbsoluteVote;
+    static at(address: string): AbsoluteVote;
+    static deployed(): AbsoluteVote;
+
+    vote(options: VoteConfig): Promise<ArcTransactionResult>;
+    setParams(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult>;
   }
 }

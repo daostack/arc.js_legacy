@@ -127,7 +127,7 @@ describe("VoteInOrganizationScheme", () => {
     /**
      * confirm that a vote was cast by the original DAO's scheme
      */
-    const originalVoteEvent = proposalInfo.votingMachine.VoteProposal({}, { fromBlock: 0 });
+    const originalVoteEvent = proposalInfo.votingMachine.contract.VoteProposal({}, { fromBlock: 0 });
 
     await new Promise(async (resolve) => {
       originalVoteEvent.get((err, eventsArray) => {
