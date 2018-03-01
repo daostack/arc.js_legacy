@@ -82,6 +82,7 @@ npm explore @daostack/arc.js -- npm start test.ganache.run
 ```
 
 Or asynchronously in the background of your current shell window:
+```script
 npm explore @daostack/arc.js -- npm start test.ganache.runAsync
 ```
 

@@ -4,14 +4,14 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "preserveConstEnums": true,
-    "sourceRoot": "lib",
     "sourceMap": true,
     "baseUrl": "lib",
     "allowJs": true
   },
   "include": [
     "lib/**/*",
-    "custom_typings/system.d.ts"
+    "custom_typings/system.d.ts",
+    "index.d.ts"
   ],
   "exclude": [
     "node_modules",
