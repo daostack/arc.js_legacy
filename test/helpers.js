@@ -119,6 +119,9 @@ export async function getVotingMachineParameters(votingMachine, votingMachinePar
  */
 export async function vote(votingMachine, proposalId, vote, voter) {
   voter = (voter ? voter : accounts[0]);
+  /**
+   * depending on whether or not the wrapper was passed, do the right thing
+   */
   if (votingMachine.contract) {
     return await votingMachine.vote({ proposalId: proposalId, vote: vote, onBehalfOf: voter });
   } else {
@@ -129,6 +132,9 @@ export async function vote(votingMachine, proposalId, vote, voter) {
 export async function voteWasExecuted(votingMachine, proposalId) {
   return new Promise(async (resolve) => {
     let event;
+    /**
+     * depending on whether or not the wrapper was passed, do the right thing
+     */
     if (votingMachine.contract) {
       event = votingMachine.contract.ExecuteProposal({ "_proposalId": proposalId }, { fromBlock: 0 });
     } else {
