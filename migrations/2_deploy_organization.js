@@ -31,10 +31,8 @@ module.exports = async (deployer) => {
   const tokenName = "Gen";
   const tokenSymbol = "GEN";
   const founders = [web3.eth.accounts[0]];
-  const initRep = 10;
-  const initRepInWei = [web3.toWei(initRep)];
-  const initToken = 1000;
-  const initTokenInWei = [web3.toWei(initToken)];
+  const initRepInWei = [web3.toWei(10)];
+  const initTokenInWei = [web3.toWei(1000)];
   const orgNativeTokenFee = 0;
   const defaultVotingMachineParams = {
     preBoostedVoteRequiredPercentage: 50,
