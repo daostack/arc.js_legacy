@@ -4,9 +4,10 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "preserveConstEnums": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "sourceMap": true,
-    "baseUrl": "lib",
-    "allowJs": true
+    "baseUrl": "lib"
   },
   "include": [
     "lib/**/*",
@@ -15,6 +16,6 @@
   ],
   "exclude": [
     "node_modules",
-    "dist",
+    "dist"
   ]
 }
