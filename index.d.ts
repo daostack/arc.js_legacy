@@ -183,7 +183,7 @@ declare module "@daostack/arc.js" {
     /**
      * Instantiate the class as it was migrated to the given address on
      * the current network.
-     * @param address 
+     * @param address
      */
     static at(address: string): any;
     /**
@@ -210,7 +210,7 @@ declare module "@daostack/arc.js" {
 
   export class ExtendTruffleScheme extends ExtendTruffleContract {
     /**
-     * Returns a string containing an 8-digit hex number representing the minimum 
+     * Returns a string containing an 8-digit hex number representing the minimum
      * permissions that the scheme may have, as follows:
      *
      * 1st bit: Scheme is registered (a scheme always gets this bit when registered to a DAO)
@@ -534,7 +534,7 @@ declare module "@daostack/arc.js" {
      *
      * New schemes will be created with these parameters and the DAO's native reputation contract.
      *
-     * Defaults are the Arc.js-deployed AbsoluteVote, the Arc.js-deployed Reputation, votePerc 50%, ownerVote true 
+     * Defaults are the Arc.js-deployed AbsoluteVote, the Arc.js-deployed Reputation, votePerc 50%, ownerVote true
      */
     votingMachineParams?: NewDaoVotingMachineConfig;
     /**
@@ -586,14 +586,14 @@ declare module "@daostack/arc.js" {
     InitialSchemesSet: EventFetcherFactory<InitialSchemesSetEventResult>;
     /**
      * Create a new DAO
-     * @param {ForgeOrgConfig} options 
+     * @param {ForgeOrgConfig} options
      */
     forgeOrg(options: ForgeOrgConfig): Promise<ArcTransactionResult>;
     /**
      * Register schemes with newly-created DAO.
      * Can only be invoked by the agent that created the DAO
-     * via forgeOrg, and at that, can only be called one time. 
-     * @param {SetSchemesConfig} options 
+     * via forgeOrg, and at that, can only be called one time.
+     * @param {SetSchemesConfig} options
      */
     setSchemes(options: SetSchemesConfig): Promise<ArcTransactionResult>;
   }
@@ -717,7 +717,7 @@ declare module "@daostack/arc.js" {
      * The order of values in the array corresponds to the
      * order in which they are defined in the structure in which they
      * are stored in the scheme contract.
-     * @param {string} schemeAddress 
+     * @param {string} schemeAddress
      */
     getSchemeParameters(scheme: ExtendTruffleContract): Promise<Array<any>>;
   }
@@ -1046,7 +1046,7 @@ declare module "@daostack/arc.js" {
      */
     externalTokenReward?: BigNumber.BigNumber | string;
     /**
-     * The number of blocks in a period. 
+     * The number of blocks in a period.
      * Must be > 0.
      */
     periodLength: number;
@@ -1196,17 +1196,18 @@ declare module "@daostack/arc.js" {
   }
 
   export interface ContributionProposal {
+    beneficiary: string;
     contributionDescriptionHash: string;
-    nativeTokenReward: BigNumber.BigNumber;
-    reputationChange: BigNumber.BigNumber;
     ethReward: BigNumber.BigNumber;
+    executionTime: number;
     externalToken: string;
     externalTokenReward: BigNumber.BigNumber;
-    beneficiary: string;
-    periodLength: number;
+    nativeTokenReward: BigNumber.BigNumber;
     numberOfPeriods: number;
-    executionTime: number;
+    periodLength: number;
+    proposalId: Hash;
     redeemedPeriods: Array<number>;
+    reputationChange: BigNumber.BigNumber;
   }
 
   export interface ProposalRewards {
@@ -1434,29 +1435,29 @@ declare module "@daostack/arc.js" {
     Collect: EventFetcherFactory<CollectEventResult>;
     /**
      * Propose a new vesting agreement. The required funds will be minted to the vesting scheme on approval of the proposal.
-     * @param {ProposeVestingAgreementConfig} options 
+     * @param {ProposeVestingAgreementConfig} options
      */
     propose(options: ProposeVestingAgreementConfig): Promise<ArcTransactionProposalResult>;
     /**
       * Create a new vesting agreement, without a vote.
       * The caller (msg.Sender) pays the vesting scheme for the creation of the agreement.
-      * @param {CreateVestingAgreementConfig} options 
+      * @param {CreateVestingAgreementConfig} options
       */
     create(options: CreateVestingAgreementConfig): Promise<ArcTransactionAgreementResult>;
     /**
      * Sign to cancel a vesting agreement.
-     * @param {SignToCancelVestingAgreementConfig} options 
+     * @param {SignToCancelVestingAgreementConfig} options
      */
     signToCancel(options: SignToCancelVestingAgreementConfig): Promise<ArcTransactionResult>;
     /**
      * Revoke vote for cancelling a vesting agreement
-     * @param {RevokeSignToCancelVestingAgreementConfig} options 
+     * @param {RevokeSignToCancelVestingAgreementConfig} options
      */
     revokeSignToCancel(options: RevokeSignToCancelVestingAgreementConfig): Promise<ArcTransactionResult>;
     /**
      * Collects for a beneficiary, according to the agreement
       * The caller (msg.Sender) pays the beneficiary the accrued amount of tokens.
-     * @param {CollectVestingAgreementConfig} options 
+     * @param {CollectVestingAgreementConfig} options
      */
     collect(options: CollectVestingAgreementConfig): Promise<ArcTransactionResult>;
 
@@ -1468,7 +1469,7 @@ declare module "@daostack/arc.js" {
    */
   export interface VoteInOrganizationProposeVoteConfig {
     /**
-     * Avatar whose voters are being given the chance to vote on the original proposal. 
+     * Avatar whose voters are being given the chance to vote on the original proposal.
      */
     avatar: string,
     /**
@@ -1497,10 +1498,10 @@ declare module "@daostack/arc.js" {
      * Create a proposal whose choices look just like a proposal from another DAO.
      * When the vote on this proposal is concluded, the result is sent to the
      * "original" voting machine.
-     * 
+     *
      * This new proposal is thus effectively a proxy for the "original" proposal created
      * by another DAO, but this DAO only gets one vote in the original.
-     * 
+     *
      * @param {VoteInOrganizationProposeVoteConfig} opts
      */
     proposeVote(options: VoteInOrganizationProposeVoteConfig): Promise<ArcTransactionProposalResult>;
