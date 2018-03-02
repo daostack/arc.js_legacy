@@ -39,7 +39,8 @@
     "array-type": [
       true,
       "generic"
-    ]
+    ],
+    "no-misused-new": false
   },
   "rulesDirectory": []
 }
