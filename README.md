@@ -74,7 +74,9 @@ Now you can proceed with migrating contracts to a running testnet and configurin
 
 Arc.js runs against an Ethereum network where it assumes that the Arc contracts have been migrated.  Out of the box, Arc.js can find contracts migrated to the mainnet. But for testing, you will need to tell it to migrate the Arc contracts to a testnet of your choice.  You can do this by running a few Arc.js scripts.
 
-For example, to deploy contracts to a Ganache testnet, run the following scripts from the root of your application:
+**First a note**:  The following script examples assume you are running the scripts in the root folder of your application.  If you happen to be running the scripts in the context of a cloned Arc.js repository, omit the prefix `npm explore @daostack/arc.js -- `.
+
+To deploy contracts to a Ganache testnet, run the following scripts:
 
 Either synchronously in a separate shell window:
 ```script
@@ -84,6 +86,12 @@ npm explore @daostack/arc.js -- npm start test.ganache.run
 Or asynchronously in the background of your current shell window:
 ```script
 npm explore @daostack/arc.js -- npm start test.ganache.runAsync
+```
+
+If you are running the migration for the first time:
+
+```script
+npm explore @daostack/arc.js -- npm start migrateContracts.fetchFromArc
 ```
 
 Now migrate the Arc contracts to Ganache:
@@ -480,7 +488,7 @@ It can be very handy to run Arc.js tests or your application against a Ganache d
 ## Run Lint and Tests
 
 To run lint and the Arc.js tests, run the following script in the Arc.js root folder, assuming you have already
-(installed all the npm packages)(#installation), are (running a testnet with migrated Arc contracts)(#setting-up-a-testnet-with-arc-contracts):
+[installed all the npm packages](#installation), are [running a testnet with migrated Arc contracts](#setting-up-a-testnet-with-arc-contracts):
 
 ```
 npm test
