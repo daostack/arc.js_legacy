@@ -40,7 +40,19 @@
       true,
       "generic"
     ],
-    "no-misused-new": false
+    "no-misused-new": false,
+    "typedef": [
+      true,
+      "call-signature",
+      "parameter",
+      "member-variable-declaration",
+      "property-declaration",
+      "arrow-call-signature",
+      "arrow-parameter",
+      "object-destructuring",
+      "array-destructuring"
+    ],
+    "no-inferrable-types": false
   },
   "rulesDirectory": []
 }

@@ -3,10 +3,13 @@ import dopts = require("default-options");
 
 import {
   Address,
+  ArcTransactionDataResult,
   ArcTransactionProposalResult,
   ArcTransactionResult,
+  EventFetcherFactory,
   ExtendTruffleContract,
   Hash,
+  StandardSchemeParams,
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("ContributionReward");
@@ -25,13 +28,13 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
    */
 
   /* tslint:disable:max-line-length */
-  public NewContributionProposal = this.createEventFetcherFactory<NewContributionProposalEventResult>("NewContributionProposal");
-  public ProposalExecuted = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
-  public ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
-  public RedeemReputation = this.createEventFetcherFactory<RedeemReputationEventResult>("RedeemReputation");
-  public RedeemEther = this.createEventFetcherFactory<RedeemEtherEventResult>("RedeemEther");
-  public RedeemNativeToken = this.createEventFetcherFactory<RedeemNativeTokenEventResult>("RedeemNativeToken");
-  public RedeemExternalToken = this.createEventFetcherFactory<RedeemExternalTokenEventResult>("RedeemExternalToken");
+  public NewContributionProposal: EventFetcherFactory<NewContributionProposalEventResult> = this.createEventFetcherFactory<NewContributionProposalEventResult>("NewContributionProposal");
+  public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult> = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
+  public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult> = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
+  public RedeemReputation: EventFetcherFactory<RedeemReputationEventResult> = this.createEventFetcherFactory<RedeemReputationEventResult>("RedeemReputation");
+  public RedeemEther: EventFetcherFactory<RedeemEtherEventResult> = this.createEventFetcherFactory<RedeemEtherEventResult>("RedeemEther");
+  public RedeemNativeToken: EventFetcherFactory<RedeemNativeTokenEventResult> = this.createEventFetcherFactory<RedeemNativeTokenEventResult>("RedeemNativeToken");
+  public RedeemExternalToken: EventFetcherFactory<RedeemExternalTokenEventResult> = this.createEventFetcherFactory<RedeemExternalTokenEventResult>("RedeemExternalToken");
   /* tslint:enable:max-line-length */
 
   /**
@@ -298,7 +301,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
       const proposal = this.orgProposalToContributionProposal(orgProposal, options.proposalId);
       proposals.push(proposal);
     } else {
-      const eventFetcher = this.contract.NewContributionProposal({ _avatar: options.avatar }, { fromBlock: 0 });
+      const eventFetcher = this.NewContributionProposal({ _avatar: options.avatar }, { fromBlock: 0 });
       await new Promise((resolve) => {
         eventFetcher.get(async (err, events) => {
           for (const event of events) {
@@ -368,7 +371,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
     return rewardsArray;
   }
 
-  public async setParams(params) {
+  public async setParams(params: ContributionRewardParams): Promise<ArcTransactionDataResult<Hash>> {
 
     params = Object.assign({},
       {
@@ -383,7 +386,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
     );
   }
 
-  public getDefaultPermissions(overrideValue?: string) {
+  public getDefaultPermissions(overrideValue?: string): string {
     return overrideValue || "0x00000001";
   }
 
@@ -532,4 +535,8 @@ export interface ProposalRewards {
   proposalId: Hash;
   reputationChange: BigNumber.BigNumber;
   reputationChangeUnredeemed: BigNumber.BigNumber;
+}
+
+export interface ContributionRewardParams extends StandardSchemeParams {
+  orgNativeTokenFee: BigNumber.BigNumber | string;
 }

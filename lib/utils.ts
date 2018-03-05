@@ -2,12 +2,12 @@ import abi = require("ethereumjs-abi");
 import TruffleContract = require("truffle-contract");
 import Web3 = require("web3");
 import { Config } from "./config";
-import { TransactionReceiptTruffle } from "./ExtendTruffleContract";
+import { Address, Hash, TransactionReceiptTruffle } from "./ExtendTruffleContract";
 
 export class Utils {
 
-  static get NULL_ADDRESS() { return "0x0000000000000000000000000000000000000000"; }
-  static get NULL_HASH() { return "0x0000000000000000000000000000000000000000000000000000000000000000"; }
+  static get NULL_ADDRESS(): Address { return "0x0000000000000000000000000000000000000000"; }
+  static get NULL_HASH(): Hash { return "0x0000000000000000000000000000000000000000000000000000000000000000"; }
 
   /**
    * Returns TruffleContract given the name of the contract (like "SchemeRegistrar"), or undefined
@@ -84,6 +84,7 @@ export class Utils {
 
   /**
    * Returns a value from the given transaction log.
+   * Undefined if not found for any reason.
    *
    * @param tx The transaction
    * @param arg The name of the property whose value we wish to return from the args object:
@@ -96,7 +97,7 @@ export class Utils {
     tx: TransactionReceiptTruffle,
     arg: string,
     eventName: string = null,
-    index: number = 0): string {
+    index: number = 0): any | undefined {
     /**
      *
      * tx is an object with the following values:
@@ -118,7 +119,8 @@ export class Utils {
      *     args: { _avatar: "0xcc05f0cde8c3e4b6c41c9b963031829496107bbb" } } ]
      */
     if (!tx.logs || !tx.logs.length) {
-      throw new Error("getValueFromLogs: Transaction has no logs");
+      // TODO: log "getValueFromLogs: Transaction has no logs");
+      return undefined;
     }
 
     if (eventName && (eventName.length)) {
@@ -129,21 +131,21 @@ export class Utils {
         }
       }
       if (typeof index === "undefined") {
-        const msg = `getValueFromLogs: There is no event logged with eventName ${eventName}`;
-        throw new Error(msg);
+        // TODO: log  `getValueFromLogs: There is no event logged with eventName ${eventName}`
+        return undefined;
       }
     } else if (typeof index === "undefined") {
       index = tx.logs.length - 1;
     }
     if (tx.logs[index].type !== "mined") {
-      const msg = `getValueFromLogs: transaction has not been mined: ${tx.logs[index].event}`;
-      throw new Error(msg);
+      // TODO: log  `getValueFromLogs: transaction has not been mined: ${tx.logs[index].event}`
+      return undefined;
     }
     const result = tx.logs[index].args[arg];
 
     if (!result) {
-      const msg = `getValueFromLogs: This log does not seem to have a field "${arg}": ${tx.logs[index].args}`;
-      throw new Error(msg);
+      // TODO: log  `getValueFromLogs: This log does not seem to have a field "${arg}": ${tx.logs[index].args}`
+      return undefined;
     }
     return result;
   }
@@ -171,7 +173,7 @@ export class Utils {
    * properly translated into a bytes32 that solidity expects
    * @param str a string
    */
-  public static SHA3(str): string {
+  public static SHA3(str: string): string {
     return `0x${abi.soliditySHA3(["string"], [str]).toString("hex")}`;
   }
 
@@ -179,7 +181,7 @@ export class Utils {
    * Convert scheme permissions string to a number
    * @param {string} permissions
    */
-  public static permissionsStringToNumber(permissions): number {
+  public static permissionsStringToNumber(permissions: string): number {
     if (!permissions) { return 0; }
     return Number(permissions);
   }
@@ -188,11 +190,11 @@ export class Utils {
    * Convert number to a scheme permissions string
    * @param {Number} permissions
    */
-  public static numberToPermissionsString(permissions): string {
+  public static numberToPermissionsString(permissions: number): string {
     if (!permissions) { return "0x00000000"; }
     return `0x${("00000000" + permissions.toString(16)).substr(-8)}`;
   }
 
-  private static web3 = undefined;
-  private static alreadyTriedAndFailed = false;
+  private static web3: Web3 = undefined;
+  private static alreadyTriedAndFailed: boolean = false;
 }

@@ -4,9 +4,12 @@ import dopts = require("default-options");
 import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   Address,
+  ArcTransactionDataResult,
   ArcTransactionProposalResult,
+  EventFetcherFactory,
   ExtendTruffleContract,
   Hash,
+  StandardSchemeParams,
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
@@ -20,10 +23,10 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
    */
 
   /* tslint:disable:max-line-length */
-  public NewGlobalConstraintsProposal = this.createEventFetcherFactory<NewGlobalConstraintsProposalEventResult>("NewGlobalConstraintsProposal");
-  public RemoveGlobalConstraintsProposal = this.createEventFetcherFactory<RemoveGlobalConstraintsProposalEventResult>("RemoveGlobalConstraintsProposal");
-  public ProposalExecuted = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
-  public ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
+  public NewGlobalConstraintsProposal: EventFetcherFactory<NewGlobalConstraintsProposalEventResult> = this.createEventFetcherFactory<NewGlobalConstraintsProposalEventResult>("NewGlobalConstraintsProposal");
+  public RemoveGlobalConstraintsProposal: EventFetcherFactory<RemoveGlobalConstraintsProposalEventResult> = this.createEventFetcherFactory<RemoveGlobalConstraintsProposalEventResult>("RemoveGlobalConstraintsProposal");
+  public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult> = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
+  public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult> = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
   /* tslint:enable:max-line-length */
 
   public async proposeToAddModifyGlobalConstraint(opts = {}) {
@@ -104,14 +107,14 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
     return new ArcTransactionProposalResult(tx);
   }
 
-  public async setParams(params) {
+  public async setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
     return super.setParams(
       params.voteParametersHash,
       params.votingMachine
     );
   }
 
-  public getDefaultPermissions(overrideValue?: string) {
+  public getDefaultPermissions(overrideValue?: string): string {
     return overrideValue || "0x00000007";
   }
 }

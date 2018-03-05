@@ -1,15 +1,17 @@
 "use strict";
 import dopts = require("default-options");
-
 import {
   Address,
+  ArcTransactionDataResult,
   ArcTransactionProposalResult,
   ArcTransactionResult,
+  EventFetcherFactory,
   ExtendTruffleContract,
   Hash,
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("GenesisProtocol");
+import { VoteConfig } from "./absoluteVote";
 import * as BigNumber from "bignumber.js";
 import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
@@ -25,12 +27,12 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * Events
    */
 
-  public NewProposal = this.createEventFetcherFactory<NewProposalEventResult>("NewProposal");
-  public ExecuteProposal = this.createEventFetcherFactory<ExecuteProposalEventResult>("ExecuteProposal");
-  public VoteProposal = this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal");
-  public Stake = this.createEventFetcherFactory<StakeEventResult>("Stake");
-  public Redeem = this.createEventFetcherFactory<RedeemEventResult>("Redeem");
-  public RedeemReputation = this.createEventFetcherFactory<RedeemReputationEventResult>("RedeemReputation");
+  public NewProposal: EventFetcherFactory<NewProposalEventResult> = this.createEventFetcherFactory<NewProposalEventResult>("NewProposal");
+  public ExecuteProposal: EventFetcherFactory<ExecuteProposalEventResult> = this.createEventFetcherFactory<ExecuteProposalEventResult>("ExecuteProposal");
+  public VoteProposal: EventFetcherFactory<VoteProposalEventResult> = this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal");
+  public Stake: EventFetcherFactory<StakeEventResult> = this.createEventFetcherFactory<StakeEventResult>("Stake");
+  public Redeem: EventFetcherFactory<RedeemEventResult> = this.createEventFetcherFactory<RedeemEventResult>("Redeem");
+  public RedeemReputation: EventFetcherFactory<RedeemReputationEventResult> = this.createEventFetcherFactory<RedeemReputationEventResult>("RedeemReputation");
 
   /**
    * Create a proposal
@@ -123,15 +125,15 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {VoteConfig} opts
    * @returns Promise<ArcTransactionResult>
    */
-  public async vote(opts = {}) {
+  public async vote(opts: VoteConfig = {} as VoteConfig) {
 
     const defaults = {
       onBehalfOf: null,
       proposalId: undefined,
       vote: undefined,
-    };
+    } as VoteConfig;
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as VoteConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -767,7 +769,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GenesisProtocolParams} params
    * @returns parameters hash
    */
-  public async setParams(params) {
+  public async setParams(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>> {
 
     params = Object.assign({},
       {
@@ -814,7 +816,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     );
   }
 
-  public getDefaultPermissions(overrideValue?: string) {
+  public getDefaultPermissions(overrideValue?: string): string {
     return overrideValue || "0x00000001";
   }
 }
@@ -845,4 +847,76 @@ export interface RedeemEventResult {
    * indexed
    */
   _proposalId: Hash;
+}
+
+export interface GenesisProtocolParams {
+  /**
+   * the absolute vote percentages bar
+   * Must be greater than zero.
+   * Default is 50.
+   */
+  preBoostedVoteRequiredPercentage: number;
+  /**
+   * the time limit for a proposal to be in an absolute voting mode.
+   * TODO: Units? Default?
+   * Default is 60.
+   */
+  preBoostedVotePeriodLimit: number;
+  /**
+   * the time limit for a proposal to be in an relative voting mode.
+   * TODO: Units? Default?
+   * Default is 60.
+   */
+  boostedVotePeriodLimit: number;
+  /**
+   * TODO: Purpose?
+   * Default is 1
+   */
+  thresholdConstA: number;
+  /**
+   * TODO: Purpose?
+   * Default is 1
+   */
+  thresholdConstB: number;
+  /**
+   * GenesisProtocolFormulasInterface address
+   */
+  governanceFormulasInterface?: string;
+  /**
+   * Default is 0
+   */
+  minimumStakingFee: number;
+  /**
+   * TODO: Purpose?
+   * Default is 0
+   */
+  quietEndingPeriod: number;
+  /**
+   * TODO: Purpose?
+   * Default is 1
+   */
+  proposingRepRewardConstA: number;
+  /**
+   * TODO: Purpose?
+   * Default is 1
+   */
+  proposingRepRewardConstB: number;
+  /**
+   * a value between 0-100
+   * TODO: Purpose?
+   * Default is 1 (?)
+   */
+  stakerFeeRatioForVoters: number;
+  /**
+   * a value between 0-100
+   * TODO: Purpose?
+   * Default is 10
+   */
+  votersReputationLossRatio: number;
+  /**
+   * a value between 0-100
+   * TODO: Purpose?
+   * Default is 80
+   */
+  votersGainRepRatioFromLostRep: number;
 }

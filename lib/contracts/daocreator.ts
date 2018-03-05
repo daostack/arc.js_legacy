@@ -8,10 +8,12 @@ import { Contracts } from "../contracts.js";
 import {
   Address,
   ArcTransactionResult,
+  EventFetcherFactory,
   ExtendTruffleContract,
 } from "../ExtendTruffleContract";
 const SolidityContract = Utils.requireContract("DaoCreator");
 import ContractWrapperFactory from "../ContractWrapperFactory";
+import * as BigNumber from "bignumber.js";
 
 export class DaoCreatorWrapper extends ExtendTruffleContract {
 
@@ -19,8 +21,8 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
    * Events
    */
 
-  public NewOrg = this.createEventFetcherFactory<NewOrgEventResult>("NewOrg");
-  public InitialSchemesSet = this.createEventFetcherFactory<InitialSchemesSetEventResult>("InitialSchemesSet");
+  public NewOrg: EventFetcherFactory<NewOrgEventResult> = this.createEventFetcherFactory<NewOrgEventResult>("NewOrg");
+  public InitialSchemesSet: EventFetcherFactory<InitialSchemesSetEventResult> = this.createEventFetcherFactory<InitialSchemesSetEventResult>("InitialSchemesSet");
 
   /**
    * Create a new DAO
@@ -236,4 +238,133 @@ export interface NewOrgEventResult {
 }
 export interface InitialSchemesSetEventResult {
   _avatar: Address;
+}
+
+export interface FounderConfig {
+  /**
+   * Founders' address
+   */
+  address: string;
+  /**
+   * string | BigNumber array of token amounts to be awarded to each founder.
+   * Should be given in Wei.
+   */
+  tokens: string | BigNumber.BigNumber;
+  /**
+   * string | BigNumber array of reputation amounts to be awarded to each founder.
+   * Should be given in Wei.
+   */
+  reputation: string | BigNumber.BigNumber;
+}
+
+export interface NewDaoVotingMachineConfig {
+  /**
+   * Optional Reputation address.
+   * Default is the new DAO's native reputation.
+   */
+  reputation?: string;
+  /**
+   * Optional VotingMachine name
+   * Default is AbsoluteVote
+   */
+  votingMachineName?: string;
+  /**
+   * Optional VotingMachine address
+   * Default is that of AbsoluteVote
+   */
+  votingMachine?: string;
+  /**
+   * You can add your voting-machine-specific parameters here, like ownerVote, votePerc, etc
+   */
+  [x: string]: any;
+}
+
+/**
+ * options for DaoCreator.forgeOrg
+ */
+export interface ForgeOrgConfig {
+  /**
+   * The name of the new DAO.
+   */
+  name: string;
+  /**
+   * The name of the token to be associated with the DAO
+   */
+  tokenName: string;
+  /**
+   * The symbol of the token to be associated with the DAO
+   */
+  tokenSymbol: string;
+  /**
+   * Optional array describing founders.
+   * Default is [].
+   */
+  founders: Array<FounderConfig>;
+  /**
+   * true to use the UniversalController contract, false to instantiate and use a new Controller contract.
+   * The default is true.
+   */
+  universalController?: boolean;
+}
+
+/**
+ * Configuration of an Arc scheme that you want to automatically register with a new DAO.
+ */
+export interface SchemeConfig {
+  /**
+   * The name of the Arc scheme.  It must be an Arc scheme.
+   */
+  name: string;
+  /**
+   * Scheme address if you don't want to use the scheme supplied in this release of Arc.js.
+   */
+  address?: string;
+  /**
+   * Extra permissions on the scheme.  The minimum permissions for the scheme
+   * will be enforced (or'd with anything you supply).
+   * See ExtendTruffleContract.getDefaultPermissions for what this string
+   * should look like.
+   */
+  permissions?: string;
+  /**
+   * Optional votingMachine parameters if you have not supplied them in NewDaoConfig or want to override them.
+   * Note it costs more gas to add them here.
+   *
+   * New schemes will be created with these parameters and the DAO's native reputation contract.
+   *
+   * Defaults are the Arc.js-deployed AbsoluteVote, the Arc.js-deployed Reputation, votePerc 50%, ownerVote true
+   */
+  votingMachineParams?: NewDaoVotingMachineConfig;
+  /**
+   * Other scheme parameters, any params besides those already provided in votingMachineParams.
+   * For example, ContributionReward requires orgNativeTokenFee.
+   *
+   * Default is {}
+   */
+  additionalParams?: any;
+}
+
+export interface SchemesConfig {
+  /**
+   * default votingMachine parameters if you have not configured a scheme that you want to register with the
+   * new DAO with its own voting parameters.
+   *
+   * New schemes will be created these parameters.
+   *
+   * Defaults are described in NewDaoVotingMachineConfig.
+   */
+  votingMachineParams?: NewDaoVotingMachineConfig;
+  /**
+   * Any Arc schemes you would like to automatically register with the new DAO.
+   * Non-Arc schemes are not allowed here.  You may add them later in your application's workflow
+   * using SchemeRegistrar.
+   */
+  schemes?: Array<SchemeConfig>;
+}
+
+export interface SetSchemesConfig extends SchemesConfig {
+  /**
+   * avatar address
+   */
+  avatar: string;
 }

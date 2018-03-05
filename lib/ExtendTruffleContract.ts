@@ -43,10 +43,10 @@ export abstract class ExtendTruffleContract {
    * This will migrate a new instance of the contract to the net.
    * @returns this
    */
-  public async new(...rest) {
+  public async new(...rest: Array<any>): Promise<any> {
     try {
       this.contract = await this.solidityContract.new(...rest)
-        .then((contract) => contract, (error) => { throw error; });
+        .then((contract: any) => contract, (error: any) => { throw error; });
     } catch {
       return undefined;
     }
@@ -58,10 +58,10 @@ export abstract class ExtendTruffleContract {
    * @param address of the deployed contract
    * @returns this
    */
-  public async at(address) {
+  public async at(address: string): Promise<any> {
     try {
       this.contract = await this.solidityContract.at(address)
-        .then((contract) => contract, (error) => { throw error; });
+        .then((contract: any) => contract, (error: any) => { throw error; });
     } catch {
       return undefined;
     }
@@ -72,10 +72,10 @@ export abstract class ExtendTruffleContract {
    * Initialize as it was migrated by Arc.js on the current network.
    * @returns this
    */
-  public async deployed() {
+  public async deployed(): Promise<any> {
     try {
       this.contract = await this.solidityContract.deployed()
-        .then((contract) => contract, (error) => { throw error; });
+        .then((contract: any) => contract, (error: any) => { throw error; });
     } catch {
       return undefined;
     }
@@ -89,7 +89,7 @@ export abstract class ExtendTruffleContract {
    * @param {any} params -- object with properties whose names are expected by the scheme to correspond to parameters.
    * Currently all params are required, contract wrappers do not as yet apply default values.
    */
-  public async setParams(...args) {
+  public async setParams(...args: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
     const parametersHash = await this.contract.getParametersHash(...args);
     const tx = await this.contract.setParameters(...args);
     return new ArcTransactionDataResult<Hash>(tx, parametersHash);
@@ -98,11 +98,11 @@ export abstract class ExtendTruffleContract {
   /**
    * The subclass must override this for there to be any permissions at all, unless caller provides a value.
    */
-  public getDefaultPermissions(overrideValue?: string) {
+  public getDefaultPermissions(overrideValue?: string): string {
     return overrideValue || "0x00000000";
   }
 
-  public get address() { return this.contract.address; }
+  public get address(): Address { return this.contract.address; }
 
   /**
    * Return a function that creates an EventFetcher<TArgs>.
@@ -140,20 +140,20 @@ export abstract class ExtendTruffleContract {
       const eventFetcher = {
 
         get(callback?: EventCallback<TArgs>): void {
-          baseEvent.get((error, logs) => {
-            if (!Array.isArray(logs)) {
-              logs = [logs];
+          baseEvent.get((error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>) => {
+            if (!Array.isArray(log)) {
+              log = [log];
             }
-            callback(error, logs);
+            callback(error, log);
           });
         },
 
         watch(callback?: EventCallback<TArgs>): void {
-          baseEvent.watch((error, logs) => {
-            if (!Array.isArray(logs)) {
-              logs = [logs];
+          baseEvent.watch((error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>) => {
+            if (!Array.isArray(log)) {
+              log = [log];
             }
-            callback(error, logs);
+            callback(error, log);
           });
         },
 
@@ -165,7 +165,15 @@ export abstract class ExtendTruffleContract {
        * if callback is set then this will start watching immediately,
        * otherwise caller must use `get` and `watch`
        */
-      baseEvent = that.contract[eventName](argFilter, filterObject, rootCallback);
+      const wrapperRootCallback: EventCallback<TArgs> | undefined = rootCallback ?
+        (error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>): void => {
+          if (!Array.isArray(log)) {
+            log = [log];
+          }
+          rootCallback(error, log);
+        } : undefined;
+
+      baseEvent = that.contract[eventName](argFilter, filterObject, wrapperRootCallback);
 
       return eventFetcher;
     };
@@ -206,7 +214,7 @@ export class ArcTransactionResult {
    * @param index - Index of the log in which to look for the value, when eventName is not given.
    * Default is the index of the last log in the transaction.
    */
-  public getValueFromTx(valueName, eventName = null, index = 0): any {
+  public getValueFromTx(valueName: string, eventName: string = null, index: number = 0): any | undefined {
     return Utils.getValueFromLogs(this.tx, valueName, eventName, index);
   }
 }
@@ -240,13 +248,10 @@ export class ArcTransactionDataResult<TData> extends ArcTransactionResult {
   }
 }
 
-export type Hash = string;
-export type Address = string;
-
 export type EventCallback<TArgs> =
   (
     err: Error,
-    result: Array<DecodedLogEntryEvent<TArgs>>
+    log: Array<DecodedLogEntryEvent<TArgs>>
   ) => void;
 
 interface TransactionReceipt {
@@ -299,16 +304,16 @@ export interface EventFetcher<TArgs> {
   stopWatching(): void;
 }
 
-type LogTopic = null | string | Array<string>;
+export type LogTopic = null | string | Array<string>;
 
-interface FilterObject {
+export interface FilterObject {
   fromBlock?: number | string;
   toBlock?: number | string;
   address?: string;
   topics?: Array<LogTopic>;
 }
 
-interface LogEntry {
+export interface LogEntry {
   logIndex: number | null;
   transactionIndex: number | null;
   transactionHash: string;
@@ -319,15 +324,20 @@ interface LogEntry {
   topics: Array<string>;
 }
 
-interface LogEntryEvent extends LogEntry {
+export interface LogEntryEvent extends LogEntry {
   removed: boolean;
 }
 
-interface DecodedLogEntry<TArgs> extends LogEntryEvent {
+export interface DecodedLogEntry<TArgs> extends LogEntryEvent {
   event: string;
   args: TArgs;
 }
 
-interface DecodedLogEntryEvent<TArgs> extends DecodedLogEntry<TArgs> {
+export interface DecodedLogEntryEvent<TArgs> extends DecodedLogEntry<TArgs> {
   removed: boolean;
+}
+
+export interface StandardSchemeParams {
+  voteParametersHash: Hash;
+  votingMachine: Address;
 }

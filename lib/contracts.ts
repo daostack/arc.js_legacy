@@ -72,7 +72,7 @@ export class Contracts {
 
   public static contracts: ArcDeployedContracts;
 
-  public static async getDeployedContracts() {
+  public static async getDeployedContracts(): Promise<ArcDeployedContracts> {
 
     if (!Contracts.contracts) {
       /**
@@ -167,17 +167,19 @@ export class Contracts {
   }
 
   /**
-   * Returns an Arc.js scheme wrapper, or undefined if not found
+   * Returns an Arc.js scheme wrapper, if wrapped, else raw Truffle contract,
+   * or undefined if not found
    * @param contract - name of an Arc scheme, like "SchemeRegistrar"
    * @param address - optional
    */
-  public static async getScheme(contract: string, address?: string): Promise<ExtendTruffleContract | undefined> {
+  public static async getScheme(contract: string, address?: string)
+    : Promise<ExtendTruffleContract | undefined> {
     const contracts = await Contracts.getDeployedContracts();
     const contractInfo = contracts.allContracts[contract];
     if (!contractInfo) {
       return undefined;
     }
     return contractInfo.contract.at(address ? address : contractInfo.address)
-      .then((resultingContract) => resultingContract, () => undefined);
+      .then((resultingContract: ExtendTruffleContract) => resultingContract, () => undefined);
   }
 }

@@ -3,9 +3,12 @@ import dopts = require("default-options");
 
 import {
   Address,
+  ArcTransactionDataResult,
   ArcTransactionProposalResult,
+  EventFetcherFactory,
   ExtendTruffleContract,
   Hash,
+  StandardSchemeParams,
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 
@@ -20,10 +23,10 @@ export class UpgradeSchemeWrapper extends ExtendTruffleContract {
    */
 
   /* tslint:disable:max-line-length */
-  public NewUpgradeProposal = this.createEventFetcherFactory<NewUpgradeProposalEventResult>("NewUpgradeProposal");
-  public ChangeUpgradeSchemeProposal = this.createEventFetcherFactory<ChangeUpgradeSchemeProposalEventResult>("ChangeUpgradeSchemeProposal");
-  public ProposalExecuted = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
-  public ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
+  public NewUpgradeProposal: EventFetcherFactory<NewUpgradeProposalEventResult> = this.createEventFetcherFactory<NewUpgradeProposalEventResult>("NewUpgradeProposal");
+  public ChangeUpgradeSchemeProposal: EventFetcherFactory<ChangeUpgradeSchemeProposalEventResult> = this.createEventFetcherFactory<ChangeUpgradeSchemeProposalEventResult>("ChangeUpgradeSchemeProposal");
+  public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult> = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
+  public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult> = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
   /* tslint:enable:max-line-length */
 
   /*******************************************
@@ -105,14 +108,14 @@ export class UpgradeSchemeWrapper extends ExtendTruffleContract {
     return new ArcTransactionProposalResult(tx);
   }
 
-  public async setParams(params) {
+  public async setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
     return super.setParams(
       params.voteParametersHash,
       params.votingMachine
     );
   }
 
-  public getDefaultPermissions(overrideValue?: string) {
+  public getDefaultPermissions(overrideValue?: string): string {
     return overrideValue || "0x0000000b";
   }
 }

@@ -5,7 +5,7 @@ export default class ContractWrapperFactory<TContract extends ExtendTruffleContr
   constructor(private solidityContract: any, private wrapper: new (solidityContract: any) => TContract) {
   }
 
-  public async new(...rest): Promise<TContract> {
+  public async new(...rest: Array<any>): Promise<TContract> {
     return new this.wrapper(this.solidityContract).new(...rest);
   }
 

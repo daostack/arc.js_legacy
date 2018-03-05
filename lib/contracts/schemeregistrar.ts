@@ -4,9 +4,12 @@ import dopts = require("default-options");
 import { Contracts } from "../contracts.js";
 import {
   Address,
+  ArcTransactionDataResult,
   ArcTransactionProposalResult,
+  EventFetcherFactory,
   ExtendTruffleContract,
   Hash,
+  StandardSchemeParams,
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
@@ -20,10 +23,10 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
    * Events
    */
 
-  public NewSchemeProposal = this.createEventFetcherFactory<NewSchemeProposalEventResult>("NewSchemeProposal");
-  public RemoveSchemeProposal = this.createEventFetcherFactory<RemoveSchemeProposalEventResult>("RemoveSchemeProposal");
-  public ProposalExecuted = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
-  public ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
+  public NewSchemeProposal: EventFetcherFactory<NewSchemeProposalEventResult> = this.createEventFetcherFactory<NewSchemeProposalEventResult>("NewSchemeProposal");
+  public RemoveSchemeProposal: EventFetcherFactory<RemoveSchemeProposalEventResult> = this.createEventFetcherFactory<RemoveSchemeProposalEventResult>("RemoveSchemeProposal");
+  public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult> = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
+  public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult> = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
 
   /**
    * Note relating to permissions: According rules defined in the Controller,
@@ -165,7 +168,7 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
     return new ArcTransactionProposalResult(tx);
   }
 
-  public async setParams(params) {
+  public async setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
     return super.setParams(
       params.voteParametersHash,
       params.voteParametersHash,
@@ -173,7 +176,7 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
     );
   }
 
-  public getDefaultPermissions(overrideValue?: string) {
+  public getDefaultPermissions(overrideValue?: string): string {
     return overrideValue || "0x00000003";
   }
 }
