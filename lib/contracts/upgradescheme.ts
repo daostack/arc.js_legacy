@@ -30,7 +30,9 @@ export class UpgradeSchemeWrapper extends ExtendTruffleContract {
   /*******************************************
    * proposeController
    */
-  public async proposeController(opts = {}) {
+  public async proposeController(
+    opts: ProposeControllerParams = {} as ProposeControllerParams)
+    : Promise<ArcTransactionProposalResult> {
     const defaults = {
       /**
        * avatar address
@@ -42,7 +44,7 @@ export class UpgradeSchemeWrapper extends ExtendTruffleContract {
       controller: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeControllerParams;
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
@@ -63,7 +65,9 @@ export class UpgradeSchemeWrapper extends ExtendTruffleContract {
   /********************************************
    * proposeUpgradingScheme
    */
-  public async proposeUpgradingScheme(opts = {}) {
+  public async proposeUpgradingScheme(
+    opts: ProposeUpgradingSchemeParams = {} as ProposeUpgradingSchemeParams)
+    : Promise<ArcTransactionProposalResult> {
     /**
      * Note that explicitly supplying any property with a value of undefined will prevent the property
      * from taking on its default value (weird behavior of default-options)
@@ -83,7 +87,7 @@ export class UpgradeSchemeWrapper extends ExtendTruffleContract {
       schemeParametersHash: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeUpgradingSchemeParams;
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
@@ -152,4 +156,30 @@ export interface ChangeUpgradeSchemeProposalEventResult {
    */
   _proposalId: Hash;
   newUpgradeScheme: Address;
+}
+
+export interface ProposeUpgradingSchemeParams {
+  /**
+   * avatar address
+   */
+  avatar: string;
+  /**
+   *  upgrading scheme address
+   */
+  scheme: string;
+  /**
+   * hash of the parameters of the upgrading scheme. These must be already registered with the new scheme.
+   */
+  schemeParametersHash: string;
+}
+
+export interface ProposeControllerParams {
+  /**
+   * avatar address
+   */
+  avatar: string;
+  /**
+   *  controller address
+   */
+  controller: string;
 }

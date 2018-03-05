@@ -1,6 +1,6 @@
 "use strict";
 import dopts = require("default-options");
-import { Address, Hash } from "../commonTypes";
+import { Address, Hash, VoteConfig } from "../commonTypes";
 
 import {
   ArcTransactionDataResult,
@@ -96,21 +96,6 @@ export interface CancelVotingEventResult {
    */
   _proposalId: Hash;
   _voter: Address;
-}
-
-export interface VoteConfig {
-  /**
-   * optional address of agent casting the vote.
-   */
-  onBehalfOf?: string;
-  /**
-   * unique hash of proposal index in the scope of the scheme
-   */
-  proposalId: string;
-  /**
-   * the choice of vote. Can be 1 (YES) or 2 (NO).
-   */
-  vote: number;
 }
 
 export interface AbsoluteVoteParams {

@@ -21,10 +21,12 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
    * Events
    */
 
+  /* tslint:disable:max-line-length */
   public NewSchemeProposal: EventFetcherFactory<NewSchemeProposalEventResult> = this.createEventFetcherFactory<NewSchemeProposalEventResult>("NewSchemeProposal");
   public RemoveSchemeProposal: EventFetcherFactory<RemoveSchemeProposalEventResult> = this.createEventFetcherFactory<RemoveSchemeProposalEventResult>("RemoveSchemeProposal");
   public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult> = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
   public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult> = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
+  /* tslint:enable:max-line-length */
 
   /**
    * Note relating to permissions: According rules defined in the Controller,
@@ -36,7 +38,9 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
    * The Controller will throw an exception when an attempt is made
    * to add or remove schemes having greater permissions than the scheme attempting the change.
    */
-  public async proposeToAddModifyScheme(opts = {}) {
+  public async proposeToAddModifyScheme(
+    opts: ProposeToAddModifySchemeParams = {} as ProposeToAddModifySchemeParams)
+    : Promise<ArcTransactionProposalResult> {
     /**
      * Note that explicitly supplying any property with a value of undefined will prevent the property
      * from taking on its default value (weird behavior of default-options).
@@ -69,7 +73,7 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
       schemeParametersHash: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeToAddModifySchemeParams;
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
@@ -136,7 +140,9 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
     return new ArcTransactionProposalResult(tx);
   }
 
-  public async proposeToRemoveScheme(opts = {}) {
+  public async proposeToRemoveScheme(
+    opts: ProposeToRemoveSchemeParams = {} as ProposeToRemoveSchemeParams)
+    : Promise<ArcTransactionProposalResult> {
     const defaults = {
       /**
        * avatar address
@@ -214,4 +220,42 @@ export interface RemoveSchemeProposalEventResult {
    */
   _proposalId: Hash;
   _scheme: Address;
+}
+
+export interface ProposeToAddModifySchemeParams {
+  /**
+   * avatar address
+   */
+  avatar: string;
+  /**
+   * scheme address
+   */
+  scheme: string;
+  /**
+   * scheme identifier, like "SchemeRegistrar" or "ContributionReward".
+   * pass null if registering a non-arc scheme
+   */
+  schemeName?: string | null;
+  /**
+   * hash of scheme parameters. These must be already registered with the new scheme.
+   */
+  schemeParametersHash: string;
+  /**
+   * true if the given scheme is able to register/unregister/modify schemes.
+   *
+   * isRegistering should only be supplied when schemeName is not given (and thus the scheme is non-Arc).
+   * Otherwise we determine its value based on scheme and schemeName.
+   */
+  isRegistering?: boolean | null;
+}
+
+export interface ProposeToRemoveSchemeParams {
+  /**
+   * avatar address
+   */
+  avatar: string;
+  /**
+   *  the address of the global constraint to remove
+   */
+  scheme: string;
 }

@@ -1,6 +1,7 @@
 "use strict";
+import * as BigNumber from "bignumber.js";
 import dopts = require("default-options");
-import { Address, Hash } from "../commonTypes";
+import { Address, Hash, VoteConfig } from "../commonTypes";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
@@ -10,8 +11,6 @@ import {
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("GenesisProtocol");
-import { VoteConfig } from "./absoluteVote";
-import * as BigNumber from "bignumber.js";
 import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ExecuteProposalEventResult,
@@ -26,19 +25,21 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * Events
    */
 
+  /* tslint:disable:max-line-length */
   public NewProposal: EventFetcherFactory<NewProposalEventResult> = this.createEventFetcherFactory<NewProposalEventResult>("NewProposal");
   public ExecuteProposal: EventFetcherFactory<ExecuteProposalEventResult> = this.createEventFetcherFactory<ExecuteProposalEventResult>("ExecuteProposal");
   public VoteProposal: EventFetcherFactory<VoteProposalEventResult> = this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal");
   public Stake: EventFetcherFactory<StakeEventResult> = this.createEventFetcherFactory<StakeEventResult>("Stake");
   public Redeem: EventFetcherFactory<RedeemEventResult> = this.createEventFetcherFactory<RedeemEventResult>("Redeem");
   public RedeemReputation: EventFetcherFactory<RedeemReputationEventResult> = this.createEventFetcherFactory<RedeemReputationEventResult>("RedeemReputation");
+  /* tslint:enable:max-line-length */
 
   /**
    * Create a proposal
    * @param {ProposeVoteConfig} options
    * @returns Promise<ArcTransactionProposalResult>
    */
-  public async propose(opts = {}) {
+  public async propose(opts: ProposeVoteConfig = {} as ProposeVoteConfig): Promise<ArcTransactionProposalResult> {
     /**
      * see GenesisProtocolProposeVoteConfig
      */
@@ -50,7 +51,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
       proposer: Utils.getDefaultAccount(),
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeVoteConfig;
 
     if (!options.avatar) {
       throw new Error("avatar is not defined");
@@ -88,7 +89,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {StakeConfig} opts
    * @returns Promise<ArcTransactionResult>
    */
-  public async stake(opts = {}) {
+  public async stake(opts: StakeConfig = {} as StakeConfig): Promise<ArcTransactionResult> {
 
     const defaults = {
       amount: undefined,
@@ -96,7 +97,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
       vote: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as StakeConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -124,7 +125,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {VoteConfig} opts
    * @returns Promise<ArcTransactionResult>
    */
-  public async vote(opts: VoteConfig = {} as VoteConfig) {
+  public async vote(opts: VoteConfig = {} as VoteConfig): Promise<ArcTransactionResult> {
 
     const defaults = {
       onBehalfOf: null,
@@ -155,14 +156,16 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {VoteWithSpecifiedAmountsConfig} opts
    * @returns Promise<ArcTransactionResult>
    */
-  public async voteWithSpecifiedAmounts(opts = {}) {
+  public async voteWithSpecifiedAmounts(
+    opts: VoteWithSpecifiedAmountsConfig = {} as VoteWithSpecifiedAmountsConfig)
+    : Promise<ArcTransactionResult> {
     const defaults = {
       proposalId: undefined,
       reputation: undefined,
       vote: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as VoteWithSpecifiedAmountsConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -189,14 +192,14 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {RedeemConfig} opts
    * @returns Promise<ArcTransactionResult>
    */
-  public async redeem(opts = {}) {
+  public async redeem(opts: RedeemConfig = {} as RedeemConfig): Promise<ArcTransactionResult> {
 
     const defaults = {
       beneficiary: undefined,
       proposalId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as RedeemConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -219,13 +222,13 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {ShouldBoostConfig} opts
    * @returns Promise<boolean>
    */
-  public async shouldBoost(opts = {}) {
+  public async shouldBoost(opts: ShouldBoostConfig = {} as ShouldBoostConfig): Promise<boolean> {
 
     const defaults = {
       proposalId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as ShouldBoostConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -240,16 +243,16 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
   /**
    * Return the current proposal score.
-   * @param {GetScoreCOnfig} opts
+   * @param {GetScoreConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  public async getScore(opts = {}) {
+  public async getScore(opts: GetScoreConfig = {} as GetScoreConfig): Promise<BigNumber.BigNumber> {
 
     const defaults = {
       proposalId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetScoreConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -268,13 +271,13 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GetThresholdConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  public async getThreshold(opts = {}) {
+  public async getThreshold(opts: GetThresholdConfig = {} as GetThresholdConfig): Promise<BigNumber.BigNumber> {
 
     const defaults = {
       avatar: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetThresholdConfig;
 
     if (!options.avatar) {
       throw new Error("avatar is not defined");
@@ -293,14 +296,15 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GetRedeemableTokensStakerConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  public async getRedeemableTokensStaker(opts = {}) {
+  public async getRedeemableTokensStaker(opts: GetRedeemableTokensStakerConfig = {} as GetRedeemableTokensStakerConfig)
+    : Promise<BigNumber.BigNumber> {
 
     const defaults = {
       beneficiary: undefined,
       proposalId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetRedeemableTokensStakerConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -323,7 +327,9 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GetRedeemableReputationProposerConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  public async getRedeemableReputationProposer(opts = {}) {
+  public async getRedeemableReputationProposer(
+    opts: GetRedeemableReputationProposerConfig = {} as GetRedeemableReputationProposerConfig)
+    : Promise<BigNumber.BigNumber> {
 
     const defaults = {
       proposalId: undefined,
@@ -347,14 +353,16 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GetRedeemableTokensVoterConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  public async getRedeemableTokensVoter(opts = {}) {
+  public async getRedeemableTokensVoter(
+    opts: GetRedeemableTokensVoterConfig = {} as GetRedeemableTokensVoterConfig)
+    : Promise<BigNumber.BigNumber> {
 
     const defaults = {
       beneficiary: undefined,
       proposalId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetRedeemableTokensVoterConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -374,17 +382,19 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
   /**
    * Return the reputation amount to which the voter is entitled in the event that the proposal is approved.
-   * @param {RetRedeemableReputationVoterConfig} opts
+   * @param {GetRedeemableReputationVoterConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  public async getRedeemableReputationVoter(opts = {}) {
+  public async getRedeemableReputationVoter(
+    opts: GetRedeemableReputationVoterConfig = {} as GetRedeemableReputationVoterConfig)
+    : Promise<BigNumber.BigNumber> {
 
     const defaults = {
       beneficiary: undefined,
       proposalId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetRedeemableReputationVoterConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -407,14 +417,16 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GetRedeemableReputationStakerConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  public async getRedeemableReputationStaker(opts = {}) {
+  public async getRedeemableReputationStaker(
+    opts: GetRedeemableReputationStakerConfig = {} as GetRedeemableReputationStakerConfig)
+    : Promise<BigNumber.BigNumber> {
 
     const defaults = {
       beneficiary: undefined,
       proposalId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetRedeemableReputationStakerConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -437,13 +449,15 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GetNumberOfChoicesConfig} opts
    * @returns Promise<number>
    */
-  public async getNumberOfChoices(opts = {}) {
+  public async getNumberOfChoices(
+    opts: GetNumberOfChoicesConfig = {} as GetNumberOfChoicesConfig)
+    : Promise<number> {
 
     const defaults = {
       proposalId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetNumberOfChoicesConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -458,17 +472,19 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
   /**
    * Return the vote and the amount of reputation of the voter committed to this proposal
-   * @param {GetVoterInfo} opts
+   * @param {GetVoterInfoResult} opts
    * @returns Promise<GetVoterInfoResult>
    */
-  public async getVoterInfo(opts = {}) {
+  public async getVoterInfo(
+    opts: GetVoterInfoConfig = {} as GetVoterInfoConfig)
+    : Promise<GetVoterInfoResult> {
 
     const defaults = {
       proposalId: undefined,
       voter: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetVoterInfoConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -494,14 +510,16 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GetVoteStatusConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  public async getVoteStatus(opts = {}) {
+  public async getVoteStatus(
+    opts: GetVoteStatusConfig = {} as GetVoteStatusConfig)
+    : Promise<BigNumber.BigNumber> {
 
     const defaults = {
       proposalId: undefined,
       vote: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetVoteStatusConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -525,13 +543,15 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {IsVotableConfig} opts
    * @returns Promise<boolean>
    */
-  public async isVotable(opts = {}) {
+  public async isVotable(
+    opts: IsVotableConfig = {} as IsVotableConfig)
+    : Promise<boolean> {
 
     const defaults = {
       proposalId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as IsVotableConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -549,13 +569,15 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GetProposalStatusConfig} opts
    * @returns Promise<GetProposalStatusResult>
    */
-  public async getProposalStatus(opts = {}) {
+  public async getProposalStatus(
+    opts: GetProposalStatusConfig = {} as GetProposalStatusConfig)
+    : Promise<GetProposalStatusResult> {
 
     const defaults = {
       proposalId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetProposalStatusConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -577,13 +599,15 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GetTotalReputationSupplyConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  public async getTotalReputationSupply(opts = {}) {
+  public async getTotalReputationSupply(
+    opts: GetTotalReputationSupplyConfig = {} as GetTotalReputationSupplyConfig)
+    : Promise<BigNumber.BigNumber> {
 
     const defaults = {
       proposalId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetTotalReputationSupplyConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -601,13 +625,15 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GetProposalAvatarConfig} opts
    * @returns Promise<string>
    */
-  public async getProposalAvatar(opts = {}) {
+  public async getProposalAvatar(
+    opts: GetProposalAvatarConfig = {} as GetProposalAvatarConfig
+  ): Promise<string> {
 
     const defaults = {
       proposalId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetProposalAvatarConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -625,13 +651,15 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GetScoreThresholdParamsConfig} opts
    * @returns Promise<GetScoreThresholdParamsResult>
    */
-  public async getScoreThresholdParams(opts = {}) {
+  public async getScoreThresholdParams(
+    opts: GetScoreThresholdParamsConfig = {} as GetScoreThresholdParamsConfig)
+    : Promise<GetScoreThresholdParamsResult> {
 
     const defaults = {
       avatar: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetScoreThresholdParamsConfig;
 
     if (!options.avatar) {
       throw new Error("avatar is not defined");
@@ -651,16 +679,18 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
   /**
    * Return the vote and stake amount for a given proposal and staker.
    * @param {GetStakerInfoConfig} opts
-   * @returns Promise<getStakerInfoResult>
+   * @returns Promise<GetStakerInfoResult>
    */
-  public async getStakerInfo(opts = {}) {
+  public async getStakerInfo(
+    opts: GetStakerInfoConfig = {} as GetStakerInfoConfig)
+    : Promise<GetStakerInfoResult> {
 
     const defaults = {
       proposalId: undefined,
       staker: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetStakerInfoConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -686,13 +716,16 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GetVoteStakeConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  public async getVoteStake(opts = {}) {
+  public async getVoteStake(
+    opts: GetVoteStakeConfig = {} as GetVoteStakeConfig)
+    : Promise<BigNumber.BigNumber> {
+
     const defaults = {
       proposalId: undefined,
       vote: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetVoteStakeConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -713,13 +746,15 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GetWinningVoteConfig} opts
    * @returns Promise<number>
    */
-  public async getWinningVote(opts = {}) {
+  public async getWinningVote(
+    opts: GetWinningVoteConfig = {} as GetWinningVoteConfig)
+    : Promise<number> {
 
     const defaults = {
       proposalId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetWinningVoteConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -737,13 +772,13 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GetStateConfig} opts
    * @returns Promise<number>
    */
-  public async getState(opts = {}) {
+  public async getState(opts: GetStateConfig = {} as GetStateConfig): Promise<number> {
 
     const defaults = {
       proposalId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetStateConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -756,7 +791,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     return state;
   }
 
-  public async _validateVote(vote, proposalId) {
+  public async _validateVote(vote: number, proposalId: Hash): Promise<void> {
     const numChoices = await this.getNumberOfChoices({ proposalId });
     if (!Number.isInteger(vote) || (vote < 0) || (vote > numChoices)) {
       throw new Error("vote is not valid");
@@ -918,4 +953,354 @@ export interface GenesisProtocolParams {
    * Default is 80
    */
   votersGainRepRatioFromLostRep: number;
+}
+
+export interface GenesisProtocolParams {
+  /**
+   * the absolute vote percentages bar
+   * Must be greater than zero.
+   * Default is 50.
+   */
+  preBoostedVoteRequiredPercentage: number;
+  /**
+   * the time limit for a proposal to be in an absolute voting mode.
+   * TODO: Units? Default?
+   * Default is 60.
+   */
+  preBoostedVotePeriodLimit: number;
+  /**
+   * the time limit for a proposal to be in an relative voting mode.
+   * TODO: Units? Default?
+   * Default is 60.
+   */
+  boostedVotePeriodLimit: number;
+  /**
+   * TODO: Purpose?
+   * Default is 1
+   */
+  thresholdConstA: number;
+  /**
+   * TODO: Purpose?
+   * Default is 1
+   */
+  thresholdConstB: number;
+  /**
+   * GenesisProtocolFormulasInterface address
+   */
+  governanceFormulasInterface?: string;
+  /**
+   * Default is 0
+   */
+  minimumStakingFee: number;
+  /**
+   * TODO: Purpose?
+   * Default is 0
+   */
+  quietEndingPeriod: number;
+  /**
+   * TODO: Purpose?
+   * Default is 1
+   */
+  proposingRepRewardConstA: number;
+  /**
+   * TODO: Purpose?
+   * Default is 1
+   */
+  proposingRepRewardConstB: number;
+  /**
+   * a value between 0-100
+   * TODO: Purpose?
+   * Default is 1 (?)
+   */
+  stakerFeeRatioForVoters: number;
+  /**
+   * a value between 0-100
+   * TODO: Purpose?
+   * Default is 10
+   */
+  votersReputationLossRatio: number;
+  /**
+   * a value between 0-100
+   * TODO: Purpose?
+   * Default is 80
+   */
+  votersGainRepRatioFromLostRep: number;
+}
+
+/**
+ * Javascript version of the Arc ExecutableInterface,
+ * for information purposes.
+ */
+export interface ExecutableInterface {
+  execute(proposalId: number, avatar: string, vote: number): Promise<boolean>;
+}
+
+export interface ProposeVoteConfig {
+  /**
+   * The DAO's avatar under which the proposal is being made.
+   */
+  avatar: string;
+  /**
+   * address of the agent making the proposal.
+   * Default is the current default account.
+   */
+  proposer: string;
+  /**
+   * number of choices when voting.  Must be between 1 and 10.
+   */
+  numOfChoices: number;
+  /**
+   * GenesisProtocol parameters to apply to this proposal
+   */
+  paramsHash: string;
+  /**
+   * contract that implements ExecutableInterface to invoke if/when the vote passes
+   */
+  executable: string;
+}
+
+export interface GetVoterInfoResult {
+  vote: number;
+  reputation: BigNumber.BigNumber;
+}
+
+export interface GetProposalStatusResult {
+  totalVotes: BigNumber.BigNumber;
+  totalStakes: BigNumber.BigNumber;
+  votersStakes: BigNumber.BigNumber;
+}
+
+export interface GetScoreThresholdParamsResult {
+  thresholdConstA: number;
+  thresholdConstB: number;
+}
+
+export interface GetStakerInfoResult {
+  vote: number;
+  stake: BigNumber.BigNumber;
+}
+
+export interface StakeConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+  /**
+   * the choice of vote. Can be 1 (YES) or 2 (NO).
+   */
+  vote: number;
+  /**
+   * token amount to stake on the outcome resulting in this vote, in Wei
+   */
+  amount: BigNumber.BigNumber | string;
+}
+
+export interface VoteWithSpecifiedAmountsConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+  /**
+   * the choice of vote. Can be 1 (YES) or 2 (NO).
+   */
+  vote: number;
+  /**
+   * reputation to put behind this vote, in Wei
+   */
+  reputation: BigNumber.BigNumber | string;
+}
+
+export interface RedeemConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+  /**
+   * agent to whom to award the proposal payoffs
+   */
+  beneficiary: string;
+}
+
+export interface ShouldBoostConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+}
+
+export interface GetScoreConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+}
+
+export interface GetThresholdConfig {
+  /**
+   * the DAO's avatar address
+   */
+  avatar: string;
+}
+
+/**
+ * return the amount of tokens to which the staker will be entitled as an outcome of the proposal
+ */
+export interface GetRedeemableTokensStakerConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+  /**
+   * the staker
+   */
+  beneficiary: string;
+}
+
+/**
+ * return the amount of reputation to which the proposer will be entitled as an outcome of the proposal
+ */
+export interface GetRedeemableReputationProposerConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+}
+
+/**
+ * return the amount of tokens to which the voter will be entitled as an outcome of the proposal
+ */
+export interface GetRedeemableTokensVoterConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+  /**
+   * the voter
+   */
+  beneficiary: string;
+}
+
+/**
+ * return the amount of reputation to which the voter will be entitled as an outcome of the proposal
+ */
+export interface GetRedeemableReputationVoterConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+  /**
+   * the voter
+   */
+  beneficiary: string;
+}
+
+/**
+ * return the amount of reputation to which the staker will be entitled as an outcome of the proposal
+ */
+export interface GetRedeemableReputationStakerConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+  /**
+   * the staker
+   */
+  beneficiary: string;
+}
+
+export interface GetNumberOfChoicesConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+}
+
+export interface GetVoterInfoConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+  voter: string;
+}
+
+export interface GetVoteStatusConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+  /**
+   * the choice of vote. Can be 1 (YES) or 2 (NO).
+   */
+  vote: number;
+}
+
+export interface IsVotableConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+}
+
+export interface GetProposalStatusConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+}
+
+export interface GetTotalReputationSupplyConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+}
+
+export interface GetProposalAvatarConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+}
+
+export interface GetScoreThresholdParamsConfig {
+  /**
+   * the DAO's avatar address
+   */
+  avatar: string;
+}
+
+export interface GetStakerInfoConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+  /**
+   * address of the staking agent
+   */
+  staker: string;
+}
+
+export interface GetVoteStakeConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+  /**
+   * the choice of vote. Can be 1 (YES) or 2 (NO).
+   */
+  vote: number;
+}
+
+export interface GetWinningVoteConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
+}
+
+export interface GetStateConfig {
+  /**
+   * unique hash of proposal index in the scope of the scheme
+   */
+  proposalId: string;
 }

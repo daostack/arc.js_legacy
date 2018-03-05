@@ -3,6 +3,7 @@ import dopts = require("default-options");
 
 import { Utils } from "../utils";
 const Avatar = Utils.requireContract("Avatar");
+import * as BigNumber from "bignumber.js";
 import { Address } from "../commonTypes";
 import { Config } from "../config";
 import { Contracts } from "../contracts.js";
@@ -13,7 +14,6 @@ import {
 } from "../ExtendTruffleContract";
 const SolidityContract = Utils.requireContract("DaoCreator");
 import ContractWrapperFactory from "../ContractWrapperFactory";
-import * as BigNumber from "bignumber.js";
 
 export class DaoCreatorWrapper extends ExtendTruffleContract {
 
@@ -21,14 +21,17 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
    * Events
    */
 
+  /* tslint:disable:max-line-length */
   public NewOrg: EventFetcherFactory<NewOrgEventResult> = this.createEventFetcherFactory<NewOrgEventResult>("NewOrg");
   public InitialSchemesSet: EventFetcherFactory<InitialSchemesSetEventResult> = this.createEventFetcherFactory<InitialSchemesSetEventResult>("InitialSchemesSet");
+  /* tslint:enable:max-line-length */
 
   /**
    * Create a new DAO
    * @param {ForgeOrgConfig} opts
    */
-  public async forgeOrg(opts = {}) {
+  public async forgeOrg(opts: ForgeOrgConfig = {} as ForgeOrgConfig)
+    : Promise<ArcTransactionResult> {
     /**
      * See these properties in ForgeOrgConfig
      */
@@ -40,7 +43,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
       universalController: true,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as ForgeOrgConfig;
 
     if (!options.name) {
       throw new Error("DAO name is not defined");
@@ -68,9 +71,9 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
       options.name,
       options.tokenName,
       options.tokenSymbol,
-      options.founders.map((founder) => web3.toBigNumber(founder.address)),
-      options.founders.map((founder) => web3.toBigNumber(founder.tokens)),
-      options.founders.map((founder) => web3.toBigNumber(founder.reputation)),
+      options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.address)),
+      options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.tokens)),
+      options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.reputation)),
       controllerAddress
     );
 
@@ -83,7 +86,8 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
    * via forgeOrg, and at that, can only be called one time.
    * @param {SetSchemesConfig} opts
    */
-  public async setSchemes(opts = {}) {
+  public async setSchemes(opts: SetSchemesConfig = {} as SetSchemesConfig):
+    Promise<ArcTransactionResult> {
 
     /**
      * See SetSchemesConfig
@@ -97,7 +101,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
       votingMachineParams: {},
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as SetSchemesConfig;
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");

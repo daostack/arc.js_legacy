@@ -8,6 +8,7 @@ import {
   EventFetcherFactory,
   ExtendTruffleContract,
   StandardSchemeParams,
+  TransactionReceiptTruffle,
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("VestingScheme");
@@ -50,13 +51,15 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
    * Propose a new vesting agreement
    * @param {ProposeVestingAgreementConfig} opts
    */
-  public async propose(opts = {}) {
+  public async propose(
+    opts: ProposeVestingAgreementConfig = {} as ProposeVestingAgreementConfig)
+    : Promise<ArcTransactionProposalResult> {
     /**
      * see ProposeVestingAgreementConfig
      */
     const options = dopts(opts,
       Object.assign({ avatar: undefined }, defaultCreateOptions),
-      { allowUnknown: true });
+      { allowUnknown: true }) as ProposeVestingAgreementConfig;
 
     if (!options.avatar) {
       throw new Error("avatar is not defined");
@@ -84,11 +87,13 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
    * Create a new vesting agreement
    * @param {CreateVestingAgreementConfig} opts
    */
-  public async create(opts = {}) {
+  public async create(
+    opts: CreateVestingAgreementConfig = {} as CreateVestingAgreementConfig)
+    : Promise<ArcTransactionAgreementResult> {
     /**
      * See these properties in CreateVestingAgreementConfig
      */
-    const options = dopts(opts, defaultCreateOptions, { allowUnknown: true });
+    const options = dopts(opts, defaultCreateOptions, { allowUnknown: true }) as CreateVestingAgreementConfig;
 
     await this.validateCreateParams(options);
 
@@ -116,7 +121,9 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
    * Sign to cancel a vesting agreement
    * @param {SignToCancelVestingAgreementConfig} opts
    */
-  public async signToCancel(opts = {}) {
+  public async signToCancel(
+    opts: SignToCancelVestingAgreementConfig = {} as SignToCancelVestingAgreementConfig)
+    : Promise<ArcTransactionResult> {
     /**
      * See these properties in SignToCancelVestingAgreementConfig
      */
@@ -124,7 +131,7 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
       agreementId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as SignToCancelVestingAgreementConfig;
 
     if (options.agreementId === null) {
       throw new Error("agreementId is not defined");
@@ -139,7 +146,9 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
    * Revoke vote for cancelling a vesting agreement
    * @param {RevokeSignToCancelVestingAgreementConfig} opts
    */
-  public async revokeSignToCancel(opts = {}) {
+  public async revokeSignToCancel(
+    opts: RevokeSignToCancelVestingAgreementConfig = {} as RevokeSignToCancelVestingAgreementConfig)
+    : Promise<ArcTransactionResult> {
     /**
      * See these properties in RevokeSignToCancelVestingAgreementConfig
      */
@@ -147,7 +156,7 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
       agreementId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as RevokeSignToCancelVestingAgreementConfig;
 
     if (options.agreementId === null) {
       throw new Error("agreementId is not defined");
@@ -162,7 +171,9 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
    * Collects for a beneficiary, according to the agreement
    * @param {CollectVestingAgreementConfig} opts
    */
-  public async collect(opts = {}) {
+  public async collect(
+    opts: CollectVestingAgreementConfig = {} as CollectVestingAgreementConfig)
+    : Promise<ArcTransactionResult> {
     /**
      * See these properties in CollectVestingAgreementConfig
      */
@@ -170,7 +181,7 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
       agreementId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as CollectVestingAgreementConfig;
 
     if (options.agreementId === null) {
       throw new Error("agreementId is not defined");
@@ -196,7 +207,7 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
    * Private methods
    */
 
-  private async validateCreateParams(options) {
+  private async validateCreateParams(options: CommonVestingAgreementConfig): Promise<void> {
     if (!Number.isInteger(options.periodLength) || (options.periodLength <= 0)) {
       throw new Error("periodLength must be greater than zero");
     }
@@ -229,7 +240,7 @@ export class ArcTransactionAgreementResult extends ArcTransactionResult {
 
   public agreementId: number;
 
-  constructor(tx) {
+  constructor(tx: TransactionReceiptTruffle) {
     super(tx);
     this.agreementId = this.getValueFromTx("_agreementId").toNumber();
   }
@@ -287,4 +298,90 @@ export interface CollectEventResult {
    * indexed
    */
   _agreementId: BigNumber.BigNumber;
+}
+
+export interface CommonVestingAgreementConfig {
+  /**
+   * Address of the recipient of the proposed agreement.
+   */
+  beneficiary: string;
+  /**
+   * Where to send the tokens in case of cancellation
+   */
+  returnOnCancelAddress: string;
+  /**
+   * Optional ethereum block number at which the agreement starts.
+   * Default is the current block number.
+   * Must be greater than or equal to zero.
+   */
+  startingBlock: number;
+  /**
+   * The number of tokens to pay per period.
+   * Period is calculated as (number of blocks / periodLength).
+   * Should be expressed in Wei.
+   * Must be greater than zero.
+   */
+  amountPerPeriod: BigNumber.BigNumber | string;
+  /**
+   * number of blocks in a period.
+   * Must be greater than zero.
+   */
+  periodLength: number;
+  /**
+   * maximum number of periods that can be paid out.
+   * Must be greater than zero.
+   */
+  numOfAgreedPeriods: number;
+  /**
+   * The minimum number of periods that must pass before the beneficiary
+   * may collect tokens under the agreement.
+   * Must be greater than or equal to zero.
+   */
+  cliffInPeriods: number;
+  /**
+   * The number of signatures required to cancel agreement.
+   * See signToCancel.
+   */
+  signaturesReqToCancel: number;
+  /**
+   * An array of addresses of those who will be allowed to sign to cancel an agreement.
+   * The length of this array must be greater than or equal to signaturesReqToCancel.
+   */
+  signers: Array<string>;
+}
+
+export interface CreateVestingAgreementConfig extends CommonVestingAgreementConfig {
+  /**
+   * The address of the token that will be used to pay for the creation of the agreement.
+   * The caller (msg.Sender) must have the funds to pay in that token.
+   */
+  token: string;
+}
+
+export interface ProposeVestingAgreementConfig extends CommonVestingAgreementConfig {
+  /**
+   * The address of the avatar in which the proposal is being be made.
+   */
+  avatar: string;
+}
+
+export interface SignToCancelVestingAgreementConfig {
+  /**
+   * the agreementId
+   */
+  agreementId: number;
+}
+
+export interface RevokeSignToCancelVestingAgreementConfig {
+  /**
+   * the agreementId
+   */
+  agreementId: number;
+}
+
+export interface CollectVestingAgreementConfig {
+  /**
+   * the agreementId
+   */
+  agreementId: number;
 }

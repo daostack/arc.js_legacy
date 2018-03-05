@@ -1,11 +1,12 @@
 "use strict";
 import dopts = require("default-options");
-import { Address, Hash } from "../commonTypes";
+import { Address, fnVoid, Hash } from "../commonTypes";
 
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   ArcTransactionResult,
+  DecodedLogEntryEvent,
   EventFetcherFactory,
   ExtendTruffleContract,
   StandardSchemeParams,
@@ -38,9 +39,11 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
 
   /**
    * Submit a proposal for a reward for a contribution
-   * @param {ProposeContributionParams} opts
+   * @param {ProposeContributionRewardParams} opts
    */
-  public async proposeContributionReward(opts = {}): Promise<ArcTransactionProposalResult> {
+  public async proposeContributionReward(
+    opts: ProposeContributionRewardParams = {} as ProposeContributionRewardParams)
+    : Promise<ArcTransactionProposalResult> {
     /**
      * Note that explicitly supplying any property with a value of undefined will prevent the property
      * from taking on its default value (weird behavior of default-options)
@@ -58,7 +61,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
       reputationChange: 0,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeContributionRewardParams;
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
@@ -130,7 +133,9 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
    * Redeem the specified rewards for the beneficiary of the proposal
    * @param {ContributionRewardRedeemParams} opts
    */
-  public async redeemContributionReward(opts = {}): Promise<ArcTransactionResult> {
+  public async redeemContributionReward(
+    opts: ContributionRewardRedeemParams = {} as ContributionRewardRedeemParams)
+    : Promise<ArcTransactionResult> {
     const defaults = {
       avatar: undefined,
       ethers: false,
@@ -140,7 +145,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
       reputation: false,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as ContributionRewardRedeemParams;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -163,14 +168,16 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
    * Redeem external token reward for the beneficiary of the proposal
    * @param {ContributionRewardSpecifiedRedemptionParams} opts
    */
-  public async redeemExternalToken(opts = {}): Promise<ArcTransactionResult> {
+  public async redeemExternalToken(
+    opts: ContributionRewardSpecifiedRedemptionParams = {} as ContributionRewardSpecifiedRedemptionParams)
+    : Promise<ArcTransactionResult> {
 
     const defaults = {
       avatar: undefined,
       proposalId: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as ContributionRewardSpecifiedRedemptionParams;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -192,7 +199,9 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
    * Redeem reputation reward for the beneficiary of the proposal
    * @param {ContributionRewardSpecifiedRedemptionParams} opts
    */
-  public async redeemReputation(opts = {}): Promise<ArcTransactionResult> {
+  public async redeemReputation(
+    opts: ContributionRewardSpecifiedRedemptionParams = {} as ContributionRewardSpecifiedRedemptionParams)
+    : Promise<ArcTransactionResult> {
 
     const defaults = {
       avatar: undefined,
@@ -221,7 +230,9 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
    * Redeem native token reward for the beneficiary of the proposal
    * @param {ContributionRewardSpecifiedRedemptionParams} opts
    */
-  public async redeemNativeToken(opts = {}): Promise<ArcTransactionResult> {
+  public async redeemNativeToken(
+    opts: ContributionRewardSpecifiedRedemptionParams = {} as ContributionRewardSpecifiedRedemptionParams)
+    : Promise<ArcTransactionResult> {
 
     const defaults = {
       avatar: undefined,
@@ -250,7 +261,9 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
    * Redeem ether reward for the beneficiary of the proposal
    * @param {ContributionRewardSpecifiedRedemptionParams} opts
    */
-  public async redeemEther(opts = {}): Promise<ArcTransactionResult> {
+  public async redeemEther(
+    opts: ContributionRewardSpecifiedRedemptionParams = {} as ContributionRewardSpecifiedRedemptionParams)
+    : Promise<ArcTransactionResult> {
 
     const defaults = {
       avatar: undefined,
@@ -278,9 +291,9 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
   /**
    * Return all proposals ever created under the given avatar.
    * Filter by the optional proposalId.
-   * @param opts
    */
-  public async getDaoProposals(opts = {}): Promise<Array<ContributionProposal>> {
+  public async getDaoProposals(
+    opts: GetDaoProposalsParams = {} as GetDaoProposalsParams): Promise<Array<ContributionProposal>> {
 
     const defaults: GetDaoProposalsParams = {
       avatar: undefined,
@@ -301,9 +314,9 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
       proposals.push(proposal);
     } else {
       const eventFetcher = this.NewContributionProposal({ _avatar: options.avatar }, { fromBlock: 0 });
-      await new Promise((resolve) => {
-        eventFetcher.get(async (err, events) => {
-          for (const event of events) {
+      await new Promise((resolve: fnVoid): void => {
+        eventFetcher.get(async (err: any, log: Array<DecodedLogEntryEvent<NewContributionProposalEventResult>>) => {
+          for (const event of log) {
             const proposalId = event.args._proposalId;
             const orgProposal = await this.contract.organizationsProposals(options.avatar, proposalId);
             const proposal = this.orgProposalToContributionProposal(orgProposal, proposalId);
@@ -322,9 +335,11 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
    * that have rewards waiting to be redeemed by the given beneficiary.
    * `ProposalRewards` includes both the total amount redeemable and the amount
    * yet-to-be redeemed.
-   * @param opts
+   * @param {GetBeneficiaryRewardsParams} opts
    */
-  public async getBeneficiaryRewards(opts = {}): Promise<Array<ProposalRewards>> {
+  public async getBeneficiaryRewards(
+    opts: GetBeneficiaryRewardsParams = {} as GetBeneficiaryRewardsParams)
+    : Promise<Array<ProposalRewards>> {
 
     const defaults = {
       avatar: undefined,
@@ -332,7 +347,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
       proposalId: null,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as GetBeneficiaryRewardsParams;
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
@@ -538,4 +553,125 @@ export interface ProposalRewards {
 
 export interface ContributionRewardParams extends StandardSchemeParams {
   orgNativeTokenFee: BigNumber.BigNumber | string;
+}
+
+export interface ContributionRewardSpecifiedRedemptionParams {
+  /**
+   * The avatar under which the proposal was made
+   */
+  avatar: string;
+  /**
+   * The reward proposal
+   */
+  proposalId: string;
+}
+
+export interface GetDaoProposalsParams {
+  /**
+   * The avatar under which the proposals were created
+   */
+  avatar: string;
+  /**
+   * Optionally filter on the given proposalId
+   */
+  proposalId?: string;
+}
+
+export interface GetBeneficiaryRewardsParams {
+  /**
+   * The avatar under which the proposals were created
+   */
+  avatar: string;
+  /**
+   * The agent who is to receive the rewards
+   */
+  beneficiary: string;
+  /**
+   * Optionally filter on the given proposalId
+   */
+  proposalId?: string;
+}
+
+export interface ProposeContributionRewardParams {
+  /**
+   * avatar address
+   */
+  avatar: string;
+  /**
+   * description of the constraint
+   */
+  description: string;
+  /**
+   * Amount of reputation change requested, per period.
+   * Can be negative.  In Wei. Default is 0;
+   */
+  reputationChange?: BigNumber.BigNumber | string;
+  /**
+   * Reward in tokens per period, in the DAO's native token.
+   * Must be >= 0.
+   * In Wei. Default is 0;
+   */
+  nativeTokenReward?: BigNumber.BigNumber | string;
+  /**
+   * Reward per period, in ethers.
+   * Must be >= 0.
+   * In Wei. Default is 0;
+   */
+  ethReward?: BigNumber.BigNumber | string;
+  /**
+   * Reward per period in the given external token.
+   * Must be >= 0.
+   * In Wei. Default is 0;
+   */
+  externalTokenReward?: BigNumber.BigNumber | string;
+  /**
+   * The number of blocks in a period.
+   * Must be > 0.
+   */
+  periodLength: number;
+  /**
+   * Maximum number of periods that can be paid out.
+   * Must be > 0.
+   */
+  numberOfPeriods: number;
+  /**
+   * The address of the external token (for externalTokenReward)
+   * Only required when externalTokenReward is non-zero.
+   */
+  externalToken?: string;
+  /**
+   *  beneficiary address
+   */
+  beneficiary: string;
+}
+
+export interface ContributionRewardRedeemParams {
+  /**
+   * The reward proposal
+   */
+  proposalId: string;
+  /**
+   * The avatar under which the proposal was made
+   */
+  avatar: string;
+  /**
+   * true to credit/debit reputation
+   * Default is false
+   */
+  reputation?: boolean;
+  /**
+   * true to reward native tokens
+   * Default is false
+   */
+  nativeTokens?: boolean;
+  /**
+   * true to reward ethers
+   * Default is false
+   */
+  ethers?: boolean;
+  /**
+   * true to reward external tokens
+   * Default is false
+   */
+  externalTokens?: boolean;
 }

@@ -27,7 +27,9 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
   public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult> = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
   /* tslint:enable:max-line-length */
 
-  public async proposeToAddModifyGlobalConstraint(opts = {}) {
+  public async proposeToAddModifyGlobalConstraint(
+    opts: ProposeToAddModifyGlobalConstraintParams = {} as ProposeToAddModifyGlobalConstraintParams)
+    : Promise<ArcTransactionProposalResult> {
     const defaults = {
       /**
        * avatar address
@@ -47,7 +49,7 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
       votingMachineHash: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeToAddModifyGlobalConstraintParams;
 
     if (!options.avatar) {
       throw new Error("address is not defined");
@@ -75,7 +77,10 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
     return new ArcTransactionProposalResult(tx);
   }
 
-  public async proposeToRemoveGlobalConstraint(opts = {}) {
+  public async proposeToRemoveGlobalConstraint(
+    opts: ProposeToRemoveGlobalConstraintParams = {} as ProposeToRemoveGlobalConstraintParams)
+    : Promise<ArcTransactionProposalResult> {
+
     const defaults = {
       /**
        * avatar address
@@ -87,7 +92,7 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
       globalConstraint: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeToRemoveGlobalConstraintParams;
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
@@ -152,4 +157,34 @@ export interface RemoveGlobalConstraintsProposalEventResult {
    * indexed
    */
   _proposalId: Hash;
+}
+
+export interface ProposeToAddModifyGlobalConstraintParams {
+  /**
+   * avatar address
+   */
+  avatar: string;
+  /**
+   *  the address of the global constraint to add
+   */
+  globalConstraint: string;
+  /**
+   * hash of the parameters of the global contraint
+   */
+  globalConstraintParametersHash: string;
+  /**
+   * voting machine to use when voting to remove the global constraint
+   */
+  votingMachineHash: string;
+}
+
+export interface ProposeToRemoveGlobalConstraintParams {
+  /**
+   * avatar address
+   */
+  avatar: string;
+  /**
+   *  the address of the global constraint to remove
+   */
+  globalConstraint: string;
 }
