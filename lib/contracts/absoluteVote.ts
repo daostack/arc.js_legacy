@@ -40,7 +40,7 @@ export class AbsoluteVoteWrapper extends ExtendTruffleContract {
       vote: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as VoteConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");

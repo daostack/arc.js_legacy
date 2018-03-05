@@ -171,7 +171,7 @@ export class DAO {
    * @param contract - name of an Arc scheme, like "SchemeRegistrar"
    * @param address - optional
    */
-  public async getScheme(contract: string, address?: Address): Promise<ExtendTruffleContract> | undefined {
+  public async getScheme(contract: string, address?: Address): Promise<ExtendTruffleContract | undefined> {
     return Contracts.getScheme(contract, address);
   }
 

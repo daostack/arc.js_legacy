@@ -91,8 +91,8 @@ export abstract class ExtendTruffleContract {
    * Currently all params are required, contract wrappers do not as yet apply default values.
    */
   public async setParams(...args: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
-    const parametersHash = await this.contract.getParametersHash(...args);
-    const tx = await this.contract.setParameters(...args);
+    const parametersHash: Hash = await this.contract.getParametersHash(...args);
+    const tx: TransactionReceiptTruffle = await this.contract.setParameters(...args);
     return new ArcTransactionDataResult<Hash>(tx, parametersHash);
   }
 
@@ -130,7 +130,7 @@ export abstract class ExtendTruffleContract {
      * @param filterObject
      * @param callback
      */
-    const eventFetcherFactory = (
+    const eventFetcherFactory: EventFetcherFactory<TArgs> = (
       argFilter: any,
       filterObject: FilterObject,
       rootCallback?: EventCallback<TArgs>
@@ -138,7 +138,7 @@ export abstract class ExtendTruffleContract {
 
       let baseEvent: EventFetcher<TArgs>;
 
-      const eventFetcher = {
+      const eventFetcher: EventFetcher<TArgs> = {
 
         get(callback?: EventCallback<TArgs>): void {
           baseEvent.get((error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>) => {

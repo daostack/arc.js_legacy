@@ -44,11 +44,11 @@
     "typedef": [
       true,
       "call-signature",
-      "parameter",
-      "member-variable-declaration",
-      "property-declaration",
       "arrow-call-signature",
+      "parameter",
       "arrow-parameter",
+      "property-declaration",
+      "member-variable-declaration",
       "object-destructuring",
       "array-destructuring"
     ],

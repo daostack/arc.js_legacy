@@ -42,7 +42,7 @@ export class UpgradeSchemeWrapper extends ExtendTruffleContract {
        *  controller address
        */
       controller: undefined,
-    };
+    } as ProposeControllerParams;
 
     const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeControllerParams;
 
