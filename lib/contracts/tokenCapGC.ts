@@ -1,10 +1,8 @@
 "use strict";
-
+import { Address, Hash } from "../commonTypes";
 import {
-  Address,
   ArcTransactionDataResult,
   ExtendTruffleContract,
-  Hash
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 

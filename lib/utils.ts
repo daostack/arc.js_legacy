@@ -1,8 +1,9 @@
+import { Address, Hash } from "./commonTypes";
+import { Config } from "./config";
 import abi = require("ethereumjs-abi");
+import { TransactionReceiptTruffle } from "./ExtendTruffleContract";
 import TruffleContract = require("truffle-contract");
 import Web3 = require("web3");
-import { Config } from "./config";
-import { Address, Hash, TransactionReceiptTruffle } from "./ExtendTruffleContract";
 
 export class Utils {
 

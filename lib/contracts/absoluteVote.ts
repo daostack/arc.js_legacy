@@ -1,13 +1,12 @@
 "use strict";
 import dopts = require("default-options");
+import { Address, Hash } from "../commonTypes";
 
 import {
-  Address,
   ArcTransactionDataResult,
   ArcTransactionResult,
   EventFetcherFactory,
-  ExtendTruffleContract,
-  Hash,
+  ExtendTruffleContract
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("AbsoluteVote");

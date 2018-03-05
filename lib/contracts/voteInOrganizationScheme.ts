@@ -1,12 +1,11 @@
 "use strict";
 import dopts = require("default-options");
-
+import { Hash } from "../commonTypes";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   EventFetcherFactory,
   ExtendTruffleContract,
-  Hash,
   StandardSchemeParams,
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";

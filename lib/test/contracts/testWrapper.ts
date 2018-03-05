@@ -1,8 +1,8 @@
 "use strict";
-
 import { AbsoluteVoteParams } from "contracts/absoluteVote";
+import { Hash } from "../../commonTypes";
 import ContractWrapperFactory from "../../ContractWrapperFactory";
-import { ArcTransactionDataResult, ExtendTruffleContract, Hash } from "../../ExtendTruffleContract";
+import { ArcTransactionDataResult, ExtendTruffleContract } from "../../ExtendTruffleContract";
 import { Utils } from "../../utils";
 const SolidityContract = Utils.requireContract("AbsoluteVote");
 

@@ -1,3 +1,4 @@
+import { Address, Hash } from "./commonTypes";
 import { Config } from "./config";
 import { Utils } from "./utils";
 /**

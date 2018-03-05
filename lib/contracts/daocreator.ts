@@ -3,10 +3,10 @@ import dopts = require("default-options");
 
 import { Utils } from "../utils";
 const Avatar = Utils.requireContract("Avatar");
+import { Address } from "../commonTypes";
 import { Config } from "../config";
 import { Contracts } from "../contracts.js";
 import {
-  Address,
   ArcTransactionResult,
   EventFetcherFactory,
   ExtendTruffleContract,

@@ -1,14 +1,12 @@
 "use strict";
 import dopts = require("default-options");
-
+import { Address, Hash } from "../commonTypes";
 import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
-  Address,
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   EventFetcherFactory,
   ExtendTruffleContract,
-  Hash,
   StandardSchemeParams,
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
