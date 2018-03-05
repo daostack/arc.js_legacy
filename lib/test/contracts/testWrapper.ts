@@ -1,9 +1,10 @@
 "use strict";
-
-import { ExtendTruffleContract } from "../../ExtendTruffleContract";
+import { AbsoluteVoteParams } from "contracts/absoluteVote";
+import { Hash } from "../../commonTypes";
+import ContractWrapperFactory from "../../ContractWrapperFactory";
+import { ArcTransactionDataResult, ExtendTruffleContract } from "../../ExtendTruffleContract";
 import { Utils } from "../../utils";
 const SolidityContract = Utils.requireContract("AbsoluteVote");
-import ContractWrapperFactory from "../../ContractWrapperFactory";
 
 export class TestWrapperWrapper extends ExtendTruffleContract {
 
@@ -11,15 +12,15 @@ export class TestWrapperWrapper extends ExtendTruffleContract {
     super(SolidityContract);
   }
 
-  public foo() {
+  public foo(): string {
     return "bar";
   }
 
-  public aMethod() {
+  public aMethod(): string {
     return "abc";
   }
 
-  public async setParams(params) {
+  public async setParams(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>> {
     params = Object.assign({},
       {
         ownerVote: true,
@@ -35,7 +36,7 @@ export class TestWrapperWrapper extends ExtendTruffleContract {
     );
   }
 
-  public getDefaultPermissions(overrideValue?: string) {
+  public getDefaultPermissions(overrideValue?: string): string {
     return overrideValue || "0x00000009";
   }
 }

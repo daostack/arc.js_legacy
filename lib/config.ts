@@ -18,7 +18,7 @@ export class Config {
       const defaults = require("../config/default.json");
 
       if (process && process.env) {
-        Object.keys(process.env).forEach((key) => {
+        Object.keys(process.env).forEach((key: string) => {
           if (defaults[key]) {
             defaults[key] = process.env[key];
           }

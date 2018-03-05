@@ -1,11 +1,12 @@
 "use strict";
 import dopts = require("default-options");
+import { Address, Hash, VoteConfig } from "../commonTypes";
 
 import {
-  Address,
+  ArcTransactionDataResult,
   ArcTransactionResult,
-  ExtendTruffleContract,
-  Hash,
+  EventFetcherFactory,
+  ExtendTruffleContract
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("AbsoluteVote");
@@ -18,18 +19,20 @@ export class AbsoluteVoteWrapper extends ExtendTruffleContract {
    * Events
    */
 
-  public NewProposal = this.createEventFetcherFactory<NewProposalEventResult>("NewProposal");
-  public CancelProposal = this.createEventFetcherFactory<CancelProposalEventResult>("CancelProposal");
-  public ExecuteProposal = this.createEventFetcherFactory<ExecuteProposalEventResult>("ExecuteProposal");
-  public VoteProposal = this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal");
-  public CancelVoting = this.createEventFetcherFactory<CancelVotingEventResult>("CancelVoting");
+  /* tslint:disable:max-line-length */
+  public NewProposal: EventFetcherFactory<NewProposalEventResult> = this.createEventFetcherFactory<NewProposalEventResult>("NewProposal");
+  public CancelProposal: EventFetcherFactory<CancelProposalEventResult> = this.createEventFetcherFactory<CancelProposalEventResult>("CancelProposal");
+  public ExecuteProposal: EventFetcherFactory<ExecuteProposalEventResult> = this.createEventFetcherFactory<ExecuteProposalEventResult>("ExecuteProposal");
+  public VoteProposal: EventFetcherFactory<VoteProposalEventResult> = this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal");
+  public CancelVoting: EventFetcherFactory<CancelVotingEventResult> = this.createEventFetcherFactory<CancelVotingEventResult>("CancelVoting");
+  /* tslint:enable:max-line-length */
 
   /**
    * Vote on a proposal
    * @param {VoteConfig} opts
    * @returns Promise<ArcTransactionResult>
    */
-  public async vote(opts = {}) {
+  public async vote(opts: VoteConfig = {} as VoteConfig): Promise<ArcTransactionResult> {
 
     const defaults = {
       onBehalfOf: null,
@@ -37,7 +40,7 @@ export class AbsoluteVoteWrapper extends ExtendTruffleContract {
       vote: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true });
+    const options = dopts(opts, defaults, { allowUnknown: true }) as VoteConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -56,7 +59,7 @@ export class AbsoluteVoteWrapper extends ExtendTruffleContract {
     return new ArcTransactionResult(tx);
   }
 
-  public async setParams(params) {
+  public async setParams(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>> {
 
     params = Object.assign({},
       {
@@ -93,4 +96,10 @@ export interface CancelVotingEventResult {
    */
   _proposalId: Hash;
   _voter: Address;
+}
+
+export interface AbsoluteVoteParams {
+  ownerVote?: boolean;
+  reputation: string;
+  votePerc?: number;
 }

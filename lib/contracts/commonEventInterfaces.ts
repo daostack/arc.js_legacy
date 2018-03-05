@@ -1,8 +1,5 @@
 import * as BigNumber from "bignumber.js";
-import {
-  Address,
-  Hash,
-} from "../ExtendTruffleContract";
+import { Address, Hash } from "../commonTypes";
 
 export interface NewProposalEventResult {
   _numOfChoices: number;

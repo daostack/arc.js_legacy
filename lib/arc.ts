@@ -1,3 +1,4 @@
+export * from "./commonTypes";
 export * from "./config";
 export * from "./contracts";
 export * from "./contracts/absoluteVote";

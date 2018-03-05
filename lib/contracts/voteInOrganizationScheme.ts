@@ -1,10 +1,12 @@
 "use strict";
 import dopts = require("default-options");
-
+import { Hash } from "../commonTypes";
 import {
+  ArcTransactionDataResult,
   ArcTransactionProposalResult,
+  EventFetcherFactory,
   ExtendTruffleContract,
-  Hash,
+  StandardSchemeParams,
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("VoteInOrganizationScheme");
@@ -17,11 +19,15 @@ export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
    * Events
    */
 
-  public ProposalExecuted = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
-  public ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
-  public VoteOnBehalf = this.createEventFetcherFactory<VoteOnBehalfEventResult>("VoteOnBehalf");
+  /* tslint:disable:max-line-length */
+  public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult> = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
+  public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult> = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
+  public VoteOnBehalf: EventFetcherFactory<VoteOnBehalfEventResult> = this.createEventFetcherFactory<VoteOnBehalfEventResult>("VoteOnBehalf");
+  /* tslint:enable:max-line-length */
 
-  public async proposeVote(opts = {}) {
+  public async proposeVote(
+    opts: VoteInOrganizationProposeVoteConfig = {} as VoteInOrganizationProposeVoteConfig)
+    : Promise<ArcTransactionProposalResult> {
     /**
      * see VoteInOrganizationProposeVoteConfig
      */
@@ -54,14 +60,14 @@ export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
     return new ArcTransactionProposalResult(tx);
   }
 
-  public async setParams(params) {
+  public async setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
     return super.setParams(
       params.voteParametersHash,
       params.votingMachine
     );
   }
 
-  public getDefaultPermissions(overrideValue?: string) {
+  public getDefaultPermissions(overrideValue?: string): string {
     return overrideValue || "0x00000001";
   }
 }
@@ -71,4 +77,20 @@ export { VoteInOrganizationScheme };
 
 export interface VoteOnBehalfEventResult {
   _params: Array<Hash>;
+}
+
+export interface VoteInOrganizationProposeVoteConfig {
+  /**
+   * Avatar whose voters are being given the chance to vote on the original proposal.
+   */
+  avatar: string;
+  /**
+   * Address of the voting machine used by the original proposal.  The voting machine must
+   * implement IntVoteInterface (as defined in Arc).
+   */
+  originalIntVote: string;
+  /**
+   * Address of the "original" proposal for which the DAO's vote will cast.
+   */
+  originalProposalId: string;
 }
