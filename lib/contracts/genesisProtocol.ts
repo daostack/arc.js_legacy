@@ -86,6 +86,11 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
   /**
    * Stake some tokens on the final outcome matching this vote.
+   * 
+   * A transfer of tokens from the staker to this GenesisProtocol scheme 
+   * is automatically approved and executed on the token with which
+   * this GenesisProtocol scheme was deployed.
+   * 
    * @param {StakeConfig} opts
    * @returns Promise<ArcTransactionResult>
    */
@@ -93,6 +98,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
     const defaults = {
       amount: undefined,
+      onBehalfOf: null,
       proposalId: undefined,
       vote: undefined,
     };
@@ -111,10 +117,14 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
       throw new Error("amount must be > 0");
     }
 
+    const token = await (await Utils.requireContract("StandardToken")).at(await this.contract.stakingToken()) as any;
+    await token.approve(options.onBehalfOf ? options.onBehalfOf : Utils.getDefaultAccount(), amount);
+
     const tx = await this.contract.stake(
       options.proposalId,
       options.vote,
-      amount
+      amount,
+      options.onBehalfOf ? { from: options.onBehalfOf } : undefined
     );
 
     return new ArcTransactionResult(tx);

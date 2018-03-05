@@ -3,7 +3,8 @@ import TruffleContract = require("truffle-contract");
 import Web3 = require("web3");
 import { Address, Hash } from "./commonTypes";
 import { Config } from "./config";
-import { TransactionReceiptTruffle } from "./ExtendTruffleContract";
+import { Address, TransactionReceiptTruffle } from "./ExtendTruffleContract";
+import { BigNumber } from "bignumber.js";
 
 export class Utils {
 

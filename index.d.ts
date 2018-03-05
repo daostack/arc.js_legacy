@@ -1640,6 +1640,14 @@ declare module "@daostack/arc.js" {
 
   export interface StakeConfig {
     /**
+     * token amount to stake on the outcome resulting in this vote, in Wei
+     */
+    amount: BigNumber.BigNumber | string;
+    /**
+     * optional address of the agent staking the tokens
+     */
+    onBehalfOf: null;
+    /**
      * unique hash of proposal index in the scope of the scheme
      */
     proposalId: string;
@@ -1647,10 +1655,6 @@ declare module "@daostack/arc.js" {
      * the choice of vote. Can be 1 (YES) or 2 (NO).
      */
     vote: number;
-    /**
-     * token amount to stake on the outcome resulting in this vote, in Wei
-     */
-    amount: BigNumber.BigNumber | string;
   }
 
   export interface VoteConfig {
