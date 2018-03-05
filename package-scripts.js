@@ -165,6 +165,6 @@ module.exports = {
        */
       fetchFromArc: copy(`${joinPath(pathDaostackArcRepo, "build", "contracts", "*")}  ${pathArcJsContracts}`)
     },
-    "docs": "node ./package-scripts/docs/createMarkdown.js"
+    "docs": "node ./package-scripts/typedoc.js"
   }
 };
