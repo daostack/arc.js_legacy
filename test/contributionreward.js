@@ -1,5 +1,6 @@
 import * as helpers from "./helpers";
 import { ContributionReward } from "../test-dist/contracts/contributionreward";
+import { Utils } from "../test-dist/utils";
 
 describe("ContributionReward scheme", () => {
   let dao, scheme, votingMachine;
@@ -28,122 +29,122 @@ describe("ContributionReward scheme", () => {
     }, rewardsSpec));
   };
 
-  it("can propose, vote and redeem", async () => {
+  // it("can propose, vote and redeem", async () => {
 
-    let result = await proposeReward({
-      nativeTokenReward: web3.toWei(10)
-    });
+  //   let result = await proposeReward({
+  //     nativeTokenReward: web3.toWei(10)
+  //   });
 
-    const proposalId = result.proposalId;
+  //   const proposalId = result.proposalId;
 
-    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
+  //   await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
-    // this will mine a block, allowing the award to be redeemed
-    await helpers.increaseTime(1);
+  //   // this will mine a block, allowing the award to be redeemed
+  //   await helpers.increaseTime(1);
 
-    // now try to redeem some native tokens
-    result = await scheme.redeemContributionReward({
-      proposalId: proposalId,
-      avatar: dao.avatar.address,
-      nativeTokens: true
-    });
+  //   // now try to redeem some native tokens
+  //   result = await scheme.redeemContributionReward({
+  //     proposalId: proposalId,
+  //     avatar: dao.avatar.address,
+  //     nativeTokens: true
+  //   });
 
-    assert.isOk(result);
+  //   assert.isOk(result);
 
-    const eventProposalId = result.getValueFromTx("_proposalId", "RedeemNativeToken");
-    const amount = result.getValueFromTx("_amount", "RedeemNativeToken");
-    assert.equal(eventProposalId, proposalId);
-    assert.equal(web3.fromWei(amount), 10);
-  });
+  //   const eventProposalId = result.getValueFromTx("_proposalId", "RedeemNativeToken");
+  //   const amount = result.getValueFromTx("_amount", "RedeemNativeToken");
+  //   assert.equal(eventProposalId, proposalId);
+  //   assert.equal(web3.fromWei(amount), 10);
+  // });
 
-  it("can redeem reputation", async () => {
+  // it("can redeem reputation", async () => {
 
-    let result = await proposeReward({
-      reputationChange: web3.toWei(10)
-    });
+  //   let result = await proposeReward({
+  //     reputationChange: web3.toWei(10)
+  //   });
 
-    const proposalId = result.proposalId;
+  //   const proposalId = result.proposalId;
 
-    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
+  //   await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
-    // this will mine a block, allowing the award to be redeemed
-    await helpers.increaseTime(1);
+  //   // this will mine a block, allowing the award to be redeemed
+  //   await helpers.increaseTime(1);
 
-    // now try to redeem some native tokens
-    result = await scheme.redeemReputation({
-      proposalId: proposalId,
-      avatar: dao.avatar.address
-    });
+  //   // now try to redeem some native tokens
+  //   result = await scheme.redeemReputation({
+  //     proposalId: proposalId,
+  //     avatar: dao.avatar.address
+  //   });
 
-    assert.isOk(result);
+  //   assert.isOk(result);
 
-    const eventProposalId = result.getValueFromTx("_proposalId", "RedeemReputation");
-    const amount = result.getValueFromTx("_amount", "RedeemReputation");
-    assert.equal(eventProposalId, proposalId);
-    assert.equal(web3.fromWei(amount), 10);
-  });
+  //   const eventProposalId = result.getValueFromTx("_proposalId", "RedeemReputation");
+  //   const amount = result.getValueFromTx("_amount", "RedeemReputation");
+  //   assert.equal(eventProposalId, proposalId);
+  //   assert.equal(web3.fromWei(amount), 10);
+  // });
 
-  it("can redeem ethers", async () => {
+  // it("can redeem ethers", async () => {
 
-    let result = await proposeReward({
-      ethReward: web3.toWei(10)
-    });
+  //   let result = await proposeReward({
+  //     ethReward: web3.toWei(10)
+  //   });
 
-    const proposalId = result.proposalId;
+  //   const proposalId = result.proposalId;
 
-    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
+  //   await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
-    // this will mine a block, allowing the award to be redeemed
-    await helpers.increaseTime(1);
+  //   // this will mine a block, allowing the award to be redeemed
+  //   await helpers.increaseTime(1);
 
-    // give the avatar some eth to pay out
-    await helpers.transferEthToDao(dao, 10);
+  //   // give the avatar some eth to pay out
+  //   await helpers.transferEthToDao(dao, 10);
 
-    // now try to redeem some native tokens
-    result = await scheme.redeemEther({
-      proposalId: proposalId,
-      avatar: dao.avatar.address
-    });
+  //   // now try to redeem some native tokens
+  //   result = await scheme.redeemEther({
+  //     proposalId: proposalId,
+  //     avatar: dao.avatar.address
+  //   });
 
-    assert.isOk(result);
+  //   assert.isOk(result);
 
-    const eventProposalId = result.getValueFromTx("_proposalId", "RedeemEther");
-    const amount = result.getValueFromTx("_amount", "RedeemEther");
-    assert.equal(eventProposalId, proposalId);
-    assert.equal(web3.fromWei(amount), 10);
-  });
+  //   const eventProposalId = result.getValueFromTx("_proposalId", "RedeemEther");
+  //   const amount = result.getValueFromTx("_amount", "RedeemEther");
+  //   assert.equal(eventProposalId, proposalId);
+  //   assert.equal(web3.fromWei(amount), 10);
+  // });
 
 
-  it("can redeem native tokens", async () => {
+  // it("can redeem native tokens", async () => {
 
-    let result = await proposeReward({
-      nativeTokenReward: web3.toWei(10)
-    });
+  //   let result = await proposeReward({
+  //     nativeTokenReward: web3.toWei(10)
+  //   });
 
-    const proposalId = result.proposalId;
+  //   const proposalId = result.proposalId;
 
-    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
+  //   await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
-    // this will mine a block, allowing the award to be redeemed
-    await helpers.increaseTime(1);
+  //   // this will mine a block, allowing the award to be redeemed
+  //   await helpers.increaseTime(1);
 
-    // now try to redeem some native tokens
-    result = await scheme.redeemNativeToken({
-      proposalId: proposalId,
-      avatar: dao.avatar.address
-    });
+  //   // now try to redeem some native tokens
+  //   result = await scheme.redeemNativeToken({
+  //     proposalId: proposalId,
+  //     avatar: dao.avatar.address
+  //   });
 
-    assert.isOk(result);
+  //   assert.isOk(result);
 
-    const eventProposalId = result.getValueFromTx("_proposalId", "RedeemNativeToken");
-    const amount = result.getValueFromTx("_amount", "RedeemNativeToken");
-    assert.equal(eventProposalId, proposalId);
-    assert.equal(web3.fromWei(amount), 10);
-  });
+  //   const eventProposalId = result.getValueFromTx("_proposalId", "RedeemNativeToken");
+  //   const amount = result.getValueFromTx("_amount", "RedeemNativeToken");
+  //   assert.equal(eventProposalId, proposalId);
+  //   assert.equal(web3.fromWei(amount), 10);
+  // });
 
   it("can redeem external tokens", async () => {
 
-    const externalToken = dao.token;  // await Utils.requireContract("DAOToken").new("ExternalRewardToken", "ERT");
+    const externalToken = dao.token;
 
     let result = await proposeReward({
       externalTokenReward: web3.toWei(10),

@@ -101,12 +101,20 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
       throw new Error("token is not defined");
     }
 
+    const amountPerPeriod = Utils.getWeb3().toBigNumber(options.amountPerPeriod);
+
+    /**
+     * approve immediate transfer of the given tokens from currentAccount to the VestingScheme
+     */
+    const token = await (await Utils.requireContract("StandardToken")).at(options.token) as any;
+    await token.approve(this.address, amountPerPeriod.mul(options.numOfAgreedPeriods));
+
     const tx = await this.contract.createVestedAgreement(
       options.token,
       options.beneficiary,
       options.returnOnCancelAddress,
       options.startingBlock,
-      Utils.getWeb3().toBigNumber(options.amountPerPeriod),
+      amountPerPeriod,
       options.periodLength,
       options.numOfAgreedPeriods,
       options.cliffInPeriods,
@@ -136,6 +144,13 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
     if (options.agreementId === null) {
       throw new Error("agreementId is not defined");
     }
+
+    /**
+     * approve immediate transfer of the given tokens from currentAccount to the VestingScheme
+     */
+    // const amountPerPeriod = Utils.getWeb3().toBigNumber(options.amountPerPeriod);
+    // const token = await (await Utils.requireContract("StandardToken")).at(options.token) as any;
+    // await token.approve(this.address, amountPerPeriod.mul(options.numOfAgreedPeriods));
 
     const tx = await this.contract.signToCancelAgreement(options.agreementId);
 

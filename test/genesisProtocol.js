@@ -21,11 +21,6 @@ describe("GenesisProtocol", () => {
     assert.isOk(result);
     assert.isOk(result.proposalId);
 
-    const stakingToken = await DAOToken.at(await genesisProtocol.contract.stakingToken());
-
-    await stakingToken.approve(accounts[0], web3.toWei(10));
-    await stakingToken.approve(genesisProtocol.address, web3.toWei(10));
-
     return result.proposalId;
   };
 

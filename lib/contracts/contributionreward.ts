@@ -118,6 +118,19 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
       throw new Error("beneficiary is not defined");
     }
 
+
+    const controller = await this.getController(options.avatar);
+    const schemeParams = await controller.getSchemeParameters(this.address, options.avatar);
+
+    const orgNativeTokenFee = (await this.contract.parameters(schemeParams))[0];
+    if (orgNativeTokenFee > 0) {
+      /**
+       * approve immediate transfer of native tokens from msg.sender to the avatar
+       */
+      const token = await this.contract.nativeToken();
+      await token.approve(options.avatar, orgNativeTokenFee, { from: Utils.getDefaultAccount() });
+    }
+
     const tx = await this.contract.proposeContributionReward(
       options.avatar,
       Utils.SHA3(options.description),
@@ -155,6 +168,17 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
       throw new Error("avatar address is not defined");
     }
 
+
+    // if (options.externalTokens) {
+    //   /**
+    //    * approve transfer of external tokens from the avatar to the beneficiary 
+    //    */
+    //   const externalToken = (await this.getDaoProposals(options))[0].externalToken;
+
+    //   const token = await (await Utils.requireContract("StandardToken")).at(externalToken) as any;
+    //   await token.approve(options.avatar, amount, { from: Utils.getDefaultAccount() });
+    // }
+
     const tx = await this.contract.redeem(
       options.proposalId,
       options.avatar,
@@ -186,6 +210,14 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
     }
+
+    // /**
+    //  * approve transfer of external tokens from the avatar to the beneficiary 
+    //  */
+    // const externalToken = (await this.getDaoProposals(options))[0].externalToken;
+
+    // const token = await (await Utils.requireContract("StandardToken")).at(externalToken) as any;
+    // await token.approve(options.avatar, amount, { from: Utils.getDefaultAccount() });
 
     const tx = await this.contract.redeemExternalToken(
       options.proposalId,

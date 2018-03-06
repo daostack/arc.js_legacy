@@ -1646,7 +1646,7 @@ declare module "@daostack/arc.js" {
     /**
      * optional address of the agent staking the tokens
      */
-    onBehalfOf: null;
+    onBehalfOf?: Address;
     /**
      * unique hash of proposal index in the scope of the scheme
      */

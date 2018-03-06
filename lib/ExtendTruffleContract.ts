@@ -1,4 +1,5 @@
 import { Address, Hash } from "./commonTypes";
+import { AvatarService } from "./avatarService";
 import { Config } from "./config";
 import { Utils } from "./utils";
 /**
@@ -104,6 +105,11 @@ export abstract class ExtendTruffleContract {
   }
 
   public get address(): Address { return this.contract.address; }
+
+  public async getController(avatarAddress: Address): Promise<any> {
+    const avatarService = new AvatarService(avatarAddress);
+    return await avatarService.getController();
+  }
 
   /**
    * Return a function that creates an EventFetcher<TArgs>.

@@ -86,11 +86,11 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
   /**
    * Stake some tokens on the final outcome matching this vote.
-   * 
-   * A transfer of tokens from the staker to this GenesisProtocol scheme 
+   *
+   * A transfer of tokens from the staker to this GenesisProtocol scheme
    * is automatically approved and executed on the token with which
    * this GenesisProtocol scheme was deployed.
-   * 
+   *
    * @param {StakeConfig} opts
    * @returns Promise<ArcTransactionResult>
    */
@@ -117,14 +117,17 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
       throw new Error("amount must be > 0");
     }
 
+    /**
+     * approve immediate transfer of staked tokens from onBehalfOf to this scheme
+     */
     const token = await (await Utils.requireContract("StandardToken")).at(await this.contract.stakingToken()) as any;
-    await token.approve(options.onBehalfOf ? options.onBehalfOf : Utils.getDefaultAccount(), amount);
+    await token.approve(this.address, amount, { from: options.onBehalfOf ? options.onBehalfOf : Utils.getDefaultAccount() });
 
     const tx = await this.contract.stake(
       options.proposalId,
       options.vote,
       amount,
-      options.onBehalfOf ? { from: options.onBehalfOf } : undefined
+      options.onBehalfOf ? { from: options.onBehalfOf ? options.onBehalfOf : Utils.getDefaultAccount() } : undefined
     );
 
     return new ArcTransactionResult(tx);
@@ -1092,6 +1095,14 @@ export interface GetStakerInfoResult {
 
 export interface StakeConfig {
   /**
+   * token amount to stake on the outcome resulting in this vote, in Wei
+   */
+  amount: BigNumber.BigNumber | string;
+  /**
+   * stake on behalf of this agent
+   */
+  onBehalfOf?: Address;
+  /**
    * unique hash of proposal index in the scope of the scheme
    */
   proposalId: string;
@@ -1099,10 +1110,6 @@ export interface StakeConfig {
    * the choice of vote. Can be 1 (YES) or 2 (NO).
    */
   vote: number;
-  /**
-   * token amount to stake on the outcome resulting in this vote, in Wei
-   */
-  amount: BigNumber.BigNumber | string;
 }
 
 export interface VoteWithSpecifiedAmountsConfig {
