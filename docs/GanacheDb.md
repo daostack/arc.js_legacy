@@ -15,16 +15,10 @@ Note that some of these instructions are very similar to what you see when [_not
 
 First you want to run Ganache with the appropriate flags that will create a database.
 
- Synchronously:
-
 ```script
    npm explore @daostack/arc.js -- npm start test.ganacheDb.run
 ```
 
-  Or asynchronously:
-```script
-   npm explore @daostack/arc.js -- npm start test.ganacheDb.runAsync
-```
 ## Migrate the Arc Contracts
 
 Then migrate the Arc contracts [review the full documentation on migrating contracts](../README.md#setting-up-a-testnet-with-arc-contracts):
