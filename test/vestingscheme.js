@@ -77,9 +77,6 @@ describe("VestingScheme scheme", () => {
     let result = await createAgreement(options);
     const agreementId = result.agreementId;
 
-    // approve cancellation return of fees
-    await dao.token.approve(vestingScheme.address, options.amountPerPeriod * options.numOfAgreedPeriods);
-
     result = await vestingScheme.signToCancel({ agreementId: agreementId });
 
     assert.isOk(result);
@@ -112,9 +109,6 @@ describe("VestingScheme scheme", () => {
 
     let result = await createAgreement(options);
     const agreementId = result.agreementId;
-
-    // approve cancellation return of fees
-    await dao.token.approve(vestingScheme.address, options.amountPerPeriod * options.numOfAgreedPeriods);
 
     result = await vestingScheme.signToCancel({ agreementId: agreementId });
 

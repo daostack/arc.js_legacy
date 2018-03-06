@@ -230,20 +230,6 @@ export async function transferTokensToDao(dao, amount, fromAddress, token) {
 }
 
 /**
- * Approve transfer of the dao's native token
- * Amount will be converted to Wei
- * @param {DAO} dao
- * @param {number} amount - will be converted to Wei
- * @param {string} fromAddress - optional, default is accounts[0]
- * @param {string} token - token contract.  optional, default is dao.token
- */
-export async function approveDaoTokenWithdrawal(dao, amount, fromAddress, token) {
-  fromAddress = fromAddress || accounts[0];
-  token = token ? token : dao.token;
-  return token.approve(fromAddress, web3.toWei(amount));
-}
-
-/**
  * Send eth to the dao's avatar
  * @param {DAO} dao
  * @param {number} amount -- will be converted to Wei

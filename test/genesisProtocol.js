@@ -1,5 +1,4 @@
 import { Utils } from "../test-dist/utils";
-const DAOToken = Utils.requireContract("DAOToken");
 import { Contracts } from "../test-dist/contracts.js";
 import { GenesisProtocol } from "../test-dist/contracts/genesisProtocol";
 import { SchemeRegistrar } from "../test-dist/contracts/schemeregistrar";

@@ -121,7 +121,9 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
      * approve immediate transfer of staked tokens from onBehalfOf to this scheme
      */
     const token = await (await Utils.requireContract("StandardToken")).at(await this.contract.stakingToken()) as any;
-    await token.approve(this.address, amount, { from: options.onBehalfOf ? options.onBehalfOf : Utils.getDefaultAccount() });
+    await token.approve(this.address,
+      amount,
+      { from: options.onBehalfOf ? options.onBehalfOf : Utils.getDefaultAccount() });
 
     const tx = await this.contract.stake(
       options.proposalId,

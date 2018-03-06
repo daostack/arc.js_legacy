@@ -145,13 +145,6 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
       throw new Error("agreementId is not defined");
     }
 
-    /**
-     * approve immediate transfer of the given tokens from currentAccount to the VestingScheme
-     */
-    // const amountPerPeriod = Utils.getWeb3().toBigNumber(options.amountPerPeriod);
-    // const token = await (await Utils.requireContract("StandardToken")).at(options.token) as any;
-    // await token.approve(this.address, amountPerPeriod.mul(options.numOfAgreedPeriods));
-
     const tx = await this.contract.signToCancelAgreement(options.agreementId);
 
     return new ArcTransactionResult(tx);
@@ -248,6 +241,21 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
     if (!Number.isInteger(options.startingBlock) || (options.startingBlock < 0)) {
       throw new Error("startingBlock must be greater than or equal to zero");
     }
+  }
+
+  private schemeAgreementToAgreement(schemeAgreement: Array<any>): Agreement {
+    return {
+      amountPerPeriod: schemeAgreement[4],
+      beneficiary: schemeAgreement[1],
+      cliffInPeriods: schemeAgreement[7],
+      collectedPeriods: schemeAgreement[9],
+      numOfAgreedPeriods: schemeAgreement[6],
+      periodLength: schemeAgreement[5],
+      returnOnCancelAddress: schemeAgreement[2],
+      signaturesReqToCancel: schemeAgreement[8],
+      startingBlock: schemeAgreement[3],
+      token: schemeAgreement[0],
+    };
   }
 }
 
@@ -399,4 +407,17 @@ export interface CollectVestingAgreementConfig {
    * the agreementId
    */
   agreementId: number;
+}
+
+export interface Agreement {
+  amountPerPeriod: BigNumber.BigNumber;
+  beneficiary: Address;
+  cliffInPeriods: BigNumber.BigNumber;
+  collectedPeriods: BigNumber.BigNumber;
+  numOfAgreedPeriods: BigNumber.BigNumber;
+  periodLength: BigNumber.BigNumber;
+  returnOnCancelAddress: Address;
+  signaturesReqToCancel: BigNumber.BigNumber;
+  startingBlock: BigNumber.BigNumber;
+  token: Address;
 }
