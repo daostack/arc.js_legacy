@@ -1,7 +1,7 @@
 {
-  "providerUrl": "http://127.0.0.1:8545",
-  "network": "ganache",
+  "autoApproveTokenTransfers": true,
+  "defaultVotingMachine": "AbsoluteVote",
   "gasLimit": 6300000,
-  "apiToken": "",
-  "defaultVotingMachine": "AbsoluteVote"
+  "network": "ganache",
+  "providerUrl": "http://127.0.0.1:8545"
 }

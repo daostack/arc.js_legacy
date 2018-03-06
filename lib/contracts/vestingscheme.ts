@@ -1,6 +1,7 @@
 "use strict";
 import dopts = require("default-options");
-import { Address, Hash } from "../commonTypes";
+import { Address, Hash, fnVoid } from "../commonTypes";
+import { Config } from "../config";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
@@ -9,6 +10,7 @@ import {
   ExtendTruffleContract,
   StandardSchemeParams,
   TransactionReceiptTruffle,
+  DecodedLogEntryEvent,
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
 const SolidityContract = Utils.requireContract("VestingScheme");
@@ -106,8 +108,10 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
     /**
      * approve immediate transfer of the given tokens from currentAccount to the VestingScheme
      */
-    const token = await (await Utils.requireContract("StandardToken")).at(options.token) as any;
-    await token.approve(this.address, amountPerPeriod.mul(options.numOfAgreedPeriods));
+    if (Config.get("autoApproveTokenTransfers")) {
+      const token = await (await Utils.requireContract("StandardToken")).at(options.token) as any;
+      await token.approve(this.address, amountPerPeriod.mul(options.numOfAgreedPeriods));
+    }
 
     const tx = await this.contract.createVestedAgreement(
       options.token,
@@ -200,6 +204,46 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
     return new ArcTransactionResult(tx);
   }
 
+  /**
+   * Return all agreements ever created by this scheme
+   * Filter by the optional agreementId.
+   */
+  public async getAgreements(
+    opts: GetDaoAgreementParams = {} as GetDaoAgreementParams): Promise<Array<Agreement>> {
+
+    const defaults: GetDaoAgreementParams = {
+      avatar: undefined,
+      agreementId: null,
+    };
+
+    const options: GetDaoAgreementParams = dopts(opts, defaults, { allowUnknown: true });
+
+    if (!options.avatar) {
+      throw new Error("avatar address is not defined");
+    }
+
+    const agreements = new Array<Agreement>();
+
+    if (options.agreementId) {
+      const agreement = this.schemeAgreementToAgreement(await this.contract.agreements(options.agreementId), options.agreementId);
+      agreements.push(agreement);
+    } else {
+      const eventFetcher = this.NewVestedAgreement({}, { fromBlock: 0 });
+      await new Promise((resolve: fnVoid): void => {
+        eventFetcher.get(async (err: any, log: Array<DecodedLogEntryEvent<NewVestedAgreementEventResult>>) => {
+          for (const event of log) {
+            const agreementId = event.args._agreementId.toNumber();
+            const agreement = this.schemeAgreementToAgreement(await this.contract.agreements(agreementId), agreementId);
+            agreements.push(agreement);
+          }
+          resolve();
+        });
+      });
+    }
+
+    return agreements;
+  }
+
   public async setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
     return super.setParams(
       params.voteParametersHash,
@@ -243,8 +287,9 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
     }
   }
 
-  private schemeAgreementToAgreement(schemeAgreement: Array<any>): Agreement {
+  private schemeAgreementToAgreement(schemeAgreement: Array<any>, agreementId: number): Agreement {
     return {
+      agreementId: agreementId,
       amountPerPeriod: schemeAgreement[4],
       beneficiary: schemeAgreement[1],
       cliffInPeriods: schemeAgreement[7],
@@ -409,7 +454,19 @@ export interface CollectVestingAgreementConfig {
   agreementId: number;
 }
 
+export interface GetDaoAgreementParams {
+  /**
+   * The address of the avatar
+   */
+  avatar: string;
+  /**
+   * the agreementId
+   */
+  agreementId: number;
+}
+
 export interface Agreement {
+  agreementId: number;
   amountPerPeriod: BigNumber.BigNumber;
   beneficiary: Address;
   cliffInPeriods: BigNumber.BigNumber;

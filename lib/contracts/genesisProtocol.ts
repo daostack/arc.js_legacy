@@ -2,6 +2,7 @@
 import * as BigNumber from "bignumber.js";
 import dopts = require("default-options");
 import { Address, Hash, VoteConfig } from "../commonTypes";
+import { Config } from "../config";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
@@ -120,10 +121,12 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     /**
      * approve immediate transfer of staked tokens from onBehalfOf to this scheme
      */
-    const token = await (await Utils.requireContract("StandardToken")).at(await this.contract.stakingToken()) as any;
-    await token.approve(this.address,
-      amount,
-      { from: options.onBehalfOf ? options.onBehalfOf : Utils.getDefaultAccount() });
+    if (Config.get("autoApproveTokenTransfers")) {
+      const token = await (await Utils.requireContract("StandardToken")).at(await this.contract.stakingToken()) as any;
+      await token.approve(this.address,
+        amount,
+        { from: options.onBehalfOf ? options.onBehalfOf : Utils.getDefaultAccount() });
+    }
 
     const tx = await this.contract.stake(
       options.proposalId,

@@ -2,6 +2,7 @@
 import dopts = require("default-options");
 import { AvatarService } from "../avatarService";
 import { Address, fnVoid, Hash } from "../commonTypes";
+import { Config } from "../config";
 
 import {
   ArcTransactionDataResult,
@@ -123,7 +124,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
     const schemeParams = await controller.getSchemeParameters(this.address, options.avatar);
 
     const orgNativeTokenFee = (await this.contract.parameters(schemeParams))[0];
-    if (orgNativeTokenFee > 0) {
+    if (Config.get("autoApproveTokenTransfers") && (orgNativeTokenFee > 0)) {
       /**
        * approve immediate transfer of native tokens from msg.sender to the avatar
        */
@@ -303,7 +304,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
   }
 
   /**
-   * Return all proposals ever created under the given avatar.
+   * Return all ContributionReward proposals ever created under the given avatar.
    * Filter by the optional proposalId.
    */
   public async getDaoProposals(
