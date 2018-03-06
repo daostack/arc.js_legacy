@@ -15,11 +15,15 @@ export interface NewProposalEventResult {
  * fired by voting machines
  */
 export interface ExecuteProposalEventResult {
-  _decision: number;
+  _decision: BigNumber.BigNumber;
   /**
    * indexed
    */
   _proposalId: Hash;
+  /**
+   * total reputation in the DAO at the time the proposal is created in the voting machine
+   */
+  _totalReputation: BigNumber.BigNumber;
 }
 
 export interface VoteProposalEventResult {

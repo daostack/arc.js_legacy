@@ -68,6 +68,29 @@ describe("GenesisProtocol", () => {
     executableTest = await ExecutableTest.deployed();
   });
 
+
+  it("can get executed proposals", async () => {
+
+    const proposalId1 = await createProposal();
+    await voteProposal(proposalId1, 1);
+
+    const proposalId2 = await createProposal();
+    await voteProposal(proposalId2, 1);
+
+    let proposals = await genesisProtocol.getExecutedDaoProposals({ avatar: dao.avatar.address });
+
+    assert(proposals.length >= 2, "Should have found at least 2 proposals");
+    assert(proposals.filter(p => p.proposalId === proposalId1).length, "proposalId1 not found");
+    assert(proposals.filter(p => p.proposalId === proposalId2).length, "proposalId2 not found");
+
+    proposals = await genesisProtocol.getExecutedDaoProposals({ avatar: dao.avatar.address, proposalId: proposalId2 });
+
+    assert.equal(proposals.length, 1, "Should have found 1 proposals");
+    assert(proposals.filter(p => p.proposalId === proposalId2).length, "proposalId2 not found");
+    assert.isOk(proposals[0].totalReputation, "totalReputation not set properly on proposal");
+    assert.equal(proposals[0].decision, 1, "decision is wrong");
+  });
+
   it("scheme can use GenesisProtocol", async () => {
 
     dao = await helpers.forgeDao({
@@ -164,7 +187,7 @@ describe("GenesisProtocol", () => {
     });
     assert.equal(result, 0);
 
-    voteProposal(proposalId, 1);
+    await voteProposal(proposalId, 1);
 
     result = await genesisProtocol.getVoteStatus({
       proposalId: proposalId,

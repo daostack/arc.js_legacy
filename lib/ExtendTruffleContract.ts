@@ -148,7 +148,10 @@ export abstract class ExtendTruffleContract {
 
         get(callback?: EventCallback<TArgs>): void {
           baseEvent.get((error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>) => {
-            if (!Array.isArray(log)) {
+            if (!!error) {
+              log = [];
+            }
+            else if (!Array.isArray(log)) {
               log = [log];
             }
             callback(error, log);
@@ -157,7 +160,10 @@ export abstract class ExtendTruffleContract {
 
         watch(callback?: EventCallback<TArgs>): void {
           baseEvent.watch((error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>) => {
-            if (!Array.isArray(log)) {
+            if (!!error) {
+              log = [];
+            }
+            else if (!Array.isArray(log)) {
               log = [log];
             }
             callback(error, log);
@@ -174,7 +180,10 @@ export abstract class ExtendTruffleContract {
        */
       const wrapperRootCallback: EventCallback<TArgs> | undefined = rootCallback ?
         (error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>): void => {
-          if (!Array.isArray(log)) {
+          if (!!error) {
+            log = [];
+          }
+          else if (!Array.isArray(log)) {
             log = [log];
           }
           rootCallback(error, log);

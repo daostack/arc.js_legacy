@@ -334,11 +334,15 @@ declare module "@daostack/arc.js" {
    * fired by voting machines
    */
   export interface ExecuteProposalEventResult {
-    _decision: number;
+    _decision: BigNumber.BigNumber;
     /**
      * indexed
      */
     _proposalId: Hash;
+    /**
+     * total reputation in the DAO at the time the proposal is created in the voting machine
+     */
+    _totalReputation: BigNumber.BigNumber;
   }
 
   export interface VoteProposalEventResult {
@@ -1223,7 +1227,7 @@ declare module "@daostack/arc.js" {
     reputationUnredeemedChange: BigNumber.BigNumber;
   }
 
-  export interface GetDaoProposalsParams {
+  export interface GetDaoProposalsConfig {
     /**
      * The avatar under which the proposals were created
      */
@@ -1277,7 +1281,7 @@ declare module "@daostack/arc.js" {
     public redeemReputation(options: ContributionRewardSpecifiedRedemptionParams): Promise<ArcTransactionResult>;
     public redeemExternalToken(options: ContributionRewardSpecifiedRedemptionParams): Promise<ArcTransactionResult>;
 
-    public getDaoProposals(options: GetDaoProposalsParams): Promise<Array<ContributionProposal>>;
+    public getDaoProposals(options: GetDaoProposalsConfig): Promise<Array<ContributionProposal>>;
     public getBeneficiaryRewards(options: GetBeneficiaryRewardsParams): Promise<Array<ProposalRewards>>;
 
     public setParams(params: ContributionRewardParams): Promise<ArcTransactionDataResult<Hash>>;
@@ -1907,13 +1911,44 @@ declare module "@daostack/arc.js" {
     _proposalId: Hash;
   }
 
+  export enum ExecutionState {
+    None = 0,
+    PreBoostedTimeOut = 1,
+    PreBoostedBarCrossed = 2,
+    BoostedTimeOut = 3,
+    BoostedBarCrossed = 4,
+  }
+
+  export interface GenesisProtocolExecuteProposalEventResult extends ExecuteProposalEventResult {
+    /**
+     * _executionState.toNumber() will give you a value from the enum `ExecutionState`
+     */
+    _executionState: ExecutionState;
+  }
+
+  export interface GenesisProposal {
+    decision: BinaryVoteResult;
+    proposalId: Hash;
+    /**
+     * total reputation in the DAO at the time the proposal is created in the voting machine
+     */
+    reputation: BigNumber.BigNumber;
+    executionState: ExecutionState;
+  }
+
+  export enum BinaryVoteResult {
+    None = 0,
+    Yes = 1,
+    No = 2,
+  }
+
   export class GenesisProtocol extends ExtendTruffleScheme {
     public static new(): GenesisProtocol;
     public static at(address: string): GenesisProtocol;
     public static deployed(): GenesisProtocol;
 
     public NewProposal: EventFetcherFactory<NewProposalEventResult>;
-    public ExecuteProposal: EventFetcherFactory<ExecuteProposalEventResult>;
+    public ExecuteProposal: EventFetcherFactory<GenesisProtocolExecuteProposalEventResult>;
     public VoteProposal: EventFetcherFactory<VoteProposalEventResult>;
     public Stake: EventFetcherFactory<StakeEventResult>;
     public Redeem: EventFetcherFactory<RedeemEventResult>;
@@ -1943,6 +1978,7 @@ declare module "@daostack/arc.js" {
     public getStakerInfo(options: GetStakerInfoConfig): Promise<GetStakerInfoResult>;
     public getVoteStake(options: GetVoteStakeConfig): Promise<BigNumber.BigNumber>;
     public getWinningVote(options: GetWinningVoteConfig): Promise<number>;
+    public getExecutedDaoProposals(opts: GetDaoProposalsConfig): Promise<Array<GenesisProposal>>;
     public getState(options: GetStateConfig): Promise<number>;
     public setParams(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>>;
   }

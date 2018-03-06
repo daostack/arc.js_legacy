@@ -1,7 +1,7 @@
 "use strict";
 import dopts = require("default-options");
 import { AvatarService } from "../avatarService";
-import { Address, fnVoid, Hash } from "../commonTypes";
+import { Address, fnVoid, GetDaoProposalsConfig, Hash } from "../commonTypes";
 import { Config } from "../config";
 
 import {
@@ -308,14 +308,14 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
    * Filter by the optional proposalId.
    */
   public async getDaoProposals(
-    opts: GetDaoProposalsParams = {} as GetDaoProposalsParams): Promise<Array<ContributionProposal>> {
+    opts: GetDaoProposalsConfig = {} as GetDaoProposalsConfig): Promise<Array<ContributionProposal>> {
 
-    const defaults: GetDaoProposalsParams = {
+    const defaults: GetDaoProposalsConfig = {
       avatar: undefined,
       proposalId: null,
     };
 
-    const options: GetDaoProposalsParams = dopts(opts, defaults, { allowUnknown: true });
+    const options: GetDaoProposalsConfig = dopts(opts, defaults, { allowUnknown: true });
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
@@ -543,17 +543,6 @@ export interface ContributionProposal {
   reputationChange: BigNumber.BigNumber;
 }
 
-export interface GetDaoProposalsParams {
-  /**
-   * The avatar under which the proposals were created
-   */
-  avatar: Address;
-  /**
-   * Optionally filter on the given proposalId
-   */
-  proposalId?: Hash;
-}
-
 export interface ProposalRewards {
   ethReward: BigNumber.BigNumber;
   ethRewardUnredeemed: BigNumber.BigNumber;
@@ -579,17 +568,6 @@ export interface ContributionRewardSpecifiedRedemptionParams {
    * The reward proposal
    */
   proposalId: string;
-}
-
-export interface GetDaoProposalsParams {
-  /**
-   * The avatar under which the proposals were created
-   */
-  avatar: string;
-  /**
-   * Optionally filter on the given proposalId
-   */
-  proposalId?: string;
 }
 
 export interface GetBeneficiaryRewardsParams {

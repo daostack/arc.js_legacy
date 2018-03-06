@@ -16,3 +16,20 @@ export interface VoteConfig {
    */
   vote: number;
 }
+
+export enum BinaryVoteResult {
+  None = 0,
+  Yes = 1,
+  No = 2,
+}
+
+export interface GetDaoProposalsConfig {
+  /**
+   * The avatar under which the proposals were created
+   */
+  avatar: Address;
+  /**
+   * Optionally filter on the given proposalId
+   */
+  proposalId?: Hash;
+}
