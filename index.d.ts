@@ -1926,7 +1926,7 @@ declare module "@daostack/arc.js" {
     _executionState: ExecutionState;
   }
 
-  export interface GenesisProposal {
+  export interface ExecutedGenesisProposal {
     decision: BinaryVoteResult;
     proposalId: Hash;
     /**
@@ -1978,7 +1978,7 @@ declare module "@daostack/arc.js" {
     public getStakerInfo(options: GetStakerInfoConfig): Promise<GetStakerInfoResult>;
     public getVoteStake(options: GetVoteStakeConfig): Promise<BigNumber.BigNumber>;
     public getWinningVote(options: GetWinningVoteConfig): Promise<number>;
-    public getExecutedDaoProposals(opts: GetDaoProposalsConfig): Promise<Array<GenesisProposal>>;
+    public getExecutedDaoProposals(opts: GetDaoProposalsConfig): Promise<Array<ExecutedGenesisProposal>>;
     public getState(options: GetStateConfig): Promise<number>;
     public setParams(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>>;
   }

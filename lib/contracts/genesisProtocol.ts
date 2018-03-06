@@ -816,7 +816,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    */
   public async getExecutedDaoProposals(
     opts: GetDaoProposalsConfig = {} as GetDaoProposalsConfig)
-    : Promise<Array<GenesisProposal>> {
+    : Promise<Array<ExecutedGenesisProposal>> {
 
     const defaults: GetDaoProposalsConfig = {
       avatar: undefined,
@@ -829,7 +829,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
       throw new Error("avatar address is not defined");
     }
 
-    const proposals = new Array<GenesisProposal>();
+    const proposals = new Array<ExecutedGenesisProposal>();
 
     const eventFetcher = this.ExecuteProposal(
       { _avatar: options.avatar, _proposalId: options.proposalId },
@@ -1385,7 +1385,7 @@ export interface GenesisProtocolExecuteProposalEventResult extends ExecutePropos
   _executionState: BigNumber.BigNumber;
 }
 
-export interface GenesisProposal {
+export interface ExecutedGenesisProposal {
   decision: BinaryVoteResult;
   proposalId: Hash;
   /**
