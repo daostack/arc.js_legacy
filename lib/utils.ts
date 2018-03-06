@@ -32,7 +32,7 @@ export class Utils {
       contract.setProvider(myWeb3.currentProvider);
       contract.defaults({
         from: Utils.getDefaultAccount(),
-        gas: Config.get("normalTxGasLimit"),
+        gas: Config.get("gasLimit.runtime"),
       });
       return contract;
     } catch (ex) {

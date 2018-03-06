@@ -2,7 +2,7 @@
   "providerUrl": "http://127.0.0.1:8545",
   "network": "ganache",
   "gasLimit": 6300000,
-  "normalTxGasLimit": "4543760",
+  "gasLimit.runtime": "4543760",
   "apiToken": "",
   "defaultVotingMachine": "AbsoluteVote"
 }
