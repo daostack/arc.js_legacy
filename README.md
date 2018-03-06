@@ -79,14 +79,9 @@ Arc.js runs against an Ethereum network where it assumes that the Arc contracts 
 
 To deploy contracts to a Ganache testnet, run the following scripts:
 
-Either synchronously in a separate shell window:
+In a separate shell window:
 ```script
 npm explore @daostack/arc.js -- npm start test.ganache.run
-```
-
-Or asynchronously in the background of your current shell window:
-```script
-npm explore @daostack/arc.js -- npm start test.ganache.runAsync
 ```
 
 If you are running the migration for the first time:
@@ -411,7 +406,7 @@ The identical method is available on the DAO class:
 const upgradeScheme = await DAO.getScheme("UpgradeScheme");
 ```
 
-### Obtain a wrapper using the wrapper's factory class 
+### Obtain a wrapper using the wrapper's factory class
 
 Each wrapper has a factory that provides static `.new()`, `.deployed()` and `.at()` methods.  These methods are implemented by `ContractWrapperFactory`.
 
