@@ -158,7 +158,6 @@ describe("ContributionReward scheme", () => {
     await helpers.increaseTime(1);
 
     await helpers.transferTokensToDao(dao, 10, undefined, externalToken);
-    await helpers.approveDaoTokenWithdrawal(dao, 10, dao.avatar.address, externalToken);
 
     // now try to redeem some native tokens
     result = await scheme.redeemExternalToken({

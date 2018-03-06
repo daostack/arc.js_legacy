@@ -226,7 +226,7 @@ export async function getDaoScheme(dao, schemeName, factory) {
 export async function transferTokensToDao(dao, amount, fromAddress, token) {
   fromAddress = fromAddress || accounts[0];
   token = token ? token : dao.token;
-  token.transfer(dao.avatar.address, web3.toWei(amount), { from: fromAddress });
+  return token.transfer(dao.avatar.address, web3.toWei(amount), { from: fromAddress });
 }
 
 /**
@@ -251,5 +251,5 @@ export async function approveDaoTokenWithdrawal(dao, amount, fromAddress, token)
  */
 export async function transferEthToDao(dao, amount, fromAddress) {
   fromAddress = fromAddress || accounts[0];
-  web3.eth.sendTransaction({ from: fromAddress, to: dao.avatar.address, value: web3.toWei(amount) });
+  return web3.eth.sendTransaction({ from: fromAddress, to: dao.avatar.address, value: web3.toWei(amount) });
 }
