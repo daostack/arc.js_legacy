@@ -144,7 +144,7 @@ describe("ContributionReward scheme", () => {
 
   it("can redeem external tokens", async () => {
 
-    const externalToken = dao.token;
+    const externalToken = await dao.token;
 
     let result = await proposeReward({
       externalTokenReward: web3.toWei(10),
