@@ -154,6 +154,8 @@ describe("ContributionReward scheme", () => {
 
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
+    await helpers.increaseTime(1);
+
     await helpers.transferTokensToDao(dao, 10, undefined, externalToken);
 
     // now try to redeem some native tokens
