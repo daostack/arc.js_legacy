@@ -80,16 +80,11 @@ module.exports = {
       ),
       ganache: {
         run: ganacheCommand,
-        runAsync: `node node_modules/run-with-ganache/bin/run-with-ganache --ganache-cmd "${ganacheCommand}" " "`
       },
       ganacheDb: {
         run: series(
           mkdirp(pathDaostackArcGanacheDb),
           ganacheDbCommand,
-        ),
-        runAsync: series(
-          mkdirp(pathDaostackArcGanacheDb),
-          `node node_modules/run-with-ganache/bin/run-with-ganache --ganache-cmd "${ganacheDbCommand}" " "`
         ),
         clean: rimraf(pathDaostackArcGanacheDb),
         zip: `node ./package-scripts/archiveGanacheDb.js ${pathDaostackArcGanacheDbZip} ${pathDaostackArcGanacheDb}`,
