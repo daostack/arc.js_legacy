@@ -190,7 +190,6 @@ describe("VestingScheme scheme", () => {
 
     assert.isOk(result);
     assert.isOk(result.tx);
-    assert.isOk(result.agreementId);
   });
 
   it("propose agreement fails when no period is given", async () => {
