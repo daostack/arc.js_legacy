@@ -79,7 +79,7 @@ Arc.js runs against an Ethereum network where it assumes that the Arc contracts 
 
 To deploy contracts to a Ganache testnet, run the following scripts:
 
-Synchronously in a separate shell window:
+In a separate shell window:
 ```script
 npm explore @daostack/arc.js -- npm start test.ganache.run
 ```
