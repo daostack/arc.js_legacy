@@ -154,6 +154,7 @@ describe("ContributionReward scheme", () => {
 
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
+    // this will mine a block, allowing the award to be redeemed
     await helpers.increaseTime(1);
 
     await helpers.transferTokensToDao(dao, 10, undefined, externalToken);
