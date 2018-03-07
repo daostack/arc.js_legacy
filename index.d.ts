@@ -1427,6 +1427,31 @@ declare module "@daostack/arc.js" {
     _agreementId: BigNumber.BigNumber;
   }
 
+  export interface GetAgreementParams {
+    /**
+     * The address of the avatar
+     */
+    avatar: string;
+    /**
+     * the agreementId
+     */
+    agreementId: number;
+  }
+
+  export interface Agreement {
+    agreementId: number;
+    amountPerPeriod: BigNumber.BigNumber;
+    beneficiary: Address;
+    cliffInPeriods: BigNumber.BigNumber;
+    collectedPeriods: BigNumber.BigNumber;
+    numOfAgreedPeriods: BigNumber.BigNumber;
+    periodLength: BigNumber.BigNumber;
+    returnOnCancelAddress: Address;
+    signaturesReqToCancel: BigNumber.BigNumber;
+    startingBlock: BigNumber.BigNumber;
+    token: Address;
+  }
+
   export class VestingScheme extends ExtendTruffleScheme {
     public static new(): VestingScheme;
     public static at(address: string): VestingScheme;
@@ -1465,6 +1490,8 @@ declare module "@daostack/arc.js" {
      * @param {CollectVestingAgreementConfig} options
      */
     public collect(options: CollectVestingAgreementConfig): Promise<ArcTransactionResult>;
+
+    public getAgreements(opts: GetAgreementParams): Promise<Array<Agreement>>;
 
     public setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
   }

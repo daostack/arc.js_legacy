@@ -811,7 +811,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
   }
 
   /**
-   * Return all GenesisProtocol proposals ever created under the given avatar.
+   * Return all executed GenesisProtocol proposals created under the given avatar.
    * Filter by the optional proposalId.
    */
   public async getExecutedDaoProposals(
