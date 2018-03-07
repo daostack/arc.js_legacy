@@ -1,6 +1,8 @@
 "use strict";
 import dopts = require("default-options");
-import { Address, fnVoid, Hash } from "../commonTypes";
+import { AvatarService } from "../avatarService";
+import { Address, fnVoid, GetDaoProposalsConfig, Hash } from "../commonTypes";
+import { Config } from "../config";
 
 import {
   ArcTransactionDataResult,
@@ -116,6 +118,19 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
 
     if (!options.beneficiary) {
       throw new Error("beneficiary is not defined");
+    }
+
+    const controller = await this.getController(options.avatar);
+    const schemeParams = await controller.getSchemeParameters(this.address, options.avatar);
+
+    const orgNativeTokenFee = (await this.contract.parameters(schemeParams))[0];
+    if (Config.get("autoApproveTokenTransfers") && (orgNativeTokenFee > 0)) {
+      /**
+       * approve immediate transfer of native tokens from msg.sender to the avatar
+       */
+      const avatarService = new AvatarService(options.avatar);
+      const token = await avatarService.getNativeToken();
+      await token.approve(this.address, orgNativeTokenFee, { from: Utils.getDefaultAccount() });
     }
 
     const tx = await this.contract.proposeContributionReward(
@@ -289,18 +304,18 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
   }
 
   /**
-   * Return all proposals ever created under the given avatar.
+   * Return all ContributionReward proposals ever created under the given avatar.
    * Filter by the optional proposalId.
    */
   public async getDaoProposals(
-    opts: GetDaoProposalsParams = {} as GetDaoProposalsParams): Promise<Array<ContributionProposal>> {
+    opts: GetDaoProposalsConfig = {} as GetDaoProposalsConfig): Promise<Array<ContributionProposal>> {
 
-    const defaults: GetDaoProposalsParams = {
+    const defaults: GetDaoProposalsConfig = {
       avatar: undefined,
       proposalId: null,
     };
 
-    const options: GetDaoProposalsParams = dopts(opts, defaults, { allowUnknown: true });
+    const options: GetDaoProposalsConfig = dopts(opts, defaults, { allowUnknown: true });
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
@@ -528,17 +543,6 @@ export interface ContributionProposal {
   reputationChange: BigNumber.BigNumber;
 }
 
-export interface GetDaoProposalsParams {
-  /**
-   * The avatar under which the proposals were created
-   */
-  avatar: Address;
-  /**
-   * Optionally filter on the given proposalId
-   */
-  proposalId?: Hash;
-}
-
 export interface ProposalRewards {
   ethReward: BigNumber.BigNumber;
   ethRewardUnredeemed: BigNumber.BigNumber;
@@ -564,17 +568,6 @@ export interface ContributionRewardSpecifiedRedemptionParams {
    * The reward proposal
    */
   proposalId: string;
-}
-
-export interface GetDaoProposalsParams {
-  /**
-   * The avatar under which the proposals were created
-   */
-  avatar: string;
-  /**
-   * Optionally filter on the given proposalId
-   */
-  proposalId?: string;
 }
 
 export interface GetBeneficiaryRewardsParams {

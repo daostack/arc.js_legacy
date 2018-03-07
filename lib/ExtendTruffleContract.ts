@@ -1,3 +1,4 @@
+import { AvatarService } from "./avatarService";
 import { Address, Hash } from "./commonTypes";
 import { Config } from "./config";
 import { Utils } from "./utils";
@@ -105,6 +106,11 @@ export abstract class ExtendTruffleContract {
 
   public get address(): Address { return this.contract.address; }
 
+  public async getController(avatarAddress: Address): Promise<any> {
+    const avatarService = new AvatarService(avatarAddress);
+    return await avatarService.getController();
+  }
+
   /**
    * Return a function that creates an EventFetcher<TArgs>.
    * For subclasses to use to create their event handlers.
@@ -142,7 +148,10 @@ export abstract class ExtendTruffleContract {
 
         get(callback?: EventCallback<TArgs>): void {
           baseEvent.get((error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>) => {
-            if (!Array.isArray(log)) {
+            if (!!error) {
+              log = [];
+            }
+            else if (!Array.isArray(log)) {
               log = [log];
             }
             callback(error, log);
@@ -151,7 +160,10 @@ export abstract class ExtendTruffleContract {
 
         watch(callback?: EventCallback<TArgs>): void {
           baseEvent.watch((error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>) => {
-            if (!Array.isArray(log)) {
+            if (!!error) {
+              log = [];
+            }
+            else if (!Array.isArray(log)) {
               log = [log];
             }
             callback(error, log);
@@ -168,7 +180,10 @@ export abstract class ExtendTruffleContract {
        */
       const wrapperRootCallback: EventCallback<TArgs> | undefined = rootCallback ?
         (error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>): void => {
-          if (!Array.isArray(log)) {
+          if (!!error) {
+            log = [];
+          }
+          else if (!Array.isArray(log)) {
             log = [log];
           }
           rootCallback(error, log);

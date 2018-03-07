@@ -6,9 +6,6 @@ describe("VestingScheme scheme", () => {
   let vestingScheme;
 
   const createAgreement = async (options) => {
-
-    await dao.token.approve(vestingScheme.address, options.amountPerPeriod * options.numOfAgreedPeriods);
-
     return await vestingScheme.create(options);
   };
 
@@ -35,7 +32,40 @@ describe("VestingScheme scheme", () => {
 
   });
 
-  it("collect on the agreement", async () => {
+  it("can get DAO's agreements", async () => {
+
+    const options = {
+      token: await dao.token.address,
+      beneficiary: accounts[0],
+      returnOnCancelAddress: helpers.SOME_ADDRESS,
+      amountPerPeriod: web3.toWei(10),
+      periodLength: 1,
+      numOfAgreedPeriods: 1,
+      cliffInPeriods: 0,
+      signaturesReqToCancel: 1,
+      signers: [accounts[0]]
+    };
+
+    let result = await createAgreement(options);
+    const agreementId1 = result.agreementId;
+
+    result = await createAgreement(options);
+    const agreementId2 = result.agreementId;
+
+    let agreements = await vestingScheme.getAgreements({ avatar: dao.avatar.address });
+
+    assert(agreements.length >= 2, "Should have found at least 2 agreements");
+    assert(agreements.filter(a => a.agreementId === agreementId1).length, "agreementId1 not found");
+    assert(agreements.filter(a => a.agreementId === agreementId2).length, "agreement2 not found");
+
+    agreements = await vestingScheme.getAgreements({ avatar: dao.avatar.address, agreementId: agreementId2 });
+
+    assert.equal(agreements.length, 1, "Should have found 1 agreements");
+    assert(agreements.filter(p => p.agreementId === agreementId2).length, "agreement2 not found");
+    assert.equal(agreements[0].beneficiary, accounts[0], "beneficiary not set properly on agreement");
+  });
+
+  it("can collect on the agreement", async () => {
 
     const options = {
       token: await dao.token.address,
@@ -80,9 +110,6 @@ describe("VestingScheme scheme", () => {
     let result = await createAgreement(options);
     const agreementId = result.agreementId;
 
-    // approve cancellation return of fees
-    await dao.token.approve(vestingScheme.address, options.amountPerPeriod * options.numOfAgreedPeriods);
-
     result = await vestingScheme.signToCancel({ agreementId: agreementId });
 
     assert.isOk(result);
@@ -115,9 +142,6 @@ describe("VestingScheme scheme", () => {
 
     let result = await createAgreement(options);
     const agreementId = result.agreementId;
-
-    // approve cancellation return of fees
-    await dao.token.approve(vestingScheme.address, options.amountPerPeriod * options.numOfAgreedPeriods);
 
     result = await vestingScheme.signToCancel({ agreementId: agreementId });
 
@@ -166,7 +190,6 @@ describe("VestingScheme scheme", () => {
 
     assert.isOk(result);
     assert.isOk(result.tx);
-    assert.isOk(result.proposalId);
   });
 
   it("propose agreement fails when no period is given", async () => {

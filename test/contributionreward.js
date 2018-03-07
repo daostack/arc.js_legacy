@@ -28,6 +28,24 @@ describe("ContributionReward scheme", () => {
     }, rewardsSpec));
   };
 
+  it("can create and propose with orgNativeTokenFee", async () => {
+
+    dao = await helpers.forgeDao({
+      schemes: [
+        { name: "ContributionReward", additionalParams: { orgNativeTokenFee: web3.toWei(10) } }
+      ]
+    });
+
+    scheme = await helpers.getDaoScheme(dao, "ContributionReward", ContributionReward);
+
+    /**
+     * should not revert
+     */
+    await proposeReward({
+      nativeTokenReward: web3.toWei(10)
+    });
+  });
+
   it("can propose, vote and redeem", async () => {
 
     let result = await proposeReward({
@@ -143,7 +161,7 @@ describe("ContributionReward scheme", () => {
 
   it("can redeem external tokens", async () => {
 
-    const externalToken = dao.token;  // await Utils.requireContract("DAOToken").new("ExternalRewardToken", "ERT");
+    const externalToken = await dao.token;
 
     let result = await proposeReward({
       externalTokenReward: web3.toWei(10),

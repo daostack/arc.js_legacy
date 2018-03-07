@@ -1,11 +1,13 @@
 "use strict";
 import * as BigNumber from "bignumber.js";
 import dopts = require("default-options");
-import { Address, Hash, VoteConfig } from "../commonTypes";
+import { Address, BinaryVoteResult, fnVoid, GetDaoProposalsConfig, Hash, VoteConfig } from "../commonTypes";
+import { Config } from "../config";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   ArcTransactionResult,
+  DecodedLogEntryEvent,
   EventFetcherFactory,
   ExtendTruffleContract,
 } from "../ExtendTruffleContract";
@@ -27,7 +29,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
   /* tslint:disable:max-line-length */
   public NewProposal: EventFetcherFactory<NewProposalEventResult> = this.createEventFetcherFactory<NewProposalEventResult>("NewProposal");
-  public ExecuteProposal: EventFetcherFactory<ExecuteProposalEventResult> = this.createEventFetcherFactory<ExecuteProposalEventResult>("ExecuteProposal");
+  public ExecuteProposal: EventFetcherFactory<GenesisProtocolExecuteProposalEventResult> = this.createEventFetcherFactory<GenesisProtocolExecuteProposalEventResult>("ExecuteProposal");
   public VoteProposal: EventFetcherFactory<VoteProposalEventResult> = this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal");
   public Stake: EventFetcherFactory<StakeEventResult> = this.createEventFetcherFactory<StakeEventResult>("Stake");
   public Redeem: EventFetcherFactory<RedeemEventResult> = this.createEventFetcherFactory<RedeemEventResult>("Redeem");
@@ -86,6 +88,11 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
   /**
    * Stake some tokens on the final outcome matching this vote.
+   *
+   * A transfer of tokens from the staker to this GenesisProtocol scheme
+   * is automatically approved and executed on the token with which
+   * this GenesisProtocol scheme was deployed.
+   *
    * @param {StakeConfig} opts
    * @returns Promise<ArcTransactionResult>
    */
@@ -93,6 +100,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
     const defaults = {
       amount: undefined,
+      onBehalfOf: null,
       proposalId: undefined,
       vote: undefined,
     };
@@ -111,10 +119,21 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
       throw new Error("amount must be > 0");
     }
 
+    /**
+     * approve immediate transfer of staked tokens from onBehalfOf to this scheme
+     */
+    if (Config.get("autoApproveTokenTransfers")) {
+      const token = await (await Utils.requireContract("StandardToken")).at(await this.contract.stakingToken()) as any;
+      await token.approve(this.address,
+        amount,
+        { from: options.onBehalfOf ? options.onBehalfOf : Utils.getDefaultAccount() });
+    }
+
     const tx = await this.contract.stake(
       options.proposalId,
       options.vote,
-      amount
+      amount,
+      options.onBehalfOf ? { from: options.onBehalfOf ? options.onBehalfOf : Utils.getDefaultAccount() } : undefined
     );
 
     return new ArcTransactionResult(tx);
@@ -791,11 +810,46 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     return state;
   }
 
-  public async _validateVote(vote: number, proposalId: Hash): Promise<void> {
-    const numChoices = await this.getNumberOfChoices({ proposalId });
-    if (!Number.isInteger(vote) || (vote < 0) || (vote > numChoices)) {
-      throw new Error("vote is not valid");
+  /**
+   * Return all executed GenesisProtocol proposals created under the given avatar.
+   * Filter by the optional proposalId.
+   */
+  public async getExecutedDaoProposals(
+    opts: GetDaoProposalsConfig = {} as GetDaoProposalsConfig)
+    : Promise<Array<ExecutedGenesisProposal>> {
+
+    const defaults: GetDaoProposalsConfig = {
+      avatar: undefined,
+      proposalId: null,
+    };
+
+    const options: GetDaoProposalsConfig = dopts(opts, defaults, { allowUnknown: true });
+
+    if (!options.avatar) {
+      throw new Error("avatar address is not defined");
     }
+
+    const proposals = new Array<ExecutedGenesisProposal>();
+
+    const eventFetcher = this.ExecuteProposal(
+      { _avatar: options.avatar, _proposalId: options.proposalId },
+      { fromBlock: 0 });
+    await new Promise((resolve: fnVoid): void => {
+      eventFetcher.get(
+        async (err: any, log: Array<DecodedLogEntryEvent<GenesisProtocolExecuteProposalEventResult>>) => {
+          for (const event of log) {
+            proposals.push({
+              decision: event.args._decision.toNumber(),
+              executionState: event.args._executionState.toNumber(),
+              proposalId: event.args._proposalId,
+              totalReputation: event.args._totalReputation,
+            });
+          }
+          resolve();
+        });
+    });
+
+    return proposals;
   }
 
   /**
@@ -852,6 +906,13 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
   public getDefaultPermissions(overrideValue?: string): string {
     return overrideValue || "0x00000001";
+  }
+
+  private async _validateVote(vote: number, proposalId: Hash): Promise<void> {
+    const numChoices = await this.getNumberOfChoices({ proposalId });
+    if (!Number.isInteger(vote) || (vote < 0) || (vote > numChoices)) {
+      throw new Error("vote is not valid");
+    }
   }
 }
 
@@ -1082,6 +1143,14 @@ export interface GetStakerInfoResult {
 
 export interface StakeConfig {
   /**
+   * token amount to stake on the outcome resulting in this vote, in Wei
+   */
+  amount: BigNumber.BigNumber | string;
+  /**
+   * stake on behalf of this agent
+   */
+  onBehalfOf?: Address;
+  /**
    * unique hash of proposal index in the scope of the scheme
    */
   proposalId: string;
@@ -1089,10 +1158,6 @@ export interface StakeConfig {
    * the choice of vote. Can be 1 (YES) or 2 (NO).
    */
   vote: number;
-  /**
-   * token amount to stake on the outcome resulting in this vote, in Wei
-   */
-  amount: BigNumber.BigNumber | string;
 }
 
 export interface VoteWithSpecifiedAmountsConfig {
@@ -1303,4 +1368,29 @@ export interface GetStateConfig {
    * unique hash of proposal index in the scope of the scheme
    */
   proposalId: string;
+}
+
+export enum ExecutionState {
+  None = 0,
+  PreBoostedTimeOut = 1,
+  PreBoostedBarCrossed = 2,
+  BoostedTimeOut = 3,
+  BoostedBarCrossed = 4,
+}
+
+export interface GenesisProtocolExecuteProposalEventResult extends ExecuteProposalEventResult {
+  /**
+   * _executionState.toNumber() will give you a value from the enum `ExecutionState`
+   */
+  _executionState: BigNumber.BigNumber;
+}
+
+export interface ExecutedGenesisProposal {
+  decision: BinaryVoteResult;
+  proposalId: Hash;
+  /**
+   * total reputation in the DAO at the time the proposal is created in the voting machine
+   */
+  totalReputation: BigNumber.BigNumber;
+  executionState: ExecutionState;
 }
