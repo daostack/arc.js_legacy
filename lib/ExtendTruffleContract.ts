@@ -36,7 +36,7 @@ export abstract class ExtendTruffleContract {
     solidityContract.defaults({
       // Use web3.eth.defaultAccount as the from account for all transactions
       from: Utils.getDefaultAccount(),
-      gas: Config.get("gasLimit"),
+      gas: Config.get("gasLimit_runtime"),
     });
   }
 
