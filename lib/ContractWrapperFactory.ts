@@ -13,12 +13,6 @@ export default class ContractWrapperFactory<TContract extends ExtendTruffleContr
   public constructor(private solidityContractName: string, private wrapper: new (solidityContract: any) => TContract) {
   }
 
-  private ensureSolidityContract() {
-    if (!this.solidityContract) {
-      this.solidityContract = Utils.requireContract(this.solidityContractName);
-    }
-  }
-
   public async new(...rest: Array<any>): Promise<TContract> {
     this.ensureSolidityContract();
     return new this.wrapper(this.solidityContract).new(...rest);
@@ -32,5 +26,11 @@ export default class ContractWrapperFactory<TContract extends ExtendTruffleContr
   public async deployed(): Promise<TContract> {
     this.ensureSolidityContract();
     return new this.wrapper(this.solidityContract).deployed();
+  }
+
+  private ensureSolidityContract(): void {
+    if (!this.solidityContract) {
+      this.solidityContract = Utils.requireContract(this.solidityContractName);
+    }
   }
 }

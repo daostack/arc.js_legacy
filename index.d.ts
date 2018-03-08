@@ -131,9 +131,8 @@ declare module "@daostack/arc.js" {
      * Returns the web3 object.
      * When called for the first time, web3 is initialized from the Arc.js configuration.
      * Throws an exception when web3 cannot be initialized.
-     * @param {boolean} forceReload true to reload/retry web3
      */
-    public static getWeb3(forceReload?: boolean): Web3;
+    public static getWeb3(): Web3;
 
     public static getValueFromLogs(
       tx: TransactionReceiptTruffle,

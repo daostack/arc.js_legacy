@@ -47,16 +47,8 @@ export class Utils {
    * Throws an exception when web3 cannot be initialized.
    * @param {boolean} forceReload true to reload/retry web3
    */
-  public static getWeb3(forceReload: boolean = false): any {
-
-    if (forceReload) {
-      delete Utils.web3;
-      Utils.alreadyTriedAndFailed = false;
-      if (typeof window !== "undefined") {
-        delete window.web3;
-      }
-    }
-    else if (Utils.web3) {
+  public static getWeb3(): any {
+    if (Utils.web3) {
       return Utils.web3;
     }
 
@@ -91,7 +83,6 @@ export class Utils {
 
     return (Utils.web3 = preWeb3);
   }
-
   /**
    * Returns a value from the given transaction log.
    * Undefined if not found for any reason.
