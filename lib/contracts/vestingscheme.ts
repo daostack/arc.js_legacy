@@ -1,7 +1,9 @@
 "use strict";
+import * as BigNumber from "bignumber.js";
 import dopts = require("default-options");
 import { Address, fnVoid, Hash } from "../commonTypes";
 import { Config } from "../config";
+import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
@@ -13,9 +15,6 @@ import {
   TransactionReceiptTruffle,
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
-const SolidityContract = Utils.requireContract("VestingScheme");
-import * as BigNumber from "bignumber.js";
-import ContractWrapperFactory from "../ContractWrapperFactory";
 import { ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 /**
@@ -316,7 +315,7 @@ export class ArcTransactionAgreementResult extends ArcTransactionResult {
   }
 }
 
-const VestingScheme = new ContractWrapperFactory(SolidityContract, VestingSchemeWrapper);
+const VestingScheme = new ContractWrapperFactory("VestingScheme", VestingSchemeWrapper);
 export { VestingScheme };
 
 export interface AgreementProposalEventResult {

@@ -69,7 +69,6 @@ declare module "@daostack/arc.js" {
     GlobalConstraintRegistrar: ArcContractInfo;
     SchemeRegistrar: ArcContractInfo;
     TokenCapGC: ArcContractInfo;
-    UController: ArcContractInfo;
     UpgradeScheme: ArcContractInfo;
     VestingScheme: ArcContractInfo;
     VoteInOrganizationScheme: ArcContractInfo;
@@ -111,7 +110,7 @@ declare module "@daostack/arc.js" {
      * @param contract - name of an Arc scheme, like "SchemeRegistrar"
      * @param address - optional
      */
-    public static getScheme(contract: string, address?: string): Promise<ExtendTruffleScheme | undefined>;
+    public static getContractWrapper(contract: string, address?: string): Promise<ExtendTruffleScheme | undefined>;
   }
 
   /********************************
@@ -128,7 +127,13 @@ declare module "@daostack/arc.js" {
       contractName: string
     ): any;
 
-    public static getWeb3(): Web3;
+    /**
+     * Returns the web3 object.
+     * When called for the first time, web3 is initialized from the Arc.js configuration.
+     * Throws an exception when web3 cannot be initialized.
+     * @param {boolean} forceReload true to reload/retry web3
+     */
+    public static getWeb3(forceReload?: boolean): Web3;
 
     public static getValueFromLogs(
       tx: TransactionReceiptTruffle,
@@ -690,11 +695,11 @@ declare module "@daostack/arc.js" {
      */
     public getGlobalConstraints(contractName?: string): Promise<Array<DaoGlobalConstraintInfo>>;
     /**
-     * Returns an Arc.js scheme wrapper, or undefined if not found
+     * Returns an Arc.js contract wrapper, or undefined if not found
      * @param contract - name of an Arc scheme, like "SchemeRegistrar"
      * @param address - optional
      */
-    public getScheme(
+    public getContractWrapper(
       contractName: string,
       address?: string
     ): Promise<ExtendTruffleScheme | undefined>;

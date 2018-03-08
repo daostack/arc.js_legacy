@@ -390,13 +390,13 @@ Recall from [Categories of Arc Contracts](#categories-of-arc-contracts) that `ge
 
 ```javascript
 import * as ArcJs from '@daostack/arc.js';
-const upgradeScheme = await ArcJs.Contracts.getScheme("UpgradeScheme");
+const upgradeScheme = await ArcJs.Contracts.getContractWrapper("UpgradeScheme");
 ```
 
 #### At a specific address
 ```javascript
 import * as ArcJs from '@daostack/arc.js';
-const upgradeScheme = await ArcJs.Contracts.getScheme("UpgradeScheme", anAddress);
+const upgradeScheme = await ArcJs.Contracts.getContractWrapper("UpgradeScheme", anAddress);
 ```
 
 #### Via the DAO
@@ -404,7 +404,7 @@ const upgradeScheme = await ArcJs.Contracts.getScheme("UpgradeScheme", anAddress
 The identical method is available on the DAO class:
 
 ```javascript
-const upgradeScheme = await DAO.getScheme("UpgradeScheme");
+const upgradeScheme = await DAO.getContractWrapper("UpgradeScheme");
 ```
 
 ### Obtain a wrapper using the wrapper's factory class

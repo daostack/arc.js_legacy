@@ -167,12 +167,12 @@ export class DAO {
   }
 
   /**
-   * Returns an Arc.js scheme wrapper, or undefined if not found
-   * @param contract - name of an Arc scheme, like "SchemeRegistrar"
+   * Returns an Arc.js contract wrapper or undefined if not found.
+   * @param contract - name of an Arc contract, like "SchemeRegistrar"
    * @param address - optional
    */
-  public async getScheme(contract: string, address?: Address): Promise<ExtendTruffleContract | undefined> {
-    return Contracts.getScheme(contract, address);
+  public async getContractWrapper(contract: string, address?: Address): Promise<ExtendTruffleContract | undefined> {
+    return Contracts.getContractWrapper(contract, address);
   }
 
   /**

@@ -4,9 +4,7 @@ import {
   ArcTransactionDataResult,
   ExtendTruffleContract,
 } from "../ExtendTruffleContract";
-import { Utils } from "../utils";
 
-const SolidityContract = Utils.requireContract("TokenCapGC");
 import ContractWrapperFactory from "../ContractWrapperFactory";
 
 export class TokenCapGCWrapper extends ExtendTruffleContract {
@@ -26,7 +24,7 @@ export class TokenCapGCWrapper extends ExtendTruffleContract {
   }
 }
 
-const TokenCapGC = new ContractWrapperFactory(SolidityContract, TokenCapGCWrapper);
+const TokenCapGC = new ContractWrapperFactory("TokenCapGC", TokenCapGCWrapper);
 export { TokenCapGC };
 
 export interface TokenCapGcParams {

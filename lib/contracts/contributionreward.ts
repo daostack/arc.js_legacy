@@ -4,6 +4,8 @@ import { AvatarService } from "../avatarService";
 import { Address, fnVoid, GetDaoProposalsConfig, Hash } from "../commonTypes";
 import { Config } from "../config";
 
+import * as BigNumber from "bignumber.js";
+import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
@@ -14,9 +16,6 @@ import {
   StandardSchemeParams,
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
-const SolidityContract = Utils.requireContract("ContributionReward");
-import * as BigNumber from "bignumber.js";
-import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ProposalDeletedEventResult,
   ProposalExecutedEventResult,
@@ -458,7 +457,7 @@ enum RewardType {
   ExternalToken = 3,
 }
 
-const ContributionReward = new ContractWrapperFactory(SolidityContract, ContributionRewardWrapper);
+const ContributionReward = new ContractWrapperFactory("ContributionReward", ContributionRewardWrapper);
 export { ContributionReward };
 
 export interface NewContributionProposalEventResult {

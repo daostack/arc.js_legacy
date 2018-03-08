@@ -8,14 +8,13 @@ import { Utils } from "./utils";
  * Example of how to define a wrapper:
  *
  *   import { ExtendTruffleContract } from "../ExtendTruffleContract";
- *   const SolidityContract = Utils.requireContract("AbsoluteVote");
  *   import ContractWrapperFactory from "../ContractWrapperFactory";
  *
  *   export class AbsoluteVoteWrapper extends ExtendTruffleContract {
  *     [ wrapper properties and methods ]
  *   }
  *
- *   const AbsoluteVote = new ContractWrapperFactory(SolidityContract, AbsoluteVoteWrapper);
+ *   const AbsoluteVote = new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper);
  *   export { AbsoluteVote };
  */
 export abstract class ExtendTruffleContract {
@@ -150,8 +149,7 @@ export abstract class ExtendTruffleContract {
           baseEvent.get((error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>) => {
             if (!!error) {
               log = [];
-            }
-            else if (!Array.isArray(log)) {
+            } else if (!Array.isArray(log)) {
               log = [log];
             }
             callback(error, log);
@@ -162,8 +160,7 @@ export abstract class ExtendTruffleContract {
           baseEvent.watch((error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>) => {
             if (!!error) {
               log = [];
-            }
-            else if (!Array.isArray(log)) {
+            } else if (!Array.isArray(log)) {
               log = [log];
             }
             callback(error, log);
@@ -182,8 +179,7 @@ export abstract class ExtendTruffleContract {
         (error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>): void => {
           if (!!error) {
             log = [];
-          }
-          else if (!Array.isArray(log)) {
+          } else if (!Array.isArray(log)) {
             log = [log];
           }
           rootCallback(error, log);

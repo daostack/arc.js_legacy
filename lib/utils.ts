@@ -42,12 +42,21 @@ export class Utils {
   }
 
   /**
-   * Returns the web2 object.
+   * Returns the web3 object.
    * When called for the first time, web3 is initialized from the Arc.js configuration.
-   * Throws an exception when web3 cannot be initialized or there is no default client
+   * Throws an exception when web3 cannot be initialized.
+   * @param {boolean} forceReload true to reload/retry web3
    */
-  public static getWeb3(): any {
-    if (Utils.web3) {
+  public static getWeb3(forceReload: boolean = false): any {
+
+    if (forceReload) {
+      delete Utils.web3;
+      Utils.alreadyTriedAndFailed = false;
+      if (typeof window !== "undefined") {
+        delete window.web3;
+      }
+    }
+    else if (Utils.web3) {
       return Utils.web3;
     }
 
