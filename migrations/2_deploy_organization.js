@@ -6,9 +6,8 @@ module.exports = async (deployer) => {
 
   const gasAmount = Config.get("gasLimit_deployment");
   const network = Config.get("network");
-  console.log(`Deploying to ${network}, gasLimit: ${gasAmount}`);
-
   const founders = require("./founders.json").founders[network];
+  console.log(`Deploying to ${network}, gasLimit: ${gasAmount},  ${founders.length} founders`);
   /**
    * Truffle Solidity artifact wrappers
    */
