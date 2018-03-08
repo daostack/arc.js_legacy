@@ -33,7 +33,7 @@ module.exports = async (deployer) => {
   /**
    *  Genesis DAO parameters,  FOR TESTING PURPOSES ONLY
    */
-  const orgName = "Genesis-Test";
+  const orgName = "Genesis";
   const tokenName = "Gen";
   const tokenSymbol = "GEN";
   const orgNativeTokenFee = 0;
