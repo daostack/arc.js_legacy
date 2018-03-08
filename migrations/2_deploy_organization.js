@@ -1,11 +1,21 @@
 const Config = require("../dist/config").Config;
-const founders = require("./founders.json").founders[Config.get("network")];
 /**
  * Migration callback
  */
 module.exports = async (deployer) => {
 
+  /**
+   * to deploy to a particular network:
+   * 1) set the environment variable "network" to the name of the network
+   * 2) if needed, set the appropriate values in ../lib/config and run `npm start build`
+   * 3) make sure founders.json has an entry for your network with the appropriate founders
+   * 4) run `npm start migrateContracts`
+   */
   const gasAmount = Config.get("gasLimit_deployment");
+  const network = Config.get("network");
+  console.log(`Deploying to ${network}, gasLimit: ${gasAmount}`);
+
+  const founders = require("./founders.json").founders[network];
   /**
    * Truffle Solidity artifact wrappers
    */
