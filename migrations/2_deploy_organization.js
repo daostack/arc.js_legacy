@@ -70,8 +70,9 @@ module.exports = async (deployer) => {
       founders.map((f) => f.address),
       founders.map((f) => web3.toWei(f.tokens)),
       founders.map((f) => web3.toWei(f.reputation)),
-      // use the universal controller
-      0);
+      // don't use the universal controller
+      0,
+      { gas: gasAmount });
 
     const AvatarInst = await Avatar.at(tx.logs[0].args._avatar);
     const controllerAddress = await AvatarInst.owner();
