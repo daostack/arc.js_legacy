@@ -1,4 +1,4 @@
-const Config = require("../dist/config").Config;
+const Config = require("../dist/config.js").Config;
 /**
  * Migration callback
  */
