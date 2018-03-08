@@ -60,16 +60,6 @@ module.exports = async (deployer) => {
 
     const daoCreatorInst = await DaoCreator.deployed();
 
-    console.log({
-      "orgName": orgName,
-      "tokenName": tokenName,
-      "tokenSymbol": tokenSymbol,
-      "addresses": founders.map((f) => f.address),
-      "tokens": founders.map((f) => web3.toWei(f.tokens)),
-      "reputation": founders.map((f) => web3.toWei(f.reputation)),
-      "UController": 0
-    });
-
     /**
      * Create the Genesis DAO
      */
