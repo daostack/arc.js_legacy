@@ -133,8 +133,9 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase {
     return new ArcTransactionProposalResult(tx);
   }
 
-  public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
-    return super.setParameters(
+  public async setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
+    return super._setParams(
+      ["bytes32", "bytes32", "address"],
       params.voteParametersHash,
       params.voteParametersHash,
       params.votingMachineAddress

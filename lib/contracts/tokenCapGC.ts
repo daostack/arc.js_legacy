@@ -20,7 +20,10 @@ export class TokenCapGCWrapper extends ContractWrapperBase {
       throw new Error("cap must be set and represent a number");
     }
 
-    return super.setParameters(params.token, params.cap);
+    return super._setParams(
+      ["address", "uint"],
+      params.token,
+      params.cap);
   }
 }
 

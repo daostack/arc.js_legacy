@@ -897,7 +897,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase {
       throw new Error("preBoostedVoteRequiredPercentage must be greater than 0 and less than or equal to 100");
     }
 
-    return super.setParameters(
+    return super._setParams(
+      ["uint12", "address"],
       [
         params.preBoostedVoteRequiredPercentage,
         params.preBoostedVotePeriodLimit,

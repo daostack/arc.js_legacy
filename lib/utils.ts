@@ -4,7 +4,7 @@ import TruffleContract = require("truffle-contract");
 import Web3 = require("web3");
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "./commonTypes";
 import { Config } from "./config";
-import { TransactionReceiptTruffle } from "./contractWrapperBase";
+import { ContractWrapperBase, TransactionReceiptTruffle } from "./contractWrapperBase";
 import { LoggingService } from "./loggingService";
 
 export class Utils {
@@ -174,7 +174,27 @@ export class Utils {
    * @param str a string
    */
   public static SHA3(str: string): string {
-    return `0x${abi.soliditySHA3(["string"], [str]).toString("hex")}`;
+    return Utils.keccak256(["string"], [str]);
+  }
+
+  /**
+   * Return the tightly-packed hash of any arbtrary array of
+   * object, to a hex format that will be properly translated into
+   * a bytes32 that solidity expects.
+   *
+   * See: https://github.com/ethereumjs/ethereumjs-abi
+   *
+   * @param types array of type names.  Can be:
+   *   case "bytes[N]', - fails if (N < 1 || N > 32)
+   *   case "string',
+   *   case "bool',
+   *   case "address',
+   *   case "uint[N]' - fails if ((N % 8) || (N < 8) || (N > 256))
+   *   case "int[N]'  - fails if ((N % 8) || (N < 8) || (N > 256))
+   * @param values - the values to pack and hash
+   */
+  public static keccak256(types: Array<string>, values: Array<any>): string {
+    return `0x${abi.soliditySHA3(types, values).toString("hex")}`;
   }
 
   /**
@@ -196,6 +216,55 @@ export class Utils {
     if (!permissions) { permissions = SchemePermissions.None; }
 
     return `0x${("00000000" + (permissions as number).toString(16)).substr(-8)}`;
+  }
+
+  /**
+   * Returns whether the given parameters has already been hashed.
+   * @param schemeWrapper The scheme ostensibly having the parameters
+   * @param types See Utils.keccak256
+   * @param parameters The parameters.  Be sure they are given in the same
+   * order in which they would be stored by the scheme (see Utils.setParams).
+   */
+  public static async parametersHashExists(
+    schemeWrapper: ContractWrapperBase,
+    types: Array<string>,
+    parameters: Array<any>): Promise<boolean> {
+
+    const hash = Utils.keccak256(types, parameters);
+
+    const existingParams = await schemeWrapper.contract.parameters(hash);
+    /**
+     * if existingParams is all zeroes, then assume that the parameters have never
+     * before been stored.  If any item is not zero, then return true.
+     */
+    for (let i = 0; i < types.length; ++i) {
+      switch (types[i]) {
+        case "string":
+        case "bool":
+          if (existingParams[i]) {
+            return true;
+          }
+          break;
+        case "address":
+          if (existingParams[i].localeCompare(Utils.NULL_ADDRESS)) {
+            return true;
+          }
+          break;
+        default:
+          const type: any = types[i];
+          if (type.startsWith("uint") || type.startsWith("int")) {
+            if (existingParams[i].toNumber()) {
+              return true;
+            }
+          } else if (type.startsWith("bytes")) {
+            if (parseInt(existingParams[i], 16)) {
+              return true;
+            }
+          }
+          break;
+      }
+    }
+    return false;
   }
 
   private static web3: Web3 = undefined;

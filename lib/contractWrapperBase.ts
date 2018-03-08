@@ -87,9 +87,7 @@ export abstract class ContractWrapperBase {
    * Currently all params are required, contract wrappers do not as yet apply default values.
    */
   public async setParameters(...args: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
-    const parametersHash: Hash = await this.contract.getParametersHash(...args);
-    const tx: TransactionReceiptTruffle = await this.contract.setParameters(...args);
-    return new ArcTransactionDataResult<Hash>(tx, parametersHash);
+    throw new Error("setParams is a abstract function that should not be called directly");
   }
 
   /**
@@ -234,6 +232,25 @@ export abstract class ContractWrapperBase {
 
     return eventFetcherFactory;
   }
+
+  /**
+   * subclasses will override setParams and call this
+   * @param args
+   */
+  protected async _setParams(types: Array<string>, ...args: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
+    const parametersHash: Hash = await this.contract.getParametersHash(...args);
+    /**
+     * trying to minimize transactions by avoiding saving these params if they have already been saved
+     */
+    if (!(await Utils.parametersHashExists(this, types, args))) {
+      const tx = await this.contract.setParameters(...args);
+      // console.log(`returning new hash: ${parametersHash}`);
+      return new ArcTransactionDataResult<Hash>(tx, parametersHash);
+    } else {
+      // console.log(`returning cached hash: ${parametersHash}`);
+      return new ArcTransactionDataResult<Hash>(null, parametersHash);
+    }
+  }
 }
 
 /**
@@ -253,11 +270,12 @@ export interface TransactionReceiptTruffle {
 export class ArcTransactionResult {
 
   /**
-   * the transaction result to be returned
+   * The transaction result to be returned.
+   * Subclasses may set tx to null (see ArcTransactionDataResult).
    */
-  public tx: TransactionReceiptTruffle;
+  public tx: TransactionReceiptTruffle | null;
 
-  constructor(tx: TransactionReceiptTruffle) {
+  constructor(tx: TransactionReceiptTruffle | null) {
     this.tx = tx;
   }
 
@@ -288,7 +306,9 @@ export class ArcTransactionProposalResult extends ArcTransactionResult {
   }
 }
 /**
- * Base or actual type returned by all contract wrapper methods that generate a transaction and any other result.
+ * Base or actual type returned by all contract wrapper methods that generate a transaction
+ * and any other result.
+ * tx may be null if the result could be obtained without incurring a transaction.
  */
 export class ArcTransactionDataResult<TData> extends ArcTransactionResult {
   /**
@@ -296,7 +316,7 @@ export class ArcTransactionDataResult<TData> extends ArcTransactionResult {
    */
   public result: TData;
 
-  constructor(tx: TransactionReceiptTruffle, result: TData) {
+  constructor(tx: TransactionReceiptTruffle | null, result: TData) {
     super(tx);
     this.result = result;
   }

@@ -70,7 +70,8 @@ export class AbsoluteVoteWrapper extends ContractWrapperBase {
       throw new Error("reputation must be set");
     }
 
-    return super.setParameters(
+    return super._setParams(
+      ["address", "uint", "bool"],
       params.reputation,
       params.votePerc,
       params.ownerVote

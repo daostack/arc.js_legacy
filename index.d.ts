@@ -109,7 +109,7 @@ declare module "@daostack/arc.js" {
    * Base or actual type returned by all contract wrapper methods that generate a transaction.
    */
   export interface ArcTransactionResult {
-    tx: TransactionReceiptTruffle;
+    tx: TransactionReceiptTruffle | null;
     /**
      * Return a value from the transaction logs.
      * @param valueName - The name of the property whose value we wish to return
