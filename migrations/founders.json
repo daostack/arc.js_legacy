@@ -2,32 +2,32 @@
   "founders": {
     "ganache": [
       {
-        "address": "0x8d4408014d165ec69d8cc9f091d8f4578ac5564f376f21887e98a6d33a6e3549",
+        "address": "0xb0c908140fe6fd6fbd4990a5c2e35ca6dc12bfb2",
         "tokens": 1000,
         "reputation": 1000
       },
       {
-        "address": "0x2215f0a41dd3bb93f03049514949aaafcf136e6965f4a066d6bf42cc9f75a106",
+        "address": "0x9c7f9f45a22ad3d667a5439f72b563df3aa70aae",
         "tokens": 1000,
         "reputation": 1000
       },
       {
-        "address": "0x6695c8ef58fecfc7410bf8b80c17319eaaca8b9481cc9c682fd5da116f20ef05",
+        "address": "0xa2a064b3b22fc892dfb71923a6d844b953aa247c",
         "tokens": 1000,
         "reputation": 1000
       },
       {
-        "address": "0xb9a8635b40a60ad5b78706d4ede244ddf934dc873262449b473076de0c1e2959",
+        "address": "0xdeeaa92e025ca7fe34679b0b92cd4ffa162c8de8",
         "tokens": 1000,
         "reputation": 1000
       },
       {
-        "address": "0x55887c2c6107237ac3b50fb17d9ff7313cad67757e44d1be5eb7bbf9fc9ca2ea",
+        "address": "0x81cfdaf70273745a291a7cf9af801a4cffa87a95",
         "tokens": 1000,
         "reputation": 1000
       },
       {
-        "address": "0xb16a587ad59c2b3a3f47679ed2df348d6828a3bb5c6bb3797a1d5a567ce823cb",
+        "address": "0x8ec400484deb5330bcd0bc005c13a557c5247727",
         "tokens": 1000,
         "reputation": 1000
       }
