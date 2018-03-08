@@ -1,5 +1,5 @@
-const founders = require("./founders.kovan.json").founders;
 const Config = require("../dist/config").Config;
+const founders = require(`./founders.${Config.get("network")}.json`).founders;
 /**
  * Migration callback
  */
