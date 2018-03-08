@@ -117,7 +117,8 @@ The default configuration settings for Arc.js can be found in its `config/defaul
 
 ```json
 {
-  "providerUrl": "http://127.0.0.0:8545",
+  "providerUrl": "http://127.0.0.0",
+  "providerUrl": 8545,
   "network": "ganache",
   "gasLimit_runtime": 6015000
 }
