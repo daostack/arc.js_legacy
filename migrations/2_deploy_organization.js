@@ -1,5 +1,5 @@
 const Config = require("../dist/config").Config;
-const founders = require(`./founders.${Config.get("network")}.json`).founders;
+const founders = require("./founders.json").founders[Config.get("network")];
 /**
  * Migration callback
  */
@@ -26,9 +26,9 @@ module.exports = async (deployer) => {
   const VoteInOrganizationScheme = artifacts.require("VoteInOrganizationScheme.sol");
   const GenesisProtocol = artifacts.require("GenesisProtocol.sol");
   /**
-   *  Genesis DAO parameters
+   *  Genesis DAO parameters,  FOR TESTING PURPOSES ONLY
    */
-  const orgName = "Genesis";
+  const orgName = "Genesis-Test";
   const tokenName = "Gen";
   const tokenSymbol = "GEN";
   const orgNativeTokenFee = 0;
@@ -70,7 +70,7 @@ module.exports = async (deployer) => {
       founders.map((f) => f.address),
       founders.map((f) => web3.toWei(f.tokens)),
       founders.map((f) => web3.toWei(f.reputation)),
-      // don't use the universal controller
+      // use non-universal controller
       0,
       { gas: gasAmount });
 
