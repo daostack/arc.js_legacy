@@ -142,6 +142,7 @@ declare module "@daostack/arc.js" {
     ): string;
 
     public static getDefaultAccount(): any;
+    public static getDefaultAccountAsync(): Promise<string>;
   }
 
   /********************************
