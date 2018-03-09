@@ -128,6 +128,16 @@ declare module "@daostack/arc.js" {
     ): any;
 
     /**
+     * Returns TruffleContract given the name of the contract (like "SchemeRegistrar").
+     * Optimized for synchronicity issues encountered with MetaMask.
+     * Throws an exception if it can't load the contract.
+     * Retries Config.requireContractRetryCount times, sleeping(0) after each unsuccessful try.
+     * Uses the asynchronous web.eth.getAccounts to obtain the default account.
+     * @param contractName like "SchemeRegistrar"
+     */
+    public static requireContractAsync(contractName: string): Promise<any>;
+
+    /**
      * Returns the web3 object.
      * When called for the first time, web3 is initialized from the Arc.js configuration.
      * Throws an exception when web3 cannot be initialized.

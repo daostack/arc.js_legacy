@@ -26,20 +26,61 @@ export class Utils {
    */
   public static requireContract(contractName: string): any {
     try {
-      const myWeb3 = Utils.getWeb3();
-
-      const artifact = require(`../migrated_contracts/${contractName}.json`);
-      const contract = new TruffleContract(artifact);
-
-      contract.setProvider(myWeb3.currentProvider);
-      contract.defaults({
-        from: Utils.getDefaultAccount(),
-        gas: Config.get("gasLimit_runtime"),
-      });
-      return contract;
+      const artifact = Utils.getContractArtifact(contractName);
+      const contract = Utils.getContract(artifact);
+      if (!contract) {
+        return undefined;
+      } else {
+        Utils.initContract(contract);
+        return contract;
+      }
     } catch (ex) {
       return undefined;
     }
+  }
+
+  /**
+   * Returns TruffleContract given the name of the contract (like "SchemeRegistrar").
+   * Optimized for synchronicity issues encountered with MetaMask.
+   * Throws an exception if it can't load the contract.
+   * Retries Config.requireContractRetryCount times, sleeping(0) after each unsuccessful try.
+   * Uses the asynchronous web.eth.getAccounts to obtain the default account.
+   * @param contractName like "SchemeRegistrar"
+   */
+  public static async requireContractAsync(contractName: string): Promise<any> {
+    const artifact = Utils.getContractArtifact(contractName);
+    let retryCount = Config.get("requireContractRetryCount");
+    /**
+     * try until we catch one or exceed the limit pf retries
+     */
+    return new Promise<any>(
+      async (resolve: (contract: any) => void, reject: (msg: string) => void): Promise<any> => {
+        /**
+         * We will try and sleep(0) retryCount times until giving up.
+         * MetaMask needs sleep...
+         */
+        while (retryCount--) {
+          let contract;
+          try {
+            contract = Utils.getContract(artifact);
+            if (contract) {
+              await Utils.initContractAsync(contract);
+            }
+          } catch {
+            contract = null;
+          }
+
+          if (contract) {
+            resolve(contract);
+            break;
+          } else if (!retryCount) {
+            reject(`requireContractAsync: unable to load solidity contract: ${contractName}`);
+          } else {
+            /* tslint:disable-next-line:no-empty */
+            setTimeout((): void => { }, 0);
+          }
+        }
+      });
   }
 
   /**
@@ -218,4 +259,32 @@ export class Utils {
 
   private static web3: Web3 = undefined;
   private static alreadyTriedAndFailed: boolean = false;
+
+  private static getContract(artifact: string): any {
+    return new TruffleContract(artifact);
+  }
+
+  private static initContract(contract: any): void {
+    const myWeb3 = Utils.getWeb3();
+
+    contract.setProvider(myWeb3.currentProvider);
+    contract.defaults({
+      from: Utils.getDefaultAccount(),
+      gas: Config.get("gasLimit_runtime"),
+    });
+  }
+
+  private static async initContractAsync(contract: any): Promise<void> {
+    const myWeb3 = Utils.getWeb3();
+
+    contract.setProvider(myWeb3.currentProvider);
+    contract.defaults({
+      from: await Utils.getDefaultAccountAsync(),
+      gas: Config.get("gasLimit_runtime"),
+    });
+  }
+
+  private static getContractArtifact(contractName: string): any {
+    return require(`../migrated_contracts/${contractName}.json`);
+  }
 }

@@ -5,5 +5,6 @@
   "gasLimit_runtime": 4543760,
   "network": "ganache",
   "providerUrl": "http://127.0.0.1",
-  "providerPort": 8545
+  "providerPort": 8545,
+  "requireContractRetryCount": 10
 }
