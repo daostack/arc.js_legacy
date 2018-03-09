@@ -1,3 +1,4 @@
+import { promisify } from "es6-promisify";
 import abi = require("ethereumjs-abi");
 import TruffleContract = require("truffle-contract");
 import Web3 = require("web3");
@@ -45,7 +46,6 @@ export class Utils {
    * Returns the web3 object.
    * When called for the first time, web3 is initialized from the Arc.js configuration.
    * Throws an exception when web3 cannot be initialized.
-   * @param {boolean} forceReload true to reload/retry web3
    */
   public static getWeb3(): any {
     if (Utils.web3) {
@@ -160,13 +160,33 @@ export class Utils {
    */
   public static getDefaultAccount(): string {
     const web3 = Utils.getWeb3();
-    const defaultAccount = (web3.eth.defaultAccount =
-      web3.eth.defaultAccount || web3.eth.accounts[0]);
+    const defaultAccount = web3.eth.defaultAccount = web3.eth.accounts[0];
 
     if (!defaultAccount) {
       throw new Error("eth.accounts[0] is not set");
     }
     return defaultAccount;
+  }
+
+  /**
+   * Returns the address of the default user account.
+   *
+   * Has the side-effect of setting web3.eth.defaultAccount.
+   *
+   * Throws an exception on failure.
+   */
+  public static async getDefaultAccountAsync(): Promise<string> {
+    const web3 = Utils.getWeb3();
+
+    return promisify(web3.eth.getAccounts)().then((accounts: Array<any>) => {
+      const defaultAccount = web3.eth.defaultAccount = accounts[0];
+
+      if (!defaultAccount) {
+        throw new Error("accounts[0] is not set");
+      }
+
+      return defaultAccount;
+    });
   }
 
   /**

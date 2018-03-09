@@ -2,8 +2,15 @@
 import "./helpers";
 import { TestWrapper } from "../test-dist/test/contracts/testWrapper";
 import { AbsoluteVote } from "../test-dist/contracts/absoluteVote";
+import { Utils } from "../test-dist/utils";
 
 describe("ExtendTruffleContract", () => {
+  it("can call getDefaultAccountAsync", async () => {
+    const defaultAccount = Utils.getDefaultAccount();
+    const defaultAccountAsync = await Utils.getDefaultAccountAsync();
+    assert(defaultAccount === defaultAccountAsync);
+  });
+
   it("Must have sane inheritance", async () => {
     let scheme;
 
