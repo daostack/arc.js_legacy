@@ -1,9 +1,15 @@
+const Config = require("../dist/config.js").Config;
 /**
  * Migration callback
  */
 module.exports = async (deployer) => {
 
-  const gasAmount = 6300000;
+  const gasAmount = Config.get("gasLimit_deployment");
+  const network = Config.get("network");
+  const founders = require("./founders.json").founders[network];
+
+  /* eslint-disable no-console */
+  console.log(`Deploying to ${network}, gasLimit: ${gasAmount},  ${founders.length} founders`);
 
   /**
    * Truffle Solidity artifact wrappers
@@ -25,28 +31,25 @@ module.exports = async (deployer) => {
   const VoteInOrganizationScheme = artifacts.require("VoteInOrganizationScheme.sol");
   const GenesisProtocol = artifacts.require("GenesisProtocol.sol");
   /**
-   *  Genesis DAO parameters
+   *  Genesis DAO parameters,  FOR TESTING PURPOSES ONLY
    */
   const orgName = "Genesis";
   const tokenName = "Gen";
   const tokenSymbol = "GEN";
-  const founders = [web3.eth.accounts[0]];
-  const initRepInWei = [web3.toWei(10)];
-  const initTokenInWei = [web3.toWei(1000)];
   const orgNativeTokenFee = 0;
   const defaultVotingMachineParams = {
     preBoostedVoteRequiredPercentage: 50,
-    preBoostedVotePeriodLimit: 60,
-    boostedVotePeriodLimit: 60,
-    thresholdConstA: 1,
-    thresholdConstB: 1,
+    preBoostedVotePeriodLimit: 5184000, // 2 months
+    boostedVotePeriodLimit: 604800, // 1 week
+    thresholdConstA: 2,
+    thresholdConstB: 10,
     minimumStakingFee: 0,
-    quietEndingPeriod: 0,
-    proposingRepRewardConstA: 1,
-    proposingRepRewardConstB: 1,
-    stakerFeeRatioForVoters: 1,
-    votersReputationLossRatio: 10,
-    votersGainRepRatioFromLostRep: 80,
+    quietEndingPeriod: 7200, // Two hours
+    proposingRepRewardConstA: 5, // baseline rep rewarded
+    proposingRepRewardConstB: 5, // how much to weight strength of yes votes vs no votes in reward
+    stakerFeeRatioForVoters: 1, // 1 percent of staker fee given to voters
+    votersReputationLossRatio: 1, // 1 percent of rep lost by voting
+    votersGainRepRatioFromLostRep: 80, // percentage of how much rep correct voters get from incorrect voters who lost rep
     governanceFormulasInterface: "0x0000000000000000000000000000000000000000"
   };
   const schemeRegistrarPermissions = "0x00000003";
@@ -54,7 +57,6 @@ module.exports = async (deployer) => {
   const upgradeSchemePermissions = "0x00000009";
   const contributionRewardPermissions = "0x00000001";
   const genesisProtocolPermissions = "0x00000001";
-
   /**
    * Apparently we must wrap the first deploy call in a `then` to avoid
    * what seems to be race conditions during deployment.
@@ -62,6 +64,7 @@ module.exports = async (deployer) => {
   deployer.deploy(DaoCreator, { gas: gasAmount }).then(async () => {
 
     const daoCreatorInst = await DaoCreator.deployed();
+
     /**
      * Create the Genesis DAO
      */
@@ -69,11 +72,12 @@ module.exports = async (deployer) => {
       orgName,
       tokenName,
       tokenSymbol,
-      founders,
-      initTokenInWei,
-      initRepInWei,
-      // use the universal controller
-      0);
+      founders.map((f) => f.address),
+      founders.map((f) => web3.toWei(f.tokens)),
+      founders.map((f) => web3.toWei(f.reputation)),
+      // use non-universal controller
+      0,
+      { gas: gasAmount });
 
     const AvatarInst = await Avatar.at(tx.logs[0].args._avatar);
     const controllerAddress = await AvatarInst.owner();

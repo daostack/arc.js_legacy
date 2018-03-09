@@ -9,30 +9,26 @@ import { UpgradeScheme } from "./contracts/upgradescheme.js";
 import { VestingScheme } from "./contracts/vestingscheme.js";
 import { VoteInOrganizationScheme } from "./contracts/voteInOrganizationScheme.js";
 import { ExtendTruffleContract } from "./ExtendTruffleContract";
-import { Utils } from "./utils";
-
-const UController = Utils.requireContract("UController");
 
 /*******************************
  * Arc contract information as contained in ArcDeployedContractNames
  */
 export interface ArcContractInfo {
   /**
-   * An uninitialized instance of ExtendTruffleContract,
-   * basically the class factory with static methods.
+   * ContractWrapperFactory that has static methods that return the contract wrapper.
    */
   contract: any;
   /**
    * address of the instance deployed by Arc.
-   * Calling contract.at() (a static method on ExtendTruffleContract) will return a
-   * the properly initialized instance of ExtendTruffleContract.
+   * Calling contract.at() (a static method on ContractWrapperFactory) will return
+   * the fully hydrated instance of the wrapper class.
    */
   address: string;
 }
 
 /**
- * An object with property names being a contract key and property value as the corresponding ArcContractInfo.
- * For all contracts deployed by Arc.js.
+ * An object with property names being a contract key and property value as the
+ * corresponding ArcContractInfo.  Includes the set of contracts that have wrappers in Arc.js.
  */
 export interface ArcDeployedContractNames {
   AbsoluteVote: ArcContractInfo;
@@ -42,7 +38,6 @@ export interface ArcDeployedContractNames {
   GlobalConstraintRegistrar: ArcContractInfo;
   SchemeRegistrar: ArcContractInfo;
   TokenCapGC: ArcContractInfo;
-  UController: ArcContractInfo;
   UpgradeScheme: ArcContractInfo;
   VestingScheme: ArcContractInfo;
   VoteInOrganizationScheme: ArcContractInfo;
@@ -50,20 +45,23 @@ export interface ArcDeployedContractNames {
 
 /**
  * ArcDeployedContractNames, and those contracts organized by type.
- * Call it.at(it.address) to get javascript wrapper
+ * Call it.at(it.address) to get contract wrapper
  */
 export interface ArcDeployedContracts {
+  /**
+   * All wrapped contracts
+   */
   allContracts: ArcDeployedContractNames;
   /**
-   * All deployed schemes
+   * All wrapped schemes
    */
   schemes: Array<ArcContractInfo>;
   /**
-   * All deployed voting machines
+   * All wrapped voting machines
    */
   votingMachines: Array<ArcContractInfo>;
   /**
-   * All deployed global constraints
+   * All wrapped global constraints
    */
   globalConstraints: Array<ArcContractInfo>;
 }
@@ -76,8 +74,7 @@ export class Contracts {
 
     if (!Contracts.contracts) {
       /**
-       * These are deployed contract instances represented by their respective Arc
-       * javascript wrappers (ExtendTruffleContract).
+       * These are the contract wrapper instances deployed by Arc.js.
        */
       const absoluteVote = await AbsoluteVote.deployed();
       const genesisProtocol = await GenesisProtocol.deployed();
@@ -87,14 +84,11 @@ export class Contracts {
       const schemeRegistrar = await SchemeRegistrar.deployed();
       const tokenCapGC = await TokenCapGC.deployed();
       const upgradeScheme = await UpgradeScheme.deployed();
-      const uController = await UController.deployed();
       const vestingScheme = await VestingScheme.deployed();
       const voteInOrganizationScheme = await VoteInOrganizationScheme.deployed();
 
       /**
-       * `contract` here is effectively the class wrapper factory.
-       * Calling contract.at() (a static method on the factory) will return a
-       * fully hydrated instance of ExtendTruffleContract.
+       * `contract` here is the ContractWrapperFactory
        */
       const contracts = {
         AbsoluteVote: {
@@ -124,10 +118,6 @@ export class Contracts {
         TokenCapGC: {
           address: tokenCapGC.contract.address,
           contract: TokenCapGC,
-        },
-        UController: {
-          address: uController.address,
-          contract: UController,
         },
         UpgradeScheme: {
           address: upgradeScheme.contract.address,
@@ -167,12 +157,11 @@ export class Contracts {
   }
 
   /**
-   * Returns an Arc.js scheme wrapper, if wrapped, else raw Truffle contract,
-   * or undefined if not found
-   * @param contract - name of an Arc scheme, like "SchemeRegistrar"
+   * Returns an Arc.js contract wrapper or undefined if not found.
+   * @param contract - name of an Arc contract, like "SchemeRegistrar"
    * @param address - optional
    */
-  public static async getScheme(contract: string, address?: string)
+  public static async getContractWrapper(contract: string, address?: string)
     : Promise<ExtendTruffleContract | undefined> {
     const contracts = await Contracts.getDeployedContracts();
     const contractInfo = contracts.allContracts[contract];

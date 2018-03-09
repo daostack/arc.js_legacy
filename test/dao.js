@@ -228,22 +228,22 @@ describe("DAO", () => {
     assert.equal((await dao.getSchemes()).length, 4);
   });
 
-  it("has a working getScheme() function", async () => {
+  it("has a working getContractWrapper() function", async () => {
     const dao = await helpers.forgeDao();
-    const scheme = await dao.getScheme("UpgradeScheme");
+    const scheme = await dao.getContractWrapper("UpgradeScheme");
     assert.isOk(scheme);
     assert(scheme instanceof UpgradeSchemeWrapper);
   });
 
-  it("getScheme() function handles bad scheme", async () => {
+  it("getContractWrapper() function handles bad scheme", async () => {
     const dao = await helpers.forgeDao();
-    const scheme = await dao.getScheme("NoSuchScheme");
+    const scheme = await dao.getContractWrapper("NoSuchScheme");
     assert.equal(scheme, undefined);
   });
 
-  it("getScheme() function handles bad address", async () => {
+  it("getContractWrapper() function handles bad address", async () => {
     const dao = await helpers.forgeDao();
-    const scheme = await dao.getScheme("UpgradeScheme", helpers.NULL_ADDRESS);
+    const scheme = await dao.getContractWrapper("UpgradeScheme", helpers.NULL_ADDRESS);
     assert.equal(scheme, undefined);
   });
 
@@ -253,7 +253,7 @@ describe("DAO", () => {
     assert.equal((await dao.getGlobalConstraints()).length, 0);
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address))[1].toNumber(), 0);
 
-    const tokenCapGC = await dao.getScheme("TokenCapGC");
+    const tokenCapGC = await dao.getContractWrapper("TokenCapGC");
 
     const globalConstraintParametersHash = (await tokenCapGC.setParams({
       token: dao.token.address,

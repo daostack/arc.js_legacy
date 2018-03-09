@@ -3,14 +3,8 @@ import { AbsoluteVoteParams } from "contracts/absoluteVote";
 import { Hash } from "../../commonTypes";
 import ContractWrapperFactory from "../../ContractWrapperFactory";
 import { ArcTransactionDataResult, ExtendTruffleContract } from "../../ExtendTruffleContract";
-import { Utils } from "../../utils";
-const SolidityContract = Utils.requireContract("AbsoluteVote");
 
 export class TestWrapperWrapper extends ExtendTruffleContract {
-
-  constructor() {
-    super(SolidityContract);
-  }
 
   public foo(): string {
     return "bar";
@@ -41,5 +35,5 @@ export class TestWrapperWrapper extends ExtendTruffleContract {
   }
 }
 
-const TestWrapper = new ContractWrapperFactory(SolidityContract, TestWrapperWrapper);
+const TestWrapper = new ContractWrapperFactory("AbsoluteVote", TestWrapperWrapper);
 export { TestWrapper };

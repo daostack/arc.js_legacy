@@ -3,6 +3,7 @@ import * as BigNumber from "bignumber.js";
 import dopts = require("default-options");
 import { Address, BinaryVoteResult, fnVoid, GetDaoProposalsConfig, Hash, VoteConfig } from "../commonTypes";
 import { Config } from "../config";
+import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
@@ -12,8 +13,6 @@ import {
   ExtendTruffleContract,
 } from "../ExtendTruffleContract";
 import { Utils } from "../utils";
-const SolidityContract = Utils.requireContract("GenesisProtocol");
-import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ExecuteProposalEventResult,
   NewProposalEventResult,
@@ -916,7 +915,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
   }
 }
 
-const GenesisProtocol = new ContractWrapperFactory(SolidityContract, GenesisProtocolWrapper);
+const GenesisProtocol = new ContractWrapperFactory("GenesisProtocol", GenesisProtocolWrapper);
 export { GenesisProtocol };
 
 export interface StakeEventResult {

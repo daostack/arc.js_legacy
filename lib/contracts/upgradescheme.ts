@@ -8,10 +8,8 @@ import {
   ExtendTruffleContract,
   StandardSchemeParams,
 } from "../ExtendTruffleContract";
-import { Utils } from "../utils";
 
 import ContractWrapperFactory from "../ContractWrapperFactory";
-const SolidityContract = Utils.requireContract("UpgradeScheme");
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 export class UpgradeSchemeWrapper extends ExtendTruffleContract {
@@ -122,7 +120,7 @@ export class UpgradeSchemeWrapper extends ExtendTruffleContract {
   }
 }
 
-const UpgradeScheme = new ContractWrapperFactory(SolidityContract, UpgradeSchemeWrapper);
+const UpgradeScheme = new ContractWrapperFactory("UpgradeScheme", UpgradeSchemeWrapper);
 export { UpgradeScheme };
 
 export interface NewUpgradeProposalEventResult {

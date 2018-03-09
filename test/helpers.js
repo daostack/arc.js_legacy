@@ -71,7 +71,7 @@ export async function forgeDao(opts = {}) {
  */
 export async function addProposeContributionReward(dao) {
   const schemeRegistrar = await getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
-  const contributionReward = await dao.getScheme("ContributionReward");
+  const contributionReward = await dao.getContractWrapper("ContributionReward");
 
   const votingMachineHash = await getSchemeVotingMachineParametersHash(dao, schemeRegistrar, 0);
   const votingMachine = await getSchemeVotingMachine(dao, schemeRegistrar, 2);
@@ -107,7 +107,7 @@ export async function getSchemeVotingMachineParametersHash(dao, scheme, ndxVotin
 export async function getSchemeVotingMachine(dao, scheme, ndxVotingMachineParameter = 1, votingMachineName) {
   const votingMachineAddress = await getSchemeParameter(dao, scheme, ndxVotingMachineParameter);
   votingMachineName = votingMachineName || Config.get("defaultVotingMachine");
-  return Contracts.getScheme(votingMachineName, votingMachineAddress);
+  return Contracts.getContractWrapper(votingMachineName, votingMachineAddress);
 }
 
 export async function getVotingMachineParameters(votingMachine, votingMachineParamsHash) {

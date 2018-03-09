@@ -9,10 +9,7 @@ import {
   ExtendTruffleContract,
   StandardSchemeParams,
 } from "../ExtendTruffleContract";
-import { Utils } from "../utils";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
-
-const SolidityContract = Utils.requireContract("GlobalConstraintRegistrar");
 
 export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
 
@@ -122,7 +119,8 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
   }
 }
 
-const GlobalConstraintRegistrar = new ContractWrapperFactory(SolidityContract, GlobalConstraintRegistrarWrapper);
+const GlobalConstraintRegistrar = new ContractWrapperFactory(
+  "GlobalConstraintRegistrar", GlobalConstraintRegistrarWrapper);
 export { GlobalConstraintRegistrar };
 
 export interface NewGlobalConstraintsProposalEventResult {

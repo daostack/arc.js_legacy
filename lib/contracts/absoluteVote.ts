@@ -2,15 +2,13 @@
 import dopts = require("default-options");
 import { Address, Hash, VoteConfig } from "../commonTypes";
 
+import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionResult,
   EventFetcherFactory,
   ExtendTruffleContract
 } from "../ExtendTruffleContract";
-import { Utils } from "../utils";
-const SolidityContract = Utils.requireContract("AbsoluteVote");
-import ContractWrapperFactory from "../ContractWrapperFactory";
 import { ExecuteProposalEventResult, NewProposalEventResult, VoteProposalEventResult } from "./commonEventInterfaces";
 
 export class AbsoluteVoteWrapper extends ExtendTruffleContract {
@@ -80,7 +78,7 @@ export class AbsoluteVoteWrapper extends ExtendTruffleContract {
   }
 }
 
-const AbsoluteVote = new ContractWrapperFactory(SolidityContract, AbsoluteVoteWrapper);
+const AbsoluteVote = new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper);
 export { AbsoluteVote };
 
 export interface CancelProposalEventResult {

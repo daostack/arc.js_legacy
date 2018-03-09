@@ -1,6 +1,7 @@
 "use strict";
 import dopts = require("default-options");
 import { Hash } from "../commonTypes";
+import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
@@ -8,9 +9,6 @@ import {
   ExtendTruffleContract,
   StandardSchemeParams,
 } from "../ExtendTruffleContract";
-import { Utils } from "../utils";
-const SolidityContract = Utils.requireContract("VoteInOrganizationScheme");
-import ContractWrapperFactory from "../ContractWrapperFactory";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
@@ -72,7 +70,8 @@ export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
   }
 }
 
-const VoteInOrganizationScheme = new ContractWrapperFactory(SolidityContract, VoteInOrganizationSchemeWrapper);
+const VoteInOrganizationScheme = new ContractWrapperFactory(
+  "VoteInOrganizationScheme", VoteInOrganizationSchemeWrapper);
 export { VoteInOrganizationScheme };
 
 export interface VoteOnBehalfEventResult {

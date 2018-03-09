@@ -1,19 +1,18 @@
 "use strict";
 import dopts = require("default-options");
 
-import { Utils } from "../utils";
-const Avatar = Utils.requireContract("Avatar");
 import * as BigNumber from "bignumber.js";
+import { AvatarService } from "../avatarService";
 import { Address } from "../commonTypes";
 import { Config } from "../config";
 import { Contracts } from "../contracts.js";
+import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ArcTransactionResult,
   EventFetcherFactory,
   ExtendTruffleContract,
 } from "../ExtendTruffleContract";
-const SolidityContract = Utils.requireContract("DaoCreator");
-import ContractWrapperFactory from "../ContractWrapperFactory";
+import { Utils } from "../utils";
 
 export class DaoCreatorWrapper extends ExtendTruffleContract {
 
@@ -107,11 +106,8 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
       throw new Error("avatar address is not defined");
     }
 
-    const avatar = Avatar.at(options.avatar);
-
-    const contracts = await Contracts.getDeployedContracts();
-
-    const reputationAddress = await avatar.nativeReputation();
+    const avatarService = new AvatarService(options.avatar);
+    const reputationAddress = await avatarService.getNativeReputationAddress();
     const configuredVotingMachineName = Config.get("defaultVotingMachine");
     const defaultVotingMachineParams = Object.assign({
       // voting machines can't supply reputation as a default -- they don't know what it is
@@ -119,7 +115,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
       votingMachineName: configuredVotingMachineName,
     }, options.votingMachineParams || {});
 
-    const defaultVotingMachine = await Contracts.getScheme(
+    const defaultVotingMachine = await Contracts.getContractWrapper(
       defaultVotingMachineParams.votingMachineName,
       defaultVotingMachineParams.votingMachine);
 
@@ -141,6 +137,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
         throw new Error("options.schemes[n].name is not defined");
       }
 
+      const contracts = await Contracts.getDeployedContracts();
       const arcSchemeInfo = contracts.allContracts[schemeOptions.name];
 
       if (!arcSchemeInfo) {
@@ -178,7 +175,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
           if (!schemeVotingMachineName) {
             schemeVotingMachineParams.votingMachineName = defaultVotingMachineParams.votingMachineName;
           }
-          schemeVotingMachine = await Contracts.getScheme(
+          schemeVotingMachine = await Contracts.getContractWrapper(
             schemeVotingMachineParams.votingMachineName,
             schemeVotingMachineParams.votingMachine);
 
@@ -234,7 +231,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
   }
 }
 
-const DaoCreator = new ContractWrapperFactory(SolidityContract, DaoCreatorWrapper);
+const DaoCreator = new ContractWrapperFactory("DaoCreator", DaoCreatorWrapper);
 export { DaoCreator };
 
 export interface NewOrgEventResult {

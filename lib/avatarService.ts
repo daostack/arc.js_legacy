@@ -1,10 +1,4 @@
 import { Utils } from "./utils";
-const UControllerContract = Utils.requireContract("UController");
-const ControllerContract = Utils.requireContract("Controller");
-const DAOToken = Utils.requireContract("DAOToken");
-const Reputation = Utils.requireContract("Reputation");
-const Avatar = Utils.requireContract("Avatar");
-import { Contracts } from "./contracts.js";
 
 /**
  * Methods for querying information about an Avatar.
@@ -35,6 +29,7 @@ export class AvatarService {
    */
   public async getAvatar(): Promise<any> {
     if (!this.avatar) {
+      const Avatar = Utils.requireContract("Avatar");
       this.avatar = await Avatar.at(this.avatarAddress);
     }
     return this.avatar;
@@ -59,13 +54,15 @@ export class AvatarService {
   public async getController(): Promise<any> {
 
     if (!this.controller) {
-      const contracts = await Contracts.getDeployedContracts();
-
       const controllerAddress = await this.getControllerAddress();
       /**
        * TODO:  check for previous and future versions of UController here
        */
-      this.isUController = contracts.allContracts.UController.address === controllerAddress;
+      const UControllerContract = Utils.requireContract("UController");
+      const ControllerContract = Utils.requireContract("Controller");
+      const uControllerAddress = (await UControllerContract.deployed()).address;
+
+      this.isUController = uControllerAddress === controllerAddress;
       this.controller = this.isUController ?
         await UControllerContract.at(controllerAddress) :
         await ControllerContract.at(controllerAddress);
@@ -90,6 +87,7 @@ export class AvatarService {
   public async getNativeReputation(): Promise<any> {
     if (!this.nativeReputation) {
       const reputationAddress = await this.getNativeReputationAddress();
+      const Reputation = Utils.requireContract("Reputation");
       this.nativeReputation = await Reputation.at(reputationAddress);
     }
     return this.nativeReputation;
@@ -112,6 +110,7 @@ export class AvatarService {
   public async getNativeToken(): Promise<any> {
     if (!this.nativeToken) {
       const tokenAddress = await this.getNativeTokenAddress();
+      const DAOToken = Utils.requireContract("DAOToken");
       this.nativeToken = await DAOToken.at(tokenAddress);
     }
     return this.nativeToken;

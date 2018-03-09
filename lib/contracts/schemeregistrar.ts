@@ -9,10 +9,8 @@ import {
   ExtendTruffleContract,
   StandardSchemeParams,
 } from "../ExtendTruffleContract";
-import { Utils } from "../utils";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
-const SolidityContract = Utils.requireContract("SchemeRegistrar");
 import ContractWrapperFactory from "../ContractWrapperFactory";
 
 export class SchemeRegistrarWrapper extends ExtendTruffleContract {
@@ -94,11 +92,10 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
 
     if (options.schemeName) {
       try {
-        const contracts = await Contracts.getDeployedContracts();
-        const newScheme = await contracts.allContracts[
-          options.schemeName
-        ].contract.at(options.scheme);
-
+        /**
+         * schemeName must represent a wrapped contract
+         */
+        const newScheme = await Contracts.getContractWrapper(options.schemeName, options.scheme);
         /**
          * Note that the javascript wrapper "newScheme" we've gotten here is defined in this version of Arc.
          * If newScheme is actually coming from a different version of Arc, then theoretically
@@ -185,7 +182,7 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
   }
 }
 
-const SchemeRegistrar = new ContractWrapperFactory(SolidityContract, SchemeRegistrarWrapper);
+const SchemeRegistrar = new ContractWrapperFactory("SchemeRegistrar", SchemeRegistrarWrapper);
 export { SchemeRegistrar };
 
 export interface NewSchemeProposalEventResult {

@@ -6,7 +6,7 @@ describe("GlobalConstraintRegistrar", () => {
   it("proposeToAddModifyGlobalConstraint javascript wrapper should work", async () => {
     const dao = await helpers.forgeDao();
 
-    const tokenCapGC = await dao.getScheme("TokenCapGC");
+    const tokenCapGC = await dao.getContractWrapper("TokenCapGC");
 
     const globalConstraintParametersHash = (await tokenCapGC.setParams({ token: dao.token.address, cap: 3141 })).result;
 
@@ -85,7 +85,7 @@ describe("GlobalConstraintRegistrar", () => {
   it("proposeGlobalConstraint() should accept different parameters [TODO]", async () => {
     const dao = await helpers.forgeDao();
 
-    const tokenCapGC = await dao.getScheme("TokenCapGC");
+    const tokenCapGC = await dao.getContractWrapper("TokenCapGC");
 
     let globalConstraintParametersHash = (await tokenCapGC.setParams({ token: dao.token.address, cap: 21e9 })).result;
 

@@ -390,13 +390,13 @@ Recall from [Categories of Arc Contracts](#categories-of-arc-contracts) that `ge
 
 ```javascript
 import * as ArcJs from '@daostack/arc.js';
-const upgradeScheme = await ArcJs.Contracts.getScheme("UpgradeScheme");
+const upgradeScheme = await ArcJs.Contracts.getContractWrapper("UpgradeScheme");
 ```
 
 #### At a specific address
 ```javascript
 import * as ArcJs from '@daostack/arc.js';
-const upgradeScheme = await ArcJs.Contracts.getScheme("UpgradeScheme", anAddress);
+const upgradeScheme = await ArcJs.Contracts.getContractWrapper("UpgradeScheme", anAddress);
 ```
 
 #### Via the DAO
@@ -404,7 +404,7 @@ const upgradeScheme = await ArcJs.Contracts.getScheme("UpgradeScheme", anAddress
 The identical method is available on the DAO class:
 
 ```javascript
-const upgradeScheme = await DAO.getScheme("UpgradeScheme");
+const upgradeScheme = await DAO.getContractWrapper("UpgradeScheme");
 ```
 
 ### Obtain a wrapper using the wrapper's factory class
@@ -476,7 +476,8 @@ All of the scripts are defined in the package-scripts.js file.  You have already
 See also  [Running Against a Ganache Database](#running-against-a-ganache-database), [Deploying to Other Testnets](#deploying-to-other-testnets) and [Run Lint and Tests](#run-lint-and-tests)
 
 ## Deploying to Other Testnets
-The "network" environment variable defines which network arc.js understands you to be deploying to when you run the "migrateContracts" script.  For safety it assumes a different HTTP port for each network. Can be "live" (the mainnet), "kovan" or "ganache".  The default is "ganache".
+
+Please refer [here](./docs/Migration.md) for instructions on migrating contracts to other test networks.
 
 ## Running Against a Ganache Database
 
