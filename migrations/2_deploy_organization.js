@@ -1,11 +1,11 @@
-const Config = require("../dist/config.js").Config;
+const config = require("../config/default.json")
 /**
  * Migration callback
  */
 module.exports = async (deployer) => {
 
-  const gasAmount = Config.get("gasLimit_deployment");
-  const network = Config.get("network");
+  const gasAmount = config.gasLimit_deployment;
+  const network = config.network;
   const founders = require("./founders.json").founders[network];
 
   /* eslint-disable no-console */
