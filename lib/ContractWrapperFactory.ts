@@ -30,7 +30,7 @@ export default class ContractWrapperFactory<TContract extends ExtendTruffleContr
 
   private async ensureSolidityContract(): Promise<void> {
     if (!this.solidityContract) {
-      this.solidityContract = await Utils.requireContractAsync(this.solidityContractName);
+      this.solidityContract = await Utils.requireContract(this.solidityContractName);
     }
   }
 }

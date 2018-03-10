@@ -5,6 +5,7 @@ import Web3 = require("web3");
 import { Address, Hash } from "./commonTypes";
 import { Config } from "./config";
 import { TransactionReceiptTruffle } from "./ExtendTruffleContract";
+import { LoggingService } from "./loggingService";
 
 export class Utils {
 
@@ -12,75 +13,30 @@ export class Utils {
   static get NULL_HASH(): Hash { return "0x0000000000000000000000000000000000000000000000000000000000000000"; }
 
   /**
-   * Returns TruffleContract given the name of the contract (like "SchemeRegistrar"), or undefined
-   * if not found or any other error occurs.
-   *
-   * This is not an Arc javascript wrapper, rather it is the straight TruffleContract
-   * that one references in the Arc javascript wrapper as ".contract", once it has been
-   * populated by a persisted instance of the contract.
-   *
-   * Side effect:  It initializes (and uses) `web3` if a global `web3` is not already present, which
-   * happens when running in the context of an application (as opposed to tests or migration).
-   *
-   * @param contractName: string - The name of the contract, like "UpgradeScheme"
-   */
-  public static requireContract(contractName: string): any {
-    try {
-      const artifact = Utils.getContractArtifact(contractName);
-      const contract = Utils.getContract(artifact);
-      if (!contract) {
-        return undefined;
-      } else {
-        Utils.initContract(contract);
-        return contract;
-      }
-    } catch (ex) {
-      return undefined;
-    }
-  }
-
-  /**
    * Returns TruffleContract given the name of the contract (like "SchemeRegistrar").
    * Optimized for synchronicity issues encountered with MetaMask.
    * Throws an exception if it can't load the contract.
    * Retries Config.requireContractRetryCount times, sleeping(0) after each unsuccessful try.
-   * Uses the asynchronous web.eth.getAccounts to obtain the default account.
+   * Uses the asynchronous web.eth.getAccounts to obtain the default account (good with MetaMask).
    * @param contractName like "SchemeRegistrar"
    */
-  public static async requireContractAsync(contractName: string): Promise<any> {
-    const artifact = Utils.getContractArtifact(contractName);
-    let retryCount = Config.get("requireContractRetryCount");
-    /**
-     * try until we catch one or exceed the limit pf retries
-     */
-    return new Promise<any>(
-      async (resolve: (contract: any) => void, reject: (msg: string) => void): Promise<any> => {
-        /**
-         * We will try and sleep(0) retryCount times until giving up.
-         * MetaMask needs sleep...
-         */
-        while (retryCount--) {
-          let contract;
-          try {
-            contract = Utils.getContract(artifact);
-            if (contract) {
-              await Utils.initContractAsync(contract);
-            }
-          } catch {
-            contract = null;
-          }
+  public static async requireContract(contractName: string): Promise<any> {
+    try {
+      const artifact = require(`../migrated_contracts/${contractName}.json`);
+      const contract = new TruffleContract(artifact);
+      const myWeb3 = Utils.getWeb3();
 
-          if (contract) {
-            resolve(contract);
-            break;
-          } else if (!retryCount) {
-            reject(`requireContractAsync: unable to load solidity contract: ${contractName}`);
-          } else {
-            /* tslint:disable-next-line:no-empty */
-            setTimeout((): void => { }, 0);
-          }
-        }
+      contract.setProvider(myWeb3.currentProvider);
+      contract.defaults({
+        from: await Utils.getDefaultAccount(),
+        gas: Config.get("gasLimit_runtime"),
       });
+      LoggingService.info(`requireContract: loaded ${contractName}`);
+      return contract;
+    } catch (ex) {
+      LoggingService.error(`requireContract failing: ${ex}`);
+      throw Error(`requireContract: unable to load solidity contract: ${contractName}: ${ex}`);
+    }
   }
 
   /**
@@ -199,24 +155,7 @@ export class Utils {
    *
    * Throws an exception on failure.
    */
-  public static getDefaultAccount(): string {
-    const web3 = Utils.getWeb3();
-    const defaultAccount = web3.eth.defaultAccount = web3.eth.accounts[0];
-
-    if (!defaultAccount) {
-      throw new Error("eth.accounts[0] is not set");
-    }
-    return defaultAccount;
-  }
-
-  /**
-   * Returns the address of the default user account.
-   *
-   * Has the side-effect of setting web3.eth.defaultAccount.
-   *
-   * Throws an exception on failure.
-   */
-  public static async getDefaultAccountAsync(): Promise<string> {
+  public static async getDefaultAccount(): Promise<string> {
     const web3 = Utils.getWeb3();
 
     return promisify(web3.eth.getAccounts)().then((accounts: Array<any>) => {
@@ -259,32 +198,4 @@ export class Utils {
 
   private static web3: Web3 = undefined;
   private static alreadyTriedAndFailed: boolean = false;
-
-  private static getContract(artifact: string): any {
-    return new TruffleContract(artifact);
-  }
-
-  private static initContract(contract: any): void {
-    const myWeb3 = Utils.getWeb3();
-
-    contract.setProvider(myWeb3.currentProvider);
-    contract.defaults({
-      from: Utils.getDefaultAccount(),
-      gas: Config.get("gasLimit_runtime"),
-    });
-  }
-
-  private static async initContractAsync(contract: any): Promise<void> {
-    const myWeb3 = Utils.getWeb3();
-
-    contract.setProvider(myWeb3.currentProvider);
-    contract.defaults({
-      from: await Utils.getDefaultAccountAsync(),
-      gas: Config.get("gasLimit_runtime"),
-    });
-  }
-
-  private static getContractArtifact(contractName: string): any {
-    return require(`../migrated_contracts/${contractName}.json`);
-  }
 }

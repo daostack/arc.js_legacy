@@ -1,4 +1,5 @@
 import { Address, Hash } from "./commonTypes";
+import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
 /**
  * Abstract base class for all Arc contract wrapper classes
@@ -39,7 +40,8 @@ export abstract class ExtendTruffleContract {
     try {
       this.contract = await this.solidityContract.new(...rest)
         .then((contract: any) => contract, (error: any) => { throw error; });
-    } catch {
+    } catch (ex) {
+      LoggingService.error(`hydrateFromNew failing: ${ex}`);
       return undefined;
     }
     return this;
@@ -54,7 +56,8 @@ export abstract class ExtendTruffleContract {
     try {
       this.contract = await this.solidityContract.at(address)
         .then((contract: any) => contract, (error: any) => { throw error; });
-    } catch {
+    } catch (ex) {
+      LoggingService.error(`hydrateFromAt failing: ${ex}`);
       return undefined;
     }
     return this;
@@ -68,7 +71,8 @@ export abstract class ExtendTruffleContract {
     try {
       this.contract = await this.solidityContract.deployed()
         .then((contract: any) => contract, (error: any) => { throw error; });
-    } catch {
+    } catch (ex) {
+      LoggingService.error(`hydrateFromDeployed failing: ${ex}`);
       return undefined;
     }
     return this;

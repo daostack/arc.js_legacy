@@ -129,7 +129,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
        */
       const avatarService = new AvatarService(options.avatar);
       const token = await avatarService.getNativeToken();
-      await token.approve(this.address, orgNativeTokenFee, { from: Utils.getDefaultAccount() });
+      await token.approve(this.address, orgNativeTokenFee, { from: await Utils.getDefaultAccount() });
     }
 
     const tx = await this.contract.proposeContributionReward(

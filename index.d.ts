@@ -4,6 +4,53 @@ import * as Web3 from "web3";
 /* tslint:disable:max-line-length */
 
 declare module "@daostack/arc.js" {
+
+  /**
+   * logging levels
+   */
+  export enum LogLevel {
+    all = 15,
+    debug = 4,
+    error = 8,
+    info = 1,
+    none = 0,
+    warn = 2,
+  }
+
+  export interface ILogger {
+    /**
+     * the LogLevel
+     */
+    level: LogLevel;
+    /**
+     * Logs a debug message.
+     *
+     * @param message The message to log.
+     */
+    debug(message: string): void;
+
+    /**
+     * Logs info.
+     *
+     * @param message The message to log.
+     */
+    info(message: string): void;
+
+    /**
+     * Logs a warning.
+     *
+     * @param message The message to log.
+     */
+    warn(message: string): void;
+
+    /**
+     * Logs an error.
+     *
+     * @param message The message to log.
+     */
+    error(message: string): void;
+  }
+
   /*******************************
    * Arc contract information as contained in ArcDeployedContractNames (see settings)
    */
@@ -98,7 +145,12 @@ declare module "@daostack/arc.js" {
   /********************************
    * Config
    */
-  export class Config { public static get(key: string): any; public static set(key: string, value: any): void; }
+  export class Config {
+    public static get(key: string): any;
+    public static set(key: string, value: any): void;
+    public static setLogLevel(level: LogLevel): void;
+    public static setLogger(logger: ILogger): void;
+  }
 
   /********************************
    * contracts
@@ -118,14 +170,6 @@ declare module "@daostack/arc.js" {
    */
 
   export class Utils {
-    /**
-     * Returns TruffleContract given the name of the contract (like "SchemeRegistrar"), or undefined
-     * if not found or any other error occurs.
-     * @param contractName like "SchemeRegistrar"
-     */
-    public static requireContract(
-      contractName: string
-    ): any;
 
     /**
      * Returns TruffleContract given the name of the contract (like "SchemeRegistrar").
@@ -135,7 +179,7 @@ declare module "@daostack/arc.js" {
      * Uses the asynchronous web.eth.getAccounts to obtain the default account.
      * @param contractName like "SchemeRegistrar"
      */
-    public static requireContractAsync(contractName: string): Promise<any>;
+    public static requireContract(contractName: string): Promise<any>;
 
     /**
      * Returns the web3 object.
@@ -151,8 +195,7 @@ declare module "@daostack/arc.js" {
       index?: number
     ): string;
 
-    public static getDefaultAccount(): any;
-    public static getDefaultAccountAsync(): Promise<string>;
+    public static getDefaultAccount(): Promise<string>;
   }
 
   /********************************

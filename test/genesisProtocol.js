@@ -3,10 +3,10 @@ import { Contracts } from "../test-dist/contracts.js";
 import { GenesisProtocol } from "../test-dist/contracts/genesisProtocol";
 import { SchemeRegistrar } from "../test-dist/contracts/schemeregistrar";
 import * as helpers from "./helpers";
-const ExecutableTest = Utils.requireContract("ExecutableTest");
 
 describe("GenesisProtocol", () => {
   let dao, genesisProtocol, paramsHash, executableTest;
+  let ExecutableTest;
 
   const createProposal = async () => {
 
@@ -39,6 +39,8 @@ describe("GenesisProtocol", () => {
   };
 
   beforeEach(async () => {
+
+    ExecutableTest = await Utils.requireContract("ExecutableTest");
 
     dao = await helpers.forgeDao({
       schemes: [

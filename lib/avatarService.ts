@@ -29,7 +29,7 @@ export class AvatarService {
    */
   public async getAvatar(): Promise<any> {
     if (!this.avatar) {
-      const Avatar = Utils.requireContract("Avatar");
+      const Avatar = await Utils.requireContract("Avatar");
       this.avatar = await Avatar.at(this.avatarAddress);
     }
     return this.avatar;
@@ -58,8 +58,8 @@ export class AvatarService {
       /**
        * TODO:  check for previous and future versions of UController here
        */
-      const UControllerContract = Utils.requireContract("UController");
-      const ControllerContract = Utils.requireContract("Controller");
+      const UControllerContract = await Utils.requireContract("UController");
+      const ControllerContract = await Utils.requireContract("Controller");
       const uControllerAddress = (await UControllerContract.deployed()).address;
 
       this.isUController = uControllerAddress === controllerAddress;
@@ -87,7 +87,7 @@ export class AvatarService {
   public async getNativeReputation(): Promise<any> {
     if (!this.nativeReputation) {
       const reputationAddress = await this.getNativeReputationAddress();
-      const Reputation = Utils.requireContract("Reputation");
+      const Reputation = await Utils.requireContract("Reputation");
       this.nativeReputation = await Reputation.at(reputationAddress);
     }
     return this.nativeReputation;
@@ -110,7 +110,7 @@ export class AvatarService {
   public async getNativeToken(): Promise<any> {
     if (!this.nativeToken) {
       const tokenAddress = await this.getNativeTokenAddress();
-      const DAOToken = Utils.requireContract("DAOToken");
+      const DAOToken = await Utils.requireContract("DAOToken");
       this.nativeToken = await DAOToken.at(tokenAddress);
     }
     return this.nativeToken;
