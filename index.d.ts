@@ -175,7 +175,6 @@ declare module "@daostack/arc.js" {
      * Returns TruffleContract given the name of the contract (like "SchemeRegistrar").
      * Optimized for synchronicity issues encountered with MetaMask.
      * Throws an exception if it can't load the contract.
-     * Retries Config.requireContractRetryCount times, sleeping(0) after each unsuccessful try.
      * Uses the asynchronous web.eth.getAccounts to obtain the default account.
      * @param contractName like "SchemeRegistrar"
      */
