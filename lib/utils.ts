@@ -1,9 +1,11 @@
+import { promisify } from "es6-promisify";
 import abi = require("ethereumjs-abi");
 import TruffleContract = require("truffle-contract");
 import Web3 = require("web3");
 import { Address, Hash } from "./commonTypes";
 import { Config } from "./config";
 import { TransactionReceiptTruffle } from "./ExtendTruffleContract";
+import { LoggingService } from "./loggingService";
 
 export class Utils {
 
@@ -11,33 +13,28 @@ export class Utils {
   static get NULL_HASH(): Hash { return "0x0000000000000000000000000000000000000000000000000000000000000000"; }
 
   /**
-   * Returns TruffleContract given the name of the contract (like "SchemeRegistrar"), or undefined
-   * if not found or any other error occurs.
-   *
-   * This is not an Arc javascript wrapper, rather it is the straight TruffleContract
-   * that one references in the Arc javascript wrapper as ".contract", once it has been
-   * populated by a persisted instance of the contract.
-   *
-   * Side effect:  It initializes (and uses) `web3` if a global `web3` is not already present, which
-   * happens when running in the context of an application (as opposed to tests or migration).
-   *
-   * @param contractName: string - The name of the contract, like "UpgradeScheme"
+   * Returns TruffleContract given the name of the contract (like "SchemeRegistrar").
+   * Optimized for synchronicity issues encountered with MetaMask.
+   * Throws an exception if it can't load the contract.
+   * Uses the asynchronous web.eth.getAccounts to obtain the default account (good with MetaMask).
+   * @param contractName like "SchemeRegistrar"
    */
-  public static requireContract(contractName: string): any {
+  public static async requireContract(contractName: string): Promise<any> {
     try {
-      const myWeb3 = Utils.getWeb3();
-
       const artifact = require(`../migrated_contracts/${contractName}.json`);
       const contract = new TruffleContract(artifact);
+      const myWeb3 = Utils.getWeb3();
 
       contract.setProvider(myWeb3.currentProvider);
       contract.defaults({
-        from: Utils.getDefaultAccount(),
+        from: await Utils.getDefaultAccount(),
         gas: Config.get("gasLimit_runtime"),
       });
+      LoggingService.info(`requireContract: loaded ${contractName}`);
       return contract;
     } catch (ex) {
-      return undefined;
+      LoggingService.error(`requireContract failing: ${ex}`);
+      throw Error(`requireContract: unable to load solidity contract: ${contractName}: ${ex}`);
     }
   }
 
@@ -45,7 +42,6 @@ export class Utils {
    * Returns the web3 object.
    * When called for the first time, web3 is initialized from the Arc.js configuration.
    * Throws an exception when web3 cannot be initialized.
-   * @param {boolean} forceReload true to reload/retry web3
    */
   public static getWeb3(): any {
     if (Utils.web3) {
@@ -158,15 +154,18 @@ export class Utils {
    *
    * Throws an exception on failure.
    */
-  public static getDefaultAccount(): string {
+  public static async getDefaultAccount(): Promise<string> {
     const web3 = Utils.getWeb3();
-    const defaultAccount = (web3.eth.defaultAccount =
-      web3.eth.defaultAccount || web3.eth.accounts[0]);
 
-    if (!defaultAccount) {
-      throw new Error("eth.accounts[0] is not set");
-    }
-    return defaultAccount;
+    return promisify(web3.eth.getAccounts)().then((accounts: Array<any>) => {
+      const defaultAccount = web3.eth.defaultAccount = accounts[0];
+
+      if (!defaultAccount) {
+        throw new Error("accounts[0] is not set");
+      }
+
+      return defaultAccount;
+    });
   }
 
   /**

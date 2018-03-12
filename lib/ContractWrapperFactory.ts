@@ -14,23 +14,23 @@ export default class ContractWrapperFactory<TContract extends ExtendTruffleContr
   }
 
   public async new(...rest: Array<any>): Promise<TContract> {
-    this.ensureSolidityContract();
-    return new this.wrapper(this.solidityContract).new(...rest);
+    await this.ensureSolidityContract();
+    return new this.wrapper(this.solidityContract).hydrateFromNew(...rest);
   }
 
   public async at(address: string): Promise<TContract> {
-    this.ensureSolidityContract();
-    return new this.wrapper(this.solidityContract).at(address);
+    await this.ensureSolidityContract();
+    return new this.wrapper(this.solidityContract).hydrateFromAt(address);
   }
 
   public async deployed(): Promise<TContract> {
-    this.ensureSolidityContract();
-    return new this.wrapper(this.solidityContract).deployed();
+    await this.ensureSolidityContract();
+    return new this.wrapper(this.solidityContract).hydrateFromDeployed();
   }
 
-  private ensureSolidityContract(): void {
+  private async ensureSolidityContract(): Promise<void> {
     if (!this.solidityContract) {
-      this.solidityContract = Utils.requireContract(this.solidityContractName);
+      this.solidityContract = await Utils.requireContract(this.solidityContractName);
     }
   }
 }

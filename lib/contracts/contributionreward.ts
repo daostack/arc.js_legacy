@@ -119,7 +119,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
       throw new Error("beneficiary is not defined");
     }
 
-    const controller = await this.getController(options.avatar);
+    const controller = await (new AvatarService(options.avatar)).getController();
     const schemeParams = await controller.getSchemeParameters(this.address, options.avatar);
 
     const orgNativeTokenFee = (await this.contract.parameters(schemeParams))[0];
@@ -129,7 +129,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
        */
       const avatarService = new AvatarService(options.avatar);
       const token = await avatarService.getNativeToken();
-      await token.approve(this.address, orgNativeTokenFee, { from: Utils.getDefaultAccount() });
+      await token.approve(this.address, orgNativeTokenFee, { from: await Utils.getDefaultAccount() });
     }
 
     const tx = await this.contract.proposeContributionReward(

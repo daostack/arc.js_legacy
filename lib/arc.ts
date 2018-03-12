@@ -14,4 +14,5 @@ export * from "./contracts/vestingscheme";
 export * from "./contracts/voteInOrganizationScheme";
 export * from "./dao";
 export * from "./ExtendTruffleContract";
+export * from "./loggingService";
 export * from "./utils";

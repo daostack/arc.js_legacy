@@ -19,7 +19,7 @@ export class Config {
 
       if (process && process.env) {
         Object.keys(process.env).forEach((key: string) => {
-          if (defaults[key]) {
+          if (defaults.hasOwnProperty(key)) {
             defaults[key] = process.env[key];
           }
         });

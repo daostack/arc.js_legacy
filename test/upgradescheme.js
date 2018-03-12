@@ -1,15 +1,21 @@
 import { Utils } from "../test-dist/utils";
-const Controller = Utils.requireContract("Controller");
-const DAOToken = Utils.requireContract("DAOToken");
-const Avatar = Utils.requireContract("Avatar");
-const Reputation = Utils.requireContract("Reputation");
 import { UpgradeScheme } from "../test-dist/contracts/upgradescheme";
 import * as helpers from "./helpers";
 
 describe("UpgradeScheme", () => {
   let avatar;
+  let Controller;
+  let DAOToken;
+  let Avatar;
+  let Reputation;
 
   beforeEach(async () => {
+
+    Controller = await Utils.requireContract("Controller");
+    DAOToken = await Utils.requireContract("DAOToken");
+    Avatar = await Utils.requireContract("Avatar");
+    Reputation = await Utils.requireContract("Reputation");
+
     // let accounts = web3.eth.accounts;
     const token = await DAOToken.new("TEST", "TST");
     // set up a reputaiton system

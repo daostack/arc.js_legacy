@@ -49,7 +49,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
       executable: undefined,
       numOfChoices: 0,
       paramsHash: undefined,
-      proposer: Utils.getDefaultAccount(),
+      proposer: await Utils.getDefaultAccount(),
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeVoteConfig;
@@ -122,17 +122,21 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
      * approve immediate transfer of staked tokens from onBehalfOf to this scheme
      */
     if (Config.get("autoApproveTokenTransfers")) {
-      const token = await (await Utils.requireContract("StandardToken")).at(await this.contract.stakingToken()) as any;
+      const token = await
+        (await Utils.requireContract("StandardToken")).at(await this.contract.stakingToken()) as any;
       await token.approve(this.address,
         amount,
-        { from: options.onBehalfOf ? options.onBehalfOf : Utils.getDefaultAccount() });
+        { from: options.onBehalfOf ? options.onBehalfOf : await Utils.getDefaultAccount() });
     }
 
     const tx = await this.contract.stake(
       options.proposalId,
       options.vote,
       amount,
-      options.onBehalfOf ? { from: options.onBehalfOf ? options.onBehalfOf : Utils.getDefaultAccount() } : undefined
+      options.onBehalfOf ? {
+        from: options.onBehalfOf ? options.onBehalfOf :
+          await Utils.getDefaultAccount(),
+      } : undefined
     );
 
     return new ArcTransactionResult(tx);

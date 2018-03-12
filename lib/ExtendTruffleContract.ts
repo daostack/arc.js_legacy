@@ -1,6 +1,5 @@
-import { AvatarService } from "./avatarService";
 import { Address, Hash } from "./commonTypes";
-import { Config } from "./config";
+import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
 /**
  * Abstract base class for all Arc contract wrapper classes
@@ -26,17 +25,10 @@ export abstract class ExtendTruffleContract {
   public contract: any;
 
   /**
-   * base classes invoke this constructor
-   * @param factory - TruffleContract such as is returned by Utils.requireContract()
+   * ContractWrapperFactory constructs this
+   * @param solidityContract The json contract truffle artifact
    */
   constructor(private solidityContract: any) {
-    // Make sure this contract is configured with the web3 provider and default config values
-    solidityContract.setProvider(Utils.getWeb3().currentProvider);
-    solidityContract.defaults({
-      // Use web3.eth.defaultAccount as the from account for all transactions
-      from: Utils.getDefaultAccount(),
-      gas: Config.get("gasLimit_runtime"),
-    });
   }
 
   /**
@@ -44,11 +36,12 @@ export abstract class ExtendTruffleContract {
    * This will migrate a new instance of the contract to the net.
    * @returns this
    */
-  public async new(...rest: Array<any>): Promise<any> {
+  public async hydrateFromNew(...rest: Array<any>): Promise<any> {
     try {
       this.contract = await this.solidityContract.new(...rest)
         .then((contract: any) => contract, (error: any) => { throw error; });
-    } catch {
+    } catch (ex) {
+      LoggingService.error(`hydrateFromNew failing: ${ex}`);
       return undefined;
     }
     return this;
@@ -59,11 +52,12 @@ export abstract class ExtendTruffleContract {
    * @param address of the deployed contract
    * @returns this
    */
-  public async at(address: string): Promise<any> {
+  public async hydrateFromAt(address: string): Promise<any> {
     try {
       this.contract = await this.solidityContract.at(address)
         .then((contract: any) => contract, (error: any) => { throw error; });
-    } catch {
+    } catch (ex) {
+      LoggingService.error(`hydrateFromAt failing: ${ex}`);
       return undefined;
     }
     return this;
@@ -73,11 +67,12 @@ export abstract class ExtendTruffleContract {
    * Initialize as it was migrated by Arc.js on the current network.
    * @returns this
    */
-  public async deployed(): Promise<any> {
+  public async hydrateFromDeployed(): Promise<any> {
     try {
       this.contract = await this.solidityContract.deployed()
         .then((contract: any) => contract, (error: any) => { throw error; });
-    } catch {
+    } catch (ex) {
+      LoggingService.error(`hydrateFromDeployed failing: ${ex}`);
       return undefined;
     }
     return this;
@@ -104,11 +99,6 @@ export abstract class ExtendTruffleContract {
   }
 
   public get address(): Address { return this.contract.address; }
-
-  public async getController(avatarAddress: Address): Promise<any> {
-    const avatarService = new AvatarService(avatarAddress);
-    return await avatarService.getController();
-  }
 
   /**
    * Return a function that creates an EventFetcher<TArgs>.
