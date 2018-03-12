@@ -1,11 +1,12 @@
 import { Config } from "./config";
 
 export enum LogLevel {
-  debug = 8,
-  error = 4,
-  info = 1,
   none = 0,
+  info = 1,
   warn = 2,
+  debug = 4,
+  error = 8,
+  all = 15,
 }
 
 export interface ILogger {

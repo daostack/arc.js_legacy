@@ -9,12 +9,12 @@ declare module "@daostack/arc.js" {
    * logging levels
    */
   export enum LogLevel {
-    all = 15,
+    none = 0,
+    info = 1,
+    warn = 2,
     debug = 4,
     error = 8,
-    info = 1,
-    none = 0,
-    warn = 2,
+    all = 15,
   }
 
   export interface ILogger {
