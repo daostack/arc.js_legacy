@@ -226,7 +226,7 @@ export class Utils {
    * @param schemeWrapper The scheme ostensibly having the parameters
    * @param types See Utils.keccak256
    * @param parameters The parameters.  Be sure they are given in the same
-   * order in which they would be stored by the scheme (see ExtendTruffleContract.setParams).
+   * order in which they would be stored by the scheme.
    */
   public static async parametersHashExists(
     schemeWrapper: ContractWrapperBase,

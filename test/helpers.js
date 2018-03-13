@@ -11,7 +11,7 @@ export const NULL_ADDRESS = Utils.NULL_ADDRESS;
 export const SOME_HASH = "0x1000000000000000000000000000000000000000000000000000000000000000";
 export const SOME_ADDRESS = "0x1000000000000000000000000000000000000000";
 
-LoggingService.setLogLevel(LogLevel.error);
+LoggingService.setLogLevel(LogLevel.error | LogLevel.debug);
 
 beforeEach(async () => {
   global.web3 = Utils.getWeb3();

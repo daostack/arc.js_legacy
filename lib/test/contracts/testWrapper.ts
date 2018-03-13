@@ -31,7 +31,7 @@ export class TestWrapperWrapper extends ContractWrapperBase {
       },
       params);
 
-    return super._setParams(
+    return super._setParameters(
       ["address", "uint", "bool"],
       [params.reputation, params.votePerc, params.ownerVote]
     );

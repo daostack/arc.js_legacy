@@ -107,8 +107,8 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase {
     return new ArcTransactionProposalResult(tx);
   }
 
-  public async setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
-    return super._setParams(
+  public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
+    return super._setParameters(
       ["bytes32", "address"],
       [params.voteParametersHash, params.votingMachineAddress]
     );

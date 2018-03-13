@@ -46,7 +46,7 @@ describe("ContractWrapperBase", () => {
 
     const hashUtils = Utils.keccak256(types, values);
 
-    const hashSolidity = (await scheme.setParams(params)).result;
+    const hashSolidity = (await scheme.setParameters(params)).result;
 
     assert.equal(hashUtils, hashSolidity, "hashed values are not equal");
   });
@@ -67,7 +67,7 @@ describe("ContractWrapperBase", () => {
     assert.equal(await Utils.parametersHashExists(scheme, types, values),
       false, "parameters hash incorrectly found to exist");
 
-    await scheme.setParams(params);
+    await scheme.setParameters(params);
 
     assert.equal(await Utils.parametersHashExists(scheme, types, values),
       true, "parameters hash incorrectly found not to exist");

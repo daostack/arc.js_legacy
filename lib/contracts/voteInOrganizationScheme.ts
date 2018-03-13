@@ -58,7 +58,7 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase {
     return new ArcTransactionProposalResult(tx);
   }
 
-  public async setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
+  public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
 
     /**
      * special casing required here because Arc orders the parameters in the Parameters struct
@@ -76,7 +76,7 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase {
       params.voteParametersHash,
     ];
 
-    return super._setParams(types, apiParams, paramsAsHashed);
+    return super._setParameters(types, apiParams, paramsAsHashed);
   }
 
   public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {

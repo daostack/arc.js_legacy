@@ -94,7 +94,7 @@ export abstract class ContractWrapperBase {
    * Currently all params are required, contract wrappers do not as yet apply default values.
    */
   public async setParameters(...args: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
-    throw new Error("setParams is a abstract function that should not be called directly");
+    throw new Error("setParameters is a abstract function that should not be called directly");
   }
 
   /**
@@ -241,14 +241,14 @@ export abstract class ContractWrapperBase {
   }
 
   /**
-   * Subclasses will override setParams and call this instead.
+   * Subclasses will override setParameters and call this instead.
    *
    * @param {Array<any>} params Array of parameter values in the order in which they should be passed to
    * contract.setParameters and in the order in which they are stored in the contract's Parameters struct.
    * @param {Array<any>} paramsAsHashed Optional array of parameter values in the order in which they are stored
    * in the contract's Parameters struct, when different from params.
    */
-  protected async _setParams(
+  protected async _setParameters(
     types: Array<string>,
     params: Array<any>,
     paramsAsHashed?: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
@@ -259,10 +259,10 @@ export abstract class ContractWrapperBase {
      */
     if (!(await Utils.parametersHashExists(this, types, paramsAsHashed || params))) {
       const tx = await this.contract.setParameters(...params);
-      LoggingService.debug(`_setParams: returning new hash: ${parametersHash} for ${this.shortName}`);
+      LoggingService.debug(`_setParameters: returning new hash: ${parametersHash} for ${this.shortName}`);
       return new ArcTransactionDataResult<Hash>(tx, parametersHash);
     } else {
-      LoggingService.debug(`_setParams: returning existing hash: ${parametersHash} for ${this.shortName}`);
+      LoggingService.debug(`_setParameters: returning existing hash: ${parametersHash} for ${this.shortName}`);
       return new ArcTransactionDataResult<Hash>(null, parametersHash);
     }
   }

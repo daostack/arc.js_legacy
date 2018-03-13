@@ -951,7 +951,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase {
       params.governanceFormulasInterface,
     ];
 
-    return super._setParams(types, apiParams, paramsAsHashed);
+    return super._setParameters(types, apiParams, paramsAsHashed);
   }
 
   public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
