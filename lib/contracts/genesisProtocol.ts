@@ -860,7 +860,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GenesisProtocolParams} params
    * @returns parameters hash
    */
-  public async setParams(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>> {
+  public async setParameters(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>> {
 
     params = Object.assign({},
       {
@@ -888,7 +888,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
       throw new Error("preBoostedVoteRequiredPercentage must be greater than 0 and less than or equal to 100");
     }
 
-    return super.setParams(
+    return super.setParameters(
       [
         params.preBoostedVoteRequiredPercentage,
         params.preBoostedVotePeriodLimit,
@@ -909,6 +909,29 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
   public getDefaultPermissions(overrideValue?: string): string {
     return overrideValue || "0x00000001";
+  }
+
+  public async getSchemeParameters(avatarAddress: Address): Promise<GenesisProtocolParams> {
+    return this._getSchemeParameters(avatarAddress);
+  }
+
+  public async getParameters(paramsHash: Hash): Promise<GenesisProtocolParams> {
+    const params = await this.getParametersArray(paramsHash);
+    return {
+      boostedVotePeriodLimit: params[2],
+      governanceFormulasInterface: params[5],
+      minimumStakingFee: params[6],
+      preBoostedVotePeriodLimit: params[1],
+      preBoostedVoteRequiredPercentage: params[0],
+      proposingRepRewardConstA: params[8],
+      proposingRepRewardConstB: params[9],
+      quietEndingPeriod: params[7],
+      stakerFeeRatioForVoters: params[10],
+      thresholdConstA: params[3],
+      thresholdConstB: params[4],
+      votersGainRepRatioFromLostRep: params[12],
+      votersReputationLossRatio: params[11],
+    };
   }
 
   private async _validateVote(vote: number, proposalId: Hash): Promise<void> {

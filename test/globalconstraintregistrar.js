@@ -8,7 +8,7 @@ describe("GlobalConstraintRegistrar", () => {
 
     const tokenCapGC = await dao.getContractWrapper("TokenCapGC");
 
-    const globalConstraintParametersHash = (await tokenCapGC.setParams({ token: dao.token.address, cap: 3141 })).result;
+    const globalConstraintParametersHash = (await tokenCapGC.setParameters({ token: dao.token.address, cap: 3141 })).result;
 
     const globalConstraintRegistrar = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
 
@@ -35,7 +35,7 @@ describe("GlobalConstraintRegistrar", () => {
     // create a new global constraint - a TokenCapGC instance
     const tokenCapGC = await TokenCapGC.new();
     // register paramets for setting a cap on the nativeToken of our dao of 21 million
-    const tokenCapGCParamsHash = (await tokenCapGC.setParams({ token: dao.token.address, cap: 21e9 })).result;
+    const tokenCapGCParamsHash = (await tokenCapGC.setParameters({ token: dao.token.address, cap: 21e9 })).result;
 
     // next line needs some real hash for the conditions for removing this scheme
     const votingMachineHash = tokenCapGCParamsHash;
@@ -87,7 +87,7 @@ describe("GlobalConstraintRegistrar", () => {
 
     const tokenCapGC = await dao.getContractWrapper("TokenCapGC");
 
-    let globalConstraintParametersHash = (await tokenCapGC.setParams({ token: dao.token.address, cap: 21e9 })).result;
+    let globalConstraintParametersHash = (await tokenCapGC.setParameters({ token: dao.token.address, cap: 21e9 })).result;
 
     const globalConstraintRegistrar = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
     const votingMachineHash = await helpers.getSchemeVotingMachineParametersHash(dao, globalConstraintRegistrar);
@@ -103,7 +103,7 @@ describe("GlobalConstraintRegistrar", () => {
 
     assert.isOk(proposalId);
 
-    globalConstraintParametersHash = (await tokenCapGC.setParams({ token: dao.token.address, cap: 1234 })).result;
+    globalConstraintParametersHash = (await tokenCapGC.setParameters({ token: dao.token.address, cap: 1234 })).result;
 
     result = await globalConstraintRegistrar.proposeToAddModifyGlobalConstraint({
       avatar: dao.avatar.address,

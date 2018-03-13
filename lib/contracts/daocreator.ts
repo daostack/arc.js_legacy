@@ -117,15 +117,15 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
 
     const defaultVotingMachine = await Contracts.getContractWrapper(
       defaultVotingMachineParams.votingMachineName,
-      defaultVotingMachineParams.votingMachine);
+      defaultVotingMachineParams.votingMachineAddress);
 
     // in case it wasn't supplied in order to get the default
-    defaultVotingMachineParams.votingMachine = defaultVotingMachine.address;
+    defaultVotingMachineParams.votingMachineAddress = defaultVotingMachine.address;
 
     /**
-     * each voting machine applies its own default values in setParams
+     * each voting machine applies its own default values in setParameters
      */
-    const defaultVoteParametersHash = (await defaultVotingMachine.setParams(defaultVotingMachineParams)).result;
+    const defaultVoteParametersHash = (await defaultVotingMachine.setParameters(defaultVotingMachineParams)).result;
 
     const initialSchemesSchemes = [];
     const initialSchemesParams = [];
@@ -157,7 +157,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
 
       if (schemeVotingMachineParams) {
         const schemeVotingMachineName = schemeVotingMachineParams.votingMachineName;
-        const schemeVotingMachineAddress = schemeVotingMachineParams.votingMachine;
+        const schemeVotingMachineAddress = schemeVotingMachineParams.votingMachineAddress;
         /**
          * get the voting machine contract
          */
@@ -177,17 +177,17 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
           }
           schemeVotingMachine = await Contracts.getContractWrapper(
             schemeVotingMachineParams.votingMachineName,
-            schemeVotingMachineParams.votingMachine);
+            schemeVotingMachineParams.votingMachineAddress);
 
           // in case it wasn't supplied in order to get the default
-          schemeVotingMachineParams.votingMachine = schemeVotingMachine.address;
+          schemeVotingMachineParams.votingMachineAddress = schemeVotingMachine.address;
         }
 
         schemeVotingMachineParams = Object.assign(defaultVotingMachineParams, schemeVotingMachineParams);
         /**
          * get the voting machine parameters
          */
-        schemeVoteParametersHash = (await schemeVotingMachine.setParams(schemeVotingMachineParams)).result;
+        schemeVoteParametersHash = (await schemeVotingMachine.setParameters(schemeVotingMachineParams)).result;
 
       } else {
         // using the defaults
@@ -198,11 +198,11 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
       /**
        * This is the set of all possible parameters from which the current scheme will choose just the ones it requires
        */
-      const schemeParamsHash = (await scheme.setParams(
+      const schemeParamsHash = (await scheme.setParameters(
         Object.assign(
           {
             voteParametersHash: schemeVoteParametersHash,
-            votingMachine: schemeVotingMachineParams.votingMachine,
+            votingMachineAddress: schemeVotingMachineParams.votingMachineAddress,
           },
           schemeOptions.additionalParams || {}
         ))).result;
@@ -273,7 +273,7 @@ export interface NewDaoVotingMachineConfig {
    * Optional VotingMachine address
    * Default is that of AbsoluteVote
    */
-  votingMachine?: string;
+  votingMachineAddress?: string;
   /**
    * You can add your voting-machine-specific parameters here, like ownerVote, votePerc, etc
    */

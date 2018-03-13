@@ -65,7 +65,7 @@ describe("GenesisProtocol", () => {
     assert.isOk(genesisProtocol);
 
     // all default parameters
-    paramsHash = (await genesisProtocol.setParams({})).result;
+    paramsHash = (await genesisProtocol.setParameters({})).result;
 
     executableTest = await ExecutableTest.deployed();
   });
@@ -138,7 +138,7 @@ describe("GenesisProtocol", () => {
     /**
      * get the voting machine to use to vote for this proposal
      */
-    const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar, 2, "GenesisProtocol");
+    const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar, "GenesisProtocol");
 
     assert.isOk(votingMachine);
     assert.equal(votingMachine.constructor.name, "GenesisProtocolWrapper", "schemeRegistrar is not using GeneisisProtocol");

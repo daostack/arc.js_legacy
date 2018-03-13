@@ -245,15 +245,27 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
     return agreements;
   }
 
-  public async setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
-    return super.setParams(
+  public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
+    return super.setParameters(
       params.voteParametersHash,
-      params.votingMachine
+      params.votingMachineAddress
     );
   }
 
   public getDefaultPermissions(overrideValue?: string): string {
     return overrideValue || "0x00000001";
+  }
+
+  public async getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams> {
+    return this._getSchemeParameters(avatarAddress);
+  }
+
+  public async getParameters(paramsHash: Hash): Promise<StandardSchemeParams> {
+    const params = await this.getParametersArray(paramsHash);
+    return {
+      voteParametersHash: params[0],
+      votingMachineAddress: params[1],
+    };
   }
 
   /**

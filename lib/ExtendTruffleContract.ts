@@ -1,3 +1,4 @@
+import { AvatarService } from "./avatarService";
 import { Address, Hash } from "./commonTypes";
 import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
@@ -85,7 +86,7 @@ export abstract class ExtendTruffleContract {
    * @param {any} params -- object with properties whose names are expected by the scheme to correspond to parameters.
    * Currently all params are required, contract wrappers do not as yet apply default values.
    */
-  public async setParams(...args: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
+  public async setParameters(...args: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
     const parametersHash: Hash = await this.contract.getParametersHash(...args);
     const tx: TransactionReceiptTruffle = await this.contract.setParameters(...args);
     return new ArcTransactionDataResult<Hash>(tx, parametersHash);
@@ -98,7 +99,47 @@ export abstract class ExtendTruffleContract {
     return overrideValue || "0x00000000";
   }
 
+  /**
+   * Given a hash, return the associated parameters as an object.
+   * @param paramsHash
+   */
+  public async getParameters(paramsHash: Hash): Promise<any> {
+    throw new Error("getParameters has not been not implemented by the contract wrapper");
+  }
+
+  /**
+   * Given an avatar address, return the schemes parameters hash
+   * @param avatarAddress
+   */
+  public async getSchemeParametersHash(avatarAddress: Address): Promise<Hash> {
+    const controller = await this._getController(avatarAddress);
+    return controller.getSchemeParameters(this.address, avatarAddress);
+  }
+
+  /**
+   * Given a hash, return the associated parameters as an array, ordered by the order
+   * in which the parameters appear in the contract's Parameters struct.
+   * @param paramsHash
+   */
+  public async getParametersArray(paramsHash: Hash): Promise<Array<any>> {
+    return this.contract.parameters ? this.contract.parameters(paramsHash) : this.contract.params(paramsHash);
+  }
+
   public get address(): Address { return this.contract.address; }
+
+  /**
+   * return the controller associated with the given avatar
+   * @param avatarAddress
+   */
+  protected async _getController(avatarAddress: Address): Promise<any> {
+    const avatarService = new AvatarService(avatarAddress);
+    return avatarService.getController();
+  }
+
+  protected async _getSchemeParameters(avatarAddress: Address): Promise<any> {
+    const paramsHash = await this.getSchemeParametersHash(avatarAddress);
+    return this.getParameters(paramsHash);
+  }
 
   /**
    * Return a function that creates an EventFetcher<TArgs>.
@@ -341,5 +382,5 @@ export interface DecodedLogEntryEvent<TArgs> extends DecodedLogEntry<TArgs> {
 
 export interface StandardSchemeParams {
   voteParametersHash: Hash;
-  votingMachine: Address;
+  votingMachineAddress: Address;
 }

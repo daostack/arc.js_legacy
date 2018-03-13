@@ -264,7 +264,26 @@ declare module "@daostack/arc.js" {
      * whose names are expected by the scheme to correspond to parameters.
      * Currently all params are required, contract wrappers do not as yet apply default values.
      */
-    public setParams(params: any): Promise<ArcTransactionDataResult<Hash>>;
+    public setParameters(params: any): Promise<ArcTransactionDataResult<Hash>>;
+
+    /**
+     * Given a hash, return the associated parameters as an object.
+     * @param paramsHash
+     */
+    public getParameters(paramsHash: Hash): Promise<any>;
+
+    /**
+     * Given an avatar address, return the schemes parameters hash
+     * @param avatarAddress
+     */
+    public getSchemeParametersHash(avatarAddress: Address): Promise<Hash>;
+
+    /**
+     * Given a hash, return the associated parameters as an array, ordered by the order
+     * in which the parameters appear in the contract's Parameters struct.
+     * @param paramsHash
+     */
+    public getParametersArray(paramsHash: Hash): Promise<Array<any>>;
   }
 
   export class ExtendTruffleScheme extends ExtendTruffleContract {
@@ -459,7 +478,7 @@ declare module "@daostack/arc.js" {
 
   export interface StandardSchemeParams {
     voteParametersHash: string;
-    votingMachine: string; // address
+    votingMachineAddress: string;
   }
 
   /********************************
@@ -498,7 +517,6 @@ declare module "@daostack/arc.js" {
     public CancelVoting: EventFetcherFactory<CancelVotingEventResult>;
 
     public vote(options: VoteConfig): Promise<ArcTransactionResult>;
-    public setParams(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>>;
   }
 
   /********************************
@@ -536,7 +554,7 @@ declare module "@daostack/arc.js" {
      * Optional VotingMachine address
      * Default is that of AbsoluteVote
      */
-    votingMachine?: string;
+    votingMachineAddress?: string;
     /**
      * You can add your voting-machine-specific parameters here, like ownerVote, votePerc, etc
      */
@@ -774,14 +792,6 @@ declare module "@daostack/arc.js" {
      * The native token symbol
      */
     public getTokenSymbol(): Promise<string>;
-    /**
-     * Given a scheme wrapper, returns an array of the scheme's parameter values.
-     * The order of values in the array corresponds to the
-     * order in which they are defined in the structure in which they
-     * are stored in the scheme contract.
-     * @param {string} schemeAddress
-     */
-    public getSchemeParameters(scheme: ExtendTruffleContract): Promise<Array<any>>;
   }
 
   /********************************
@@ -876,7 +886,8 @@ declare module "@daostack/arc.js" {
       options: ProposeToRemoveGlobalConstraintParams
     ): Promise<ArcTransactionProposalResult>;
 
-    public setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
+    public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
+    public getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams>;
   }
 
   /********************************
@@ -977,7 +988,8 @@ declare module "@daostack/arc.js" {
       options: ProposeToRemoveSchemeParams
     ): Promise<ArcTransactionProposalResult>;
 
-    public setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
+    public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
+    public getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams>;
   }
 
   /********************************
@@ -1065,7 +1077,8 @@ declare module "@daostack/arc.js" {
       options: ProposeControllerParams
     ): Promise<ArcTransactionProposalResult>;
 
-    public setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
+    public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
+    public getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams>;
   }
 
   /********************************
@@ -1341,7 +1354,8 @@ declare module "@daostack/arc.js" {
     public getDaoProposals(options: GetDaoProposalsConfig): Promise<Array<ContributionProposal>>;
     public getBeneficiaryRewards(options: GetBeneficiaryRewardsParams): Promise<Array<ProposalRewards>>;
 
-    public setParams(params: ContributionRewardParams): Promise<ArcTransactionDataResult<Hash>>;
+    public setParameters(params: ContributionRewardParams): Promise<ArcTransactionDataResult<Hash>>;
+    public getSchemeParameters(avatarAddress: Address): Promise<ContributionRewardParams>;
   }
 
   /********************************
@@ -1550,7 +1564,8 @@ declare module "@daostack/arc.js" {
 
     public getAgreements(opts: GetAgreementParams): Promise<Array<Agreement>>;
 
-    public setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
+    public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
+    public getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams>;
   }
 
   /********************************
@@ -1595,7 +1610,8 @@ declare module "@daostack/arc.js" {
      */
     public proposeVote(options: VoteInOrganizationProposeVoteConfig): Promise<ArcTransactionProposalResult>;
 
-    public setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
+    public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
+    public getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams>;
   }
 
   /*******************
@@ -2064,6 +2080,7 @@ declare module "@daostack/arc.js" {
     public getWinningVote(options: GetWinningVoteConfig): Promise<number>;
     public getExecutedDaoProposals(opts: GetDaoProposalsConfig): Promise<Array<ExecutedGenesisProposal>>;
     public getState(options: GetStateConfig): Promise<number>;
-    public setParams(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>>;
+    public setParameters(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>>;
+    public getSchemeParameters(avatarAddress: Address): Promise<GenesisProtocolParams>;
   }
 }

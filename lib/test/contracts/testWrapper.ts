@@ -14,7 +14,7 @@ export class TestWrapperWrapper extends ExtendTruffleContract {
     return "abc";
   }
 
-  public async setParams(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>> {
+  public async setParameters(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>> {
     params = Object.assign({},
       {
         ownerVote: true,
@@ -23,7 +23,7 @@ export class TestWrapperWrapper extends ExtendTruffleContract {
       },
       params);
 
-    return super.setParams(
+    return super.setParameters(
       params.reputation,
       params.votePerc,
       params.ownerVote

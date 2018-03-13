@@ -28,7 +28,7 @@ describe("SchemeRegistrar", () => {
 
     const proposalId = result.proposalId;
 
-    const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar, 2);
+    const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar);
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
     assert.isTrue(
@@ -55,7 +55,7 @@ describe("SchemeRegistrar", () => {
 
     const proposalId = result.proposalId;
 
-    const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar, 2);
+    const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar);
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
     assert.isTrue(
@@ -82,7 +82,7 @@ describe("SchemeRegistrar", () => {
 
     const proposalId = result.proposalId;
 
-    const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar, 2);
+    const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar);
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
     assert.isFalse(

@@ -73,13 +73,13 @@ export async function addProposeContributionReward(dao) {
   const schemeRegistrar = await getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
   const contributionReward = await dao.getContractWrapper("ContributionReward");
 
-  const votingMachineHash = await getSchemeVotingMachineParametersHash(dao, schemeRegistrar, 0);
-  const votingMachine = await getSchemeVotingMachine(dao, schemeRegistrar, 2);
+  const votingMachineHash = await getSchemeVotingMachineParametersHash(dao, schemeRegistrar);
+  const votingMachine = await getSchemeVotingMachine(dao, schemeRegistrar);
 
-  const schemeParametersHash = (await contributionReward.setParams({
+  const schemeParametersHash = (await contributionReward.setParameters({
     orgNativeTokenFee: 0,
     voteParametersHash: votingMachineHash,
-    votingMachine: votingMachine.address
+    votingMachineAddress: votingMachine.address
   })).result;
 
   const result = await schemeRegistrar.proposeToAddModifyScheme({
@@ -95,17 +95,12 @@ export async function addProposeContributionReward(dao) {
   return contributionReward;
 }
 
-export async function getSchemeParameter(dao, scheme, ndxParameter) {
-  const schemeParams = await dao.getSchemeParameters(scheme);
-  return schemeParams[ndxParameter];
+export async function getSchemeVotingMachineParametersHash(dao, scheme) {
+  return (await scheme.getSchemeParameters(dao.avatar.address)).voteParametersHash;
 }
 
-export async function getSchemeVotingMachineParametersHash(dao, scheme, ndxVotingMachineParametersHash = 0) {
-  return getSchemeParameter(dao, scheme, ndxVotingMachineParametersHash);
-}
-
-export async function getSchemeVotingMachine(dao, scheme, ndxVotingMachineParameter = 1, votingMachineName) {
-  const votingMachineAddress = await getSchemeParameter(dao, scheme, ndxVotingMachineParameter);
+export async function getSchemeVotingMachine(dao, scheme, votingMachineName) {
+  const votingMachineAddress = (await scheme.getSchemeParameters(dao.avatar.address)).votingMachineAddress;
   votingMachineName = votingMachineName || Config.get("defaultVotingMachine");
   return Contracts.getContractWrapper(votingMachineName, votingMachineAddress);
 }

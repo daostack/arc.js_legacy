@@ -296,18 +296,6 @@ export class DAO {
   public async getTokenSymbol(): Promise<string> {
     return await this.token.symbol();
   }
-
-  /**
-   * Given a scheme wrapper, returns an array of the scheme's parameter values.
-   * The order of values in the array corresponds to the
-   * order in which they are defined in the structure in which they
-   * are stored in the scheme contract.
-   * @param {Array<any>} scheme
-   */
-  public async getSchemeParameters(scheme: ExtendTruffleContract): Promise<Array<any>> {
-    const schemeParams = await this.controller.getSchemeParameters(scheme.address, this.avatar.address);
-    return await scheme.contract.parameters(schemeParams);
-  }
 }
 
 export interface NewDaoConfig extends ForgeOrgConfig {
