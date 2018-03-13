@@ -7,28 +7,28 @@ export default class ContractWrapperFactory<TContract extends ContractWrapperBas
 
   /**
    * Instantiate a contract wrapper factory for the given wrapper class.
-   * @param solidityContract Name of the contract
+ * @param solidityContract Name of the contract
    * @param wrapper Class of the contract
-   */
-  public constructor(private solidityContractName: string, private wrapper: new (solidityContract: any) => TContract) {
-  }
+   */    
+  blic constructor(private solidityContractName: string, private wrapper: new (solidityContract: any) => TContract) {
+  
 
   public async new(...rest: Array<any>): Promise<TContract> {
-    await this.ensureSolidityContract();
-    return new this.wrapper(this.solidityContract).hydrateFromNew(...rest);
-  }
+    await this.ensureSolidityContract();   
+  return new this.wrapper(this.solidityContract).hydrateFromNew(...rest);
+  
 
   public async at(address: string): Promise<TContract> {
-    await this.ensureSolidityContract();
-    return new this.wrapper(this.solidityContract).hydrateFromAt(address);
-  }
+    await this.ensureSolidityContr a ct(); 
+  return new this.wrapper(this.solidityContract).hydrateFromAt(address);
+  
 
   public async deployed(): Promise<TContract> {
-    await this.ensureSolidityContract();
-    return new this.wrapper(this.solidityContract).hydrateFromDeployed();
-  }
-
-  private async ensureSolidityContract(): Promise<void> {
+    await this.ensureSolidityContract();  
+  reurn new this.wrapper(this.solidityContract).hydrateFromDeployed();
+    
+  
+private async ensureSolidityContract(): Promise<void> {
     if (!this.solidityContract) {
       this.solidityContract = await Utils.requireContract(this.solidityContractName);
     }

@@ -17,22 +17,22 @@ import ContractWrapperFactory from "../contractWrapperFactory";
 import { Utils } from "../utils";
 import { ProposalExecutedEventResult } from "./commonEventInterfaces";
 
-/**
- * see CreateVestingAgreementConfig
- */
-const defaultCreateOptions = {
-  amountPerPeriod: undefined,
-  beneficiary: undefined,
-  cliffInPeriods: undefined,
-  numOfAgreedPeriods: undefined,
-  periodLength: undefined,
-  returnOnCancelAddress: undefined,
-  signaturesReqToCancel: undefined,
-  signers: undefined,
-  startingBlock: null,
-};
-
 export class VestingSchemeWrapper extends ContractWrapperBase {
+
+  /**
+   * see CreateVestingAgreementConfig
+   */
+  private defaultCreateOptions = {
+    amountPerPeriod: undefined,
+    beneficiary: undefined,
+    cliffInPeriods: undefined,
+    numOfAgreedPeriods: undefined,
+    periodLength: undefined,
+    returnOnCancelAddress: undefined,
+    signaturesReqToCancel: undefined,
+    signers: undefined,
+    startingBlock: null,
+  };
 
   /**
    * Events
@@ -59,7 +59,7 @@ export class VestingSchemeWrapper extends ContractWrapperBase {
      * see ProposeVestingAgreementConfig
      */
     const options = dopts(opts,
-      Object.assign({ avatar: undefined }, defaultCreateOptions),
+      Object.assign({ avatar: undefined }, this.defaultCreateOptions),
       { allowUnknown: true }) as ProposeVestingAgreementConfig;
 
     if (!options.avatar) {
@@ -94,7 +94,7 @@ export class VestingSchemeWrapper extends ContractWrapperBase {
     /**
      * See these properties in CreateVestingAgreementConfig
      */
-    const options = dopts(opts, defaultCreateOptions, { allowUnknown: true }) as CreateVestingAgreementConfig;
+    const options = dopts(opts, this.defaultCreateOptions, { allowUnknown: true }) as CreateVestingAgreementConfig;
 
     await this.validateCreateParams(options);
 

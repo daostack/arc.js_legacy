@@ -1,11 +1,19 @@
 const TypeDoc = require("typedoc");
-const LogLevel = require("typedoc").LogLevel;
-
 const fs = require("fs-extra");
 const glob = require("glob");
+require("colors");
+
+const LogLevel = {
+  Verbose: 0,
+  Info: 1,
+  Warn: 2,
+  Error: 3,
+  Success: 4,
+}
 
 const tsFiles = glob.sync("./lib/**/*", {
-  nodir: true
+  nodir: true,
+  ignore: "./lib/test/**/*"
 });
 
 tsFiles.unshift("./custom_typings/system.d.ts");
@@ -26,14 +34,13 @@ const options = {
   "module": "commonjs",
   "hideGenerator": true,
   "readme": "none",
-  "LogLevel": "Success"
+  "LogLevel": "Success",
+  "mode": "file",
+  "excludeProtected": true,
+  "name": "@DAOstack/Arc.js API Reference"
 };
 
 options.logger = function (message, level, newLine) {
-  console.log(TypeDoc);
-  console.log(message);
-  console.log(`level: ${level}`);
-  console.log(`newLine: ${newLine}`);
   switch (level) {
     case LogLevel.Success:
       console.log(message.green);
