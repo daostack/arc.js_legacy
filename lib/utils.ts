@@ -191,7 +191,10 @@ export class Utils {
    *   case "address',
    *   case "uint[N]' - fails if ((N % 8) || (N < 8) || (N > 256))
    *   case "int[N]'  - fails if ((N % 8) || (N < 8) || (N > 256))
-   * @param values - the values to pack and hash
+   * 
+   * The types much appear in the same order in which the values are stored in the contracts Parameters struct.
+   * 
+   * @param values - the values to pack and hash.  These must appear in the same order in which the types are ordered.
    */
   public static keccak256(types: Array<string>, values: Array<any>): string {
     return `0x${abi.soliditySHA3(types, values).toString("hex")}`;
