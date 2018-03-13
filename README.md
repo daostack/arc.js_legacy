@@ -118,7 +118,7 @@ The default configuration settings for Arc.js can be found in its `config/defaul
 ```json
 {
   "providerUrl": "http://127.0.0.0",
-  "providerUrl": 8545,
+  "providerPort": 8545,
   "network": "ganache",
   "gasLimit_runtime": 6015000
 }
@@ -358,7 +358,7 @@ const arcJsWrapperCategories = await ArcJs.Contracts.getDeployedContracts();
 
 You may find that `getDeployedContracts()` is somewhat time-consuming to run the first time because it fetches all of the wrappers from the chain, but it does cache its results and run much faster thereafter.
 
-`getDeployedContracts()` returns a object that contains a wrapper factory and address of each deployed contract that has a wrapper, keyed by the contract `name`.  See `ArcDeployedContracts`.  
+`getDeployedContracts()` returns a object that contains a wrapper factory and address of each deployed contract that has a wrapper, keyed by the contract `name`.  See `ArcDeployedContracts`.
 
 The following sections show how you can obtain contract wrappers using factories, names and addresses.
 
