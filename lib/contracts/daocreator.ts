@@ -117,10 +117,10 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
 
     const defaultVotingMachine = await Contracts.getContractWrapper(
       defaultVotingMachineParams.votingMachineName,
-      defaultVotingMachineParams.votingMachine);
+      defaultVotingMachineParams.votingMachineAddress);
 
     // in case it wasn't supplied in order to get the default
-    defaultVotingMachineParams.votingMachine = defaultVotingMachine.address;
+    defaultVotingMachineParams.votingMachineAddress = defaultVotingMachine.address;
 
     /**
      * each voting machine applies its own default values in setParams
@@ -157,7 +157,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
 
       if (schemeVotingMachineParams) {
         const schemeVotingMachineName = schemeVotingMachineParams.votingMachineName;
-        const schemeVotingMachineAddress = schemeVotingMachineParams.votingMachine;
+        const schemeVotingMachineAddress = schemeVotingMachineParams.votingMachineAddress;
         /**
          * get the voting machine contract
          */
@@ -177,10 +177,10 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
           }
           schemeVotingMachine = await Contracts.getContractWrapper(
             schemeVotingMachineParams.votingMachineName,
-            schemeVotingMachineParams.votingMachine);
+            schemeVotingMachineParams.votingMachineAddress);
 
           // in case it wasn't supplied in order to get the default
-          schemeVotingMachineParams.votingMachine = schemeVotingMachine.address;
+          schemeVotingMachineParams.votingMachineAddress = schemeVotingMachine.address;
         }
 
         schemeVotingMachineParams = Object.assign(defaultVotingMachineParams, schemeVotingMachineParams);
@@ -202,7 +202,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
         Object.assign(
           {
             voteParametersHash: schemeVoteParametersHash,
-            votingMachine: schemeVotingMachineParams.votingMachine,
+            votingMachineAddress: schemeVotingMachineParams.votingMachineAddress,
           },
           schemeOptions.additionalParams || {}
         ))).result;
@@ -273,7 +273,7 @@ export interface NewDaoVotingMachineConfig {
    * Optional VotingMachine address
    * Default is that of AbsoluteVote
    */
-  votingMachine?: string;
+  votingMachineAddress?: string;
   /**
    * You can add your voting-machine-specific parameters here, like ownerVote, votePerc, etc
    */

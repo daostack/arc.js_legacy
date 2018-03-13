@@ -408,7 +408,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
     return super.setParams(
       params.orgNativeTokenFee,
       params.voteParametersHash,
-      params.votingMachine
+      params.votingMachineAddress
     );
   }
 
@@ -425,7 +425,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
     return {
       orgNativeTokenFee: params[0],
       voteParametersHash: params[1],
-      votingMachine: params[2],
+      votingMachineAddress: params[2],
     };
   }
 

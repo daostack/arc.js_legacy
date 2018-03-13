@@ -478,7 +478,7 @@ declare module "@daostack/arc.js" {
 
   export interface StandardSchemeParams {
     voteParametersHash: string;
-    votingMachine: string; // address
+    votingMachineAddress: string;
   }
 
   /********************************
@@ -555,7 +555,7 @@ declare module "@daostack/arc.js" {
      * Optional VotingMachine address
      * Default is that of AbsoluteVote
      */
-    votingMachine?: string;
+    votingMachineAddress?: string;
     /**
      * You can add your voting-machine-specific parameters here, like ownerVote, votePerc, etc
      */

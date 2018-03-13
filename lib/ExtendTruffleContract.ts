@@ -382,5 +382,5 @@ export interface DecodedLogEntryEvent<TArgs> extends DecodedLogEntry<TArgs> {
 
 export interface StandardSchemeParams {
   voteParametersHash: Hash;
-  votingMachine: Address;
+  votingMachineAddress: Address;
 }

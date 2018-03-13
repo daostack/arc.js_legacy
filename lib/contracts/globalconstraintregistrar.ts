@@ -110,7 +110,7 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
   public async setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
     return super.setParams(
       params.voteParametersHash,
-      params.votingMachine
+      params.votingMachineAddress
     );
   }
 
@@ -126,7 +126,7 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
     const params = await this.getParametersArray(paramsHash);
     return {
       voteParametersHash: params[0],
-      votingMachine: params[1],
+      votingMachineAddress: params[1],
     };
   }
 }

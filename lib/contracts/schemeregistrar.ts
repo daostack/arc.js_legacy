@@ -173,7 +173,7 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
     return super.setParams(
       params.voteParametersHash,
       params.voteParametersHash,
-      params.votingMachine
+      params.votingMachineAddress
     );
   }
 
@@ -189,7 +189,7 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
     const params = await this.getParametersArray(paramsHash);
     return {
       voteParametersHash: params[0],
-      votingMachine: params[2],
+      votingMachineAddress: params[2],
     };
   }
 }

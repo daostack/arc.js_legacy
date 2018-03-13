@@ -79,7 +79,7 @@ export async function addProposeContributionReward(dao) {
   const schemeParametersHash = (await contributionReward.setParams({
     orgNativeTokenFee: 0,
     voteParametersHash: votingMachineHash,
-    votingMachine: votingMachine.address
+    votingMachineAddress: votingMachine.address
   })).result;
 
   const result = await schemeRegistrar.proposeToAddModifyScheme({
@@ -100,7 +100,7 @@ export async function getSchemeVotingMachineParametersHash(dao, scheme) {
 }
 
 export async function getSchemeVotingMachine(dao, scheme, votingMachineName) {
-  const votingMachineAddress = (await scheme.getSchemeParameters(dao.avatar.address)).votingMachine;
+  const votingMachineAddress = (await scheme.getSchemeParameters(dao.avatar.address)).votingMachineAddress;
   votingMachineName = votingMachineName || Config.get("defaultVotingMachine");
   return Contracts.getContractWrapper(votingMachineName, votingMachineAddress);
 }
