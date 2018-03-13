@@ -418,6 +418,23 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
     return overrideValue || "0x00000001";
   }
 
+  public async getVotingMachineAddress(avatarAddress: Address): Promise<Address> {
+    return this._getSchemeVotingMachineAddress(avatarAddress, 2);
+  }
+
+  public async getSchemeParameters(avatarAddress: Address): Promise<any> {
+    return await this._getSchemeParameters(avatarAddress);
+  }
+
+  public async getParameters(paramsHash: Hash): Promise<any> {
+    const params = await this._getParameters(paramsHash);
+    return {
+      orgNativeTokenFee: params[0],
+      voteParametersHash: params[1],
+      votingMachine: params[2]
+    }
+  }
+
   private async computeRemainingReward(
     proposalRewards: ProposalRewards,
     proposal: ContributionProposal,

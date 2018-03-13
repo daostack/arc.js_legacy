@@ -117,6 +117,22 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
   public getDefaultPermissions(overrideValue?: string): string {
     return overrideValue || "0x00000007";
   }
+
+  public async getVotingMachineAddress(avatarAddress: Address): Promise<Address> {
+    return this._getSchemeVotingMachineAddress(avatarAddress, 1);
+  }
+
+  public async getSchemeParameters(avatarAddress: Address): Promise<any> {
+    return await this._getSchemeParameters(avatarAddress);
+  }
+
+  public async getParameters(paramsHash: Hash): Promise<any> {
+    const params = await this._getSchemeParameters(paramsHash);
+    return {
+      voteParametersHash: params[0],
+      votingMachine: params[1]
+    }
+  }
 }
 
 const GlobalConstraintRegistrar = new ContractWrapperFactory(

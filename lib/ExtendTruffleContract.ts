@@ -1,6 +1,7 @@
 import { Address, Hash } from "./commonTypes";
 import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
+import { AvatarService } from "avatarService";
 /**
  * Abstract base class for all Arc contract wrapper classes
  *
@@ -98,7 +99,31 @@ export abstract class ExtendTruffleContract {
     return overrideValue || "0x00000000";
   }
 
+  public async getParameters(paramsHash: Hash): Promise<any> {
+    throw new Error("getParameters has not been not implemented by the contract wrapper");
+  }
+
+  public async getController(avatarAddress: Address): Promise<any> {
+    const avatarService = new AvatarService(avatarAddress);
+    return await avatarService.getController();
+  }
+
   public get address(): Address { return this.contract.address; }
+
+  protected async _getSchemeVotingMachineAddress(avatarAddress: Address, ndxVotingMachineParameter: number): Promise<Address> {
+    const params = await this._getSchemeParameters(avatarAddress);
+    return params[ndxVotingMachineParameter];
+  }
+
+  protected async _getSchemeParameters(avatarAddress: Address): Promise<any> {
+    const controller = await this.getController(avatarAddress);
+    const paramsHash = await controller.getSchemeParameters(this.address, avatarAddress);
+    return await this.getParameters(paramsHash);
+  }
+
+  public async _getParameters(paramsHash: Hash): Promise<Array<any>> {
+    return this.contract.parameters ? this.contract.parameters[paramsHash] : this.contract.params[paramsHash];
+  }
 
   /**
    * Return a function that creates an EventFetcher<TArgs>.

@@ -180,6 +180,18 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
   public getDefaultPermissions(overrideValue?: string): string {
     return overrideValue || "0x00000003";
   }
+
+  public async getSchemeParameters(avatarAddress: Address): Promise<any> {
+    return await this._getSchemeParameters(avatarAddress);
+  }
+
+  public async getParameters(paramsHash: Hash): Promise<any> {
+    const params = await this._getSchemeParameters(paramsHash);
+    return {
+      voteParametersHash: params[0],
+      votingMachine: params[2]
+    }
+  }
 }
 
 const SchemeRegistrar = new ContractWrapperFactory("SchemeRegistrar", SchemeRegistrarWrapper);

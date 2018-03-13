@@ -1,6 +1,6 @@
 "use strict";
 import dopts = require("default-options");
-import { Hash } from "../commonTypes";
+import { Hash, Address } from "../commonTypes";
 import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ArcTransactionDataResult,
@@ -67,6 +67,22 @@ export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
 
   public getDefaultPermissions(overrideValue?: string): string {
     return overrideValue || "0x00000001";
+  }
+
+  public async getVotingMachineAddress(avatarAddress: Address): Promise<Address> {
+    return this._getSchemeVotingMachineAddress(avatarAddress, 0);
+  }
+
+  public async getSchemeParameters(avatarAddress: Address): Promise<any> {
+    return await this._getSchemeParameters(avatarAddress);
+  }
+
+  public async getParameters(paramsHash: Hash): Promise<any> {
+    const params = await this._getSchemeParameters(paramsHash);
+    return {
+      voteParametersHash: params[1],
+      votingMachine: params[0]
+    }
   }
 }
 
