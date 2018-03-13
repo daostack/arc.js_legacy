@@ -70,12 +70,12 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase {
 
     const apiParams = [
       params.voteParametersHash,
-      params.votingMachineAddress
+      params.votingMachineAddress,
     ];
 
     const paramsAsHashed = [
       params.votingMachineAddress,
-      params.voteParametersHash
+      params.voteParametersHash,
     ];
 
     const parametersHash: Hash = await this.contract.getParametersHash(...apiParams);

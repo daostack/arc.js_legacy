@@ -899,7 +899,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase {
     }
 
     /**
-     * Special casing required here because Arc orders the parameters separately 
+     * Special casing required here because Arc orders the parameters separately
      * in the Parameters struct but in an array when they are supplied to the setParameters function.
      */
     const types = [
