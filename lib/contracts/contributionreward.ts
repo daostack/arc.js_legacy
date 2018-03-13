@@ -414,9 +414,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
 
     return super._setParams(
       ["uint", "bytes32", "address"],
-      params.orgNativeTokenFee,
-      params.voteParametersHash,
-      params.votingMachineAddress
+      [params.orgNativeTokenFee, params.voteParametersHash, params.votingMachineAddress]
     );
   }
 

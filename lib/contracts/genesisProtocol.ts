@@ -21,7 +21,6 @@ import {
   EventFetcherFactory,
 } from "../contractWrapperBase";
 import ContractWrapperFactory from "../contractWrapperFactory";
-import { LoggingService } from "../loggingService";
 import { Utils } from "../utils";
 import {
   ExecuteProposalEventResult,
@@ -952,17 +951,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase {
       params.governanceFormulasInterface,
     ];
 
-    const parametersHash: Hash = await this.contract.getParametersHash(...apiParams);
-
-    if (!(await Utils.parametersHashExists(this, types, paramsAsHashed))) {
-      const tx = await this.contract.setParameters(...apiParams);
-
-      LoggingService.debug(`setParams: returning new hash: ${parametersHash} for ${this.shortName}`);
-      return new ArcTransactionDataResult<Hash>(tx, parametersHash);
-    } else {
-      LoggingService.debug(`setParams: returning existing hash: ${parametersHash} for ${this.shortName}`);
-      return new ArcTransactionDataResult<Hash>(null, parametersHash);
-    }
+    return super._setParams(types, apiParams, paramsAsHashed);
   }
 
   public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {

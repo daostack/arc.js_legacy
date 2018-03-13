@@ -10,8 +10,6 @@ import {
 } from "../contractWrapperBase";
 import ContractWrapperFactory from "../contractWrapperFactory";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
-import { Utils } from "../utils";
-import { LoggingService } from "../loggingService";
 
 export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase {
 
@@ -78,17 +76,7 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase {
       params.voteParametersHash,
     ];
 
-    const parametersHash: Hash = await this.contract.getParametersHash(...apiParams);
-
-    if (!(await Utils.parametersHashExists(this, types, paramsAsHashed))) {
-      const tx = await this.contract.setParameters(...apiParams);
-
-      LoggingService.debug(`setParams: returning new hash: ${parametersHash} for ${this.shortName}`);
-      return new ArcTransactionDataResult<Hash>(tx, parametersHash);
-    } else {
-      LoggingService.debug(`setParams: returning existing hash: ${parametersHash} for ${this.shortName}`);
-      return new ArcTransactionDataResult<Hash>(null, parametersHash);
-    }
+    return super._setParams(types, apiParams, paramsAsHashed);
   }
 
   public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {

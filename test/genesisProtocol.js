@@ -1,4 +1,5 @@
 import { Utils } from "../test-dist/utils";
+import { Config } from "../test-dist/config";
 import { Contracts } from "../test-dist/contracts.js";
 import { GenesisProtocol } from "../test-dist/contracts/genesisProtocol";
 import { SchemeRegistrar } from "../test-dist/contracts/schemeregistrar";
@@ -7,6 +8,7 @@ import * as helpers from "./helpers";
 describe("GenesisProtocol", () => {
   let dao, genesisProtocol, paramsHash, executableTest;
   let ExecutableTest;
+  let defaultVotingMachine;
 
   const createProposal = async () => {
 
@@ -42,6 +44,12 @@ describe("GenesisProtocol", () => {
 
     ExecutableTest = await Utils.requireContract("ExecutableTest");
 
+    /**
+     * this will exercise avoiding saving pre-existing parameter hashes on the voting machine
+     */
+    defaultVotingMachine = Config.get("defaultVotingMachine");
+    Config.set("defaultVotingMachine", "GenesisProtocol");
+
     dao = await helpers.forgeDao({
       schemes: [
         { name: "GenesisProtocol" }
@@ -70,6 +78,10 @@ describe("GenesisProtocol", () => {
     executableTest = await ExecutableTest.deployed();
   });
 
+  afterEach(async () => {
+    // revert for ensuing tests
+    Config.set("defaultVotingMachine", defaultVotingMachine);
+  });
 
   it("can get executed proposals", async () => {
 

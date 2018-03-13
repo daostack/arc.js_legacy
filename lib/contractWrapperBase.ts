@@ -241,16 +241,24 @@ export abstract class ContractWrapperBase {
   }
 
   /**
-   * subclasses will override setParams and call this
-   * @param args
+   * Subclasses will override setParams and call this instead.
+   *
+   * @param {Array<any>} params Array of parameter values in the order in which they should be passed to
+   * contract.setParameters and in the order in which they are stored in the contract's Parameters struct.
+   * @param {Array<any>} paramsAsHashed Optional array of parameter values in the order in which they are stored
+   * in the contract's Parameters struct, when different from params.
    */
-  protected async _setParams(types: Array<string>, ...args: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
-    const parametersHash: Hash = await this.contract.getParametersHash(...args);
+  protected async _setParams(
+    types: Array<string>,
+    params: Array<any>,
+    paramsAsHashed?: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
+
+    const parametersHash: Hash = await this.contract.getParametersHash(...params);
     /**
      * trying to minimize transactions by avoiding saving these params if they have already been saved
      */
-    if (!(await Utils.parametersHashExists(this, types, args))) {
-      const tx = await this.contract.setParameters(...args);
+    if (!(await Utils.parametersHashExists(this, types, paramsAsHashed || params))) {
+      const tx = await this.contract.setParameters(...params);
       LoggingService.debug(`_setParams: returning new hash: ${parametersHash} for ${this.shortName}`);
       return new ArcTransactionDataResult<Hash>(tx, parametersHash);
     } else {

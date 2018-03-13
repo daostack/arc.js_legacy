@@ -22,8 +22,7 @@ export class TokenCapGCWrapper extends ContractWrapperBase {
 
     return super._setParams(
       ["address", "uint"],
-      params.token,
-      params.cap);
+      [params.token, params.cap]);
   }
 }
 
