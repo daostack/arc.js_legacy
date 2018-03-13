@@ -76,7 +76,7 @@ export async function addProposeContributionReward(dao) {
   const votingMachineHash = await getSchemeVotingMachineParametersHash(dao, schemeRegistrar);
   const votingMachine = await getSchemeVotingMachine(dao, schemeRegistrar);
 
-  const schemeParametersHash = (await contributionReward.setParams({
+  const schemeParametersHash = (await contributionReward.setParameters({
     orgNativeTokenFee: 0,
     voteParametersHash: votingMachineHash,
     votingMachineAddress: votingMachine.address

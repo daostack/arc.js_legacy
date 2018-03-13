@@ -860,7 +860,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
    * @param {GenesisProtocolParams} params
    * @returns parameters hash
    */
-  public async setParams(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>> {
+  public async setParameters(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>> {
 
     params = Object.assign({},
       {
@@ -888,7 +888,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
       throw new Error("preBoostedVoteRequiredPercentage must be greater than 0 and less than or equal to 100");
     }
 
-    return super.setParams(
+    return super.setParameters(
       [
         params.preBoostedVoteRequiredPercentage,
         params.preBoostedVotePeriodLimit,

@@ -65,7 +65,7 @@ describe("GenesisProtocol", () => {
     assert.isOk(genesisProtocol);
 
     // all default parameters
-    paramsHash = (await genesisProtocol.setParams({})).result;
+    paramsHash = (await genesisProtocol.setParameters({})).result;
 
     executableTest = await ExecutableTest.deployed();
   });

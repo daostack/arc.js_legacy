@@ -245,8 +245,8 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
     return agreements;
   }
 
-  public async setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
-    return super.setParams(
+  public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
+    return super.setParameters(
       params.voteParametersHash,
       params.votingMachineAddress
     );

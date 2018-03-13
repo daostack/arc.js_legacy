@@ -57,7 +57,7 @@ export class AbsoluteVoteWrapper extends ExtendTruffleContract {
     return new ArcTransactionResult(tx);
   }
 
-  public async setParams(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>> {
+  public async setParameters(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>> {
 
     params = Object.assign({},
       {
@@ -70,7 +70,7 @@ export class AbsoluteVoteWrapper extends ExtendTruffleContract {
       throw new Error("reputation must be set");
     }
 
-    return super.setParams(
+    return super.setParameters(
       params.reputation,
       params.votePerc,
       params.ownerVote

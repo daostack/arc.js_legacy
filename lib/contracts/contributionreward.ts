@@ -397,7 +397,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
     return rewardsArray;
   }
 
-  public async setParams(params: ContributionRewardParams): Promise<ArcTransactionDataResult<Hash>> {
+  public async setParameters(params: ContributionRewardParams): Promise<ArcTransactionDataResult<Hash>> {
 
     params = Object.assign({},
       {
@@ -405,7 +405,7 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
       },
       params);
 
-    return super.setParams(
+    return super.setParameters(
       params.orgNativeTokenFee,
       params.voteParametersHash,
       params.votingMachineAddress

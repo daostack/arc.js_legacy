@@ -453,13 +453,21 @@ const truffleContract = await Utils.requireContract("Avatar");
 
 Although you can always register your own schemes with a DAO, whether they be totally custom non-Arc schemes, or redeployed Arc schemes, by default a DAO is created with Arc schemes that are universal in the sense that the code is implemented in one place, without redundancy.  But every scheme registered with a DAO is configured with its own DAO-scoped parameter values, and references DAO-scoped data, such as proposals. All are stored in the DAO's controller where each universal scheme is able to find them.  (If the controller is the Universal Controller then the parameters and data are keyed by the DAO's avatar address.)
 
-If you want to obtain a DAO scheme's parameters, you can do it like this, using a method on the DAO class:
+If you want to obtain a DAO scheme's parameters, you can do it like this:
 
 ```
-const schemeParameters = DAO.getSchemeParameters(schemeWrapper);
+const schemeParameters = schemeWrapper.getSchemeParameters(avatarAddress);
 ```
 
-This will return an array of the scheme's parameter values where the order of values in the array corresponds to the order in which they are defined in the structure in which they are stored in the scheme contract.
+This will return an object containing the scheme's parameter values.  The object will be the same as that which one passes to `schemeWrapper.setParameters` when setting parameters on any contract.
+
+For example, to obtain the voting machine address for a scheme that has one as a parameter:
+
+```
+const schemeParameters = schemeWrapper.getSchemeParameters(avatarAddress);
+const votingMachineAddress = schemeParameters.votingMachineAddress;
+```
+
 
 ## Working with Arc.js Scripts
 Arc.js contains a set of scripts for building, publishing, running tests and migrating contracts to any network.  These scripts are meant to be accessible and readily usable by client applications.

@@ -8,7 +8,7 @@ import {
 import ContractWrapperFactory from "../ContractWrapperFactory";
 
 export class TokenCapGCWrapper extends ExtendTruffleContract {
-  public async setParams(params: TokenCapGcParams): Promise<ArcTransactionDataResult<Hash>> {
+  public async setParameters(params: TokenCapGcParams): Promise<ArcTransactionDataResult<Hash>> {
 
     if (!params.token) {
       throw new Error("token must be set");
@@ -20,7 +20,7 @@ export class TokenCapGCWrapper extends ExtendTruffleContract {
       throw new Error("cap must be set and represent a number");
     }
 
-    return super.setParams(params.token, params.cap);
+    return super.setParameters(params.token, params.cap);
   }
 }
 

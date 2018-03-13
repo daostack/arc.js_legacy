@@ -123,9 +123,9 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
     defaultVotingMachineParams.votingMachineAddress = defaultVotingMachine.address;
 
     /**
-     * each voting machine applies its own default values in setParams
+     * each voting machine applies its own default values in setParameters
      */
-    const defaultVoteParametersHash = (await defaultVotingMachine.setParams(defaultVotingMachineParams)).result;
+    const defaultVoteParametersHash = (await defaultVotingMachine.setParameters(defaultVotingMachineParams)).result;
 
     const initialSchemesSchemes = [];
     const initialSchemesParams = [];
@@ -187,7 +187,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
         /**
          * get the voting machine parameters
          */
-        schemeVoteParametersHash = (await schemeVotingMachine.setParams(schemeVotingMachineParams)).result;
+        schemeVoteParametersHash = (await schemeVotingMachine.setParameters(schemeVotingMachineParams)).result;
 
       } else {
         // using the defaults
@@ -198,7 +198,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
       /**
        * This is the set of all possible parameters from which the current scheme will choose just the ones it requires
        */
-      const schemeParamsHash = (await scheme.setParams(
+      const schemeParamsHash = (await scheme.setParameters(
         Object.assign(
           {
             voteParametersHash: schemeVoteParametersHash,

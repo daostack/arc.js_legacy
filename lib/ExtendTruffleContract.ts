@@ -86,7 +86,7 @@ export abstract class ExtendTruffleContract {
    * @param {any} params -- object with properties whose names are expected by the scheme to correspond to parameters.
    * Currently all params are required, contract wrappers do not as yet apply default values.
    */
-  public async setParams(...args: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
+  public async setParameters(...args: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
     const parametersHash: Hash = await this.contract.getParametersHash(...args);
     const tx: TransactionReceiptTruffle = await this.contract.setParameters(...args);
     return new ArcTransactionDataResult<Hash>(tx, parametersHash);

@@ -20,7 +20,7 @@ describe("ExtendTruffleContract", () => {
     assert.equal(scheme.foo(), "bar");
     assert.equal(scheme.aMethod(), "abc");
     assert.equal(
-      (await scheme.setParams({})).result,
+      (await scheme.setParameters({})).result,
       "0xfc844154428d1b1c6806ceacdd3ed0974cc02c30983036bc5db6b5aed2fa394b"
     );
     assert.equal(scheme.getDefaultPermissions(), "0x00000009");
