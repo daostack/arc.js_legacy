@@ -274,14 +274,14 @@ declare module "@daostack/arc.js" {
 
     /**
      * Given an avatar address, return the schemes parameters hash
-     * @param avatarAddress 
+     * @param avatarAddress
      */
     public getSchemeParametersHash(avatarAddress: Address): Promise<Hash>;
 
     /**
-     * Given a hash, return the associated parameters as an array, ordered by the order 
+     * Given a hash, return the associated parameters as an array, ordered by the order
      * in which the parameters appear in the contract's Parameters struct.
-     * @param paramsHash 
+     * @param paramsHash
      */
     public getParametersArray(paramsHash: Hash): Promise<Array<any>>;
   }

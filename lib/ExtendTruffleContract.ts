@@ -109,7 +109,7 @@ export abstract class ExtendTruffleContract {
 
   /**
    * Given an avatar address, return the schemes parameters hash
-   * @param avatarAddress 
+   * @param avatarAddress
    */
   public async getSchemeParametersHash(avatarAddress: Address): Promise<Hash> {
     const controller = await this._getController(avatarAddress);
@@ -117,9 +117,9 @@ export abstract class ExtendTruffleContract {
   }
 
   /**
-   * Given a hash, return the associated parameters as an array, ordered by the order 
+   * Given a hash, return the associated parameters as an array, ordered by the order
    * in which the parameters appear in the contract's Parameters struct.
-   * @param paramsHash 
+   * @param paramsHash
    */
   public async getParametersArray(paramsHash: Hash): Promise<Array<any>> {
     return this.contract.parameters ? this.contract.parameters(paramsHash) : this.contract.params(paramsHash);
@@ -129,7 +129,7 @@ export abstract class ExtendTruffleContract {
 
   /**
    * return the controller associated with the given avatar
-   * @param avatarAddress 
+   * @param avatarAddress
    */
   protected async _getController(avatarAddress: Address): Promise<any> {
     const avatarService = new AvatarService(avatarAddress);
