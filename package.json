@@ -55,10 +55,11 @@
     "babel-preset-env": "^1.6.1"
   },
   "dependencies": {
+    "ajv": "^6.2.1",
     "archiver": "^2.1.0",
     "bignumber.js": "^5.0.0",
     "bip39": "^2.4.0",
-    "color-convert": "^1.9.1",
+    "colors": "^1.2.1",
     "cwd": "^0.10.0",
     "decompress": "^4.2.0",
     "default-options": "^1.0.0",

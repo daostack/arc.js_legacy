@@ -4,11 +4,14 @@ import { assert } from "chai";
 import { DAO } from "../test-dist/dao.js";
 import { Contracts } from "../test-dist/contracts.js";
 import { SchemeRegistrar } from "../test-dist/contracts/schemeregistrar";
+import { LoggingService, LogLevel } from "../test-dist/loggingService";
 
 export const NULL_HASH = Utils.NULL_HASH;
 export const NULL_ADDRESS = Utils.NULL_ADDRESS;
 export const SOME_HASH = "0x1000000000000000000000000000000000000000000000000000000000000000";
 export const SOME_ADDRESS = "0x1000000000000000000000000000000000000000";
+
+LoggingService.setLogLevel(LogLevel.error | LogLevel.debug);
 
 beforeEach(async () => {
   global.web3 = Utils.getWeb3();

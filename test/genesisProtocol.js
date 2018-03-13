@@ -155,8 +155,8 @@ describe("GenesisProtocol", () => {
       avatar: dao.avatar.address,
     });
     assert.isOk(result);
-    assert.equal(result.thresholdConstA, 1);
-    assert.equal(result.thresholdConstB, 1);
+    assert.equal(result.thresholdConstA, 2);
+    assert.equal(result.thresholdConstB, 10);
   });
 
   it("can call shouldBoost", async () => {

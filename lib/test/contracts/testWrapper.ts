@@ -5,6 +5,14 @@ import { ArcTransactionDataResult, ContractWrapperBase } from "../../contractWra
 import ContractWrapperFactory from "../../contractWrapperFactory";
 
 export class TestWrapperWrapper extends ContractWrapperBase {
+  /**
+   * Name used by Arc.js.Contracts and Arc.
+   */
+  public shortName: string = "TestWrapper";
+  /**
+   * Friendly name of the contract
+   */
+  public longName: string = "Test Wrapper";
 
   public foo(): string {
     return "bar";

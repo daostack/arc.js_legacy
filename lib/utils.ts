@@ -223,7 +223,7 @@ export class Utils {
    * @param schemeWrapper The scheme ostensibly having the parameters
    * @param types See Utils.keccak256
    * @param parameters The parameters.  Be sure they are given in the same
-   * order in which they would be stored by the scheme (see Utils.setParams).
+   * order in which they would be stored by the scheme (see ExtendTruffleContract.setParams).
    */
   public static async parametersHashExists(
     schemeWrapper: ContractWrapperBase,
@@ -232,7 +232,14 @@ export class Utils {
 
     const hash = Utils.keccak256(types, parameters);
 
-    const existingParams = await schemeWrapper.contract.parameters(hash);
+    let existingParams;
+
+    if (schemeWrapper.contract.parameters) {
+      existingParams = await schemeWrapper.contract.parameters(hash);
+    } else {
+      // special case for TokenCapGC
+      existingParams = await schemeWrapper.contract.params(hash);
+    }
     /**
      * if existingParams is all zeroes, then assume that the parameters have never
      * before been stored.  If any item is not zero, then return true.
