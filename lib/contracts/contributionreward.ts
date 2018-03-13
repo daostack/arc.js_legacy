@@ -119,11 +119,9 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
       throw new Error("beneficiary is not defined");
     }
 
-    const controller = await (new AvatarService(options.avatar)).getController();
-    const schemeParams = await controller.getSchemeParameters(this.address, options.avatar);
+    const orgNativeTokenFee = (await this.getSchemeParameters(options.avatar)).orgNativeTokenFee;
 
-    const orgNativeTokenFee = (await this.contract.parameters(schemeParams))[0];
-    if (Config.get("autoApproveTokenTransfers") && (orgNativeTokenFee > 0)) {
+    if (Config.get("autoApproveTokenTransfers") && (orgNativeTokenFee.toNumber() > 0)) {
       /**
        * approve immediate transfer of native tokens from msg.sender to the avatar
        */
@@ -418,21 +416,17 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
     return overrideValue || "0x00000001";
   }
 
-  public async getVotingMachineAddress(avatarAddress: Address): Promise<Address> {
-    return this._getSchemeVotingMachineAddress(avatarAddress, 2);
+  public async getSchemeParameters(avatarAddress: Address): Promise<ContributionRewardParamsReturn> {
+    return this._getSchemeParameters(avatarAddress);
   }
 
-  public async getSchemeParameters(avatarAddress: Address): Promise<any> {
-    return await this._getSchemeParameters(avatarAddress);
-  }
-
-  public async getParameters(paramsHash: Hash): Promise<any> {
-    const params = await this._getParameters(paramsHash);
+  public async getParameters(paramsHash: Hash): Promise<ContributionRewardParamsReturn> {
+    const params = await this.getParametersArray(paramsHash);
     return {
       orgNativeTokenFee: params[0],
       voteParametersHash: params[1],
-      votingMachine: params[2]
-    }
+      votingMachine: params[2],
+    };
   }
 
   private async computeRemainingReward(
@@ -573,6 +567,10 @@ export interface ProposalRewards {
 
 export interface ContributionRewardParams extends StandardSchemeParams {
   orgNativeTokenFee: BigNumber.BigNumber | string;
+}
+
+export interface ContributionRewardParamsReturn extends StandardSchemeParams {
+  orgNativeTokenFee: BigNumber.BigNumber;
 }
 
 export interface ContributionRewardSpecifiedRedemptionParams {

@@ -181,16 +181,16 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
     return overrideValue || "0x00000003";
   }
 
-  public async getSchemeParameters(avatarAddress: Address): Promise<any> {
-    return await this._getSchemeParameters(avatarAddress);
+  public async getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams> {
+    return this._getSchemeParameters(avatarAddress);
   }
 
-  public async getParameters(paramsHash: Hash): Promise<any> {
-    const params = await this._getSchemeParameters(paramsHash);
+  public async getParameters(paramsHash: Hash): Promise<StandardSchemeParams> {
+    const params = await this.getParametersArray(paramsHash);
     return {
       voteParametersHash: params[0],
-      votingMachine: params[2]
-    }
+      votingMachine: params[2],
+    };
   }
 }
 

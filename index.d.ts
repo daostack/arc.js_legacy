@@ -265,6 +265,25 @@ declare module "@daostack/arc.js" {
      * Currently all params are required, contract wrappers do not as yet apply default values.
      */
     public setParams(params: any): Promise<ArcTransactionDataResult<Hash>>;
+
+    /**
+     * Given a hash, return the associated parameters as an object.
+     * @param paramsHash
+     */
+    public getParameters(paramsHash: Hash): Promise<any>;
+
+    /**
+     * Given an avatar address, return the schemes parameters hash
+     * @param avatarAddress 
+     */
+    public getSchemeParametersHash(avatarAddress: Address): Promise<Hash>;
+
+    /**
+     * Given a hash, return the associated parameters as an array, ordered by the order 
+     * in which the parameters appear in the contract's Parameters struct.
+     * @param paramsHash 
+     */
+    public getParametersArray(paramsHash: Hash): Promise<Array<any>>;
   }
 
   export class ExtendTruffleScheme extends ExtendTruffleContract {

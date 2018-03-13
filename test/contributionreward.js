@@ -14,7 +14,7 @@ describe("ContributionReward scheme", () => {
 
     scheme = await helpers.getDaoScheme(dao, "ContributionReward", ContributionReward);
 
-    votingMachine = await helpers.getSchemeVotingMachine(dao, scheme, 2);
+    votingMachine = await helpers.getSchemeVotingMachine(dao, scheme);
 
   });
 

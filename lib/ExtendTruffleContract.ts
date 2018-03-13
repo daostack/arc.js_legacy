@@ -1,7 +1,7 @@
+import { AvatarService } from "./avatarService";
 import { Address, Hash } from "./commonTypes";
 import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
-import { AvatarService } from "avatarService";
 /**
  * Abstract base class for all Arc contract wrapper classes
  *
@@ -99,30 +99,46 @@ export abstract class ExtendTruffleContract {
     return overrideValue || "0x00000000";
   }
 
+  /**
+   * Given a hash, return the associated parameters as an object.
+   * @param paramsHash
+   */
   public async getParameters(paramsHash: Hash): Promise<any> {
     throw new Error("getParameters has not been not implemented by the contract wrapper");
   }
 
-  public async getController(avatarAddress: Address): Promise<any> {
-    const avatarService = new AvatarService(avatarAddress);
-    return await avatarService.getController();
+  /**
+   * Given an avatar address, return the schemes parameters hash
+   * @param avatarAddress 
+   */
+  public async getSchemeParametersHash(avatarAddress: Address): Promise<Hash> {
+    const controller = await this._getController(avatarAddress);
+    return controller.getSchemeParameters(this.address, avatarAddress);
+  }
+
+  /**
+   * Given a hash, return the associated parameters as an array, ordered by the order 
+   * in which the parameters appear in the contract's Parameters struct.
+   * @param paramsHash 
+   */
+  public async getParametersArray(paramsHash: Hash): Promise<Array<any>> {
+    return this.contract.parameters ? this.contract.parameters(paramsHash) : this.contract.params(paramsHash);
   }
 
   public get address(): Address { return this.contract.address; }
 
-  protected async _getSchemeVotingMachineAddress(avatarAddress: Address, ndxVotingMachineParameter: number): Promise<Address> {
-    const params = await this._getSchemeParameters(avatarAddress);
-    return params[ndxVotingMachineParameter];
+  /**
+   * return the controller associated with the given avatar
+   * @param avatarAddress 
+   */
+  protected async _getController(avatarAddress: Address): Promise<any> {
+    const avatarService = new AvatarService(avatarAddress);
+    return avatarService.getController();
   }
 
   protected async _getSchemeParameters(avatarAddress: Address): Promise<any> {
-    const controller = await this.getController(avatarAddress);
-    const paramsHash = await controller.getSchemeParameters(this.address, avatarAddress);
-    return await this.getParameters(paramsHash);
-  }
-
-  public async _getParameters(paramsHash: Hash): Promise<Array<any>> {
-    return this.contract.parameters ? this.contract.parameters[paramsHash] : this.contract.params[paramsHash];
+    const paramsHash = await this.getSchemeParametersHash(avatarAddress);
+    return this.getParameters(paramsHash);
   }
 
   /**

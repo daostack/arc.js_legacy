@@ -78,12 +78,12 @@ export class AbsoluteVoteWrapper extends ExtendTruffleContract {
   }
 
   public async getParameters(paramsHash: Hash): Promise<any> {
-    const params = await this._getParameters(paramsHash);
+    const params = await this.getParametersArray(paramsHash);
     return {
+      ownerVote: params[2],
       reputation: params[0],
       votePerc: params[1],
-      ownerVote: params[2],
-    }
+    };
   }
 }
 

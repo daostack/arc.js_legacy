@@ -911,6 +911,29 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     return overrideValue || "0x00000001";
   }
 
+  public async getSchemeParameters(avatarAddress: Address): Promise<GenesisProtocolParams> {
+    return this._getSchemeParameters(avatarAddress);
+  }
+
+  public async getParameters(paramsHash: Hash): Promise<GenesisProtocolParams> {
+    const params = await this.getParametersArray(paramsHash);
+    return {
+      boostedVotePeriodLimit: params[2],
+      governanceFormulasInterface: params[5],
+      minimumStakingFee: params[6],
+      preBoostedVotePeriodLimit: params[1],
+      preBoostedVoteRequiredPercentage: params[0],
+      proposingRepRewardConstA: params[8],
+      proposingRepRewardConstB: params[9],
+      quietEndingPeriod: params[7],
+      stakerFeeRatioForVoters: params[10],
+      thresholdConstA: params[3],
+      thresholdConstB: params[4],
+      votersGainRepRatioFromLostRep: params[12],
+      votersReputationLossRatio: params[11],
+    };
+  }
+
   private async _validateVote(vote: number, proposalId: Hash): Promise<void> {
     const numChoices = await this.getNumberOfChoices({ proposalId });
     if (!Number.isInteger(vote) || (vote < 0) || (vote > numChoices)) {

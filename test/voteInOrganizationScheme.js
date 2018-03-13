@@ -48,7 +48,7 @@ const createProposal = async () => {
   /**
    * get the voting machine that will be used to vote for this proposal
    */
-  const votingMachine = await helpers.getSchemeVotingMachine(originalDao, schemeRegistrar, 2);
+  const votingMachine = await helpers.getSchemeVotingMachine(originalDao, schemeRegistrar);
 
   assert.isOk(votingMachine);
   assert.isFalse(await helpers.voteWasExecuted(votingMachine, result.proposalId));
@@ -115,7 +115,7 @@ describe("VoteInOrganizationScheme", () => {
     assert.equal(result.tx.logs.length, 1); // no other event
     assert.equal(result.tx.logs[0].event, "NewVoteProposal");
 
-    const votingMachine = await helpers.getSchemeVotingMachine(dao, voteInOrganizationScheme, 0);
+    const votingMachine = await helpers.getSchemeVotingMachine(dao, voteInOrganizationScheme);
 
     assert.isOk(votingMachine);
 
