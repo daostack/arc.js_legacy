@@ -61,7 +61,7 @@ For more information about Arc contracts and the entire DAOstack ecosystem, plea
 ## Getting Started
 
 ### API Reference
-Arc.js is written in TypeScript.  You can find detailed reference pages of all of the object classes and interfaces [here](./docs/api/readme.md).
+Arc.js is written in TypeScript.  You can find detailed reference pages of all of the object classes and interfaces [here](./docs/Api/README.md).
 
 ### Installation
 
