@@ -37,7 +37,8 @@ const options = {
   "LogLevel": "Success",
   "mode": "file",
   "excludeProtected": true,
-  "name": "@DAOstack/Arc.js API Reference"
+  "name": "@DAOstack/Arc.js API Reference",
+  "theme": "markdown"
 };
 
 options.logger = function (message, level, newLine) {
