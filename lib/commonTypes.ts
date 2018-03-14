@@ -10,7 +10,7 @@ export interface VoteConfig {
    */
   onBehalfOf?: string;
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
   /**
