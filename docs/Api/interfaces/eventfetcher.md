@@ -17,7 +17,7 @@ returned by EventFetcherFactory <targs>which is created by eventWrapperFactory.<
 
 **●  get**:  *[EventFetcherHandler](../#eventfetcherhandler)`TArgs`* 
 
-*Defined in [ExtendTruffleContract.ts:345](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L345)*
+*Defined in [ExtendTruffleContract.ts:345](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L345)*
 
 
 
@@ -31,7 +31,7 @@ ___
 
 **●  watch**:  *[EventFetcherHandler](../#eventfetcherhandler)`TArgs`* 
 
-*Defined in [ExtendTruffleContract.ts:346](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L346)*
+*Defined in [ExtendTruffleContract.ts:346](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L346)*
 
 
 
@@ -49,7 +49,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:347](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L347)*
+*Defined in [ExtendTruffleContract.ts:347](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L347)*
 
 
 

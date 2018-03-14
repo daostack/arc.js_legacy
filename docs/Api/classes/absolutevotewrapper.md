@@ -63,7 +63,7 @@
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[constructor](extendtrufflecontract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -92,7 +92,7 @@ ContractWrapperFactory constructs this
 
 **●  CancelProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[CancelProposalEventResult](../interfaces/cancelproposaleventresult.md)*  =  this.createEventFetcherFactory<CancelProposalEventResult>("CancelProposal")
 
-*Defined in [contracts/absoluteVote.ts:22](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/absoluteVote.ts#L22)*
+*Defined in [contracts/absoluteVote.ts:22](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L22)*
 
 
 
@@ -106,7 +106,7 @@ ___
 
 **●  CancelVoting**:  *[EventFetcherFactory](../#eventfetcherfactory)[CancelVotingEventResult](../interfaces/cancelvotingeventresult.md)*  =  this.createEventFetcherFactory<CancelVotingEventResult>("CancelVoting")
 
-*Defined in [contracts/absoluteVote.ts:25](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/absoluteVote.ts#L25)*
+*Defined in [contracts/absoluteVote.ts:25](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L25)*
 
 
 
@@ -120,7 +120,7 @@ ___
 
 **●  ExecuteProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[ExecuteProposalEventResult](../interfaces/executeproposaleventresult.md)*  =  this.createEventFetcherFactory<ExecuteProposalEventResult>("ExecuteProposal")
 
-*Defined in [contracts/absoluteVote.ts:23](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/absoluteVote.ts#L23)*
+*Defined in [contracts/absoluteVote.ts:23](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L23)*
 
 
 
@@ -134,7 +134,7 @@ ___
 
 **●  NewProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[NewProposalEventResult](../interfaces/newproposaleventresult.md)*  =  this.createEventFetcherFactory<NewProposalEventResult>("NewProposal")
 
-*Defined in [contracts/absoluteVote.ts:21](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/absoluteVote.ts#L21)*
+*Defined in [contracts/absoluteVote.ts:21](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L21)*
 
 
 
@@ -151,7 +151,7 @@ ___
 
 **●  VoteProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[VoteProposalEventResult](../interfaces/voteproposaleventresult.md)*  =  this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal")
 
-*Defined in [contracts/absoluteVote.ts:24](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/absoluteVote.ts#L24)*
+*Defined in [contracts/absoluteVote.ts:24](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L24)*
 
 
 
@@ -167,7 +167,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[contract](extendtrufflecontract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -189,7 +189,7 @@ getaddress(): [Address](../#address)
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[address](extendtrufflecontract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L128)*
+*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L128)*
 
 
 
@@ -213,7 +213,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getDefaultPermissions](extendtrufflecontract.md#getdefaultpermissions)*
 
-*Defined in [ExtendTruffleContract.ts:98](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L98)*
+*Defined in [ExtendTruffleContract.ts:98](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L98)*
 
 
 
@@ -248,7 +248,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getParameters](extendtrufflecontract.md#getparameters)*
 
-*Defined in [contracts/absoluteVote.ts:80](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/absoluteVote.ts#L80)*
+*Defined in [contracts/absoluteVote.ts:80](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L80)*
 
 
 
@@ -280,7 +280,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParametersArray](extendtrufflecontract.md#getparametersarray)*
 
-*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L124)*
+*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L124)*
 
 
 
@@ -315,7 +315,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getSchemeParametersHash](extendtrufflecontract.md#getschemeparametershash)*
 
-*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L114)*
+*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L114)*
 
 
 
@@ -350,7 +350,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromAt](extendtrufflecontract.md#hydratefromat)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -387,7 +387,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromDeployed](extendtrufflecontract.md#hydratefromdeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -416,7 +416,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromNew](extendtrufflecontract.md#hydratefromnew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -453,7 +453,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[setParameters](extendtrufflecontract.md#setparameters)*
 
-*Defined in [contracts/absoluteVote.ts:60](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/absoluteVote.ts#L60)*
+*Defined in [contracts/absoluteVote.ts:60](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L60)*
 
 
 
@@ -483,7 +483,7 @@ ___
 
 
 
-*Defined in [contracts/absoluteVote.ts:33](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/absoluteVote.ts#L33)*
+*Defined in [contracts/absoluteVote.ts:33](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L33)*
 
 
 

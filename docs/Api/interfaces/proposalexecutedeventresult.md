@@ -15,7 +15,7 @@ fired by schemes
 
 **●  _avatar**:  *[Address](../#address)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:76](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/commonEventInterfaces.ts#L76)*
+*Defined in [contracts/commonEventInterfaces.ts:76](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L76)*
 
 
 
@@ -32,7 +32,7 @@ ___
 
 **●  _param**:  *`number`* 
 
-*Defined in [contracts/commonEventInterfaces.ts:77](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/commonEventInterfaces.ts#L77)*
+*Defined in [contracts/commonEventInterfaces.ts:77](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L77)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 **●  _proposalId**:  *[Hash](../#hash)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:81](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/commonEventInterfaces.ts#L81)*
+*Defined in [contracts/commonEventInterfaces.ts:81](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L81)*
 
 
 

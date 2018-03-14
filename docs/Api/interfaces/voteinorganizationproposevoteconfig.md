@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/voteInOrganizationScheme.ts:97](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/voteInOrganizationScheme.ts#L97)*
+*Defined in [contracts/voteInOrganizationScheme.ts:97](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L97)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  originalIntVote**:  *`string`* 
 
-*Defined in [contracts/voteInOrganizationScheme.ts:102](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/voteInOrganizationScheme.ts#L102)*
+*Defined in [contracts/voteInOrganizationScheme.ts:102](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L102)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 **●  originalProposalId**:  *`string`* 
 
-*Defined in [contracts/voteInOrganizationScheme.ts:106](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/voteInOrganizationScheme.ts#L106)*
+*Defined in [contracts/voteInOrganizationScheme.ts:106](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L106)*
 
 
 

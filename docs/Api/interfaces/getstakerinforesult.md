@@ -12,7 +12,7 @@
 
 **●  stake**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/genesisProtocol.ts:1167](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1167)*
+*Defined in [contracts/genesisProtocol.ts:1167](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1167)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  vote**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1166](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1166)*
+*Defined in [contracts/genesisProtocol.ts:1166](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1166)*
 
 
 

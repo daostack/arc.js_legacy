@@ -12,7 +12,7 @@
 
 **●  beneficiary**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1212](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1212)*
+*Defined in [contracts/genesisProtocol.ts:1212](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1212)*
 
 
 
@@ -29,11 +29,11 @@ ___
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1208](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1208)*
+*Defined in [contracts/genesisProtocol.ts:1208](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1208)*
 
 
 
-unique hash of proposal index in the scope of the scheme
+unique hash of proposal index
 
 
 

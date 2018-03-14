@@ -25,7 +25,7 @@
 
 **●  schemes**:  *`Array`.<[SchemeConfig](schemeconfig.md)>* 
 
-*Defined in [contracts/daocreator.ts:363](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/daocreator.ts#L363)*
+*Defined in [contracts/daocreator.ts:363](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L363)*
 
 
 
@@ -42,7 +42,7 @@ ___
 
 **●  votingMachineParams**:  *[NewDaoVotingMachineConfig](newdaovotingmachineconfig.md)* 
 
-*Defined in [contracts/daocreator.ts:357](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/daocreator.ts#L357)*
+*Defined in [contracts/daocreator.ts:357](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L357)*
 
 
 

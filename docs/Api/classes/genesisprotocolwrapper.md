@@ -42,7 +42,6 @@
 
 ### Methods
 
-* [_validateVote](genesisprotocolwrapper.md#_validatevote)
 * [getDefaultPermissions](genesisprotocolwrapper.md#getdefaultpermissions)
 * [getExecutedDaoProposals](genesisprotocolwrapper.md#getexecuteddaoproposals)
 * [getNumberOfChoices](genesisprotocolwrapper.md#getnumberofchoices)
@@ -91,7 +90,7 @@
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[constructor](extendtrufflecontract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -120,7 +119,7 @@ ContractWrapperFactory constructs this
 
 **●  ExecuteProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[GenesisProtocolExecuteProposalEventResult](../interfaces/genesisprotocolexecuteproposaleventresult.md)*  =  this.createEventFetcherFactory<GenesisProtocolExecuteProposalEventResult>("ExecuteProposal")
 
-*Defined in [contracts/genesisProtocol.ts:31](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L31)*
+*Defined in [contracts/genesisProtocol.ts:31](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L31)*
 
 
 
@@ -134,7 +133,7 @@ ___
 
 **●  NewProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[NewProposalEventResult](../interfaces/newproposaleventresult.md)*  =  this.createEventFetcherFactory<NewProposalEventResult>("NewProposal")
 
-*Defined in [contracts/genesisProtocol.ts:30](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L30)*
+*Defined in [contracts/genesisProtocol.ts:30](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L30)*
 
 
 
@@ -151,7 +150,7 @@ ___
 
 **●  Redeem**:  *[EventFetcherFactory](../#eventfetcherfactory)[RedeemEventResult](../interfaces/redeemeventresult.md)*  =  this.createEventFetcherFactory<RedeemEventResult>("Redeem")
 
-*Defined in [contracts/genesisProtocol.ts:34](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L34)*
+*Defined in [contracts/genesisProtocol.ts:34](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L34)*
 
 
 
@@ -165,7 +164,7 @@ ___
 
 **●  RedeemReputation**:  *[EventFetcherFactory](../#eventfetcherfactory)[RedeemReputationEventResult](../interfaces/redeemreputationeventresult.md)*  =  this.createEventFetcherFactory<RedeemReputationEventResult>("RedeemReputation")
 
-*Defined in [contracts/genesisProtocol.ts:35](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L35)*
+*Defined in [contracts/genesisProtocol.ts:35](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L35)*
 
 
 
@@ -179,7 +178,7 @@ ___
 
 **●  Stake**:  *[EventFetcherFactory](../#eventfetcherfactory)[StakeEventResult](../interfaces/stakeeventresult.md)*  =  this.createEventFetcherFactory<StakeEventResult>("Stake")
 
-*Defined in [contracts/genesisProtocol.ts:33](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L33)*
+*Defined in [contracts/genesisProtocol.ts:33](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L33)*
 
 
 
@@ -193,7 +192,7 @@ ___
 
 **●  VoteProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[VoteProposalEventResult](../interfaces/voteproposaleventresult.md)*  =  this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal")
 
-*Defined in [contracts/genesisProtocol.ts:32](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L32)*
+*Defined in [contracts/genesisProtocol.ts:32](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L32)*
 
 
 
@@ -209,7 +208,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[contract](extendtrufflecontract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -231,7 +230,7 @@ getaddress(): [Address](../#address)
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[address](extendtrufflecontract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L128)*
+*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L128)*
 
 
 
@@ -245,37 +244,6 @@ ___
 
 
 ## Methods
-<a id="_validatevote"></a>
-
-### «Private» _validateVote
-
-► **_validateVote**(vote: *`number`*, proposalId: *[Hash](../#hash)*): `Promise`.<`void`>
-
-
-
-*Defined in [contracts/genesisProtocol.ts:937](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L937)*
-
-
-
-**Parameters:**
-
-| Param | Type | Description |
-| ------ | ------ | ------ |
-| vote | `number`   |  - |
-| proposalId | [Hash](../#hash)   |  - |
-
-
-
-
-
-**Returns:** `Promise`.<`void`>
-
-
-
-
-
-___
-
 <a id="getdefaultpermissions"></a>
 
 ###  getDefaultPermissions
@@ -286,7 +254,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getDefaultPermissions](extendtrufflecontract.md#getdefaultpermissions)*
 
-*Defined in [contracts/genesisProtocol.ts:910](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L910)*
+*Defined in [contracts/genesisProtocol.ts:910](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L910)*
 
 
 
@@ -316,7 +284,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:820](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L820)*
+*Defined in [contracts/genesisProtocol.ts:820](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L820)*
 
 
 
@@ -349,7 +317,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:474](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L474)*
+*Defined in [contracts/genesisProtocol.ts:474](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L474)*
 
 
 
@@ -386,7 +354,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getParameters](extendtrufflecontract.md#getparameters)*
 
-*Defined in [contracts/genesisProtocol.ts:918](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L918)*
+*Defined in [contracts/genesisProtocol.ts:918](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L918)*
 
 
 
@@ -418,7 +386,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParametersArray](extendtrufflecontract.md#getparametersarray)*
 
-*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L124)*
+*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L124)*
 
 
 
@@ -451,7 +419,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:650](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L650)*
+*Defined in [contracts/genesisProtocol.ts:650](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L650)*
 
 
 
@@ -486,7 +454,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:594](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L594)*
+*Defined in [contracts/genesisProtocol.ts:594](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L594)*
 
 
 
@@ -521,7 +489,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:352](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L352)*
+*Defined in [contracts/genesisProtocol.ts:352](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L352)*
 
 
 
@@ -556,7 +524,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:442](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L442)*
+*Defined in [contracts/genesisProtocol.ts:442](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L442)*
 
 
 
@@ -591,7 +559,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:410](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L410)*
+*Defined in [contracts/genesisProtocol.ts:410](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L410)*
 
 
 
@@ -626,7 +594,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:321](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L321)*
+*Defined in [contracts/genesisProtocol.ts:321](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L321)*
 
 
 
@@ -661,7 +629,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:378](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L378)*
+*Defined in [contracts/genesisProtocol.ts:378](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L378)*
 
 
 
@@ -696,7 +664,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:914](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L914)*
+*Defined in [contracts/genesisProtocol.ts:914](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L914)*
 
 
 
@@ -728,7 +696,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getSchemeParametersHash](extendtrufflecontract.md#getschemeparametershash)*
 
-*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L114)*
+*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L114)*
 
 
 
@@ -761,7 +729,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:271](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L271)*
+*Defined in [contracts/genesisProtocol.ts:271](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L271)*
 
 
 
@@ -796,7 +764,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:676](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L676)*
+*Defined in [contracts/genesisProtocol.ts:676](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L676)*
 
 
 
@@ -831,7 +799,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:706](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L706)*
+*Defined in [contracts/genesisProtocol.ts:706](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L706)*
 
 
 
@@ -866,7 +834,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:797](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L797)*
+*Defined in [contracts/genesisProtocol.ts:797](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L797)*
 
 
 
@@ -901,7 +869,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:296](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L296)*
+*Defined in [contracts/genesisProtocol.ts:296](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L296)*
 
 
 
@@ -936,7 +904,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:624](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L624)*
+*Defined in [contracts/genesisProtocol.ts:624](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L624)*
 
 
 
@@ -971,7 +939,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:741](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L741)*
+*Defined in [contracts/genesisProtocol.ts:741](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L741)*
 
 
 
@@ -1006,7 +974,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:535](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L535)*
+*Defined in [contracts/genesisProtocol.ts:535](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L535)*
 
 
 
@@ -1041,7 +1009,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:500](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L500)*
+*Defined in [contracts/genesisProtocol.ts:500](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L500)*
 
 
 
@@ -1076,7 +1044,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:771](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L771)*
+*Defined in [contracts/genesisProtocol.ts:771](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L771)*
 
 
 
@@ -1113,7 +1081,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromAt](extendtrufflecontract.md#hydratefromat)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -1150,7 +1118,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromDeployed](extendtrufflecontract.md#hydratefromdeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -1179,7 +1147,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromNew](extendtrufflecontract.md#hydratefromnew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -1214,7 +1182,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:568](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L568)*
+*Defined in [contracts/genesisProtocol.ts:568](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L568)*
 
 
 
@@ -1249,7 +1217,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:43](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L43)*
+*Defined in [contracts/genesisProtocol.ts:43](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L43)*
 
 
 
@@ -1284,7 +1252,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:217](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L217)*
+*Defined in [contracts/genesisProtocol.ts:217](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L217)*
 
 
 
@@ -1321,7 +1289,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[setParameters](extendtrufflecontract.md#setparameters)*
 
-*Defined in [contracts/genesisProtocol.ts:863](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L863)*
+*Defined in [contracts/genesisProtocol.ts:863](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L863)*
 
 
 
@@ -1356,7 +1324,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:247](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L247)*
+*Defined in [contracts/genesisProtocol.ts:247](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L247)*
 
 
 
@@ -1391,7 +1359,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:98](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L98)*
+*Defined in [contracts/genesisProtocol.ts:98](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L98)*
 
 
 
@@ -1428,7 +1396,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:150](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L150)*
+*Defined in [contracts/genesisProtocol.ts:150](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L150)*
 
 
 
@@ -1463,7 +1431,7 @@ ___
 
 
 
-*Defined in [contracts/genesisProtocol.ts:181](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L181)*
+*Defined in [contracts/genesisProtocol.ts:181](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L181)*
 
 
 

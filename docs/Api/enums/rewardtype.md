@@ -23,7 +23,7 @@
 
 ** Eth**:    = 2
 
-*Defined in [contracts/contributionreward.ts:467](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L467)*
+*Defined in [contracts/contributionreward.ts:467](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L467)*
 
 
 
@@ -37,7 +37,7 @@ ___
 
 ** ExternalToken**:    = 3
 
-*Defined in [contracts/contributionreward.ts:468](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L468)*
+*Defined in [contracts/contributionreward.ts:468](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L468)*
 
 
 
@@ -51,7 +51,7 @@ ___
 
 ** NativeToken**:    = 1
 
-*Defined in [contracts/contributionreward.ts:466](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L466)*
+*Defined in [contracts/contributionreward.ts:466](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L466)*
 
 
 
@@ -65,7 +65,7 @@ ___
 
 ** Reputation**:    = 0
 
-*Defined in [contracts/contributionreward.ts:465](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L465)*
+*Defined in [contracts/contributionreward.ts:465](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L465)*
 
 
 

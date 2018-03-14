@@ -12,11 +12,11 @@
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1219](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1219)*
+*Defined in [contracts/genesisProtocol.ts:1219](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1219)*
 
 
 
-unique hash of proposal index in the scope of the scheme
+unique hash of proposal index
 
 
 

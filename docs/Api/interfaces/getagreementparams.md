@@ -12,7 +12,7 @@
 
 **●  agreementId**:  *`number`* 
 
-*Defined in [contracts/vestingscheme.ts:478](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/vestingscheme.ts#L478)*
+*Defined in [contracts/vestingscheme.ts:478](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L478)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/vestingscheme.ts:474](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/vestingscheme.ts#L474)*
+*Defined in [contracts/vestingscheme.ts:474](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L474)*
 
 
 

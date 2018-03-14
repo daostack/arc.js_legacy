@@ -16,7 +16,7 @@
 
 **●  level**:  *[LogLevel](../enums/loglevel.md)* 
 
-*Defined in [loggingService.ts:16](https://github.com/daostack/arc.js/blob/6909d59/lib/loggingService.ts#L16)*
+*Defined in [loggingService.ts:16](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L16)*
 
 
 
@@ -37,7 +37,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:22](https://github.com/daostack/arc.js/blob/6909d59/lib/loggingService.ts#L22)*
+*Defined in [loggingService.ts:22](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L22)*
 
 
 
@@ -70,7 +70,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:43](https://github.com/daostack/arc.js/blob/6909d59/lib/loggingService.ts#L43)*
+*Defined in [loggingService.ts:43](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L43)*
 
 
 
@@ -103,7 +103,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:29](https://github.com/daostack/arc.js/blob/6909d59/lib/loggingService.ts#L29)*
+*Defined in [loggingService.ts:29](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L29)*
 
 
 
@@ -136,7 +136,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:36](https://github.com/daostack/arc.js/blob/6909d59/lib/loggingService.ts#L36)*
+*Defined in [loggingService.ts:36](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L36)*
 
 
 

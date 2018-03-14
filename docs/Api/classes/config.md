@@ -35,7 +35,7 @@ get and set global Arc.js settings
 ### ⊕ **new Config**(): [Config](config.md)
 
 
-*Defined in [config.ts:14](https://github.com/daostack/arc.js/blob/6909d59/lib/config.ts#L14)*
+*Defined in [config.ts:14](https://github.com/daostack/arc.js/blob/0fff6d4/lib/config.ts#L14)*
 
 
 
@@ -53,7 +53,7 @@ get and set global Arc.js settings
 
 **●  data**:  *`any`* 
 
-*Defined in [config.ts:6](https://github.com/daostack/arc.js/blob/6909d59/lib/config.ts#L6)*
+*Defined in [config.ts:6](https://github.com/daostack/arc.js/blob/0fff6d4/lib/config.ts#L6)*
 
 
 
@@ -67,7 +67,7 @@ ___
 
 **●  instance**:  *[Config](config.md)* 
 
-*Defined in [config.ts:5](https://github.com/daostack/arc.js/blob/6909d59/lib/config.ts#L5)*
+*Defined in [config.ts:5](https://github.com/daostack/arc.js/blob/0fff6d4/lib/config.ts#L5)*
 
 
 
@@ -85,7 +85,7 @@ ___
 
 
 
-*Defined in [config.ts:8](https://github.com/daostack/arc.js/blob/6909d59/lib/config.ts#L8)*
+*Defined in [config.ts:8](https://github.com/daostack/arc.js/blob/0fff6d4/lib/config.ts#L8)*
 
 
 
@@ -115,7 +115,7 @@ ___
 
 
 
-*Defined in [config.ts:12](https://github.com/daostack/arc.js/blob/6909d59/lib/config.ts#L12)*
+*Defined in [config.ts:12](https://github.com/daostack/arc.js/blob/0fff6d4/lib/config.ts#L12)*
 
 
 

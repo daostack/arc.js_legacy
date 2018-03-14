@@ -15,7 +15,7 @@ An object with property names being a contract key and property value as the cor
 
 **●  AbsoluteVote**:  *[ArcContractInfo](arccontractinfo.md)* 
 
-*Defined in [contracts.ts:34](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts.ts#L34)*
+*Defined in [contracts.ts:34](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L34)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  ContributionReward**:  *[ArcContractInfo](arccontractinfo.md)* 
 
-*Defined in [contracts.ts:35](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts.ts#L35)*
+*Defined in [contracts.ts:35](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L35)*
 
 
 
@@ -43,7 +43,7 @@ ___
 
 **●  DaoCreator**:  *[ArcContractInfo](arccontractinfo.md)* 
 
-*Defined in [contracts.ts:36](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts.ts#L36)*
+*Defined in [contracts.ts:36](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L36)*
 
 
 
@@ -57,7 +57,7 @@ ___
 
 **●  GenesisProtocol**:  *[ArcContractInfo](arccontractinfo.md)* 
 
-*Defined in [contracts.ts:37](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts.ts#L37)*
+*Defined in [contracts.ts:37](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L37)*
 
 
 
@@ -71,7 +71,7 @@ ___
 
 **●  GlobalConstraintRegistrar**:  *[ArcContractInfo](arccontractinfo.md)* 
 
-*Defined in [contracts.ts:38](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts.ts#L38)*
+*Defined in [contracts.ts:38](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L38)*
 
 
 
@@ -85,7 +85,7 @@ ___
 
 **●  SchemeRegistrar**:  *[ArcContractInfo](arccontractinfo.md)* 
 
-*Defined in [contracts.ts:39](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts.ts#L39)*
+*Defined in [contracts.ts:39](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L39)*
 
 
 
@@ -99,7 +99,7 @@ ___
 
 **●  TokenCapGC**:  *[ArcContractInfo](arccontractinfo.md)* 
 
-*Defined in [contracts.ts:40](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts.ts#L40)*
+*Defined in [contracts.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L40)*
 
 
 
@@ -113,7 +113,7 @@ ___
 
 **●  UpgradeScheme**:  *[ArcContractInfo](arccontractinfo.md)* 
 
-*Defined in [contracts.ts:41](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts.ts#L41)*
+*Defined in [contracts.ts:41](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L41)*
 
 
 
@@ -127,7 +127,7 @@ ___
 
 **●  VestingScheme**:  *[ArcContractInfo](arccontractinfo.md)* 
 
-*Defined in [contracts.ts:42](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts.ts#L42)*
+*Defined in [contracts.ts:42](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L42)*
 
 
 
@@ -141,7 +141,7 @@ ___
 
 **●  VoteInOrganizationScheme**:  *[ArcContractInfo](arccontractinfo.md)* 
 
-*Defined in [contracts.ts:43](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts.ts#L43)*
+*Defined in [contracts.ts:43](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L43)*
 
 
 

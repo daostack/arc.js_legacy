@@ -49,7 +49,7 @@ Base or actual type returned by all contract wrapper methods that generate a tra
 
 *Overrides [ArcTransactionResult](arctransactionresult.md).[constructor](arctransactionresult.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:272](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L272)*
+*Defined in [ExtendTruffleContract.ts:272](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L272)*
 
 
 
@@ -75,7 +75,7 @@ Base or actual type returned by all contract wrapper methods that generate a tra
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [ExtendTruffleContract.ts:272](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L272)*
+*Defined in [ExtendTruffleContract.ts:272](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L272)*
 
 
 
@@ -94,7 +94,7 @@ ___
 
 *Inherited from [ArcTransactionResult](arctransactionresult.md).[tx](arctransactionresult.md#tx)*
 
-*Defined in [ExtendTruffleContract.ts:247](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L247)*
+*Defined in [ExtendTruffleContract.ts:247](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L247)*
 
 
 
@@ -117,7 +117,7 @@ ___
 
 *Inherited from [ArcTransactionResult](arctransactionresult.md).[getValueFromTx](arctransactionresult.md#getvaluefromtx)*
 
-*Defined in [ExtendTruffleContract.ts:260](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L260)*
+*Defined in [ExtendTruffleContract.ts:260](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L260)*
 
 
 

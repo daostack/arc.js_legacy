@@ -37,6 +37,7 @@ const options = {
   "LogLevel": "Success",
   "mode": "file",
   "excludeProtected": true,
+  "excludePrivate": true,
   "name": "@DAOstack/Arc.js API Reference",
   "theme": "markdown"
 };

@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/contributionreward.ts:663](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L663)*
+*Defined in [contracts/contributionreward.ts:663](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L663)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  ethers**:  *`boolean`* 
 
-*Defined in [contracts/contributionreward.ts:678](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L678)*
+*Defined in [contracts/contributionreward.ts:678](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L678)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 **●  externalTokens**:  *`boolean`* 
 
-*Defined in [contracts/contributionreward.ts:683](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L683)*
+*Defined in [contracts/contributionreward.ts:683](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L683)*
 
 
 
@@ -63,7 +63,7 @@ ___
 
 **●  nativeTokens**:  *`boolean`* 
 
-*Defined in [contracts/contributionreward.ts:673](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L673)*
+*Defined in [contracts/contributionreward.ts:673](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L673)*
 
 
 
@@ -80,7 +80,7 @@ ___
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/contributionreward.ts:659](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L659)*
+*Defined in [contracts/contributionreward.ts:659](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L659)*
 
 
 
@@ -97,7 +97,7 @@ ___
 
 **●  reputation**:  *`boolean`* 
 
-*Defined in [contracts/contributionreward.ts:668](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L668)*
+*Defined in [contracts/contributionreward.ts:668](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L668)*
 
 
 

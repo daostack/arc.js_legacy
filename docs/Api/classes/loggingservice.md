@@ -9,7 +9,6 @@
 ### Properties
 
 * [logger](loggingservice.md#logger)
-* [moduleName](loggingservice.md#modulename)
 
 
 ### Methods
@@ -31,21 +30,7 @@
 
 **●  logger**:  *[ILogger](../interfaces/ilogger.md)*  =  new ConsoleLogger()
 
-*Defined in [loggingService.ts:65](https://github.com/daostack/arc.js/blob/6909d59/lib/loggingService.ts#L65)*
-
-
-
-
-
-___
-
-<a id="modulename"></a>
-
-### «Static»«Private» moduleName
-
-**●  moduleName**:  *`string`*  = "Arc.js"
-
-*Defined in [loggingService.ts:85](https://github.com/daostack/arc.js/blob/6909d59/lib/loggingService.ts#L85)*
+*Defined in [loggingService.ts:65](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L65)*
 
 
 
@@ -63,7 +48,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:68](https://github.com/daostack/arc.js/blob/6909d59/lib/loggingService.ts#L68)*
+*Defined in [loggingService.ts:68](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L68)*
 
 
 
@@ -93,7 +78,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:74](https://github.com/daostack/arc.js/blob/6909d59/lib/loggingService.ts#L74)*
+*Defined in [loggingService.ts:74](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L74)*
 
 
 
@@ -123,7 +108,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:70](https://github.com/daostack/arc.js/blob/6909d59/lib/loggingService.ts#L70)*
+*Defined in [loggingService.ts:70](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L70)*
 
 
 
@@ -153,7 +138,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:77](https://github.com/daostack/arc.js/blob/6909d59/lib/loggingService.ts#L77)*
+*Defined in [loggingService.ts:77](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L77)*
 
 
 
@@ -183,7 +168,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:81](https://github.com/daostack/arc.js/blob/6909d59/lib/loggingService.ts#L81)*
+*Defined in [loggingService.ts:81](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L81)*
 
 
 
@@ -213,7 +198,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:72](https://github.com/daostack/arc.js/blob/6909d59/lib/loggingService.ts#L72)*
+*Defined in [loggingService.ts:72](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L72)*
 
 
 

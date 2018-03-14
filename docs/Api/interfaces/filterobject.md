@@ -12,7 +12,7 @@
 
 **●  address**:  *`string`* 
 
-*Defined in [ExtendTruffleContract.ts:355](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L355)*
+*Defined in [ExtendTruffleContract.ts:355](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L355)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  fromBlock**:  *`number`⎮`string`* 
 
-*Defined in [ExtendTruffleContract.ts:353](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L353)*
+*Defined in [ExtendTruffleContract.ts:353](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L353)*
 
 
 
@@ -40,7 +40,7 @@ ___
 
 **●  toBlock**:  *`number`⎮`string`* 
 
-*Defined in [ExtendTruffleContract.ts:354](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L354)*
+*Defined in [ExtendTruffleContract.ts:354](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L354)*
 
 
 
@@ -54,7 +54,7 @@ ___
 
 **●  topics**:  *`Array`.<[LogTopic](../#logtopic)>* 
 
-*Defined in [ExtendTruffleContract.ts:356](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L356)*
+*Defined in [ExtendTruffleContract.ts:356](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L356)*
 
 
 

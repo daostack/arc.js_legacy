@@ -12,7 +12,7 @@
 
 **●  beneficiary**:  *[Address](../#address)* 
 
-*Defined in [contracts/contributionreward.ts:544](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L544)*
+*Defined in [contracts/contributionreward.ts:544](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L544)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  contributionDescriptionHash**:  *[Hash](../#hash)* 
 
-*Defined in [contracts/contributionreward.ts:545](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L545)*
+*Defined in [contracts/contributionreward.ts:545](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L545)*
 
 
 
@@ -40,7 +40,7 @@ ___
 
 **●  ethReward**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/contributionreward.ts:546](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L546)*
+*Defined in [contracts/contributionreward.ts:546](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L546)*
 
 
 
@@ -54,7 +54,7 @@ ___
 
 **●  executionTime**:  *`number`* 
 
-*Defined in [contracts/contributionreward.ts:547](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L547)*
+*Defined in [contracts/contributionreward.ts:547](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L547)*
 
 
 
@@ -68,7 +68,7 @@ ___
 
 **●  externalToken**:  *[Address](../#address)* 
 
-*Defined in [contracts/contributionreward.ts:548](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L548)*
+*Defined in [contracts/contributionreward.ts:548](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L548)*
 
 
 
@@ -82,7 +82,7 @@ ___
 
 **●  externalTokenReward**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/contributionreward.ts:549](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L549)*
+*Defined in [contracts/contributionreward.ts:549](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L549)*
 
 
 
@@ -96,7 +96,7 @@ ___
 
 **●  nativeTokenReward**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/contributionreward.ts:550](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L550)*
+*Defined in [contracts/contributionreward.ts:550](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L550)*
 
 
 
@@ -110,7 +110,7 @@ ___
 
 **●  numberOfPeriods**:  *`number`* 
 
-*Defined in [contracts/contributionreward.ts:551](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L551)*
+*Defined in [contracts/contributionreward.ts:551](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L551)*
 
 
 
@@ -124,7 +124,7 @@ ___
 
 **●  periodLength**:  *`number`* 
 
-*Defined in [contracts/contributionreward.ts:552](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L552)*
+*Defined in [contracts/contributionreward.ts:552](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L552)*
 
 
 
@@ -138,7 +138,7 @@ ___
 
 **●  proposalId**:  *[Hash](../#hash)* 
 
-*Defined in [contracts/contributionreward.ts:543](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L543)*
+*Defined in [contracts/contributionreward.ts:543](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L543)*
 
 
 
@@ -152,7 +152,7 @@ ___
 
 **●  reputationChange**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/contributionreward.ts:553](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L553)*
+*Defined in [contracts/contributionreward.ts:553](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L553)*
 
 
 

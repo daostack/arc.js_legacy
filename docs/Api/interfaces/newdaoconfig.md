@@ -25,7 +25,7 @@
 
 **●  daoCreator**:  *`string`* 
 
-*Defined in [dao.ts:305](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L305)*
+*Defined in [dao.ts:305](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L305)*
 
 
 
@@ -44,7 +44,7 @@ ___
 
 *Inherited from [ForgeOrgConfig](forgeorgconfig.md).[founders](forgeorgconfig.md#founders)*
 
-*Defined in [contracts/daocreator.ts:303](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/daocreator.ts#L303)*
+*Defined in [contracts/daocreator.ts:303](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L303)*
 
 
 
@@ -63,7 +63,7 @@ ___
 
 *Inherited from [ForgeOrgConfig](forgeorgconfig.md).[name](forgeorgconfig.md#name)*
 
-*Defined in [contracts/daocreator.ts:290](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/daocreator.ts#L290)*
+*Defined in [contracts/daocreator.ts:290](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L290)*
 
 
 
@@ -82,7 +82,7 @@ ___
 
 *Inherited from [ForgeOrgConfig](forgeorgconfig.md).[tokenName](forgeorgconfig.md#tokenname)*
 
-*Defined in [contracts/daocreator.ts:294](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/daocreator.ts#L294)*
+*Defined in [contracts/daocreator.ts:294](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L294)*
 
 
 
@@ -101,7 +101,7 @@ ___
 
 *Inherited from [ForgeOrgConfig](forgeorgconfig.md).[tokenSymbol](forgeorgconfig.md#tokensymbol)*
 
-*Defined in [contracts/daocreator.ts:298](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/daocreator.ts#L298)*
+*Defined in [contracts/daocreator.ts:298](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L298)*
 
 
 
@@ -120,7 +120,7 @@ ___
 
 *Inherited from [ForgeOrgConfig](forgeorgconfig.md).[universalController](forgeorgconfig.md#universalcontroller)*
 
-*Defined in [contracts/daocreator.ts:308](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/daocreator.ts#L308)*
+*Defined in [contracts/daocreator.ts:308](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L308)*
 
 
 

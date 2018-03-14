@@ -12,7 +12,7 @@
 
 **●  reputation**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/genesisProtocol.ts:1151](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1151)*
+*Defined in [contracts/genesisProtocol.ts:1151](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1151)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  vote**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1150](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1150)*
+*Defined in [contracts/genesisProtocol.ts:1150](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1150)*
 
 
 

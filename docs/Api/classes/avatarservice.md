@@ -18,15 +18,7 @@ let avatarService = new AvatarService(avatarAddress);
 
 ### Properties
 
-* [avatar](avatarservice.md#avatar)
-* [avatarAddress](avatarservice.md#avataraddress)
-* [controller](avatarservice.md#controller)
-* [controllerAddress](avatarservice.md#controlleraddress)
 * [isUController](avatarservice.md#isucontroller)
-* [nativeReputation](avatarservice.md#nativereputation)
-* [nativeReputationAddress](avatarservice.md#nativereputationaddress)
-* [nativeToken](avatarservice.md#nativetoken)
-* [nativeTokenAddress](avatarservice.md#nativetokenaddress)
 
 
 ### Methods
@@ -49,7 +41,7 @@ let avatarService = new AvatarService(avatarAddress);
 ### ⊕ **new AvatarService**(avatarAddress: *`string`*): [AvatarService](avatarservice.md)
 
 
-*Defined in [avatarService.ts:20](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L20)*
+*Defined in [avatarService.ts:20](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L20)*
 
 
 
@@ -69,125 +61,13 @@ let avatarService = new AvatarService(avatarAddress);
 
 
 ## Properties
-<a id="avatar"></a>
-
-### «Private» avatar
-
-**●  avatar**:  *`any`* 
-
-*Defined in [avatarService.ts:14](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L14)*
-
-
-
-
-
-___
-
-<a id="avataraddress"></a>
-
-### «Private» avatarAddress
-
-**●  avatarAddress**:  *`string`* 
-
-*Defined in [avatarService.ts:13](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L13)*
-
-
-
-
-
-___
-
-<a id="controller"></a>
-
-### «Private» controller
-
-**●  controller**:  *`any`* 
-
-*Defined in [avatarService.ts:16](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L16)*
-
-
-
-
-
-___
-
-<a id="controlleraddress"></a>
-
-### «Private» controllerAddress
-
-**●  controllerAddress**:  *`any`* 
-
-*Defined in [avatarService.ts:15](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L15)*
-
-
-
-
-
-___
-
 <a id="isucontroller"></a>
 
 ###  isUController
 
 **●  isUController**:  *`boolean`* 
 
-*Defined in [avatarService.ts:12](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L12)*
-
-
-
-
-
-___
-
-<a id="nativereputation"></a>
-
-### «Private» nativeReputation
-
-**●  nativeReputation**:  *`any`* 
-
-*Defined in [avatarService.ts:18](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L18)*
-
-
-
-
-
-___
-
-<a id="nativereputationaddress"></a>
-
-### «Private» nativeReputationAddress
-
-**●  nativeReputationAddress**:  *`any`* 
-
-*Defined in [avatarService.ts:17](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L17)*
-
-
-
-
-
-___
-
-<a id="nativetoken"></a>
-
-### «Private» nativeToken
-
-**●  nativeToken**:  *`any`* 
-
-*Defined in [avatarService.ts:20](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L20)*
-
-
-
-
-
-___
-
-<a id="nativetokenaddress"></a>
-
-### «Private» nativeTokenAddress
-
-**●  nativeTokenAddress**:  *`any`* 
-
-*Defined in [avatarService.ts:19](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L19)*
+*Defined in [avatarService.ts:12](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L12)*
 
 
 
@@ -205,7 +85,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:30](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L30)*
+*Defined in [avatarService.ts:30](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L30)*
 
 
 
@@ -230,7 +110,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:54](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L54)*
+*Defined in [avatarService.ts:54](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L54)*
 
 
 
@@ -255,7 +135,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:41](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L41)*
+*Defined in [avatarService.ts:41](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L41)*
 
 
 
@@ -280,7 +160,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:87](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L87)*
+*Defined in [avatarService.ts:87](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L87)*
 
 
 
@@ -305,7 +185,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:76](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L76)*
+*Defined in [avatarService.ts:76](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L76)*
 
 
 
@@ -330,7 +210,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:110](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L110)*
+*Defined in [avatarService.ts:110](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L110)*
 
 
 
@@ -355,7 +235,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:99](https://github.com/daostack/arc.js/blob/6909d59/lib/avatarService.ts#L99)*
+*Defined in [avatarService.ts:99](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L99)*
 
 
 

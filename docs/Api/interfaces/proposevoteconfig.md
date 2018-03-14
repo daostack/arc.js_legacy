@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1129](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1129)*
+*Defined in [contracts/genesisProtocol.ts:1129](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1129)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  executable**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1146](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1146)*
+*Defined in [contracts/genesisProtocol.ts:1146](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1146)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 **●  numOfChoices**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1138](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1138)*
+*Defined in [contracts/genesisProtocol.ts:1138](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1138)*
 
 
 
@@ -63,7 +63,7 @@ ___
 
 **●  paramsHash**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1142](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1142)*
+*Defined in [contracts/genesisProtocol.ts:1142](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1142)*
 
 
 
@@ -80,7 +80,7 @@ ___
 
 **●  proposer**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1134](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1134)*
+*Defined in [contracts/genesisProtocol.ts:1134](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1134)*
 
 
 

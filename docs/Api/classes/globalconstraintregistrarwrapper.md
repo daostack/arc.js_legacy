@@ -64,7 +64,7 @@
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[constructor](extendtrufflecontract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -93,7 +93,7 @@ ContractWrapperFactory constructs this
 
 **●  NewGlobalConstraintsProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[NewGlobalConstraintsProposalEventResult](../interfaces/newglobalconstraintsproposaleventresult.md)*  =  this.createEventFetcherFactory<NewGlobalConstraintsProposalEventResult>("NewGlobalConstraintsProposal")
 
-*Defined in [contracts/globalconstraintregistrar.ts:21](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/globalconstraintregistrar.ts#L21)*
+*Defined in [contracts/globalconstraintregistrar.ts:21](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L21)*
 
 
 
@@ -110,7 +110,7 @@ ___
 
 **●  ProposalDeleted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalDeletedEventResult](../interfaces/proposaldeletedeventresult.md)*  =  this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted")
 
-*Defined in [contracts/globalconstraintregistrar.ts:24](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/globalconstraintregistrar.ts#L24)*
+*Defined in [contracts/globalconstraintregistrar.ts:24](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L24)*
 
 
 
@@ -124,7 +124,7 @@ ___
 
 **●  ProposalExecuted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalExecutedEventResult](../interfaces/proposalexecutedeventresult.md)*  =  this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted")
 
-*Defined in [contracts/globalconstraintregistrar.ts:23](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/globalconstraintregistrar.ts#L23)*
+*Defined in [contracts/globalconstraintregistrar.ts:23](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L23)*
 
 
 
@@ -138,7 +138,7 @@ ___
 
 **●  RemoveGlobalConstraintsProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[RemoveGlobalConstraintsProposalEventResult](../interfaces/removeglobalconstraintsproposaleventresult.md)*  =  this.createEventFetcherFactory<RemoveGlobalConstraintsProposalEventResult>("RemoveGlobalConstraintsProposal")
 
-*Defined in [contracts/globalconstraintregistrar.ts:22](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/globalconstraintregistrar.ts#L22)*
+*Defined in [contracts/globalconstraintregistrar.ts:22](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L22)*
 
 
 
@@ -154,7 +154,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[contract](extendtrufflecontract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -176,7 +176,7 @@ getaddress(): [Address](../#address)
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[address](extendtrufflecontract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L128)*
+*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L128)*
 
 
 
@@ -200,7 +200,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getDefaultPermissions](extendtrufflecontract.md#getdefaultpermissions)*
 
-*Defined in [contracts/globalconstraintregistrar.ts:117](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/globalconstraintregistrar.ts#L117)*
+*Defined in [contracts/globalconstraintregistrar.ts:117](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L117)*
 
 
 
@@ -232,7 +232,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getParameters](extendtrufflecontract.md#getparameters)*
 
-*Defined in [contracts/globalconstraintregistrar.ts:125](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/globalconstraintregistrar.ts#L125)*
+*Defined in [contracts/globalconstraintregistrar.ts:125](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L125)*
 
 
 
@@ -264,7 +264,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParametersArray](extendtrufflecontract.md#getparametersarray)*
 
-*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L124)*
+*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L124)*
 
 
 
@@ -297,7 +297,7 @@ ___
 
 
 
-*Defined in [contracts/globalconstraintregistrar.ts:121](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/globalconstraintregistrar.ts#L121)*
+*Defined in [contracts/globalconstraintregistrar.ts:121](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L121)*
 
 
 
@@ -329,7 +329,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getSchemeParametersHash](extendtrufflecontract.md#getschemeparametershash)*
 
-*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L114)*
+*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L114)*
 
 
 
@@ -364,7 +364,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromAt](extendtrufflecontract.md#hydratefromat)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -401,7 +401,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromDeployed](extendtrufflecontract.md#hydratefromdeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -430,7 +430,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromNew](extendtrufflecontract.md#hydratefromnew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -465,7 +465,7 @@ ___
 
 
 
-*Defined in [contracts/globalconstraintregistrar.ts:27](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/globalconstraintregistrar.ts#L27)*
+*Defined in [contracts/globalconstraintregistrar.ts:27](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L27)*
 
 
 
@@ -495,7 +495,7 @@ ___
 
 
 
-*Defined in [contracts/globalconstraintregistrar.ts:77](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/globalconstraintregistrar.ts#L77)*
+*Defined in [contracts/globalconstraintregistrar.ts:77](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L77)*
 
 
 
@@ -527,7 +527,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[setParameters](extendtrufflecontract.md#setparameters)*
 
-*Defined in [contracts/globalconstraintregistrar.ts:110](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/globalconstraintregistrar.ts#L110)*
+*Defined in [contracts/globalconstraintregistrar.ts:110](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L110)*
 
 
 

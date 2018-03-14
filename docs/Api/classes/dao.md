@@ -42,7 +42,7 @@
 
 **●  avatar**:  *`any`* 
 
-*Defined in [dao.ts:69](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L69)*
+*Defined in [dao.ts:69](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L69)*
 
 
 
@@ -56,7 +56,7 @@ ___
 
 **●  controller**:  *`any`* 
 
-*Defined in [dao.ts:70](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L70)*
+*Defined in [dao.ts:70](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L70)*
 
 
 
@@ -70,7 +70,7 @@ ___
 
 **●  hasUController**:  *`boolean`* 
 
-*Defined in [dao.ts:71](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L71)*
+*Defined in [dao.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L71)*
 
 
 
@@ -84,7 +84,7 @@ ___
 
 **●  reputation**:  *`any`* 
 
-*Defined in [dao.ts:73](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L73)*
+*Defined in [dao.ts:73](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L73)*
 
 
 
@@ -98,7 +98,7 @@ ___
 
 **●  token**:  *`any`* 
 
-*Defined in [dao.ts:72](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L72)*
+*Defined in [dao.ts:72](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L72)*
 
 
 
@@ -116,7 +116,7 @@ ___
 
 
 
-*Defined in [dao.ts:203](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L203)*
+*Defined in [dao.ts:203](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L203)*
 
 
 
@@ -141,7 +141,7 @@ ___
 
 
 
-*Defined in [dao.ts:93](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L93)*
+*Defined in [dao.ts:93](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L93)*
 
 
 
@@ -166,7 +166,7 @@ ___
 
 
 
-*Defined in [dao.ts:250](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L250)*
+*Defined in [dao.ts:250](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L250)*
 
 
 
@@ -198,7 +198,7 @@ ___
 
 
 
-*Defined in [dao.ts:141](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L141)*
+*Defined in [dao.ts:141](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L141)*
 
 
 
@@ -230,7 +230,7 @@ ___
 
 
 
-*Defined in [dao.ts:174](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L174)*
+*Defined in [dao.ts:174](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L174)*
 
 
 
@@ -264,7 +264,7 @@ ___
 
 
 
-*Defined in [dao.ts:189](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L189)*
+*Defined in [dao.ts:189](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L189)*
 
 
 
@@ -297,7 +297,7 @@ ___
 
 
 
-*Defined in [dao.ts:280](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L280)*
+*Defined in [dao.ts:280](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L280)*
 
 
 
@@ -324,7 +324,7 @@ ___
 
 
 
-*Defined in [dao.ts:79](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L79)*
+*Defined in [dao.ts:79](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L79)*
 
 
 
@@ -357,7 +357,7 @@ ___
 
 
 
-*Defined in [dao.ts:288](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L288)*
+*Defined in [dao.ts:288](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L288)*
 
 
 
@@ -384,7 +384,7 @@ ___
 
 
 
-*Defined in [dao.ts:296](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L296)*
+*Defined in [dao.ts:296](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L296)*
 
 
 
@@ -411,7 +411,7 @@ ___
 
 
 
-*Defined in [dao.ts:181](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L181)*
+*Defined in [dao.ts:181](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L181)*
 
 
 
@@ -444,7 +444,7 @@ ___
 
 
 
-*Defined in [dao.ts:31](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L31)*
+*Defined in [dao.ts:31](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L31)*
 
 
 
@@ -474,7 +474,7 @@ ___
 
 
 
-*Defined in [dao.ts:47](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L47)*
+*Defined in [dao.ts:47](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L47)*
 
 
 
@@ -507,7 +507,7 @@ ___
 
 
 
-*Defined in [dao.ts:12](https://github.com/daostack/arc.js/blob/6909d59/lib/dao.ts#L12)*
+*Defined in [dao.ts:12](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L12)*
 
 
 

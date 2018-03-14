@@ -12,7 +12,7 @@
 
 **●  _avatar**:  *[Address](../#address)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:160](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/globalconstraintregistrar.ts#L160)*
+*Defined in [contracts/globalconstraintregistrar.ts:160](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L160)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  _gc**:  *[Address](../#address)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:161](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/globalconstraintregistrar.ts#L161)*
+*Defined in [contracts/globalconstraintregistrar.ts:161](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L161)*
 
 
 
@@ -43,7 +43,7 @@ ___
 
 **●  _intVoteInterface**:  *[Address](../#address)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:165](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/globalconstraintregistrar.ts#L165)*
+*Defined in [contracts/globalconstraintregistrar.ts:165](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L165)*
 
 
 
@@ -60,7 +60,7 @@ ___
 
 **●  _proposalId**:  *[Hash](../#hash)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:169](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/globalconstraintregistrar.ts#L169)*
+*Defined in [contracts/globalconstraintregistrar.ts:169](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L169)*
 
 
 

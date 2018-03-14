@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1360](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1360)*
+*Defined in [contracts/genesisProtocol.ts:1360](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1360)*
 
 
 

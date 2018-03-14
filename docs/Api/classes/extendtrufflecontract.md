@@ -83,7 +83,6 @@ const AbsoluteVote = new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrap
 ### Properties
 
 * [contract](extendtrufflecontract.md#contract)
-* [solidityContract](extendtrufflecontract.md#soliditycontract)
 
 
 ### Accessors
@@ -112,7 +111,7 @@ const AbsoluteVote = new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrap
 ### ⊕ **new ExtendTruffleContract**(solidityContract: *`any`*): [ExtendTruffleContract](extendtrufflecontract.md)
 
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -141,28 +140,11 @@ ContractWrapperFactory constructs this
 
 **●  contract**:  *`any`* 
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
 
 
 
 The underlying truffle contract object. Use this to access parts of the contract that aren't accessible via the wrapper.
-
-
-
-
-___
-
-<a id="soliditycontract"></a>
-
-### «Private» solidityContract
-
-**●  solidityContract**:  *`any`* 
-
-*Defined in [ExtendTruffleContract.ts:32](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L32)*
-
-
-
-The json contract truffle artifact
 
 
 
@@ -178,7 +160,7 @@ ___
 
 getaddress(): [Address](../#address)
 
-*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L128)*
+*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L128)*
 
 
 
@@ -200,7 +182,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:98](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L98)*
+*Defined in [ExtendTruffleContract.ts:98](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L98)*
 
 
 
@@ -233,7 +215,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L106)*
+*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L106)*
 
 
 
@@ -266,7 +248,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L124)*
+*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L124)*
 
 
 
@@ -299,7 +281,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L114)*
+*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L114)*
 
 
 
@@ -332,7 +314,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -367,7 +349,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -394,7 +376,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -429,7 +411,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:89](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L89)*
+*Defined in [ExtendTruffleContract.ts:89](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L89)*
 
 
 

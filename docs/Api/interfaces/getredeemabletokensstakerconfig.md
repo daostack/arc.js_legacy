@@ -15,7 +15,7 @@ return the amount of tokens to which the staker will be entitled as an outcome o
 
 **●  beneficiary**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1247](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1247)*
+*Defined in [contracts/genesisProtocol.ts:1247](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1247)*
 
 
 
@@ -32,11 +32,11 @@ ___
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1243](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1243)*
+*Defined in [contracts/genesisProtocol.ts:1243](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1243)*
 
 
 
-unique hash of proposal index in the scope of the scheme
+unique hash of proposal index
 
 
 

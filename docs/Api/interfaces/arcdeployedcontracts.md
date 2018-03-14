@@ -15,7 +15,7 @@ ArcDeployedContractNames, and those contracts organized by type. Call it.at(it.a
 
 **●  allContracts**:  *[ArcDeployedContractNames](arcdeployedcontractnames.md)* 
 
-*Defined in [contracts.ts:54](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts.ts#L54)*
+*Defined in [contracts.ts:54](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L54)*
 
 
 
@@ -32,7 +32,7 @@ ___
 
 **●  globalConstraints**:  *`Array`.<[ArcContractInfo](arccontractinfo.md)>* 
 
-*Defined in [contracts.ts:66](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts.ts#L66)*
+*Defined in [contracts.ts:66](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L66)*
 
 
 
@@ -49,7 +49,7 @@ ___
 
 **●  schemes**:  *`Array`.<[ArcContractInfo](arccontractinfo.md)>* 
 
-*Defined in [contracts.ts:58](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts.ts#L58)*
+*Defined in [contracts.ts:58](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L58)*
 
 
 
@@ -66,7 +66,7 @@ ___
 
 **●  votingMachines**:  *`Array`.<[ArcContractInfo](arccontractinfo.md)>* 
 
-*Defined in [contracts.ts:62](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts.ts#L62)*
+*Defined in [contracts.ts:62](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L62)*
 
 
 

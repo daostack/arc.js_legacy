@@ -15,7 +15,7 @@ return the amount of tokens to which the voter will be entitled as an outcome of
 
 **●  beneficiary**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1271](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1271)*
+*Defined in [contracts/genesisProtocol.ts:1271](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1271)*
 
 
 
@@ -32,11 +32,11 @@ ___
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1267](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1267)*
+*Defined in [contracts/genesisProtocol.ts:1267](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1267)*
 
 
 
-unique hash of proposal index in the scope of the scheme
+unique hash of proposal index
 
 
 

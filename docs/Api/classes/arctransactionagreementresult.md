@@ -46,7 +46,7 @@
 
 *Overrides [ArcTransactionResult](arctransactionresult.md).[constructor](arctransactionresult.md#constructor)*
 
-*Defined in [contracts/vestingscheme.ts:322](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/vestingscheme.ts#L322)*
+*Defined in [contracts/vestingscheme.ts:322](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L322)*
 
 
 
@@ -72,7 +72,7 @@
 
 **●  agreementId**:  *`number`* 
 
-*Defined in [contracts/vestingscheme.ts:322](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/vestingscheme.ts#L322)*
+*Defined in [contracts/vestingscheme.ts:322](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L322)*
 
 
 
@@ -88,7 +88,7 @@ ___
 
 *Inherited from [ArcTransactionResult](arctransactionresult.md).[tx](arctransactionresult.md#tx)*
 
-*Defined in [ExtendTruffleContract.ts:247](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L247)*
+*Defined in [ExtendTruffleContract.ts:247](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L247)*
 
 
 
@@ -111,7 +111,7 @@ ___
 
 *Inherited from [ArcTransactionResult](arctransactionresult.md).[getValueFromTx](arctransactionresult.md#getvaluefromtx)*
 
-*Defined in [ExtendTruffleContract.ts:260](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L260)*
+*Defined in [ExtendTruffleContract.ts:260](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L260)*
 
 
 

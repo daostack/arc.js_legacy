@@ -12,7 +12,7 @@
 
 **●  _avatar**:  *[Address](../#address)* 
 
-*Defined in [contracts/vestingscheme.ts:337](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/vestingscheme.ts#L337)*
+*Defined in [contracts/vestingscheme.ts:337](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L337)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  _proposalId**:  *[Hash](../#hash)* 
 
-*Defined in [contracts/vestingscheme.ts:338](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/vestingscheme.ts#L338)*
+*Defined in [contracts/vestingscheme.ts:338](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L338)*
 
 
 

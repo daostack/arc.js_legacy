@@ -12,7 +12,7 @@
 
 **●  amount**:  *`BigNumber.BigNumber`⎮`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1174](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1174)*
+*Defined in [contracts/genesisProtocol.ts:1174](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1174)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  onBehalfOf**:  *[Address](../#address)* 
 
-*Defined in [contracts/genesisProtocol.ts:1178](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1178)*
+*Defined in [contracts/genesisProtocol.ts:1178](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1178)*
 
 
 
@@ -46,11 +46,11 @@ ___
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1182](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1182)*
+*Defined in [contracts/genesisProtocol.ts:1182](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1182)*
 
 
 
-unique hash of proposal index in the scope of the scheme
+unique hash of proposal index
 
 
 
@@ -63,7 +63,7 @@ ___
 
 **●  vote**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1186](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1186)*
+*Defined in [contracts/genesisProtocol.ts:1186](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1186)*
 
 
 

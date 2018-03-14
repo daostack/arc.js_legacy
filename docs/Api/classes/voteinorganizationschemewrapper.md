@@ -62,7 +62,7 @@
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[constructor](extendtrufflecontract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -91,7 +91,7 @@ ContractWrapperFactory constructs this
 
 **●  ProposalDeleted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalDeletedEventResult](../interfaces/proposaldeletedeventresult.md)*  =  this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted")
 
-*Defined in [contracts/voteInOrganizationScheme.ts:22](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/voteInOrganizationScheme.ts#L22)*
+*Defined in [contracts/voteInOrganizationScheme.ts:22](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L22)*
 
 
 
@@ -105,7 +105,7 @@ ___
 
 **●  ProposalExecuted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalExecutedEventResult](../interfaces/proposalexecutedeventresult.md)*  =  this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted")
 
-*Defined in [contracts/voteInOrganizationScheme.ts:21](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/voteInOrganizationScheme.ts#L21)*
+*Defined in [contracts/voteInOrganizationScheme.ts:21](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L21)*
 
 
 
@@ -122,7 +122,7 @@ ___
 
 **●  VoteOnBehalf**:  *[EventFetcherFactory](../#eventfetcherfactory)[VoteOnBehalfEventResult](../interfaces/voteonbehalfeventresult.md)*  =  this.createEventFetcherFactory<VoteOnBehalfEventResult>("VoteOnBehalf")
 
-*Defined in [contracts/voteInOrganizationScheme.ts:23](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/voteInOrganizationScheme.ts#L23)*
+*Defined in [contracts/voteInOrganizationScheme.ts:23](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L23)*
 
 
 
@@ -138,7 +138,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[contract](extendtrufflecontract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -160,7 +160,7 @@ getaddress(): [Address](../#address)
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[address](extendtrufflecontract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L128)*
+*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L128)*
 
 
 
@@ -184,7 +184,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getDefaultPermissions](extendtrufflecontract.md#getdefaultpermissions)*
 
-*Defined in [contracts/voteInOrganizationScheme.ts:68](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/voteInOrganizationScheme.ts#L68)*
+*Defined in [contracts/voteInOrganizationScheme.ts:68](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L68)*
 
 
 
@@ -216,7 +216,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getParameters](extendtrufflecontract.md#getparameters)*
 
-*Defined in [contracts/voteInOrganizationScheme.ts:76](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/voteInOrganizationScheme.ts#L76)*
+*Defined in [contracts/voteInOrganizationScheme.ts:76](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L76)*
 
 
 
@@ -248,7 +248,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParametersArray](extendtrufflecontract.md#getparametersarray)*
 
-*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L124)*
+*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L124)*
 
 
 
@@ -281,7 +281,7 @@ ___
 
 
 
-*Defined in [contracts/voteInOrganizationScheme.ts:72](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/voteInOrganizationScheme.ts#L72)*
+*Defined in [contracts/voteInOrganizationScheme.ts:72](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L72)*
 
 
 
@@ -313,7 +313,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getSchemeParametersHash](extendtrufflecontract.md#getschemeparametershash)*
 
-*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L114)*
+*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L114)*
 
 
 
@@ -348,7 +348,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromAt](extendtrufflecontract.md#hydratefromat)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -385,7 +385,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromDeployed](extendtrufflecontract.md#hydratefromdeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -414,7 +414,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromNew](extendtrufflecontract.md#hydratefromnew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -449,7 +449,7 @@ ___
 
 
 
-*Defined in [contracts/voteInOrganizationScheme.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/voteInOrganizationScheme.ts#L26)*
+*Defined in [contracts/voteInOrganizationScheme.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L26)*
 
 
 
@@ -481,7 +481,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[setParameters](extendtrufflecontract.md#setparameters)*
 
-*Defined in [contracts/voteInOrganizationScheme.ts:61](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/voteInOrganizationScheme.ts#L61)*
+*Defined in [contracts/voteInOrganizationScheme.ts:61](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L61)*
 
 
 

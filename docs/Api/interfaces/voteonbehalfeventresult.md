@@ -12,7 +12,7 @@
 
 **●  _params**:  *`Array`.<[Hash](../#hash)>* 
 
-*Defined in [contracts/voteInOrganizationScheme.ts:90](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/voteInOrganizationScheme.ts#L90)*
+*Defined in [contracts/voteInOrganizationScheme.ts:90](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L90)*
 
 
 

@@ -12,7 +12,7 @@
 
 **●  _amount**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/commonEventInterfaces.ts:43](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/commonEventInterfaces.ts#L43)*
+*Defined in [contracts/commonEventInterfaces.ts:43](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L43)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  _avatar**:  *[Address](../#address)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:47](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/commonEventInterfaces.ts#L47)*
+*Defined in [contracts/commonEventInterfaces.ts:47](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L47)*
 
 
 
@@ -43,7 +43,7 @@ ___
 
 **●  _beneficiary**:  *[Address](../#address)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:51](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/commonEventInterfaces.ts#L51)*
+*Defined in [contracts/commonEventInterfaces.ts:51](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L51)*
 
 
 
@@ -60,7 +60,7 @@ ___
 
 **●  _proposalId**:  *[Hash](../#hash)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:55](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/commonEventInterfaces.ts#L55)*
+*Defined in [contracts/commonEventInterfaces.ts:55](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L55)*
 
 
 

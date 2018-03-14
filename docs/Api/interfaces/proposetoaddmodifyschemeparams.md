@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/schemeregistrar.ts:238](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/schemeregistrar.ts#L238)*
+*Defined in [contracts/schemeregistrar.ts:238](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L238)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  isRegistering**:  *`boolean`⎮`null`* 
 
-*Defined in [contracts/schemeregistrar.ts:258](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/schemeregistrar.ts#L258)*
+*Defined in [contracts/schemeregistrar.ts:258](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L258)*
 
 
 
@@ -48,7 +48,7 @@ ___
 
 **●  scheme**:  *`string`* 
 
-*Defined in [contracts/schemeregistrar.ts:242](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/schemeregistrar.ts#L242)*
+*Defined in [contracts/schemeregistrar.ts:242](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L242)*
 
 
 
@@ -65,7 +65,7 @@ ___
 
 **●  schemeName**:  *`string`⎮`null`* 
 
-*Defined in [contracts/schemeregistrar.ts:247](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/schemeregistrar.ts#L247)*
+*Defined in [contracts/schemeregistrar.ts:247](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L247)*
 
 
 
@@ -82,7 +82,7 @@ ___
 
 **●  schemeParametersHash**:  *`string`* 
 
-*Defined in [contracts/schemeregistrar.ts:251](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/schemeregistrar.ts#L251)*
+*Defined in [contracts/schemeregistrar.ts:251](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L251)*
 
 
 

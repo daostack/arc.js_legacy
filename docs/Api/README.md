@@ -190,7 +190,7 @@
 
 **Τ Address**:  *`string`* 
 
-*Defined in [commonTypes.ts:3](https://github.com/daostack/arc.js/blob/6909d59/lib/commonTypes.ts#L3)*
+*Defined in [commonTypes.ts:3](https://github.com/daostack/arc.js/blob/0fff6d4/lib/commonTypes.ts#L3)*
 
 
 
@@ -204,7 +204,7 @@ ___
 
 **Τ EventCallback**:  *`function`* 
 
-*Defined in [ExtendTruffleContract.ts:294](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L294)*
+*Defined in [ExtendTruffleContract.ts:294](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L294)*
 
 
 #### Type declaration
@@ -238,7 +238,7 @@ ___
 
 **Τ EventFetcherFactory**:  *`function`* 
 
-*Defined in [ExtendTruffleContract.ts:329](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L329)*
+*Defined in [ExtendTruffleContract.ts:329](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L329)*
 
 
 
@@ -282,7 +282,7 @@ ___
 
 **Τ EventFetcherHandler**:  *`function`* 
 
-*Defined in [ExtendTruffleContract.ts:336](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L336)*
+*Defined in [ExtendTruffleContract.ts:336](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L336)*
 
 
 #### Type declaration
@@ -315,7 +315,7 @@ ___
 
 **Τ Hash**:  *`string`* 
 
-*Defined in [commonTypes.ts:2](https://github.com/daostack/arc.js/blob/6909d59/lib/commonTypes.ts#L2)*
+*Defined in [commonTypes.ts:2](https://github.com/daostack/arc.js/blob/0fff6d4/lib/commonTypes.ts#L2)*
 
 
 
@@ -329,7 +329,7 @@ ___
 
 **Τ LogTopic**:  *`null`⎮`string`⎮`Array`.<`string`>* 
 
-*Defined in [ExtendTruffleContract.ts:350](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L350)*
+*Defined in [ExtendTruffleContract.ts:350](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L350)*
 
 
 
@@ -343,7 +343,7 @@ ___
 
 **Τ fnVoid**:  *`function`* 
 
-*Defined in [commonTypes.ts:1](https://github.com/daostack/arc.js/blob/6909d59/lib/commonTypes.ts#L1)*
+*Defined in [commonTypes.ts:1](https://github.com/daostack/arc.js/blob/0fff6d4/lib/commonTypes.ts#L1)*
 
 
 #### Type declaration
@@ -370,7 +370,7 @@ ___
 
 **●  AbsoluteVote**:  *[ContractWrapperFactory](classes/contractwrapperfactory.md)[AbsoluteVoteWrapper](classes/absolutevotewrapper.md)*  =  new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper)
 
-*Defined in [contracts/absoluteVote.ts:90](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/absoluteVote.ts#L90)*
+*Defined in [contracts/absoluteVote.ts:90](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L90)*
 
 
 
@@ -384,7 +384,7 @@ ___
 
 **●  ContributionReward**:  *[ContractWrapperFactory](classes/contractwrapperfactory.md)[ContributionRewardWrapper](classes/contributionrewardwrapper.md)*  =  new ContractWrapperFactory("ContributionReward", ContributionRewardWrapper)
 
-*Defined in [contracts/contributionreward.ts:471](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L471)*
+*Defined in [contracts/contributionreward.ts:471](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L471)*
 
 
 
@@ -398,7 +398,7 @@ ___
 
 **●  DaoCreator**:  *[ContractWrapperFactory](classes/contractwrapperfactory.md)[DaoCreatorWrapper](classes/daocreatorwrapper.md)*  =  new ContractWrapperFactory("DaoCreator", DaoCreatorWrapper)
 
-*Defined in [contracts/daocreator.ts:234](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/daocreator.ts#L234)*
+*Defined in [contracts/daocreator.ts:234](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L234)*
 
 
 
@@ -412,7 +412,7 @@ ___
 
 **●  GenesisProtocol**:  *[ContractWrapperFactory](classes/contractwrapperfactory.md)[GenesisProtocolWrapper](classes/genesisprotocolwrapper.md)*  =  new ContractWrapperFactory("GenesisProtocol", GenesisProtocolWrapper)
 
-*Defined in [contracts/genesisProtocol.ts:945](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L945)*
+*Defined in [contracts/genesisProtocol.ts:945](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L945)*
 
 
 
@@ -427,7 +427,7 @@ ___
 **●  GlobalConstraintRegistrar**:  *[ContractWrapperFactory](classes/contractwrapperfactory.md)[GlobalConstraintRegistrarWrapper](classes/globalconstraintregistrarwrapper.md)*  =  new ContractWrapperFactory(
   "GlobalConstraintRegistrar", GlobalConstraintRegistrarWrapper)
 
-*Defined in [contracts/globalconstraintregistrar.ts:134](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/globalconstraintregistrar.ts#L134)*
+*Defined in [contracts/globalconstraintregistrar.ts:134](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L134)*
 
 
 
@@ -441,7 +441,7 @@ ___
 
 **●  SchemeRegistrar**:  *[ContractWrapperFactory](classes/contractwrapperfactory.md)[SchemeRegistrarWrapper](classes/schemeregistrarwrapper.md)*  =  new ContractWrapperFactory("SchemeRegistrar", SchemeRegistrarWrapper)
 
-*Defined in [contracts/schemeregistrar.ts:197](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/schemeregistrar.ts#L197)*
+*Defined in [contracts/schemeregistrar.ts:197](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L197)*
 
 
 
@@ -455,7 +455,7 @@ ___
 
 **●  TokenCapGC**:  *[ContractWrapperFactory](classes/contractwrapperfactory.md)[TokenCapGCWrapper](classes/tokencapgcwrapper.md)*  =  new ContractWrapperFactory("TokenCapGC", TokenCapGCWrapper)
 
-*Defined in [contracts/tokenCapGC.ts:27](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/tokenCapGC.ts#L27)*
+*Defined in [contracts/tokenCapGC.ts:27](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/tokenCapGC.ts#L27)*
 
 
 
@@ -469,7 +469,7 @@ ___
 
 **●  UpgradeScheme**:  *[ContractWrapperFactory](classes/contractwrapperfactory.md)[UpgradeSchemeWrapper](classes/upgradeschemewrapper.md)*  =  new ContractWrapperFactory("UpgradeScheme", UpgradeSchemeWrapper)
 
-*Defined in [contracts/upgradescheme.ts:135](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/upgradescheme.ts#L135)*
+*Defined in [contracts/upgradescheme.ts:135](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L135)*
 
 
 
@@ -483,7 +483,7 @@ ___
 
 **●  VestingScheme**:  *[ContractWrapperFactory](classes/contractwrapperfactory.md)[VestingSchemeWrapper](classes/vestingschemewrapper.md)*  =  new ContractWrapperFactory("VestingScheme", VestingSchemeWrapper)
 
-*Defined in [contracts/vestingscheme.ts:330](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/vestingscheme.ts#L330)*
+*Defined in [contracts/vestingscheme.ts:330](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L330)*
 
 
 
@@ -498,7 +498,7 @@ ___
 **●  VoteInOrganizationScheme**:  *[ContractWrapperFactory](classes/contractwrapperfactory.md)[VoteInOrganizationSchemeWrapper](classes/voteinorganizationschemewrapper.md)*  =  new ContractWrapperFactory(
   "VoteInOrganizationScheme", VoteInOrganizationSchemeWrapper)
 
-*Defined in [contracts/voteInOrganizationScheme.ts:85](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/voteInOrganizationScheme.ts#L85)*
+*Defined in [contracts/voteInOrganizationScheme.ts:85](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L85)*
 
 
 

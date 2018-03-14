@@ -12,7 +12,7 @@
 
 **●  _agreementId**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/vestingscheme.ts:363](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/vestingscheme.ts#L363)*
+*Defined in [contracts/vestingscheme.ts:363](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L363)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  _signer**:  *[Address](../#address)* 
 
-*Defined in [contracts/vestingscheme.ts:367](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/vestingscheme.ts#L367)*
+*Defined in [contracts/vestingscheme.ts:367](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L367)*
 
 
 

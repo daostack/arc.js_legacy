@@ -12,11 +12,11 @@
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1313](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1313)*
+*Defined in [contracts/genesisProtocol.ts:1313](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1313)*
 
 
 
-unique hash of proposal index in the scope of the scheme
+unique hash of proposal index
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  voter**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1314](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/genesisProtocol.ts#L1314)*
+*Defined in [contracts/genesisProtocol.ts:1314](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1314)*
 
 
 

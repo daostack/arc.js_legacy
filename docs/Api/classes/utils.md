@@ -6,12 +6,6 @@
 
 ## Index
 
-### Properties
-
-* [alreadyTriedAndFailed](utils.md#alreadytriedandfailed)
-* [web3](utils.md#web3)
-
-
 ### Accessors
 
 * [NULL_ADDRESS](utils.md#null_address)
@@ -31,36 +25,6 @@
 
 
 ---
-## Properties
-<a id="alreadytriedandfailed"></a>
-
-### «Static»«Private» alreadyTriedAndFailed
-
-**●  alreadyTriedAndFailed**:  *`boolean`*  = false
-
-*Defined in [utils.ts:199](https://github.com/daostack/arc.js/blob/6909d59/lib/utils.ts#L199)*
-
-
-
-
-
-___
-
-<a id="web3"></a>
-
-### «Static»«Private» web3
-
-**●  web3**:  *`Web3`*  =  undefined
-
-*Defined in [utils.ts:198](https://github.com/daostack/arc.js/blob/6909d59/lib/utils.ts#L198)*
-
-
-
-
-
-___
-
-
 ## Accessors
 <a id="null_address"></a>
 
@@ -69,7 +33,7 @@ ___
 
 getNULL_ADDRESS(): [Address](../#address)
 
-*Defined in [utils.ts:12](https://github.com/daostack/arc.js/blob/6909d59/lib/utils.ts#L12)*
+*Defined in [utils.ts:12](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L12)*
 
 
 
@@ -88,7 +52,7 @@ ___
 
 getNULL_HASH(): [Hash](../#hash)
 
-*Defined in [utils.ts:13](https://github.com/daostack/arc.js/blob/6909d59/lib/utils.ts#L13)*
+*Defined in [utils.ts:13](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L13)*
 
 
 
@@ -110,7 +74,7 @@ ___
 
 
 
-*Defined in [utils.ts:176](https://github.com/daostack/arc.js/blob/6909d59/lib/utils.ts#L176)*
+*Defined in [utils.ts:176](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L176)*
 
 
 
@@ -143,7 +107,7 @@ ___
 
 
 
-*Defined in [utils.ts:157](https://github.com/daostack/arc.js/blob/6909d59/lib/utils.ts#L157)*
+*Defined in [utils.ts:157](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L157)*
 
 
 
@@ -172,7 +136,7 @@ ___
 
 
 
-*Defined in [utils.ts:93](https://github.com/daostack/arc.js/blob/6909d59/lib/utils.ts#L93)*
+*Defined in [utils.ts:93](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L93)*
 
 
 
@@ -208,7 +172,7 @@ ___
 
 
 
-*Defined in [utils.ts:46](https://github.com/daostack/arc.js/blob/6909d59/lib/utils.ts#L46)*
+*Defined in [utils.ts:46](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L46)*
 
 
 
@@ -233,7 +197,7 @@ ___
 
 
 
-*Defined in [utils.ts:193](https://github.com/daostack/arc.js/blob/6909d59/lib/utils.ts#L193)*
+*Defined in [utils.ts:193](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L193)*
 
 
 
@@ -266,7 +230,7 @@ ___
 
 
 
-*Defined in [utils.ts:184](https://github.com/daostack/arc.js/blob/6909d59/lib/utils.ts#L184)*
+*Defined in [utils.ts:184](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L184)*
 
 
 
@@ -299,7 +263,7 @@ ___
 
 
 
-*Defined in [utils.ts:22](https://github.com/daostack/arc.js/blob/6909d59/lib/utils.ts#L22)*
+*Defined in [utils.ts:22](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L22)*
 
 
 

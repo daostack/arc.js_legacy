@@ -43,7 +43,6 @@
 
 ### Methods
 
-* [computeRemainingReward](contributionrewardwrapper.md#computeremainingreward)
 * [getBeneficiaryRewards](contributionrewardwrapper.md#getbeneficiaryrewards)
 * [getDaoProposals](contributionrewardwrapper.md#getdaoproposals)
 * [getDefaultPermissions](contributionrewardwrapper.md#getdefaultpermissions)
@@ -54,7 +53,6 @@
 * [hydrateFromAt](contributionrewardwrapper.md#hydratefromat)
 * [hydrateFromDeployed](contributionrewardwrapper.md#hydratefromdeployed)
 * [hydrateFromNew](contributionrewardwrapper.md#hydratefromnew)
-* [orgProposalToContributionProposal](contributionrewardwrapper.md#orgproposaltocontributionproposal)
 * [proposeContributionReward](contributionrewardwrapper.md#proposecontributionreward)
 * [redeemContributionReward](contributionrewardwrapper.md#redeemcontributionreward)
 * [redeemEther](contributionrewardwrapper.md#redeemether-1)
@@ -75,7 +73,7 @@
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[constructor](extendtrufflecontract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -104,7 +102,7 @@ ContractWrapperFactory constructs this
 
 **●  NewContributionProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[NewContributionProposalEventResult](../interfaces/newcontributionproposaleventresult.md)*  =  this.createEventFetcherFactory<NewContributionProposalEventResult>("NewContributionProposal")
 
-*Defined in [contracts/contributionreward.ts:32](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L32)*
+*Defined in [contracts/contributionreward.ts:32](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L32)*
 
 
 
@@ -121,7 +119,7 @@ ___
 
 **●  ProposalDeleted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalDeletedEventResult](../interfaces/proposaldeletedeventresult.md)*  =  this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted")
 
-*Defined in [contracts/contributionreward.ts:34](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L34)*
+*Defined in [contracts/contributionreward.ts:34](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L34)*
 
 
 
@@ -135,7 +133,7 @@ ___
 
 **●  ProposalExecuted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalExecutedEventResult](../interfaces/proposalexecutedeventresult.md)*  =  this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted")
 
-*Defined in [contracts/contributionreward.ts:33](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L33)*
+*Defined in [contracts/contributionreward.ts:33](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L33)*
 
 
 
@@ -149,7 +147,7 @@ ___
 
 **●  RedeemEther**:  *[EventFetcherFactory](../#eventfetcherfactory)[RedeemEtherEventResult](../interfaces/redeemethereventresult.md)*  =  this.createEventFetcherFactory<RedeemEtherEventResult>("RedeemEther")
 
-*Defined in [contracts/contributionreward.ts:36](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L36)*
+*Defined in [contracts/contributionreward.ts:36](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L36)*
 
 
 
@@ -163,7 +161,7 @@ ___
 
 **●  RedeemExternalToken**:  *[EventFetcherFactory](../#eventfetcherfactory)[RedeemExternalTokenEventResult](../interfaces/redeemexternaltokeneventresult.md)*  =  this.createEventFetcherFactory<RedeemExternalTokenEventResult>("RedeemExternalToken")
 
-*Defined in [contracts/contributionreward.ts:38](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L38)*
+*Defined in [contracts/contributionreward.ts:38](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L38)*
 
 
 
@@ -177,7 +175,7 @@ ___
 
 **●  RedeemNativeToken**:  *[EventFetcherFactory](../#eventfetcherfactory)[RedeemNativeTokenEventResult](../interfaces/redeemnativetokeneventresult.md)*  =  this.createEventFetcherFactory<RedeemNativeTokenEventResult>("RedeemNativeToken")
 
-*Defined in [contracts/contributionreward.ts:37](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L37)*
+*Defined in [contracts/contributionreward.ts:37](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L37)*
 
 
 
@@ -191,7 +189,7 @@ ___
 
 **●  RedeemReputation**:  *[EventFetcherFactory](../#eventfetcherfactory)[RedeemReputationEventResult](../interfaces/redeemreputationeventresult.md)*  =  this.createEventFetcherFactory<RedeemReputationEventResult>("RedeemReputation")
 
-*Defined in [contracts/contributionreward.ts:35](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L35)*
+*Defined in [contracts/contributionreward.ts:35](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L35)*
 
 
 
@@ -207,7 +205,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[contract](extendtrufflecontract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -229,7 +227,7 @@ getaddress(): [Address](../#address)
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[address](extendtrufflecontract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L128)*
+*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L128)*
 
 
 
@@ -243,40 +241,6 @@ ___
 
 
 ## Methods
-<a id="computeremainingreward"></a>
-
-### «Private» computeRemainingReward
-
-► **computeRemainingReward**(proposalRewards: *[ProposalRewards](../interfaces/proposalrewards.md)*, proposal: *[ContributionProposal](../interfaces/contributionproposal.md)*, rewardName: *`string`*, avatar: *[Address](../#address)*, rewardType: *[RewardType](../enums/rewardtype.md)*): `Promise`.<`void`>
-
-
-
-*Defined in [contracts/contributionreward.ts:432](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L432)*
-
-
-
-**Parameters:**
-
-| Param | Type | Description |
-| ------ | ------ | ------ |
-| proposalRewards | [ProposalRewards](../interfaces/proposalrewards.md)   |  - |
-| proposal | [ContributionProposal](../interfaces/contributionproposal.md)   |  - |
-| rewardName | `string`   |  - |
-| avatar | [Address](../#address)   |  - |
-| rewardType | [RewardType](../enums/rewardtype.md)   |  - |
-
-
-
-
-
-**Returns:** `Promise`.<`void`>
-
-
-
-
-
-___
-
 <a id="getbeneficiaryrewards"></a>
 
 ###  getBeneficiaryRewards
@@ -285,7 +249,7 @@ ___
 
 
 
-*Defined in [contracts/contributionreward.ts:352](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L352)*
+*Defined in [contracts/contributionreward.ts:352](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L352)*
 
 
 
@@ -318,7 +282,7 @@ ___
 
 
 
-*Defined in [contracts/contributionreward.ts:307](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L307)*
+*Defined in [contracts/contributionreward.ts:307](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L307)*
 
 
 
@@ -353,7 +317,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getDefaultPermissions](extendtrufflecontract.md#getdefaultpermissions)*
 
-*Defined in [contracts/contributionreward.ts:415](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L415)*
+*Defined in [contracts/contributionreward.ts:415](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L415)*
 
 
 
@@ -385,7 +349,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getParameters](extendtrufflecontract.md#getparameters)*
 
-*Defined in [contracts/contributionreward.ts:423](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L423)*
+*Defined in [contracts/contributionreward.ts:423](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L423)*
 
 
 
@@ -417,7 +381,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParametersArray](extendtrufflecontract.md#getparametersarray)*
 
-*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L124)*
+*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L124)*
 
 
 
@@ -450,7 +414,7 @@ ___
 
 
 
-*Defined in [contracts/contributionreward.ts:419](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L419)*
+*Defined in [contracts/contributionreward.ts:419](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L419)*
 
 
 
@@ -482,7 +446,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getSchemeParametersHash](extendtrufflecontract.md#getschemeparametershash)*
 
-*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L114)*
+*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L114)*
 
 
 
@@ -517,7 +481,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromAt](extendtrufflecontract.md#hydratefromat)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -554,7 +518,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromDeployed](extendtrufflecontract.md#hydratefromdeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -583,7 +547,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromNew](extendtrufflecontract.md#hydratefromnew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -610,37 +574,6 @@ this
 
 ___
 
-<a id="orgproposaltocontributionproposal"></a>
-
-### «Private» orgProposalToContributionProposal
-
-► **orgProposalToContributionProposal**(orgProposal: *`Array`.<`any`>*, proposalId: *[Hash](../#hash)*): [ContributionProposal](../interfaces/contributionproposal.md)
-
-
-
-*Defined in [contracts/contributionreward.ts:447](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L447)*
-
-
-
-**Parameters:**
-
-| Param | Type | Description |
-| ------ | ------ | ------ |
-| orgProposal | `Array`.<`any`>   |  - |
-| proposalId | [Hash](../#hash)   |  - |
-
-
-
-
-
-**Returns:** [ContributionProposal](../interfaces/contributionproposal.md)
-
-
-
-
-
-___
-
 <a id="proposecontributionreward"></a>
 
 ###  proposeContributionReward
@@ -649,7 +582,7 @@ ___
 
 
 
-*Defined in [contracts/contributionreward.ts:45](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L45)*
+*Defined in [contracts/contributionreward.ts:45](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L45)*
 
 
 
@@ -682,7 +615,7 @@ ___
 
 
 
-*Defined in [contracts/contributionreward.ts:148](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L148)*
+*Defined in [contracts/contributionreward.ts:148](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L148)*
 
 
 
@@ -715,7 +648,7 @@ ___
 
 
 
-*Defined in [contracts/contributionreward.ts:276](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L276)*
+*Defined in [contracts/contributionreward.ts:276](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L276)*
 
 
 
@@ -748,7 +681,7 @@ ___
 
 
 
-*Defined in [contracts/contributionreward.ts:183](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L183)*
+*Defined in [contracts/contributionreward.ts:183](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L183)*
 
 
 
@@ -781,7 +714,7 @@ ___
 
 
 
-*Defined in [contracts/contributionreward.ts:245](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L245)*
+*Defined in [contracts/contributionreward.ts:245](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L245)*
 
 
 
@@ -814,7 +747,7 @@ ___
 
 
 
-*Defined in [contracts/contributionreward.ts:214](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L214)*
+*Defined in [contracts/contributionreward.ts:214](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L214)*
 
 
 
@@ -849,7 +782,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[setParameters](extendtrufflecontract.md#setparameters)*
 
-*Defined in [contracts/contributionreward.ts:400](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/contributionreward.ts#L400)*
+*Defined in [contracts/contributionreward.ts:400](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L400)*
 
 
 

@@ -61,7 +61,7 @@
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[constructor](extendtrufflecontract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -90,7 +90,7 @@ ContractWrapperFactory constructs this
 
 **●  InitialSchemesSet**:  *[EventFetcherFactory](../#eventfetcherfactory)[InitialSchemesSetEventResult](../interfaces/initialschemesseteventresult.md)*  =  this.createEventFetcherFactory<InitialSchemesSetEventResult>("InitialSchemesSet")
 
-*Defined in [contracts/daocreator.ts:25](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/daocreator.ts#L25)*
+*Defined in [contracts/daocreator.ts:25](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L25)*
 
 
 
@@ -104,7 +104,7 @@ ___
 
 **●  NewOrg**:  *[EventFetcherFactory](../#eventfetcherfactory)[NewOrgEventResult](../interfaces/neworgeventresult.md)*  =  this.createEventFetcherFactory<NewOrgEventResult>("NewOrg")
 
-*Defined in [contracts/daocreator.ts:24](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/daocreator.ts#L24)*
+*Defined in [contracts/daocreator.ts:24](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L24)*
 
 
 
@@ -123,7 +123,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[contract](extendtrufflecontract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -145,7 +145,7 @@ getaddress(): [Address](../#address)
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[address](extendtrufflecontract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L128)*
+*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L128)*
 
 
 
@@ -167,7 +167,7 @@ ___
 
 
 
-*Defined in [contracts/daocreator.ts:32](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/daocreator.ts#L32)*
+*Defined in [contracts/daocreator.ts:32](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L32)*
 
 
 
@@ -202,7 +202,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getDefaultPermissions](extendtrufflecontract.md#getdefaultpermissions)*
 
-*Defined in [ExtendTruffleContract.ts:98](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L98)*
+*Defined in [ExtendTruffleContract.ts:98](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L98)*
 
 
 
@@ -237,7 +237,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParameters](extendtrufflecontract.md#getparameters)*
 
-*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L106)*
+*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L106)*
 
 
 
@@ -272,7 +272,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParametersArray](extendtrufflecontract.md#getparametersarray)*
 
-*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L124)*
+*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L124)*
 
 
 
@@ -307,7 +307,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getSchemeParametersHash](extendtrufflecontract.md#getschemeparametershash)*
 
-*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L114)*
+*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L114)*
 
 
 
@@ -342,7 +342,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromAt](extendtrufflecontract.md#hydratefromat)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -379,7 +379,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromDeployed](extendtrufflecontract.md#hydratefromdeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -408,7 +408,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromNew](extendtrufflecontract.md#hydratefromnew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -445,7 +445,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[setParameters](extendtrufflecontract.md#setparameters)*
 
-*Defined in [ExtendTruffleContract.ts:89](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L89)*
+*Defined in [ExtendTruffleContract.ts:89](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L89)*
 
 
 
@@ -478,7 +478,7 @@ ___
 
 
 
-*Defined in [contracts/daocreator.ts:88](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/daocreator.ts#L88)*
+*Defined in [contracts/daocreator.ts:88](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L88)*
 
 
 

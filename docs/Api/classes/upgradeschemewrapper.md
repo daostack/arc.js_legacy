@@ -64,7 +64,7 @@
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[constructor](extendtrufflecontract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -93,7 +93,7 @@ ContractWrapperFactory constructs this
 
 **●  ChangeUpgradeSchemeProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[ChangeUpgradeSchemeProposalEventResult](../interfaces/changeupgradeschemeproposaleventresult.md)*  =  this.createEventFetcherFactory<ChangeUpgradeSchemeProposalEventResult>("ChangeUpgradeSchemeProposal")
 
-*Defined in [contracts/upgradescheme.ts:23](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/upgradescheme.ts#L23)*
+*Defined in [contracts/upgradescheme.ts:23](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L23)*
 
 
 
@@ -107,7 +107,7 @@ ___
 
 **●  NewUpgradeProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[NewUpgradeProposalEventResult](../interfaces/newupgradeproposaleventresult.md)*  =  this.createEventFetcherFactory<NewUpgradeProposalEventResult>("NewUpgradeProposal")
 
-*Defined in [contracts/upgradescheme.ts:22](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/upgradescheme.ts#L22)*
+*Defined in [contracts/upgradescheme.ts:22](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L22)*
 
 
 
@@ -124,7 +124,7 @@ ___
 
 **●  ProposalDeleted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalDeletedEventResult](../interfaces/proposaldeletedeventresult.md)*  =  this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted")
 
-*Defined in [contracts/upgradescheme.ts:25](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/upgradescheme.ts#L25)*
+*Defined in [contracts/upgradescheme.ts:25](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L25)*
 
 
 
@@ -138,7 +138,7 @@ ___
 
 **●  ProposalExecuted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalExecutedEventResult](../interfaces/proposalexecutedeventresult.md)*  =  this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted")
 
-*Defined in [contracts/upgradescheme.ts:24](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/upgradescheme.ts#L24)*
+*Defined in [contracts/upgradescheme.ts:24](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L24)*
 
 
 
@@ -154,7 +154,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[contract](extendtrufflecontract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -176,7 +176,7 @@ getaddress(): [Address](../#address)
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[address](extendtrufflecontract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L128)*
+*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L128)*
 
 
 
@@ -200,7 +200,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getDefaultPermissions](extendtrufflecontract.md#getdefaultpermissions)*
 
-*Defined in [contracts/upgradescheme.ts:118](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/upgradescheme.ts#L118)*
+*Defined in [contracts/upgradescheme.ts:118](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L118)*
 
 
 
@@ -232,7 +232,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getParameters](extendtrufflecontract.md#getparameters)*
 
-*Defined in [contracts/upgradescheme.ts:126](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/upgradescheme.ts#L126)*
+*Defined in [contracts/upgradescheme.ts:126](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L126)*
 
 
 
@@ -264,7 +264,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParametersArray](extendtrufflecontract.md#getparametersarray)*
 
-*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L124)*
+*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L124)*
 
 
 
@@ -297,7 +297,7 @@ ___
 
 
 
-*Defined in [contracts/upgradescheme.ts:122](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/upgradescheme.ts#L122)*
+*Defined in [contracts/upgradescheme.ts:122](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L122)*
 
 
 
@@ -329,7 +329,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getSchemeParametersHash](extendtrufflecontract.md#getschemeparametershash)*
 
-*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L114)*
+*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L114)*
 
 
 
@@ -364,7 +364,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromAt](extendtrufflecontract.md#hydratefromat)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -401,7 +401,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromDeployed](extendtrufflecontract.md#hydratefromdeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -430,7 +430,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromNew](extendtrufflecontract.md#hydratefromnew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/6909d59/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -465,7 +465,7 @@ ___
 
 
 
-*Defined in [contracts/upgradescheme.ts:31](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/upgradescheme.ts#L31)*
+*Defined in [contracts/upgradescheme.ts:31](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L31)*
 
 
 
@@ -498,7 +498,7 @@ ___
 
 
 
-*Defined in [contracts/upgradescheme.ts:66](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/upgradescheme.ts#L66)*
+*Defined in [contracts/upgradescheme.ts:66](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L66)*
 
 
 
@@ -533,7 +533,7 @@ ___
 
 *Overrides [ExtendTruffleContract](extendtrufflecontract.md).[setParameters](extendtrufflecontract.md#setparameters)*
 
-*Defined in [contracts/upgradescheme.ts:111](https://github.com/daostack/arc.js/blob/6909d59/lib/contracts/upgradescheme.ts#L111)*
+*Defined in [contracts/upgradescheme.ts:111](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L111)*
 
 
 
