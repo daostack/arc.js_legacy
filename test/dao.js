@@ -3,6 +3,7 @@ import * as helpers from "./helpers";
 import { GlobalConstraintRegistrar, GlobalConstraintRegistrarWrapper } from "../test-dist/contracts/globalconstraintregistrar";
 import { UpgradeScheme, UpgradeSchemeWrapper } from "../test-dist/contracts/upgradescheme";
 import { SchemeRegistrar, SchemeRegistrarWrapper } from "../test-dist/contracts/schemeregistrar";
+import { SchemePermissions } from "../test-dist/commonTypes";
 
 describe("DAO", () => {
   let dao;
@@ -28,7 +29,7 @@ describe("DAO", () => {
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
     const scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
-    assert.equal(scheme.getDefaultPermissions(), await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address));
+    assert.equal(scheme.getDefaultPermissions(), SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
   });
 
   it("can create with non-universal controller", async () => {
@@ -119,7 +120,7 @@ describe("DAO", () => {
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
     const scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
-    assert.equal(scheme.getDefaultPermissions(), await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address));
+    assert.equal(scheme.getDefaultPermissions(), SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
   });
 
   it("can be created with schemes and global votingMachineParams", async () => {
@@ -140,7 +141,7 @@ describe("DAO", () => {
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
     const scheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
-    assert.equal(scheme.getDefaultPermissions(), await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address));
+    assert.equal(scheme.getDefaultPermissions(), SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
 
     const votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, scheme);
     const votingMachine = await helpers.getSchemeVotingMachine(dao, scheme);
@@ -172,14 +173,14 @@ describe("DAO", () => {
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
     let scheme = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
-    assert.equal(scheme.getDefaultPermissions(), await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address));
+    assert.equal(scheme.getDefaultPermissions(), SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
     let votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, scheme);
     let votingMachine = await helpers.getSchemeVotingMachine(dao, scheme);
     let votingMachineParams = await helpers.getVotingMachineParameters(votingMachine, votingMachineParamsHash);
     assert.equal(votingMachineParams[1].toNumber(), 30);
 
     scheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
-    assert.equal(scheme.getDefaultPermissions(), await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address));
+    assert.equal(scheme.getDefaultPermissions(), SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
 
     votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, scheme);
     votingMachine = await helpers.getSchemeVotingMachine(dao, scheme);

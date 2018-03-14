@@ -130,7 +130,7 @@ describe("GenesisProtocol", () => {
     const result = await schemeRegistrar.proposeToRemoveScheme(
       {
         avatar: dao.avatar.address,
-        scheme: schemeToDelete
+        schemeAddress: schemeToDelete
       });
 
     assert.isOk(result.proposalId);

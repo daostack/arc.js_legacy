@@ -2,7 +2,7 @@ import { promisify } from "es6-promisify";
 import abi = require("ethereumjs-abi");
 import TruffleContract = require("truffle-contract");
 import Web3 = require("web3");
-import { Address, Hash } from "./commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "./commonTypes";
 import { Config } from "./config";
 import { TransactionReceiptTruffle } from "./ExtendTruffleContract";
 import { LoggingService } from "./loggingService";
@@ -181,18 +181,21 @@ export class Utils {
    * Convert scheme permissions string to a number
    * @param {string} permissions
    */
-  public static permissionsStringToNumber(permissions: string): number {
+  public static permissionsStringToNumber(permissions: string): SchemePermissions {
     if (!permissions) { return 0; }
-    return Number(permissions);
+    return Number(permissions) as SchemePermissions;
   }
 
   /**
    * Convert number to a scheme permissions string
    * @param {Number} permissions
    */
-  public static numberToPermissionsString(permissions: number): string {
-    if (!permissions) { return "0x00000000"; }
-    return `0x${("00000000" + permissions.toString(16)).substr(-8)}`;
+  public static numberToPermissionsString(
+    permissions: SchemePermissions | DefaultSchemePermissions): string {
+
+    if (!permissions) { permissions = SchemePermissions.None; }
+
+    return `0x${("00000000" + (permissions as number).toString(16)).substr(-8)}`;
   }
 
   private static web3: Web3 = undefined;

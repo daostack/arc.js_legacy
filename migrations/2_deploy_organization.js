@@ -1,4 +1,6 @@
 const config = require("../config/default.json");
+// the following requires that a build has been done
+const DefaultSchemePermissions = require("../dist/commonTypes").DefaultSchemePermissions;
 /**
  * Migration callback
  */
@@ -52,11 +54,12 @@ module.exports = async (deployer) => {
     votersGainRepRatioFromLostRep: 80, // percentage of how much rep correct voters get from incorrect voters who lost rep
     governanceFormulasInterface: "0x0000000000000000000000000000000000000000"
   };
-  const schemeRegistrarPermissions = "0x00000003";
-  const globalConstraintRegistrarPermissions = "0x00000005";
-  const upgradeSchemePermissions = "0x00000009";
-  const contributionRewardPermissions = "0x00000001";
-  const genesisProtocolPermissions = "0x00000001";
+  const schemeRegistrarPermissions = DefaultSchemePermissions.SchemeRegistrar;
+  const globalConstraintRegistrarPermissions = DefaultSchemePermissions.GlobalConstraintRegistrar;
+  const upgradeSchemePermissions = DefaultSchemePermissions.UpgradeScheme;
+  const contributionRewardPermissions = DefaultSchemePermissions.ContributionReward;
+  const genesisProtocolPermissions = DefaultSchemePermissions.GenesisProtocol;
+
   /**
    * Apparently we must wrap the first deploy call in a `then` to avoid
    * what seems to be race conditions during deployment.

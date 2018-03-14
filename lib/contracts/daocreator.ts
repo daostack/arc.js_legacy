@@ -3,7 +3,7 @@ import dopts = require("default-options");
 
 import * as BigNumber from "bignumber.js";
 import { AvatarService } from "../avatarService";
-import { Address } from "../commonTypes";
+import { Address, DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
 import { Config } from "../config";
 import { Contracts } from "../contracts.js";
 import ContractWrapperFactory from "../ContractWrapperFactory";
@@ -213,10 +213,10 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
        * Make sure the scheme has at least its required permissions, regardless of what the caller
        * passes in.
        */
-      const requiredPermissions = Utils.permissionsStringToNumber(scheme.getDefaultPermissions());
-      const additionalPermissions = Utils.permissionsStringToNumber(schemeOptions.permissions);
+      const requiredPermissions = scheme.getDefaultPermissions();
+      const additionalPermissions = schemeOptions.permissions;
       /* tslint:disable-next-line:no-bitwise */
-      initialSchemesPermissions.push(Utils.numberToPermissionsString(requiredPermissions | additionalPermissions));
+      initialSchemesPermissions.push(SchemePermissions.toString(requiredPermissions | additionalPermissions));
     }
 
     // register the schemes with the dao
@@ -326,7 +326,7 @@ export interface SchemeConfig {
    * See ExtendTruffleContract.getDefaultPermissions for what this string
    * should look like.
    */
-  permissions?: string;
+  permissions?: SchemePermissions | DefaultSchemePermissions;
   /**
    * Optional votingMachine parameters if you have not supplied them in NewDaoConfig or want to override them.
    * Note it costs more gas to add them here.

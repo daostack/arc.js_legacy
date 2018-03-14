@@ -1,7 +1,7 @@
 {
   "autoApproveTokenTransfers": true,
   "defaultVotingMachine": "AbsoluteVote",
-  "gasLimit_deployment": 6300000,
+  "gasLimit_deployment": 6600000,
   "gasLimit_runtime": 4543760,
   "network": "ganache",
   "providerUrl": "http://127.0.0.1",

@@ -40,7 +40,7 @@ const createProposal = async () => {
   const result = await schemeRegistrar.proposeToRemoveScheme(
     {
       avatar: originalDao.avatar.address,
-      scheme: schemeToDelete
+      schemeAddress: schemeToDelete
     });
 
   assert.isOk(result.proposalId);

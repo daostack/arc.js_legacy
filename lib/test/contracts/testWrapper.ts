@@ -1,6 +1,6 @@
 "use strict";
 import { AbsoluteVoteParams } from "contracts/absoluteVote";
-import { Hash } from "../../commonTypes";
+import { DefaultSchemePermissions, Hash, SchemePermissions } from "../../commonTypes";
 import ContractWrapperFactory from "../../ContractWrapperFactory";
 import { ArcTransactionDataResult, ExtendTruffleContract } from "../../ExtendTruffleContract";
 
@@ -30,8 +30,9 @@ export class TestWrapperWrapper extends ExtendTruffleContract {
     );
   }
 
-  public getDefaultPermissions(overrideValue?: string): string {
-    return overrideValue || "0x00000009";
+  public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
+    // return overrideValue || Utils.numberToPermissionsString(DefaultSchemePermissions.MinimumPermissions);
+    return (overrideValue || DefaultSchemePermissions.MinimumPermissions) as SchemePermissions;
   }
 }
 

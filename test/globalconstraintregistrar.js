@@ -1,4 +1,5 @@
 import * as helpers from "./helpers";
+import { DefaultSchemePermissions } from "../test-dist/commonTypes";
 import { TokenCapGC } from "../test-dist/contracts/tokenCapGC";
 import { GlobalConstraintRegistrar } from "../test-dist/contracts/globalconstraintregistrar";
 
@@ -48,7 +49,7 @@ describe("GlobalConstraintRegistrar", () => {
 
     // the info we just got consists of paramsHash and permissions
     const gcrPermissionsOnOrg = await dao.controller.getSchemePermissions(gcr.address, dao.avatar.address);
-    assert.equal(gcrPermissionsOnOrg, "0x00000007");
+    assert.equal(gcrPermissionsOnOrg, DefaultSchemePermissions.GlobalConstraintRegistrar);
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, gcr);
 

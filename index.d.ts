@@ -5,6 +5,43 @@ import * as Web3 from "web3";
 
 declare module "@daostack/arc.js" {
 
+  export enum SchemePermissions {
+    None = 0,
+    /**
+     * A scheme always automatically gets this bit when registered to a DAO
+     */
+    IsRegistered = 1,
+    CanRegisterSchemes = 2,
+    CanAddRemoveGlobalConstraints = 4,
+    CanUpgradeController = 8,
+    CanCallDelegateCall = 0x10,
+    All = 0x1f,
+  }
+  /* tslint:disable:no-bitwise */
+  /**
+   * These are the permissions that are the minimum that each scheme must have to
+   * be able to perform its full range of functionality.
+   *
+   * Note that '1' is always assigned to a scheme by the Controller when the
+   * scheme is registered with the controller.
+   */
+  export enum DefaultSchemePermissions {
+    NoPermissions = SchemePermissions.None,
+    MinimumPermissions = SchemePermissions.IsRegistered,
+    AllPermissions = SchemePermissions.All,
+    ContributionReward = SchemePermissions.IsRegistered,
+    GenesisProtocol = SchemePermissions.IsRegistered,
+    GlobalConstraintRegistrar = SchemePermissions.IsRegistered | SchemePermissions.CanAddRemoveGlobalConstraints,
+    /**
+     * Has all permissions so that it can register/unregister all schemes
+     */
+    SchemeRegistrar = SchemePermissions.All,
+    UpgradeScheme = SchemePermissions.IsRegistered | SchemePermissions.CanRegisterSchemes | SchemePermissions.CanUpgradeController,
+    VestingScheme = SchemePermissions.IsRegistered,
+    VoteInOrganizationScheme = SchemePermissions.IsRegistered | SchemePermissions.CanCallDelegateCall,
+  }
+  /* tslint:enable:no-bitwise */
+
   /**
    * logging levels
    */
@@ -287,18 +324,7 @@ declare module "@daostack/arc.js" {
   }
 
   export class ExtendTruffleScheme extends ExtendTruffleContract {
-    /**
-     * Returns a string containing an 8-digit hex number representing the minimum
-     * permissions that the scheme may have, as follows:
-     *
-     * 1st bit: Scheme is registered (a scheme always gets this bit when registered to a DAO)
-     * 2nd bit: Scheme can register other schemes
-     * 3th bit: Scheme can add/remove global constraints
-     * 4rd bit: Scheme can upgrade the controller
-     *
-     * Example:  "0x00000003" has the 1st and 2nd bits set.
-     */
-    public getDefaultPermissions(overrideValue?: string): string;
+    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
   }
 
   export type Hash = string;
@@ -607,7 +633,7 @@ declare module "@daostack/arc.js" {
      * See ExtendTruffleContract.getDefaultPermissions for what this string
      * should look like.
      */
-    permissions?: string;
+    permissions?: SchemePermissions | DefaultSchemePermissions;
     /**
      * Optional votingMachine parameters if you have not supplied them in NewDaoConfig or want to override them.
      * Note it costs more gas to add them here.
@@ -705,7 +731,7 @@ declare module "@daostack/arc.js" {
      * See ExtendTruffleContract.getDefaultPermissions for what this string
      * looks like.
      */
-    permissions: string;
+    permissions: SchemePermissions;
   }
 
   /********************************
@@ -897,11 +923,11 @@ declare module "@daostack/arc.js" {
     /**
      * avatar address
      */
-    avatar: string;
+    avatar: Address;
     /**
      * scheme address
      */
-    scheme: string;
+    schemeAddress: Address;
     /**
      * scheme identifier, like "SchemeRegistrar" or "ContributionReward".
      * pass null if registering a non-arc scheme
@@ -928,7 +954,7 @@ declare module "@daostack/arc.js" {
     /**
      *  the address of the global constraint to remove
      */
-    scheme: string;
+    schemeAddress: string;
   }
 
   export interface NewSchemeProposalEventResult {

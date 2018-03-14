@@ -1,7 +1,16 @@
 "use strict";
 import * as BigNumber from "bignumber.js";
 import dopts = require("default-options");
-import { Address, BinaryVoteResult, fnVoid, GetDaoProposalsConfig, Hash, VoteConfig } from "../commonTypes";
+import {
+  Address,
+  BinaryVoteResult,
+  DefaultSchemePermissions,
+  fnVoid,
+  GetDaoProposalsConfig,
+  Hash,
+  SchemePermissions,
+  VoteConfig
+} from "../commonTypes";
 import { Config } from "../config";
 import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
@@ -907,8 +916,9 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
     );
   }
 
-  public getDefaultPermissions(overrideValue?: string): string {
-    return overrideValue || "0x00000001";
+  public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
+    // return overrideValue || Utils.numberToPermissionsString(DefaultSchemePermissions.GenesisProtocol);
+    return (overrideValue || DefaultSchemePermissions.GenesisProtocol) as SchemePermissions;
   }
 
   public async getSchemeParameters(avatarAddress: Address): Promise<GenesisProtocolParams> {
