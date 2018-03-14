@@ -78,10 +78,10 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
        * We need to increase the gas limit when creating for a non-universal controller,
        * or it will revert.  MetaMask will probably complain that our gas exceeds the block limit,
        * but there is no choice (except the TODO below).
-       * 
+       *
        * But the universal controller requires less gas and requires no change in the gas
        * limit. So to make things easier with MetaMask, we will not set the gas in this case.
-       * 
+       *
        * TODO:  Dynamically compute the gas requirement for both cases.
        */
       controllerAddress ? undefined : { gas: Config.get("gasLimit_deployment") }
