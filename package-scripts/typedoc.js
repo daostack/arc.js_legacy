@@ -1,7 +1,8 @@
 const TypeDoc = require("typedoc");
-const fs = require("fs-extra");
 const glob = require("glob");
 require("colors");
+
+/* eslint-disable no-console */
 
 const LogLevel = {
   Verbose: 0,
@@ -9,7 +10,7 @@ const LogLevel = {
   Warn: 2,
   Error: 3,
   Success: 4,
-}
+};
 
 const tsFiles = glob.sync("./lib/**/*", {
   nodir: true,
@@ -18,16 +19,12 @@ const tsFiles = glob.sync("./lib/**/*", {
 
 tsFiles.unshift("./custom_typings/system.d.ts");
 
-// tsFiles.map((file) => {
-//   console.log(file);
-// });
-
-if (tsFiles.length == 0) {
-  throw new Error('No source files found.');
+if (tsFiles.length === 0) {
+  throw new Error("No source files found.");
 }
 
-var out = "./docs/Api";
-var json = undefined;
+const out = "./docs/Api";
+const json = undefined;
 
 const options = {
   "target": "es6",
@@ -53,7 +50,6 @@ options.logger = function (message, level, newLine) {
         console.log(message.yellow);
       } else {
         process.stdout.write(message.yellow);
-        // console.log.orange(message);
       }
       break;
     case LogLevel.Error:
@@ -65,9 +61,9 @@ options.logger = function (message, level, newLine) {
   }
 };
 
-var app = new TypeDoc.Application(options);
-var project = app.convert(tsFiles);
+const app = new TypeDoc.Application(options);
+const project = app.convert(tsFiles);
 if (project) {
-  if (out) app.generateDocs(project, out);
-  if (json) app.generateJson(project, json);
+  if (out) { app.generateDocs(project, out); }
+  if (json) { app.generateJson(project, json); }
 }

@@ -20,21 +20,6 @@ import { ProposalExecutedEventResult } from "./commonEventInterfaces";
 export class VestingSchemeWrapper extends ContractWrapperBase {
 
   /**
-   * see CreateVestingAgreementConfig
-   */
-  private defaultCreateOptions = {
-    amountPerPeriod: undefined,
-    beneficiary: undefined,
-    cliffInPeriods: undefined,
-    numOfAgreedPeriods: undefined,
-    periodLength: undefined,
-    returnOnCancelAddress: undefined,
-    signaturesReqToCancel: undefined,
-    signers: undefined,
-    startingBlock: null,
-  };
-
-  /**
    * Events
    */
 
@@ -47,6 +32,21 @@ export class VestingSchemeWrapper extends ContractWrapperBase {
   public AgreementCancel: EventFetcherFactory<AgreementCancelEventResult> = this.createEventFetcherFactory<AgreementCancelEventResult>("AgreementCancel");
   public Collect: EventFetcherFactory<CollectEventResult> = this.createEventFetcherFactory<CollectEventResult>("Collect");
   /* tslint:enable:max-line-length */
+
+  /**
+   * see CreateVestingAgreementConfig
+   */
+  private defaultCreateOptions: CommonVestingAgreementConfig = {
+    amountPerPeriod: undefined,
+    beneficiary: undefined,
+    cliffInPeriods: undefined,
+    numOfAgreedPeriods: undefined,
+    periodLength: undefined,
+    returnOnCancelAddress: undefined,
+    signaturesReqToCancel: undefined,
+    signers: undefined,
+    startingBlock: null,
+  };
 
   /**
    * Propose a new vesting agreement
@@ -268,10 +268,6 @@ export class VestingSchemeWrapper extends ContractWrapperBase {
       votingMachineAddress: params[1],
     };
   }
-
-  /**
-   * Private methods
-   */
 
   private async validateCreateParams(options: CommonVestingAgreementConfig): Promise<void> {
     if (!Number.isInteger(options.periodLength) || (options.periodLength <= 0)) {
