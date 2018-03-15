@@ -1,7 +1,14 @@
 "use strict";
 import dopts = require("default-options");
 import { AvatarService } from "../avatarService";
-import { Address, fnVoid, GetDaoProposalsConfig, Hash } from "../commonTypes";
+import {
+  Address,
+  DefaultSchemePermissions,
+  fnVoid,
+  GetDaoProposalsConfig,
+  Hash,
+  SchemePermissions
+} from "../commonTypes";
 import { Config } from "../config";
 
 import * as BigNumber from "bignumber.js";
@@ -412,8 +419,9 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
     );
   }
 
-  public getDefaultPermissions(overrideValue?: string): string {
-    return overrideValue || "0x00000001";
+  public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
+    // return overrideValue || Utils.numberToPermissionsString(DefaultSchemePermissions.ContributionReward);
+    return (overrideValue || DefaultSchemePermissions.ContributionReward) as SchemePermissions;
   }
 
   public async getSchemeParameters(avatarAddress: Address): Promise<ContributionRewardParamsReturn> {

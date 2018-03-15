@@ -1,6 +1,6 @@
 "use strict";
 import dopts = require("default-options");
-import { Address, Hash } from "../commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
 import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ArcTransactionDataResult,
@@ -114,8 +114,9 @@ export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
     );
   }
 
-  public getDefaultPermissions(overrideValue?: string): string {
-    return overrideValue || "0x00000007";
+  public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
+    // return overrideValue || Utils.numberToPermissionsString(DefaultSchemePermissions.GlobalConstraintRegistrar);
+    return (overrideValue || DefaultSchemePermissions.GlobalConstraintRegistrar) as SchemePermissions;
   }
 
   public async getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams> {

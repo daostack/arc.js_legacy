@@ -1,7 +1,8 @@
 "use strict";
 import "./helpers";
-import { TestWrapper } from "../test-dist/test/contracts/testWrapper";
 import { AbsoluteVote } from "../test-dist/contracts/absoluteVote";
+import { DefaultSchemePermissions } from "../test-dist/commonTypes";
+import { TestWrapper } from "../test-dist/test/contracts/testWrapper";
 import { Utils } from "../test-dist/utils";
 
 describe("ExtendTruffleContract", () => {
@@ -23,7 +24,7 @@ describe("ExtendTruffleContract", () => {
       (await scheme.setParameters({})).result,
       "0xfc844154428d1b1c6806ceacdd3ed0974cc02c30983036bc5db6b5aed2fa394b"
     );
-    assert.equal(scheme.getDefaultPermissions(), "0x00000009");
+    assert.equal(scheme.getDefaultPermissions(), DefaultSchemePermissions.MinimumPermissions);
 
     scheme = await TestWrapper.at((await AbsoluteVote.deployed()).address);
     assert.equal(scheme.foo(), "bar");

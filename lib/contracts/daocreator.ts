@@ -3,7 +3,7 @@ import dopts = require("default-options");
 
 import * as BigNumber from "bignumber.js";
 import { AvatarService } from "../avatarService";
-import { Address } from "../commonTypes";
+import { Address, DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
 import { Config } from "../config";
 import { Contracts } from "../contracts.js";
 import ContractWrapperFactory from "../ContractWrapperFactory";
@@ -63,7 +63,7 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
       const contract = await Utils.requireContract("UController");
       controllerAddress = (await contract.deployed()).address;
     } else {
-      controllerAddress = Utils.NULL_ADDRESS;
+      controllerAddress = 0;
     }
 
     const tx = await this.contract.forgeOrg(
@@ -73,7 +73,18 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
       options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.address)),
       options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.tokens)),
       options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.reputation)),
-      controllerAddress
+      controllerAddress,
+      /**
+       * We need to increase the gas limit when creating for a non-universal controller,
+       * or it will revert.  MetaMask will probably complain that our gas exceeds the block limit,
+       * but there is no choice (except the TODO below).
+       *
+       * But the universal controller requires less gas and requires no change in the gas
+       * limit. So to make things easier with MetaMask, we will not set the gas in this case.
+       *
+       * TODO:  Dynamically compute the gas requirement for both cases.
+       */
+      controllerAddress ? undefined : { gas: Config.get("gasLimit_deployment") }
     );
 
     return new ArcTransactionResult(tx);
@@ -213,10 +224,10 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
        * Make sure the scheme has at least its required permissions, regardless of what the caller
        * passes in.
        */
-      const requiredPermissions = Utils.permissionsStringToNumber(scheme.getDefaultPermissions());
-      const additionalPermissions = Utils.permissionsStringToNumber(schemeOptions.permissions);
+      const requiredPermissions = scheme.getDefaultPermissions();
+      const additionalPermissions = schemeOptions.permissions;
       /* tslint:disable-next-line:no-bitwise */
-      initialSchemesPermissions.push(Utils.numberToPermissionsString(requiredPermissions | additionalPermissions));
+      initialSchemesPermissions.push(SchemePermissions.toString(requiredPermissions | additionalPermissions));
     }
 
     // register the schemes with the dao
@@ -326,7 +337,7 @@ export interface SchemeConfig {
    * See ExtendTruffleContract.getDefaultPermissions for what this string
    * should look like.
    */
-  permissions?: string;
+  permissions?: SchemePermissions | DefaultSchemePermissions;
   /**
    * Optional votingMachine parameters if you have not supplied them in NewDaoConfig or want to override them.
    * Note it costs more gas to add them here.

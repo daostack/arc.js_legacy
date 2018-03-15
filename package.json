@@ -1,6 +1,6 @@
 {
   "name": "@daostack/arc.js",
-  "version": "0.0.0-alpha.38",
+  "version": "0.0.0-alpha.39",
   "description": "A JavaScript library for interacting with @daostack/arc ethereum smart contracts",
   "main": "dist/arc.js",
   "types": "index.d.ts",
@@ -24,7 +24,9 @@
     "start": "nps",
     "test": "npm start test",
     "build": "npm start build",
-    "lint": "npm start lint"
+    "lint": "npm start lint",
+    "ganache": "npm start test.ganache.run",
+    "migrateContracts": "npm start migrateContracts"
   },
   "repository": {
     "type": "git",
@@ -78,7 +80,7 @@
     "uint32": "^0.2.1"
   },
   "devDependencies": {
-    "@daostack/arc": "0.0.0-alpha.34",
+    "@daostack/arc": "0.0.0-alpha.35",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-polyfill": "^6.26.0",

@@ -1,7 +1,7 @@
 "use strict";
 import * as BigNumber from "bignumber.js";
 import dopts = require("default-options");
-import { Address, fnVoid, Hash } from "../commonTypes";
+import { Address, DefaultSchemePermissions, fnVoid, Hash, SchemePermissions } from "../commonTypes";
 import { Config } from "../config";
 import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
@@ -252,8 +252,9 @@ export class VestingSchemeWrapper extends ExtendTruffleContract {
     );
   }
 
-  public getDefaultPermissions(overrideValue?: string): string {
-    return overrideValue || "0x00000001";
+  public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
+    // return overrideValue || Utils.numberToPermissionsString(DefaultSchemePermissions.VestingScheme);
+    return (overrideValue || DefaultSchemePermissions.VestingScheme) as SchemePermissions;
   }
 
   public async getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams> {

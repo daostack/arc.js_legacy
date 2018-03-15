@@ -1,7 +1,6 @@
 "use strict";
 import dopts = require("default-options");
-import { Address, Hash } from "../commonTypes";
-import { Contracts } from "../contracts.js";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
@@ -45,29 +44,10 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
      *
      */
     const defaults = {
-      /**
-       * avatar address
-       */
       avatar: undefined,
-      /**
-       * true if the given scheme is able to register/unregister/modify schemes.
-       *
-       * isRegistering should only be supplied when schemeName is not given (and thus the scheme is non-Arc).
-       * Otherwise we determine it's value based on scheme and schemeName.
-       */
-      isRegistering: null,
-      /**
-       * scheme address
-       */
-      scheme: undefined,
-      /**
-       * scheme identifier, like "SchemeRegistrar" or "ContributionReward".
-       * pass null if registering a non-arc scheme
-       */
+      permissions: null,
+      schemeAddress: undefined,
       schemeName: null,
-      /**
-       * hash of scheme parameters. These must be already registered with the new scheme.
-       */
       schemeParametersHash: undefined,
     };
 
@@ -77,8 +57,8 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
       throw new Error("avatar address is not defined");
     }
 
-    if (!options.scheme) {
-      throw new Error("scheme is not defined");
+    if (!options.schemeAddress) {
+      throw new Error("schemeAddress is not defined");
     }
 
     if (!options.schemeParametersHash) {
@@ -88,50 +68,34 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
     /**
      * throws an Error if not valid, yields 0 if null or undefined
      */
-    let isRegistering;
+    let permissions: SchemePermissions | DefaultSchemePermissions;
 
     if (options.schemeName) {
-      try {
-        /**
-         * schemeName must represent a wrapped contract
-         */
-        const newScheme = await Contracts.getContractWrapper(options.schemeName, options.scheme);
-        /**
-         * Note that the javascript wrapper "newScheme" we've gotten here is defined in this version of Arc.
-         * If newScheme is actually coming from a different version of Arc, then theoretically
-         * the permissions could be different from this version.
-         */
-        const permissions = Number(newScheme.getDefaultPermissions());
+      /**
+       * then we are adding/removing an Arc scheme and can get and check its permissions.
+       */
+      permissions = options.permissions || DefaultSchemePermissions[options.schemeName];
 
-        if (permissions > Number(this.getDefaultPermissions())) {
-          throw new Error(
-            "SchemeRegistrar cannot work with schemes having greater permissions than its own"
-          );
-        }
-
-        /* tslint:disable-next-line:no-bitwise */
-        isRegistering = (permissions & 2) !== 0;
-      } catch (ex) {
+      if (permissions > this.getDefaultPermissions()) {
         throw new Error(
-          /* tslint:disable-next-line:max-line-length */
-          `Unable to obtain default information from the given scheme address. The address is invalid or the scheme is not an Arc scheme and in that case you must supply fee and tokenAddress. ${ex}`
+          "SchemeRegistrar cannot work with schemes having greater permissions than its own"
         );
       }
     } else {
-      isRegistering = options.isRegistering;
+      permissions = options.permissions;
 
-      if (isRegistering === null) {
+      if (!permissions) {
         throw new Error(
-          "isRegistering is not defined; it is required for non-Arc schemes (schemeName is undefined)"
+          "permissions is not defined; it is required for non-Arc schemes (where schemeName is undefined)"
         );
       }
     }
 
     const tx = await this.contract.proposeScheme(
       options.avatar,
-      options.scheme,
+      options.schemeAddress,
       options.schemeParametersHash,
-      isRegistering
+      SchemePermissions.toString(permissions)
     );
 
     return new ArcTransactionProposalResult(tx);
@@ -148,7 +112,7 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
       /**
        * scheme address
        */
-      scheme: undefined,
+      schemeAddress: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true });
@@ -157,13 +121,13 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
       throw new Error("avatar address is not defined");
     }
 
-    if (!options.scheme) {
-      throw new Error("scheme address is not defined");
+    if (!options.schemeAddress) {
+      throw new Error("schemeAddress address is not defined");
     }
 
     const tx = await this.contract.proposeToRemoveScheme(
       options.avatar,
-      options.scheme
+      options.schemeAddress
     );
 
     return new ArcTransactionProposalResult(tx);
@@ -177,8 +141,9 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
     );
   }
 
-  public getDefaultPermissions(overrideValue?: string): string {
-    return overrideValue || "0x00000003";
+  public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
+    // return overrideValue || Utils.numberToPermissionsString(DefaultSchemePermissions.SchemeRegistrar);
+    return (overrideValue || DefaultSchemePermissions.SchemeRegistrar) as SchemePermissions;
   }
 
   public async getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams> {
@@ -235,27 +200,31 @@ export interface ProposeToAddModifySchemeParams {
   /**
    * avatar address
    */
-  avatar: string;
+  avatar: Address;
   /**
-   * scheme address
+   * Optional scheme address.  Supply this if you are submitting a non-Arc scheme
+   * or wish to use a different Arc scheme than the default.  In the latter case, you must
+   * also supply the schemeName.
    */
-  scheme: string;
+  schemeAddress?: Address;
   /**
-   * scheme identifier, like "SchemeRegistrar" or "ContributionReward".
-   * pass null if registering a non-arc scheme
+   * Scheme name, like "SchemeRegistrar" or "ContributionReward".
+   * Not required if you are registering a non-arc scheme.
    */
   schemeName?: string | null;
   /**
-   * hash of scheme parameters. These must be already registered with the new scheme.
+   * Fash of scheme parameters. These must be already registered with the new scheme.
    */
   schemeParametersHash: string;
   /**
-   * true if the given scheme is able to register/unregister/modify schemes.
+   * Optionally supply values from SchemePermissions or DefaultSchemePermissions.
    *
-   * isRegistering should only be supplied when schemeName is not given (and thus the scheme is non-Arc).
-   * Otherwise we determine its value based on scheme and schemeName.
+   * This value is manditory for non-Arc schemes.
+   *
+   * For Arc schemes the default is taken from DefaultSchemePermissions
+   * for the scheme given by schemeName.
    */
-  isRegistering?: boolean | null;
+  permissions?: SchemePermissions | DefaultSchemePermissions | null;
 }
 
 export interface ProposeToRemoveSchemeParams {
@@ -266,5 +235,5 @@ export interface ProposeToRemoveSchemeParams {
   /**
    *  the address of the global constraint to remove
    */
-  scheme: string;
+  schemeAddress: string;
 }

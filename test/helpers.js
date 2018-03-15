@@ -84,7 +84,7 @@ export async function addProposeContributionReward(dao) {
 
   const result = await schemeRegistrar.proposeToAddModifyScheme({
     avatar: dao.avatar.address,
-    scheme: contributionReward.address,
+    schemeAddress: contributionReward.address,
     schemeName: "ContributionReward",
     schemeParametersHash: schemeParametersHash
   });

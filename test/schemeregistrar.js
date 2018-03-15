@@ -21,7 +21,7 @@ describe("SchemeRegistrar", () => {
 
     const result = await schemeRegistrar.proposeToAddModifyScheme({
       avatar: dao.avatar.address,
-      scheme: contributionRewardAddress,
+      schemeAddress: contributionRewardAddress,
       schemeName: "ContributionReward",
       schemeParametersHash: Utils.NULL_HASH
     });
@@ -48,7 +48,7 @@ describe("SchemeRegistrar", () => {
 
     const result = await schemeRegistrar.proposeToAddModifyScheme({
       avatar: dao.avatar.address,
-      scheme: modifiedSchemeAddress,
+      schemeAddress: modifiedSchemeAddress,
       schemeName: "SchemeRegistrar",
       schemeParametersHash: Utils.NULL_HASH
     });
@@ -77,7 +77,7 @@ describe("SchemeRegistrar", () => {
 
     const result = await schemeRegistrar.proposeToRemoveScheme({
       avatar: dao.avatar.address,
-      scheme: removedScheme.address
+      schemeAddress: removedScheme.address
     });
 
     const proposalId = result.proposalId;

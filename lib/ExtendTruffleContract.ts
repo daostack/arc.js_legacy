@@ -1,5 +1,5 @@
 import { AvatarService } from "./avatarService";
-import { Address, Hash } from "./commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "./commonTypes";
 import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
 /**
@@ -95,8 +95,19 @@ export abstract class ExtendTruffleContract {
   /**
    * The subclass must override this for there to be any permissions at all, unless caller provides a value.
    */
-  public getDefaultPermissions(overrideValue?: string): string {
-    return overrideValue || "0x00000000";
+  public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
+    throw new Error("getDefaultPermissions has not been implemented by the wrapper");
+  }
+
+  /**
+   * Return this scheme's permissions.
+   * @param avatarAddress
+   */
+  public async getPermissions(avatarAddress: Address): Promise<SchemePermissions> {
+    const permissions = (await this.getController(avatarAddress))
+      .getSchemePermissions(this.address, avatarAddress) as string;
+
+    return SchemePermissions.fromString(permissions);
   }
 
   /**
@@ -112,7 +123,7 @@ export abstract class ExtendTruffleContract {
    * @param avatarAddress
    */
   public async getSchemeParametersHash(avatarAddress: Address): Promise<Hash> {
-    const controller = await this._getController(avatarAddress);
+    const controller = await this.getController(avatarAddress);
     return controller.getSchemeParameters(this.address, avatarAddress);
   }
 
@@ -125,16 +136,16 @@ export abstract class ExtendTruffleContract {
     return this.contract.parameters ? this.contract.parameters(paramsHash) : this.contract.params(paramsHash);
   }
 
-  public get address(): Address { return this.contract.address; }
-
   /**
    * return the controller associated with the given avatar
    * @param avatarAddress
    */
-  protected async _getController(avatarAddress: Address): Promise<any> {
+  public async getController(avatarAddress: Address): Promise<any> {
     const avatarService = new AvatarService(avatarAddress);
     return avatarService.getController();
   }
+
+  public get address(): Address { return this.contract.address; }
 
   protected async _getSchemeParameters(avatarAddress: Address): Promise<any> {
     const paramsHash = await this.getSchemeParametersHash(avatarAddress);

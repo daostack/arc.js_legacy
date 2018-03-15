@@ -1,6 +1,6 @@
 "use strict";
 import { AvatarService } from "./avatarService";
-import { Address, fnVoid, Hash } from "./commonTypes";
+import { Address, fnVoid, Hash, SchemePermissions } from "./commonTypes";
 import { Contracts } from "./contracts.js";
 import { DaoCreator } from "./contracts/daocreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult } from "./contracts/daocreator";
@@ -158,7 +158,7 @@ export class DAO {
         address: schemeAddress,
         // will be undefined if not a known scheme
         name: arcTypesMap.get(schemeAddress),
-        permissions,
+        permissions: SchemePermissions.fromString(permissions),
       };
 
       // dedup
@@ -322,7 +322,7 @@ export interface DaoSchemeInfo {
    * See ExtendTruffleContract.getDefaultPermissions for what this string
    * looks like.
    */
-  permissions: string;
+  permissions: SchemePermissions;
 }
 
 /********************************
