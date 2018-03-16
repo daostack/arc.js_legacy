@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/schemeregistrar.ts:234](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L234)*
+*Defined in [contracts/schemeregistrar.ts:234](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L234)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  schemeAddress**:  *`string`* 
 
-*Defined in [contracts/schemeregistrar.ts:238](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L238)*
+*Defined in [contracts/schemeregistrar.ts:238](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L238)*
 
 
 

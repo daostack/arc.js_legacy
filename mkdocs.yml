@@ -37,6 +37,7 @@ pages:
 - 'Using GanacheDb': 'GanacheDb.md'
 - 'API Reference': 
   - Index : "api/README.md"
+  # paste output of `npm start docs.api.createPagesList` here:
   - AbsoluteVoteWrapper : 'api/classes/AbsoluteVoteWrapper.md'
   - ArcTransactionAgreementResult : 'api/classes/ArcTransactionAgreementResult.md'
   - ArcTransactionDataResult : 'api/classes/ArcTransactionDataResult.md'

@@ -12,7 +12,7 @@
 
 **●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/absoluteVote.ts:104](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L104)*
+*Defined in [contracts/absoluteVote.ts:104](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/absoluteVote.ts#L104)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  _voter**:  *[Address](../#Address)* 
 
-*Defined in [contracts/absoluteVote.ts:105](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L105)*
+*Defined in [contracts/absoluteVote.ts:105](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/absoluteVote.ts#L105)*
 
 
 

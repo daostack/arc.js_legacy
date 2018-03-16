@@ -25,7 +25,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/daocreator.ts:381](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L381)*
+*Defined in [contracts/daocreator.ts:381](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L381)*
 
 
 
@@ -44,7 +44,7 @@ ___
 
 *Inherited from [SchemesConfig](SchemesConfig.md).[schemes](SchemesConfig.md#schemes)*
 
-*Defined in [contracts/daocreator.ts:374](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L374)*
+*Defined in [contracts/daocreator.ts:374](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L374)*
 
 
 
@@ -63,7 +63,7 @@ ___
 
 *Inherited from [SchemesConfig](SchemesConfig.md).[votingMachineParams](SchemesConfig.md#votingMachineParams)*
 
-*Defined in [contracts/daocreator.ts:368](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L368)*
+*Defined in [contracts/daocreator.ts:368](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L368)*
 
 
 

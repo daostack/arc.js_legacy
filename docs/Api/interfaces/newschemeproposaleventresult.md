@@ -12,7 +12,7 @@
 
 **●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/schemeregistrar.ts:169](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L169)*
+*Defined in [contracts/schemeregistrar.ts:169](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L169)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  _intVoteInterface**:  *[Address](../#Address)* 
 
-*Defined in [contracts/schemeregistrar.ts:173](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L173)*
+*Defined in [contracts/schemeregistrar.ts:173](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L173)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 **●  _isRegistering**:  *`boolean`* 
 
-*Defined in [contracts/schemeregistrar.ts:174](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L174)*
+*Defined in [contracts/schemeregistrar.ts:174](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L174)*
 
 
 
@@ -60,7 +60,7 @@ ___
 
 **●  _parametersHash**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/schemeregistrar.ts:175](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L175)*
+*Defined in [contracts/schemeregistrar.ts:175](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L175)*
 
 
 
@@ -74,7 +74,7 @@ ___
 
 **●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/schemeregistrar.ts:179](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L179)*
+*Defined in [contracts/schemeregistrar.ts:179](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L179)*
 
 
 
@@ -91,7 +91,7 @@ ___
 
 **●  _scheme**:  *[Address](../#Address)* 
 
-*Defined in [contracts/schemeregistrar.ts:180](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L180)*
+*Defined in [contracts/schemeregistrar.ts:180](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L180)*
 
 
 

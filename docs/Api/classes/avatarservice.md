@@ -41,7 +41,7 @@ let avatarService = new AvatarService(avatarAddress);
 ### ⊕ **new AvatarService**(avatarAddress: *`string`*): [AvatarService](AvatarService.md)
 
 
-*Defined in [avatarService.ts:20](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L20)*
+*Defined in [avatarService.ts:20](https://github.com/daostack/arc.js/blob/caacbb2/lib/avatarService.ts#L20)*
 
 
 
@@ -67,7 +67,7 @@ let avatarService = new AvatarService(avatarAddress);
 
 **●  isUController**:  *`boolean`* 
 
-*Defined in [avatarService.ts:12](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L12)*
+*Defined in [avatarService.ts:12](https://github.com/daostack/arc.js/blob/caacbb2/lib/avatarService.ts#L12)*
 
 
 
@@ -85,7 +85,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:30](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L30)*
+*Defined in [avatarService.ts:30](https://github.com/daostack/arc.js/blob/caacbb2/lib/avatarService.ts#L30)*
 
 
 
@@ -110,7 +110,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:54](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L54)*
+*Defined in [avatarService.ts:54](https://github.com/daostack/arc.js/blob/caacbb2/lib/avatarService.ts#L54)*
 
 
 
@@ -135,7 +135,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:41](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L41)*
+*Defined in [avatarService.ts:41](https://github.com/daostack/arc.js/blob/caacbb2/lib/avatarService.ts#L41)*
 
 
 
@@ -160,7 +160,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:87](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L87)*
+*Defined in [avatarService.ts:87](https://github.com/daostack/arc.js/blob/caacbb2/lib/avatarService.ts#L87)*
 
 
 
@@ -185,7 +185,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:76](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L76)*
+*Defined in [avatarService.ts:76](https://github.com/daostack/arc.js/blob/caacbb2/lib/avatarService.ts#L76)*
 
 
 
@@ -210,7 +210,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:110](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L110)*
+*Defined in [avatarService.ts:110](https://github.com/daostack/arc.js/blob/caacbb2/lib/avatarService.ts#L110)*
 
 
 
@@ -235,7 +235,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:99](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L99)*
+*Defined in [avatarService.ts:99](https://github.com/daostack/arc.js/blob/caacbb2/lib/avatarService.ts#L99)*
 
 
 

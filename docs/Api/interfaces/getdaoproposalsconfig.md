@@ -12,7 +12,7 @@
 
 **●  avatar**:  *[Address](../#Address)* 
 
-*Defined in [commonTypes.ts:32](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L32)*
+*Defined in [commonTypes.ts:32](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L32)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [commonTypes.ts:36](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L36)*
+*Defined in [commonTypes.ts:36](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L36)*
 
 
 

@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/contributionreward.ts:599](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L599)*
+*Defined in [contracts/contributionreward.ts:599](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/contributionreward.ts#L599)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  beneficiary**:  *`string`* 
 
-*Defined in [contracts/contributionreward.ts:603](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L603)*
+*Defined in [contracts/contributionreward.ts:603](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/contributionreward.ts#L603)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/contributionreward.ts:607](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L607)*
+*Defined in [contracts/contributionreward.ts:607](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/contributionreward.ts#L607)*
 
 
 

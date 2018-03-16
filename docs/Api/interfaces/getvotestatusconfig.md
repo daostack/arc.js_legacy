@@ -12,7 +12,7 @@
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1331](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1331)*
+*Defined in [contracts/genesisProtocol.ts:1331](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1331)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  vote**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1335](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1335)*
+*Defined in [contracts/genesisProtocol.ts:1335](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1335)*
 
 
 

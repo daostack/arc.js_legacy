@@ -15,7 +15,7 @@ return the amount of reputation to which the voter will be entitled as an outcom
 
 **●  beneficiary**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1295](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1295)*
+*Defined in [contracts/genesisProtocol.ts:1295](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1295)*
 
 
 
@@ -32,7 +32,7 @@ ___
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1291](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1291)*
+*Defined in [contracts/genesisProtocol.ts:1291](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1291)*
 
 
 

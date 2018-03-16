@@ -32,7 +32,7 @@
 
 ** All**:    = 31
 
-*Defined in [commonTypes.ts:49](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L49)*
+*Defined in [commonTypes.ts:49](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L49)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 ** CanAddRemoveGlobalConstraints**:    = 4
 
-*Defined in [commonTypes.ts:46](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L46)*
+*Defined in [commonTypes.ts:46](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L46)*
 
 
 
@@ -60,7 +60,7 @@ ___
 
 ** CanCallDelegateCall**:    = 16
 
-*Defined in [commonTypes.ts:48](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L48)*
+*Defined in [commonTypes.ts:48](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L48)*
 
 
 
@@ -74,7 +74,7 @@ ___
 
 ** CanRegisterSchemes**:    = 2
 
-*Defined in [commonTypes.ts:45](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L45)*
+*Defined in [commonTypes.ts:45](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L45)*
 
 
 
@@ -88,7 +88,7 @@ ___
 
 ** CanUpgradeController**:    = 8
 
-*Defined in [commonTypes.ts:47](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L47)*
+*Defined in [commonTypes.ts:47](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L47)*
 
 
 
@@ -102,7 +102,7 @@ ___
 
 ** IsRegistered**:    = 1
 
-*Defined in [commonTypes.ts:44](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L44)*
+*Defined in [commonTypes.ts:44](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L44)*
 
 
 
@@ -119,7 +119,7 @@ ___
 
 ** None**:    = 0
 
-*Defined in [commonTypes.ts:40](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L40)*
+*Defined in [commonTypes.ts:40](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L40)*
 
 
 
@@ -137,7 +137,7 @@ ___
 
 
 
-*Defined in [commonTypes.ts:82](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L82)*
+*Defined in [commonTypes.ts:82](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L82)*
 
 
 
@@ -167,7 +167,7 @@ ___
 
 
 
-*Defined in [commonTypes.ts:79](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L79)*
+*Defined in [commonTypes.ts:79](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L79)*
 
 
 

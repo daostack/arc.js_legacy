@@ -17,7 +17,7 @@ Javascript version of the Arc ExecutableInterface, for information purposes.
 
 
 
-*Defined in [contracts/genesisProtocol.ts:1132](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1132)*
+*Defined in [contracts/genesisProtocol.ts:1132](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1132)*
 
 
 

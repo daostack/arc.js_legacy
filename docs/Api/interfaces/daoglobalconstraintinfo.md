@@ -15,7 +15,7 @@ Returned from DAO.getGlobalConstraints
 
 **●  address**:  *`string`* 
 
-*Defined in [dao.ts:333](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L333)*
+*Defined in [dao.ts:333](https://github.com/daostack/arc.js/blob/caacbb2/lib/dao.ts#L333)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  name**:  *`string`* 
 
-*Defined in [dao.ts:332](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L332)*
+*Defined in [dao.ts:332](https://github.com/daostack/arc.js/blob/caacbb2/lib/dao.ts#L332)*
 
 
 
@@ -43,7 +43,7 @@ ___
 
 **●  paramsHash**:  *`string`* 
 
-*Defined in [dao.ts:334](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L334)*
+*Defined in [dao.ts:334](https://github.com/daostack/arc.js/blob/caacbb2/lib/dao.ts#L334)*
 
 
 

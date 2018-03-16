@@ -12,7 +12,7 @@
 
 **●  ownerVote**:  *`boolean`* 
 
-*Defined in [contracts/absoluteVote.ts:109](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L109)*
+*Defined in [contracts/absoluteVote.ts:109](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/absoluteVote.ts#L109)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  reputation**:  *`string`* 
 
-*Defined in [contracts/absoluteVote.ts:110](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L110)*
+*Defined in [contracts/absoluteVote.ts:110](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/absoluteVote.ts#L110)*
 
 
 
@@ -40,7 +40,7 @@ ___
 
 **●  votePerc**:  *`number`* 
 
-*Defined in [contracts/absoluteVote.ts:111](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L111)*
+*Defined in [contracts/absoluteVote.ts:111](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/absoluteVote.ts#L111)*
 
 
 

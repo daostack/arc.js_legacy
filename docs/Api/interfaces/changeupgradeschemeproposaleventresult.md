@@ -12,7 +12,7 @@
 
 **●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/upgradescheme.ts:159](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/upgradescheme.ts#L159)*
+*Defined in [contracts/upgradescheme.ts:159](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/upgradescheme.ts#L159)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  _intVoteInterface**:  *[Address](../#Address)* 
 
-*Defined in [contracts/upgradescheme.ts:163](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/upgradescheme.ts#L163)*
+*Defined in [contracts/upgradescheme.ts:163](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/upgradescheme.ts#L163)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 **●  _params**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/upgradescheme.ts:164](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/upgradescheme.ts#L164)*
+*Defined in [contracts/upgradescheme.ts:164](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/upgradescheme.ts#L164)*
 
 
 
@@ -60,7 +60,7 @@ ___
 
 **●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/upgradescheme.ts:168](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/upgradescheme.ts#L168)*
+*Defined in [contracts/upgradescheme.ts:168](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/upgradescheme.ts#L168)*
 
 
 
@@ -77,7 +77,7 @@ ___
 
 **●  newUpgradeScheme**:  *[Address](../#Address)* 
 
-*Defined in [contracts/upgradescheme.ts:169](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/upgradescheme.ts#L169)*
+*Defined in [contracts/upgradescheme.ts:169](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/upgradescheme.ts#L169)*
 
 
 

@@ -29,7 +29,7 @@
 
 *Inherited from [LogEntry](LogEntry.md).[address](LogEntry.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:376](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L376)*
+*Defined in [ExtendTruffleContract.ts:376](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L376)*
 
 
 
@@ -45,7 +45,7 @@ ___
 
 *Inherited from [DecodedLogEntry](DecodedLogEntry.md).[args](DecodedLogEntry.md#args)*
 
-*Defined in [ExtendTruffleContract.ts:387](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L387)*
+*Defined in [ExtendTruffleContract.ts:387](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L387)*
 
 
 
@@ -61,7 +61,7 @@ ___
 
 *Inherited from [LogEntry](LogEntry.md).[blockHash](LogEntry.md#blockHash)*
 
-*Defined in [ExtendTruffleContract.ts:374](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L374)*
+*Defined in [ExtendTruffleContract.ts:374](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L374)*
 
 
 
@@ -77,7 +77,7 @@ ___
 
 *Inherited from [LogEntry](LogEntry.md).[blockNumber](LogEntry.md#blockNumber)*
 
-*Defined in [ExtendTruffleContract.ts:375](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L375)*
+*Defined in [ExtendTruffleContract.ts:375](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L375)*
 
 
 
@@ -93,7 +93,7 @@ ___
 
 *Inherited from [LogEntry](LogEntry.md).[data](LogEntry.md#data)*
 
-*Defined in [ExtendTruffleContract.ts:377](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L377)*
+*Defined in [ExtendTruffleContract.ts:377](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L377)*
 
 
 
@@ -109,7 +109,7 @@ ___
 
 *Inherited from [DecodedLogEntry](DecodedLogEntry.md).[event](DecodedLogEntry.md#event)*
 
-*Defined in [ExtendTruffleContract.ts:386](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L386)*
+*Defined in [ExtendTruffleContract.ts:386](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L386)*
 
 
 
@@ -125,7 +125,7 @@ ___
 
 *Inherited from [LogEntry](LogEntry.md).[logIndex](LogEntry.md#logIndex)*
 
-*Defined in [ExtendTruffleContract.ts:371](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L371)*
+*Defined in [ExtendTruffleContract.ts:371](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L371)*
 
 
 
@@ -141,7 +141,7 @@ ___
 
 *Overrides [LogEntryEvent](LogEntryEvent.md).[removed](LogEntryEvent.md#removed)*
 
-*Defined in [ExtendTruffleContract.ts:391](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L391)*
+*Defined in [ExtendTruffleContract.ts:391](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L391)*
 
 
 
@@ -157,7 +157,7 @@ ___
 
 *Inherited from [LogEntry](LogEntry.md).[topics](LogEntry.md#topics)*
 
-*Defined in [ExtendTruffleContract.ts:378](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L378)*
+*Defined in [ExtendTruffleContract.ts:378](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L378)*
 
 
 
@@ -173,7 +173,7 @@ ___
 
 *Inherited from [LogEntry](LogEntry.md).[transactionHash](LogEntry.md#transactionHash)*
 
-*Defined in [ExtendTruffleContract.ts:373](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L373)*
+*Defined in [ExtendTruffleContract.ts:373](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L373)*
 
 
 
@@ -189,7 +189,7 @@ ___
 
 *Inherited from [LogEntry](LogEntry.md).[transactionIndex](LogEntry.md#transactionIndex)*
 
-*Defined in [ExtendTruffleContract.ts:372](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L372)*
+*Defined in [ExtendTruffleContract.ts:372](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L372)*
 
 
 

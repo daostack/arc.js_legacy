@@ -53,7 +53,7 @@
 ### ⊕ **new ArcTransactionResult**(tx: *[TransactionReceiptTruffle](../interfaces/TransactionReceiptTruffle.md)*): [ArcTransactionResult](ArcTransactionResult.md)
 
 
-*Defined in [ExtendTruffleContract.ts:258](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L258)*
+*Defined in [ExtendTruffleContract.ts:258](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L258)*
 
 
 
@@ -79,7 +79,7 @@
 
 **●  tx**:  *[TransactionReceiptTruffle](../interfaces/TransactionReceiptTruffle.md)* 
 
-*Defined in [ExtendTruffleContract.ts:258](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L258)*
+*Defined in [ExtendTruffleContract.ts:258](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L258)*
 
 
 
@@ -100,7 +100,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:271](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L271)*
+*Defined in [ExtendTruffleContract.ts:271](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L271)*
 
 
 

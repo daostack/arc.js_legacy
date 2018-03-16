@@ -15,7 +15,7 @@ return the amount of reputation to which the proposer will be entitled as an out
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1267](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1267)*
+*Defined in [contracts/genesisProtocol.ts:1267](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1267)*
 
 
 

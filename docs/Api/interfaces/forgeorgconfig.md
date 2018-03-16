@@ -28,7 +28,7 @@ options for DaoCreator.forgeOrg
 
 **●  founders**:  *`Array`.<[FounderConfig](FounderConfig.md)>* 
 
-*Defined in [contracts/daocreator.ts:314](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L314)*
+*Defined in [contracts/daocreator.ts:314](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L314)*
 
 
 
@@ -45,7 +45,7 @@ ___
 
 **●  name**:  *`string`* 
 
-*Defined in [contracts/daocreator.ts:301](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L301)*
+*Defined in [contracts/daocreator.ts:301](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L301)*
 
 
 
@@ -62,7 +62,7 @@ ___
 
 **●  tokenName**:  *`string`* 
 
-*Defined in [contracts/daocreator.ts:305](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L305)*
+*Defined in [contracts/daocreator.ts:305](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L305)*
 
 
 
@@ -79,7 +79,7 @@ ___
 
 **●  tokenSymbol**:  *`string`* 
 
-*Defined in [contracts/daocreator.ts:309](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L309)*
+*Defined in [contracts/daocreator.ts:309](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L309)*
 
 
 
@@ -96,7 +96,7 @@ ___
 
 **●  universalController**:  *`boolean`* 
 
-*Defined in [contracts/daocreator.ts:319](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L319)*
+*Defined in [contracts/daocreator.ts:319](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L319)*
 
 
 

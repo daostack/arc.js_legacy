@@ -12,7 +12,7 @@
 
 **●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/absoluteVote.ts:97](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L97)*
+*Defined in [contracts/absoluteVote.ts:97](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/absoluteVote.ts#L97)*
 
 
 

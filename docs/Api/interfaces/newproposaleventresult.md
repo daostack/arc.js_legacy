@@ -12,7 +12,7 @@
 
 **●  _numOfChoices**:  *`number`* 
 
-*Defined in [contracts/commonEventInterfaces.ts:5](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L5)*
+*Defined in [contracts/commonEventInterfaces.ts:5](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/commonEventInterfaces.ts#L5)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  _paramsHash**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:6](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L6)*
+*Defined in [contracts/commonEventInterfaces.ts:6](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/commonEventInterfaces.ts#L6)*
 
 
 
@@ -40,7 +40,7 @@ ___
 
 **●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:10](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L10)*
+*Defined in [contracts/commonEventInterfaces.ts:10](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/commonEventInterfaces.ts#L10)*
 
 
 
@@ -57,7 +57,7 @@ ___
 
 **●  _proposer**:  *[Address](../#Address)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:11](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L11)*
+*Defined in [contracts/commonEventInterfaces.ts:11](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/commonEventInterfaces.ts#L11)*
 
 
 

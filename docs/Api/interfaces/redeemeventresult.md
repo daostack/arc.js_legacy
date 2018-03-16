@@ -12,7 +12,7 @@
 
 **●  _amount**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/genesisProtocol.ts:972](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L972)*
+*Defined in [contracts/genesisProtocol.ts:972](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L972)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  _beneficiary**:  *[Address](../#Address)* 
 
-*Defined in [contracts/genesisProtocol.ts:976](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L976)*
+*Defined in [contracts/genesisProtocol.ts:976](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L976)*
 
 
 
@@ -43,7 +43,7 @@ ___
 
 **●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/genesisProtocol.ts:980](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L980)*
+*Defined in [contracts/genesisProtocol.ts:980](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L980)*
 
 
 

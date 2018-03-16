@@ -73,7 +73,7 @@
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[constructor](ExtendTruffleContract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -102,7 +102,7 @@ ContractWrapperFactory constructs this
 
 **●  AgreementCancel**:  *[EventFetcherFactory](../#EventFetcherFactory)[AgreementCancelEventResult](../interfaces/AgreementCancelEventResult.md)*  =  this.createEventFetcherFactory<AgreementCancelEventResult>("AgreementCancel")
 
-*Defined in [contracts/vestingscheme.ts:32](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L32)*
+*Defined in [contracts/vestingscheme.ts:32](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L32)*
 
 
 
@@ -116,7 +116,7 @@ ___
 
 **●  AgreementProposal**:  *[EventFetcherFactory](../#EventFetcherFactory)[AgreementProposalEventResult](../interfaces/AgreementProposalEventResult.md)*  =  this.createEventFetcherFactory<AgreementProposalEventResult>("AgreementProposal")
 
-*Defined in [contracts/vestingscheme.ts:28](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L28)*
+*Defined in [contracts/vestingscheme.ts:28](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L28)*
 
 
 
@@ -130,7 +130,7 @@ ___
 
 **●  Collect**:  *[EventFetcherFactory](../#EventFetcherFactory)[CollectEventResult](../interfaces/CollectEventResult.md)*  =  this.createEventFetcherFactory<CollectEventResult>("Collect")
 
-*Defined in [contracts/vestingscheme.ts:33](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L33)*
+*Defined in [contracts/vestingscheme.ts:33](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L33)*
 
 
 
@@ -144,7 +144,7 @@ ___
 
 **●  NewVestedAgreement**:  *[EventFetcherFactory](../#EventFetcherFactory)[NewVestedAgreementEventResult](../interfaces/NewVestedAgreementEventResult.md)*  =  this.createEventFetcherFactory<NewVestedAgreementEventResult>("NewVestedAgreement")
 
-*Defined in [contracts/vestingscheme.ts:29](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L29)*
+*Defined in [contracts/vestingscheme.ts:29](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L29)*
 
 
 
@@ -158,7 +158,7 @@ ___
 
 **●  ProposalExecuted**:  *[EventFetcherFactory](../#EventFetcherFactory)[ProposalExecutedEventResult](../interfaces/ProposalExecutedEventResult.md)*  =  this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted")
 
-*Defined in [contracts/vestingscheme.ts:27](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L27)*
+*Defined in [contracts/vestingscheme.ts:27](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L27)*
 
 
 
@@ -175,7 +175,7 @@ ___
 
 **●  RevokeSignToCancelAgreement**:  *[EventFetcherFactory](../#EventFetcherFactory)[RevokeSignToCancelAgreementEventResult](../interfaces/RevokeSignToCancelAgreementEventResult.md)*  =  this.createEventFetcherFactory<RevokeSignToCancelAgreementEventResult>("RevokeSignToCancelAgreement")
 
-*Defined in [contracts/vestingscheme.ts:31](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L31)*
+*Defined in [contracts/vestingscheme.ts:31](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L31)*
 
 
 
@@ -189,7 +189,7 @@ ___
 
 **●  SignToCancelAgreement**:  *[EventFetcherFactory](../#EventFetcherFactory)[SignToCancelAgreementEventResult](../interfaces/SignToCancelAgreementEventResult.md)*  =  this.createEventFetcherFactory<SignToCancelAgreementEventResult>("SignToCancelAgreement")
 
-*Defined in [contracts/vestingscheme.ts:30](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L30)*
+*Defined in [contracts/vestingscheme.ts:30](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L30)*
 
 
 
@@ -205,7 +205,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[contract](ExtendTruffleContract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -227,7 +227,7 @@ getaddress(): [Address](../#Address)
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[address](ExtendTruffleContract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:148](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L148)*
+*Defined in [ExtendTruffleContract.ts:148](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L148)*
 
 
 
@@ -249,7 +249,7 @@ ___
 
 
 
-*Defined in [contracts/vestingscheme.ts:185](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L185)*
+*Defined in [contracts/vestingscheme.ts:185](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L185)*
 
 
 
@@ -282,7 +282,7 @@ ___
 
 
 
-*Defined in [contracts/vestingscheme.ts:91](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L91)*
+*Defined in [contracts/vestingscheme.ts:91](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L91)*
 
 
 
@@ -315,7 +315,7 @@ ___
 
 
 
-*Defined in [contracts/vestingscheme.ts:210](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L210)*
+*Defined in [contracts/vestingscheme.ts:210](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L210)*
 
 
 
@@ -350,7 +350,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getController](ExtendTruffleContract.md#getController)*
 
-*Defined in [ExtendTruffleContract.ts:143](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L143)*
+*Defined in [ExtendTruffleContract.ts:143](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L143)*
 
 
 
@@ -385,7 +385,7 @@ ___
 
 *Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getDefaultPermissions](ExtendTruffleContract.md#getDefaultPermissions)*
 
-*Defined in [contracts/vestingscheme.ts:255](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L255)*
+*Defined in [contracts/vestingscheme.ts:255](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L255)*
 
 
 
@@ -417,7 +417,7 @@ ___
 
 *Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getParameters](ExtendTruffleContract.md#getParameters)*
 
-*Defined in [contracts/vestingscheme.ts:264](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L264)*
+*Defined in [contracts/vestingscheme.ts:264](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L264)*
 
 
 
@@ -449,7 +449,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getParametersArray](ExtendTruffleContract.md#getParametersArray)*
 
-*Defined in [ExtendTruffleContract.ts:135](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L135)*
+*Defined in [ExtendTruffleContract.ts:135](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L135)*
 
 
 
@@ -484,7 +484,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getPermissions](ExtendTruffleContract.md#getPermissions)*
 
-*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L106)*
+*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L106)*
 
 
 
@@ -517,7 +517,7 @@ ___
 
 
 
-*Defined in [contracts/vestingscheme.ts:260](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L260)*
+*Defined in [contracts/vestingscheme.ts:260](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L260)*
 
 
 
@@ -549,7 +549,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getSchemeParametersHash](ExtendTruffleContract.md#getSchemeParametersHash)*
 
-*Defined in [ExtendTruffleContract.ts:125](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L125)*
+*Defined in [ExtendTruffleContract.ts:125](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L125)*
 
 
 
@@ -584,7 +584,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromAt](ExtendTruffleContract.md#hydrateFromAt)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -621,7 +621,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromDeployed](ExtendTruffleContract.md#hydrateFromDeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -650,7 +650,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromNew](ExtendTruffleContract.md#hydrateFromNew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -685,7 +685,7 @@ ___
 
 
 
-*Defined in [contracts/vestingscheme.ts:55](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L55)*
+*Defined in [contracts/vestingscheme.ts:55](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L55)*
 
 
 
@@ -718,7 +718,7 @@ ___
 
 
 
-*Defined in [contracts/vestingscheme.ts:160](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L160)*
+*Defined in [contracts/vestingscheme.ts:160](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L160)*
 
 
 
@@ -753,7 +753,7 @@ ___
 
 *Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[setParameters](ExtendTruffleContract.md#setParameters)*
 
-*Defined in [contracts/vestingscheme.ts:248](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L248)*
+*Defined in [contracts/vestingscheme.ts:248](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L248)*
 
 
 
@@ -783,7 +783,7 @@ ___
 
 
 
-*Defined in [contracts/vestingscheme.ts:135](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L135)*
+*Defined in [contracts/vestingscheme.ts:135](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L135)*
 
 
 

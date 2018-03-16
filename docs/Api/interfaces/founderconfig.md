@@ -12,7 +12,7 @@
 
 **●  address**:  *`string`* 
 
-*Defined in [contracts/daocreator.ts:259](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L259)*
+*Defined in [contracts/daocreator.ts:259](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L259)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  reputation**:  *`string`⎮`BigNumber.BigNumber`* 
 
-*Defined in [contracts/daocreator.ts:269](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L269)*
+*Defined in [contracts/daocreator.ts:269](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L269)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 **●  tokens**:  *`string`⎮`BigNumber.BigNumber`* 
 
-*Defined in [contracts/daocreator.ts:264](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L264)*
+*Defined in [contracts/daocreator.ts:264](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L264)*
 
 
 

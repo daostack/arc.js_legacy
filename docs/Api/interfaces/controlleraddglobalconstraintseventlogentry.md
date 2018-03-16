@@ -12,7 +12,7 @@
 
 **●  _globalConstraint**:  *[Address](../#Address)* 
 
-*Defined in [dao.ts:338](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L338)*
+*Defined in [dao.ts:338](https://github.com/daostack/arc.js/blob/caacbb2/lib/dao.ts#L338)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  _params**:  *[Hash](../#Hash)* 
 
-*Defined in [dao.ts:339](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L339)*
+*Defined in [dao.ts:339](https://github.com/daostack/arc.js/blob/caacbb2/lib/dao.ts#L339)*
 
 
 

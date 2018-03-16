@@ -15,7 +15,7 @@ return the amount of reputation to which the staker will be entitled as an outco
 
 **●  beneficiary**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1309](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1309)*
+*Defined in [contracts/genesisProtocol.ts:1309](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1309)*
 
 
 
@@ -32,7 +32,7 @@ ___
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1305](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1305)*
+*Defined in [contracts/genesisProtocol.ts:1305](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1305)*
 
 
 

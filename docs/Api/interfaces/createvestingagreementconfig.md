@@ -27,7 +27,7 @@
 
 *Inherited from [CommonVestingAgreementConfig](CommonVestingAgreementConfig.md).[amountPerPeriod](CommonVestingAgreementConfig.md#amountPerPeriod)*
 
-*Defined in [contracts/vestingscheme.ts:402](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L402)*
+*Defined in [contracts/vestingscheme.ts:402](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L402)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 *Inherited from [CommonVestingAgreementConfig](CommonVestingAgreementConfig.md).[beneficiary](CommonVestingAgreementConfig.md#beneficiary)*
 
-*Defined in [contracts/vestingscheme.ts:385](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L385)*
+*Defined in [contracts/vestingscheme.ts:385](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L385)*
 
 
 
@@ -65,7 +65,7 @@ ___
 
 *Inherited from [CommonVestingAgreementConfig](CommonVestingAgreementConfig.md).[cliffInPeriods](CommonVestingAgreementConfig.md#cliffInPeriods)*
 
-*Defined in [contracts/vestingscheme.ts:418](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L418)*
+*Defined in [contracts/vestingscheme.ts:418](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L418)*
 
 
 
@@ -84,7 +84,7 @@ ___
 
 *Inherited from [CommonVestingAgreementConfig](CommonVestingAgreementConfig.md).[numOfAgreedPeriods](CommonVestingAgreementConfig.md#numOfAgreedPeriods)*
 
-*Defined in [contracts/vestingscheme.ts:412](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L412)*
+*Defined in [contracts/vestingscheme.ts:412](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L412)*
 
 
 
@@ -103,7 +103,7 @@ ___
 
 *Inherited from [CommonVestingAgreementConfig](CommonVestingAgreementConfig.md).[periodLength](CommonVestingAgreementConfig.md#periodLength)*
 
-*Defined in [contracts/vestingscheme.ts:407](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L407)*
+*Defined in [contracts/vestingscheme.ts:407](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L407)*
 
 
 
@@ -122,7 +122,7 @@ ___
 
 *Inherited from [CommonVestingAgreementConfig](CommonVestingAgreementConfig.md).[returnOnCancelAddress](CommonVestingAgreementConfig.md#returnOnCancelAddress)*
 
-*Defined in [contracts/vestingscheme.ts:389](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L389)*
+*Defined in [contracts/vestingscheme.ts:389](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L389)*
 
 
 
@@ -141,7 +141,7 @@ ___
 
 *Inherited from [CommonVestingAgreementConfig](CommonVestingAgreementConfig.md).[signaturesReqToCancel](CommonVestingAgreementConfig.md#signaturesReqToCancel)*
 
-*Defined in [contracts/vestingscheme.ts:423](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L423)*
+*Defined in [contracts/vestingscheme.ts:423](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L423)*
 
 
 
@@ -160,7 +160,7 @@ ___
 
 *Inherited from [CommonVestingAgreementConfig](CommonVestingAgreementConfig.md).[signers](CommonVestingAgreementConfig.md#signers)*
 
-*Defined in [contracts/vestingscheme.ts:428](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L428)*
+*Defined in [contracts/vestingscheme.ts:428](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L428)*
 
 
 
@@ -179,7 +179,7 @@ ___
 
 *Inherited from [CommonVestingAgreementConfig](CommonVestingAgreementConfig.md).[startingBlock](CommonVestingAgreementConfig.md#startingBlock)*
 
-*Defined in [contracts/vestingscheme.ts:395](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L395)*
+*Defined in [contracts/vestingscheme.ts:395](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L395)*
 
 
 
@@ -196,7 +196,7 @@ ___
 
 **●  token**:  *`string`* 
 
-*Defined in [contracts/vestingscheme.ts:436](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L436)*
+*Defined in [contracts/vestingscheme.ts:436](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L436)*
 
 
 

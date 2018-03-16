@@ -22,7 +22,7 @@
 
 ** No**:    = 2
 
-*Defined in [commonTypes.ts:25](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L25)*
+*Defined in [commonTypes.ts:25](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L25)*
 
 
 
@@ -36,7 +36,7 @@ ___
 
 ** None**:    = 0
 
-*Defined in [commonTypes.ts:23](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L23)*
+*Defined in [commonTypes.ts:23](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L23)*
 
 
 
@@ -50,7 +50,7 @@ ___
 
 ** Yes**:    = 1
 
-*Defined in [commonTypes.ts:24](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L24)*
+*Defined in [commonTypes.ts:24](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L24)*
 
 
 

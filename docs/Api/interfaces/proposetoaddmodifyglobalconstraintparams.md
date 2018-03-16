@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:177](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L177)*
+*Defined in [contracts/globalconstraintregistrar.ts:177](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/globalconstraintregistrar.ts#L177)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  globalConstraint**:  *`string`* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:181](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L181)*
+*Defined in [contracts/globalconstraintregistrar.ts:181](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/globalconstraintregistrar.ts#L181)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 **●  globalConstraintParametersHash**:  *`string`* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:185](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L185)*
+*Defined in [contracts/globalconstraintregistrar.ts:185](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/globalconstraintregistrar.ts#L185)*
 
 
 
@@ -63,7 +63,7 @@ ___
 
 **●  votingMachineHash**:  *`string`* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:189](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L189)*
+*Defined in [contracts/globalconstraintregistrar.ts:189](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/globalconstraintregistrar.ts#L189)*
 
 
 

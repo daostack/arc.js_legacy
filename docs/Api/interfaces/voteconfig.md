@@ -12,7 +12,7 @@
 
 **●  onBehalfOf**:  *`string`* 
 
-*Defined in [commonTypes.ts:11](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L11)*
+*Defined in [commonTypes.ts:11](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L11)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [commonTypes.ts:15](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L15)*
+*Defined in [commonTypes.ts:15](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L15)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 **●  vote**:  *`number`* 
 
-*Defined in [commonTypes.ts:19](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L19)*
+*Defined in [commonTypes.ts:19](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L19)*
 
 
 

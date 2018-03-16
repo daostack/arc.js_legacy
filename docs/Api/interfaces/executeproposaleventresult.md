@@ -28,7 +28,7 @@ fired by voting machines
 
 **●  _decision**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/commonEventInterfaces.ts:18](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L18)*
+*Defined in [contracts/commonEventInterfaces.ts:18](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/commonEventInterfaces.ts#L18)*
 
 
 
@@ -42,7 +42,7 @@ ___
 
 **●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:22](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L22)*
+*Defined in [contracts/commonEventInterfaces.ts:22](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/commonEventInterfaces.ts#L22)*
 
 
 
@@ -59,7 +59,7 @@ ___
 
 **●  _totalReputation**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/commonEventInterfaces.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L26)*
+*Defined in [contracts/commonEventInterfaces.ts:26](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/commonEventInterfaces.ts#L26)*
 
 
 

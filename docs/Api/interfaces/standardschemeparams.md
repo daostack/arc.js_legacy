@@ -30,7 +30,7 @@
 
 **●  voteParametersHash**:  *[Hash](../#Hash)* 
 
-*Defined in [ExtendTruffleContract.ts:395](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L395)*
+*Defined in [ExtendTruffleContract.ts:395](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L395)*
 
 
 
@@ -44,7 +44,7 @@ ___
 
 **●  votingMachineAddress**:  *[Address](../#Address)* 
 
-*Defined in [ExtendTruffleContract.ts:396](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L396)*
+*Defined in [ExtendTruffleContract.ts:396](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L396)*
 
 
 

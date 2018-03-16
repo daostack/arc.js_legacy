@@ -15,7 +15,7 @@ Returned from DAO.getSchemes
 
 **●  address**:  *`string`* 
 
-*Defined in [dao.ts:319](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L319)*
+*Defined in [dao.ts:319](https://github.com/daostack/arc.js/blob/caacbb2/lib/dao.ts#L319)*
 
 
 
@@ -32,7 +32,7 @@ ___
 
 **●  name**:  *`string`* 
 
-*Defined in [dao.ts:315](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L315)*
+*Defined in [dao.ts:315](https://github.com/daostack/arc.js/blob/caacbb2/lib/dao.ts#L315)*
 
 
 
@@ -49,7 +49,7 @@ ___
 
 **●  permissions**:  *[SchemePermissions](../enums/SchemePermissions.md)* 
 
-*Defined in [dao.ts:325](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L325)*
+*Defined in [dao.ts:325](https://github.com/daostack/arc.js/blob/caacbb2/lib/dao.ts#L325)*
 
 
 

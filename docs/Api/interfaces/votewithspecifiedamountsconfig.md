@@ -12,7 +12,7 @@
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1203](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1203)*
+*Defined in [contracts/genesisProtocol.ts:1203](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1203)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  reputation**:  *`BigNumber.BigNumber`⎮`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1211](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1211)*
+*Defined in [contracts/genesisProtocol.ts:1211](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1211)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 **●  vote**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1207](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1207)*
+*Defined in [contracts/genesisProtocol.ts:1207](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1207)*
 
 
 

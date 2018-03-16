@@ -33,7 +33,7 @@
 
 getNULL_ADDRESS(): [Address](../#Address)
 
-*Defined in [utils.ts:12](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L12)*
+*Defined in [utils.ts:12](https://github.com/daostack/arc.js/blob/caacbb2/lib/utils.ts#L12)*
 
 
 
@@ -52,7 +52,7 @@ ___
 
 getNULL_HASH(): [Hash](../#Hash)
 
-*Defined in [utils.ts:13](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L13)*
+*Defined in [utils.ts:13](https://github.com/daostack/arc.js/blob/caacbb2/lib/utils.ts#L13)*
 
 
 
@@ -74,7 +74,7 @@ ___
 
 
 
-*Defined in [utils.ts:176](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L176)*
+*Defined in [utils.ts:176](https://github.com/daostack/arc.js/blob/caacbb2/lib/utils.ts#L176)*
 
 
 
@@ -107,7 +107,7 @@ ___
 
 
 
-*Defined in [utils.ts:157](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L157)*
+*Defined in [utils.ts:157](https://github.com/daostack/arc.js/blob/caacbb2/lib/utils.ts#L157)*
 
 
 
@@ -136,7 +136,7 @@ ___
 
 
 
-*Defined in [utils.ts:93](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L93)*
+*Defined in [utils.ts:93](https://github.com/daostack/arc.js/blob/caacbb2/lib/utils.ts#L93)*
 
 
 
@@ -172,7 +172,7 @@ ___
 
 
 
-*Defined in [utils.ts:46](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L46)*
+*Defined in [utils.ts:46](https://github.com/daostack/arc.js/blob/caacbb2/lib/utils.ts#L46)*
 
 
 
@@ -197,7 +197,7 @@ ___
 
 
 
-*Defined in [utils.ts:193](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L193)*
+*Defined in [utils.ts:193](https://github.com/daostack/arc.js/blob/caacbb2/lib/utils.ts#L193)*
 
 
 
@@ -230,7 +230,7 @@ ___
 
 
 
-*Defined in [utils.ts:184](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L184)*
+*Defined in [utils.ts:184](https://github.com/daostack/arc.js/blob/caacbb2/lib/utils.ts#L184)*
 
 
 
@@ -263,7 +263,7 @@ ___
 
 
 
-*Defined in [utils.ts:22](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L22)*
+*Defined in [utils.ts:22](https://github.com/daostack/arc.js/blob/caacbb2/lib/utils.ts#L22)*
 
 
 

@@ -30,7 +30,7 @@
 
 **●  logger**:  *[ILogger](../interfaces/ILogger.md)*  =  new ConsoleLogger()
 
-*Defined in [loggingService.ts:65](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L65)*
+*Defined in [loggingService.ts:65](https://github.com/daostack/arc.js/blob/caacbb2/lib/loggingService.ts#L65)*
 
 
 
@@ -48,7 +48,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:68](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L68)*
+*Defined in [loggingService.ts:68](https://github.com/daostack/arc.js/blob/caacbb2/lib/loggingService.ts#L68)*
 
 
 
@@ -78,7 +78,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:74](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L74)*
+*Defined in [loggingService.ts:74](https://github.com/daostack/arc.js/blob/caacbb2/lib/loggingService.ts#L74)*
 
 
 
@@ -108,7 +108,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:70](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L70)*
+*Defined in [loggingService.ts:70](https://github.com/daostack/arc.js/blob/caacbb2/lib/loggingService.ts#L70)*
 
 
 
@@ -138,7 +138,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:77](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L77)*
+*Defined in [loggingService.ts:77](https://github.com/daostack/arc.js/blob/caacbb2/lib/loggingService.ts#L77)*
 
 
 
@@ -168,7 +168,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:81](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L81)*
+*Defined in [loggingService.ts:81](https://github.com/daostack/arc.js/blob/caacbb2/lib/loggingService.ts#L81)*
 
 
 
@@ -198,7 +198,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:72](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L72)*
+*Defined in [loggingService.ts:72](https://github.com/daostack/arc.js/blob/caacbb2/lib/loggingService.ts#L72)*
 
 
 

@@ -15,7 +15,7 @@ Configuration of an Arc scheme that you want to automatically register with a ne
 
 **●  additionalParams**:  *`any`* 
 
-*Defined in [contracts/daocreator.ts:356](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L356)*
+*Defined in [contracts/daocreator.ts:356](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L356)*
 
 
 
@@ -34,7 +34,7 @@ ___
 
 **●  address**:  *`string`* 
 
-*Defined in [contracts/daocreator.ts:333](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L333)*
+*Defined in [contracts/daocreator.ts:333](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L333)*
 
 
 
@@ -51,7 +51,7 @@ ___
 
 **●  name**:  *`string`* 
 
-*Defined in [contracts/daocreator.ts:329](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L329)*
+*Defined in [contracts/daocreator.ts:329](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L329)*
 
 
 
@@ -68,7 +68,7 @@ ___
 
 **●  permissions**:  *[SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)* 
 
-*Defined in [contracts/daocreator.ts:340](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L340)*
+*Defined in [contracts/daocreator.ts:340](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L340)*
 
 
 
@@ -85,7 +85,7 @@ ___
 
 **●  votingMachineParams**:  *[NewDaoVotingMachineConfig](NewDaoVotingMachineConfig.md)* 
 
-*Defined in [contracts/daocreator.ts:349](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L349)*
+*Defined in [contracts/daocreator.ts:349](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L349)*
 
 
 

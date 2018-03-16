@@ -29,7 +29,7 @@
 ### ⊕ **new ContractWrapperFactory**(solidityContractName: *`string`*, wrapper: *`object`*): [ContractWrapperFactory](ContractWrapperFactory.md)
 
 
-*Defined in [ContractWrapperFactory.ts:6](https://github.com/daostack/arc.js/blob/61e5f90/lib/ContractWrapperFactory.ts#L6)*
+*Defined in [ContractWrapperFactory.ts:6](https://github.com/daostack/arc.js/blob/caacbb2/lib/ContractWrapperFactory.ts#L6)*
 
 
 
@@ -61,7 +61,7 @@ Instantiate a contract wrapper factory for the given wrapper class.
 
 
 
-*Defined in [ContractWrapperFactory.ts:21](https://github.com/daostack/arc.js/blob/61e5f90/lib/ContractWrapperFactory.ts#L21)*
+*Defined in [ContractWrapperFactory.ts:21](https://github.com/daostack/arc.js/blob/caacbb2/lib/ContractWrapperFactory.ts#L21)*
 
 
 
@@ -91,7 +91,7 @@ ___
 
 
 
-*Defined in [ContractWrapperFactory.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ContractWrapperFactory.ts#L26)*
+*Defined in [ContractWrapperFactory.ts:26](https://github.com/daostack/arc.js/blob/caacbb2/lib/ContractWrapperFactory.ts#L26)*
 
 
 
@@ -113,7 +113,7 @@ ___
 
 
 
-*Defined in [ContractWrapperFactory.ts:16](https://github.com/daostack/arc.js/blob/61e5f90/lib/ContractWrapperFactory.ts#L16)*
+*Defined in [ContractWrapperFactory.ts:16](https://github.com/daostack/arc.js/blob/caacbb2/lib/ContractWrapperFactory.ts#L16)*
 
 
 
