@@ -15,7 +15,7 @@ The bundle of logs, TransactionReceipt and other information as returned by Truf
 
 **●  logs**:  *`Array`.<`any`>* 
 
-*Defined in [ExtendTruffleContract.ts:244](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L244)*
+*Defined in [ExtendTruffleContract.ts:244](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L244)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  receipt**:  *[TransactionReceipt](TransactionReceipt.md)* 
 
-*Defined in [ExtendTruffleContract.ts:245](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L245)*
+*Defined in [ExtendTruffleContract.ts:245](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L245)*
 
 
 
@@ -43,7 +43,7 @@ ___
 
 **●  transactionHash**:  *[Hash](../#Hash)* 
 
-*Defined in [ExtendTruffleContract.ts:246](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L246)*
+*Defined in [ExtendTruffleContract.ts:246](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L246)*
 
 
 
@@ -57,7 +57,7 @@ ___
 
 **●  tx**:  *[Address](../#Address)* 
 
-*Defined in [ExtendTruffleContract.ts:250](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L250)*
+*Defined in [ExtendTruffleContract.ts:250](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L250)*
 
 
 

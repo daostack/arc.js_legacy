@@ -63,7 +63,7 @@
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[constructor](ExtendTruffleContract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -92,7 +92,7 @@ ContractWrapperFactory constructs this
 
 **●  InitialSchemesSet**:  *[EventFetcherFactory](../#EventFetcherFactory)[InitialSchemesSetEventResult](../interfaces/InitialSchemesSetEventResult.md)*  =  this.createEventFetcherFactory<InitialSchemesSetEventResult>("InitialSchemesSet")
 
-*Defined in [contracts/daocreator.ts:25](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L25)*
+*Defined in [contracts/daocreator.ts:25](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/daocreator.ts#L25)*
 
 
 
@@ -106,7 +106,7 @@ ___
 
 **●  NewOrg**:  *[EventFetcherFactory](../#EventFetcherFactory)[NewOrgEventResult](../interfaces/NewOrgEventResult.md)*  =  this.createEventFetcherFactory<NewOrgEventResult>("NewOrg")
 
-*Defined in [contracts/daocreator.ts:24](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L24)*
+*Defined in [contracts/daocreator.ts:24](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/daocreator.ts#L24)*
 
 
 
@@ -125,7 +125,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[contract](ExtendTruffleContract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -147,7 +147,7 @@ getaddress(): [Address](../#Address)
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[address](ExtendTruffleContract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:148](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L148)*
+*Defined in [ExtendTruffleContract.ts:148](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L148)*
 
 
 
@@ -169,7 +169,7 @@ ___
 
 
 
-*Defined in [contracts/daocreator.ts:32](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L32)*
+*Defined in [contracts/daocreator.ts:32](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/daocreator.ts#L32)*
 
 
 
@@ -204,7 +204,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getController](ExtendTruffleContract.md#getController)*
 
-*Defined in [ExtendTruffleContract.ts:143](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L143)*
+*Defined in [ExtendTruffleContract.ts:143](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L143)*
 
 
 
@@ -239,7 +239,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getDefaultPermissions](ExtendTruffleContract.md#getDefaultPermissions)*
 
-*Defined in [ExtendTruffleContract.ts:98](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L98)*
+*Defined in [ExtendTruffleContract.ts:98](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L98)*
 
 
 
@@ -274,7 +274,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getParameters](ExtendTruffleContract.md#getParameters)*
 
-*Defined in [ExtendTruffleContract.ts:117](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L117)*
+*Defined in [ExtendTruffleContract.ts:117](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L117)*
 
 
 
@@ -309,7 +309,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getParametersArray](ExtendTruffleContract.md#getParametersArray)*
 
-*Defined in [ExtendTruffleContract.ts:135](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L135)*
+*Defined in [ExtendTruffleContract.ts:135](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L135)*
 
 
 
@@ -344,7 +344,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getPermissions](ExtendTruffleContract.md#getPermissions)*
 
-*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L106)*
+*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L106)*
 
 
 
@@ -379,7 +379,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getSchemeParametersHash](ExtendTruffleContract.md#getSchemeParametersHash)*
 
-*Defined in [ExtendTruffleContract.ts:125](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L125)*
+*Defined in [ExtendTruffleContract.ts:125](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L125)*
 
 
 
@@ -414,7 +414,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromAt](ExtendTruffleContract.md#hydrateFromAt)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -451,7 +451,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromDeployed](ExtendTruffleContract.md#hydrateFromDeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -480,7 +480,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromNew](ExtendTruffleContract.md#hydrateFromNew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -517,7 +517,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[setParameters](ExtendTruffleContract.md#setParameters)*
 
-*Defined in [ExtendTruffleContract.ts:89](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L89)*
+*Defined in [ExtendTruffleContract.ts:89](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L89)*
 
 
 
@@ -550,7 +550,7 @@ ___
 
 
 
-*Defined in [contracts/daocreator.ts:99](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L99)*
+*Defined in [contracts/daocreator.ts:99](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/daocreator.ts#L99)*
 
 
 

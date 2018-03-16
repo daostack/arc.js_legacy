@@ -113,7 +113,7 @@ const AbsoluteVote = new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrap
 ### ⊕ **new ExtendTruffleContract**(solidityContract: *`any`*): [ExtendTruffleContract](ExtendTruffleContract.md)
 
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -142,7 +142,7 @@ ContractWrapperFactory constructs this
 
 **●  contract**:  *`any`* 
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -162,7 +162,7 @@ ___
 
 getaddress(): [Address](../#Address)
 
-*Defined in [ExtendTruffleContract.ts:148](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L148)*
+*Defined in [ExtendTruffleContract.ts:148](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L148)*
 
 
 
@@ -184,7 +184,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:143](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L143)*
+*Defined in [ExtendTruffleContract.ts:143](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L143)*
 
 
 
@@ -217,7 +217,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:98](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L98)*
+*Defined in [ExtendTruffleContract.ts:98](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L98)*
 
 
 
@@ -250,7 +250,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:117](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L117)*
+*Defined in [ExtendTruffleContract.ts:117](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L117)*
 
 
 
@@ -283,7 +283,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:135](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L135)*
+*Defined in [ExtendTruffleContract.ts:135](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L135)*
 
 
 
@@ -316,7 +316,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L106)*
+*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L106)*
 
 
 
@@ -349,7 +349,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:125](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L125)*
+*Defined in [ExtendTruffleContract.ts:125](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L125)*
 
 
 
@@ -382,7 +382,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -417,7 +417,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -444,7 +444,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -479,7 +479,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:89](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L89)*
+*Defined in [ExtendTruffleContract.ts:89](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L89)*
 
 
 

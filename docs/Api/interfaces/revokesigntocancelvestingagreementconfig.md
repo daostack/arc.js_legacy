@@ -12,7 +12,7 @@
 
 **●  agreementId**:  *`number`* 
 
-*Defined in [contracts/vestingscheme.ts:457](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/vestingscheme.ts#L457)*
+*Defined in [contracts/vestingscheme.ts:457](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/vestingscheme.ts#L457)*
 
 
 

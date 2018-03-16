@@ -12,7 +12,7 @@
 
 **●  thresholdConstA**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1171](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1171)*
+*Defined in [contracts/genesisProtocol.ts:1171](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1171)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  thresholdConstB**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1172](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1172)*
+*Defined in [contracts/genesisProtocol.ts:1172](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1172)*
 
 
 

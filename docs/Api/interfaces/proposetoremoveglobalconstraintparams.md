@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:196](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/globalconstraintregistrar.ts#L196)*
+*Defined in [contracts/globalconstraintregistrar.ts:196](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/globalconstraintregistrar.ts#L196)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  globalConstraint**:  *`string`* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:200](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/globalconstraintregistrar.ts#L200)*
+*Defined in [contracts/globalconstraintregistrar.ts:200](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/globalconstraintregistrar.ts#L200)*
 
 
 

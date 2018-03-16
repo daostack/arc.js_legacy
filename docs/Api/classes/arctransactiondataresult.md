@@ -51,7 +51,7 @@ Base or actual type returned by all contract wrapper methods that generate a tra
 
 *Overrides [ArcTransactionResult](ArcTransactionResult.md).[constructor](ArcTransactionResult.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:297](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L297)*
+*Defined in [ExtendTruffleContract.ts:297](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L297)*
 
 
 
@@ -78,7 +78,7 @@ Base or actual type returned by all contract wrapper methods that generate a tra
 
 **●  result**:  *`TData`* 
 
-*Defined in [ExtendTruffleContract.ts:297](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L297)*
+*Defined in [ExtendTruffleContract.ts:297](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L297)*
 
 
 
@@ -97,7 +97,7 @@ ___
 
 *Inherited from [ArcTransactionResult](ArcTransactionResult.md).[tx](ArcTransactionResult.md#tx)*
 
-*Defined in [ExtendTruffleContract.ts:258](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L258)*
+*Defined in [ExtendTruffleContract.ts:258](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L258)*
 
 
 
@@ -120,7 +120,7 @@ ___
 
 *Inherited from [ArcTransactionResult](ArcTransactionResult.md).[getValueFromTx](ArcTransactionResult.md#getValueFromTx)*
 
-*Defined in [ExtendTruffleContract.ts:271](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L271)*
+*Defined in [ExtendTruffleContract.ts:271](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L271)*
 
 
 

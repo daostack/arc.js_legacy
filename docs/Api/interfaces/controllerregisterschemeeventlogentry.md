@@ -12,7 +12,7 @@
 
 **●  _scheme**:  *[Address](../#Address)* 
 
-*Defined in [dao.ts:343](https://github.com/daostack/arc.js/blob/caacbb2/lib/dao.ts#L343)*
+*Defined in [dao.ts:343](https://github.com/daostack/arc.js/blob/616f6e7/lib/dao.ts#L343)*
 
 
 

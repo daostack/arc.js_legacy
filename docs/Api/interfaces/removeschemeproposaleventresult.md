@@ -12,7 +12,7 @@
 
 **●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/schemeregistrar.ts:187](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L187)*
+*Defined in [contracts/schemeregistrar.ts:187](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/schemeregistrar.ts#L187)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  _intVoteInterface**:  *[Address](../#Address)* 
 
-*Defined in [contracts/schemeregistrar.ts:191](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L191)*
+*Defined in [contracts/schemeregistrar.ts:191](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/schemeregistrar.ts#L191)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 **●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/schemeregistrar.ts:195](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L195)*
+*Defined in [contracts/schemeregistrar.ts:195](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/schemeregistrar.ts#L195)*
 
 
 
@@ -63,7 +63,7 @@ ___
 
 **●  _scheme**:  *[Address](../#Address)* 
 
-*Defined in [contracts/schemeregistrar.ts:196](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L196)*
+*Defined in [contracts/schemeregistrar.ts:196](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/schemeregistrar.ts#L196)*
 
 
 

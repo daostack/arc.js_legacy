@@ -12,7 +12,7 @@
 
 **●  decision**:  *[BinaryVoteResult](../enums/BinaryVoteResult.md)* 
 
-*Defined in [contracts/genesisProtocol.ts:1425](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1425)*
+*Defined in [contracts/genesisProtocol.ts:1425](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1425)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  executionState**:  *[ExecutionState](../enums/ExecutionState.md)* 
 
-*Defined in [contracts/genesisProtocol.ts:1431](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1431)*
+*Defined in [contracts/genesisProtocol.ts:1431](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1431)*
 
 
 
@@ -40,7 +40,7 @@ ___
 
 **●  proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/genesisProtocol.ts:1426](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1426)*
+*Defined in [contracts/genesisProtocol.ts:1426](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1426)*
 
 
 
@@ -54,7 +54,7 @@ ___
 
 **●  totalReputation**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/genesisProtocol.ts:1430](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1430)*
+*Defined in [contracts/genesisProtocol.ts:1430](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1430)*
 
 
 

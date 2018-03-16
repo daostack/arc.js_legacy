@@ -66,7 +66,7 @@
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[constructor](ExtendTruffleContract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -95,7 +95,7 @@ ContractWrapperFactory constructs this
 
 **●  NewSchemeProposal**:  *[EventFetcherFactory](../#EventFetcherFactory)[NewSchemeProposalEventResult](../interfaces/NewSchemeProposalEventResult.md)*  =  this.createEventFetcherFactory<NewSchemeProposalEventResult>("NewSchemeProposal")
 
-*Defined in [contracts/schemeregistrar.ts:22](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L22)*
+*Defined in [contracts/schemeregistrar.ts:22](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/schemeregistrar.ts#L22)*
 
 
 
@@ -112,7 +112,7 @@ ___
 
 **●  ProposalDeleted**:  *[EventFetcherFactory](../#EventFetcherFactory)[ProposalDeletedEventResult](../interfaces/ProposalDeletedEventResult.md)*  =  this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted")
 
-*Defined in [contracts/schemeregistrar.ts:25](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L25)*
+*Defined in [contracts/schemeregistrar.ts:25](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/schemeregistrar.ts#L25)*
 
 
 
@@ -126,7 +126,7 @@ ___
 
 **●  ProposalExecuted**:  *[EventFetcherFactory](../#EventFetcherFactory)[ProposalExecutedEventResult](../interfaces/ProposalExecutedEventResult.md)*  =  this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted")
 
-*Defined in [contracts/schemeregistrar.ts:24](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L24)*
+*Defined in [contracts/schemeregistrar.ts:24](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/schemeregistrar.ts#L24)*
 
 
 
@@ -140,7 +140,7 @@ ___
 
 **●  RemoveSchemeProposal**:  *[EventFetcherFactory](../#EventFetcherFactory)[RemoveSchemeProposalEventResult](../interfaces/RemoveSchemeProposalEventResult.md)*  =  this.createEventFetcherFactory<RemoveSchemeProposalEventResult>("RemoveSchemeProposal")
 
-*Defined in [contracts/schemeregistrar.ts:23](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L23)*
+*Defined in [contracts/schemeregistrar.ts:23](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/schemeregistrar.ts#L23)*
 
 
 
@@ -156,7 +156,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[contract](ExtendTruffleContract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -178,7 +178,7 @@ getaddress(): [Address](../#Address)
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[address](ExtendTruffleContract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:148](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L148)*
+*Defined in [ExtendTruffleContract.ts:148](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L148)*
 
 
 
@@ -202,7 +202,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getController](ExtendTruffleContract.md#getController)*
 
-*Defined in [ExtendTruffleContract.ts:143](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L143)*
+*Defined in [ExtendTruffleContract.ts:143](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L143)*
 
 
 
@@ -237,7 +237,7 @@ ___
 
 *Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getDefaultPermissions](ExtendTruffleContract.md#getDefaultPermissions)*
 
-*Defined in [contracts/schemeregistrar.ts:144](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L144)*
+*Defined in [contracts/schemeregistrar.ts:144](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/schemeregistrar.ts#L144)*
 
 
 
@@ -269,7 +269,7 @@ ___
 
 *Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getParameters](ExtendTruffleContract.md#getParameters)*
 
-*Defined in [contracts/schemeregistrar.ts:153](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L153)*
+*Defined in [contracts/schemeregistrar.ts:153](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/schemeregistrar.ts#L153)*
 
 
 
@@ -301,7 +301,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getParametersArray](ExtendTruffleContract.md#getParametersArray)*
 
-*Defined in [ExtendTruffleContract.ts:135](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L135)*
+*Defined in [ExtendTruffleContract.ts:135](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L135)*
 
 
 
@@ -336,7 +336,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getPermissions](ExtendTruffleContract.md#getPermissions)*
 
-*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L106)*
+*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L106)*
 
 
 
@@ -369,7 +369,7 @@ ___
 
 
 
-*Defined in [contracts/schemeregistrar.ts:149](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L149)*
+*Defined in [contracts/schemeregistrar.ts:149](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/schemeregistrar.ts#L149)*
 
 
 
@@ -401,7 +401,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getSchemeParametersHash](ExtendTruffleContract.md#getSchemeParametersHash)*
 
-*Defined in [ExtendTruffleContract.ts:125](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L125)*
+*Defined in [ExtendTruffleContract.ts:125](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L125)*
 
 
 
@@ -436,7 +436,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromAt](ExtendTruffleContract.md#hydrateFromAt)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -473,7 +473,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromDeployed](ExtendTruffleContract.md#hydrateFromDeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -502,7 +502,7 @@ ___
 
 *Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromNew](ExtendTruffleContract.md#hydrateFromNew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -537,7 +537,7 @@ ___
 
 
 
-*Defined in [contracts/schemeregistrar.ts:38](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L38)*
+*Defined in [contracts/schemeregistrar.ts:38](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/schemeregistrar.ts#L38)*
 
 
 
@@ -570,7 +570,7 @@ ___
 
 
 
-*Defined in [contracts/schemeregistrar.ts:104](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L104)*
+*Defined in [contracts/schemeregistrar.ts:104](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/schemeregistrar.ts#L104)*
 
 
 
@@ -602,7 +602,7 @@ ___
 
 *Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[setParameters](ExtendTruffleContract.md#setParameters)*
 
-*Defined in [contracts/schemeregistrar.ts:136](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/schemeregistrar.ts#L136)*
+*Defined in [contracts/schemeregistrar.ts:136](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/schemeregistrar.ts#L136)*
 
 
 

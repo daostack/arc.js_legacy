@@ -12,7 +12,7 @@
 
 **●  _amount**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/contributionreward.ts:503](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/contributionreward.ts#L503)*
+*Defined in [contracts/contributionreward.ts:503](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/contributionreward.ts#L503)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/contributionreward.ts:507](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/contributionreward.ts#L507)*
+*Defined in [contracts/contributionreward.ts:507](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/contributionreward.ts#L507)*
 
 
 
@@ -43,7 +43,7 @@ ___
 
 **●  _beneficiary**:  *[Address](../#Address)* 
 
-*Defined in [contracts/contributionreward.ts:511](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/contributionreward.ts#L511)*
+*Defined in [contracts/contributionreward.ts:511](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/contributionreward.ts#L511)*
 
 
 
@@ -60,7 +60,7 @@ ___
 
 **●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/contributionreward.ts:515](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/contributionreward.ts#L515)*
+*Defined in [contracts/contributionreward.ts:515](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/contributionreward.ts#L515)*
 
 
 

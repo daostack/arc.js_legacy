@@ -25,7 +25,7 @@
 
 **●  orgNativeTokenFee**:  *`BigNumber.BigNumber`⎮`string`* 
 
-*Defined in [contracts/contributionreward.ts:577](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/contributionreward.ts#L577)*
+*Defined in [contracts/contributionreward.ts:577](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/contributionreward.ts#L577)*
 
 
 
@@ -41,7 +41,7 @@ ___
 
 *Inherited from [StandardSchemeParams](StandardSchemeParams.md).[voteParametersHash](StandardSchemeParams.md#voteParametersHash)*
 
-*Defined in [ExtendTruffleContract.ts:395](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L395)*
+*Defined in [ExtendTruffleContract.ts:395](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L395)*
 
 
 
@@ -57,7 +57,7 @@ ___
 
 *Inherited from [StandardSchemeParams](StandardSchemeParams.md).[votingMachineAddress](StandardSchemeParams.md#votingMachineAddress)*
 
-*Defined in [ExtendTruffleContract.ts:396](https://github.com/daostack/arc.js/blob/caacbb2/lib/ExtendTruffleContract.ts#L396)*
+*Defined in [ExtendTruffleContract.ts:396](https://github.com/daostack/arc.js/blob/616f6e7/lib/ExtendTruffleContract.ts#L396)*
 
 
 

@@ -12,7 +12,7 @@
 
 **●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:143](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/globalconstraintregistrar.ts#L143)*
+*Defined in [contracts/globalconstraintregistrar.ts:143](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/globalconstraintregistrar.ts#L143)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  _gc**:  *[Address](../#Address)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:148](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/globalconstraintregistrar.ts#L148)*
+*Defined in [contracts/globalconstraintregistrar.ts:148](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/globalconstraintregistrar.ts#L148)*
 
 
 
@@ -43,7 +43,7 @@ ___
 
 **●  _intVoteInterface**:  *[Address](../#Address)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:147](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/globalconstraintregistrar.ts#L147)*
+*Defined in [contracts/globalconstraintregistrar.ts:147](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/globalconstraintregistrar.ts#L147)*
 
 
 
@@ -60,7 +60,7 @@ ___
 
 **●  _params**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:149](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/globalconstraintregistrar.ts#L149)*
+*Defined in [contracts/globalconstraintregistrar.ts:149](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/globalconstraintregistrar.ts#L149)*
 
 
 
@@ -74,7 +74,7 @@ ___
 
 **●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:153](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/globalconstraintregistrar.ts#L153)*
+*Defined in [contracts/globalconstraintregistrar.ts:153](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/globalconstraintregistrar.ts#L153)*
 
 
 
@@ -91,7 +91,7 @@ ___
 
 **●  _voteToRemoveParams**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:154](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/globalconstraintregistrar.ts#L154)*
+*Defined in [contracts/globalconstraintregistrar.ts:154](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/globalconstraintregistrar.ts#L154)*
 
 
 

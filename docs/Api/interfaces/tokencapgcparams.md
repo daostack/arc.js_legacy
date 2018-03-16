@@ -12,7 +12,7 @@
 
 **●  cap**:  *`number`⎮`string`* 
 
-*Defined in [contracts/tokenCapGC.ts:31](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/tokenCapGC.ts#L31)*
+*Defined in [contracts/tokenCapGC.ts:31](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/tokenCapGC.ts#L31)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  token**:  *[Address](../#Address)* 
 
-*Defined in [contracts/tokenCapGC.ts:32](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/tokenCapGC.ts#L32)*
+*Defined in [contracts/tokenCapGC.ts:32](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/tokenCapGC.ts#L32)*
 
 
 

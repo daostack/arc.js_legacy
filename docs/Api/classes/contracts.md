@@ -26,7 +26,7 @@
 
 **●  contracts**:  *[ArcDeployedContracts](../interfaces/ArcDeployedContracts.md)* 
 
-*Defined in [contracts.ts:71](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts.ts#L71)*
+*Defined in [contracts.ts:71](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts.ts#L71)*
 
 
 
@@ -44,7 +44,7 @@ ___
 
 
 
-*Defined in [contracts.ts:164](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts.ts#L164)*
+*Defined in [contracts.ts:164](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts.ts#L164)*
 
 
 
@@ -78,7 +78,7 @@ ___
 
 
 
-*Defined in [contracts.ts:73](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts.ts#L73)*
+*Defined in [contracts.ts:73](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts.ts#L73)*
 
 
 

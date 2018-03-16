@@ -18,7 +18,7 @@ You can add your voting-machine-specific parameters here, like ownerVote, votePe
 
 **●  reputation**:  *`string`* 
 
-*Defined in [contracts/daocreator.ts:277](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L277)*
+*Defined in [contracts/daocreator.ts:277](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/daocreator.ts#L277)*
 
 
 
@@ -35,7 +35,7 @@ ___
 
 **●  votingMachineAddress**:  *`string`* 
 
-*Defined in [contracts/daocreator.ts:287](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L287)*
+*Defined in [contracts/daocreator.ts:287](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/daocreator.ts#L287)*
 
 
 
@@ -52,7 +52,7 @@ ___
 
 **●  votingMachineName**:  *`string`* 
 
-*Defined in [contracts/daocreator.ts:282](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/daocreator.ts#L282)*
+*Defined in [contracts/daocreator.ts:282](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/daocreator.ts#L282)*
 
 
 

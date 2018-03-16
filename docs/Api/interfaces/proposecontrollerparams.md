@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/upgradescheme.ts:191](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/upgradescheme.ts#L191)*
+*Defined in [contracts/upgradescheme.ts:191](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/upgradescheme.ts#L191)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  controller**:  *`string`* 
 
-*Defined in [contracts/upgradescheme.ts:195](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/upgradescheme.ts#L195)*
+*Defined in [contracts/upgradescheme.ts:195](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/upgradescheme.ts#L195)*
 
 
 

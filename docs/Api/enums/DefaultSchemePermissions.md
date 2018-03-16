@@ -34,7 +34,7 @@ Note that '1' is always assigned to a scheme by the Controller when the scheme i
 
 ** AllPermissions**:    =  SchemePermissions.All
 
-*Defined in [commonTypes.ts:63](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L63)*
+*Defined in [commonTypes.ts:63](https://github.com/daostack/arc.js/blob/616f6e7/lib/commonTypes.ts#L63)*
 
 
 
@@ -48,7 +48,7 @@ ___
 
 ** ContributionReward**:    =  SchemePermissions.IsRegistered
 
-*Defined in [commonTypes.ts:64](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L64)*
+*Defined in [commonTypes.ts:64](https://github.com/daostack/arc.js/blob/616f6e7/lib/commonTypes.ts#L64)*
 
 
 
@@ -62,7 +62,7 @@ ___
 
 ** GenesisProtocol**:    =  SchemePermissions.IsRegistered
 
-*Defined in [commonTypes.ts:65](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L65)*
+*Defined in [commonTypes.ts:65](https://github.com/daostack/arc.js/blob/616f6e7/lib/commonTypes.ts#L65)*
 
 
 
@@ -76,7 +76,7 @@ ___
 
 ** GlobalConstraintRegistrar**:    =  SchemePermissions.IsRegistered | SchemePermissions.CanAddRemoveGlobalConstraints
 
-*Defined in [commonTypes.ts:66](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L66)*
+*Defined in [commonTypes.ts:66](https://github.com/daostack/arc.js/blob/616f6e7/lib/commonTypes.ts#L66)*
 
 
 
@@ -90,7 +90,7 @@ ___
 
 ** MinimumPermissions**:    =  SchemePermissions.IsRegistered
 
-*Defined in [commonTypes.ts:62](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L62)*
+*Defined in [commonTypes.ts:62](https://github.com/daostack/arc.js/blob/616f6e7/lib/commonTypes.ts#L62)*
 
 
 
@@ -104,7 +104,7 @@ ___
 
 ** NoPermissions**:    =  SchemePermissions.None
 
-*Defined in [commonTypes.ts:61](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L61)*
+*Defined in [commonTypes.ts:61](https://github.com/daostack/arc.js/blob/616f6e7/lib/commonTypes.ts#L61)*
 
 
 
@@ -118,7 +118,7 @@ ___
 
 ** SchemeRegistrar**:    =  SchemePermissions.All
 
-*Defined in [commonTypes.ts:70](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L70)*
+*Defined in [commonTypes.ts:70](https://github.com/daostack/arc.js/blob/616f6e7/lib/commonTypes.ts#L70)*
 
 
 
@@ -135,7 +135,7 @@ ___
 
 ** UpgradeScheme**:    =  SchemePermissions.IsRegistered | SchemePermissions.CanRegisterSchemes | SchemePermissions.CanUpgradeController
 
-*Defined in [commonTypes.ts:71](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L71)*
+*Defined in [commonTypes.ts:71](https://github.com/daostack/arc.js/blob/616f6e7/lib/commonTypes.ts#L71)*
 
 
 
@@ -149,7 +149,7 @@ ___
 
 ** VestingScheme**:    =  SchemePermissions.IsRegistered
 
-*Defined in [commonTypes.ts:72](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L72)*
+*Defined in [commonTypes.ts:72](https://github.com/daostack/arc.js/blob/616f6e7/lib/commonTypes.ts#L72)*
 
 
 
@@ -163,7 +163,7 @@ ___
 
 ** VoteInOrganizationScheme**:    =  SchemePermissions.IsRegistered | SchemePermissions.CanCallDelegateCall
 
-*Defined in [commonTypes.ts:73](https://github.com/daostack/arc.js/blob/caacbb2/lib/commonTypes.ts#L73)*
+*Defined in [commonTypes.ts:73](https://github.com/daostack/arc.js/blob/616f6e7/lib/commonTypes.ts#L73)*
 
 
 

@@ -12,7 +12,7 @@
 
 **●  totalStakes**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/genesisProtocol.ts:1166](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1166)*
+*Defined in [contracts/genesisProtocol.ts:1166](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1166)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  totalVotes**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/genesisProtocol.ts:1165](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1165)*
+*Defined in [contracts/genesisProtocol.ts:1165](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1165)*
 
 
 
@@ -40,7 +40,7 @@ ___
 
 **●  votersStakes**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/genesisProtocol.ts:1167](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1167)*
+*Defined in [contracts/genesisProtocol.ts:1167](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1167)*
 
 
 

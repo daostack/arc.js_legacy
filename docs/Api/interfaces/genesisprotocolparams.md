@@ -12,8 +12,8 @@
 
 **●  boostedVotePeriodLimit**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1001](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1001)*
-*Defined in [contracts/genesisProtocol.ts:1073](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1073)*
+*Defined in [contracts/genesisProtocol.ts:1001](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1001)*
+*Defined in [contracts/genesisProtocol.ts:1073](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1073)*
 
 
 
@@ -30,8 +30,8 @@ ___
 
 **●  governanceFormulasInterface**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1015](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1015)*
-*Defined in [contracts/genesisProtocol.ts:1087](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1087)*
+*Defined in [contracts/genesisProtocol.ts:1015](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1015)*
+*Defined in [contracts/genesisProtocol.ts:1087](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1087)*
 
 
 
@@ -48,8 +48,8 @@ ___
 
 **●  minimumStakingFee**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1019](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1019)*
-*Defined in [contracts/genesisProtocol.ts:1091](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1091)*
+*Defined in [contracts/genesisProtocol.ts:1019](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1019)*
+*Defined in [contracts/genesisProtocol.ts:1091](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1091)*
 
 
 
@@ -66,8 +66,8 @@ ___
 
 **●  preBoostedVotePeriodLimit**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:995](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L995)*
-*Defined in [contracts/genesisProtocol.ts:1067](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1067)*
+*Defined in [contracts/genesisProtocol.ts:995](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L995)*
+*Defined in [contracts/genesisProtocol.ts:1067](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1067)*
 
 
 
@@ -84,8 +84,8 @@ ___
 
 **●  preBoostedVoteRequiredPercentage**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:989](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L989)*
-*Defined in [contracts/genesisProtocol.ts:1061](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1061)*
+*Defined in [contracts/genesisProtocol.ts:989](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L989)*
+*Defined in [contracts/genesisProtocol.ts:1061](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1061)*
 
 
 
@@ -102,8 +102,8 @@ ___
 
 **●  proposingRepRewardConstA**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1029](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1029)*
-*Defined in [contracts/genesisProtocol.ts:1101](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1101)*
+*Defined in [contracts/genesisProtocol.ts:1029](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1029)*
+*Defined in [contracts/genesisProtocol.ts:1101](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1101)*
 
 
 
@@ -120,8 +120,8 @@ ___
 
 **●  proposingRepRewardConstB**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1034](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1034)*
-*Defined in [contracts/genesisProtocol.ts:1106](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1106)*
+*Defined in [contracts/genesisProtocol.ts:1034](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1034)*
+*Defined in [contracts/genesisProtocol.ts:1106](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1106)*
 
 
 
@@ -138,8 +138,8 @@ ___
 
 **●  quietEndingPeriod**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1024](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1024)*
-*Defined in [contracts/genesisProtocol.ts:1096](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1096)*
+*Defined in [contracts/genesisProtocol.ts:1024](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1024)*
+*Defined in [contracts/genesisProtocol.ts:1096](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1096)*
 
 
 
@@ -156,8 +156,8 @@ ___
 
 **●  stakerFeeRatioForVoters**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1040](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1040)*
-*Defined in [contracts/genesisProtocol.ts:1112](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1112)*
+*Defined in [contracts/genesisProtocol.ts:1040](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1040)*
+*Defined in [contracts/genesisProtocol.ts:1112](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1112)*
 
 
 
@@ -174,8 +174,8 @@ ___
 
 **●  thresholdConstA**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1006](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1006)*
-*Defined in [contracts/genesisProtocol.ts:1078](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1078)*
+*Defined in [contracts/genesisProtocol.ts:1006](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1006)*
+*Defined in [contracts/genesisProtocol.ts:1078](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1078)*
 
 
 
@@ -192,8 +192,8 @@ ___
 
 **●  thresholdConstB**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1011](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1011)*
-*Defined in [contracts/genesisProtocol.ts:1083](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1083)*
+*Defined in [contracts/genesisProtocol.ts:1011](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1011)*
+*Defined in [contracts/genesisProtocol.ts:1083](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1083)*
 
 
 
@@ -210,8 +210,8 @@ ___
 
 **●  votersGainRepRatioFromLostRep**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1052](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1052)*
-*Defined in [contracts/genesisProtocol.ts:1124](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1124)*
+*Defined in [contracts/genesisProtocol.ts:1052](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1052)*
+*Defined in [contracts/genesisProtocol.ts:1124](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1124)*
 
 
 
@@ -228,8 +228,8 @@ ___
 
 **●  votersReputationLossRatio**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1046](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1046)*
-*Defined in [contracts/genesisProtocol.ts:1118](https://github.com/daostack/arc.js/blob/caacbb2/lib/contracts/genesisProtocol.ts#L1118)*
+*Defined in [contracts/genesisProtocol.ts:1046](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1046)*
+*Defined in [contracts/genesisProtocol.ts:1118](https://github.com/daostack/arc.js/blob/616f6e7/lib/contracts/genesisProtocol.ts#L1118)*
 
 
 
