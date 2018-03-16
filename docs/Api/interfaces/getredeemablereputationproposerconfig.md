@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GetRedeemableReputationProposerConfig](../interfaces/getredeemablereputationproposerconfig.md)
+[API Reference](../README.md) > [GetRedeemableReputationProposerConfig](../interfaces/GetRedeemableReputationProposerConfig.md)
 
 
 
@@ -9,13 +9,13 @@ return the amount of reputation to which the proposer will be entitled as an out
 
 
 ## Properties
-<a id="proposalid"></a>
+<a id="proposalId"></a>
 
 ###  proposalId
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1257](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1257)*
+*Defined in [contracts/genesisProtocol.ts:1267](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1267)*
 
 
 

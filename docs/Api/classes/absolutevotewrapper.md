@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [AbsoluteVoteWrapper](../classes/absolutevotewrapper.md)
+[API Reference](../README.md) > [AbsoluteVoteWrapper](../classes/AbsoluteVoteWrapper.md)
 
 
 
@@ -7,7 +7,7 @@
 ## Hierarchy
 
 
- [ExtendTruffleContract](extendtrufflecontract.md)
+ [ExtendTruffleContract](ExtendTruffleContract.md)
 
 **↳ AbsoluteVoteWrapper**
 
@@ -21,35 +21,37 @@
 
 ### Constructors
 
-* [constructor](absolutevotewrapper.md#constructor)
+* [constructor](AbsoluteVoteWrapper.md#constructor)
 
 
 ### Properties
 
-* [CancelProposal](absolutevotewrapper.md#cancelproposal)
-* [CancelVoting](absolutevotewrapper.md#cancelvoting)
-* [ExecuteProposal](absolutevotewrapper.md#executeproposal)
-* [NewProposal](absolutevotewrapper.md#newproposal)
-* [VoteProposal](absolutevotewrapper.md#voteproposal)
-* [contract](absolutevotewrapper.md#contract)
+* [CancelProposal](AbsoluteVoteWrapper.md#CancelProposal)
+* [CancelVoting](AbsoluteVoteWrapper.md#CancelVoting)
+* [ExecuteProposal](AbsoluteVoteWrapper.md#ExecuteProposal)
+* [NewProposal](AbsoluteVoteWrapper.md#NewProposal)
+* [VoteProposal](AbsoluteVoteWrapper.md#VoteProposal)
+* [contract](AbsoluteVoteWrapper.md#contract)
 
 
 ### Accessors
 
-* [address](absolutevotewrapper.md#address)
+* [address](AbsoluteVoteWrapper.md#address)
 
 
 ### Methods
 
-* [getDefaultPermissions](absolutevotewrapper.md#getdefaultpermissions)
-* [getParameters](absolutevotewrapper.md#getparameters)
-* [getParametersArray](absolutevotewrapper.md#getparametersarray)
-* [getSchemeParametersHash](absolutevotewrapper.md#getschemeparametershash)
-* [hydrateFromAt](absolutevotewrapper.md#hydratefromat)
-* [hydrateFromDeployed](absolutevotewrapper.md#hydratefromdeployed)
-* [hydrateFromNew](absolutevotewrapper.md#hydratefromnew)
-* [setParameters](absolutevotewrapper.md#setparameters)
-* [vote](absolutevotewrapper.md#vote)
+* [getController](AbsoluteVoteWrapper.md#getController)
+* [getDefaultPermissions](AbsoluteVoteWrapper.md#getDefaultPermissions)
+* [getParameters](AbsoluteVoteWrapper.md#getParameters)
+* [getParametersArray](AbsoluteVoteWrapper.md#getParametersArray)
+* [getPermissions](AbsoluteVoteWrapper.md#getPermissions)
+* [getSchemeParametersHash](AbsoluteVoteWrapper.md#getSchemeParametersHash)
+* [hydrateFromAt](AbsoluteVoteWrapper.md#hydrateFromAt)
+* [hydrateFromDeployed](AbsoluteVoteWrapper.md#hydrateFromDeployed)
+* [hydrateFromNew](AbsoluteVoteWrapper.md#hydrateFromNew)
+* [setParameters](AbsoluteVoteWrapper.md#setParameters)
+* [vote](AbsoluteVoteWrapper.md#vote)
 
 
 
@@ -58,12 +60,12 @@
 <a id="constructor"></a>
 
 
-### ⊕ **new AbsoluteVoteWrapper**(solidityContract: *`any`*): [AbsoluteVoteWrapper](absolutevotewrapper.md)
+### ⊕ **new AbsoluteVoteWrapper**(solidityContract: *`any`*): [AbsoluteVoteWrapper](AbsoluteVoteWrapper.md)
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[constructor](extendtrufflecontract.md#constructor)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[constructor](ExtendTruffleContract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -80,19 +82,19 @@ ContractWrapperFactory constructs this
 
 
 
-**Returns:** [AbsoluteVoteWrapper](absolutevotewrapper.md)
+**Returns:** [AbsoluteVoteWrapper](AbsoluteVoteWrapper.md)
 
 ---
 
 
 ## Properties
-<a id="cancelproposal"></a>
+<a id="CancelProposal"></a>
 
 ###  CancelProposal
 
-**●  CancelProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[CancelProposalEventResult](../interfaces/cancelproposaleventresult.md)*  =  this.createEventFetcherFactory<CancelProposalEventResult>("CancelProposal")
+**●  CancelProposal**:  *[EventFetcherFactory](../#EventFetcherFactory)[CancelProposalEventResult](../interfaces/CancelProposalEventResult.md)*  =  this.createEventFetcherFactory<CancelProposalEventResult>("CancelProposal")
 
-*Defined in [contracts/absoluteVote.ts:22](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L22)*
+*Defined in [contracts/absoluteVote.ts:22](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L22)*
 
 
 
@@ -100,13 +102,13 @@ ContractWrapperFactory constructs this
 
 ___
 
-<a id="cancelvoting"></a>
+<a id="CancelVoting"></a>
 
 ###  CancelVoting
 
-**●  CancelVoting**:  *[EventFetcherFactory](../#eventfetcherfactory)[CancelVotingEventResult](../interfaces/cancelvotingeventresult.md)*  =  this.createEventFetcherFactory<CancelVotingEventResult>("CancelVoting")
+**●  CancelVoting**:  *[EventFetcherFactory](../#EventFetcherFactory)[CancelVotingEventResult](../interfaces/CancelVotingEventResult.md)*  =  this.createEventFetcherFactory<CancelVotingEventResult>("CancelVoting")
 
-*Defined in [contracts/absoluteVote.ts:25](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L25)*
+*Defined in [contracts/absoluteVote.ts:25](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L25)*
 
 
 
@@ -114,13 +116,13 @@ ___
 
 ___
 
-<a id="executeproposal"></a>
+<a id="ExecuteProposal"></a>
 
 ###  ExecuteProposal
 
-**●  ExecuteProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[ExecuteProposalEventResult](../interfaces/executeproposaleventresult.md)*  =  this.createEventFetcherFactory<ExecuteProposalEventResult>("ExecuteProposal")
+**●  ExecuteProposal**:  *[EventFetcherFactory](../#EventFetcherFactory)[ExecuteProposalEventResult](../interfaces/ExecuteProposalEventResult.md)*  =  this.createEventFetcherFactory<ExecuteProposalEventResult>("ExecuteProposal")
 
-*Defined in [contracts/absoluteVote.ts:23](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L23)*
+*Defined in [contracts/absoluteVote.ts:23](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L23)*
 
 
 
@@ -128,13 +130,13 @@ ___
 
 ___
 
-<a id="newproposal"></a>
+<a id="NewProposal"></a>
 
 ###  NewProposal
 
-**●  NewProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[NewProposalEventResult](../interfaces/newproposaleventresult.md)*  =  this.createEventFetcherFactory<NewProposalEventResult>("NewProposal")
+**●  NewProposal**:  *[EventFetcherFactory](../#EventFetcherFactory)[NewProposalEventResult](../interfaces/NewProposalEventResult.md)*  =  this.createEventFetcherFactory<NewProposalEventResult>("NewProposal")
 
-*Defined in [contracts/absoluteVote.ts:21](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L21)*
+*Defined in [contracts/absoluteVote.ts:21](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L21)*
 
 
 
@@ -145,13 +147,13 @@ Events
 
 ___
 
-<a id="voteproposal"></a>
+<a id="VoteProposal"></a>
 
 ###  VoteProposal
 
-**●  VoteProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[VoteProposalEventResult](../interfaces/voteproposaleventresult.md)*  =  this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal")
+**●  VoteProposal**:  *[EventFetcherFactory](../#EventFetcherFactory)[VoteProposalEventResult](../interfaces/VoteProposalEventResult.md)*  =  this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal")
 
-*Defined in [contracts/absoluteVote.ts:24](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L24)*
+*Defined in [contracts/absoluteVote.ts:24](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L24)*
 
 
 
@@ -165,9 +167,9 @@ ___
 
 **●  contract**:  *`any`* 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[contract](extendtrufflecontract.md#contract)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[contract](ExtendTruffleContract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -185,17 +187,17 @@ ___
 ###  address
 
 
-getaddress(): [Address](../#address)
+getaddress(): [Address](../#Address)
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[address](extendtrufflecontract.md#address)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[address](ExtendTruffleContract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L128)*
-
-
+*Defined in [ExtendTruffleContract.ts:148](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L148)*
 
 
 
-**Returns:** [Address](../#address)
+
+
+**Returns:** [Address](../#Address)
 
 
 
@@ -203,60 +205,28 @@ ___
 
 
 ## Methods
-<a id="getdefaultpermissions"></a>
+<a id="getController"></a>
 
-###  getDefaultPermissions
+###  getController
 
-► **getDefaultPermissions**(overrideValue?: *`string`*): `string`
-
-
-
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getDefaultPermissions](extendtrufflecontract.md#getdefaultpermissions)*
-
-*Defined in [ExtendTruffleContract.ts:98](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L98)*
+► **getController**(avatarAddress: *[Address](../#Address)*): `Promise`.<`any`>
 
 
 
-The subclass must override this for there to be any permissions at all, unless caller provides a value.
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getController](ExtendTruffleContract.md#getController)*
 
-
-**Parameters:**
-
-| Param | Type | Description |
-| ------ | ------ | ------ |
-| overrideValue | `string`   |  - |
+*Defined in [ExtendTruffleContract.ts:143](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L143)*
 
 
 
-
-
-**Returns:** `string`
-
-
-
-
-
-___
-
-<a id="getparameters"></a>
-
-###  getParameters
-
-► **getParameters**(paramsHash: *[Hash](../#hash)*): `Promise`.<`any`>
-
-
-
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getParameters](extendtrufflecontract.md#getparameters)*
-
-*Defined in [contracts/absoluteVote.ts:80](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L80)*
-
+return the controller associated with the given avatar
 
 
 **Parameters:**
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| paramsHash | [Hash](../#hash)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
@@ -270,17 +240,84 @@ ___
 
 ___
 
-<a id="getparametersarray"></a>
+<a id="getDefaultPermissions"></a>
+
+###  getDefaultPermissions
+
+► **getDefaultPermissions**(overrideValue?: *[SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)*): [SchemePermissions](../enums/SchemePermissions.md)
+
+
+
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getDefaultPermissions](ExtendTruffleContract.md#getDefaultPermissions)*
+
+*Defined in [ExtendTruffleContract.ts:98](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L98)*
+
+
+
+The subclass must override this for there to be any permissions at all, unless caller provides a value.
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| overrideValue | [SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)   |  - |
+
+
+
+
+
+**Returns:** [SchemePermissions](../enums/SchemePermissions.md)
+
+
+
+
+
+___
+
+<a id="getParameters"></a>
+
+###  getParameters
+
+► **getParameters**(paramsHash: *[Hash](../#Hash)*): `Promise`.<`any`>
+
+
+
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getParameters](ExtendTruffleContract.md#getParameters)*
+
+*Defined in [contracts/absoluteVote.ts:80](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L80)*
+
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| paramsHash | [Hash](../#Hash)   |  - |
+
+
+
+
+
+**Returns:** `Promise`.<`any`>
+
+
+
+
+
+___
+
+<a id="getParametersArray"></a>
 
 ###  getParametersArray
 
-► **getParametersArray**(paramsHash: *[Hash](../#hash)*): `Promise`.<`Array`.<`any`>>
+► **getParametersArray**(paramsHash: *[Hash](../#Hash)*): `Promise`.<`Array`.<`any`>>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParametersArray](extendtrufflecontract.md#getparametersarray)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getParametersArray](ExtendTruffleContract.md#getParametersArray)*
 
-*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L124)*
+*Defined in [ExtendTruffleContract.ts:135](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L135)*
 
 
 
@@ -291,7 +328,7 @@ Given a hash, return the associated parameters as an array, ordered by the order
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| paramsHash | [Hash](../#hash)   |  - |
+| paramsHash | [Hash](../#Hash)   |  - |
 
 
 
@@ -305,17 +342,52 @@ Given a hash, return the associated parameters as an array, ordered by the order
 
 ___
 
-<a id="getschemeparametershash"></a>
+<a id="getPermissions"></a>
+
+###  getPermissions
+
+► **getPermissions**(avatarAddress: *[Address](../#Address)*): `Promise`.<[SchemePermissions](../enums/SchemePermissions.md)>
+
+
+
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getPermissions](ExtendTruffleContract.md#getPermissions)*
+
+*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L106)*
+
+
+
+Return this scheme's permissions.
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| avatarAddress | [Address](../#Address)   |  - |
+
+
+
+
+
+**Returns:** `Promise`.<[SchemePermissions](../enums/SchemePermissions.md)>
+
+
+
+
+
+___
+
+<a id="getSchemeParametersHash"></a>
 
 ###  getSchemeParametersHash
 
-► **getSchemeParametersHash**(avatarAddress: *[Address](../#address)*): `Promise`.<[Hash](../#hash)>
+► **getSchemeParametersHash**(avatarAddress: *[Address](../#Address)*): `Promise`.<[Hash](../#Hash)>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getSchemeParametersHash](extendtrufflecontract.md#getschemeparametershash)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getSchemeParametersHash](ExtendTruffleContract.md#getSchemeParametersHash)*
 
-*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L114)*
+*Defined in [ExtendTruffleContract.ts:125](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L125)*
 
 
 
@@ -326,13 +398,13 @@ Given an avatar address, return the schemes parameters hash
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| avatarAddress | [Address](../#address)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[Hash](../#hash)>
+**Returns:** `Promise`.<[Hash](../#Hash)>
 
 
 
@@ -340,7 +412,7 @@ Given an avatar address, return the schemes parameters hash
 
 ___
 
-<a id="hydratefromat"></a>
+<a id="hydrateFromAt"></a>
 
 ###  hydrateFromAt
 
@@ -348,9 +420,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromAt](extendtrufflecontract.md#hydratefromat)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromAt](ExtendTruffleContract.md#hydrateFromAt)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -377,7 +449,7 @@ this
 
 ___
 
-<a id="hydratefromdeployed"></a>
+<a id="hydrateFromDeployed"></a>
 
 ###  hydrateFromDeployed
 
@@ -385,9 +457,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromDeployed](extendtrufflecontract.md#hydratefromdeployed)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromDeployed](ExtendTruffleContract.md#hydrateFromDeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -406,7 +478,7 @@ this
 
 ___
 
-<a id="hydratefromnew"></a>
+<a id="hydrateFromNew"></a>
 
 ###  hydrateFromNew
 
@@ -414,9 +486,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromNew](extendtrufflecontract.md#hydratefromnew)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromNew](ExtendTruffleContract.md#hydrateFromNew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -443,17 +515,17 @@ this
 
 ___
 
-<a id="setparameters"></a>
+<a id="setParameters"></a>
 
 ###  setParameters
 
-► **setParameters**(params: *[AbsoluteVoteParams](../interfaces/absolutevoteparams.md)*): `Promise`.<[ArcTransactionDataResult](arctransactiondataresult.md)[Hash](../#hash)>
+► **setParameters**(params: *[AbsoluteVoteParams](../interfaces/AbsoluteVoteParams.md)*): `Promise`.<[ArcTransactionDataResult](ArcTransactionDataResult.md)[Hash](../#Hash)>
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[setParameters](extendtrufflecontract.md#setparameters)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[setParameters](ExtendTruffleContract.md#setParameters)*
 
-*Defined in [contracts/absoluteVote.ts:60](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L60)*
+*Defined in [contracts/absoluteVote.ts:60](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L60)*
 
 
 
@@ -461,13 +533,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| params | [AbsoluteVoteParams](../interfaces/absolutevoteparams.md)   |  - |
+| params | [AbsoluteVoteParams](../interfaces/AbsoluteVoteParams.md)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionDataResult](arctransactiondataresult.md)[Hash](../#hash)>
+**Returns:** `Promise`.<[ArcTransactionDataResult](ArcTransactionDataResult.md)[Hash](../#Hash)>
 
 
 
@@ -479,11 +551,11 @@ ___
 
 ###  vote
 
-► **vote**(opts?: *[VoteConfig](../interfaces/voteconfig.md)*): `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+► **vote**(opts?: *[VoteConfig](../interfaces/VoteConfig.md)*): `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
-*Defined in [contracts/absoluteVote.ts:33](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L33)*
+*Defined in [contracts/absoluteVote.ts:33](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L33)*
 
 
 
@@ -494,13 +566,13 @@ Vote on a proposal
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [VoteConfig](../interfaces/voteconfig.md)  |  {} as VoteConfig |   - |
+| opts | [VoteConfig](../interfaces/VoteConfig.md)  |  {} as VoteConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+**Returns:** `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 Promise<ArcTransactionResult>
 
 

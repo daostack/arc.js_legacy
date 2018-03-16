@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [NewDaoConfig](../interfaces/newdaoconfig.md)
+[API Reference](../README.md) > [NewDaoConfig](../interfaces/NewDaoConfig.md)
 
 
 
@@ -7,7 +7,7 @@
 ## Hierarchy
 
 
- [ForgeOrgConfig](forgeorgconfig.md)
+ [ForgeOrgConfig](ForgeOrgConfig.md)
 
 **↳ NewDaoConfig**
 
@@ -19,13 +19,13 @@
 
 
 ## Properties
-<a id="daocreator"></a>
+<a id="daoCreator"></a>
 
 ### «Optional» daoCreator
 
 **●  daoCreator**:  *`string`* 
 
-*Defined in [dao.ts:305](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L305)*
+*Defined in [dao.ts:305](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L305)*
 
 
 
@@ -40,11 +40,11 @@ ___
 
 ###  founders
 
-**●  founders**:  *`Array`.<[FounderConfig](founderconfig.md)>* 
+**●  founders**:  *`Array`.<[FounderConfig](FounderConfig.md)>* 
 
-*Inherited from [ForgeOrgConfig](forgeorgconfig.md).[founders](forgeorgconfig.md#founders)*
+*Inherited from [ForgeOrgConfig](ForgeOrgConfig.md).[founders](ForgeOrgConfig.md#founders)*
 
-*Defined in [contracts/daocreator.ts:303](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L303)*
+*Defined in [contracts/daocreator.ts:314](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L314)*
 
 
 
@@ -61,9 +61,9 @@ ___
 
 **●  name**:  *`string`* 
 
-*Inherited from [ForgeOrgConfig](forgeorgconfig.md).[name](forgeorgconfig.md#name)*
+*Inherited from [ForgeOrgConfig](ForgeOrgConfig.md).[name](ForgeOrgConfig.md#name)*
 
-*Defined in [contracts/daocreator.ts:290](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L290)*
+*Defined in [contracts/daocreator.ts:301](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L301)*
 
 
 
@@ -74,15 +74,15 @@ The name of the new DAO.
 
 ___
 
-<a id="tokenname"></a>
+<a id="tokenName"></a>
 
 ###  tokenName
 
 **●  tokenName**:  *`string`* 
 
-*Inherited from [ForgeOrgConfig](forgeorgconfig.md).[tokenName](forgeorgconfig.md#tokenname)*
+*Inherited from [ForgeOrgConfig](ForgeOrgConfig.md).[tokenName](ForgeOrgConfig.md#tokenName)*
 
-*Defined in [contracts/daocreator.ts:294](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L294)*
+*Defined in [contracts/daocreator.ts:305](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L305)*
 
 
 
@@ -93,15 +93,15 @@ The name of the token to be associated with the DAO
 
 ___
 
-<a id="tokensymbol"></a>
+<a id="tokenSymbol"></a>
 
 ###  tokenSymbol
 
 **●  tokenSymbol**:  *`string`* 
 
-*Inherited from [ForgeOrgConfig](forgeorgconfig.md).[tokenSymbol](forgeorgconfig.md#tokensymbol)*
+*Inherited from [ForgeOrgConfig](ForgeOrgConfig.md).[tokenSymbol](ForgeOrgConfig.md#tokenSymbol)*
 
-*Defined in [contracts/daocreator.ts:298](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L298)*
+*Defined in [contracts/daocreator.ts:309](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L309)*
 
 
 
@@ -112,15 +112,15 @@ The symbol of the token to be associated with the DAO
 
 ___
 
-<a id="universalcontroller"></a>
+<a id="universalController"></a>
 
 ### «Optional» universalController
 
 **●  universalController**:  *`boolean`* 
 
-*Inherited from [ForgeOrgConfig](forgeorgconfig.md).[universalController](forgeorgconfig.md#universalcontroller)*
+*Inherited from [ForgeOrgConfig](ForgeOrgConfig.md).[universalController](ForgeOrgConfig.md#universalController)*
 
-*Defined in [contracts/daocreator.ts:308](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L308)*
+*Defined in [contracts/daocreator.ts:319](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L319)*
 
 
 

@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [NewOrgEventResult](../interfaces/neworgeventresult.md)
+[API Reference](../README.md) > [NewOrgEventResult](../interfaces/NewOrgEventResult.md)
 
 
 
@@ -10,9 +10,9 @@
 
 ###  _avatar
 
-**●  _avatar**:  *[Address](../#address)* 
+**●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/daocreator.ts:238](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L238)*
+*Defined in [contracts/daocreator.ts:249](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L249)*
 
 
 

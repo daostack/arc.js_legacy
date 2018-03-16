@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ExecutedGenesisProposal](../interfaces/executedgenesisproposal.md)
+[API Reference](../README.md) > [ExecutedGenesisProposal](../interfaces/ExecutedGenesisProposal.md)
 
 
 
@@ -10,9 +10,9 @@
 
 ###  decision
 
-**●  decision**:  *[BinaryVoteResult](../enums/binaryvoteresult.md)* 
+**●  decision**:  *[BinaryVoteResult](../enums/BinaryVoteResult.md)* 
 
-*Defined in [contracts/genesisProtocol.ts:1415](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1415)*
+*Defined in [contracts/genesisProtocol.ts:1425](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1425)*
 
 
 
@@ -20,13 +20,13 @@
 
 ___
 
-<a id="executionstate"></a>
+<a id="executionState"></a>
 
 ###  executionState
 
-**●  executionState**:  *[ExecutionState](../enums/executionstate.md)* 
+**●  executionState**:  *[ExecutionState](../enums/ExecutionState.md)* 
 
-*Defined in [contracts/genesisProtocol.ts:1421](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1421)*
+*Defined in [contracts/genesisProtocol.ts:1431](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1431)*
 
 
 
@@ -34,13 +34,13 @@ ___
 
 ___
 
-<a id="proposalid"></a>
+<a id="proposalId"></a>
 
 ###  proposalId
 
-**●  proposalId**:  *[Hash](../#hash)* 
+**●  proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/genesisProtocol.ts:1416](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1416)*
+*Defined in [contracts/genesisProtocol.ts:1426](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1426)*
 
 
 
@@ -48,13 +48,13 @@ ___
 
 ___
 
-<a id="totalreputation"></a>
+<a id="totalReputation"></a>
 
 ###  totalReputation
 
 **●  totalReputation**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/genesisProtocol.ts:1420](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1420)*
+*Defined in [contracts/genesisProtocol.ts:1430](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1430)*
 
 
 

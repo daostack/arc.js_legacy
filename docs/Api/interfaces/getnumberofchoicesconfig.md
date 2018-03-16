@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GetNumberOfChoicesConfig](../interfaces/getnumberofchoicesconfig.md)
+[API Reference](../README.md) > [GetNumberOfChoicesConfig](../interfaces/GetNumberOfChoicesConfig.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="proposalid"></a>
+<a id="proposalId"></a>
 
 ###  proposalId
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1306](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1306)*
+*Defined in [contracts/genesisProtocol.ts:1316](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1316)*
 
 
 

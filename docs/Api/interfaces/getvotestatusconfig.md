@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GetVoteStatusConfig](../interfaces/getvotestatusconfig.md)
+[API Reference](../README.md) > [GetVoteStatusConfig](../interfaces/GetVoteStatusConfig.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="proposalid"></a>
+<a id="proposalId"></a>
 
 ###  proposalId
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1321](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1321)*
+*Defined in [contracts/genesisProtocol.ts:1331](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1331)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  vote**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1325](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1325)*
+*Defined in [contracts/genesisProtocol.ts:1335](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1335)*
 
 
 

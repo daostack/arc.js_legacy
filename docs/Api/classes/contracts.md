@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [Contracts](../classes/contracts.md)
+[API Reference](../README.md) > [Contracts](../classes/Contracts.md)
 
 
 
@@ -8,25 +8,25 @@
 
 ### Properties
 
-* [contracts](contracts.md#contracts-1)
+* [contracts](Contracts.md#contracts)
 
 
 ### Methods
 
-* [getContractWrapper](contracts.md#getcontractwrapper)
-* [getDeployedContracts](contracts.md#getdeployedcontracts)
+* [getContractWrapper](Contracts.md#getContractWrapper)
+* [getDeployedContracts](Contracts.md#getDeployedContracts)
 
 
 
 ---
 ## Properties
-<a id="contracts-1"></a>
+<a id="contracts"></a>
 
 ### «Static» contracts
 
-**●  contracts**:  *[ArcDeployedContracts](../interfaces/arcdeployedcontracts.md)* 
+**●  contracts**:  *[ArcDeployedContracts](../interfaces/ArcDeployedContracts.md)* 
 
-*Defined in [contracts.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L71)*
+*Defined in [contracts.ts:71](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts.ts#L71)*
 
 
 
@@ -36,15 +36,15 @@ ___
 
 
 ## Methods
-<a id="getcontractwrapper"></a>
+<a id="getContractWrapper"></a>
 
 ### «Static» getContractWrapper
 
-► **getContractWrapper**(contract: *`string`*, address?: *`string`*): `Promise`.<[ExtendTruffleContract](extendtrufflecontract.md)⎮`undefined`>
+► **getContractWrapper**(contract: *`string`*, address?: *`string`*): `Promise`.<[ExtendTruffleContract](ExtendTruffleContract.md)⎮`undefined`>
 
 
 
-*Defined in [contracts.ts:164](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L164)*
+*Defined in [contracts.ts:164](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts.ts#L164)*
 
 
 
@@ -62,7 +62,7 @@ Returns an Arc.js contract wrapper or undefined if not found.
 
 
 
-**Returns:** `Promise`.<[ExtendTruffleContract](extendtrufflecontract.md)⎮`undefined`>
+**Returns:** `Promise`.<[ExtendTruffleContract](ExtendTruffleContract.md)⎮`undefined`>
 
 
 
@@ -70,21 +70,21 @@ Returns an Arc.js contract wrapper or undefined if not found.
 
 ___
 
-<a id="getdeployedcontracts"></a>
+<a id="getDeployedContracts"></a>
 
 ### «Static» getDeployedContracts
 
-► **getDeployedContracts**(): `Promise`.<[ArcDeployedContracts](../interfaces/arcdeployedcontracts.md)>
+► **getDeployedContracts**(): `Promise`.<[ArcDeployedContracts](../interfaces/ArcDeployedContracts.md)>
 
 
 
-*Defined in [contracts.ts:73](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L73)*
+*Defined in [contracts.ts:73](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts.ts#L73)*
 
 
 
 
 
-**Returns:** `Promise`.<[ArcDeployedContracts](../interfaces/arcdeployedcontracts.md)>
+**Returns:** `Promise`.<[ArcDeployedContracts](../interfaces/ArcDeployedContracts.md)>
 
 
 

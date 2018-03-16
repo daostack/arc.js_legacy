@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GetStakerInfoResult](../interfaces/getstakerinforesult.md)
+[API Reference](../README.md) > [GetStakerInfoResult](../interfaces/GetStakerInfoResult.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  stake**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/genesisProtocol.ts:1167](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1167)*
+*Defined in [contracts/genesisProtocol.ts:1177](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1177)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  vote**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1166](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1166)*
+*Defined in [contracts/genesisProtocol.ts:1176](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1176)*
 
 
 

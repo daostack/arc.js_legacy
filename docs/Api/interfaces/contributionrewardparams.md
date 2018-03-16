@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ContributionRewardParams](../interfaces/contributionrewardparams.md)
+[API Reference](../README.md) > [ContributionRewardParams](../interfaces/ContributionRewardParams.md)
 
 
 
@@ -7,7 +7,7 @@
 ## Hierarchy
 
 
- [StandardSchemeParams](standardschemeparams.md)
+ [StandardSchemeParams](StandardSchemeParams.md)
 
 **↳ ContributionRewardParams**
 
@@ -19,13 +19,13 @@
 
 
 ## Properties
-<a id="orgnativetokenfee"></a>
+<a id="orgNativeTokenFee"></a>
 
 ###  orgNativeTokenFee
 
 **●  orgNativeTokenFee**:  *`BigNumber.BigNumber`⎮`string`* 
 
-*Defined in [contracts/contributionreward.ts:569](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L569)*
+*Defined in [contracts/contributionreward.ts:577](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L577)*
 
 
 
@@ -33,15 +33,15 @@
 
 ___
 
-<a id="voteparametershash"></a>
+<a id="voteParametersHash"></a>
 
 ###  voteParametersHash
 
-**●  voteParametersHash**:  *[Hash](../#hash)* 
+**●  voteParametersHash**:  *[Hash](../#Hash)* 
 
-*Inherited from [StandardSchemeParams](standardschemeparams.md).[voteParametersHash](standardschemeparams.md#voteparametershash)*
+*Inherited from [StandardSchemeParams](StandardSchemeParams.md).[voteParametersHash](StandardSchemeParams.md#voteParametersHash)*
 
-*Defined in [ExtendTruffleContract.ts:384](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L384)*
+*Defined in [ExtendTruffleContract.ts:395](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L395)*
 
 
 
@@ -49,15 +49,15 @@ ___
 
 ___
 
-<a id="votingmachineaddress"></a>
+<a id="votingMachineAddress"></a>
 
 ###  votingMachineAddress
 
-**●  votingMachineAddress**:  *[Address](../#address)* 
+**●  votingMachineAddress**:  *[Address](../#Address)* 
 
-*Inherited from [StandardSchemeParams](standardschemeparams.md).[votingMachineAddress](standardschemeparams.md#votingmachineaddress)*
+*Inherited from [StandardSchemeParams](StandardSchemeParams.md).[votingMachineAddress](StandardSchemeParams.md#votingMachineAddress)*
 
-*Defined in [ExtendTruffleContract.ts:385](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L385)*
+*Defined in [ExtendTruffleContract.ts:396](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L396)*
 
 
 

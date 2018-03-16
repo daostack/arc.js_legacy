@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GetVoterInfoResult](../interfaces/getvoterinforesult.md)
+[API Reference](../README.md) > [GetVoterInfoResult](../interfaces/GetVoterInfoResult.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  reputation**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/genesisProtocol.ts:1151](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1151)*
+*Defined in [contracts/genesisProtocol.ts:1161](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1161)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  vote**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1150](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1150)*
+*Defined in [contracts/genesisProtocol.ts:1160](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1160)*
 
 
 

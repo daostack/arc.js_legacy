@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [RevokeSignToCancelAgreementEventResult](../interfaces/revokesigntocancelagreementeventresult.md)
+[API Reference](../README.md) > [RevokeSignToCancelAgreementEventResult](../interfaces/RevokeSignToCancelAgreementEventResult.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="_agreementid"></a>
+<a id="_agreementId"></a>
 
 ###  _agreementId
 
 **●  _agreementId**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/vestingscheme.ts:363](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L363)*
+*Defined in [contracts/vestingscheme.ts:360](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L360)*
 
 
 
@@ -27,9 +27,9 @@ ___
 
 ###  _signer
 
-**●  _signer**:  *[Address](../#address)* 
+**●  _signer**:  *[Address](../#Address)* 
 
-*Defined in [contracts/vestingscheme.ts:367](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L367)*
+*Defined in [contracts/vestingscheme.ts:364](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L364)*
 
 
 

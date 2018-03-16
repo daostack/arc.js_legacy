@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GetRedeemableReputationVoterConfig](../interfaces/getredeemablereputationvoterconfig.md)
+[API Reference](../README.md) > [GetRedeemableReputationVoterConfig](../interfaces/GetRedeemableReputationVoterConfig.md)
 
 
 
@@ -15,7 +15,7 @@ return the amount of reputation to which the voter will be entitled as an outcom
 
 **●  beneficiary**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1285](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1285)*
+*Defined in [contracts/genesisProtocol.ts:1295](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1295)*
 
 
 
@@ -26,13 +26,13 @@ the voter
 
 ___
 
-<a id="proposalid"></a>
+<a id="proposalId"></a>
 
 ###  proposalId
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1281](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1281)*
+*Defined in [contracts/genesisProtocol.ts:1291](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1291)*
 
 
 

@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [SchemeConfig](../interfaces/schemeconfig.md)
+[API Reference](../README.md) > [SchemeConfig](../interfaces/SchemeConfig.md)
 
 
 
@@ -9,13 +9,13 @@ Configuration of an Arc scheme that you want to automatically register with a ne
 
 
 ## Properties
-<a id="additionalparams"></a>
+<a id="additionalParams"></a>
 
 ### «Optional» additionalParams
 
 **●  additionalParams**:  *`any`* 
 
-*Defined in [contracts/daocreator.ts:345](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L345)*
+*Defined in [contracts/daocreator.ts:356](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L356)*
 
 
 
@@ -34,7 +34,7 @@ ___
 
 **●  address**:  *`string`* 
 
-*Defined in [contracts/daocreator.ts:322](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L322)*
+*Defined in [contracts/daocreator.ts:333](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L333)*
 
 
 
@@ -51,7 +51,7 @@ ___
 
 **●  name**:  *`string`* 
 
-*Defined in [contracts/daocreator.ts:318](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L318)*
+*Defined in [contracts/daocreator.ts:329](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L329)*
 
 
 
@@ -66,9 +66,9 @@ ___
 
 ### «Optional» permissions
 
-**●  permissions**:  *`string`* 
+**●  permissions**:  *[SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)* 
 
-*Defined in [contracts/daocreator.ts:329](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L329)*
+*Defined in [contracts/daocreator.ts:340](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L340)*
 
 
 
@@ -79,13 +79,13 @@ Extra permissions on the scheme. The minimum permissions for the scheme will be 
 
 ___
 
-<a id="votingmachineparams"></a>
+<a id="votingMachineParams"></a>
 
 ### «Optional» votingMachineParams
 
-**●  votingMachineParams**:  *[NewDaoVotingMachineConfig](newdaovotingmachineconfig.md)* 
+**●  votingMachineParams**:  *[NewDaoVotingMachineConfig](NewDaoVotingMachineConfig.md)* 
 
-*Defined in [contracts/daocreator.ts:338](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L338)*
+*Defined in [contracts/daocreator.ts:349](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L349)*
 
 
 

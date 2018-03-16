@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GetScoreThresholdParamsConfig](../interfaces/getscorethresholdparamsconfig.md)
+[API Reference](../README.md) > [GetScoreThresholdParamsConfig](../interfaces/GetScoreThresholdParamsConfig.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1360](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1360)*
+*Defined in [contracts/genesisProtocol.ts:1370](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1370)*
 
 
 

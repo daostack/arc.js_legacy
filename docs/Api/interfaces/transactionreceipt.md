@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [TransactionReceipt](../interfaces/transactionreceipt.md)
+[API Reference](../README.md) > [TransactionReceipt](../interfaces/TransactionReceipt.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="blockhash"></a>
+<a id="blockHash"></a>
 
 ###  blockHash
 
 **●  blockHash**:  *`string`* 
 
-*Defined in [ExtendTruffleContract.ts:301](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L301)*
+*Defined in [ExtendTruffleContract.ts:312](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L312)*
 
 
 
@@ -20,13 +20,13 @@
 
 ___
 
-<a id="blocknumber"></a>
+<a id="blockNumber"></a>
 
 ###  blockNumber
 
 **●  blockNumber**:  *`number`* 
 
-*Defined in [ExtendTruffleContract.ts:302](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L302)*
+*Defined in [ExtendTruffleContract.ts:313](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L313)*
 
 
 
@@ -34,13 +34,13 @@ ___
 
 ___
 
-<a id="contractaddress"></a>
+<a id="contractAddress"></a>
 
 ###  contractAddress
 
 **●  contractAddress**:  *`string`⎮`null`* 
 
-*Defined in [ExtendTruffleContract.ts:310](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L310)*
+*Defined in [ExtendTruffleContract.ts:321](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L321)*
 
 
 
@@ -48,13 +48,13 @@ ___
 
 ___
 
-<a id="cumulativegasused"></a>
+<a id="cumulativeGasUsed"></a>
 
 ###  cumulativeGasUsed
 
 **●  cumulativeGasUsed**:  *`number`* 
 
-*Defined in [ExtendTruffleContract.ts:308](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L308)*
+*Defined in [ExtendTruffleContract.ts:319](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L319)*
 
 
 
@@ -68,7 +68,7 @@ ___
 
 **●  from**:  *`string`* 
 
-*Defined in [ExtendTruffleContract.ts:305](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L305)*
+*Defined in [ExtendTruffleContract.ts:316](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L316)*
 
 
 
@@ -76,13 +76,13 @@ ___
 
 ___
 
-<a id="gasused"></a>
+<a id="gasUsed"></a>
 
 ###  gasUsed
 
 **●  gasUsed**:  *`number`* 
 
-*Defined in [ExtendTruffleContract.ts:309](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L309)*
+*Defined in [ExtendTruffleContract.ts:320](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L320)*
 
 
 
@@ -94,9 +94,9 @@ ___
 
 ###  logs
 
-**●  logs**:  *`Array`.<[LogEntry](logentry.md)>* 
+**●  logs**:  *`Array`.<[LogEntry](LogEntry.md)>* 
 
-*Defined in [ExtendTruffleContract.ts:311](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L311)*
+*Defined in [ExtendTruffleContract.ts:322](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L322)*
 
 
 
@@ -110,7 +110,7 @@ ___
 
 **●  status**:  *`null`⎮`string`⎮`0`⎮`1`* 
 
-*Defined in [ExtendTruffleContract.ts:307](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L307)*
+*Defined in [ExtendTruffleContract.ts:318](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L318)*
 
 
 
@@ -124,7 +124,7 @@ ___
 
 **●  to**:  *`string`* 
 
-*Defined in [ExtendTruffleContract.ts:306](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L306)*
+*Defined in [ExtendTruffleContract.ts:317](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L317)*
 
 
 
@@ -132,13 +132,13 @@ ___
 
 ___
 
-<a id="transactionhash"></a>
+<a id="transactionHash"></a>
 
 ###  transactionHash
 
 **●  transactionHash**:  *`string`* 
 
-*Defined in [ExtendTruffleContract.ts:303](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L303)*
+*Defined in [ExtendTruffleContract.ts:314](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L314)*
 
 
 
@@ -146,13 +146,13 @@ ___
 
 ___
 
-<a id="transactionindex"></a>
+<a id="transactionIndex"></a>
 
 ###  transactionIndex
 
 **●  transactionIndex**:  *`number`* 
 
-*Defined in [ExtendTruffleContract.ts:304](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L304)*
+*Defined in [ExtendTruffleContract.ts:315](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L315)*
 
 
 

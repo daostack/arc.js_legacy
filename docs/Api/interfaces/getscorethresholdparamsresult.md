@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GetScoreThresholdParamsResult](../interfaces/getscorethresholdparamsresult.md)
+[API Reference](../README.md) > [GetScoreThresholdParamsResult](../interfaces/GetScoreThresholdParamsResult.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="thresholdconsta"></a>
+<a id="thresholdConstA"></a>
 
 ###  thresholdConstA
 
 **●  thresholdConstA**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1161](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1161)*
+*Defined in [contracts/genesisProtocol.ts:1171](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1171)*
 
 
 
@@ -20,13 +20,13 @@
 
 ___
 
-<a id="thresholdconstb"></a>
+<a id="thresholdConstB"></a>
 
 ###  thresholdConstB
 
 **●  thresholdConstB**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1162](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1162)*
+*Defined in [contracts/genesisProtocol.ts:1172](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1172)*
 
 
 

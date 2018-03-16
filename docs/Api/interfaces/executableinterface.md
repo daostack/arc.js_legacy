@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ExecutableInterface](../interfaces/executableinterface.md)
+[API Reference](../README.md) > [ExecutableInterface](../interfaces/ExecutableInterface.md)
 
 
 
@@ -17,7 +17,7 @@ Javascript version of the Arc ExecutableInterface, for information purposes.
 
 
 
-*Defined in [contracts/genesisProtocol.ts:1122](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1122)*
+*Defined in [contracts/genesisProtocol.ts:1132](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1132)*
 
 
 

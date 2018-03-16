@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [CancelVotingEventResult](../interfaces/cancelvotingeventresult.md)
+[API Reference](../README.md) > [CancelVotingEventResult](../interfaces/CancelVotingEventResult.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/absoluteVote.ts:104](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L104)*
+*Defined in [contracts/absoluteVote.ts:104](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L104)*
 
 
 
@@ -27,9 +27,9 @@ ___
 
 ###  _voter
 
-**●  _voter**:  *[Address](../#address)* 
+**●  _voter**:  *[Address](../#Address)* 
 
-*Defined in [contracts/absoluteVote.ts:105](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L105)*
+*Defined in [contracts/absoluteVote.ts:105](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L105)*
 
 
 

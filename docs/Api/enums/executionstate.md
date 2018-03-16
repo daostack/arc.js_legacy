@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ExecutionState](../enums/executionstate.md)
+[API Reference](../README.md) > [ExecutionState](../enums/ExecutionState.md)
 
 
 
@@ -8,23 +8,23 @@
 
 ### Enumeration members
 
-* [BoostedBarCrossed](executionstate.md#boostedbarcrossed)
-* [BoostedTimeOut](executionstate.md#boostedtimeout)
-* [None](executionstate.md#none)
-* [PreBoostedBarCrossed](executionstate.md#preboostedbarcrossed)
-* [PreBoostedTimeOut](executionstate.md#preboostedtimeout)
+* [BoostedBarCrossed](ExecutionState.md#BoostedBarCrossed)
+* [BoostedTimeOut](ExecutionState.md#BoostedTimeOut)
+* [None](ExecutionState.md#None)
+* [PreBoostedBarCrossed](ExecutionState.md#PreBoostedBarCrossed)
+* [PreBoostedTimeOut](ExecutionState.md#PreBoostedTimeOut)
 
 
 
 ---
 ## Enumeration members
-<a id="boostedbarcrossed"></a>
+<a id="BoostedBarCrossed"></a>
 
 ###  BoostedBarCrossed
 
 ** BoostedBarCrossed**:    = 4
 
-*Defined in [contracts/genesisProtocol.ts:1404](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1404)*
+*Defined in [contracts/genesisProtocol.ts:1414](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1414)*
 
 
 
@@ -32,13 +32,13 @@
 
 ___
 
-<a id="boostedtimeout"></a>
+<a id="BoostedTimeOut"></a>
 
 ###  BoostedTimeOut
 
 ** BoostedTimeOut**:    = 3
 
-*Defined in [contracts/genesisProtocol.ts:1403](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1403)*
+*Defined in [contracts/genesisProtocol.ts:1413](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1413)*
 
 
 
@@ -46,13 +46,13 @@ ___
 
 ___
 
-<a id="none"></a>
+<a id="None"></a>
 
 ###  None
 
 ** None**:    = 0
 
-*Defined in [contracts/genesisProtocol.ts:1400](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1400)*
+*Defined in [contracts/genesisProtocol.ts:1410](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1410)*
 
 
 
@@ -60,13 +60,13 @@ ___
 
 ___
 
-<a id="preboostedbarcrossed"></a>
+<a id="PreBoostedBarCrossed"></a>
 
 ###  PreBoostedBarCrossed
 
 ** PreBoostedBarCrossed**:    = 2
 
-*Defined in [contracts/genesisProtocol.ts:1402](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1402)*
+*Defined in [contracts/genesisProtocol.ts:1412](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1412)*
 
 
 
@@ -74,13 +74,13 @@ ___
 
 ___
 
-<a id="preboostedtimeout"></a>
+<a id="PreBoostedTimeOut"></a>
 
 ###  PreBoostedTimeOut
 
 ** PreBoostedTimeOut**:    = 1
 
-*Defined in [contracts/genesisProtocol.ts:1401](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1401)*
+*Defined in [contracts/genesisProtocol.ts:1411](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1411)*
 
 
 

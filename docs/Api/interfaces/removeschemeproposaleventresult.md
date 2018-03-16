@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [RemoveSchemeProposalEventResult](../interfaces/removeschemeproposaleventresult.md)
+[API Reference](../README.md) > [RemoveSchemeProposalEventResult](../interfaces/RemoveSchemeProposalEventResult.md)
 
 
 
@@ -10,9 +10,9 @@
 
 ###  _avatar
 
-**●  _avatar**:  *[Address](../#address)* 
+**●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/schemeregistrar.ts:222](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L222)*
+*Defined in [contracts/schemeregistrar.ts:187](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L187)*
 
 
 
@@ -23,13 +23,13 @@ indexed
 
 ___
 
-<a id="_intvoteinterface"></a>
+<a id="_intVoteInterface"></a>
 
 ###  _intVoteInterface
 
-**●  _intVoteInterface**:  *[Address](../#address)* 
+**●  _intVoteInterface**:  *[Address](../#Address)* 
 
-*Defined in [contracts/schemeregistrar.ts:226](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L226)*
+*Defined in [contracts/schemeregistrar.ts:191](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L191)*
 
 
 
@@ -40,13 +40,13 @@ indexed
 
 ___
 
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/schemeregistrar.ts:230](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L230)*
+*Defined in [contracts/schemeregistrar.ts:195](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L195)*
 
 
 
@@ -61,9 +61,9 @@ ___
 
 ###  _scheme
 
-**●  _scheme**:  *[Address](../#address)* 
+**●  _scheme**:  *[Address](../#Address)* 
 
-*Defined in [contracts/schemeregistrar.ts:231](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L231)*
+*Defined in [contracts/schemeregistrar.ts:196](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L196)*
 
 
 

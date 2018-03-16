@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [VoteOnBehalfEventResult](../interfaces/voteonbehalfeventresult.md)
+[API Reference](../README.md) > [VoteOnBehalfEventResult](../interfaces/VoteOnBehalfEventResult.md)
 
 
 
@@ -10,9 +10,9 @@
 
 ###  _params
 
-**●  _params**:  *`Array`.<[Hash](../#hash)>* 
+**●  _params**:  *`Array`.<[Hash](../#Hash)>* 
 
-*Defined in [contracts/voteInOrganizationScheme.ts:90](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L90)*
+*Defined in [contracts/voteInOrganizationScheme.ts:91](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/voteInOrganizationScheme.ts#L91)*
 
 
 

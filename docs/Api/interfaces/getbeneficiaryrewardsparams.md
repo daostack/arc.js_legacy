@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GetBeneficiaryRewardsParams](../interfaces/getbeneficiaryrewardsparams.md)
+[API Reference](../README.md) > [GetBeneficiaryRewardsParams](../interfaces/GetBeneficiaryRewardsParams.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/contributionreward.ts:591](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L591)*
+*Defined in [contracts/contributionreward.ts:599](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L599)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  beneficiary**:  *`string`* 
 
-*Defined in [contracts/contributionreward.ts:595](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L595)*
+*Defined in [contracts/contributionreward.ts:603](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L603)*
 
 
 
@@ -40,13 +40,13 @@ The agent who is to receive the rewards
 
 ___
 
-<a id="proposalid"></a>
+<a id="proposalId"></a>
 
 ### «Optional» proposalId
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/contributionreward.ts:599](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L599)*
+*Defined in [contracts/contributionreward.ts:607](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L607)*
 
 
 

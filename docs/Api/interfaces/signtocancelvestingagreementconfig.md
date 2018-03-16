@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [SignToCancelVestingAgreementConfig](../interfaces/signtocancelvestingagreementconfig.md)
+[API Reference](../README.md) > [SignToCancelVestingAgreementConfig](../interfaces/SignToCancelVestingAgreementConfig.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="agreementid"></a>
+<a id="agreementId"></a>
 
 ###  agreementId
 
 **●  agreementId**:  *`number`* 
 
-*Defined in [contracts/vestingscheme.ts:453](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L453)*
+*Defined in [contracts/vestingscheme.ts:450](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L450)*
 
 
 

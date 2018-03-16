@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [VoteInOrganizationSchemeWrapper](../classes/voteinorganizationschemewrapper.md)
+[API Reference](../README.md) > [VoteInOrganizationSchemeWrapper](../classes/VoteInOrganizationSchemeWrapper.md)
 
 
 
@@ -7,7 +7,7 @@
 ## Hierarchy
 
 
- [ExtendTruffleContract](extendtrufflecontract.md)
+ [ExtendTruffleContract](ExtendTruffleContract.md)
 
 **↳ VoteInOrganizationSchemeWrapper**
 
@@ -21,34 +21,36 @@
 
 ### Constructors
 
-* [constructor](voteinorganizationschemewrapper.md#constructor)
+* [constructor](VoteInOrganizationSchemeWrapper.md#constructor)
 
 
 ### Properties
 
-* [ProposalDeleted](voteinorganizationschemewrapper.md#proposaldeleted)
-* [ProposalExecuted](voteinorganizationschemewrapper.md#proposalexecuted)
-* [VoteOnBehalf](voteinorganizationschemewrapper.md#voteonbehalf)
-* [contract](voteinorganizationschemewrapper.md#contract)
+* [ProposalDeleted](VoteInOrganizationSchemeWrapper.md#ProposalDeleted)
+* [ProposalExecuted](VoteInOrganizationSchemeWrapper.md#ProposalExecuted)
+* [VoteOnBehalf](VoteInOrganizationSchemeWrapper.md#VoteOnBehalf)
+* [contract](VoteInOrganizationSchemeWrapper.md#contract)
 
 
 ### Accessors
 
-* [address](voteinorganizationschemewrapper.md#address)
+* [address](VoteInOrganizationSchemeWrapper.md#address)
 
 
 ### Methods
 
-* [getDefaultPermissions](voteinorganizationschemewrapper.md#getdefaultpermissions)
-* [getParameters](voteinorganizationschemewrapper.md#getparameters)
-* [getParametersArray](voteinorganizationschemewrapper.md#getparametersarray)
-* [getSchemeParameters](voteinorganizationschemewrapper.md#getschemeparameters)
-* [getSchemeParametersHash](voteinorganizationschemewrapper.md#getschemeparametershash)
-* [hydrateFromAt](voteinorganizationschemewrapper.md#hydratefromat)
-* [hydrateFromDeployed](voteinorganizationschemewrapper.md#hydratefromdeployed)
-* [hydrateFromNew](voteinorganizationschemewrapper.md#hydratefromnew)
-* [proposeVote](voteinorganizationschemewrapper.md#proposevote)
-* [setParameters](voteinorganizationschemewrapper.md#setparameters)
+* [getController](VoteInOrganizationSchemeWrapper.md#getController)
+* [getDefaultPermissions](VoteInOrganizationSchemeWrapper.md#getDefaultPermissions)
+* [getParameters](VoteInOrganizationSchemeWrapper.md#getParameters)
+* [getParametersArray](VoteInOrganizationSchemeWrapper.md#getParametersArray)
+* [getPermissions](VoteInOrganizationSchemeWrapper.md#getPermissions)
+* [getSchemeParameters](VoteInOrganizationSchemeWrapper.md#getSchemeParameters)
+* [getSchemeParametersHash](VoteInOrganizationSchemeWrapper.md#getSchemeParametersHash)
+* [hydrateFromAt](VoteInOrganizationSchemeWrapper.md#hydrateFromAt)
+* [hydrateFromDeployed](VoteInOrganizationSchemeWrapper.md#hydrateFromDeployed)
+* [hydrateFromNew](VoteInOrganizationSchemeWrapper.md#hydrateFromNew)
+* [proposeVote](VoteInOrganizationSchemeWrapper.md#proposeVote)
+* [setParameters](VoteInOrganizationSchemeWrapper.md#setParameters)
 
 
 
@@ -57,12 +59,12 @@
 <a id="constructor"></a>
 
 
-### ⊕ **new VoteInOrganizationSchemeWrapper**(solidityContract: *`any`*): [VoteInOrganizationSchemeWrapper](voteinorganizationschemewrapper.md)
+### ⊕ **new VoteInOrganizationSchemeWrapper**(solidityContract: *`any`*): [VoteInOrganizationSchemeWrapper](VoteInOrganizationSchemeWrapper.md)
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[constructor](extendtrufflecontract.md#constructor)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[constructor](ExtendTruffleContract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -79,19 +81,19 @@ ContractWrapperFactory constructs this
 
 
 
-**Returns:** [VoteInOrganizationSchemeWrapper](voteinorganizationschemewrapper.md)
+**Returns:** [VoteInOrganizationSchemeWrapper](VoteInOrganizationSchemeWrapper.md)
 
 ---
 
 
 ## Properties
-<a id="proposaldeleted"></a>
+<a id="ProposalDeleted"></a>
 
 ###  ProposalDeleted
 
-**●  ProposalDeleted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalDeletedEventResult](../interfaces/proposaldeletedeventresult.md)*  =  this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted")
+**●  ProposalDeleted**:  *[EventFetcherFactory](../#EventFetcherFactory)[ProposalDeletedEventResult](../interfaces/ProposalDeletedEventResult.md)*  =  this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted")
 
-*Defined in [contracts/voteInOrganizationScheme.ts:22](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L22)*
+*Defined in [contracts/voteInOrganizationScheme.ts:22](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/voteInOrganizationScheme.ts#L22)*
 
 
 
@@ -99,13 +101,13 @@ ContractWrapperFactory constructs this
 
 ___
 
-<a id="proposalexecuted"></a>
+<a id="ProposalExecuted"></a>
 
 ###  ProposalExecuted
 
-**●  ProposalExecuted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalExecutedEventResult](../interfaces/proposalexecutedeventresult.md)*  =  this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted")
+**●  ProposalExecuted**:  *[EventFetcherFactory](../#EventFetcherFactory)[ProposalExecutedEventResult](../interfaces/ProposalExecutedEventResult.md)*  =  this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted")
 
-*Defined in [contracts/voteInOrganizationScheme.ts:21](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L21)*
+*Defined in [contracts/voteInOrganizationScheme.ts:21](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/voteInOrganizationScheme.ts#L21)*
 
 
 
@@ -116,13 +118,13 @@ Events
 
 ___
 
-<a id="voteonbehalf"></a>
+<a id="VoteOnBehalf"></a>
 
 ###  VoteOnBehalf
 
-**●  VoteOnBehalf**:  *[EventFetcherFactory](../#eventfetcherfactory)[VoteOnBehalfEventResult](../interfaces/voteonbehalfeventresult.md)*  =  this.createEventFetcherFactory<VoteOnBehalfEventResult>("VoteOnBehalf")
+**●  VoteOnBehalf**:  *[EventFetcherFactory](../#EventFetcherFactory)[VoteOnBehalfEventResult](../interfaces/VoteOnBehalfEventResult.md)*  =  this.createEventFetcherFactory<VoteOnBehalfEventResult>("VoteOnBehalf")
 
-*Defined in [contracts/voteInOrganizationScheme.ts:23](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L23)*
+*Defined in [contracts/voteInOrganizationScheme.ts:23](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/voteInOrganizationScheme.ts#L23)*
 
 
 
@@ -136,9 +138,9 @@ ___
 
 **●  contract**:  *`any`* 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[contract](extendtrufflecontract.md#contract)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[contract](ExtendTruffleContract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -156,17 +158,17 @@ ___
 ###  address
 
 
-getaddress(): [Address](../#address)
+getaddress(): [Address](../#Address)
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[address](extendtrufflecontract.md#address)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[address](ExtendTruffleContract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L128)*
-
-
+*Defined in [ExtendTruffleContract.ts:148](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L148)*
 
 
 
-**Returns:** [Address](../#address)
+
+
+**Returns:** [Address](../#Address)
 
 
 
@@ -174,17 +176,52 @@ ___
 
 
 ## Methods
-<a id="getdefaultpermissions"></a>
+<a id="getController"></a>
+
+###  getController
+
+► **getController**(avatarAddress: *[Address](../#Address)*): `Promise`.<`any`>
+
+
+
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getController](ExtendTruffleContract.md#getController)*
+
+*Defined in [ExtendTruffleContract.ts:143](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L143)*
+
+
+
+return the controller associated with the given avatar
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| avatarAddress | [Address](../#Address)   |  - |
+
+
+
+
+
+**Returns:** `Promise`.<`any`>
+
+
+
+
+
+___
+
+<a id="getDefaultPermissions"></a>
 
 ###  getDefaultPermissions
 
-► **getDefaultPermissions**(overrideValue?: *`string`*): `string`
+► **getDefaultPermissions**(overrideValue?: *[SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)*): [SchemePermissions](../enums/SchemePermissions.md)
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getDefaultPermissions](extendtrufflecontract.md#getdefaultpermissions)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getDefaultPermissions](ExtendTruffleContract.md#getDefaultPermissions)*
 
-*Defined in [contracts/voteInOrganizationScheme.ts:68](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L68)*
+*Defined in [contracts/voteInOrganizationScheme.ts:68](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/voteInOrganizationScheme.ts#L68)*
 
 
 
@@ -192,13 +229,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| overrideValue | `string`   |  - |
+| overrideValue | [SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)   |  - |
 
 
 
 
 
-**Returns:** `string`
+**Returns:** [SchemePermissions](../enums/SchemePermissions.md)
 
 
 
@@ -206,17 +243,17 @@ ___
 
 ___
 
-<a id="getparameters"></a>
+<a id="getParameters"></a>
 
 ###  getParameters
 
-► **getParameters**(paramsHash: *[Hash](../#hash)*): `Promise`.<[StandardSchemeParams](../interfaces/standardschemeparams.md)>
+► **getParameters**(paramsHash: *[Hash](../#Hash)*): `Promise`.<[StandardSchemeParams](../interfaces/StandardSchemeParams.md)>
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getParameters](extendtrufflecontract.md#getparameters)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getParameters](ExtendTruffleContract.md#getParameters)*
 
-*Defined in [contracts/voteInOrganizationScheme.ts:76](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L76)*
+*Defined in [contracts/voteInOrganizationScheme.ts:77](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/voteInOrganizationScheme.ts#L77)*
 
 
 
@@ -224,13 +261,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| paramsHash | [Hash](../#hash)   |  - |
+| paramsHash | [Hash](../#Hash)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[StandardSchemeParams](../interfaces/standardschemeparams.md)>
+**Returns:** `Promise`.<[StandardSchemeParams](../interfaces/StandardSchemeParams.md)>
 
 
 
@@ -238,17 +275,17 @@ ___
 
 ___
 
-<a id="getparametersarray"></a>
+<a id="getParametersArray"></a>
 
 ###  getParametersArray
 
-► **getParametersArray**(paramsHash: *[Hash](../#hash)*): `Promise`.<`Array`.<`any`>>
+► **getParametersArray**(paramsHash: *[Hash](../#Hash)*): `Promise`.<`Array`.<`any`>>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParametersArray](extendtrufflecontract.md#getparametersarray)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getParametersArray](ExtendTruffleContract.md#getParametersArray)*
 
-*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L124)*
+*Defined in [ExtendTruffleContract.ts:135](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L135)*
 
 
 
@@ -259,7 +296,7 @@ Given a hash, return the associated parameters as an array, ordered by the order
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| paramsHash | [Hash](../#hash)   |  - |
+| paramsHash | [Hash](../#Hash)   |  - |
 
 
 
@@ -273,29 +310,34 @@ Given a hash, return the associated parameters as an array, ordered by the order
 
 ___
 
-<a id="getschemeparameters"></a>
+<a id="getPermissions"></a>
 
-###  getSchemeParameters
+###  getPermissions
 
-► **getSchemeParameters**(avatarAddress: *[Address](../#address)*): `Promise`.<[StandardSchemeParams](../interfaces/standardschemeparams.md)>
+► **getPermissions**(avatarAddress: *[Address](../#Address)*): `Promise`.<[SchemePermissions](../enums/SchemePermissions.md)>
 
 
 
-*Defined in [contracts/voteInOrganizationScheme.ts:72](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L72)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getPermissions](ExtendTruffleContract.md#getPermissions)*
 
+*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L106)*
+
+
+
+Return this scheme's permissions.
 
 
 **Parameters:**
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| avatarAddress | [Address](../#address)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[StandardSchemeParams](../interfaces/standardschemeparams.md)>
+**Returns:** `Promise`.<[SchemePermissions](../enums/SchemePermissions.md)>
 
 
 
@@ -303,17 +345,47 @@ ___
 
 ___
 
-<a id="getschemeparametershash"></a>
+<a id="getSchemeParameters"></a>
+
+###  getSchemeParameters
+
+► **getSchemeParameters**(avatarAddress: *[Address](../#Address)*): `Promise`.<[StandardSchemeParams](../interfaces/StandardSchemeParams.md)>
+
+
+
+*Defined in [contracts/voteInOrganizationScheme.ts:73](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/voteInOrganizationScheme.ts#L73)*
+
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| avatarAddress | [Address](../#Address)   |  - |
+
+
+
+
+
+**Returns:** `Promise`.<[StandardSchemeParams](../interfaces/StandardSchemeParams.md)>
+
+
+
+
+
+___
+
+<a id="getSchemeParametersHash"></a>
 
 ###  getSchemeParametersHash
 
-► **getSchemeParametersHash**(avatarAddress: *[Address](../#address)*): `Promise`.<[Hash](../#hash)>
+► **getSchemeParametersHash**(avatarAddress: *[Address](../#Address)*): `Promise`.<[Hash](../#Hash)>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getSchemeParametersHash](extendtrufflecontract.md#getschemeparametershash)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getSchemeParametersHash](ExtendTruffleContract.md#getSchemeParametersHash)*
 
-*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L114)*
+*Defined in [ExtendTruffleContract.ts:125](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L125)*
 
 
 
@@ -324,13 +396,13 @@ Given an avatar address, return the schemes parameters hash
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| avatarAddress | [Address](../#address)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[Hash](../#hash)>
+**Returns:** `Promise`.<[Hash](../#Hash)>
 
 
 
@@ -338,7 +410,7 @@ Given an avatar address, return the schemes parameters hash
 
 ___
 
-<a id="hydratefromat"></a>
+<a id="hydrateFromAt"></a>
 
 ###  hydrateFromAt
 
@@ -346,9 +418,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromAt](extendtrufflecontract.md#hydratefromat)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromAt](ExtendTruffleContract.md#hydrateFromAt)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -375,7 +447,7 @@ this
 
 ___
 
-<a id="hydratefromdeployed"></a>
+<a id="hydrateFromDeployed"></a>
 
 ###  hydrateFromDeployed
 
@@ -383,9 +455,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromDeployed](extendtrufflecontract.md#hydratefromdeployed)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromDeployed](ExtendTruffleContract.md#hydrateFromDeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -404,7 +476,7 @@ this
 
 ___
 
-<a id="hydratefromnew"></a>
+<a id="hydrateFromNew"></a>
 
 ###  hydrateFromNew
 
@@ -412,9 +484,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromNew](extendtrufflecontract.md#hydratefromnew)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromNew](ExtendTruffleContract.md#hydrateFromNew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -441,15 +513,15 @@ this
 
 ___
 
-<a id="proposevote"></a>
+<a id="proposeVote"></a>
 
 ###  proposeVote
 
-► **proposeVote**(opts?: *[VoteInOrganizationProposeVoteConfig](../interfaces/voteinorganizationproposevoteconfig.md)*): `Promise`.<[ArcTransactionProposalResult](arctransactionproposalresult.md)>
+► **proposeVote**(opts?: *[VoteInOrganizationProposeVoteConfig](../interfaces/VoteInOrganizationProposeVoteConfig.md)*): `Promise`.<[ArcTransactionProposalResult](ArcTransactionProposalResult.md)>
 
 
 
-*Defined in [contracts/voteInOrganizationScheme.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L26)*
+*Defined in [contracts/voteInOrganizationScheme.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/voteInOrganizationScheme.ts#L26)*
 
 
 
@@ -457,13 +529,13 @@ ___
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [VoteInOrganizationProposeVoteConfig](../interfaces/voteinorganizationproposevoteconfig.md)  |  {} as VoteInOrganizationProposeVoteConfig |   - |
+| opts | [VoteInOrganizationProposeVoteConfig](../interfaces/VoteInOrganizationProposeVoteConfig.md)  |  {} as VoteInOrganizationProposeVoteConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionProposalResult](arctransactionproposalresult.md)>
+**Returns:** `Promise`.<[ArcTransactionProposalResult](ArcTransactionProposalResult.md)>
 
 
 
@@ -471,17 +543,17 @@ ___
 
 ___
 
-<a id="setparameters"></a>
+<a id="setParameters"></a>
 
 ###  setParameters
 
-► **setParameters**(params: *[StandardSchemeParams](../interfaces/standardschemeparams.md)*): `Promise`.<[ArcTransactionDataResult](arctransactiondataresult.md)[Hash](../#hash)>
+► **setParameters**(params: *[StandardSchemeParams](../interfaces/StandardSchemeParams.md)*): `Promise`.<[ArcTransactionDataResult](ArcTransactionDataResult.md)[Hash](../#Hash)>
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[setParameters](extendtrufflecontract.md#setparameters)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[setParameters](ExtendTruffleContract.md#setParameters)*
 
-*Defined in [contracts/voteInOrganizationScheme.ts:61](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L61)*
+*Defined in [contracts/voteInOrganizationScheme.ts:61](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/voteInOrganizationScheme.ts#L61)*
 
 
 
@@ -489,13 +561,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| params | [StandardSchemeParams](../interfaces/standardschemeparams.md)   |  - |
+| params | [StandardSchemeParams](../interfaces/StandardSchemeParams.md)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionDataResult](arctransactiondataresult.md)[Hash](../#hash)>
+**Returns:** `Promise`.<[ArcTransactionDataResult](ArcTransactionDataResult.md)[Hash](../#Hash)>
 
 
 

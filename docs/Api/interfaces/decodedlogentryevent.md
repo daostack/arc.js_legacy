@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [DecodedLogEntryEvent](../interfaces/decodedlogentryevent.md)
+[API Reference](../README.md) > [DecodedLogEntryEvent](../interfaces/DecodedLogEntryEvent.md)
 
 
 
@@ -9,7 +9,7 @@
 ## Hierarchy
 
 
-↳  [DecodedLogEntry](decodedlogentry.md)`TArgs`
+↳  [DecodedLogEntry](DecodedLogEntry.md)`TArgs`
 
 **↳ DecodedLogEntryEvent**
 
@@ -27,9 +27,9 @@
 
 **●  address**:  *`string`* 
 
-*Inherited from [LogEntry](logentry.md).[address](logentry.md#address)*
+*Inherited from [LogEntry](LogEntry.md).[address](LogEntry.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:365](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L365)*
+*Defined in [ExtendTruffleContract.ts:376](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L376)*
 
 
 
@@ -43,9 +43,9 @@ ___
 
 **●  args**:  *`TArgs`* 
 
-*Inherited from [DecodedLogEntry](decodedlogentry.md).[args](decodedlogentry.md#args)*
+*Inherited from [DecodedLogEntry](DecodedLogEntry.md).[args](DecodedLogEntry.md#args)*
 
-*Defined in [ExtendTruffleContract.ts:376](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L376)*
+*Defined in [ExtendTruffleContract.ts:387](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L387)*
 
 
 
@@ -53,15 +53,15 @@ ___
 
 ___
 
-<a id="blockhash"></a>
+<a id="blockHash"></a>
 
 ###  blockHash
 
 **●  blockHash**:  *`string`⎮`null`* 
 
-*Inherited from [LogEntry](logentry.md).[blockHash](logentry.md#blockhash)*
+*Inherited from [LogEntry](LogEntry.md).[blockHash](LogEntry.md#blockHash)*
 
-*Defined in [ExtendTruffleContract.ts:363](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L363)*
+*Defined in [ExtendTruffleContract.ts:374](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L374)*
 
 
 
@@ -69,15 +69,15 @@ ___
 
 ___
 
-<a id="blocknumber"></a>
+<a id="blockNumber"></a>
 
 ###  blockNumber
 
 **●  blockNumber**:  *`number`⎮`null`* 
 
-*Inherited from [LogEntry](logentry.md).[blockNumber](logentry.md#blocknumber)*
+*Inherited from [LogEntry](LogEntry.md).[blockNumber](LogEntry.md#blockNumber)*
 
-*Defined in [ExtendTruffleContract.ts:364](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L364)*
+*Defined in [ExtendTruffleContract.ts:375](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L375)*
 
 
 
@@ -91,9 +91,9 @@ ___
 
 **●  data**:  *`string`* 
 
-*Inherited from [LogEntry](logentry.md).[data](logentry.md#data)*
+*Inherited from [LogEntry](LogEntry.md).[data](LogEntry.md#data)*
 
-*Defined in [ExtendTruffleContract.ts:366](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L366)*
+*Defined in [ExtendTruffleContract.ts:377](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L377)*
 
 
 
@@ -107,9 +107,9 @@ ___
 
 **●  event**:  *`string`* 
 
-*Inherited from [DecodedLogEntry](decodedlogentry.md).[event](decodedlogentry.md#event)*
+*Inherited from [DecodedLogEntry](DecodedLogEntry.md).[event](DecodedLogEntry.md#event)*
 
-*Defined in [ExtendTruffleContract.ts:375](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L375)*
+*Defined in [ExtendTruffleContract.ts:386](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L386)*
 
 
 
@@ -117,15 +117,15 @@ ___
 
 ___
 
-<a id="logindex"></a>
+<a id="logIndex"></a>
 
 ###  logIndex
 
 **●  logIndex**:  *`number`⎮`null`* 
 
-*Inherited from [LogEntry](logentry.md).[logIndex](logentry.md#logindex)*
+*Inherited from [LogEntry](LogEntry.md).[logIndex](LogEntry.md#logIndex)*
 
-*Defined in [ExtendTruffleContract.ts:360](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L360)*
+*Defined in [ExtendTruffleContract.ts:371](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L371)*
 
 
 
@@ -139,9 +139,9 @@ ___
 
 **●  removed**:  *`boolean`* 
 
-*Overrides [LogEntryEvent](logentryevent.md).[removed](logentryevent.md#removed)*
+*Overrides [LogEntryEvent](LogEntryEvent.md).[removed](LogEntryEvent.md#removed)*
 
-*Defined in [ExtendTruffleContract.ts:380](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L380)*
+*Defined in [ExtendTruffleContract.ts:391](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L391)*
 
 
 
@@ -155,9 +155,9 @@ ___
 
 **●  topics**:  *`Array`.<`string`>* 
 
-*Inherited from [LogEntry](logentry.md).[topics](logentry.md#topics)*
+*Inherited from [LogEntry](LogEntry.md).[topics](LogEntry.md#topics)*
 
-*Defined in [ExtendTruffleContract.ts:367](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L367)*
+*Defined in [ExtendTruffleContract.ts:378](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L378)*
 
 
 
@@ -165,15 +165,15 @@ ___
 
 ___
 
-<a id="transactionhash"></a>
+<a id="transactionHash"></a>
 
 ###  transactionHash
 
 **●  transactionHash**:  *`string`* 
 
-*Inherited from [LogEntry](logentry.md).[transactionHash](logentry.md#transactionhash)*
+*Inherited from [LogEntry](LogEntry.md).[transactionHash](LogEntry.md#transactionHash)*
 
-*Defined in [ExtendTruffleContract.ts:362](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L362)*
+*Defined in [ExtendTruffleContract.ts:373](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L373)*
 
 
 
@@ -181,15 +181,15 @@ ___
 
 ___
 
-<a id="transactionindex"></a>
+<a id="transactionIndex"></a>
 
 ###  transactionIndex
 
 **●  transactionIndex**:  *`number`⎮`null`* 
 
-*Inherited from [LogEntry](logentry.md).[transactionIndex](logentry.md#transactionindex)*
+*Inherited from [LogEntry](LogEntry.md).[transactionIndex](LogEntry.md#transactionIndex)*
 
-*Defined in [ExtendTruffleContract.ts:361](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L361)*
+*Defined in [ExtendTruffleContract.ts:372](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L372)*
 
 
 

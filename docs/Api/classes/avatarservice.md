@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [AvatarService](../classes/avatarservice.md)
+[API Reference](../README.md) > [AvatarService](../classes/AvatarService.md)
 
 
 
@@ -13,23 +13,23 @@ let avatarService = new AvatarService(avatarAddress);
 
 ### Constructors
 
-* [constructor](avatarservice.md#constructor)
+* [constructor](AvatarService.md#constructor)
 
 
 ### Properties
 
-* [isUController](avatarservice.md#isucontroller)
+* [isUController](AvatarService.md#isUController)
 
 
 ### Methods
 
-* [getAvatar](avatarservice.md#getavatar)
-* [getController](avatarservice.md#getcontroller)
-* [getControllerAddress](avatarservice.md#getcontrolleraddress)
-* [getNativeReputation](avatarservice.md#getnativereputation)
-* [getNativeReputationAddress](avatarservice.md#getnativereputationaddress)
-* [getNativeToken](avatarservice.md#getnativetoken)
-* [getNativeTokenAddress](avatarservice.md#getnativetokenaddress)
+* [getAvatar](AvatarService.md#getAvatar)
+* [getController](AvatarService.md#getController)
+* [getControllerAddress](AvatarService.md#getControllerAddress)
+* [getNativeReputation](AvatarService.md#getNativeReputation)
+* [getNativeReputationAddress](AvatarService.md#getNativeReputationAddress)
+* [getNativeToken](AvatarService.md#getNativeToken)
+* [getNativeTokenAddress](AvatarService.md#getNativeTokenAddress)
 
 
 
@@ -38,10 +38,10 @@ let avatarService = new AvatarService(avatarAddress);
 <a id="constructor"></a>
 
 
-### ⊕ **new AvatarService**(avatarAddress: *`string`*): [AvatarService](avatarservice.md)
+### ⊕ **new AvatarService**(avatarAddress: *`string`*): [AvatarService](AvatarService.md)
 
 
-*Defined in [avatarService.ts:20](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L20)*
+*Defined in [avatarService.ts:20](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L20)*
 
 
 
@@ -55,19 +55,19 @@ let avatarService = new AvatarService(avatarAddress);
 
 
 
-**Returns:** [AvatarService](avatarservice.md)
+**Returns:** [AvatarService](AvatarService.md)
 
 ---
 
 
 ## Properties
-<a id="isucontroller"></a>
+<a id="isUController"></a>
 
 ###  isUController
 
 **●  isUController**:  *`boolean`* 
 
-*Defined in [avatarService.ts:12](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L12)*
+*Defined in [avatarService.ts:12](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L12)*
 
 
 
@@ -77,7 +77,7 @@ ___
 
 
 ## Methods
-<a id="getavatar"></a>
+<a id="getAvatar"></a>
 
 ###  getAvatar
 
@@ -85,7 +85,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:30](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L30)*
+*Defined in [avatarService.ts:30](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L30)*
 
 
 
@@ -102,7 +102,7 @@ Returns the Avatar TruffleContract
 
 ___
 
-<a id="getcontroller"></a>
+<a id="getController"></a>
 
 ###  getController
 
@@ -110,7 +110,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:54](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L54)*
+*Defined in [avatarService.ts:54](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L54)*
 
 
 
@@ -127,7 +127,7 @@ Returns a TruffleContract for the controller. Could be either UController or Con
 
 ___
 
-<a id="getcontrolleraddress"></a>
+<a id="getControllerAddress"></a>
 
 ###  getControllerAddress
 
@@ -135,7 +135,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:41](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L41)*
+*Defined in [avatarService.ts:41](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L41)*
 
 
 
@@ -152,7 +152,7 @@ returns the address of the controller
 
 ___
 
-<a id="getnativereputation"></a>
+<a id="getNativeReputation"></a>
 
 ###  getNativeReputation
 
@@ -160,7 +160,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:87](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L87)*
+*Defined in [avatarService.ts:87](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L87)*
 
 
 
@@ -177,7 +177,7 @@ Returns the avatar's native reputation TruffleContract.
 
 ___
 
-<a id="getnativereputationaddress"></a>
+<a id="getNativeReputationAddress"></a>
 
 ###  getNativeReputationAddress
 
@@ -185,7 +185,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:76](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L76)*
+*Defined in [avatarService.ts:76](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L76)*
 
 
 
@@ -202,7 +202,7 @@ Returns the address of the avatar's native reputation.
 
 ___
 
-<a id="getnativetoken"></a>
+<a id="getNativeToken"></a>
 
 ###  getNativeToken
 
@@ -210,7 +210,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:110](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L110)*
+*Defined in [avatarService.ts:110](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L110)*
 
 
 
@@ -227,7 +227,7 @@ Returns the avatar's native token TruffleContract.
 
 ___
 
-<a id="getnativetokenaddress"></a>
+<a id="getNativeTokenAddress"></a>
 
 ###  getNativeTokenAddress
 
@@ -235,7 +235,7 @@ ___
 
 
 
-*Defined in [avatarService.ts:99](https://github.com/daostack/arc.js/blob/0fff6d4/lib/avatarService.ts#L99)*
+*Defined in [avatarService.ts:99](https://github.com/daostack/arc.js/blob/61e5f90/lib/avatarService.ts#L99)*
 
 
 

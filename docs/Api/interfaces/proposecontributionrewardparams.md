@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ProposeContributionRewardParams](../interfaces/proposecontributionrewardparams.md)
+[API Reference](../README.md) > [ProposeContributionRewardParams](../interfaces/ProposeContributionRewardParams.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/contributionreward.ts:606](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L606)*
+*Defined in [contracts/contributionreward.ts:614](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L614)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  beneficiary**:  *`string`* 
 
-*Defined in [contracts/contributionreward.ts:652](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L652)*
+*Defined in [contracts/contributionreward.ts:660](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L660)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 **●  description**:  *`string`* 
 
-*Defined in [contracts/contributionreward.ts:610](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L610)*
+*Defined in [contracts/contributionreward.ts:618](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L618)*
 
 
 
@@ -57,13 +57,13 @@ description of the constraint
 
 ___
 
-<a id="ethreward"></a>
+<a id="ethReward"></a>
 
 ### «Optional» ethReward
 
 **●  ethReward**:  *`BigNumber.BigNumber`⎮`string`* 
 
-*Defined in [contracts/contributionreward.ts:627](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L627)*
+*Defined in [contracts/contributionreward.ts:635](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L635)*
 
 
 
@@ -74,13 +74,13 @@ Reward per period, in ethers. Must be >= 0. In Wei. Default is 0;
 
 ___
 
-<a id="externaltoken"></a>
+<a id="externalToken"></a>
 
 ### «Optional» externalToken
 
 **●  externalToken**:  *`string`* 
 
-*Defined in [contracts/contributionreward.ts:648](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L648)*
+*Defined in [contracts/contributionreward.ts:656](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L656)*
 
 
 
@@ -91,13 +91,13 @@ The address of the external token (for externalTokenReward) Only required when e
 
 ___
 
-<a id="externaltokenreward"></a>
+<a id="externalTokenReward"></a>
 
 ### «Optional» externalTokenReward
 
 **●  externalTokenReward**:  *`BigNumber.BigNumber`⎮`string`* 
 
-*Defined in [contracts/contributionreward.ts:633](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L633)*
+*Defined in [contracts/contributionreward.ts:641](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L641)*
 
 
 
@@ -108,13 +108,13 @@ Reward per period in the given external token. Must be >= 0. In Wei. Default is 
 
 ___
 
-<a id="nativetokenreward"></a>
+<a id="nativeTokenReward"></a>
 
 ### «Optional» nativeTokenReward
 
 **●  nativeTokenReward**:  *`BigNumber.BigNumber`⎮`string`* 
 
-*Defined in [contracts/contributionreward.ts:621](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L621)*
+*Defined in [contracts/contributionreward.ts:629](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L629)*
 
 
 
@@ -125,13 +125,13 @@ Reward in tokens per period, in the DAO's native token. Must be >= 0. In Wei. De
 
 ___
 
-<a id="numberofperiods"></a>
+<a id="numberOfPeriods"></a>
 
 ###  numberOfPeriods
 
 **●  numberOfPeriods**:  *`number`* 
 
-*Defined in [contracts/contributionreward.ts:643](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L643)*
+*Defined in [contracts/contributionreward.ts:651](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L651)*
 
 
 
@@ -142,13 +142,13 @@ Maximum number of periods that can be paid out. Must be > 0.
 
 ___
 
-<a id="periodlength"></a>
+<a id="periodLength"></a>
 
 ###  periodLength
 
 **●  periodLength**:  *`number`* 
 
-*Defined in [contracts/contributionreward.ts:638](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L638)*
+*Defined in [contracts/contributionreward.ts:646](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L646)*
 
 
 
@@ -159,13 +159,13 @@ The number of blocks in a period. Must be > 0.
 
 ___
 
-<a id="reputationchange"></a>
+<a id="reputationChange"></a>
 
 ### «Optional» reputationChange
 
 **●  reputationChange**:  *`BigNumber.BigNumber`⎮`string`* 
 
-*Defined in [contracts/contributionreward.ts:615](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L615)*
+*Defined in [contracts/contributionreward.ts:623](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L623)*
 
 
 

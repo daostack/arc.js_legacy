@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [VoteProposalEventResult](../interfaces/voteproposaleventresult.md)
+[API Reference](../README.md) > [VoteProposalEventResult](../interfaces/VoteProposalEventResult.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:33](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L33)*
+*Defined in [contracts/commonEventInterfaces.ts:33](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L33)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  _reputation**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/commonEventInterfaces.ts:34](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L34)*
+*Defined in [contracts/commonEventInterfaces.ts:34](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L34)*
 
 
 
@@ -43,7 +43,7 @@ ___
 
 **●  _vote**:  *`number`* 
 
-*Defined in [contracts/commonEventInterfaces.ts:35](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L35)*
+*Defined in [contracts/commonEventInterfaces.ts:35](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L35)*
 
 
 
@@ -55,9 +55,9 @@ ___
 
 ###  _voter
 
-**●  _voter**:  *[Address](../#address)* 
+**●  _voter**:  *[Address](../#Address)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:39](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L39)*
+*Defined in [contracts/commonEventInterfaces.ts:39](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L39)*
 
 
 

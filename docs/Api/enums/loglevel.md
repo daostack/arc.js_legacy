@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [LogLevel](../enums/loglevel.md)
+[API Reference](../README.md) > [LogLevel](../enums/LogLevel.md)
 
 
 
@@ -8,12 +8,12 @@
 
 ### Enumeration members
 
-* [all](loglevel.md#all)
-* [debug](loglevel.md#debug)
-* [error](loglevel.md#error)
-* [info](loglevel.md#info)
-* [none](loglevel.md#none)
-* [warn](loglevel.md#warn)
+* [all](LogLevel.md#all)
+* [debug](LogLevel.md#debug)
+* [error](LogLevel.md#error)
+* [info](LogLevel.md#info)
+* [none](LogLevel.md#none)
+* [warn](LogLevel.md#warn)
 
 
 
@@ -25,7 +25,7 @@
 
 ** all**:    = 15
 
-*Defined in [loggingService.ts:9](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L9)*
+*Defined in [loggingService.ts:9](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L9)*
 
 
 
@@ -39,7 +39,7 @@ ___
 
 ** debug**:    = 4
 
-*Defined in [loggingService.ts:7](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L7)*
+*Defined in [loggingService.ts:7](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L7)*
 
 
 
@@ -53,7 +53,7 @@ ___
 
 ** error**:    = 8
 
-*Defined in [loggingService.ts:8](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L8)*
+*Defined in [loggingService.ts:8](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L8)*
 
 
 
@@ -67,7 +67,7 @@ ___
 
 ** info**:    = 1
 
-*Defined in [loggingService.ts:5](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L5)*
+*Defined in [loggingService.ts:5](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L5)*
 
 
 
@@ -81,7 +81,7 @@ ___
 
 ** none**:    = 0
 
-*Defined in [loggingService.ts:4](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L4)*
+*Defined in [loggingService.ts:4](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L4)*
 
 
 
@@ -95,7 +95,7 @@ ___
 
 ** warn**:    = 2
 
-*Defined in [loggingService.ts:6](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L6)*
+*Defined in [loggingService.ts:6](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L6)*
 
 
 

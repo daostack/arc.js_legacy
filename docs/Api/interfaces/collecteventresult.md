@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [CollectEventResult](../interfaces/collecteventresult.md)
+[API Reference](../README.md) > [CollectEventResult](../interfaces/CollectEventResult.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="_agreementid"></a>
+<a id="_agreementId"></a>
 
 ###  _agreementId
 
 **●  _agreementId**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/vestingscheme.ts:381](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L381)*
+*Defined in [contracts/vestingscheme.ts:378](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L378)*
 
 
 

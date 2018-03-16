@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [TransactionReceiptTruffle](../interfaces/transactionreceipttruffle.md)
+[API Reference](../README.md) > [TransactionReceiptTruffle](../interfaces/TransactionReceiptTruffle.md)
 
 
 
@@ -15,7 +15,7 @@ The bundle of logs, TransactionReceipt and other information as returned by Truf
 
 **●  logs**:  *`Array`.<`any`>* 
 
-*Defined in [ExtendTruffleContract.ts:233](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L233)*
+*Defined in [ExtendTruffleContract.ts:244](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L244)*
 
 
 
@@ -27,9 +27,9 @@ ___
 
 ###  receipt
 
-**●  receipt**:  *[TransactionReceipt](transactionreceipt.md)* 
+**●  receipt**:  *[TransactionReceipt](TransactionReceipt.md)* 
 
-*Defined in [ExtendTruffleContract.ts:234](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L234)*
+*Defined in [ExtendTruffleContract.ts:245](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L245)*
 
 
 
@@ -37,13 +37,13 @@ ___
 
 ___
 
-<a id="transactionhash"></a>
+<a id="transactionHash"></a>
 
 ###  transactionHash
 
-**●  transactionHash**:  *[Hash](../#hash)* 
+**●  transactionHash**:  *[Hash](../#Hash)* 
 
-*Defined in [ExtendTruffleContract.ts:235](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L235)*
+*Defined in [ExtendTruffleContract.ts:246](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L246)*
 
 
 
@@ -55,9 +55,9 @@ ___
 
 ###  tx
 
-**●  tx**:  *[Address](../#address)* 
+**●  tx**:  *[Address](../#Address)* 
 
-*Defined in [ExtendTruffleContract.ts:239](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L239)*
+*Defined in [ExtendTruffleContract.ts:250](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L250)*
 
 
 

@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GlobalConstraintRegistrarWrapper](../classes/globalconstraintregistrarwrapper.md)
+[API Reference](../README.md) > [GlobalConstraintRegistrarWrapper](../classes/GlobalConstraintRegistrarWrapper.md)
 
 
 
@@ -7,7 +7,7 @@
 ## Hierarchy
 
 
- [ExtendTruffleContract](extendtrufflecontract.md)
+ [ExtendTruffleContract](ExtendTruffleContract.md)
 
 **↳ GlobalConstraintRegistrarWrapper**
 
@@ -21,36 +21,38 @@
 
 ### Constructors
 
-* [constructor](globalconstraintregistrarwrapper.md#constructor)
+* [constructor](GlobalConstraintRegistrarWrapper.md#constructor)
 
 
 ### Properties
 
-* [NewGlobalConstraintsProposal](globalconstraintregistrarwrapper.md#newglobalconstraintsproposal)
-* [ProposalDeleted](globalconstraintregistrarwrapper.md#proposaldeleted)
-* [ProposalExecuted](globalconstraintregistrarwrapper.md#proposalexecuted)
-* [RemoveGlobalConstraintsProposal](globalconstraintregistrarwrapper.md#removeglobalconstraintsproposal)
-* [contract](globalconstraintregistrarwrapper.md#contract)
+* [NewGlobalConstraintsProposal](GlobalConstraintRegistrarWrapper.md#NewGlobalConstraintsProposal)
+* [ProposalDeleted](GlobalConstraintRegistrarWrapper.md#ProposalDeleted)
+* [ProposalExecuted](GlobalConstraintRegistrarWrapper.md#ProposalExecuted)
+* [RemoveGlobalConstraintsProposal](GlobalConstraintRegistrarWrapper.md#RemoveGlobalConstraintsProposal)
+* [contract](GlobalConstraintRegistrarWrapper.md#contract)
 
 
 ### Accessors
 
-* [address](globalconstraintregistrarwrapper.md#address)
+* [address](GlobalConstraintRegistrarWrapper.md#address)
 
 
 ### Methods
 
-* [getDefaultPermissions](globalconstraintregistrarwrapper.md#getdefaultpermissions)
-* [getParameters](globalconstraintregistrarwrapper.md#getparameters)
-* [getParametersArray](globalconstraintregistrarwrapper.md#getparametersarray)
-* [getSchemeParameters](globalconstraintregistrarwrapper.md#getschemeparameters)
-* [getSchemeParametersHash](globalconstraintregistrarwrapper.md#getschemeparametershash)
-* [hydrateFromAt](globalconstraintregistrarwrapper.md#hydratefromat)
-* [hydrateFromDeployed](globalconstraintregistrarwrapper.md#hydratefromdeployed)
-* [hydrateFromNew](globalconstraintregistrarwrapper.md#hydratefromnew)
-* [proposeToAddModifyGlobalConstraint](globalconstraintregistrarwrapper.md#proposetoaddmodifyglobalconstraint)
-* [proposeToRemoveGlobalConstraint](globalconstraintregistrarwrapper.md#proposetoremoveglobalconstraint)
-* [setParameters](globalconstraintregistrarwrapper.md#setparameters)
+* [getController](GlobalConstraintRegistrarWrapper.md#getController)
+* [getDefaultPermissions](GlobalConstraintRegistrarWrapper.md#getDefaultPermissions)
+* [getParameters](GlobalConstraintRegistrarWrapper.md#getParameters)
+* [getParametersArray](GlobalConstraintRegistrarWrapper.md#getParametersArray)
+* [getPermissions](GlobalConstraintRegistrarWrapper.md#getPermissions)
+* [getSchemeParameters](GlobalConstraintRegistrarWrapper.md#getSchemeParameters)
+* [getSchemeParametersHash](GlobalConstraintRegistrarWrapper.md#getSchemeParametersHash)
+* [hydrateFromAt](GlobalConstraintRegistrarWrapper.md#hydrateFromAt)
+* [hydrateFromDeployed](GlobalConstraintRegistrarWrapper.md#hydrateFromDeployed)
+* [hydrateFromNew](GlobalConstraintRegistrarWrapper.md#hydrateFromNew)
+* [proposeToAddModifyGlobalConstraint](GlobalConstraintRegistrarWrapper.md#proposeToAddModifyGlobalConstraint)
+* [proposeToRemoveGlobalConstraint](GlobalConstraintRegistrarWrapper.md#proposeToRemoveGlobalConstraint)
+* [setParameters](GlobalConstraintRegistrarWrapper.md#setParameters)
 
 
 
@@ -59,12 +61,12 @@
 <a id="constructor"></a>
 
 
-### ⊕ **new GlobalConstraintRegistrarWrapper**(solidityContract: *`any`*): [GlobalConstraintRegistrarWrapper](globalconstraintregistrarwrapper.md)
+### ⊕ **new GlobalConstraintRegistrarWrapper**(solidityContract: *`any`*): [GlobalConstraintRegistrarWrapper](GlobalConstraintRegistrarWrapper.md)
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[constructor](extendtrufflecontract.md#constructor)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[constructor](ExtendTruffleContract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -81,19 +83,19 @@ ContractWrapperFactory constructs this
 
 
 
-**Returns:** [GlobalConstraintRegistrarWrapper](globalconstraintregistrarwrapper.md)
+**Returns:** [GlobalConstraintRegistrarWrapper](GlobalConstraintRegistrarWrapper.md)
 
 ---
 
 
 ## Properties
-<a id="newglobalconstraintsproposal"></a>
+<a id="NewGlobalConstraintsProposal"></a>
 
 ###  NewGlobalConstraintsProposal
 
-**●  NewGlobalConstraintsProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[NewGlobalConstraintsProposalEventResult](../interfaces/newglobalconstraintsproposaleventresult.md)*  =  this.createEventFetcherFactory<NewGlobalConstraintsProposalEventResult>("NewGlobalConstraintsProposal")
+**●  NewGlobalConstraintsProposal**:  *[EventFetcherFactory](../#EventFetcherFactory)[NewGlobalConstraintsProposalEventResult](../interfaces/NewGlobalConstraintsProposalEventResult.md)*  =  this.createEventFetcherFactory<NewGlobalConstraintsProposalEventResult>("NewGlobalConstraintsProposal")
 
-*Defined in [contracts/globalconstraintregistrar.ts:21](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L21)*
+*Defined in [contracts/globalconstraintregistrar.ts:21](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L21)*
 
 
 
@@ -104,13 +106,13 @@ Events
 
 ___
 
-<a id="proposaldeleted"></a>
+<a id="ProposalDeleted"></a>
 
 ###  ProposalDeleted
 
-**●  ProposalDeleted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalDeletedEventResult](../interfaces/proposaldeletedeventresult.md)*  =  this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted")
+**●  ProposalDeleted**:  *[EventFetcherFactory](../#EventFetcherFactory)[ProposalDeletedEventResult](../interfaces/ProposalDeletedEventResult.md)*  =  this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted")
 
-*Defined in [contracts/globalconstraintregistrar.ts:24](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L24)*
+*Defined in [contracts/globalconstraintregistrar.ts:24](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L24)*
 
 
 
@@ -118,13 +120,13 @@ ___
 
 ___
 
-<a id="proposalexecuted"></a>
+<a id="ProposalExecuted"></a>
 
 ###  ProposalExecuted
 
-**●  ProposalExecuted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalExecutedEventResult](../interfaces/proposalexecutedeventresult.md)*  =  this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted")
+**●  ProposalExecuted**:  *[EventFetcherFactory](../#EventFetcherFactory)[ProposalExecutedEventResult](../interfaces/ProposalExecutedEventResult.md)*  =  this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted")
 
-*Defined in [contracts/globalconstraintregistrar.ts:23](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L23)*
+*Defined in [contracts/globalconstraintregistrar.ts:23](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L23)*
 
 
 
@@ -132,13 +134,13 @@ ___
 
 ___
 
-<a id="removeglobalconstraintsproposal"></a>
+<a id="RemoveGlobalConstraintsProposal"></a>
 
 ###  RemoveGlobalConstraintsProposal
 
-**●  RemoveGlobalConstraintsProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[RemoveGlobalConstraintsProposalEventResult](../interfaces/removeglobalconstraintsproposaleventresult.md)*  =  this.createEventFetcherFactory<RemoveGlobalConstraintsProposalEventResult>("RemoveGlobalConstraintsProposal")
+**●  RemoveGlobalConstraintsProposal**:  *[EventFetcherFactory](../#EventFetcherFactory)[RemoveGlobalConstraintsProposalEventResult](../interfaces/RemoveGlobalConstraintsProposalEventResult.md)*  =  this.createEventFetcherFactory<RemoveGlobalConstraintsProposalEventResult>("RemoveGlobalConstraintsProposal")
 
-*Defined in [contracts/globalconstraintregistrar.ts:22](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L22)*
+*Defined in [contracts/globalconstraintregistrar.ts:22](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L22)*
 
 
 
@@ -152,9 +154,9 @@ ___
 
 **●  contract**:  *`any`* 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[contract](extendtrufflecontract.md#contract)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[contract](ExtendTruffleContract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -172,17 +174,17 @@ ___
 ###  address
 
 
-getaddress(): [Address](../#address)
+getaddress(): [Address](../#Address)
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[address](extendtrufflecontract.md#address)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[address](ExtendTruffleContract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L128)*
-
-
+*Defined in [ExtendTruffleContract.ts:148](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L148)*
 
 
 
-**Returns:** [Address](../#address)
+
+
+**Returns:** [Address](../#Address)
 
 
 
@@ -190,17 +192,52 @@ ___
 
 
 ## Methods
-<a id="getdefaultpermissions"></a>
+<a id="getController"></a>
+
+###  getController
+
+► **getController**(avatarAddress: *[Address](../#Address)*): `Promise`.<`any`>
+
+
+
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getController](ExtendTruffleContract.md#getController)*
+
+*Defined in [ExtendTruffleContract.ts:143](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L143)*
+
+
+
+return the controller associated with the given avatar
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| avatarAddress | [Address](../#Address)   |  - |
+
+
+
+
+
+**Returns:** `Promise`.<`any`>
+
+
+
+
+
+___
+
+<a id="getDefaultPermissions"></a>
 
 ###  getDefaultPermissions
 
-► **getDefaultPermissions**(overrideValue?: *`string`*): `string`
+► **getDefaultPermissions**(overrideValue?: *[SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)*): [SchemePermissions](../enums/SchemePermissions.md)
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getDefaultPermissions](extendtrufflecontract.md#getdefaultpermissions)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getDefaultPermissions](ExtendTruffleContract.md#getDefaultPermissions)*
 
-*Defined in [contracts/globalconstraintregistrar.ts:117](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L117)*
+*Defined in [contracts/globalconstraintregistrar.ts:117](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L117)*
 
 
 
@@ -208,13 +245,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| overrideValue | `string`   |  - |
+| overrideValue | [SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)   |  - |
 
 
 
 
 
-**Returns:** `string`
+**Returns:** [SchemePermissions](../enums/SchemePermissions.md)
 
 
 
@@ -222,17 +259,17 @@ ___
 
 ___
 
-<a id="getparameters"></a>
+<a id="getParameters"></a>
 
 ###  getParameters
 
-► **getParameters**(paramsHash: *[Hash](../#hash)*): `Promise`.<[StandardSchemeParams](../interfaces/standardschemeparams.md)>
+► **getParameters**(paramsHash: *[Hash](../#Hash)*): `Promise`.<[StandardSchemeParams](../interfaces/StandardSchemeParams.md)>
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getParameters](extendtrufflecontract.md#getparameters)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getParameters](ExtendTruffleContract.md#getParameters)*
 
-*Defined in [contracts/globalconstraintregistrar.ts:125](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L125)*
+*Defined in [contracts/globalconstraintregistrar.ts:126](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L126)*
 
 
 
@@ -240,13 +277,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| paramsHash | [Hash](../#hash)   |  - |
+| paramsHash | [Hash](../#Hash)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[StandardSchemeParams](../interfaces/standardschemeparams.md)>
+**Returns:** `Promise`.<[StandardSchemeParams](../interfaces/StandardSchemeParams.md)>
 
 
 
@@ -254,17 +291,17 @@ ___
 
 ___
 
-<a id="getparametersarray"></a>
+<a id="getParametersArray"></a>
 
 ###  getParametersArray
 
-► **getParametersArray**(paramsHash: *[Hash](../#hash)*): `Promise`.<`Array`.<`any`>>
+► **getParametersArray**(paramsHash: *[Hash](../#Hash)*): `Promise`.<`Array`.<`any`>>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParametersArray](extendtrufflecontract.md#getparametersarray)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getParametersArray](ExtendTruffleContract.md#getParametersArray)*
 
-*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L124)*
+*Defined in [ExtendTruffleContract.ts:135](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L135)*
 
 
 
@@ -275,7 +312,7 @@ Given a hash, return the associated parameters as an array, ordered by the order
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| paramsHash | [Hash](../#hash)   |  - |
+| paramsHash | [Hash](../#Hash)   |  - |
 
 
 
@@ -289,29 +326,34 @@ Given a hash, return the associated parameters as an array, ordered by the order
 
 ___
 
-<a id="getschemeparameters"></a>
+<a id="getPermissions"></a>
 
-###  getSchemeParameters
+###  getPermissions
 
-► **getSchemeParameters**(avatarAddress: *[Address](../#address)*): `Promise`.<[StandardSchemeParams](../interfaces/standardschemeparams.md)>
+► **getPermissions**(avatarAddress: *[Address](../#Address)*): `Promise`.<[SchemePermissions](../enums/SchemePermissions.md)>
 
 
 
-*Defined in [contracts/globalconstraintregistrar.ts:121](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L121)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getPermissions](ExtendTruffleContract.md#getPermissions)*
 
+*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L106)*
+
+
+
+Return this scheme's permissions.
 
 
 **Parameters:**
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| avatarAddress | [Address](../#address)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[StandardSchemeParams](../interfaces/standardschemeparams.md)>
+**Returns:** `Promise`.<[SchemePermissions](../enums/SchemePermissions.md)>
 
 
 
@@ -319,17 +361,47 @@ ___
 
 ___
 
-<a id="getschemeparametershash"></a>
+<a id="getSchemeParameters"></a>
+
+###  getSchemeParameters
+
+► **getSchemeParameters**(avatarAddress: *[Address](../#Address)*): `Promise`.<[StandardSchemeParams](../interfaces/StandardSchemeParams.md)>
+
+
+
+*Defined in [contracts/globalconstraintregistrar.ts:122](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L122)*
+
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| avatarAddress | [Address](../#Address)   |  - |
+
+
+
+
+
+**Returns:** `Promise`.<[StandardSchemeParams](../interfaces/StandardSchemeParams.md)>
+
+
+
+
+
+___
+
+<a id="getSchemeParametersHash"></a>
 
 ###  getSchemeParametersHash
 
-► **getSchemeParametersHash**(avatarAddress: *[Address](../#address)*): `Promise`.<[Hash](../#hash)>
+► **getSchemeParametersHash**(avatarAddress: *[Address](../#Address)*): `Promise`.<[Hash](../#Hash)>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getSchemeParametersHash](extendtrufflecontract.md#getschemeparametershash)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getSchemeParametersHash](ExtendTruffleContract.md#getSchemeParametersHash)*
 
-*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L114)*
+*Defined in [ExtendTruffleContract.ts:125](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L125)*
 
 
 
@@ -340,13 +412,13 @@ Given an avatar address, return the schemes parameters hash
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| avatarAddress | [Address](../#address)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[Hash](../#hash)>
+**Returns:** `Promise`.<[Hash](../#Hash)>
 
 
 
@@ -354,7 +426,7 @@ Given an avatar address, return the schemes parameters hash
 
 ___
 
-<a id="hydratefromat"></a>
+<a id="hydrateFromAt"></a>
 
 ###  hydrateFromAt
 
@@ -362,9 +434,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromAt](extendtrufflecontract.md#hydratefromat)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromAt](ExtendTruffleContract.md#hydrateFromAt)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -391,7 +463,7 @@ this
 
 ___
 
-<a id="hydratefromdeployed"></a>
+<a id="hydrateFromDeployed"></a>
 
 ###  hydrateFromDeployed
 
@@ -399,9 +471,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromDeployed](extendtrufflecontract.md#hydratefromdeployed)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromDeployed](ExtendTruffleContract.md#hydrateFromDeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -420,7 +492,7 @@ this
 
 ___
 
-<a id="hydratefromnew"></a>
+<a id="hydrateFromNew"></a>
 
 ###  hydrateFromNew
 
@@ -428,9 +500,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromNew](extendtrufflecontract.md#hydratefromnew)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromNew](ExtendTruffleContract.md#hydrateFromNew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -457,15 +529,15 @@ this
 
 ___
 
-<a id="proposetoaddmodifyglobalconstraint"></a>
+<a id="proposeToAddModifyGlobalConstraint"></a>
 
 ###  proposeToAddModifyGlobalConstraint
 
-► **proposeToAddModifyGlobalConstraint**(opts?: *[ProposeToAddModifyGlobalConstraintParams](../interfaces/proposetoaddmodifyglobalconstraintparams.md)*): `Promise`.<[ArcTransactionProposalResult](arctransactionproposalresult.md)>
+► **proposeToAddModifyGlobalConstraint**(opts?: *[ProposeToAddModifyGlobalConstraintParams](../interfaces/ProposeToAddModifyGlobalConstraintParams.md)*): `Promise`.<[ArcTransactionProposalResult](ArcTransactionProposalResult.md)>
 
 
 
-*Defined in [contracts/globalconstraintregistrar.ts:27](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L27)*
+*Defined in [contracts/globalconstraintregistrar.ts:27](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L27)*
 
 
 
@@ -473,13 +545,13 @@ ___
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [ProposeToAddModifyGlobalConstraintParams](../interfaces/proposetoaddmodifyglobalconstraintparams.md)  |  {} as ProposeToAddModifyGlobalConstraintParams |   - |
+| opts | [ProposeToAddModifyGlobalConstraintParams](../interfaces/ProposeToAddModifyGlobalConstraintParams.md)  |  {} as ProposeToAddModifyGlobalConstraintParams |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionProposalResult](arctransactionproposalresult.md)>
+**Returns:** `Promise`.<[ArcTransactionProposalResult](ArcTransactionProposalResult.md)>
 
 
 
@@ -487,15 +559,15 @@ ___
 
 ___
 
-<a id="proposetoremoveglobalconstraint"></a>
+<a id="proposeToRemoveGlobalConstraint"></a>
 
 ###  proposeToRemoveGlobalConstraint
 
-► **proposeToRemoveGlobalConstraint**(opts?: *[ProposeToRemoveGlobalConstraintParams](../interfaces/proposetoremoveglobalconstraintparams.md)*): `Promise`.<[ArcTransactionProposalResult](arctransactionproposalresult.md)>
+► **proposeToRemoveGlobalConstraint**(opts?: *[ProposeToRemoveGlobalConstraintParams](../interfaces/ProposeToRemoveGlobalConstraintParams.md)*): `Promise`.<[ArcTransactionProposalResult](ArcTransactionProposalResult.md)>
 
 
 
-*Defined in [contracts/globalconstraintregistrar.ts:77](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L77)*
+*Defined in [contracts/globalconstraintregistrar.ts:77](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L77)*
 
 
 
@@ -503,13 +575,13 @@ ___
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [ProposeToRemoveGlobalConstraintParams](../interfaces/proposetoremoveglobalconstraintparams.md)  |  {} as ProposeToRemoveGlobalConstraintParams |   - |
+| opts | [ProposeToRemoveGlobalConstraintParams](../interfaces/ProposeToRemoveGlobalConstraintParams.md)  |  {} as ProposeToRemoveGlobalConstraintParams |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionProposalResult](arctransactionproposalresult.md)>
+**Returns:** `Promise`.<[ArcTransactionProposalResult](ArcTransactionProposalResult.md)>
 
 
 
@@ -517,17 +589,17 @@ ___
 
 ___
 
-<a id="setparameters"></a>
+<a id="setParameters"></a>
 
 ###  setParameters
 
-► **setParameters**(params: *[StandardSchemeParams](../interfaces/standardschemeparams.md)*): `Promise`.<[ArcTransactionDataResult](arctransactiondataresult.md)[Hash](../#hash)>
+► **setParameters**(params: *[StandardSchemeParams](../interfaces/StandardSchemeParams.md)*): `Promise`.<[ArcTransactionDataResult](ArcTransactionDataResult.md)[Hash](../#Hash)>
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[setParameters](extendtrufflecontract.md#setparameters)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[setParameters](ExtendTruffleContract.md#setParameters)*
 
-*Defined in [contracts/globalconstraintregistrar.ts:110](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L110)*
+*Defined in [contracts/globalconstraintregistrar.ts:110](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L110)*
 
 
 
@@ -535,13 +607,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| params | [StandardSchemeParams](../interfaces/standardschemeparams.md)   |  - |
+| params | [StandardSchemeParams](../interfaces/StandardSchemeParams.md)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionDataResult](arctransactiondataresult.md)[Hash](../#hash)>
+**Returns:** `Promise`.<[ArcTransactionDataResult](ArcTransactionDataResult.md)[Hash](../#Hash)>
 
 
 

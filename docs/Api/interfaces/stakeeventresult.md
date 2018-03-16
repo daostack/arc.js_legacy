@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [StakeEventResult](../interfaces/stakeeventresult.md)
+[API Reference](../README.md) > [StakeEventResult](../interfaces/StakeEventResult.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  _amount**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/genesisProtocol.ts:949](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L949)*
+*Defined in [contracts/genesisProtocol.ts:959](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L959)*
 
 
 
@@ -20,13 +20,13 @@
 
 ___
 
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/genesisProtocol.ts:953](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L953)*
+*Defined in [contracts/genesisProtocol.ts:963](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L963)*
 
 
 
@@ -43,7 +43,7 @@ ___
 
 **●  _vote**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:954](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L954)*
+*Defined in [contracts/genesisProtocol.ts:964](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L964)*
 
 
 
@@ -55,9 +55,9 @@ ___
 
 ###  _voter
 
-**●  _voter**:  *[Address](../#address)* 
+**●  _voter**:  *[Address](../#Address)* 
 
-*Defined in [contracts/genesisProtocol.ts:958](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L958)*
+*Defined in [contracts/genesisProtocol.ts:968](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L968)*
 
 
 

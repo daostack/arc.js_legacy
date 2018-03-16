@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ConsoleLogger](../classes/consolelogger.md)
+[API Reference](../README.md) > [ConsoleLogger](../classes/ConsoleLogger.md)
 
 
 
@@ -6,21 +6,21 @@
 
 ## Implements
 
-* [ILogger](../interfaces/ilogger.md)
+* [ILogger](../interfaces/ILogger.md)
 
 ## Index
 
 ### Properties
 
-* [level](consolelogger.md#level)
+* [level](ConsoleLogger.md#level)
 
 
 ### Methods
 
-* [debug](consolelogger.md#debug)
-* [error](consolelogger.md#error)
-* [info](consolelogger.md#info)
-* [warn](consolelogger.md#warn)
+* [debug](ConsoleLogger.md#debug)
+* [error](ConsoleLogger.md#error)
+* [info](ConsoleLogger.md#info)
+* [warn](ConsoleLogger.md#warn)
 
 
 
@@ -30,11 +30,11 @@
 
 ###  level
 
-**●  level**:  *[LogLevel](../enums/loglevel.md)*  =  parseInt(Config.get("logLevel"), 10) as LogLevel
+**●  level**:  *[LogLevel](../enums/LogLevel.md)*  =  parseInt(Config.get("logLevel"), 10) as LogLevel
 
-*Implementation of [ILogger](../interfaces/ilogger.md).[level](../interfaces/ilogger.md#level)*
+*Implementation of [ILogger](../interfaces/ILogger.md).[level](../interfaces/ILogger.md#level)*
 
-*Defined in [loggingService.ts:50](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L50)*
+*Defined in [loggingService.ts:50](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L50)*
 
 
 
@@ -52,9 +52,9 @@ ___
 
 
 
-*Implementation of [ILogger](../interfaces/ilogger.md).[debug](../interfaces/ilogger.md#debug)*
+*Implementation of [ILogger](../interfaces/ILogger.md).[debug](../interfaces/ILogger.md#debug)*
 
-*Defined in [loggingService.ts:52](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L52)*
+*Defined in [loggingService.ts:52](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L52)*
 
 
 
@@ -84,9 +84,9 @@ ___
 
 
 
-*Implementation of [ILogger](../interfaces/ilogger.md).[error](../interfaces/ilogger.md#error)*
+*Implementation of [ILogger](../interfaces/ILogger.md).[error](../interfaces/ILogger.md#error)*
 
-*Defined in [loggingService.ts:58](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L58)*
+*Defined in [loggingService.ts:58](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L58)*
 
 
 
@@ -116,9 +116,9 @@ ___
 
 
 
-*Implementation of [ILogger](../interfaces/ilogger.md).[info](../interfaces/ilogger.md#info)*
+*Implementation of [ILogger](../interfaces/ILogger.md).[info](../interfaces/ILogger.md#info)*
 
-*Defined in [loggingService.ts:54](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L54)*
+*Defined in [loggingService.ts:54](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L54)*
 
 
 
@@ -148,9 +148,9 @@ ___
 
 
 
-*Implementation of [ILogger](../interfaces/ilogger.md).[warn](../interfaces/ilogger.md#warn)*
+*Implementation of [ILogger](../interfaces/ILogger.md).[warn](../interfaces/ILogger.md#warn)*
 
-*Defined in [loggingService.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L56)*
+*Defined in [loggingService.ts:56](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L56)*
 
 
 

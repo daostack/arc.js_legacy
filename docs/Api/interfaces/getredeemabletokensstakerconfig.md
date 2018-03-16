@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GetRedeemableTokensStakerConfig](../interfaces/getredeemabletokensstakerconfig.md)
+[API Reference](../README.md) > [GetRedeemableTokensStakerConfig](../interfaces/GetRedeemableTokensStakerConfig.md)
 
 
 
@@ -15,7 +15,7 @@ return the amount of tokens to which the staker will be entitled as an outcome o
 
 **●  beneficiary**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1247](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1247)*
+*Defined in [contracts/genesisProtocol.ts:1257](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1257)*
 
 
 
@@ -26,13 +26,13 @@ the staker
 
 ___
 
-<a id="proposalid"></a>
+<a id="proposalId"></a>
 
 ###  proposalId
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1243](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1243)*
+*Defined in [contracts/genesisProtocol.ts:1253](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1253)*
 
 
 

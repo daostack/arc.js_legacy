@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [RemoveGlobalConstraintsProposalEventResult](../interfaces/removeglobalconstraintsproposaleventresult.md)
+[API Reference](../README.md) > [RemoveGlobalConstraintsProposalEventResult](../interfaces/RemoveGlobalConstraintsProposalEventResult.md)
 
 
 
@@ -10,9 +10,9 @@
 
 ###  _avatar
 
-**●  _avatar**:  *[Address](../#address)* 
+**●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:160](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L160)*
+*Defined in [contracts/globalconstraintregistrar.ts:161](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L161)*
 
 
 
@@ -27,9 +27,9 @@ ___
 
 ###  _gc
 
-**●  _gc**:  *[Address](../#address)* 
+**●  _gc**:  *[Address](../#Address)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:161](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L161)*
+*Defined in [contracts/globalconstraintregistrar.ts:162](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L162)*
 
 
 
@@ -37,13 +37,13 @@ ___
 
 ___
 
-<a id="_intvoteinterface"></a>
+<a id="_intVoteInterface"></a>
 
 ###  _intVoteInterface
 
-**●  _intVoteInterface**:  *[Address](../#address)* 
+**●  _intVoteInterface**:  *[Address](../#Address)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:165](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L165)*
+*Defined in [contracts/globalconstraintregistrar.ts:166](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L166)*
 
 
 
@@ -54,13 +54,13 @@ indexed
 
 ___
 
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:169](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L169)*
+*Defined in [contracts/globalconstraintregistrar.ts:170](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L170)*
 
 
 

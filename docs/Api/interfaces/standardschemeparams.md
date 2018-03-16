@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [StandardSchemeParams](../interfaces/standardschemeparams.md)
+[API Reference](../README.md) > [StandardSchemeParams](../interfaces/StandardSchemeParams.md)
 
 
 
@@ -8,12 +8,12 @@
 
 **StandardSchemeParams**
 
-↳  [ContributionRewardParams](contributionrewardparams.md)
+↳  [ContributionRewardParams](ContributionRewardParams.md)
 
 
 
 
-↳  [ContributionRewardParamsReturn](contributionrewardparamsreturn.md)
+↳  [ContributionRewardParamsReturn](ContributionRewardParamsReturn.md)
 
 
 
@@ -24,13 +24,13 @@
 
 
 ## Properties
-<a id="voteparametershash"></a>
+<a id="voteParametersHash"></a>
 
 ###  voteParametersHash
 
-**●  voteParametersHash**:  *[Hash](../#hash)* 
+**●  voteParametersHash**:  *[Hash](../#Hash)* 
 
-*Defined in [ExtendTruffleContract.ts:384](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L384)*
+*Defined in [ExtendTruffleContract.ts:395](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L395)*
 
 
 
@@ -38,13 +38,13 @@
 
 ___
 
-<a id="votingmachineaddress"></a>
+<a id="votingMachineAddress"></a>
 
 ###  votingMachineAddress
 
-**●  votingMachineAddress**:  *[Address](../#address)* 
+**●  votingMachineAddress**:  *[Address](../#Address)* 
 
-*Defined in [ExtendTruffleContract.ts:385](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L385)*
+*Defined in [ExtendTruffleContract.ts:396](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L396)*
 
 
 

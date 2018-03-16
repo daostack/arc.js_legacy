@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [EventFetcher](../interfaces/eventfetcher.md)
+[API Reference](../README.md) > [EventFetcher](../interfaces/EventFetcher.md)
 
 
 
@@ -15,9 +15,9 @@ returned by EventFetcherFactory <targs>which is created by eventWrapperFactory.<
 
 ###  get
 
-**●  get**:  *[EventFetcherHandler](../#eventfetcherhandler)`TArgs`* 
+**●  get**:  *[EventFetcherHandler](../#EventFetcherHandler)`TArgs`* 
 
-*Defined in [ExtendTruffleContract.ts:345](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L345)*
+*Defined in [ExtendTruffleContract.ts:356](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L356)*
 
 
 
@@ -29,9 +29,9 @@ ___
 
 ###  watch
 
-**●  watch**:  *[EventFetcherHandler](../#eventfetcherhandler)`TArgs`* 
+**●  watch**:  *[EventFetcherHandler](../#EventFetcherHandler)`TArgs`* 
 
-*Defined in [ExtendTruffleContract.ts:346](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L346)*
+*Defined in [ExtendTruffleContract.ts:357](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L357)*
 
 
 
@@ -41,7 +41,7 @@ ___
 
 
 ## Methods
-<a id="stopwatching"></a>
+<a id="stopWatching"></a>
 
 ###  stopWatching
 
@@ -49,7 +49,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:347](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L347)*
+*Defined in [ExtendTruffleContract.ts:358](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L358)*
 
 
 

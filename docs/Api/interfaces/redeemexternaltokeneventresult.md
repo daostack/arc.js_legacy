@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [RedeemExternalTokenEventResult](../interfaces/redeemexternaltokeneventresult.md)
+[API Reference](../README.md) > [RedeemExternalTokenEventResult](../interfaces/RedeemExternalTokenEventResult.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  _amount**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/contributionreward.ts:527](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L527)*
+*Defined in [contracts/contributionreward.ts:535](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L535)*
 
 
 
@@ -24,9 +24,9 @@ ___
 
 ###  _avatar
 
-**●  _avatar**:  *[Address](../#address)* 
+**●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/contributionreward.ts:531](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L531)*
+*Defined in [contracts/contributionreward.ts:539](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L539)*
 
 
 
@@ -41,9 +41,9 @@ ___
 
 ###  _beneficiary
 
-**●  _beneficiary**:  *[Address](../#address)* 
+**●  _beneficiary**:  *[Address](../#Address)* 
 
-*Defined in [contracts/contributionreward.ts:535](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L535)*
+*Defined in [contracts/contributionreward.ts:543](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L543)*
 
 
 
@@ -54,13 +54,13 @@ indexed
 
 ___
 
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/contributionreward.ts:539](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L539)*
+*Defined in [contracts/contributionreward.ts:547](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L547)*
 
 
 

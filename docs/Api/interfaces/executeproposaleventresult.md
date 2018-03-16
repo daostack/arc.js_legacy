@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ExecuteProposalEventResult](../interfaces/executeproposaleventresult.md)
+[API Reference](../README.md) > [ExecuteProposalEventResult](../interfaces/ExecuteProposalEventResult.md)
 
 
 
@@ -11,7 +11,7 @@ fired by voting machines
 
 **ExecuteProposalEventResult**
 
-↳  [GenesisProtocolExecuteProposalEventResult](genesisprotocolexecuteproposaleventresult.md)
+↳  [GenesisProtocolExecuteProposalEventResult](GenesisProtocolExecuteProposalEventResult.md)
 
 
 
@@ -28,7 +28,7 @@ fired by voting machines
 
 **●  _decision**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/commonEventInterfaces.ts:18](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L18)*
+*Defined in [contracts/commonEventInterfaces.ts:18](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L18)*
 
 
 
@@ -36,13 +36,13 @@ fired by voting machines
 
 ___
 
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:22](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L22)*
+*Defined in [contracts/commonEventInterfaces.ts:22](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L22)*
 
 
 
@@ -53,13 +53,13 @@ indexed
 
 ___
 
-<a id="_totalreputation"></a>
+<a id="_totalReputation"></a>
 
 ###  _totalReputation
 
 **●  _totalReputation**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/commonEventInterfaces.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L26)*
+*Defined in [contracts/commonEventInterfaces.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L26)*
 
 
 

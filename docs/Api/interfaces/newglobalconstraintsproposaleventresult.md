@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [NewGlobalConstraintsProposalEventResult](../interfaces/newglobalconstraintsproposaleventresult.md)
+[API Reference](../README.md) > [NewGlobalConstraintsProposalEventResult](../interfaces/NewGlobalConstraintsProposalEventResult.md)
 
 
 
@@ -10,9 +10,9 @@
 
 ###  _avatar
 
-**●  _avatar**:  *[Address](../#address)* 
+**●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:142](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L142)*
+*Defined in [contracts/globalconstraintregistrar.ts:143](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L143)*
 
 
 
@@ -27,9 +27,9 @@ ___
 
 ###  _gc
 
-**●  _gc**:  *[Address](../#address)* 
+**●  _gc**:  *[Address](../#Address)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:147](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L147)*
+*Defined in [contracts/globalconstraintregistrar.ts:148](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L148)*
 
 
 
@@ -37,13 +37,13 @@ ___
 
 ___
 
-<a id="_intvoteinterface"></a>
+<a id="_intVoteInterface"></a>
 
 ###  _intVoteInterface
 
-**●  _intVoteInterface**:  *[Address](../#address)* 
+**●  _intVoteInterface**:  *[Address](../#Address)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:146](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L146)*
+*Defined in [contracts/globalconstraintregistrar.ts:147](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L147)*
 
 
 
@@ -58,9 +58,9 @@ ___
 
 ###  _params
 
-**●  _params**:  *[Hash](../#hash)* 
+**●  _params**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:148](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L148)*
+*Defined in [contracts/globalconstraintregistrar.ts:149](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L149)*
 
 
 
@@ -68,13 +68,13 @@ ___
 
 ___
 
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:152](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L152)*
+*Defined in [contracts/globalconstraintregistrar.ts:153](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L153)*
 
 
 
@@ -85,13 +85,13 @@ indexed
 
 ___
 
-<a id="_votetoremoveparams"></a>
+<a id="_voteToRemoveParams"></a>
 
 ###  _voteToRemoveParams
 
-**●  _voteToRemoveParams**:  *[Hash](../#hash)* 
+**●  _voteToRemoveParams**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:153](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L153)*
+*Defined in [contracts/globalconstraintregistrar.ts:154](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L154)*
 
 
 

@@ -165,6 +165,25 @@ module.exports = {
        */
       fetchFromArc: copy(`${joinPath(pathDaostackArcRepo, "build", "contracts", "*")}  ${pathArcJsContracts}`)
     },
-    "docs": "node ./package-scripts/typedoc.js"
+    docs: {
+      api: {
+        build: "node ./package-scripts/typedoc.js",
+        // this is to create a list of all the API files for inclusion in mkdocs.yml
+        createPagesList: `node ./package-scripts/createApiPagesList.js ./docs api/*/**`
+      },
+      website: {
+        build: "mkdocs build",
+        preview: "mkdocs serve",
+        deploy: "mkdocs gh-deploy --force"
+      },
+      build: {
+        default: series(
+          "nps docs.api.build",
+          "nps docs.website.build",
+        ),
+        andPreview: series("nps docs.build", "nps docs.website.preview"),
+        andDeploy: series("nps docs.build", "nps docs.website.deploy")
+      }
+    }
   }
 };

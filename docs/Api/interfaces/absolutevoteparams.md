@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [AbsoluteVoteParams](../interfaces/absolutevoteparams.md)
+[API Reference](../README.md) > [AbsoluteVoteParams](../interfaces/AbsoluteVoteParams.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="ownervote"></a>
+<a id="ownerVote"></a>
 
 ### «Optional» ownerVote
 
 **●  ownerVote**:  *`boolean`* 
 
-*Defined in [contracts/absoluteVote.ts:109](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L109)*
+*Defined in [contracts/absoluteVote.ts:109](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L109)*
 
 
 
@@ -26,7 +26,7 @@ ___
 
 **●  reputation**:  *`string`* 
 
-*Defined in [contracts/absoluteVote.ts:110](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L110)*
+*Defined in [contracts/absoluteVote.ts:110](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L110)*
 
 
 
@@ -34,13 +34,13 @@ ___
 
 ___
 
-<a id="voteperc"></a>
+<a id="votePerc"></a>
 
 ### «Optional» votePerc
 
 **●  votePerc**:  *`number`* 
 
-*Defined in [contracts/absoluteVote.ts:111](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/absoluteVote.ts#L111)*
+*Defined in [contracts/absoluteVote.ts:111](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/absoluteVote.ts#L111)*
 
 
 

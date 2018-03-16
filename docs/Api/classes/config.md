@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [Config](../classes/config.md)
+[API Reference](../README.md) > [Config](../classes/Config.md)
 
 
 
@@ -11,19 +11,19 @@ get and set global Arc.js settings
 
 ### Constructors
 
-* [constructor](config.md#constructor)
+* [constructor](Config.md#constructor)
 
 
 ### Properties
 
-* [data](config.md#data)
-* [instance](config.md#instance)
+* [data](Config.md#data)
+* [instance](Config.md#instance)
 
 
 ### Methods
 
-* [get](config.md#get)
-* [set](config.md#set)
+* [get](Config.md#get)
+* [set](Config.md#set)
 
 
 
@@ -32,16 +32,16 @@ get and set global Arc.js settings
 <a id="constructor"></a>
 
 
-### ⊕ **new Config**(): [Config](config.md)
+### ⊕ **new Config**(): [Config](Config.md)
 
 
-*Defined in [config.ts:14](https://github.com/daostack/arc.js/blob/0fff6d4/lib/config.ts#L14)*
+*Defined in [config.ts:14](https://github.com/daostack/arc.js/blob/61e5f90/lib/config.ts#L14)*
 
 
 
 
 
-**Returns:** [Config](config.md)
+**Returns:** [Config](Config.md)
 
 ---
 
@@ -53,7 +53,7 @@ get and set global Arc.js settings
 
 **●  data**:  *`any`* 
 
-*Defined in [config.ts:6](https://github.com/daostack/arc.js/blob/0fff6d4/lib/config.ts#L6)*
+*Defined in [config.ts:6](https://github.com/daostack/arc.js/blob/61e5f90/lib/config.ts#L6)*
 
 
 
@@ -65,9 +65,9 @@ ___
 
 ### «Static» instance
 
-**●  instance**:  *[Config](config.md)* 
+**●  instance**:  *[Config](Config.md)* 
 
-*Defined in [config.ts:5](https://github.com/daostack/arc.js/blob/0fff6d4/lib/config.ts#L5)*
+*Defined in [config.ts:5](https://github.com/daostack/arc.js/blob/61e5f90/lib/config.ts#L5)*
 
 
 
@@ -85,7 +85,7 @@ ___
 
 
 
-*Defined in [config.ts:8](https://github.com/daostack/arc.js/blob/0fff6d4/lib/config.ts#L8)*
+*Defined in [config.ts:8](https://github.com/daostack/arc.js/blob/61e5f90/lib/config.ts#L8)*
 
 
 
@@ -115,7 +115,7 @@ ___
 
 
 
-*Defined in [config.ts:12](https://github.com/daostack/arc.js/blob/0fff6d4/lib/config.ts#L12)*
+*Defined in [config.ts:12](https://github.com/daostack/arc.js/blob/61e5f90/lib/config.ts#L12)*
 
 
 

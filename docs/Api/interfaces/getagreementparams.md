@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GetAgreementParams](../interfaces/getagreementparams.md)
+[API Reference](../README.md) > [GetAgreementParams](../interfaces/GetAgreementParams.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="agreementid"></a>
+<a id="agreementId"></a>
 
 ###  agreementId
 
 **●  agreementId**:  *`number`* 
 
-*Defined in [contracts/vestingscheme.ts:478](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L478)*
+*Defined in [contracts/vestingscheme.ts:475](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L475)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/vestingscheme.ts:474](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L474)*
+*Defined in [contracts/vestingscheme.ts:471](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L471)*
 
 
 

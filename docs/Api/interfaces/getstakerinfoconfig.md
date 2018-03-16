@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GetStakerInfoConfig](../interfaces/getstakerinfoconfig.md)
+[API Reference](../README.md) > [GetStakerInfoConfig](../interfaces/GetStakerInfoConfig.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="proposalid"></a>
+<a id="proposalId"></a>
 
 ###  proposalId
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1367](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1367)*
+*Defined in [contracts/genesisProtocol.ts:1377](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1377)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  staker**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1371](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1371)*
+*Defined in [contracts/genesisProtocol.ts:1381](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1381)*
 
 
 

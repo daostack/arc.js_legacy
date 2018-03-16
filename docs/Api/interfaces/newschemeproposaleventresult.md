@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [NewSchemeProposalEventResult](../interfaces/newschemeproposaleventresult.md)
+[API Reference](../README.md) > [NewSchemeProposalEventResult](../interfaces/NewSchemeProposalEventResult.md)
 
 
 
@@ -10,9 +10,9 @@
 
 ###  _avatar
 
-**●  _avatar**:  *[Address](../#address)* 
+**●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/schemeregistrar.ts:204](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L204)*
+*Defined in [contracts/schemeregistrar.ts:169](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L169)*
 
 
 
@@ -23,13 +23,13 @@ indexed
 
 ___
 
-<a id="_intvoteinterface"></a>
+<a id="_intVoteInterface"></a>
 
 ###  _intVoteInterface
 
-**●  _intVoteInterface**:  *[Address](../#address)* 
+**●  _intVoteInterface**:  *[Address](../#Address)* 
 
-*Defined in [contracts/schemeregistrar.ts:208](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L208)*
+*Defined in [contracts/schemeregistrar.ts:173](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L173)*
 
 
 
@@ -40,13 +40,13 @@ indexed
 
 ___
 
-<a id="_isregistering"></a>
+<a id="_isRegistering"></a>
 
 ###  _isRegistering
 
 **●  _isRegistering**:  *`boolean`* 
 
-*Defined in [contracts/schemeregistrar.ts:209](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L209)*
+*Defined in [contracts/schemeregistrar.ts:174](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L174)*
 
 
 
@@ -54,13 +54,13 @@ ___
 
 ___
 
-<a id="_parametershash"></a>
+<a id="_parametersHash"></a>
 
 ###  _parametersHash
 
-**●  _parametersHash**:  *[Hash](../#hash)* 
+**●  _parametersHash**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/schemeregistrar.ts:210](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L210)*
+*Defined in [contracts/schemeregistrar.ts:175](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L175)*
 
 
 
@@ -68,13 +68,13 @@ ___
 
 ___
 
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/schemeregistrar.ts:214](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L214)*
+*Defined in [contracts/schemeregistrar.ts:179](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L179)*
 
 
 
@@ -89,9 +89,9 @@ ___
 
 ###  _scheme
 
-**●  _scheme**:  *[Address](../#address)* 
+**●  _scheme**:  *[Address](../#Address)* 
 
-*Defined in [contracts/schemeregistrar.ts:215](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L215)*
+*Defined in [contracts/schemeregistrar.ts:180](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L180)*
 
 
 

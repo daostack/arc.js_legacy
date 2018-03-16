@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ArcTransactionAgreementResult](../classes/arctransactionagreementresult.md)
+[API Reference](../README.md) > [ArcTransactionAgreementResult](../classes/ArcTransactionAgreementResult.md)
 
 
 
@@ -7,7 +7,7 @@
 ## Hierarchy
 
 
- [ArcTransactionResult](arctransactionresult.md)
+ [ArcTransactionResult](ArcTransactionResult.md)
 
 **↳ ArcTransactionAgreementResult**
 
@@ -21,18 +21,18 @@
 
 ### Constructors
 
-* [constructor](arctransactionagreementresult.md#constructor)
+* [constructor](ArcTransactionAgreementResult.md#constructor)
 
 
 ### Properties
 
-* [agreementId](arctransactionagreementresult.md#agreementid)
-* [tx](arctransactionagreementresult.md#tx)
+* [agreementId](ArcTransactionAgreementResult.md#agreementId)
+* [tx](ArcTransactionAgreementResult.md#tx)
 
 
 ### Methods
 
-* [getValueFromTx](arctransactionagreementresult.md#getvaluefromtx)
+* [getValueFromTx](ArcTransactionAgreementResult.md#getValueFromTx)
 
 
 
@@ -41,12 +41,12 @@
 <a id="constructor"></a>
 
 
-### ⊕ **new ArcTransactionAgreementResult**(tx: *[TransactionReceiptTruffle](../interfaces/transactionreceipttruffle.md)*): [ArcTransactionAgreementResult](arctransactionagreementresult.md)
+### ⊕ **new ArcTransactionAgreementResult**(tx: *[TransactionReceiptTruffle](../interfaces/TransactionReceiptTruffle.md)*): [ArcTransactionAgreementResult](ArcTransactionAgreementResult.md)
 
 
-*Overrides [ArcTransactionResult](arctransactionresult.md).[constructor](arctransactionresult.md#constructor)*
+*Overrides [ArcTransactionResult](ArcTransactionResult.md).[constructor](ArcTransactionResult.md#constructor)*
 
-*Defined in [contracts/vestingscheme.ts:322](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L322)*
+*Defined in [contracts/vestingscheme.ts:319](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L319)*
 
 
 
@@ -54,25 +54,25 @@
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| tx | [TransactionReceiptTruffle](../interfaces/transactionreceipttruffle.md)   |  - |
+| tx | [TransactionReceiptTruffle](../interfaces/TransactionReceiptTruffle.md)   |  - |
 
 
 
 
 
-**Returns:** [ArcTransactionAgreementResult](arctransactionagreementresult.md)
+**Returns:** [ArcTransactionAgreementResult](ArcTransactionAgreementResult.md)
 
 ---
 
 
 ## Properties
-<a id="agreementid"></a>
+<a id="agreementId"></a>
 
 ###  agreementId
 
 **●  agreementId**:  *`number`* 
 
-*Defined in [contracts/vestingscheme.ts:322](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L322)*
+*Defined in [contracts/vestingscheme.ts:319](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L319)*
 
 
 
@@ -84,11 +84,11 @@ ___
 
 ###  tx
 
-**●  tx**:  *[TransactionReceiptTruffle](../interfaces/transactionreceipttruffle.md)* 
+**●  tx**:  *[TransactionReceiptTruffle](../interfaces/TransactionReceiptTruffle.md)* 
 
-*Inherited from [ArcTransactionResult](arctransactionresult.md).[tx](arctransactionresult.md#tx)*
+*Inherited from [ArcTransactionResult](ArcTransactionResult.md).[tx](ArcTransactionResult.md#tx)*
 
-*Defined in [ExtendTruffleContract.ts:247](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L247)*
+*Defined in [ExtendTruffleContract.ts:258](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L258)*
 
 
 
@@ -101,7 +101,7 @@ ___
 
 
 ## Methods
-<a id="getvaluefromtx"></a>
+<a id="getValueFromTx"></a>
 
 ###  getValueFromTx
 
@@ -109,9 +109,9 @@ ___
 
 
 
-*Inherited from [ArcTransactionResult](arctransactionresult.md).[getValueFromTx](arctransactionresult.md#getvaluefromtx)*
+*Inherited from [ArcTransactionResult](ArcTransactionResult.md).[getValueFromTx](ArcTransactionResult.md#getValueFromTx)*
 
-*Defined in [ExtendTruffleContract.ts:260](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L260)*
+*Defined in [ExtendTruffleContract.ts:271](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L271)*
 
 
 

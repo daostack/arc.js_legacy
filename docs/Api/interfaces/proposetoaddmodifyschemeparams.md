@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ProposeToAddModifySchemeParams](../interfaces/proposetoaddmodifyschemeparams.md)
+[API Reference](../README.md) > [ProposeToAddModifySchemeParams](../interfaces/ProposeToAddModifySchemeParams.md)
 
 
 
@@ -10,9 +10,9 @@
 
 ###  avatar
 
-**●  avatar**:  *`string`* 
+**●  avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/schemeregistrar.ts:238](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L238)*
+*Defined in [contracts/schemeregistrar.ts:203](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L203)*
 
 
 
@@ -23,70 +23,72 @@ avatar address
 
 ___
 
-<a id="isregistering"></a>
+<a id="permissions"></a>
 
-### «Optional» isRegistering
+### «Optional» permissions
 
-**●  isRegistering**:  *`boolean`⎮`null`* 
+**●  permissions**:  *[SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)⎮`null`* 
 
-*Defined in [contracts/schemeregistrar.ts:258](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L258)*
-
-
-
-true if the given scheme is able to register/unregister/modify schemes.
-
-isRegistering should only be supplied when schemeName is not given (and thus the scheme is non-Arc). Otherwise we determine its value based on scheme and schemeName.
+*Defined in [contracts/schemeregistrar.ts:227](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L227)*
 
 
 
+Optionally supply values from SchemePermissions or DefaultSchemePermissions.
 
-___
+This value is manditory for non-Arc schemes.
 
-<a id="scheme"></a>
-
-###  scheme
-
-**●  scheme**:  *`string`* 
-
-*Defined in [contracts/schemeregistrar.ts:242](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L242)*
-
-
-
-scheme address
+For Arc schemes the default is taken from DefaultSchemePermissions for the scheme given by schemeName.
 
 
 
 
 ___
 
-<a id="schemename"></a>
+<a id="schemeAddress"></a>
+
+### «Optional» schemeAddress
+
+**●  schemeAddress**:  *[Address](../#Address)* 
+
+*Defined in [contracts/schemeregistrar.ts:209](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L209)*
+
+
+
+Optional scheme address. Supply this if you are submitting a non-Arc scheme or wish to use a different Arc scheme than the default. In the latter case, you must also supply the schemeName.
+
+
+
+
+___
+
+<a id="schemeName"></a>
 
 ### «Optional» schemeName
 
 **●  schemeName**:  *`string`⎮`null`* 
 
-*Defined in [contracts/schemeregistrar.ts:247](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L247)*
+*Defined in [contracts/schemeregistrar.ts:214](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L214)*
 
 
 
-scheme identifier, like "SchemeRegistrar" or "ContributionReward". pass null if registering a non-arc scheme
+Scheme name, like "SchemeRegistrar" or "ContributionReward". Not required if you are registering a non-arc scheme.
 
 
 
 
 ___
 
-<a id="schemeparametershash"></a>
+<a id="schemeParametersHash"></a>
 
 ###  schemeParametersHash
 
 **●  schemeParametersHash**:  *`string`* 
 
-*Defined in [contracts/schemeregistrar.ts:251](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L251)*
+*Defined in [contracts/schemeregistrar.ts:218](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L218)*
 
 
 
-hash of scheme parameters. These must be already registered with the new scheme.
+Fash of scheme parameters. These must be already registered with the new scheme.
 
 
 

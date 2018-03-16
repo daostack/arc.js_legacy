@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [SchemeRegistrarWrapper](../classes/schemeregistrarwrapper.md)
+[API Reference](../README.md) > [SchemeRegistrarWrapper](../classes/SchemeRegistrarWrapper.md)
 
 
 
@@ -7,7 +7,7 @@
 ## Hierarchy
 
 
- [ExtendTruffleContract](extendtrufflecontract.md)
+ [ExtendTruffleContract](ExtendTruffleContract.md)
 
 **↳ SchemeRegistrarWrapper**
 
@@ -21,36 +21,38 @@
 
 ### Constructors
 
-* [constructor](schemeregistrarwrapper.md#constructor)
+* [constructor](SchemeRegistrarWrapper.md#constructor)
 
 
 ### Properties
 
-* [NewSchemeProposal](schemeregistrarwrapper.md#newschemeproposal)
-* [ProposalDeleted](schemeregistrarwrapper.md#proposaldeleted)
-* [ProposalExecuted](schemeregistrarwrapper.md#proposalexecuted)
-* [RemoveSchemeProposal](schemeregistrarwrapper.md#removeschemeproposal)
-* [contract](schemeregistrarwrapper.md#contract)
+* [NewSchemeProposal](SchemeRegistrarWrapper.md#NewSchemeProposal)
+* [ProposalDeleted](SchemeRegistrarWrapper.md#ProposalDeleted)
+* [ProposalExecuted](SchemeRegistrarWrapper.md#ProposalExecuted)
+* [RemoveSchemeProposal](SchemeRegistrarWrapper.md#RemoveSchemeProposal)
+* [contract](SchemeRegistrarWrapper.md#contract)
 
 
 ### Accessors
 
-* [address](schemeregistrarwrapper.md#address)
+* [address](SchemeRegistrarWrapper.md#address)
 
 
 ### Methods
 
-* [getDefaultPermissions](schemeregistrarwrapper.md#getdefaultpermissions)
-* [getParameters](schemeregistrarwrapper.md#getparameters)
-* [getParametersArray](schemeregistrarwrapper.md#getparametersarray)
-* [getSchemeParameters](schemeregistrarwrapper.md#getschemeparameters)
-* [getSchemeParametersHash](schemeregistrarwrapper.md#getschemeparametershash)
-* [hydrateFromAt](schemeregistrarwrapper.md#hydratefromat)
-* [hydrateFromDeployed](schemeregistrarwrapper.md#hydratefromdeployed)
-* [hydrateFromNew](schemeregistrarwrapper.md#hydratefromnew)
-* [proposeToAddModifyScheme](schemeregistrarwrapper.md#proposetoaddmodifyscheme)
-* [proposeToRemoveScheme](schemeregistrarwrapper.md#proposetoremovescheme)
-* [setParameters](schemeregistrarwrapper.md#setparameters)
+* [getController](SchemeRegistrarWrapper.md#getController)
+* [getDefaultPermissions](SchemeRegistrarWrapper.md#getDefaultPermissions)
+* [getParameters](SchemeRegistrarWrapper.md#getParameters)
+* [getParametersArray](SchemeRegistrarWrapper.md#getParametersArray)
+* [getPermissions](SchemeRegistrarWrapper.md#getPermissions)
+* [getSchemeParameters](SchemeRegistrarWrapper.md#getSchemeParameters)
+* [getSchemeParametersHash](SchemeRegistrarWrapper.md#getSchemeParametersHash)
+* [hydrateFromAt](SchemeRegistrarWrapper.md#hydrateFromAt)
+* [hydrateFromDeployed](SchemeRegistrarWrapper.md#hydrateFromDeployed)
+* [hydrateFromNew](SchemeRegistrarWrapper.md#hydrateFromNew)
+* [proposeToAddModifyScheme](SchemeRegistrarWrapper.md#proposeToAddModifyScheme)
+* [proposeToRemoveScheme](SchemeRegistrarWrapper.md#proposeToRemoveScheme)
+* [setParameters](SchemeRegistrarWrapper.md#setParameters)
 
 
 
@@ -59,12 +61,12 @@
 <a id="constructor"></a>
 
 
-### ⊕ **new SchemeRegistrarWrapper**(solidityContract: *`any`*): [SchemeRegistrarWrapper](schemeregistrarwrapper.md)
+### ⊕ **new SchemeRegistrarWrapper**(solidityContract: *`any`*): [SchemeRegistrarWrapper](SchemeRegistrarWrapper.md)
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[constructor](extendtrufflecontract.md#constructor)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[constructor](ExtendTruffleContract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -81,19 +83,19 @@ ContractWrapperFactory constructs this
 
 
 
-**Returns:** [SchemeRegistrarWrapper](schemeregistrarwrapper.md)
+**Returns:** [SchemeRegistrarWrapper](SchemeRegistrarWrapper.md)
 
 ---
 
 
 ## Properties
-<a id="newschemeproposal"></a>
+<a id="NewSchemeProposal"></a>
 
 ###  NewSchemeProposal
 
-**●  NewSchemeProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[NewSchemeProposalEventResult](../interfaces/newschemeproposaleventresult.md)*  =  this.createEventFetcherFactory<NewSchemeProposalEventResult>("NewSchemeProposal")
+**●  NewSchemeProposal**:  *[EventFetcherFactory](../#EventFetcherFactory)[NewSchemeProposalEventResult](../interfaces/NewSchemeProposalEventResult.md)*  =  this.createEventFetcherFactory<NewSchemeProposalEventResult>("NewSchemeProposal")
 
-*Defined in [contracts/schemeregistrar.ts:23](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L23)*
+*Defined in [contracts/schemeregistrar.ts:22](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L22)*
 
 
 
@@ -104,13 +106,13 @@ Events
 
 ___
 
-<a id="proposaldeleted"></a>
+<a id="ProposalDeleted"></a>
 
 ###  ProposalDeleted
 
-**●  ProposalDeleted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalDeletedEventResult](../interfaces/proposaldeletedeventresult.md)*  =  this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted")
+**●  ProposalDeleted**:  *[EventFetcherFactory](../#EventFetcherFactory)[ProposalDeletedEventResult](../interfaces/ProposalDeletedEventResult.md)*  =  this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted")
 
-*Defined in [contracts/schemeregistrar.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L26)*
+*Defined in [contracts/schemeregistrar.ts:25](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L25)*
 
 
 
@@ -118,13 +120,13 @@ ___
 
 ___
 
-<a id="proposalexecuted"></a>
+<a id="ProposalExecuted"></a>
 
 ###  ProposalExecuted
 
-**●  ProposalExecuted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalExecutedEventResult](../interfaces/proposalexecutedeventresult.md)*  =  this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted")
+**●  ProposalExecuted**:  *[EventFetcherFactory](../#EventFetcherFactory)[ProposalExecutedEventResult](../interfaces/ProposalExecutedEventResult.md)*  =  this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted")
 
-*Defined in [contracts/schemeregistrar.ts:25](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L25)*
+*Defined in [contracts/schemeregistrar.ts:24](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L24)*
 
 
 
@@ -132,13 +134,13 @@ ___
 
 ___
 
-<a id="removeschemeproposal"></a>
+<a id="RemoveSchemeProposal"></a>
 
 ###  RemoveSchemeProposal
 
-**●  RemoveSchemeProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[RemoveSchemeProposalEventResult](../interfaces/removeschemeproposaleventresult.md)*  =  this.createEventFetcherFactory<RemoveSchemeProposalEventResult>("RemoveSchemeProposal")
+**●  RemoveSchemeProposal**:  *[EventFetcherFactory](../#EventFetcherFactory)[RemoveSchemeProposalEventResult](../interfaces/RemoveSchemeProposalEventResult.md)*  =  this.createEventFetcherFactory<RemoveSchemeProposalEventResult>("RemoveSchemeProposal")
 
-*Defined in [contracts/schemeregistrar.ts:24](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L24)*
+*Defined in [contracts/schemeregistrar.ts:23](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L23)*
 
 
 
@@ -152,9 +154,9 @@ ___
 
 **●  contract**:  *`any`* 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[contract](extendtrufflecontract.md#contract)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[contract](ExtendTruffleContract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -172,17 +174,17 @@ ___
 ###  address
 
 
-getaddress(): [Address](../#address)
+getaddress(): [Address](../#Address)
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[address](extendtrufflecontract.md#address)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[address](ExtendTruffleContract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L128)*
-
-
+*Defined in [ExtendTruffleContract.ts:148](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L148)*
 
 
 
-**Returns:** [Address](../#address)
+
+
+**Returns:** [Address](../#Address)
 
 
 
@@ -190,17 +192,52 @@ ___
 
 
 ## Methods
-<a id="getdefaultpermissions"></a>
+<a id="getController"></a>
+
+###  getController
+
+► **getController**(avatarAddress: *[Address](../#Address)*): `Promise`.<`any`>
+
+
+
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getController](ExtendTruffleContract.md#getController)*
+
+*Defined in [ExtendTruffleContract.ts:143](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L143)*
+
+
+
+return the controller associated with the given avatar
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| avatarAddress | [Address](../#Address)   |  - |
+
+
+
+
+
+**Returns:** `Promise`.<`any`>
+
+
+
+
+
+___
+
+<a id="getDefaultPermissions"></a>
 
 ###  getDefaultPermissions
 
-► **getDefaultPermissions**(overrideValue?: *`string`*): `string`
+► **getDefaultPermissions**(overrideValue?: *[SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)*): [SchemePermissions](../enums/SchemePermissions.md)
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getDefaultPermissions](extendtrufflecontract.md#getdefaultpermissions)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getDefaultPermissions](ExtendTruffleContract.md#getDefaultPermissions)*
 
-*Defined in [contracts/schemeregistrar.ts:180](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L180)*
+*Defined in [contracts/schemeregistrar.ts:144](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L144)*
 
 
 
@@ -208,13 +245,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| overrideValue | `string`   |  - |
+| overrideValue | [SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)   |  - |
 
 
 
 
 
-**Returns:** `string`
+**Returns:** [SchemePermissions](../enums/SchemePermissions.md)
 
 
 
@@ -222,17 +259,17 @@ ___
 
 ___
 
-<a id="getparameters"></a>
+<a id="getParameters"></a>
 
 ###  getParameters
 
-► **getParameters**(paramsHash: *[Hash](../#hash)*): `Promise`.<[StandardSchemeParams](../interfaces/standardschemeparams.md)>
+► **getParameters**(paramsHash: *[Hash](../#Hash)*): `Promise`.<[StandardSchemeParams](../interfaces/StandardSchemeParams.md)>
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getParameters](extendtrufflecontract.md#getparameters)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getParameters](ExtendTruffleContract.md#getParameters)*
 
-*Defined in [contracts/schemeregistrar.ts:188](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L188)*
+*Defined in [contracts/schemeregistrar.ts:153](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L153)*
 
 
 
@@ -240,13 +277,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| paramsHash | [Hash](../#hash)   |  - |
+| paramsHash | [Hash](../#Hash)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[StandardSchemeParams](../interfaces/standardschemeparams.md)>
+**Returns:** `Promise`.<[StandardSchemeParams](../interfaces/StandardSchemeParams.md)>
 
 
 
@@ -254,17 +291,17 @@ ___
 
 ___
 
-<a id="getparametersarray"></a>
+<a id="getParametersArray"></a>
 
 ###  getParametersArray
 
-► **getParametersArray**(paramsHash: *[Hash](../#hash)*): `Promise`.<`Array`.<`any`>>
+► **getParametersArray**(paramsHash: *[Hash](../#Hash)*): `Promise`.<`Array`.<`any`>>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParametersArray](extendtrufflecontract.md#getparametersarray)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getParametersArray](ExtendTruffleContract.md#getParametersArray)*
 
-*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L124)*
+*Defined in [ExtendTruffleContract.ts:135](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L135)*
 
 
 
@@ -275,7 +312,7 @@ Given a hash, return the associated parameters as an array, ordered by the order
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| paramsHash | [Hash](../#hash)   |  - |
+| paramsHash | [Hash](../#Hash)   |  - |
 
 
 
@@ -289,29 +326,34 @@ Given a hash, return the associated parameters as an array, ordered by the order
 
 ___
 
-<a id="getschemeparameters"></a>
+<a id="getPermissions"></a>
 
-###  getSchemeParameters
+###  getPermissions
 
-► **getSchemeParameters**(avatarAddress: *[Address](../#address)*): `Promise`.<[StandardSchemeParams](../interfaces/standardschemeparams.md)>
+► **getPermissions**(avatarAddress: *[Address](../#Address)*): `Promise`.<[SchemePermissions](../enums/SchemePermissions.md)>
 
 
 
-*Defined in [contracts/schemeregistrar.ts:184](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L184)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getPermissions](ExtendTruffleContract.md#getPermissions)*
 
+*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L106)*
+
+
+
+Return this scheme's permissions.
 
 
 **Parameters:**
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| avatarAddress | [Address](../#address)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[StandardSchemeParams](../interfaces/standardschemeparams.md)>
+**Returns:** `Promise`.<[SchemePermissions](../enums/SchemePermissions.md)>
 
 
 
@@ -319,17 +361,47 @@ ___
 
 ___
 
-<a id="getschemeparametershash"></a>
+<a id="getSchemeParameters"></a>
+
+###  getSchemeParameters
+
+► **getSchemeParameters**(avatarAddress: *[Address](../#Address)*): `Promise`.<[StandardSchemeParams](../interfaces/StandardSchemeParams.md)>
+
+
+
+*Defined in [contracts/schemeregistrar.ts:149](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L149)*
+
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| avatarAddress | [Address](../#Address)   |  - |
+
+
+
+
+
+**Returns:** `Promise`.<[StandardSchemeParams](../interfaces/StandardSchemeParams.md)>
+
+
+
+
+
+___
+
+<a id="getSchemeParametersHash"></a>
 
 ###  getSchemeParametersHash
 
-► **getSchemeParametersHash**(avatarAddress: *[Address](../#address)*): `Promise`.<[Hash](../#hash)>
+► **getSchemeParametersHash**(avatarAddress: *[Address](../#Address)*): `Promise`.<[Hash](../#Hash)>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getSchemeParametersHash](extendtrufflecontract.md#getschemeparametershash)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getSchemeParametersHash](ExtendTruffleContract.md#getSchemeParametersHash)*
 
-*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L114)*
+*Defined in [ExtendTruffleContract.ts:125](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L125)*
 
 
 
@@ -340,13 +412,13 @@ Given an avatar address, return the schemes parameters hash
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| avatarAddress | [Address](../#address)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[Hash](../#hash)>
+**Returns:** `Promise`.<[Hash](../#Hash)>
 
 
 
@@ -354,7 +426,7 @@ Given an avatar address, return the schemes parameters hash
 
 ___
 
-<a id="hydratefromat"></a>
+<a id="hydrateFromAt"></a>
 
 ###  hydrateFromAt
 
@@ -362,9 +434,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromAt](extendtrufflecontract.md#hydratefromat)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromAt](ExtendTruffleContract.md#hydrateFromAt)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -391,7 +463,7 @@ this
 
 ___
 
-<a id="hydratefromdeployed"></a>
+<a id="hydrateFromDeployed"></a>
 
 ###  hydrateFromDeployed
 
@@ -399,9 +471,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromDeployed](extendtrufflecontract.md#hydratefromdeployed)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromDeployed](ExtendTruffleContract.md#hydrateFromDeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -420,7 +492,7 @@ this
 
 ___
 
-<a id="hydratefromnew"></a>
+<a id="hydrateFromNew"></a>
 
 ###  hydrateFromNew
 
@@ -428,9 +500,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromNew](extendtrufflecontract.md#hydratefromnew)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromNew](ExtendTruffleContract.md#hydrateFromNew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -457,15 +529,15 @@ this
 
 ___
 
-<a id="proposetoaddmodifyscheme"></a>
+<a id="proposeToAddModifyScheme"></a>
 
 ###  proposeToAddModifyScheme
 
-► **proposeToAddModifyScheme**(opts?: *[ProposeToAddModifySchemeParams](../interfaces/proposetoaddmodifyschemeparams.md)*): `Promise`.<[ArcTransactionProposalResult](arctransactionproposalresult.md)>
+► **proposeToAddModifyScheme**(opts?: *[ProposeToAddModifySchemeParams](../interfaces/ProposeToAddModifySchemeParams.md)*): `Promise`.<[ArcTransactionProposalResult](ArcTransactionProposalResult.md)>
 
 
 
-*Defined in [contracts/schemeregistrar.ts:39](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L39)*
+*Defined in [contracts/schemeregistrar.ts:38](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L38)*
 
 
 
@@ -476,13 +548,13 @@ Note relating to permissions: According rules defined in the Controller, this Sc
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [ProposeToAddModifySchemeParams](../interfaces/proposetoaddmodifyschemeparams.md)  |  {} as ProposeToAddModifySchemeParams |   - |
+| opts | [ProposeToAddModifySchemeParams](../interfaces/ProposeToAddModifySchemeParams.md)  |  {} as ProposeToAddModifySchemeParams |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionProposalResult](arctransactionproposalresult.md)>
+**Returns:** `Promise`.<[ArcTransactionProposalResult](ArcTransactionProposalResult.md)>
 
 
 
@@ -490,15 +562,15 @@ Note relating to permissions: According rules defined in the Controller, this Sc
 
 ___
 
-<a id="proposetoremovescheme"></a>
+<a id="proposeToRemoveScheme"></a>
 
 ###  proposeToRemoveScheme
 
-► **proposeToRemoveScheme**(opts?: *[ProposeToRemoveSchemeParams](../interfaces/proposetoremoveschemeparams.md)*): `Promise`.<[ArcTransactionProposalResult](arctransactionproposalresult.md)>
+► **proposeToRemoveScheme**(opts?: *[ProposeToRemoveSchemeParams](../interfaces/ProposeToRemoveSchemeParams.md)*): `Promise`.<[ArcTransactionProposalResult](ArcTransactionProposalResult.md)>
 
 
 
-*Defined in [contracts/schemeregistrar.ts:140](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L140)*
+*Defined in [contracts/schemeregistrar.ts:104](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L104)*
 
 
 
@@ -506,13 +578,13 @@ ___
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [ProposeToRemoveSchemeParams](../interfaces/proposetoremoveschemeparams.md)  |  {} as ProposeToRemoveSchemeParams |   - |
+| opts | [ProposeToRemoveSchemeParams](../interfaces/ProposeToRemoveSchemeParams.md)  |  {} as ProposeToRemoveSchemeParams |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionProposalResult](arctransactionproposalresult.md)>
+**Returns:** `Promise`.<[ArcTransactionProposalResult](ArcTransactionProposalResult.md)>
 
 
 
@@ -520,17 +592,17 @@ ___
 
 ___
 
-<a id="setparameters"></a>
+<a id="setParameters"></a>
 
 ###  setParameters
 
-► **setParameters**(params: *[StandardSchemeParams](../interfaces/standardschemeparams.md)*): `Promise`.<[ArcTransactionDataResult](arctransactiondataresult.md)[Hash](../#hash)>
+► **setParameters**(params: *[StandardSchemeParams](../interfaces/StandardSchemeParams.md)*): `Promise`.<[ArcTransactionDataResult](ArcTransactionDataResult.md)[Hash](../#Hash)>
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[setParameters](extendtrufflecontract.md#setparameters)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[setParameters](ExtendTruffleContract.md#setParameters)*
 
-*Defined in [contracts/schemeregistrar.ts:172](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L172)*
+*Defined in [contracts/schemeregistrar.ts:136](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L136)*
 
 
 
@@ -538,13 +610,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| params | [StandardSchemeParams](../interfaces/standardschemeparams.md)   |  - |
+| params | [StandardSchemeParams](../interfaces/StandardSchemeParams.md)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionDataResult](arctransactiondataresult.md)[Hash](../#hash)>
+**Returns:** `Promise`.<[ArcTransactionDataResult](ArcTransactionDataResult.md)[Hash](../#Hash)>
 
 
 

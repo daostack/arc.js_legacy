@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [LoggingService](../classes/loggingservice.md)
+[API Reference](../README.md) > [LoggingService](../classes/LoggingService.md)
 
 
 
@@ -8,17 +8,17 @@
 
 ### Properties
 
-* [logger](loggingservice.md#logger)
+* [logger](LoggingService.md#logger)
 
 
 ### Methods
 
-* [debug](loggingservice.md#debug)
-* [error](loggingservice.md#error)
-* [info](loggingservice.md#info)
-* [setLogLevel](loggingservice.md#setloglevel)
-* [setLogger](loggingservice.md#setlogger)
-* [warn](loggingservice.md#warn)
+* [debug](LoggingService.md#debug)
+* [error](LoggingService.md#error)
+* [info](LoggingService.md#info)
+* [setLogLevel](LoggingService.md#setLogLevel)
+* [setLogger](LoggingService.md#setLogger)
+* [warn](LoggingService.md#warn)
 
 
 
@@ -28,9 +28,9 @@
 
 ### «Static» logger
 
-**●  logger**:  *[ILogger](../interfaces/ilogger.md)*  =  new ConsoleLogger()
+**●  logger**:  *[ILogger](../interfaces/ILogger.md)*  =  new ConsoleLogger()
 
-*Defined in [loggingService.ts:65](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L65)*
+*Defined in [loggingService.ts:65](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L65)*
 
 
 
@@ -48,7 +48,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:68](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L68)*
+*Defined in [loggingService.ts:68](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L68)*
 
 
 
@@ -78,7 +78,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:74](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L74)*
+*Defined in [loggingService.ts:74](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L74)*
 
 
 
@@ -108,7 +108,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:70](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L70)*
+*Defined in [loggingService.ts:70](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L70)*
 
 
 
@@ -130,15 +130,15 @@ ___
 
 ___
 
-<a id="setloglevel"></a>
+<a id="setLogLevel"></a>
 
 ### «Static» setLogLevel
 
-► **setLogLevel**(level: *[LogLevel](../enums/loglevel.md)*): `void`
+► **setLogLevel**(level: *[LogLevel](../enums/LogLevel.md)*): `void`
 
 
 
-*Defined in [loggingService.ts:77](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L77)*
+*Defined in [loggingService.ts:77](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L77)*
 
 
 
@@ -146,7 +146,7 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| level | [LogLevel](../enums/loglevel.md)   |  - |
+| level | [LogLevel](../enums/LogLevel.md)   |  - |
 
 
 
@@ -160,15 +160,15 @@ ___
 
 ___
 
-<a id="setlogger"></a>
+<a id="setLogger"></a>
 
 ### «Static» setLogger
 
-► **setLogger**(logger: *[ILogger](../interfaces/ilogger.md)*): `void`
+► **setLogger**(logger: *[ILogger](../interfaces/ILogger.md)*): `void`
 
 
 
-*Defined in [loggingService.ts:81](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L81)*
+*Defined in [loggingService.ts:81](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L81)*
 
 
 
@@ -176,7 +176,7 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| logger | [ILogger](../interfaces/ilogger.md)   |  - |
+| logger | [ILogger](../interfaces/ILogger.md)   |  - |
 
 
 
@@ -198,7 +198,7 @@ ___
 
 
 
-*Defined in [loggingService.ts:72](https://github.com/daostack/arc.js/blob/0fff6d4/lib/loggingService.ts#L72)*
+*Defined in [loggingService.ts:72](https://github.com/daostack/arc.js/blob/61e5f90/lib/loggingService.ts#L72)*
 
 
 

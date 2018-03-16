@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [VoteConfig](../interfaces/voteconfig.md)
+[API Reference](../README.md) > [VoteConfig](../interfaces/VoteConfig.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="onbehalfof"></a>
+<a id="onBehalfOf"></a>
 
 ### «Optional» onBehalfOf
 
 **●  onBehalfOf**:  *`string`* 
 
-*Defined in [commonTypes.ts:9](https://github.com/daostack/arc.js/blob/0fff6d4/lib/commonTypes.ts#L9)*
+*Defined in [commonTypes.ts:11](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L11)*
 
 
 
@@ -23,13 +23,13 @@ optional address of agent casting the vote.
 
 ___
 
-<a id="proposalid"></a>
+<a id="proposalId"></a>
 
 ###  proposalId
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [commonTypes.ts:13](https://github.com/daostack/arc.js/blob/0fff6d4/lib/commonTypes.ts#L13)*
+*Defined in [commonTypes.ts:15](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L15)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 **●  vote**:  *`number`* 
 
-*Defined in [commonTypes.ts:17](https://github.com/daostack/arc.js/blob/0fff6d4/lib/commonTypes.ts#L17)*
+*Defined in [commonTypes.ts:19](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L19)*
 
 
 

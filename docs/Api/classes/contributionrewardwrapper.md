@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ContributionRewardWrapper](../classes/contributionrewardwrapper.md)
+[API Reference](../README.md) > [ContributionRewardWrapper](../classes/ContributionRewardWrapper.md)
 
 
 
@@ -7,7 +7,7 @@
 ## Hierarchy
 
 
- [ExtendTruffleContract](extendtrufflecontract.md)
+ [ExtendTruffleContract](ExtendTruffleContract.md)
 
 **↳ ContributionRewardWrapper**
 
@@ -21,45 +21,47 @@
 
 ### Constructors
 
-* [constructor](contributionrewardwrapper.md#constructor)
+* [constructor](ContributionRewardWrapper.md#constructor)
 
 
 ### Properties
 
-* [NewContributionProposal](contributionrewardwrapper.md#newcontributionproposal)
-* [ProposalDeleted](contributionrewardwrapper.md#proposaldeleted)
-* [ProposalExecuted](contributionrewardwrapper.md#proposalexecuted)
-* [RedeemEther](contributionrewardwrapper.md#redeemether)
-* [RedeemExternalToken](contributionrewardwrapper.md#redeemexternaltoken)
-* [RedeemNativeToken](contributionrewardwrapper.md#redeemnativetoken)
-* [RedeemReputation](contributionrewardwrapper.md#redeemreputation)
-* [contract](contributionrewardwrapper.md#contract)
+* [NewContributionProposal](ContributionRewardWrapper.md#NewContributionProposal)
+* [ProposalDeleted](ContributionRewardWrapper.md#ProposalDeleted)
+* [ProposalExecuted](ContributionRewardWrapper.md#ProposalExecuted)
+* [RedeemEther](ContributionRewardWrapper.md#RedeemEther)
+* [RedeemExternalToken](ContributionRewardWrapper.md#RedeemExternalToken)
+* [RedeemNativeToken](ContributionRewardWrapper.md#RedeemNativeToken)
+* [RedeemReputation](ContributionRewardWrapper.md#RedeemReputation)
+* [contract](ContributionRewardWrapper.md#contract)
 
 
 ### Accessors
 
-* [address](contributionrewardwrapper.md#address)
+* [address](ContributionRewardWrapper.md#address)
 
 
 ### Methods
 
-* [getBeneficiaryRewards](contributionrewardwrapper.md#getbeneficiaryrewards)
-* [getDaoProposals](contributionrewardwrapper.md#getdaoproposals)
-* [getDefaultPermissions](contributionrewardwrapper.md#getdefaultpermissions)
-* [getParameters](contributionrewardwrapper.md#getparameters)
-* [getParametersArray](contributionrewardwrapper.md#getparametersarray)
-* [getSchemeParameters](contributionrewardwrapper.md#getschemeparameters)
-* [getSchemeParametersHash](contributionrewardwrapper.md#getschemeparametershash)
-* [hydrateFromAt](contributionrewardwrapper.md#hydratefromat)
-* [hydrateFromDeployed](contributionrewardwrapper.md#hydratefromdeployed)
-* [hydrateFromNew](contributionrewardwrapper.md#hydratefromnew)
-* [proposeContributionReward](contributionrewardwrapper.md#proposecontributionreward)
-* [redeemContributionReward](contributionrewardwrapper.md#redeemcontributionreward)
-* [redeemEther](contributionrewardwrapper.md#redeemether-1)
-* [redeemExternalToken](contributionrewardwrapper.md#redeemexternaltoken-1)
-* [redeemNativeToken](contributionrewardwrapper.md#redeemnativetoken-1)
-* [redeemReputation](contributionrewardwrapper.md#redeemreputation-1)
-* [setParameters](contributionrewardwrapper.md#setparameters)
+* [getBeneficiaryRewards](ContributionRewardWrapper.md#getBeneficiaryRewards)
+* [getController](ContributionRewardWrapper.md#getController)
+* [getDaoProposals](ContributionRewardWrapper.md#getDaoProposals)
+* [getDefaultPermissions](ContributionRewardWrapper.md#getDefaultPermissions)
+* [getParameters](ContributionRewardWrapper.md#getParameters)
+* [getParametersArray](ContributionRewardWrapper.md#getParametersArray)
+* [getPermissions](ContributionRewardWrapper.md#getPermissions)
+* [getSchemeParameters](ContributionRewardWrapper.md#getSchemeParameters)
+* [getSchemeParametersHash](ContributionRewardWrapper.md#getSchemeParametersHash)
+* [hydrateFromAt](ContributionRewardWrapper.md#hydrateFromAt)
+* [hydrateFromDeployed](ContributionRewardWrapper.md#hydrateFromDeployed)
+* [hydrateFromNew](ContributionRewardWrapper.md#hydrateFromNew)
+* [proposeContributionReward](ContributionRewardWrapper.md#proposeContributionReward)
+* [redeemContributionReward](ContributionRewardWrapper.md#redeemContributionReward)
+* [redeemEther](ContributionRewardWrapper.md#redeemEther)
+* [redeemExternalToken](ContributionRewardWrapper.md#redeemExternalToken)
+* [redeemNativeToken](ContributionRewardWrapper.md#redeemNativeToken)
+* [redeemReputation](ContributionRewardWrapper.md#redeemReputation)
+* [setParameters](ContributionRewardWrapper.md#setParameters)
 
 
 
@@ -68,12 +70,12 @@
 <a id="constructor"></a>
 
 
-### ⊕ **new ContributionRewardWrapper**(solidityContract: *`any`*): [ContributionRewardWrapper](contributionrewardwrapper.md)
+### ⊕ **new ContributionRewardWrapper**(solidityContract: *`any`*): [ContributionRewardWrapper](ContributionRewardWrapper.md)
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[constructor](extendtrufflecontract.md#constructor)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[constructor](ExtendTruffleContract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -90,19 +92,19 @@ ContractWrapperFactory constructs this
 
 
 
-**Returns:** [ContributionRewardWrapper](contributionrewardwrapper.md)
+**Returns:** [ContributionRewardWrapper](ContributionRewardWrapper.md)
 
 ---
 
 
 ## Properties
-<a id="newcontributionproposal"></a>
+<a id="NewContributionProposal"></a>
 
 ###  NewContributionProposal
 
-**●  NewContributionProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[NewContributionProposalEventResult](../interfaces/newcontributionproposaleventresult.md)*  =  this.createEventFetcherFactory<NewContributionProposalEventResult>("NewContributionProposal")
+**●  NewContributionProposal**:  *[EventFetcherFactory](../#EventFetcherFactory)[NewContributionProposalEventResult](../interfaces/NewContributionProposalEventResult.md)*  =  this.createEventFetcherFactory<NewContributionProposalEventResult>("NewContributionProposal")
 
-*Defined in [contracts/contributionreward.ts:32](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L32)*
+*Defined in [contracts/contributionreward.ts:39](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L39)*
 
 
 
@@ -113,13 +115,13 @@ Events
 
 ___
 
-<a id="proposaldeleted"></a>
+<a id="ProposalDeleted"></a>
 
 ###  ProposalDeleted
 
-**●  ProposalDeleted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalDeletedEventResult](../interfaces/proposaldeletedeventresult.md)*  =  this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted")
+**●  ProposalDeleted**:  *[EventFetcherFactory](../#EventFetcherFactory)[ProposalDeletedEventResult](../interfaces/ProposalDeletedEventResult.md)*  =  this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted")
 
-*Defined in [contracts/contributionreward.ts:34](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L34)*
+*Defined in [contracts/contributionreward.ts:41](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L41)*
 
 
 
@@ -127,13 +129,13 @@ ___
 
 ___
 
-<a id="proposalexecuted"></a>
+<a id="ProposalExecuted"></a>
 
 ###  ProposalExecuted
 
-**●  ProposalExecuted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalExecutedEventResult](../interfaces/proposalexecutedeventresult.md)*  =  this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted")
+**●  ProposalExecuted**:  *[EventFetcherFactory](../#EventFetcherFactory)[ProposalExecutedEventResult](../interfaces/ProposalExecutedEventResult.md)*  =  this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted")
 
-*Defined in [contracts/contributionreward.ts:33](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L33)*
+*Defined in [contracts/contributionreward.ts:40](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L40)*
 
 
 
@@ -141,13 +143,13 @@ ___
 
 ___
 
-<a id="redeemether"></a>
+<a id="RedeemEther"></a>
 
 ###  RedeemEther
 
-**●  RedeemEther**:  *[EventFetcherFactory](../#eventfetcherfactory)[RedeemEtherEventResult](../interfaces/redeemethereventresult.md)*  =  this.createEventFetcherFactory<RedeemEtherEventResult>("RedeemEther")
+**●  RedeemEther**:  *[EventFetcherFactory](../#EventFetcherFactory)[RedeemEtherEventResult](../interfaces/RedeemEtherEventResult.md)*  =  this.createEventFetcherFactory<RedeemEtherEventResult>("RedeemEther")
 
-*Defined in [contracts/contributionreward.ts:36](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L36)*
+*Defined in [contracts/contributionreward.ts:43](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L43)*
 
 
 
@@ -155,13 +157,13 @@ ___
 
 ___
 
-<a id="redeemexternaltoken"></a>
+<a id="RedeemExternalToken"></a>
 
 ###  RedeemExternalToken
 
-**●  RedeemExternalToken**:  *[EventFetcherFactory](../#eventfetcherfactory)[RedeemExternalTokenEventResult](../interfaces/redeemexternaltokeneventresult.md)*  =  this.createEventFetcherFactory<RedeemExternalTokenEventResult>("RedeemExternalToken")
+**●  RedeemExternalToken**:  *[EventFetcherFactory](../#EventFetcherFactory)[RedeemExternalTokenEventResult](../interfaces/RedeemExternalTokenEventResult.md)*  =  this.createEventFetcherFactory<RedeemExternalTokenEventResult>("RedeemExternalToken")
 
-*Defined in [contracts/contributionreward.ts:38](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L38)*
+*Defined in [contracts/contributionreward.ts:45](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L45)*
 
 
 
@@ -169,13 +171,13 @@ ___
 
 ___
 
-<a id="redeemnativetoken"></a>
+<a id="RedeemNativeToken"></a>
 
 ###  RedeemNativeToken
 
-**●  RedeemNativeToken**:  *[EventFetcherFactory](../#eventfetcherfactory)[RedeemNativeTokenEventResult](../interfaces/redeemnativetokeneventresult.md)*  =  this.createEventFetcherFactory<RedeemNativeTokenEventResult>("RedeemNativeToken")
+**●  RedeemNativeToken**:  *[EventFetcherFactory](../#EventFetcherFactory)[RedeemNativeTokenEventResult](../interfaces/RedeemNativeTokenEventResult.md)*  =  this.createEventFetcherFactory<RedeemNativeTokenEventResult>("RedeemNativeToken")
 
-*Defined in [contracts/contributionreward.ts:37](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L37)*
+*Defined in [contracts/contributionreward.ts:44](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L44)*
 
 
 
@@ -183,13 +185,13 @@ ___
 
 ___
 
-<a id="redeemreputation"></a>
+<a id="RedeemReputation"></a>
 
 ###  RedeemReputation
 
-**●  RedeemReputation**:  *[EventFetcherFactory](../#eventfetcherfactory)[RedeemReputationEventResult](../interfaces/redeemreputationeventresult.md)*  =  this.createEventFetcherFactory<RedeemReputationEventResult>("RedeemReputation")
+**●  RedeemReputation**:  *[EventFetcherFactory](../#EventFetcherFactory)[RedeemReputationEventResult](../interfaces/RedeemReputationEventResult.md)*  =  this.createEventFetcherFactory<RedeemReputationEventResult>("RedeemReputation")
 
-*Defined in [contracts/contributionreward.ts:35](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L35)*
+*Defined in [contracts/contributionreward.ts:42](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L42)*
 
 
 
@@ -203,9 +205,9 @@ ___
 
 **●  contract**:  *`any`* 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[contract](extendtrufflecontract.md#contract)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[contract](ExtendTruffleContract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -223,17 +225,17 @@ ___
 ###  address
 
 
-getaddress(): [Address](../#address)
+getaddress(): [Address](../#Address)
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[address](extendtrufflecontract.md#address)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[address](ExtendTruffleContract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L128)*
-
-
+*Defined in [ExtendTruffleContract.ts:148](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L148)*
 
 
 
-**Returns:** [Address](../#address)
+
+
+**Returns:** [Address](../#Address)
 
 
 
@@ -241,15 +243,15 @@ ___
 
 
 ## Methods
-<a id="getbeneficiaryrewards"></a>
+<a id="getBeneficiaryRewards"></a>
 
 ###  getBeneficiaryRewards
 
-► **getBeneficiaryRewards**(opts?: *[GetBeneficiaryRewardsParams](../interfaces/getbeneficiaryrewardsparams.md)*): `Promise`.<`Array`.<[ProposalRewards](../interfaces/proposalrewards.md)>>
+► **getBeneficiaryRewards**(opts?: *[GetBeneficiaryRewardsParams](../interfaces/GetBeneficiaryRewardsParams.md)*): `Promise`.<`Array`.<[ProposalRewards](../interfaces/ProposalRewards.md)>>
 
 
 
-*Defined in [contracts/contributionreward.ts:352](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L352)*
+*Defined in [contracts/contributionreward.ts:359](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L359)*
 
 
 
@@ -260,13 +262,13 @@ Return a list of `ProposalRewards` for executed (passed by vote) proposals that 
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetBeneficiaryRewardsParams](../interfaces/getbeneficiaryrewardsparams.md)  |  {} as GetBeneficiaryRewardsParams |   - |
+| opts | [GetBeneficiaryRewardsParams](../interfaces/GetBeneficiaryRewardsParams.md)  |  {} as GetBeneficiaryRewardsParams |   - |
 
 
 
 
 
-**Returns:** `Promise`.<`Array`.<[ProposalRewards](../interfaces/proposalrewards.md)>>
+**Returns:** `Promise`.<`Array`.<[ProposalRewards](../interfaces/ProposalRewards.md)>>
 
 
 
@@ -274,15 +276,50 @@ Return a list of `ProposalRewards` for executed (passed by vote) proposals that 
 
 ___
 
-<a id="getdaoproposals"></a>
+<a id="getController"></a>
+
+###  getController
+
+► **getController**(avatarAddress: *[Address](../#Address)*): `Promise`.<`any`>
+
+
+
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getController](ExtendTruffleContract.md#getController)*
+
+*Defined in [ExtendTruffleContract.ts:143](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L143)*
+
+
+
+return the controller associated with the given avatar
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| avatarAddress | [Address](../#Address)   |  - |
+
+
+
+
+
+**Returns:** `Promise`.<`any`>
+
+
+
+
+
+___
+
+<a id="getDaoProposals"></a>
 
 ###  getDaoProposals
 
-► **getDaoProposals**(opts?: *[GetDaoProposalsConfig](../interfaces/getdaoproposalsconfig.md)*): `Promise`.<`Array`.<[ContributionProposal](../interfaces/contributionproposal.md)>>
+► **getDaoProposals**(opts?: *[GetDaoProposalsConfig](../interfaces/GetDaoProposalsConfig.md)*): `Promise`.<`Array`.<[ContributionProposal](../interfaces/ContributionProposal.md)>>
 
 
 
-*Defined in [contracts/contributionreward.ts:307](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L307)*
+*Defined in [contracts/contributionreward.ts:314](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L314)*
 
 
 
@@ -293,13 +330,13 @@ Return all ContributionReward proposals ever created under the given avatar. Fil
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetDaoProposalsConfig](../interfaces/getdaoproposalsconfig.md)  |  {} as GetDaoProposalsConfig |   - |
+| opts | [GetDaoProposalsConfig](../interfaces/GetDaoProposalsConfig.md)  |  {} as GetDaoProposalsConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<`Array`.<[ContributionProposal](../interfaces/contributionproposal.md)>>
+**Returns:** `Promise`.<`Array`.<[ContributionProposal](../interfaces/ContributionProposal.md)>>
 
 
 
@@ -307,17 +344,17 @@ Return all ContributionReward proposals ever created under the given avatar. Fil
 
 ___
 
-<a id="getdefaultpermissions"></a>
+<a id="getDefaultPermissions"></a>
 
 ###  getDefaultPermissions
 
-► **getDefaultPermissions**(overrideValue?: *`string`*): `string`
+► **getDefaultPermissions**(overrideValue?: *[SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)*): [SchemePermissions](../enums/SchemePermissions.md)
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getDefaultPermissions](extendtrufflecontract.md#getdefaultpermissions)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getDefaultPermissions](ExtendTruffleContract.md#getDefaultPermissions)*
 
-*Defined in [contracts/contributionreward.ts:415](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L415)*
+*Defined in [contracts/contributionreward.ts:422](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L422)*
 
 
 
@@ -325,13 +362,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| overrideValue | `string`   |  - |
+| overrideValue | [SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)   |  - |
 
 
 
 
 
-**Returns:** `string`
+**Returns:** [SchemePermissions](../enums/SchemePermissions.md)
 
 
 
@@ -339,17 +376,17 @@ ___
 
 ___
 
-<a id="getparameters"></a>
+<a id="getParameters"></a>
 
 ###  getParameters
 
-► **getParameters**(paramsHash: *[Hash](../#hash)*): `Promise`.<[ContributionRewardParamsReturn](../interfaces/contributionrewardparamsreturn.md)>
+► **getParameters**(paramsHash: *[Hash](../#Hash)*): `Promise`.<[ContributionRewardParamsReturn](../interfaces/ContributionRewardParamsReturn.md)>
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getParameters](extendtrufflecontract.md#getparameters)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getParameters](ExtendTruffleContract.md#getParameters)*
 
-*Defined in [contracts/contributionreward.ts:423](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L423)*
+*Defined in [contracts/contributionreward.ts:431](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L431)*
 
 
 
@@ -357,13 +394,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| paramsHash | [Hash](../#hash)   |  - |
+| paramsHash | [Hash](../#Hash)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[ContributionRewardParamsReturn](../interfaces/contributionrewardparamsreturn.md)>
+**Returns:** `Promise`.<[ContributionRewardParamsReturn](../interfaces/ContributionRewardParamsReturn.md)>
 
 
 
@@ -371,17 +408,17 @@ ___
 
 ___
 
-<a id="getparametersarray"></a>
+<a id="getParametersArray"></a>
 
 ###  getParametersArray
 
-► **getParametersArray**(paramsHash: *[Hash](../#hash)*): `Promise`.<`Array`.<`any`>>
+► **getParametersArray**(paramsHash: *[Hash](../#Hash)*): `Promise`.<`Array`.<`any`>>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParametersArray](extendtrufflecontract.md#getparametersarray)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getParametersArray](ExtendTruffleContract.md#getParametersArray)*
 
-*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L124)*
+*Defined in [ExtendTruffleContract.ts:135](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L135)*
 
 
 
@@ -392,7 +429,7 @@ Given a hash, return the associated parameters as an array, ordered by the order
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| paramsHash | [Hash](../#hash)   |  - |
+| paramsHash | [Hash](../#Hash)   |  - |
 
 
 
@@ -406,29 +443,34 @@ Given a hash, return the associated parameters as an array, ordered by the order
 
 ___
 
-<a id="getschemeparameters"></a>
+<a id="getPermissions"></a>
 
-###  getSchemeParameters
+###  getPermissions
 
-► **getSchemeParameters**(avatarAddress: *[Address](../#address)*): `Promise`.<[ContributionRewardParamsReturn](../interfaces/contributionrewardparamsreturn.md)>
+► **getPermissions**(avatarAddress: *[Address](../#Address)*): `Promise`.<[SchemePermissions](../enums/SchemePermissions.md)>
 
 
 
-*Defined in [contracts/contributionreward.ts:419](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L419)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getPermissions](ExtendTruffleContract.md#getPermissions)*
 
+*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L106)*
+
+
+
+Return this scheme's permissions.
 
 
 **Parameters:**
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| avatarAddress | [Address](../#address)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[ContributionRewardParamsReturn](../interfaces/contributionrewardparamsreturn.md)>
+**Returns:** `Promise`.<[SchemePermissions](../enums/SchemePermissions.md)>
 
 
 
@@ -436,17 +478,47 @@ ___
 
 ___
 
-<a id="getschemeparametershash"></a>
+<a id="getSchemeParameters"></a>
+
+###  getSchemeParameters
+
+► **getSchemeParameters**(avatarAddress: *[Address](../#Address)*): `Promise`.<[ContributionRewardParamsReturn](../interfaces/ContributionRewardParamsReturn.md)>
+
+
+
+*Defined in [contracts/contributionreward.ts:427](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L427)*
+
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| avatarAddress | [Address](../#Address)   |  - |
+
+
+
+
+
+**Returns:** `Promise`.<[ContributionRewardParamsReturn](../interfaces/ContributionRewardParamsReturn.md)>
+
+
+
+
+
+___
+
+<a id="getSchemeParametersHash"></a>
 
 ###  getSchemeParametersHash
 
-► **getSchemeParametersHash**(avatarAddress: *[Address](../#address)*): `Promise`.<[Hash](../#hash)>
+► **getSchemeParametersHash**(avatarAddress: *[Address](../#Address)*): `Promise`.<[Hash](../#Hash)>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getSchemeParametersHash](extendtrufflecontract.md#getschemeparametershash)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getSchemeParametersHash](ExtendTruffleContract.md#getSchemeParametersHash)*
 
-*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L114)*
+*Defined in [ExtendTruffleContract.ts:125](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L125)*
 
 
 
@@ -457,13 +529,13 @@ Given an avatar address, return the schemes parameters hash
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| avatarAddress | [Address](../#address)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[Hash](../#hash)>
+**Returns:** `Promise`.<[Hash](../#Hash)>
 
 
 
@@ -471,7 +543,7 @@ Given an avatar address, return the schemes parameters hash
 
 ___
 
-<a id="hydratefromat"></a>
+<a id="hydrateFromAt"></a>
 
 ###  hydrateFromAt
 
@@ -479,9 +551,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromAt](extendtrufflecontract.md#hydratefromat)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromAt](ExtendTruffleContract.md#hydrateFromAt)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -508,7 +580,7 @@ this
 
 ___
 
-<a id="hydratefromdeployed"></a>
+<a id="hydrateFromDeployed"></a>
 
 ###  hydrateFromDeployed
 
@@ -516,9 +588,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromDeployed](extendtrufflecontract.md#hydratefromdeployed)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromDeployed](ExtendTruffleContract.md#hydrateFromDeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -537,7 +609,7 @@ this
 
 ___
 
-<a id="hydratefromnew"></a>
+<a id="hydrateFromNew"></a>
 
 ###  hydrateFromNew
 
@@ -545,9 +617,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromNew](extendtrufflecontract.md#hydratefromnew)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromNew](ExtendTruffleContract.md#hydrateFromNew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -574,15 +646,15 @@ this
 
 ___
 
-<a id="proposecontributionreward"></a>
+<a id="proposeContributionReward"></a>
 
 ###  proposeContributionReward
 
-► **proposeContributionReward**(opts?: *[ProposeContributionRewardParams](../interfaces/proposecontributionrewardparams.md)*): `Promise`.<[ArcTransactionProposalResult](arctransactionproposalresult.md)>
+► **proposeContributionReward**(opts?: *[ProposeContributionRewardParams](../interfaces/ProposeContributionRewardParams.md)*): `Promise`.<[ArcTransactionProposalResult](ArcTransactionProposalResult.md)>
 
 
 
-*Defined in [contracts/contributionreward.ts:45](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L45)*
+*Defined in [contracts/contributionreward.ts:52](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L52)*
 
 
 
@@ -593,13 +665,13 @@ Submit a proposal for a reward for a contribution
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [ProposeContributionRewardParams](../interfaces/proposecontributionrewardparams.md)  |  {} as ProposeContributionRewardParams |   - |
+| opts | [ProposeContributionRewardParams](../interfaces/ProposeContributionRewardParams.md)  |  {} as ProposeContributionRewardParams |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionProposalResult](arctransactionproposalresult.md)>
+**Returns:** `Promise`.<[ArcTransactionProposalResult](ArcTransactionProposalResult.md)>
 
 
 
@@ -607,15 +679,15 @@ Submit a proposal for a reward for a contribution
 
 ___
 
-<a id="redeemcontributionreward"></a>
+<a id="redeemContributionReward"></a>
 
 ###  redeemContributionReward
 
-► **redeemContributionReward**(opts?: *[ContributionRewardRedeemParams](../interfaces/contributionrewardredeemparams.md)*): `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+► **redeemContributionReward**(opts?: *[ContributionRewardRedeemParams](../interfaces/ContributionRewardRedeemParams.md)*): `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
-*Defined in [contracts/contributionreward.ts:148](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L148)*
+*Defined in [contracts/contributionreward.ts:155](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L155)*
 
 
 
@@ -626,13 +698,13 @@ Redeem the specified rewards for the beneficiary of the proposal
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [ContributionRewardRedeemParams](../interfaces/contributionrewardredeemparams.md)  |  {} as ContributionRewardRedeemParams |   - |
+| opts | [ContributionRewardRedeemParams](../interfaces/ContributionRewardRedeemParams.md)  |  {} as ContributionRewardRedeemParams |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+**Returns:** `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
@@ -640,15 +712,15 @@ Redeem the specified rewards for the beneficiary of the proposal
 
 ___
 
-<a id="redeemether-1"></a>
+<a id="redeemEther"></a>
 
 ###  redeemEther
 
-► **redeemEther**(opts?: *[ContributionRewardSpecifiedRedemptionParams](../interfaces/contributionrewardspecifiedredemptionparams.md)*): `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+► **redeemEther**(opts?: *[ContributionRewardSpecifiedRedemptionParams](../interfaces/ContributionRewardSpecifiedRedemptionParams.md)*): `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
-*Defined in [contracts/contributionreward.ts:276](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L276)*
+*Defined in [contracts/contributionreward.ts:283](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L283)*
 
 
 
@@ -659,13 +731,13 @@ Redeem ether reward for the beneficiary of the proposal
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [ContributionRewardSpecifiedRedemptionParams](../interfaces/contributionrewardspecifiedredemptionparams.md)  |  {} as ContributionRewardSpecifiedRedemptionParams |   - |
+| opts | [ContributionRewardSpecifiedRedemptionParams](../interfaces/ContributionRewardSpecifiedRedemptionParams.md)  |  {} as ContributionRewardSpecifiedRedemptionParams |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+**Returns:** `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
@@ -673,15 +745,15 @@ Redeem ether reward for the beneficiary of the proposal
 
 ___
 
-<a id="redeemexternaltoken-1"></a>
+<a id="redeemExternalToken"></a>
 
 ###  redeemExternalToken
 
-► **redeemExternalToken**(opts?: *[ContributionRewardSpecifiedRedemptionParams](../interfaces/contributionrewardspecifiedredemptionparams.md)*): `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+► **redeemExternalToken**(opts?: *[ContributionRewardSpecifiedRedemptionParams](../interfaces/ContributionRewardSpecifiedRedemptionParams.md)*): `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
-*Defined in [contracts/contributionreward.ts:183](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L183)*
+*Defined in [contracts/contributionreward.ts:190](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L190)*
 
 
 
@@ -692,13 +764,13 @@ Redeem external token reward for the beneficiary of the proposal
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [ContributionRewardSpecifiedRedemptionParams](../interfaces/contributionrewardspecifiedredemptionparams.md)  |  {} as ContributionRewardSpecifiedRedemptionParams |   - |
+| opts | [ContributionRewardSpecifiedRedemptionParams](../interfaces/ContributionRewardSpecifiedRedemptionParams.md)  |  {} as ContributionRewardSpecifiedRedemptionParams |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+**Returns:** `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
@@ -706,15 +778,15 @@ Redeem external token reward for the beneficiary of the proposal
 
 ___
 
-<a id="redeemnativetoken-1"></a>
+<a id="redeemNativeToken"></a>
 
 ###  redeemNativeToken
 
-► **redeemNativeToken**(opts?: *[ContributionRewardSpecifiedRedemptionParams](../interfaces/contributionrewardspecifiedredemptionparams.md)*): `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+► **redeemNativeToken**(opts?: *[ContributionRewardSpecifiedRedemptionParams](../interfaces/ContributionRewardSpecifiedRedemptionParams.md)*): `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
-*Defined in [contracts/contributionreward.ts:245](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L245)*
+*Defined in [contracts/contributionreward.ts:252](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L252)*
 
 
 
@@ -725,13 +797,13 @@ Redeem native token reward for the beneficiary of the proposal
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [ContributionRewardSpecifiedRedemptionParams](../interfaces/contributionrewardspecifiedredemptionparams.md)  |  {} as ContributionRewardSpecifiedRedemptionParams |   - |
+| opts | [ContributionRewardSpecifiedRedemptionParams](../interfaces/ContributionRewardSpecifiedRedemptionParams.md)  |  {} as ContributionRewardSpecifiedRedemptionParams |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+**Returns:** `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
@@ -739,15 +811,15 @@ Redeem native token reward for the beneficiary of the proposal
 
 ___
 
-<a id="redeemreputation-1"></a>
+<a id="redeemReputation"></a>
 
 ###  redeemReputation
 
-► **redeemReputation**(opts?: *[ContributionRewardSpecifiedRedemptionParams](../interfaces/contributionrewardspecifiedredemptionparams.md)*): `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+► **redeemReputation**(opts?: *[ContributionRewardSpecifiedRedemptionParams](../interfaces/ContributionRewardSpecifiedRedemptionParams.md)*): `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
-*Defined in [contracts/contributionreward.ts:214](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L214)*
+*Defined in [contracts/contributionreward.ts:221](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L221)*
 
 
 
@@ -758,13 +830,13 @@ Redeem reputation reward for the beneficiary of the proposal
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [ContributionRewardSpecifiedRedemptionParams](../interfaces/contributionrewardspecifiedredemptionparams.md)  |  {} as ContributionRewardSpecifiedRedemptionParams |   - |
+| opts | [ContributionRewardSpecifiedRedemptionParams](../interfaces/ContributionRewardSpecifiedRedemptionParams.md)  |  {} as ContributionRewardSpecifiedRedemptionParams |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+**Returns:** `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
@@ -772,17 +844,17 @@ Redeem reputation reward for the beneficiary of the proposal
 
 ___
 
-<a id="setparameters"></a>
+<a id="setParameters"></a>
 
 ###  setParameters
 
-► **setParameters**(params: *[ContributionRewardParams](../interfaces/contributionrewardparams.md)*): `Promise`.<[ArcTransactionDataResult](arctransactiondataresult.md)[Hash](../#hash)>
+► **setParameters**(params: *[ContributionRewardParams](../interfaces/ContributionRewardParams.md)*): `Promise`.<[ArcTransactionDataResult](ArcTransactionDataResult.md)[Hash](../#Hash)>
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[setParameters](extendtrufflecontract.md#setparameters)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[setParameters](ExtendTruffleContract.md#setParameters)*
 
-*Defined in [contracts/contributionreward.ts:400](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L400)*
+*Defined in [contracts/contributionreward.ts:407](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L407)*
 
 
 
@@ -790,13 +862,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| params | [ContributionRewardParams](../interfaces/contributionrewardparams.md)   |  - |
+| params | [ContributionRewardParams](../interfaces/ContributionRewardParams.md)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionDataResult](arctransactiondataresult.md)[Hash](../#hash)>
+**Returns:** `Promise`.<[ArcTransactionDataResult](ArcTransactionDataResult.md)[Hash](../#Hash)>
 
 
 

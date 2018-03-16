@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GetProposalStatusResult](../interfaces/getproposalstatusresult.md)
+[API Reference](../README.md) > [GetProposalStatusResult](../interfaces/GetProposalStatusResult.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="totalstakes"></a>
+<a id="totalStakes"></a>
 
 ###  totalStakes
 
 **●  totalStakes**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/genesisProtocol.ts:1156](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1156)*
+*Defined in [contracts/genesisProtocol.ts:1166](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1166)*
 
 
 
@@ -20,13 +20,13 @@
 
 ___
 
-<a id="totalvotes"></a>
+<a id="totalVotes"></a>
 
 ###  totalVotes
 
 **●  totalVotes**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/genesisProtocol.ts:1155](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1155)*
+*Defined in [contracts/genesisProtocol.ts:1165](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1165)*
 
 
 
@@ -34,13 +34,13 @@ ___
 
 ___
 
-<a id="votersstakes"></a>
+<a id="votersStakes"></a>
 
 ###  votersStakes
 
 **●  votersStakes**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/genesisProtocol.ts:1157](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1157)*
+*Defined in [contracts/genesisProtocol.ts:1167](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1167)*
 
 
 

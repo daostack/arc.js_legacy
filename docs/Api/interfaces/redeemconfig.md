@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [RedeemConfig](../interfaces/redeemconfig.md)
+[API Reference](../README.md) > [RedeemConfig](../interfaces/RedeemConfig.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  beneficiary**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1212](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1212)*
+*Defined in [contracts/genesisProtocol.ts:1222](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1222)*
 
 
 
@@ -23,13 +23,13 @@ agent to whom to award the proposal payoffs
 
 ___
 
-<a id="proposalid"></a>
+<a id="proposalId"></a>
 
 ###  proposalId
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1208](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1208)*
+*Defined in [contracts/genesisProtocol.ts:1218](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1218)*
 
 
 

@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GetDaoProposalsConfig](../interfaces/getdaoproposalsconfig.md)
+[API Reference](../README.md) > [GetDaoProposalsConfig](../interfaces/GetDaoProposalsConfig.md)
 
 
 
@@ -10,9 +10,9 @@
 
 ###  avatar
 
-**●  avatar**:  *[Address](../#address)* 
+**●  avatar**:  *[Address](../#Address)* 
 
-*Defined in [commonTypes.ts:30](https://github.com/daostack/arc.js/blob/0fff6d4/lib/commonTypes.ts#L30)*
+*Defined in [commonTypes.ts:32](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L32)*
 
 
 
@@ -23,13 +23,13 @@ The avatar under which the proposals were created
 
 ___
 
-<a id="proposalid"></a>
+<a id="proposalId"></a>
 
 ### «Optional» proposalId
 
-**●  proposalId**:  *[Hash](../#hash)* 
+**●  proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [commonTypes.ts:34](https://github.com/daostack/arc.js/blob/0fff6d4/lib/commonTypes.ts#L34)*
+*Defined in [commonTypes.ts:36](https://github.com/daostack/arc.js/blob/61e5f90/lib/commonTypes.ts#L36)*
 
 
 

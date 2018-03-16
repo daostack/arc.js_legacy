@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [VoteInOrganizationProposeVoteConfig](../interfaces/voteinorganizationproposevoteconfig.md)
+[API Reference](../README.md) > [VoteInOrganizationProposeVoteConfig](../interfaces/VoteInOrganizationProposeVoteConfig.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/voteInOrganizationScheme.ts:97](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L97)*
+*Defined in [contracts/voteInOrganizationScheme.ts:98](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/voteInOrganizationScheme.ts#L98)*
 
 
 
@@ -23,13 +23,13 @@ Avatar whose voters are being given the chance to vote on the original proposal.
 
 ___
 
-<a id="originalintvote"></a>
+<a id="originalIntVote"></a>
 
 ###  originalIntVote
 
 **●  originalIntVote**:  *`string`* 
 
-*Defined in [contracts/voteInOrganizationScheme.ts:102](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L102)*
+*Defined in [contracts/voteInOrganizationScheme.ts:103](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/voteInOrganizationScheme.ts#L103)*
 
 
 
@@ -40,13 +40,13 @@ Address of the voting machine used by the original proposal. The voting machine 
 
 ___
 
-<a id="originalproposalid"></a>
+<a id="originalProposalId"></a>
 
 ###  originalProposalId
 
 **●  originalProposalId**:  *`string`* 
 
-*Defined in [contracts/voteInOrganizationScheme.ts:106](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/voteInOrganizationScheme.ts#L106)*
+*Defined in [contracts/voteInOrganizationScheme.ts:107](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/voteInOrganizationScheme.ts#L107)*
 
 
 

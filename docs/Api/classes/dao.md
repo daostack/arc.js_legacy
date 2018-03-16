@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [DAO](../classes/dao.md)
+[API Reference](../README.md) > [DAO](../classes/DAO.md)
 
 
 
@@ -8,29 +8,29 @@
 
 ### Properties
 
-* [avatar](dao.md#avatar)
-* [controller](dao.md#controller)
-* [hasUController](dao.md#hasucontroller)
-* [reputation](dao.md#reputation)
-* [token](dao.md#token)
+* [avatar](DAO.md#avatar)
+* [controller](DAO.md#controller)
+* [hasUController](DAO.md#hasUController)
+* [reputation](DAO.md#reputation)
+* [token](DAO.md#token)
 
 
 ### Methods
 
-* [_getConstraints](dao.md#_getconstraints)
-* [_getSchemes](dao.md#_getschemes)
-* [_handleConstraintEvent](dao.md#_handleconstraintevent)
-* [_handleSchemeEvent](dao.md#_handleschemeevent)
-* [getContractWrapper](dao.md#getcontractwrapper)
-* [getGlobalConstraints](dao.md#getglobalconstraints)
-* [getName](dao.md#getname)
-* [getSchemes](dao.md#getschemes)
-* [getTokenName](dao.md#gettokenname)
-* [getTokenSymbol](dao.md#gettokensymbol)
-* [isSchemeRegistered](dao.md#isschemeregistered)
-* [at](dao.md#at)
-* [getGenesisDao](dao.md#getgenesisdao)
-* [new](dao.md#new)
+* [_getConstraints](DAO.md#_getConstraints)
+* [_getSchemes](DAO.md#_getSchemes)
+* [_handleConstraintEvent](DAO.md#_handleConstraintEvent)
+* [_handleSchemeEvent](DAO.md#_handleSchemeEvent)
+* [getContractWrapper](DAO.md#getContractWrapper)
+* [getGlobalConstraints](DAO.md#getGlobalConstraints)
+* [getName](DAO.md#getName)
+* [getSchemes](DAO.md#getSchemes)
+* [getTokenName](DAO.md#getTokenName)
+* [getTokenSymbol](DAO.md#getTokenSymbol)
+* [isSchemeRegistered](DAO.md#isSchemeRegistered)
+* [at](DAO.md#at)
+* [getGenesisDao](DAO.md#getGenesisDao)
+* [new](DAO.md#new)
 
 
 
@@ -42,7 +42,7 @@
 
 **●  avatar**:  *`any`* 
 
-*Defined in [dao.ts:69](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L69)*
+*Defined in [dao.ts:69](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L69)*
 
 
 
@@ -56,7 +56,7 @@ ___
 
 **●  controller**:  *`any`* 
 
-*Defined in [dao.ts:70](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L70)*
+*Defined in [dao.ts:70](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L70)*
 
 
 
@@ -64,13 +64,13 @@ ___
 
 ___
 
-<a id="hasucontroller"></a>
+<a id="hasUController"></a>
 
 ###  hasUController
 
 **●  hasUController**:  *`boolean`* 
 
-*Defined in [dao.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L71)*
+*Defined in [dao.ts:71](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L71)*
 
 
 
@@ -84,7 +84,7 @@ ___
 
 **●  reputation**:  *`any`* 
 
-*Defined in [dao.ts:73](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L73)*
+*Defined in [dao.ts:73](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L73)*
 
 
 
@@ -98,7 +98,7 @@ ___
 
 **●  token**:  *`any`* 
 
-*Defined in [dao.ts:72](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L72)*
+*Defined in [dao.ts:72](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L72)*
 
 
 
@@ -108,15 +108,15 @@ ___
 
 
 ## Methods
-<a id="_getconstraints"></a>
+<a id="_getConstraints"></a>
 
 ###  _getConstraints
 
-► **_getConstraints**(): `Promise`.<`Array`.<[DaoGlobalConstraintInfo](../interfaces/daoglobalconstraintinfo.md)>>
+► **_getConstraints**(): `Promise`.<`Array`.<[DaoGlobalConstraintInfo](../interfaces/DaoGlobalConstraintInfo.md)>>
 
 
 
-*Defined in [dao.ts:203](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L203)*
+*Defined in [dao.ts:203](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L203)*
 
 
 
@@ -125,7 +125,7 @@ returns global constraints currently in this DAO, as DaoGlobalConstraintInfo
 
 
 
-**Returns:** `Promise`.<`Array`.<[DaoGlobalConstraintInfo](../interfaces/daoglobalconstraintinfo.md)>>
+**Returns:** `Promise`.<`Array`.<[DaoGlobalConstraintInfo](../interfaces/DaoGlobalConstraintInfo.md)>>
 
 
 
@@ -133,15 +133,15 @@ returns global constraints currently in this DAO, as DaoGlobalConstraintInfo
 
 ___
 
-<a id="_getschemes"></a>
+<a id="_getSchemes"></a>
 
 ###  _getSchemes
 
-► **_getSchemes**(): `Promise`.<`Array`.<[DaoSchemeInfo](../interfaces/daoschemeinfo.md)>>
+► **_getSchemes**(): `Promise`.<`Array`.<[DaoSchemeInfo](../interfaces/DaoSchemeInfo.md)>>
 
 
 
-*Defined in [dao.ts:93](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L93)*
+*Defined in [dao.ts:93](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L93)*
 
 
 
@@ -150,7 +150,7 @@ returns schemes currently in this DAO as Array<daoschemeinfo></daoschemeinfo>
 
 
 
-**Returns:** `Promise`.<`Array`.<[DaoSchemeInfo](../interfaces/daoschemeinfo.md)>>
+**Returns:** `Promise`.<`Array`.<[DaoSchemeInfo](../interfaces/DaoSchemeInfo.md)>>
 
 
 
@@ -158,15 +158,15 @@ returns schemes currently in this DAO as Array<daoschemeinfo></daoschemeinfo>
 
 ___
 
-<a id="_handleconstraintevent"></a>
+<a id="_handleConstraintEvent"></a>
 
 ###  _handleConstraintEvent
 
-► **_handleConstraintEvent**(log: *[DecodedLogEntryEvent](../interfaces/decodedlogentryevent.md)[ControllerAddGlobalConstraintsEventLogEntry](../interfaces/controlleraddglobalconstraintseventlogentry.md)⎮`Array`.<[DecodedLogEntryEvent](../interfaces/decodedlogentryevent.md)[ControllerAddGlobalConstraintsEventLogEntry](../interfaces/controlleraddglobalconstraintseventlogentry.md)>*, arcTypesMap: *`Map`.<[Address](../#address)>,.<`string`>*, constraintsMap: *`Map`.<`string`>,.<[DaoGlobalConstraintInfo](../interfaces/daoglobalconstraintinfo.md)>*): `Promise`.<`void`>
+► **_handleConstraintEvent**(log: *[DecodedLogEntryEvent](../interfaces/DecodedLogEntryEvent.md)[ControllerAddGlobalConstraintsEventLogEntry](../interfaces/ControllerAddGlobalConstraintsEventLogEntry.md)⎮`Array`.<[DecodedLogEntryEvent](../interfaces/DecodedLogEntryEvent.md)[ControllerAddGlobalConstraintsEventLogEntry](../interfaces/ControllerAddGlobalConstraintsEventLogEntry.md)>*, arcTypesMap: *`Map`.<[Address](../#Address)>,.<`string`>*, constraintsMap: *`Map`.<`string`>,.<[DaoGlobalConstraintInfo](../interfaces/DaoGlobalConstraintInfo.md)>*): `Promise`.<`void`>
 
 
 
-*Defined in [dao.ts:250](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L250)*
+*Defined in [dao.ts:250](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L250)*
 
 
 
@@ -174,9 +174,9 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| log | [DecodedLogEntryEvent](../interfaces/decodedlogentryevent.md)[ControllerAddGlobalConstraintsEventLogEntry](../interfaces/controlleraddglobalconstraintseventlogentry.md)⎮`Array`.<[DecodedLogEntryEvent](../interfaces/decodedlogentryevent.md)[ControllerAddGlobalConstraintsEventLogEntry](../interfaces/controlleraddglobalconstraintseventlogentry.md)>   |  - |
-| arcTypesMap | `Map`.<[Address](../#address)>,.<`string`>   |  - |
-| constraintsMap | `Map`.<`string`>,.<[DaoGlobalConstraintInfo](../interfaces/daoglobalconstraintinfo.md)>   |  - |
+| log | [DecodedLogEntryEvent](../interfaces/DecodedLogEntryEvent.md)[ControllerAddGlobalConstraintsEventLogEntry](../interfaces/ControllerAddGlobalConstraintsEventLogEntry.md)⎮`Array`.<[DecodedLogEntryEvent](../interfaces/DecodedLogEntryEvent.md)[ControllerAddGlobalConstraintsEventLogEntry](../interfaces/ControllerAddGlobalConstraintsEventLogEntry.md)>   |  - |
+| arcTypesMap | `Map`.<[Address](../#Address)>,.<`string`>   |  - |
+| constraintsMap | `Map`.<`string`>,.<[DaoGlobalConstraintInfo](../interfaces/DaoGlobalConstraintInfo.md)>   |  - |
 
 
 
@@ -190,15 +190,15 @@ ___
 
 ___
 
-<a id="_handleschemeevent"></a>
+<a id="_handleSchemeEvent"></a>
 
 ###  _handleSchemeEvent
 
-► **_handleSchemeEvent**(log: *[DecodedLogEntryEvent](../interfaces/decodedlogentryevent.md)[ControllerRegisterSchemeEventLogEntry](../interfaces/controllerregisterschemeeventlogentry.md)⎮`Array`.<[DecodedLogEntryEvent](../interfaces/decodedlogentryevent.md)[ControllerRegisterSchemeEventLogEntry](../interfaces/controllerregisterschemeeventlogentry.md)>*, arcTypesMap: *`Map`.<[Address](../#address)>,.<`string`>*, schemesMap: *`Map`.<`string`>,.<[DaoSchemeInfo](../interfaces/daoschemeinfo.md)>*): `Promise`.<`void`>
+► **_handleSchemeEvent**(log: *[DecodedLogEntryEvent](../interfaces/DecodedLogEntryEvent.md)[ControllerRegisterSchemeEventLogEntry](../interfaces/ControllerRegisterSchemeEventLogEntry.md)⎮`Array`.<[DecodedLogEntryEvent](../interfaces/DecodedLogEntryEvent.md)[ControllerRegisterSchemeEventLogEntry](../interfaces/ControllerRegisterSchemeEventLogEntry.md)>*, arcTypesMap: *`Map`.<[Address](../#Address)>,.<`string`>*, schemesMap: *`Map`.<`string`>,.<[DaoSchemeInfo](../interfaces/DaoSchemeInfo.md)>*): `Promise`.<`void`>
 
 
 
-*Defined in [dao.ts:141](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L141)*
+*Defined in [dao.ts:141](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L141)*
 
 
 
@@ -206,9 +206,9 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| log | [DecodedLogEntryEvent](../interfaces/decodedlogentryevent.md)[ControllerRegisterSchemeEventLogEntry](../interfaces/controllerregisterschemeeventlogentry.md)⎮`Array`.<[DecodedLogEntryEvent](../interfaces/decodedlogentryevent.md)[ControllerRegisterSchemeEventLogEntry](../interfaces/controllerregisterschemeeventlogentry.md)>   |  - |
-| arcTypesMap | `Map`.<[Address](../#address)>,.<`string`>   |  - |
-| schemesMap | `Map`.<`string`>,.<[DaoSchemeInfo](../interfaces/daoschemeinfo.md)>   |  - |
+| log | [DecodedLogEntryEvent](../interfaces/DecodedLogEntryEvent.md)[ControllerRegisterSchemeEventLogEntry](../interfaces/ControllerRegisterSchemeEventLogEntry.md)⎮`Array`.<[DecodedLogEntryEvent](../interfaces/DecodedLogEntryEvent.md)[ControllerRegisterSchemeEventLogEntry](../interfaces/ControllerRegisterSchemeEventLogEntry.md)>   |  - |
+| arcTypesMap | `Map`.<[Address](../#Address)>,.<`string`>   |  - |
+| schemesMap | `Map`.<`string`>,.<[DaoSchemeInfo](../interfaces/DaoSchemeInfo.md)>   |  - |
 
 
 
@@ -222,15 +222,15 @@ ___
 
 ___
 
-<a id="getcontractwrapper"></a>
+<a id="getContractWrapper"></a>
 
 ###  getContractWrapper
 
-► **getContractWrapper**(contract: *`string`*, address?: *[Address](../#address)*): `Promise`.<[ExtendTruffleContract](extendtrufflecontract.md)⎮`undefined`>
+► **getContractWrapper**(contract: *`string`*, address?: *[Address](../#Address)*): `Promise`.<[ExtendTruffleContract](ExtendTruffleContract.md)⎮`undefined`>
 
 
 
-*Defined in [dao.ts:174](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L174)*
+*Defined in [dao.ts:174](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L174)*
 
 
 
@@ -242,13 +242,13 @@ Returns an Arc.js contract wrapper or undefined if not found.
 | Param | Type | Description |
 | ------ | ------ | ------ |
 | contract | `string`   |  name of an Arc contract, like "SchemeRegistrar" |
-| address | [Address](../#address)   |  optional |
+| address | [Address](../#Address)   |  optional |
 
 
 
 
 
-**Returns:** `Promise`.<[ExtendTruffleContract](extendtrufflecontract.md)⎮`undefined`>
+**Returns:** `Promise`.<[ExtendTruffleContract](ExtendTruffleContract.md)⎮`undefined`>
 
 
 
@@ -256,15 +256,15 @@ Returns an Arc.js contract wrapper or undefined if not found.
 
 ___
 
-<a id="getglobalconstraints"></a>
+<a id="getGlobalConstraints"></a>
 
 ###  getGlobalConstraints
 
-► **getGlobalConstraints**(name: *`string`*): `Promise`.<`Array`.<[DaoGlobalConstraintInfo](../interfaces/daoglobalconstraintinfo.md)>>
+► **getGlobalConstraints**(name: *`string`*): `Promise`.<`Array`.<[DaoGlobalConstraintInfo](../interfaces/DaoGlobalConstraintInfo.md)>>
 
 
 
-*Defined in [dao.ts:189](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L189)*
+*Defined in [dao.ts:189](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L189)*
 
 
 
@@ -281,7 +281,7 @@ Returns global constraints currently registered into this DAO, as Array<daogloba
 
 
 
-**Returns:** `Promise`.<`Array`.<[DaoGlobalConstraintInfo](../interfaces/daoglobalconstraintinfo.md)>>
+**Returns:** `Promise`.<`Array`.<[DaoGlobalConstraintInfo](../interfaces/DaoGlobalConstraintInfo.md)>>
 
 
 
@@ -289,7 +289,7 @@ Returns global constraints currently registered into this DAO, as Array<daogloba
 
 ___
 
-<a id="getname"></a>
+<a id="getName"></a>
 
 ###  getName
 
@@ -297,7 +297,7 @@ ___
 
 
 
-*Defined in [dao.ts:280](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L280)*
+*Defined in [dao.ts:280](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L280)*
 
 
 
@@ -316,15 +316,15 @@ Returns the name of the DAO as stored in the Avatar
 
 ___
 
-<a id="getschemes"></a>
+<a id="getSchemes"></a>
 
 ###  getSchemes
 
-► **getSchemes**(name: *`string`*): `Promise`.<`Array`.<[DaoSchemeInfo](../interfaces/daoschemeinfo.md)>>
+► **getSchemes**(name: *`string`*): `Promise`.<`Array`.<[DaoSchemeInfo](../interfaces/DaoSchemeInfo.md)>>
 
 
 
-*Defined in [dao.ts:79](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L79)*
+*Defined in [dao.ts:79](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L79)*
 
 
 
@@ -341,7 +341,7 @@ returns schemes currently registered into this DAO, as Array<daoschemeinfo></dao
 
 
 
-**Returns:** `Promise`.<`Array`.<[DaoSchemeInfo](../interfaces/daoschemeinfo.md)>>
+**Returns:** `Promise`.<`Array`.<[DaoSchemeInfo](../interfaces/DaoSchemeInfo.md)>>
 
 
 
@@ -349,7 +349,7 @@ returns schemes currently registered into this DAO, as Array<daoschemeinfo></dao
 
 ___
 
-<a id="gettokenname"></a>
+<a id="getTokenName"></a>
 
 ###  getTokenName
 
@@ -357,7 +357,7 @@ ___
 
 
 
-*Defined in [dao.ts:288](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L288)*
+*Defined in [dao.ts:288](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L288)*
 
 
 
@@ -376,7 +376,7 @@ Returns the token name for the DAO as stored in the native token
 
 ___
 
-<a id="gettokensymbol"></a>
+<a id="getTokenSymbol"></a>
 
 ###  getTokenSymbol
 
@@ -384,7 +384,7 @@ ___
 
 
 
-*Defined in [dao.ts:296](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L296)*
+*Defined in [dao.ts:296](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L296)*
 
 
 
@@ -403,15 +403,15 @@ Returns the token symbol for the DAO as stored in the native token
 
 ___
 
-<a id="isschemeregistered"></a>
+<a id="isSchemeRegistered"></a>
 
 ###  isSchemeRegistered
 
-► **isSchemeRegistered**(schemeAddress: *[Address](../#address)*): `Promise`.<`boolean`>
+► **isSchemeRegistered**(schemeAddress: *[Address](../#Address)*): `Promise`.<`boolean`>
 
 
 
-*Defined in [dao.ts:181](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L181)*
+*Defined in [dao.ts:181](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L181)*
 
 
 
@@ -422,7 +422,7 @@ returns whether the scheme with the given name is registered to this DAO's contr
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| schemeAddress | [Address](../#address)   |  - |
+| schemeAddress | [Address](../#Address)   |  - |
 
 
 
@@ -440,11 +440,11 @@ ___
 
 ### «Static» at
 
-► **at**(avatarAddress: *[Address](../#address)*): `Promise`.<[DAO](dao.md)>
+► **at**(avatarAddress: *[Address](../#Address)*): `Promise`.<[DAO](DAO.md)>
 
 
 
-*Defined in [dao.ts:31](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L31)*
+*Defined in [dao.ts:31](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L31)*
 
 
 
@@ -452,13 +452,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| avatarAddress | [Address](../#address)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[DAO](dao.md)>
+**Returns:** `Promise`.<[DAO](DAO.md)>
 
 
 
@@ -466,15 +466,15 @@ ___
 
 ___
 
-<a id="getgenesisdao"></a>
+<a id="getGenesisDao"></a>
 
 ### «Static» getGenesisDao
 
-► **getGenesisDao**(daoCreatorAddress: *[Address](../#address)*): `Promise`.<`string`>
+► **getGenesisDao**(daoCreatorAddress: *[Address](../#Address)*): `Promise`.<`string`>
 
 
 
-*Defined in [dao.ts:47](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L47)*
+*Defined in [dao.ts:47](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L47)*
 
 
 
@@ -485,7 +485,7 @@ Returns promise of the DAOstack Genesis avatar address, or undefined if not foun
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| daoCreatorAddress | [Address](../#address)   |  - |
+| daoCreatorAddress | [Address](../#Address)   |  - |
 
 
 
@@ -503,11 +503,11 @@ ___
 
 ### «Static» new
 
-► **new**(opts: *[NewDaoConfig](../interfaces/newdaoconfig.md)*): `Promise`.<[DAO](dao.md)>
+► **new**(opts: *[NewDaoConfig](../interfaces/NewDaoConfig.md)*): `Promise`.<[DAO](DAO.md)>
 
 
 
-*Defined in [dao.ts:12](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L12)*
+*Defined in [dao.ts:12](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L12)*
 
 
 
@@ -515,13 +515,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| opts | [NewDaoConfig](../interfaces/newdaoconfig.md)   |  - |
+| opts | [NewDaoConfig](../interfaces/NewDaoConfig.md)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[DAO](dao.md)>
+**Returns:** `Promise`.<[DAO](DAO.md)>
 
 
 

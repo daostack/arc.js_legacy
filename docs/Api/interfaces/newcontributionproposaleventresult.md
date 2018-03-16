@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [NewContributionProposalEventResult](../interfaces/newcontributionproposaleventresult.md)
+[API Reference](../README.md) > [NewContributionProposalEventResult](../interfaces/NewContributionProposalEventResult.md)
 
 
 
@@ -10,9 +10,9 @@
 
 ###  _avatar
 
-**●  _avatar**:  *[Address](../#address)* 
+**●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/contributionreward.ts:478](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L478)*
+*Defined in [contracts/contributionreward.ts:486](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L486)*
 
 
 
@@ -27,9 +27,9 @@ ___
 
 ###  _beneficiary
 
-**●  _beneficiary**:  *[Address](../#address)* 
+**●  _beneficiary**:  *[Address](../#Address)* 
 
-*Defined in [contracts/contributionreward.ts:479](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L479)*
+*Defined in [contracts/contributionreward.ts:487](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L487)*
 
 
 
@@ -37,13 +37,13 @@ ___
 
 ___
 
-<a id="_contributiondescription"></a>
+<a id="_contributionDescription"></a>
 
 ###  _contributionDescription
 
-**●  _contributionDescription**:  *[Hash](../#hash)* 
+**●  _contributionDescription**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/contributionreward.ts:480](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L480)*
+*Defined in [contracts/contributionreward.ts:488](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L488)*
 
 
 
@@ -51,13 +51,13 @@ ___
 
 ___
 
-<a id="_externaltoken"></a>
+<a id="_externalToken"></a>
 
 ###  _externalToken
 
-**●  _externalToken**:  *[Address](../#address)* 
+**●  _externalToken**:  *[Address](../#Address)* 
 
-*Defined in [contracts/contributionreward.ts:481](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L481)*
+*Defined in [contracts/contributionreward.ts:489](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L489)*
 
 
 
@@ -65,13 +65,13 @@ ___
 
 ___
 
-<a id="_intvoteinterface"></a>
+<a id="_intVoteInterface"></a>
 
 ###  _intVoteInterface
 
-**●  _intVoteInterface**:  *[Address](../#address)* 
+**●  _intVoteInterface**:  *[Address](../#Address)* 
 
-*Defined in [contracts/contributionreward.ts:485](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L485)*
+*Defined in [contracts/contributionreward.ts:493](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L493)*
 
 
 
@@ -82,13 +82,13 @@ indexed
 
 ___
 
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/contributionreward.ts:489](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L489)*
+*Defined in [contracts/contributionreward.ts:497](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L497)*
 
 
 
@@ -99,13 +99,13 @@ indexed
 
 ___
 
-<a id="_reputationchange"></a>
+<a id="_reputationChange"></a>
 
 ###  _reputationChange
 
 **●  _reputationChange**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/contributionreward.ts:490](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L490)*
+*Defined in [contracts/contributionreward.ts:498](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L498)*
 
 
 
@@ -119,7 +119,7 @@ ___
 
 **●  _rewards**:  *`Array`.<`BigNumber.BigNumber`>* 
 
-*Defined in [contracts/contributionreward.ts:491](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L491)*
+*Defined in [contracts/contributionreward.ts:499](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L499)*
 
 
 

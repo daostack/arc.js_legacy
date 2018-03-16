@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ProposalDeletedEventResult](../interfaces/proposaldeletedeventresult.md)
+[API Reference](../README.md) > [ProposalDeletedEventResult](../interfaces/ProposalDeletedEventResult.md)
 
 
 
@@ -10,9 +10,9 @@
 
 ###  _avatar
 
-**●  _avatar**:  *[Address](../#address)* 
+**●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:62](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L62)*
+*Defined in [contracts/commonEventInterfaces.ts:62](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L62)*
 
 
 
@@ -23,13 +23,13 @@ indexed
 
 ___
 
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:66](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L66)*
+*Defined in [contracts/commonEventInterfaces.ts:66](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L66)*
 
 
 

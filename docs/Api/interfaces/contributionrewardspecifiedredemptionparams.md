@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ContributionRewardSpecifiedRedemptionParams](../interfaces/contributionrewardspecifiedredemptionparams.md)
+[API Reference](../README.md) > [ContributionRewardSpecifiedRedemptionParams](../interfaces/ContributionRewardSpecifiedRedemptionParams.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/contributionreward.ts:580](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L580)*
+*Defined in [contracts/contributionreward.ts:588](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L588)*
 
 
 
@@ -23,13 +23,13 @@ The avatar under which the proposal was made
 
 ___
 
-<a id="proposalid"></a>
+<a id="proposalId"></a>
 
 ###  proposalId
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/contributionreward.ts:584](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L584)*
+*Defined in [contracts/contributionreward.ts:592](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L592)*
 
 
 

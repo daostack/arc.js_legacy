@@ -1,6 +1,37 @@
 const TypeDoc = require("typedoc");
+const Reflection = require("typedoc").Reflection;
 const glob = require("glob");
 require("colors");
+
+/**
+ * Hack typedoc to retain character case with file names.
+ * The alternative requires forking typedoc and typedoc-plugin-markdown,
+ * and typedoc-plugin-markdown in that case requires major onerous changes,
+ * particularly to its test code which is doing case-sensitive assertions.
+ */
+Reflection.prototype.getAlias = function () {
+  if (!this._alias) {
+    var alias = this.name.replace(/[^a-z0-9]/gi, '_');
+    if (alias === '') {
+      alias = 'reflection-' + this.id;
+    }
+    var target = this;
+    while (target.parent && !target.parent.isProject() && !target.hasOwnDocument) {
+      target = target.parent;
+    }
+    if (!target._aliases) {
+      target._aliases = [];
+    }
+    var suffix = '', index = 0;
+    while (target._aliases.indexOf(alias + suffix) !== -1) {
+      suffix = '-' + (++index).toString();
+    }
+    alias += suffix;
+    target._aliases.push(alias);
+    this._alias = alias;
+  }
+  return this._alias;
+};
 
 /* eslint-disable no-console */
 
@@ -35,7 +66,7 @@ const options = {
   "mode": "file",
   "excludeProtected": true,
   "excludePrivate": true,
-  "name": "@DAOstack/Arc.js API Reference",
+  "name": "API Reference",
   "theme": "markdown"
 };
 

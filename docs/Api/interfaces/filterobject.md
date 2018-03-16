@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [FilterObject](../interfaces/filterobject.md)
+[API Reference](../README.md) > [FilterObject](../interfaces/FilterObject.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  address**:  *`string`* 
 
-*Defined in [ExtendTruffleContract.ts:355](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L355)*
+*Defined in [ExtendTruffleContract.ts:366](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L366)*
 
 
 
@@ -20,13 +20,13 @@
 
 ___
 
-<a id="fromblock"></a>
+<a id="fromBlock"></a>
 
 ### «Optional» fromBlock
 
 **●  fromBlock**:  *`number`⎮`string`* 
 
-*Defined in [ExtendTruffleContract.ts:353](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L353)*
+*Defined in [ExtendTruffleContract.ts:364](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L364)*
 
 
 
@@ -34,13 +34,13 @@ ___
 
 ___
 
-<a id="toblock"></a>
+<a id="toBlock"></a>
 
 ### «Optional» toBlock
 
 **●  toBlock**:  *`number`⎮`string`* 
 
-*Defined in [ExtendTruffleContract.ts:354](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L354)*
+*Defined in [ExtendTruffleContract.ts:365](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L365)*
 
 
 
@@ -52,9 +52,9 @@ ___
 
 ### «Optional» topics
 
-**●  topics**:  *`Array`.<[LogTopic](../#logtopic)>* 
+**●  topics**:  *`Array`.<[LogTopic](../#LogTopic)>* 
 
-*Defined in [ExtendTruffleContract.ts:356](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L356)*
+*Defined in [ExtendTruffleContract.ts:367](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L367)*
 
 
 

@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [NewUpgradeProposalEventResult](../interfaces/newupgradeproposaleventresult.md)
+[API Reference](../README.md) > [NewUpgradeProposalEventResult](../interfaces/NewUpgradeProposalEventResult.md)
 
 
 
@@ -10,9 +10,9 @@
 
 ###  _avatar
 
-**●  _avatar**:  *[Address](../#address)* 
+**●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/upgradescheme.ts:142](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L142)*
+*Defined in [contracts/upgradescheme.ts:143](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/upgradescheme.ts#L143)*
 
 
 
@@ -23,13 +23,13 @@ indexed
 
 ___
 
-<a id="_intvoteinterface"></a>
+<a id="_intVoteInterface"></a>
 
 ###  _intVoteInterface
 
-**●  _intVoteInterface**:  *[Address](../#address)* 
+**●  _intVoteInterface**:  *[Address](../#Address)* 
 
-*Defined in [contracts/upgradescheme.ts:146](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L146)*
+*Defined in [contracts/upgradescheme.ts:147](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/upgradescheme.ts#L147)*
 
 
 
@@ -40,13 +40,13 @@ indexed
 
 ___
 
-<a id="_newcontroller"></a>
+<a id="_newController"></a>
 
 ###  _newController
 
-**●  _newController**:  *[Address](../#address)* 
+**●  _newController**:  *[Address](../#Address)* 
 
-*Defined in [contracts/upgradescheme.ts:147](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L147)*
+*Defined in [contracts/upgradescheme.ts:148](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/upgradescheme.ts#L148)*
 
 
 
@@ -54,13 +54,13 @@ ___
 
 ___
 
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/upgradescheme.ts:151](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L151)*
+*Defined in [contracts/upgradescheme.ts:152](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/upgradescheme.ts#L152)*
 
 
 

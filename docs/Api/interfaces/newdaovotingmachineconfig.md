@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [NewDaoVotingMachineConfig](../interfaces/newdaovotingmachineconfig.md)
+[API Reference](../README.md) > [NewDaoVotingMachineConfig](../interfaces/NewDaoVotingMachineConfig.md)
 
 
 
@@ -18,7 +18,7 @@ You can add your voting-machine-specific parameters here, like ownerVote, votePe
 
 **●  reputation**:  *`string`* 
 
-*Defined in [contracts/daocreator.ts:266](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L266)*
+*Defined in [contracts/daocreator.ts:277](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L277)*
 
 
 
@@ -29,13 +29,13 @@ Optional Reputation address. Default is the new DAO's native reputation.
 
 ___
 
-<a id="votingmachineaddress"></a>
+<a id="votingMachineAddress"></a>
 
 ### «Optional» votingMachineAddress
 
 **●  votingMachineAddress**:  *`string`* 
 
-*Defined in [contracts/daocreator.ts:276](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L276)*
+*Defined in [contracts/daocreator.ts:287](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L287)*
 
 
 
@@ -46,13 +46,13 @@ Optional VotingMachine address Default is that of AbsoluteVote
 
 ___
 
-<a id="votingmachinename"></a>
+<a id="votingMachineName"></a>
 
 ### «Optional» votingMachineName
 
 **●  votingMachineName**:  *`string`* 
 
-*Defined in [contracts/daocreator.ts:271](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L271)*
+*Defined in [contracts/daocreator.ts:282](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L282)*
 
 
 

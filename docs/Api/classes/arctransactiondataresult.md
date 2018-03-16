@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ArcTransactionDataResult](../classes/arctransactiondataresult.md)
+[API Reference](../README.md) > [ArcTransactionDataResult](../classes/ArcTransactionDataResult.md)
 
 
 
@@ -12,7 +12,7 @@ Base or actual type returned by all contract wrapper methods that generate a tra
 ## Hierarchy
 
 
- [ArcTransactionResult](arctransactionresult.md)
+ [ArcTransactionResult](ArcTransactionResult.md)
 
 **↳ ArcTransactionDataResult**
 
@@ -26,18 +26,18 @@ Base or actual type returned by all contract wrapper methods that generate a tra
 
 ### Constructors
 
-* [constructor](arctransactiondataresult.md#constructor)
+* [constructor](ArcTransactionDataResult.md#constructor)
 
 
 ### Properties
 
-* [result](arctransactiondataresult.md#result)
-* [tx](arctransactiondataresult.md#tx)
+* [result](ArcTransactionDataResult.md#result)
+* [tx](ArcTransactionDataResult.md#tx)
 
 
 ### Methods
 
-* [getValueFromTx](arctransactiondataresult.md#getvaluefromtx)
+* [getValueFromTx](ArcTransactionDataResult.md#getValueFromTx)
 
 
 
@@ -46,12 +46,12 @@ Base or actual type returned by all contract wrapper methods that generate a tra
 <a id="constructor"></a>
 
 
-### ⊕ **new ArcTransactionDataResult**(tx: *[TransactionReceiptTruffle](../interfaces/transactionreceipttruffle.md)*, result: *`TData`*): [ArcTransactionDataResult](arctransactiondataresult.md)
+### ⊕ **new ArcTransactionDataResult**(tx: *[TransactionReceiptTruffle](../interfaces/TransactionReceiptTruffle.md)*, result: *`TData`*): [ArcTransactionDataResult](ArcTransactionDataResult.md)
 
 
-*Overrides [ArcTransactionResult](arctransactionresult.md).[constructor](arctransactionresult.md#constructor)*
+*Overrides [ArcTransactionResult](ArcTransactionResult.md).[constructor](ArcTransactionResult.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:286](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L286)*
+*Defined in [ExtendTruffleContract.ts:297](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L297)*
 
 
 
@@ -59,14 +59,14 @@ Base or actual type returned by all contract wrapper methods that generate a tra
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| tx | [TransactionReceiptTruffle](../interfaces/transactionreceipttruffle.md)   |  - |
+| tx | [TransactionReceiptTruffle](../interfaces/TransactionReceiptTruffle.md)   |  - |
 | result | `TData`   |  - |
 
 
 
 
 
-**Returns:** [ArcTransactionDataResult](arctransactiondataresult.md)
+**Returns:** [ArcTransactionDataResult](ArcTransactionDataResult.md)
 
 ---
 
@@ -78,7 +78,7 @@ Base or actual type returned by all contract wrapper methods that generate a tra
 
 **●  result**:  *`TData`* 
 
-*Defined in [ExtendTruffleContract.ts:286](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L286)*
+*Defined in [ExtendTruffleContract.ts:297](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L297)*
 
 
 
@@ -93,11 +93,11 @@ ___
 
 ###  tx
 
-**●  tx**:  *[TransactionReceiptTruffle](../interfaces/transactionreceipttruffle.md)* 
+**●  tx**:  *[TransactionReceiptTruffle](../interfaces/TransactionReceiptTruffle.md)* 
 
-*Inherited from [ArcTransactionResult](arctransactionresult.md).[tx](arctransactionresult.md#tx)*
+*Inherited from [ArcTransactionResult](ArcTransactionResult.md).[tx](ArcTransactionResult.md#tx)*
 
-*Defined in [ExtendTruffleContract.ts:247](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L247)*
+*Defined in [ExtendTruffleContract.ts:258](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L258)*
 
 
 
@@ -110,7 +110,7 @@ ___
 
 
 ## Methods
-<a id="getvaluefromtx"></a>
+<a id="getValueFromTx"></a>
 
 ###  getValueFromTx
 
@@ -118,9 +118,9 @@ ___
 
 
 
-*Inherited from [ArcTransactionResult](arctransactionresult.md).[getValueFromTx](arctransactionresult.md#getvaluefromtx)*
+*Inherited from [ArcTransactionResult](ArcTransactionResult.md).[getValueFromTx](ArcTransactionResult.md#getValueFromTx)*
 
-*Defined in [ExtendTruffleContract.ts:260](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L260)*
+*Defined in [ExtendTruffleContract.ts:271](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L271)*
 
 
 

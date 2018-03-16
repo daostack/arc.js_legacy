@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [DaoCreatorWrapper](../classes/daocreatorwrapper.md)
+[API Reference](../README.md) > [DaoCreatorWrapper](../classes/DaoCreatorWrapper.md)
 
 
 
@@ -7,7 +7,7 @@
 ## Hierarchy
 
 
- [ExtendTruffleContract](extendtrufflecontract.md)
+ [ExtendTruffleContract](ExtendTruffleContract.md)
 
 **↳ DaoCreatorWrapper**
 
@@ -21,33 +21,35 @@
 
 ### Constructors
 
-* [constructor](daocreatorwrapper.md#constructor)
+* [constructor](DaoCreatorWrapper.md#constructor)
 
 
 ### Properties
 
-* [InitialSchemesSet](daocreatorwrapper.md#initialschemesset)
-* [NewOrg](daocreatorwrapper.md#neworg)
-* [contract](daocreatorwrapper.md#contract)
+* [InitialSchemesSet](DaoCreatorWrapper.md#InitialSchemesSet)
+* [NewOrg](DaoCreatorWrapper.md#NewOrg)
+* [contract](DaoCreatorWrapper.md#contract)
 
 
 ### Accessors
 
-* [address](daocreatorwrapper.md#address)
+* [address](DaoCreatorWrapper.md#address)
 
 
 ### Methods
 
-* [forgeOrg](daocreatorwrapper.md#forgeorg)
-* [getDefaultPermissions](daocreatorwrapper.md#getdefaultpermissions)
-* [getParameters](daocreatorwrapper.md#getparameters)
-* [getParametersArray](daocreatorwrapper.md#getparametersarray)
-* [getSchemeParametersHash](daocreatorwrapper.md#getschemeparametershash)
-* [hydrateFromAt](daocreatorwrapper.md#hydratefromat)
-* [hydrateFromDeployed](daocreatorwrapper.md#hydratefromdeployed)
-* [hydrateFromNew](daocreatorwrapper.md#hydratefromnew)
-* [setParameters](daocreatorwrapper.md#setparameters)
-* [setSchemes](daocreatorwrapper.md#setschemes)
+* [forgeOrg](DaoCreatorWrapper.md#forgeOrg)
+* [getController](DaoCreatorWrapper.md#getController)
+* [getDefaultPermissions](DaoCreatorWrapper.md#getDefaultPermissions)
+* [getParameters](DaoCreatorWrapper.md#getParameters)
+* [getParametersArray](DaoCreatorWrapper.md#getParametersArray)
+* [getPermissions](DaoCreatorWrapper.md#getPermissions)
+* [getSchemeParametersHash](DaoCreatorWrapper.md#getSchemeParametersHash)
+* [hydrateFromAt](DaoCreatorWrapper.md#hydrateFromAt)
+* [hydrateFromDeployed](DaoCreatorWrapper.md#hydrateFromDeployed)
+* [hydrateFromNew](DaoCreatorWrapper.md#hydrateFromNew)
+* [setParameters](DaoCreatorWrapper.md#setParameters)
+* [setSchemes](DaoCreatorWrapper.md#setSchemes)
 
 
 
@@ -56,12 +58,12 @@
 <a id="constructor"></a>
 
 
-### ⊕ **new DaoCreatorWrapper**(solidityContract: *`any`*): [DaoCreatorWrapper](daocreatorwrapper.md)
+### ⊕ **new DaoCreatorWrapper**(solidityContract: *`any`*): [DaoCreatorWrapper](DaoCreatorWrapper.md)
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[constructor](extendtrufflecontract.md#constructor)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[constructor](ExtendTruffleContract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -78,19 +80,19 @@ ContractWrapperFactory constructs this
 
 
 
-**Returns:** [DaoCreatorWrapper](daocreatorwrapper.md)
+**Returns:** [DaoCreatorWrapper](DaoCreatorWrapper.md)
 
 ---
 
 
 ## Properties
-<a id="initialschemesset"></a>
+<a id="InitialSchemesSet"></a>
 
 ###  InitialSchemesSet
 
-**●  InitialSchemesSet**:  *[EventFetcherFactory](../#eventfetcherfactory)[InitialSchemesSetEventResult](../interfaces/initialschemesseteventresult.md)*  =  this.createEventFetcherFactory<InitialSchemesSetEventResult>("InitialSchemesSet")
+**●  InitialSchemesSet**:  *[EventFetcherFactory](../#EventFetcherFactory)[InitialSchemesSetEventResult](../interfaces/InitialSchemesSetEventResult.md)*  =  this.createEventFetcherFactory<InitialSchemesSetEventResult>("InitialSchemesSet")
 
-*Defined in [contracts/daocreator.ts:25](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L25)*
+*Defined in [contracts/daocreator.ts:25](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L25)*
 
 
 
@@ -98,13 +100,13 @@ ContractWrapperFactory constructs this
 
 ___
 
-<a id="neworg"></a>
+<a id="NewOrg"></a>
 
 ###  NewOrg
 
-**●  NewOrg**:  *[EventFetcherFactory](../#eventfetcherfactory)[NewOrgEventResult](../interfaces/neworgeventresult.md)*  =  this.createEventFetcherFactory<NewOrgEventResult>("NewOrg")
+**●  NewOrg**:  *[EventFetcherFactory](../#EventFetcherFactory)[NewOrgEventResult](../interfaces/NewOrgEventResult.md)*  =  this.createEventFetcherFactory<NewOrgEventResult>("NewOrg")
 
-*Defined in [contracts/daocreator.ts:24](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L24)*
+*Defined in [contracts/daocreator.ts:24](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L24)*
 
 
 
@@ -121,9 +123,9 @@ ___
 
 **●  contract**:  *`any`* 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[contract](extendtrufflecontract.md#contract)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[contract](ExtendTruffleContract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -141,17 +143,17 @@ ___
 ###  address
 
 
-getaddress(): [Address](../#address)
+getaddress(): [Address](../#Address)
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[address](extendtrufflecontract.md#address)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[address](ExtendTruffleContract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L128)*
-
-
+*Defined in [ExtendTruffleContract.ts:148](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L148)*
 
 
 
-**Returns:** [Address](../#address)
+
+
+**Returns:** [Address](../#Address)
 
 
 
@@ -159,15 +161,15 @@ ___
 
 
 ## Methods
-<a id="forgeorg"></a>
+<a id="forgeOrg"></a>
 
 ###  forgeOrg
 
-► **forgeOrg**(opts?: *[ForgeOrgConfig](../interfaces/forgeorgconfig.md)*): `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+► **forgeOrg**(opts?: *[ForgeOrgConfig](../interfaces/ForgeOrgConfig.md)*): `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
-*Defined in [contracts/daocreator.ts:32](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L32)*
+*Defined in [contracts/daocreator.ts:32](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L32)*
 
 
 
@@ -178,48 +180,13 @@ Create a new DAO
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [ForgeOrgConfig](../interfaces/forgeorgconfig.md)  |  {} as ForgeOrgConfig |   - |
+| opts | [ForgeOrgConfig](../interfaces/ForgeOrgConfig.md)  |  {} as ForgeOrgConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
-
-
-
-
-
-___
-
-<a id="getdefaultpermissions"></a>
-
-###  getDefaultPermissions
-
-► **getDefaultPermissions**(overrideValue?: *`string`*): `string`
-
-
-
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getDefaultPermissions](extendtrufflecontract.md#getdefaultpermissions)*
-
-*Defined in [ExtendTruffleContract.ts:98](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L98)*
-
-
-
-The subclass must override this for there to be any permissions at all, unless caller provides a value.
-
-
-**Parameters:**
-
-| Param | Type | Description |
-| ------ | ------ | ------ |
-| overrideValue | `string`   |  - |
-
-
-
-
-
-**Returns:** `string`
+**Returns:** `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
@@ -227,28 +194,28 @@ The subclass must override this for there to be any permissions at all, unless c
 
 ___
 
-<a id="getparameters"></a>
+<a id="getController"></a>
 
-###  getParameters
+###  getController
 
-► **getParameters**(paramsHash: *[Hash](../#hash)*): `Promise`.<`any`>
-
-
-
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParameters](extendtrufflecontract.md#getparameters)*
-
-*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L106)*
+► **getController**(avatarAddress: *[Address](../#Address)*): `Promise`.<`any`>
 
 
 
-Given a hash, return the associated parameters as an object.
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getController](ExtendTruffleContract.md#getController)*
+
+*Defined in [ExtendTruffleContract.ts:143](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L143)*
+
+
+
+return the controller associated with the given avatar
 
 
 **Parameters:**
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| paramsHash | [Hash](../#hash)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
@@ -262,17 +229,87 @@ Given a hash, return the associated parameters as an object.
 
 ___
 
-<a id="getparametersarray"></a>
+<a id="getDefaultPermissions"></a>
+
+###  getDefaultPermissions
+
+► **getDefaultPermissions**(overrideValue?: *[SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)*): [SchemePermissions](../enums/SchemePermissions.md)
+
+
+
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getDefaultPermissions](ExtendTruffleContract.md#getDefaultPermissions)*
+
+*Defined in [ExtendTruffleContract.ts:98](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L98)*
+
+
+
+The subclass must override this for there to be any permissions at all, unless caller provides a value.
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| overrideValue | [SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)   |  - |
+
+
+
+
+
+**Returns:** [SchemePermissions](../enums/SchemePermissions.md)
+
+
+
+
+
+___
+
+<a id="getParameters"></a>
+
+###  getParameters
+
+► **getParameters**(paramsHash: *[Hash](../#Hash)*): `Promise`.<`any`>
+
+
+
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getParameters](ExtendTruffleContract.md#getParameters)*
+
+*Defined in [ExtendTruffleContract.ts:117](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L117)*
+
+
+
+Given a hash, return the associated parameters as an object.
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| paramsHash | [Hash](../#Hash)   |  - |
+
+
+
+
+
+**Returns:** `Promise`.<`any`>
+
+
+
+
+
+___
+
+<a id="getParametersArray"></a>
 
 ###  getParametersArray
 
-► **getParametersArray**(paramsHash: *[Hash](../#hash)*): `Promise`.<`Array`.<`any`>>
+► **getParametersArray**(paramsHash: *[Hash](../#Hash)*): `Promise`.<`Array`.<`any`>>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParametersArray](extendtrufflecontract.md#getparametersarray)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getParametersArray](ExtendTruffleContract.md#getParametersArray)*
 
-*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L124)*
+*Defined in [ExtendTruffleContract.ts:135](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L135)*
 
 
 
@@ -283,7 +320,7 @@ Given a hash, return the associated parameters as an array, ordered by the order
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| paramsHash | [Hash](../#hash)   |  - |
+| paramsHash | [Hash](../#Hash)   |  - |
 
 
 
@@ -297,17 +334,52 @@ Given a hash, return the associated parameters as an array, ordered by the order
 
 ___
 
-<a id="getschemeparametershash"></a>
+<a id="getPermissions"></a>
+
+###  getPermissions
+
+► **getPermissions**(avatarAddress: *[Address](../#Address)*): `Promise`.<[SchemePermissions](../enums/SchemePermissions.md)>
+
+
+
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getPermissions](ExtendTruffleContract.md#getPermissions)*
+
+*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L106)*
+
+
+
+Return this scheme's permissions.
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| avatarAddress | [Address](../#Address)   |  - |
+
+
+
+
+
+**Returns:** `Promise`.<[SchemePermissions](../enums/SchemePermissions.md)>
+
+
+
+
+
+___
+
+<a id="getSchemeParametersHash"></a>
 
 ###  getSchemeParametersHash
 
-► **getSchemeParametersHash**(avatarAddress: *[Address](../#address)*): `Promise`.<[Hash](../#hash)>
+► **getSchemeParametersHash**(avatarAddress: *[Address](../#Address)*): `Promise`.<[Hash](../#Hash)>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getSchemeParametersHash](extendtrufflecontract.md#getschemeparametershash)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getSchemeParametersHash](ExtendTruffleContract.md#getSchemeParametersHash)*
 
-*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L114)*
+*Defined in [ExtendTruffleContract.ts:125](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L125)*
 
 
 
@@ -318,13 +390,13 @@ Given an avatar address, return the schemes parameters hash
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| avatarAddress | [Address](../#address)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[Hash](../#hash)>
+**Returns:** `Promise`.<[Hash](../#Hash)>
 
 
 
@@ -332,7 +404,7 @@ Given an avatar address, return the schemes parameters hash
 
 ___
 
-<a id="hydratefromat"></a>
+<a id="hydrateFromAt"></a>
 
 ###  hydrateFromAt
 
@@ -340,9 +412,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromAt](extendtrufflecontract.md#hydratefromat)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromAt](ExtendTruffleContract.md#hydrateFromAt)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -369,7 +441,7 @@ this
 
 ___
 
-<a id="hydratefromdeployed"></a>
+<a id="hydrateFromDeployed"></a>
 
 ###  hydrateFromDeployed
 
@@ -377,9 +449,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromDeployed](extendtrufflecontract.md#hydratefromdeployed)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromDeployed](ExtendTruffleContract.md#hydrateFromDeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -398,7 +470,7 @@ this
 
 ___
 
-<a id="hydratefromnew"></a>
+<a id="hydrateFromNew"></a>
 
 ###  hydrateFromNew
 
@@ -406,9 +478,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromNew](extendtrufflecontract.md#hydratefromnew)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromNew](ExtendTruffleContract.md#hydrateFromNew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -435,17 +507,17 @@ this
 
 ___
 
-<a id="setparameters"></a>
+<a id="setParameters"></a>
 
 ###  setParameters
 
-► **setParameters**(...args: *`Array`.<`any`>*): `Promise`.<[ArcTransactionDataResult](arctransactiondataresult.md)[Hash](../#hash)>
+► **setParameters**(...args: *`Array`.<`any`>*): `Promise`.<[ArcTransactionDataResult](ArcTransactionDataResult.md)[Hash](../#Hash)>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[setParameters](extendtrufflecontract.md#setparameters)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[setParameters](ExtendTruffleContract.md#setParameters)*
 
-*Defined in [ExtendTruffleContract.ts:89](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L89)*
+*Defined in [ExtendTruffleContract.ts:89](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L89)*
 
 
 
@@ -462,7 +534,7 @@ Call setParameters on this contract. Returns promise of ArcTransactionDataResult
 
 
 
-**Returns:** `Promise`.<[ArcTransactionDataResult](arctransactiondataresult.md)[Hash](../#hash)>
+**Returns:** `Promise`.<[ArcTransactionDataResult](ArcTransactionDataResult.md)[Hash](../#Hash)>
 
 
 
@@ -470,15 +542,15 @@ Call setParameters on this contract. Returns promise of ArcTransactionDataResult
 
 ___
 
-<a id="setschemes"></a>
+<a id="setSchemes"></a>
 
 ###  setSchemes
 
-► **setSchemes**(opts?: *[SetSchemesConfig](../interfaces/setschemesconfig.md)*): `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+► **setSchemes**(opts?: *[SetSchemesConfig](../interfaces/SetSchemesConfig.md)*): `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
-*Defined in [contracts/daocreator.ts:88](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L88)*
+*Defined in [contracts/daocreator.ts:99](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L99)*
 
 
 
@@ -489,13 +561,13 @@ Register schemes with newly-created DAO. Can only be invoked by the agent that c
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [SetSchemesConfig](../interfaces/setschemesconfig.md)  |  {} as SetSchemesConfig |   - |
+| opts | [SetSchemesConfig](../interfaces/SetSchemesConfig.md)  |  {} as SetSchemesConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+**Returns:** `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 

@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [TokenCapGcParams](../interfaces/tokencapgcparams.md)
+[API Reference](../README.md) > [TokenCapGcParams](../interfaces/TokenCapGcParams.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  cap**:  *`number`⎮`string`* 
 
-*Defined in [contracts/tokenCapGC.ts:31](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/tokenCapGC.ts#L31)*
+*Defined in [contracts/tokenCapGC.ts:31](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/tokenCapGC.ts#L31)*
 
 
 
@@ -24,9 +24,9 @@ ___
 
 ###  token
 
-**●  token**:  *[Address](../#address)* 
+**●  token**:  *[Address](../#Address)* 
 
-*Defined in [contracts/tokenCapGC.ts:32](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/tokenCapGC.ts#L32)*
+*Defined in [contracts/tokenCapGC.ts:32](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/tokenCapGC.ts#L32)*
 
 
 

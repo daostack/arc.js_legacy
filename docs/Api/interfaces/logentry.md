@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [LogEntry](../interfaces/logentry.md)
+[API Reference](../README.md) > [LogEntry](../interfaces/LogEntry.md)
 
 
 
@@ -8,7 +8,7 @@
 
 **LogEntry**
 
-↳  [LogEntryEvent](logentryevent.md)
+↳  [LogEntryEvent](LogEntryEvent.md)
 
 
 
@@ -25,7 +25,7 @@
 
 **●  address**:  *`string`* 
 
-*Defined in [ExtendTruffleContract.ts:365](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L365)*
+*Defined in [ExtendTruffleContract.ts:376](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L376)*
 
 
 
@@ -33,13 +33,13 @@
 
 ___
 
-<a id="blockhash"></a>
+<a id="blockHash"></a>
 
 ###  blockHash
 
 **●  blockHash**:  *`string`⎮`null`* 
 
-*Defined in [ExtendTruffleContract.ts:363](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L363)*
+*Defined in [ExtendTruffleContract.ts:374](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L374)*
 
 
 
@@ -47,13 +47,13 @@ ___
 
 ___
 
-<a id="blocknumber"></a>
+<a id="blockNumber"></a>
 
 ###  blockNumber
 
 **●  blockNumber**:  *`number`⎮`null`* 
 
-*Defined in [ExtendTruffleContract.ts:364](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L364)*
+*Defined in [ExtendTruffleContract.ts:375](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L375)*
 
 
 
@@ -67,7 +67,7 @@ ___
 
 **●  data**:  *`string`* 
 
-*Defined in [ExtendTruffleContract.ts:366](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L366)*
+*Defined in [ExtendTruffleContract.ts:377](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L377)*
 
 
 
@@ -75,13 +75,13 @@ ___
 
 ___
 
-<a id="logindex"></a>
+<a id="logIndex"></a>
 
 ###  logIndex
 
 **●  logIndex**:  *`number`⎮`null`* 
 
-*Defined in [ExtendTruffleContract.ts:360](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L360)*
+*Defined in [ExtendTruffleContract.ts:371](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L371)*
 
 
 
@@ -95,7 +95,7 @@ ___
 
 **●  topics**:  *`Array`.<`string`>* 
 
-*Defined in [ExtendTruffleContract.ts:367](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L367)*
+*Defined in [ExtendTruffleContract.ts:378](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L378)*
 
 
 
@@ -103,13 +103,13 @@ ___
 
 ___
 
-<a id="transactionhash"></a>
+<a id="transactionHash"></a>
 
 ###  transactionHash
 
 **●  transactionHash**:  *`string`* 
 
-*Defined in [ExtendTruffleContract.ts:362](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L362)*
+*Defined in [ExtendTruffleContract.ts:373](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L373)*
 
 
 
@@ -117,13 +117,13 @@ ___
 
 ___
 
-<a id="transactionindex"></a>
+<a id="transactionIndex"></a>
 
 ###  transactionIndex
 
 **●  transactionIndex**:  *`number`⎮`null`* 
 
-*Defined in [ExtendTruffleContract.ts:361](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L361)*
+*Defined in [ExtendTruffleContract.ts:372](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L372)*
 
 
 

@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [SchemesConfig](../interfaces/schemesconfig.md)
+[API Reference](../README.md) > [SchemesConfig](../interfaces/SchemesConfig.md)
 
 
 
@@ -8,7 +8,7 @@
 
 **SchemesConfig**
 
-↳  [SetSchemesConfig](setschemesconfig.md)
+↳  [SetSchemesConfig](SetSchemesConfig.md)
 
 
 
@@ -23,9 +23,9 @@
 
 ### «Optional» schemes
 
-**●  schemes**:  *`Array`.<[SchemeConfig](schemeconfig.md)>* 
+**●  schemes**:  *`Array`.<[SchemeConfig](SchemeConfig.md)>* 
 
-*Defined in [contracts/daocreator.ts:363](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L363)*
+*Defined in [contracts/daocreator.ts:374](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L374)*
 
 
 
@@ -36,13 +36,13 @@ Any Arc schemes you would like to automatically register with the new DAO. Non-A
 
 ___
 
-<a id="votingmachineparams"></a>
+<a id="votingMachineParams"></a>
 
 ### «Optional» votingMachineParams
 
-**●  votingMachineParams**:  *[NewDaoVotingMachineConfig](newdaovotingmachineconfig.md)* 
+**●  votingMachineParams**:  *[NewDaoVotingMachineConfig](NewDaoVotingMachineConfig.md)* 
 
-*Defined in [contracts/daocreator.ts:357](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/daocreator.ts#L357)*
+*Defined in [contracts/daocreator.ts:368](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/daocreator.ts#L368)*
 
 
 

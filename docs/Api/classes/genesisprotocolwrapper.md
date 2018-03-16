@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GenesisProtocolWrapper](../classes/genesisprotocolwrapper.md)
+[API Reference](../README.md) > [GenesisProtocolWrapper](../classes/GenesisProtocolWrapper.md)
 
 
 
@@ -7,7 +7,7 @@
 ## Hierarchy
 
 
- [ExtendTruffleContract](extendtrufflecontract.md)
+ [ExtendTruffleContract](ExtendTruffleContract.md)
 
 **↳ GenesisProtocolWrapper**
 
@@ -21,62 +21,64 @@
 
 ### Constructors
 
-* [constructor](genesisprotocolwrapper.md#constructor)
+* [constructor](GenesisProtocolWrapper.md#constructor)
 
 
 ### Properties
 
-* [ExecuteProposal](genesisprotocolwrapper.md#executeproposal)
-* [NewProposal](genesisprotocolwrapper.md#newproposal)
-* [Redeem](genesisprotocolwrapper.md#redeem)
-* [RedeemReputation](genesisprotocolwrapper.md#redeemreputation)
-* [Stake](genesisprotocolwrapper.md#stake)
-* [VoteProposal](genesisprotocolwrapper.md#voteproposal)
-* [contract](genesisprotocolwrapper.md#contract)
+* [ExecuteProposal](GenesisProtocolWrapper.md#ExecuteProposal)
+* [NewProposal](GenesisProtocolWrapper.md#NewProposal)
+* [Redeem](GenesisProtocolWrapper.md#Redeem)
+* [RedeemReputation](GenesisProtocolWrapper.md#RedeemReputation)
+* [Stake](GenesisProtocolWrapper.md#Stake)
+* [VoteProposal](GenesisProtocolWrapper.md#VoteProposal)
+* [contract](GenesisProtocolWrapper.md#contract)
 
 
 ### Accessors
 
-* [address](genesisprotocolwrapper.md#address)
+* [address](GenesisProtocolWrapper.md#address)
 
 
 ### Methods
 
-* [getDefaultPermissions](genesisprotocolwrapper.md#getdefaultpermissions)
-* [getExecutedDaoProposals](genesisprotocolwrapper.md#getexecuteddaoproposals)
-* [getNumberOfChoices](genesisprotocolwrapper.md#getnumberofchoices)
-* [getParameters](genesisprotocolwrapper.md#getparameters)
-* [getParametersArray](genesisprotocolwrapper.md#getparametersarray)
-* [getProposalAvatar](genesisprotocolwrapper.md#getproposalavatar)
-* [getProposalStatus](genesisprotocolwrapper.md#getproposalstatus)
-* [getRedeemableReputationProposer](genesisprotocolwrapper.md#getredeemablereputationproposer)
-* [getRedeemableReputationStaker](genesisprotocolwrapper.md#getredeemablereputationstaker)
-* [getRedeemableReputationVoter](genesisprotocolwrapper.md#getredeemablereputationvoter)
-* [getRedeemableTokensStaker](genesisprotocolwrapper.md#getredeemabletokensstaker)
-* [getRedeemableTokensVoter](genesisprotocolwrapper.md#getredeemabletokensvoter)
-* [getSchemeParameters](genesisprotocolwrapper.md#getschemeparameters)
-* [getSchemeParametersHash](genesisprotocolwrapper.md#getschemeparametershash)
-* [getScore](genesisprotocolwrapper.md#getscore)
-* [getScoreThresholdParams](genesisprotocolwrapper.md#getscorethresholdparams)
-* [getStakerInfo](genesisprotocolwrapper.md#getstakerinfo)
-* [getState](genesisprotocolwrapper.md#getstate)
-* [getThreshold](genesisprotocolwrapper.md#getthreshold)
-* [getTotalReputationSupply](genesisprotocolwrapper.md#gettotalreputationsupply)
-* [getVoteStake](genesisprotocolwrapper.md#getvotestake)
-* [getVoteStatus](genesisprotocolwrapper.md#getvotestatus)
-* [getVoterInfo](genesisprotocolwrapper.md#getvoterinfo)
-* [getWinningVote](genesisprotocolwrapper.md#getwinningvote)
-* [hydrateFromAt](genesisprotocolwrapper.md#hydratefromat)
-* [hydrateFromDeployed](genesisprotocolwrapper.md#hydratefromdeployed)
-* [hydrateFromNew](genesisprotocolwrapper.md#hydratefromnew)
-* [isVotable](genesisprotocolwrapper.md#isvotable)
-* [propose](genesisprotocolwrapper.md#propose)
-* [redeem](genesisprotocolwrapper.md#redeem-1)
-* [setParameters](genesisprotocolwrapper.md#setparameters)
-* [shouldBoost](genesisprotocolwrapper.md#shouldboost)
-* [stake](genesisprotocolwrapper.md#stake-1)
-* [vote](genesisprotocolwrapper.md#vote)
-* [voteWithSpecifiedAmounts](genesisprotocolwrapper.md#votewithspecifiedamounts)
+* [getController](GenesisProtocolWrapper.md#getController)
+* [getDefaultPermissions](GenesisProtocolWrapper.md#getDefaultPermissions)
+* [getExecutedDaoProposals](GenesisProtocolWrapper.md#getExecutedDaoProposals)
+* [getNumberOfChoices](GenesisProtocolWrapper.md#getNumberOfChoices)
+* [getParameters](GenesisProtocolWrapper.md#getParameters)
+* [getParametersArray](GenesisProtocolWrapper.md#getParametersArray)
+* [getPermissions](GenesisProtocolWrapper.md#getPermissions)
+* [getProposalAvatar](GenesisProtocolWrapper.md#getProposalAvatar)
+* [getProposalStatus](GenesisProtocolWrapper.md#getProposalStatus)
+* [getRedeemableReputationProposer](GenesisProtocolWrapper.md#getRedeemableReputationProposer)
+* [getRedeemableReputationStaker](GenesisProtocolWrapper.md#getRedeemableReputationStaker)
+* [getRedeemableReputationVoter](GenesisProtocolWrapper.md#getRedeemableReputationVoter)
+* [getRedeemableTokensStaker](GenesisProtocolWrapper.md#getRedeemableTokensStaker)
+* [getRedeemableTokensVoter](GenesisProtocolWrapper.md#getRedeemableTokensVoter)
+* [getSchemeParameters](GenesisProtocolWrapper.md#getSchemeParameters)
+* [getSchemeParametersHash](GenesisProtocolWrapper.md#getSchemeParametersHash)
+* [getScore](GenesisProtocolWrapper.md#getScore)
+* [getScoreThresholdParams](GenesisProtocolWrapper.md#getScoreThresholdParams)
+* [getStakerInfo](GenesisProtocolWrapper.md#getStakerInfo)
+* [getState](GenesisProtocolWrapper.md#getState)
+* [getThreshold](GenesisProtocolWrapper.md#getThreshold)
+* [getTotalReputationSupply](GenesisProtocolWrapper.md#getTotalReputationSupply)
+* [getVoteStake](GenesisProtocolWrapper.md#getVoteStake)
+* [getVoteStatus](GenesisProtocolWrapper.md#getVoteStatus)
+* [getVoterInfo](GenesisProtocolWrapper.md#getVoterInfo)
+* [getWinningVote](GenesisProtocolWrapper.md#getWinningVote)
+* [hydrateFromAt](GenesisProtocolWrapper.md#hydrateFromAt)
+* [hydrateFromDeployed](GenesisProtocolWrapper.md#hydrateFromDeployed)
+* [hydrateFromNew](GenesisProtocolWrapper.md#hydrateFromNew)
+* [isVotable](GenesisProtocolWrapper.md#isVotable)
+* [propose](GenesisProtocolWrapper.md#propose)
+* [redeem](GenesisProtocolWrapper.md#redeem)
+* [setParameters](GenesisProtocolWrapper.md#setParameters)
+* [shouldBoost](GenesisProtocolWrapper.md#shouldBoost)
+* [stake](GenesisProtocolWrapper.md#stake)
+* [vote](GenesisProtocolWrapper.md#vote)
+* [voteWithSpecifiedAmounts](GenesisProtocolWrapper.md#voteWithSpecifiedAmounts)
 
 
 
@@ -85,12 +87,12 @@
 <a id="constructor"></a>
 
 
-### ⊕ **new GenesisProtocolWrapper**(solidityContract: *`any`*): [GenesisProtocolWrapper](genesisprotocolwrapper.md)
+### ⊕ **new GenesisProtocolWrapper**(solidityContract: *`any`*): [GenesisProtocolWrapper](GenesisProtocolWrapper.md)
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[constructor](extendtrufflecontract.md#constructor)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[constructor](ExtendTruffleContract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -107,19 +109,19 @@ ContractWrapperFactory constructs this
 
 
 
-**Returns:** [GenesisProtocolWrapper](genesisprotocolwrapper.md)
+**Returns:** [GenesisProtocolWrapper](GenesisProtocolWrapper.md)
 
 ---
 
 
 ## Properties
-<a id="executeproposal"></a>
+<a id="ExecuteProposal"></a>
 
 ###  ExecuteProposal
 
-**●  ExecuteProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[GenesisProtocolExecuteProposalEventResult](../interfaces/genesisprotocolexecuteproposaleventresult.md)*  =  this.createEventFetcherFactory<GenesisProtocolExecuteProposalEventResult>("ExecuteProposal")
+**●  ExecuteProposal**:  *[EventFetcherFactory](../#EventFetcherFactory)[GenesisProtocolExecuteProposalEventResult](../interfaces/GenesisProtocolExecuteProposalEventResult.md)*  =  this.createEventFetcherFactory<GenesisProtocolExecuteProposalEventResult>("ExecuteProposal")
 
-*Defined in [contracts/genesisProtocol.ts:31](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L31)*
+*Defined in [contracts/genesisProtocol.ts:40](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L40)*
 
 
 
@@ -127,13 +129,13 @@ ContractWrapperFactory constructs this
 
 ___
 
-<a id="newproposal"></a>
+<a id="NewProposal"></a>
 
 ###  NewProposal
 
-**●  NewProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[NewProposalEventResult](../interfaces/newproposaleventresult.md)*  =  this.createEventFetcherFactory<NewProposalEventResult>("NewProposal")
+**●  NewProposal**:  *[EventFetcherFactory](../#EventFetcherFactory)[NewProposalEventResult](../interfaces/NewProposalEventResult.md)*  =  this.createEventFetcherFactory<NewProposalEventResult>("NewProposal")
 
-*Defined in [contracts/genesisProtocol.ts:30](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L30)*
+*Defined in [contracts/genesisProtocol.ts:39](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L39)*
 
 
 
@@ -144,13 +146,13 @@ Events
 
 ___
 
-<a id="redeem"></a>
+<a id="Redeem"></a>
 
 ###  Redeem
 
-**●  Redeem**:  *[EventFetcherFactory](../#eventfetcherfactory)[RedeemEventResult](../interfaces/redeemeventresult.md)*  =  this.createEventFetcherFactory<RedeemEventResult>("Redeem")
+**●  Redeem**:  *[EventFetcherFactory](../#EventFetcherFactory)[RedeemEventResult](../interfaces/RedeemEventResult.md)*  =  this.createEventFetcherFactory<RedeemEventResult>("Redeem")
 
-*Defined in [contracts/genesisProtocol.ts:34](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L34)*
+*Defined in [contracts/genesisProtocol.ts:43](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L43)*
 
 
 
@@ -158,13 +160,13 @@ ___
 
 ___
 
-<a id="redeemreputation"></a>
+<a id="RedeemReputation"></a>
 
 ###  RedeemReputation
 
-**●  RedeemReputation**:  *[EventFetcherFactory](../#eventfetcherfactory)[RedeemReputationEventResult](../interfaces/redeemreputationeventresult.md)*  =  this.createEventFetcherFactory<RedeemReputationEventResult>("RedeemReputation")
+**●  RedeemReputation**:  *[EventFetcherFactory](../#EventFetcherFactory)[RedeemReputationEventResult](../interfaces/RedeemReputationEventResult.md)*  =  this.createEventFetcherFactory<RedeemReputationEventResult>("RedeemReputation")
 
-*Defined in [contracts/genesisProtocol.ts:35](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L35)*
+*Defined in [contracts/genesisProtocol.ts:44](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L44)*
 
 
 
@@ -172,13 +174,13 @@ ___
 
 ___
 
-<a id="stake"></a>
+<a id="Stake"></a>
 
 ###  Stake
 
-**●  Stake**:  *[EventFetcherFactory](../#eventfetcherfactory)[StakeEventResult](../interfaces/stakeeventresult.md)*  =  this.createEventFetcherFactory<StakeEventResult>("Stake")
+**●  Stake**:  *[EventFetcherFactory](../#EventFetcherFactory)[StakeEventResult](../interfaces/StakeEventResult.md)*  =  this.createEventFetcherFactory<StakeEventResult>("Stake")
 
-*Defined in [contracts/genesisProtocol.ts:33](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L33)*
+*Defined in [contracts/genesisProtocol.ts:42](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L42)*
 
 
 
@@ -186,13 +188,13 @@ ___
 
 ___
 
-<a id="voteproposal"></a>
+<a id="VoteProposal"></a>
 
 ###  VoteProposal
 
-**●  VoteProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[VoteProposalEventResult](../interfaces/voteproposaleventresult.md)*  =  this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal")
+**●  VoteProposal**:  *[EventFetcherFactory](../#EventFetcherFactory)[VoteProposalEventResult](../interfaces/VoteProposalEventResult.md)*  =  this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal")
 
-*Defined in [contracts/genesisProtocol.ts:32](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L32)*
+*Defined in [contracts/genesisProtocol.ts:41](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L41)*
 
 
 
@@ -206,9 +208,9 @@ ___
 
 **●  contract**:  *`any`* 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[contract](extendtrufflecontract.md#contract)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[contract](ExtendTruffleContract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -226,17 +228,17 @@ ___
 ###  address
 
 
-getaddress(): [Address](../#address)
+getaddress(): [Address](../#Address)
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[address](extendtrufflecontract.md#address)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[address](ExtendTruffleContract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L128)*
-
-
+*Defined in [ExtendTruffleContract.ts:148](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L148)*
 
 
 
-**Returns:** [Address](../#address)
+
+
+**Returns:** [Address](../#Address)
 
 
 
@@ -244,31 +246,34 @@ ___
 
 
 ## Methods
-<a id="getdefaultpermissions"></a>
+<a id="getController"></a>
 
-###  getDefaultPermissions
+###  getController
 
-► **getDefaultPermissions**(overrideValue?: *`string`*): `string`
+► **getController**(avatarAddress: *[Address](../#Address)*): `Promise`.<`any`>
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getDefaultPermissions](extendtrufflecontract.md#getdefaultpermissions)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getController](ExtendTruffleContract.md#getController)*
 
-*Defined in [contracts/genesisProtocol.ts:910](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L910)*
+*Defined in [ExtendTruffleContract.ts:143](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L143)*
 
+
+
+return the controller associated with the given avatar
 
 
 **Parameters:**
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| overrideValue | `string`   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
 
 
-**Returns:** `string`
+**Returns:** `Promise`.<`any`>
 
 
 
@@ -276,15 +281,47 @@ ___
 
 ___
 
-<a id="getexecuteddaoproposals"></a>
+<a id="getDefaultPermissions"></a>
+
+###  getDefaultPermissions
+
+► **getDefaultPermissions**(overrideValue?: *[SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)*): [SchemePermissions](../enums/SchemePermissions.md)
+
+
+
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getDefaultPermissions](ExtendTruffleContract.md#getDefaultPermissions)*
+
+*Defined in [contracts/genesisProtocol.ts:919](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L919)*
+
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| overrideValue | [SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)   |  - |
+
+
+
+
+
+**Returns:** [SchemePermissions](../enums/SchemePermissions.md)
+
+
+
+
+
+___
+
+<a id="getExecutedDaoProposals"></a>
 
 ###  getExecutedDaoProposals
 
-► **getExecutedDaoProposals**(opts?: *[GetDaoProposalsConfig](../interfaces/getdaoproposalsconfig.md)*): `Promise`.<`Array`.<[ExecutedGenesisProposal](../interfaces/executedgenesisproposal.md)>>
+► **getExecutedDaoProposals**(opts?: *[GetDaoProposalsConfig](../interfaces/GetDaoProposalsConfig.md)*): `Promise`.<`Array`.<[ExecutedGenesisProposal](../interfaces/ExecutedGenesisProposal.md)>>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:820](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L820)*
+*Defined in [contracts/genesisProtocol.ts:829](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L829)*
 
 
 
@@ -295,13 +332,13 @@ Return all executed GenesisProtocol proposals created under the given avatar. Fi
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetDaoProposalsConfig](../interfaces/getdaoproposalsconfig.md)  |  {} as GetDaoProposalsConfig |   - |
+| opts | [GetDaoProposalsConfig](../interfaces/GetDaoProposalsConfig.md)  |  {} as GetDaoProposalsConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<`Array`.<[ExecutedGenesisProposal](../interfaces/executedgenesisproposal.md)>>
+**Returns:** `Promise`.<`Array`.<[ExecutedGenesisProposal](../interfaces/ExecutedGenesisProposal.md)>>
 
 
 
@@ -309,15 +346,15 @@ Return all executed GenesisProtocol proposals created under the given avatar. Fi
 
 ___
 
-<a id="getnumberofchoices"></a>
+<a id="getNumberOfChoices"></a>
 
 ###  getNumberOfChoices
 
-► **getNumberOfChoices**(opts?: *[GetNumberOfChoicesConfig](../interfaces/getnumberofchoicesconfig.md)*): `Promise`.<`number`>
+► **getNumberOfChoices**(opts?: *[GetNumberOfChoicesConfig](../interfaces/GetNumberOfChoicesConfig.md)*): `Promise`.<`number`>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:474](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L474)*
+*Defined in [contracts/genesisProtocol.ts:483](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L483)*
 
 
 
@@ -328,7 +365,7 @@ Return the number of possible choices when voting for the proposal.
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetNumberOfChoicesConfig](../interfaces/getnumberofchoicesconfig.md)  |  {} as GetNumberOfChoicesConfig |   - |
+| opts | [GetNumberOfChoicesConfig](../interfaces/GetNumberOfChoicesConfig.md)  |  {} as GetNumberOfChoicesConfig |   - |
 
 
 
@@ -344,17 +381,17 @@ Promise<number>
 
 ___
 
-<a id="getparameters"></a>
+<a id="getParameters"></a>
 
 ###  getParameters
 
-► **getParameters**(paramsHash: *[Hash](../#hash)*): `Promise`.<[GenesisProtocolParams](../interfaces/genesisprotocolparams.md)>
+► **getParameters**(paramsHash: *[Hash](../#Hash)*): `Promise`.<[GenesisProtocolParams](../interfaces/GenesisProtocolParams.md)>
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getParameters](extendtrufflecontract.md#getparameters)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getParameters](ExtendTruffleContract.md#getParameters)*
 
-*Defined in [contracts/genesisProtocol.ts:918](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L918)*
+*Defined in [contracts/genesisProtocol.ts:928](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L928)*
 
 
 
@@ -362,13 +399,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| paramsHash | [Hash](../#hash)   |  - |
+| paramsHash | [Hash](../#Hash)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[GenesisProtocolParams](../interfaces/genesisprotocolparams.md)>
+**Returns:** `Promise`.<[GenesisProtocolParams](../interfaces/GenesisProtocolParams.md)>
 
 
 
@@ -376,17 +413,17 @@ ___
 
 ___
 
-<a id="getparametersarray"></a>
+<a id="getParametersArray"></a>
 
 ###  getParametersArray
 
-► **getParametersArray**(paramsHash: *[Hash](../#hash)*): `Promise`.<`Array`.<`any`>>
+► **getParametersArray**(paramsHash: *[Hash](../#Hash)*): `Promise`.<`Array`.<`any`>>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParametersArray](extendtrufflecontract.md#getparametersarray)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getParametersArray](ExtendTruffleContract.md#getParametersArray)*
 
-*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L124)*
+*Defined in [ExtendTruffleContract.ts:135](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L135)*
 
 
 
@@ -397,7 +434,7 @@ Given a hash, return the associated parameters as an array, ordered by the order
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| paramsHash | [Hash](../#hash)   |  - |
+| paramsHash | [Hash](../#Hash)   |  - |
 
 
 
@@ -411,15 +448,50 @@ Given a hash, return the associated parameters as an array, ordered by the order
 
 ___
 
-<a id="getproposalavatar"></a>
+<a id="getPermissions"></a>
+
+###  getPermissions
+
+► **getPermissions**(avatarAddress: *[Address](../#Address)*): `Promise`.<[SchemePermissions](../enums/SchemePermissions.md)>
+
+
+
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getPermissions](ExtendTruffleContract.md#getPermissions)*
+
+*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L106)*
+
+
+
+Return this scheme's permissions.
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| avatarAddress | [Address](../#Address)   |  - |
+
+
+
+
+
+**Returns:** `Promise`.<[SchemePermissions](../enums/SchemePermissions.md)>
+
+
+
+
+
+___
+
+<a id="getProposalAvatar"></a>
 
 ###  getProposalAvatar
 
-► **getProposalAvatar**(opts?: *[GetProposalAvatarConfig](../interfaces/getproposalavatarconfig.md)*): `Promise`.<`string`>
+► **getProposalAvatar**(opts?: *[GetProposalAvatarConfig](../interfaces/GetProposalAvatarConfig.md)*): `Promise`.<`string`>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:650](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L650)*
+*Defined in [contracts/genesisProtocol.ts:659](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L659)*
 
 
 
@@ -430,7 +502,7 @@ Return the DAO avatar address under which the proposal was made
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetProposalAvatarConfig](../interfaces/getproposalavatarconfig.md)  |  {} as GetProposalAvatarConfig |   - |
+| opts | [GetProposalAvatarConfig](../interfaces/GetProposalAvatarConfig.md)  |  {} as GetProposalAvatarConfig |   - |
 
 
 
@@ -446,15 +518,15 @@ Promise<string>
 
 ___
 
-<a id="getproposalstatus"></a>
+<a id="getProposalStatus"></a>
 
 ###  getProposalStatus
 
-► **getProposalStatus**(opts?: *[GetProposalStatusConfig](../interfaces/getproposalstatusconfig.md)*): `Promise`.<[GetProposalStatusResult](../interfaces/getproposalstatusresult.md)>
+► **getProposalStatus**(opts?: *[GetProposalStatusConfig](../interfaces/GetProposalStatusConfig.md)*): `Promise`.<[GetProposalStatusResult](../interfaces/GetProposalStatusResult.md)>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:594](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L594)*
+*Defined in [contracts/genesisProtocol.ts:603](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L603)*
 
 
 
@@ -465,13 +537,13 @@ Return the total votes, total stakes and voter stakes for a given proposal
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetProposalStatusConfig](../interfaces/getproposalstatusconfig.md)  |  {} as GetProposalStatusConfig |   - |
+| opts | [GetProposalStatusConfig](../interfaces/GetProposalStatusConfig.md)  |  {} as GetProposalStatusConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[GetProposalStatusResult](../interfaces/getproposalstatusresult.md)>
+**Returns:** `Promise`.<[GetProposalStatusResult](../interfaces/GetProposalStatusResult.md)>
 Promise<GetProposalStatusResult>
 
 
@@ -481,15 +553,15 @@ Promise<GetProposalStatusResult>
 
 ___
 
-<a id="getredeemablereputationproposer"></a>
+<a id="getRedeemableReputationProposer"></a>
 
 ###  getRedeemableReputationProposer
 
-► **getRedeemableReputationProposer**(opts?: *[GetRedeemableReputationProposerConfig](../interfaces/getredeemablereputationproposerconfig.md)*): `Promise`.<`BigNumber.BigNumber`>
+► **getRedeemableReputationProposer**(opts?: *[GetRedeemableReputationProposerConfig](../interfaces/GetRedeemableReputationProposerConfig.md)*): `Promise`.<`BigNumber.BigNumber`>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:352](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L352)*
+*Defined in [contracts/genesisProtocol.ts:361](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L361)*
 
 
 
@@ -500,7 +572,7 @@ Return the reputation amount to which the proposal proposer is entitled in the e
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetRedeemableReputationProposerConfig](../interfaces/getredeemablereputationproposerconfig.md)  |  {} as GetRedeemableReputationProposerConfig |   - |
+| opts | [GetRedeemableReputationProposerConfig](../interfaces/GetRedeemableReputationProposerConfig.md)  |  {} as GetRedeemableReputationProposerConfig |   - |
 
 
 
@@ -516,15 +588,15 @@ Promise<BigNumber.BigNumber>
 
 ___
 
-<a id="getredeemablereputationstaker"></a>
+<a id="getRedeemableReputationStaker"></a>
 
 ###  getRedeemableReputationStaker
 
-► **getRedeemableReputationStaker**(opts?: *[GetRedeemableReputationStakerConfig](../interfaces/getredeemablereputationstakerconfig.md)*): `Promise`.<`BigNumber.BigNumber`>
+► **getRedeemableReputationStaker**(opts?: *[GetRedeemableReputationStakerConfig](../interfaces/GetRedeemableReputationStakerConfig.md)*): `Promise`.<`BigNumber.BigNumber`>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:442](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L442)*
+*Defined in [contracts/genesisProtocol.ts:451](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L451)*
 
 
 
@@ -535,7 +607,7 @@ Return the reputation amount to which the staker is entitled in the event that t
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetRedeemableReputationStakerConfig](../interfaces/getredeemablereputationstakerconfig.md)  |  {} as GetRedeemableReputationStakerConfig |   - |
+| opts | [GetRedeemableReputationStakerConfig](../interfaces/GetRedeemableReputationStakerConfig.md)  |  {} as GetRedeemableReputationStakerConfig |   - |
 
 
 
@@ -551,15 +623,15 @@ Promise<BigNumber.BigNumber>
 
 ___
 
-<a id="getredeemablereputationvoter"></a>
+<a id="getRedeemableReputationVoter"></a>
 
 ###  getRedeemableReputationVoter
 
-► **getRedeemableReputationVoter**(opts?: *[GetRedeemableReputationVoterConfig](../interfaces/getredeemablereputationvoterconfig.md)*): `Promise`.<`BigNumber.BigNumber`>
+► **getRedeemableReputationVoter**(opts?: *[GetRedeemableReputationVoterConfig](../interfaces/GetRedeemableReputationVoterConfig.md)*): `Promise`.<`BigNumber.BigNumber`>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:410](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L410)*
+*Defined in [contracts/genesisProtocol.ts:419](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L419)*
 
 
 
@@ -570,7 +642,7 @@ Return the reputation amount to which the voter is entitled in the event that th
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetRedeemableReputationVoterConfig](../interfaces/getredeemablereputationvoterconfig.md)  |  {} as GetRedeemableReputationVoterConfig |   - |
+| opts | [GetRedeemableReputationVoterConfig](../interfaces/GetRedeemableReputationVoterConfig.md)  |  {} as GetRedeemableReputationVoterConfig |   - |
 
 
 
@@ -586,15 +658,15 @@ Promise<BigNumber.BigNumber>
 
 ___
 
-<a id="getredeemabletokensstaker"></a>
+<a id="getRedeemableTokensStaker"></a>
 
 ###  getRedeemableTokensStaker
 
-► **getRedeemableTokensStaker**(opts?: *[GetRedeemableTokensStakerConfig](../interfaces/getredeemabletokensstakerconfig.md)*): `Promise`.<`BigNumber.BigNumber`>
+► **getRedeemableTokensStaker**(opts?: *[GetRedeemableTokensStakerConfig](../interfaces/GetRedeemableTokensStakerConfig.md)*): `Promise`.<`BigNumber.BigNumber`>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:321](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L321)*
+*Defined in [contracts/genesisProtocol.ts:330](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L330)*
 
 
 
@@ -605,7 +677,7 @@ Return the token amount to which the given staker is entitled in the event that 
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetRedeemableTokensStakerConfig](../interfaces/getredeemabletokensstakerconfig.md)  |  {} as GetRedeemableTokensStakerConfig |   - |
+| opts | [GetRedeemableTokensStakerConfig](../interfaces/GetRedeemableTokensStakerConfig.md)  |  {} as GetRedeemableTokensStakerConfig |   - |
 
 
 
@@ -621,15 +693,15 @@ Promise<BigNumber.BigNumber>
 
 ___
 
-<a id="getredeemabletokensvoter"></a>
+<a id="getRedeemableTokensVoter"></a>
 
 ###  getRedeemableTokensVoter
 
-► **getRedeemableTokensVoter**(opts?: *[GetRedeemableTokensVoterConfig](../interfaces/getredeemabletokensvoterconfig.md)*): `Promise`.<`BigNumber.BigNumber`>
+► **getRedeemableTokensVoter**(opts?: *[GetRedeemableTokensVoterConfig](../interfaces/GetRedeemableTokensVoterConfig.md)*): `Promise`.<`BigNumber.BigNumber`>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:378](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L378)*
+*Defined in [contracts/genesisProtocol.ts:387](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L387)*
 
 
 
@@ -640,7 +712,7 @@ Return the token amount to which the voter is entitled in the event that the pro
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetRedeemableTokensVoterConfig](../interfaces/getredeemabletokensvoterconfig.md)  |  {} as GetRedeemableTokensVoterConfig |   - |
+| opts | [GetRedeemableTokensVoterConfig](../interfaces/GetRedeemableTokensVoterConfig.md)  |  {} as GetRedeemableTokensVoterConfig |   - |
 
 
 
@@ -656,15 +728,15 @@ Promise<BigNumber.BigNumber>
 
 ___
 
-<a id="getschemeparameters"></a>
+<a id="getSchemeParameters"></a>
 
 ###  getSchemeParameters
 
-► **getSchemeParameters**(avatarAddress: *[Address](../#address)*): `Promise`.<[GenesisProtocolParams](../interfaces/genesisprotocolparams.md)>
+► **getSchemeParameters**(avatarAddress: *[Address](../#Address)*): `Promise`.<[GenesisProtocolParams](../interfaces/GenesisProtocolParams.md)>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:914](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L914)*
+*Defined in [contracts/genesisProtocol.ts:924](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L924)*
 
 
 
@@ -672,13 +744,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| avatarAddress | [Address](../#address)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[GenesisProtocolParams](../interfaces/genesisprotocolparams.md)>
+**Returns:** `Promise`.<[GenesisProtocolParams](../interfaces/GenesisProtocolParams.md)>
 
 
 
@@ -686,17 +758,17 @@ ___
 
 ___
 
-<a id="getschemeparametershash"></a>
+<a id="getSchemeParametersHash"></a>
 
 ###  getSchemeParametersHash
 
-► **getSchemeParametersHash**(avatarAddress: *[Address](../#address)*): `Promise`.<[Hash](../#hash)>
+► **getSchemeParametersHash**(avatarAddress: *[Address](../#Address)*): `Promise`.<[Hash](../#Hash)>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getSchemeParametersHash](extendtrufflecontract.md#getschemeparametershash)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getSchemeParametersHash](ExtendTruffleContract.md#getSchemeParametersHash)*
 
-*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L114)*
+*Defined in [ExtendTruffleContract.ts:125](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L125)*
 
 
 
@@ -707,13 +779,13 @@ Given an avatar address, return the schemes parameters hash
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| avatarAddress | [Address](../#address)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[Hash](../#hash)>
+**Returns:** `Promise`.<[Hash](../#Hash)>
 
 
 
@@ -721,15 +793,15 @@ Given an avatar address, return the schemes parameters hash
 
 ___
 
-<a id="getscore"></a>
+<a id="getScore"></a>
 
 ###  getScore
 
-► **getScore**(opts?: *[GetScoreConfig](../interfaces/getscoreconfig.md)*): `Promise`.<`BigNumber.BigNumber`>
+► **getScore**(opts?: *[GetScoreConfig](../interfaces/GetScoreConfig.md)*): `Promise`.<`BigNumber.BigNumber`>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:271](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L271)*
+*Defined in [contracts/genesisProtocol.ts:280](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L280)*
 
 
 
@@ -740,7 +812,7 @@ Return the current proposal score.
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetScoreConfig](../interfaces/getscoreconfig.md)  |  {} as GetScoreConfig |   - |
+| opts | [GetScoreConfig](../interfaces/GetScoreConfig.md)  |  {} as GetScoreConfig |   - |
 
 
 
@@ -756,15 +828,15 @@ Promise<BigNumber.BigNumber>
 
 ___
 
-<a id="getscorethresholdparams"></a>
+<a id="getScoreThresholdParams"></a>
 
 ###  getScoreThresholdParams
 
-► **getScoreThresholdParams**(opts?: *[GetScoreThresholdParamsConfig](../interfaces/getscorethresholdparamsconfig.md)*): `Promise`.<[GetScoreThresholdParamsResult](../interfaces/getscorethresholdparamsresult.md)>
+► **getScoreThresholdParams**(opts?: *[GetScoreThresholdParamsConfig](../interfaces/GetScoreThresholdParamsConfig.md)*): `Promise`.<[GetScoreThresholdParamsResult](../interfaces/GetScoreThresholdParamsResult.md)>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:676](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L676)*
+*Defined in [contracts/genesisProtocol.ts:685](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L685)*
 
 
 
@@ -775,13 +847,13 @@ Return the score threshold params for the given DAO.
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetScoreThresholdParamsConfig](../interfaces/getscorethresholdparamsconfig.md)  |  {} as GetScoreThresholdParamsConfig |   - |
+| opts | [GetScoreThresholdParamsConfig](../interfaces/GetScoreThresholdParamsConfig.md)  |  {} as GetScoreThresholdParamsConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[GetScoreThresholdParamsResult](../interfaces/getscorethresholdparamsresult.md)>
+**Returns:** `Promise`.<[GetScoreThresholdParamsResult](../interfaces/GetScoreThresholdParamsResult.md)>
 Promise<GetScoreThresholdParamsResult>
 
 
@@ -791,15 +863,15 @@ Promise<GetScoreThresholdParamsResult>
 
 ___
 
-<a id="getstakerinfo"></a>
+<a id="getStakerInfo"></a>
 
 ###  getStakerInfo
 
-► **getStakerInfo**(opts?: *[GetStakerInfoConfig](../interfaces/getstakerinfoconfig.md)*): `Promise`.<[GetStakerInfoResult](../interfaces/getstakerinforesult.md)>
+► **getStakerInfo**(opts?: *[GetStakerInfoConfig](../interfaces/GetStakerInfoConfig.md)*): `Promise`.<[GetStakerInfoResult](../interfaces/GetStakerInfoResult.md)>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:706](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L706)*
+*Defined in [contracts/genesisProtocol.ts:715](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L715)*
 
 
 
@@ -810,13 +882,13 @@ Return the vote and stake amount for a given proposal and staker.
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetStakerInfoConfig](../interfaces/getstakerinfoconfig.md)  |  {} as GetStakerInfoConfig |   - |
+| opts | [GetStakerInfoConfig](../interfaces/GetStakerInfoConfig.md)  |  {} as GetStakerInfoConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[GetStakerInfoResult](../interfaces/getstakerinforesult.md)>
+**Returns:** `Promise`.<[GetStakerInfoResult](../interfaces/GetStakerInfoResult.md)>
 Promise<GetStakerInfoResult>
 
 
@@ -826,15 +898,15 @@ Promise<GetStakerInfoResult>
 
 ___
 
-<a id="getstate"></a>
+<a id="getState"></a>
 
 ###  getState
 
-► **getState**(opts?: *[GetStateConfig](../interfaces/getstateconfig.md)*): `Promise`.<`number`>
+► **getState**(opts?: *[GetStateConfig](../interfaces/GetStateConfig.md)*): `Promise`.<`number`>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:797](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L797)*
+*Defined in [contracts/genesisProtocol.ts:806](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L806)*
 
 
 
@@ -845,7 +917,7 @@ Return the current state of a given proposal.
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetStateConfig](../interfaces/getstateconfig.md)  |  {} as GetStateConfig |   - |
+| opts | [GetStateConfig](../interfaces/GetStateConfig.md)  |  {} as GetStateConfig |   - |
 
 
 
@@ -861,15 +933,15 @@ Promise<number>
 
 ___
 
-<a id="getthreshold"></a>
+<a id="getThreshold"></a>
 
 ###  getThreshold
 
-► **getThreshold**(opts?: *[GetThresholdConfig](../interfaces/getthresholdconfig.md)*): `Promise`.<`BigNumber.BigNumber`>
+► **getThreshold**(opts?: *[GetThresholdConfig](../interfaces/GetThresholdConfig.md)*): `Promise`.<`BigNumber.BigNumber`>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:296](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L296)*
+*Defined in [contracts/genesisProtocol.ts:305](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L305)*
 
 
 
@@ -880,7 +952,7 @@ Return the DAO's score threshold that is required by a proposal to it shift to b
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetThresholdConfig](../interfaces/getthresholdconfig.md)  |  {} as GetThresholdConfig |   - |
+| opts | [GetThresholdConfig](../interfaces/GetThresholdConfig.md)  |  {} as GetThresholdConfig |   - |
 
 
 
@@ -896,15 +968,15 @@ Promise<BigNumber.BigNumber>
 
 ___
 
-<a id="gettotalreputationsupply"></a>
+<a id="getTotalReputationSupply"></a>
 
 ###  getTotalReputationSupply
 
-► **getTotalReputationSupply**(opts?: *[GetTotalReputationSupplyConfig](../interfaces/gettotalreputationsupplyconfig.md)*): `Promise`.<`BigNumber.BigNumber`>
+► **getTotalReputationSupply**(opts?: *[GetTotalReputationSupplyConfig](../interfaces/GetTotalReputationSupplyConfig.md)*): `Promise`.<`BigNumber.BigNumber`>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:624](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L624)*
+*Defined in [contracts/genesisProtocol.ts:633](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L633)*
 
 
 
@@ -915,7 +987,7 @@ Return the total reputation supply for a given proposal.
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetTotalReputationSupplyConfig](../interfaces/gettotalreputationsupplyconfig.md)  |  {} as GetTotalReputationSupplyConfig |   - |
+| opts | [GetTotalReputationSupplyConfig](../interfaces/GetTotalReputationSupplyConfig.md)  |  {} as GetTotalReputationSupplyConfig |   - |
 
 
 
@@ -931,15 +1003,15 @@ Promise<BigNumber.BigNumber>
 
 ___
 
-<a id="getvotestake"></a>
+<a id="getVoteStake"></a>
 
 ###  getVoteStake
 
-► **getVoteStake**(opts?: *[GetVoteStakeConfig](../interfaces/getvotestakeconfig.md)*): `Promise`.<`BigNumber.BigNumber`>
+► **getVoteStake**(opts?: *[GetVoteStakeConfig](../interfaces/GetVoteStakeConfig.md)*): `Promise`.<`BigNumber.BigNumber`>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:741](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L741)*
+*Defined in [contracts/genesisProtocol.ts:750](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L750)*
 
 
 
@@ -950,7 +1022,7 @@ Return the amount stakes behind a given proposal and vote.
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetVoteStakeConfig](../interfaces/getvotestakeconfig.md)  |  {} as GetVoteStakeConfig |   - |
+| opts | [GetVoteStakeConfig](../interfaces/GetVoteStakeConfig.md)  |  {} as GetVoteStakeConfig |   - |
 
 
 
@@ -966,15 +1038,15 @@ Promise<BigNumber.BigNumber>
 
 ___
 
-<a id="getvotestatus"></a>
+<a id="getVoteStatus"></a>
 
 ###  getVoteStatus
 
-► **getVoteStatus**(opts?: *[GetVoteStatusConfig](../interfaces/getvotestatusconfig.md)*): `Promise`.<`BigNumber.BigNumber`>
+► **getVoteStatus**(opts?: *[GetVoteStatusConfig](../interfaces/GetVoteStatusConfig.md)*): `Promise`.<`BigNumber.BigNumber`>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:535](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L535)*
+*Defined in [contracts/genesisProtocol.ts:544](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L544)*
 
 
 
@@ -985,7 +1057,7 @@ Returns the reputation currently voted on the given choice.
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetVoteStatusConfig](../interfaces/getvotestatusconfig.md)  |  {} as GetVoteStatusConfig |   - |
+| opts | [GetVoteStatusConfig](../interfaces/GetVoteStatusConfig.md)  |  {} as GetVoteStatusConfig |   - |
 
 
 
@@ -1001,15 +1073,15 @@ Promise<BigNumber.BigNumber>
 
 ___
 
-<a id="getvoterinfo"></a>
+<a id="getVoterInfo"></a>
 
 ###  getVoterInfo
 
-► **getVoterInfo**(opts?: *[GetVoterInfoConfig](../interfaces/getvoterinfoconfig.md)*): `Promise`.<[GetVoterInfoResult](../interfaces/getvoterinforesult.md)>
+► **getVoterInfo**(opts?: *[GetVoterInfoConfig](../interfaces/GetVoterInfoConfig.md)*): `Promise`.<[GetVoterInfoResult](../interfaces/GetVoterInfoResult.md)>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:500](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L500)*
+*Defined in [contracts/genesisProtocol.ts:509](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L509)*
 
 
 
@@ -1020,13 +1092,13 @@ Return the vote and the amount of reputation of the voter committed to this prop
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetVoterInfoConfig](../interfaces/getvoterinfoconfig.md)  |  {} as GetVoterInfoConfig |   - |
+| opts | [GetVoterInfoConfig](../interfaces/GetVoterInfoConfig.md)  |  {} as GetVoterInfoConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[GetVoterInfoResult](../interfaces/getvoterinforesult.md)>
+**Returns:** `Promise`.<[GetVoterInfoResult](../interfaces/GetVoterInfoResult.md)>
 Promise<GetVoterInfoResult>
 
 
@@ -1036,15 +1108,15 @@ Promise<GetVoterInfoResult>
 
 ___
 
-<a id="getwinningvote"></a>
+<a id="getWinningVote"></a>
 
 ###  getWinningVote
 
-► **getWinningVote**(opts?: *[GetWinningVoteConfig](../interfaces/getwinningvoteconfig.md)*): `Promise`.<`number`>
+► **getWinningVote**(opts?: *[GetWinningVoteConfig](../interfaces/GetWinningVoteConfig.md)*): `Promise`.<`number`>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:771](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L771)*
+*Defined in [contracts/genesisProtocol.ts:780](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L780)*
 
 
 
@@ -1055,7 +1127,7 @@ Return the winningVote for a given proposal.
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetWinningVoteConfig](../interfaces/getwinningvoteconfig.md)  |  {} as GetWinningVoteConfig |   - |
+| opts | [GetWinningVoteConfig](../interfaces/GetWinningVoteConfig.md)  |  {} as GetWinningVoteConfig |   - |
 
 
 
@@ -1071,7 +1143,7 @@ Promise<number>
 
 ___
 
-<a id="hydratefromat"></a>
+<a id="hydrateFromAt"></a>
 
 ###  hydrateFromAt
 
@@ -1079,9 +1151,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromAt](extendtrufflecontract.md#hydratefromat)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromAt](ExtendTruffleContract.md#hydrateFromAt)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -1108,7 +1180,7 @@ this
 
 ___
 
-<a id="hydratefromdeployed"></a>
+<a id="hydrateFromDeployed"></a>
 
 ###  hydrateFromDeployed
 
@@ -1116,9 +1188,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromDeployed](extendtrufflecontract.md#hydratefromdeployed)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromDeployed](ExtendTruffleContract.md#hydrateFromDeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -1137,7 +1209,7 @@ this
 
 ___
 
-<a id="hydratefromnew"></a>
+<a id="hydrateFromNew"></a>
 
 ###  hydrateFromNew
 
@@ -1145,9 +1217,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromNew](extendtrufflecontract.md#hydratefromnew)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromNew](ExtendTruffleContract.md#hydrateFromNew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -1174,15 +1246,15 @@ this
 
 ___
 
-<a id="isvotable"></a>
+<a id="isVotable"></a>
 
 ###  isVotable
 
-► **isVotable**(opts?: *[IsVotableConfig](../interfaces/isvotableconfig.md)*): `Promise`.<`boolean`>
+► **isVotable**(opts?: *[IsVotableConfig](../interfaces/IsVotableConfig.md)*): `Promise`.<`boolean`>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:568](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L568)*
+*Defined in [contracts/genesisProtocol.ts:577](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L577)*
 
 
 
@@ -1193,7 +1265,7 @@ Return whether the proposal is in a votable state.
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [IsVotableConfig](../interfaces/isvotableconfig.md)  |  {} as IsVotableConfig |   - |
+| opts | [IsVotableConfig](../interfaces/IsVotableConfig.md)  |  {} as IsVotableConfig |   - |
 
 
 
@@ -1213,11 +1285,11 @@ ___
 
 ###  propose
 
-► **propose**(opts?: *[ProposeVoteConfig](../interfaces/proposevoteconfig.md)*): `Promise`.<[ArcTransactionProposalResult](arctransactionproposalresult.md)>
+► **propose**(opts?: *[ProposeVoteConfig](../interfaces/ProposeVoteConfig.md)*): `Promise`.<[ArcTransactionProposalResult](ArcTransactionProposalResult.md)>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:43](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L43)*
+*Defined in [contracts/genesisProtocol.ts:52](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L52)*
 
 
 
@@ -1228,13 +1300,13 @@ Create a proposal
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [ProposeVoteConfig](../interfaces/proposevoteconfig.md)  |  {} as ProposeVoteConfig |   - |
+| opts | [ProposeVoteConfig](../interfaces/ProposeVoteConfig.md)  |  {} as ProposeVoteConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionProposalResult](arctransactionproposalresult.md)>
+**Returns:** `Promise`.<[ArcTransactionProposalResult](ArcTransactionProposalResult.md)>
 Promise<ArcTransactionProposalResult>
 
 
@@ -1244,15 +1316,15 @@ Promise<ArcTransactionProposalResult>
 
 ___
 
-<a id="redeem-1"></a>
+<a id="redeem"></a>
 
 ###  redeem
 
-► **redeem**(opts?: *[RedeemConfig](../interfaces/redeemconfig.md)*): `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+► **redeem**(opts?: *[RedeemConfig](../interfaces/RedeemConfig.md)*): `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:217](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L217)*
+*Defined in [contracts/genesisProtocol.ts:226](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L226)*
 
 
 
@@ -1263,13 +1335,13 @@ Redeem any tokens and reputation that are due the beneficiary from the outcome o
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [RedeemConfig](../interfaces/redeemconfig.md)  |  {} as RedeemConfig |   - |
+| opts | [RedeemConfig](../interfaces/RedeemConfig.md)  |  {} as RedeemConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+**Returns:** `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 Promise<ArcTransactionResult>
 
 
@@ -1279,17 +1351,17 @@ Promise<ArcTransactionResult>
 
 ___
 
-<a id="setparameters"></a>
+<a id="setParameters"></a>
 
 ###  setParameters
 
-► **setParameters**(params: *[GenesisProtocolParams](../interfaces/genesisprotocolparams.md)*): `Promise`.<[ArcTransactionDataResult](arctransactiondataresult.md)[Hash](../#hash)>
+► **setParameters**(params: *[GenesisProtocolParams](../interfaces/GenesisProtocolParams.md)*): `Promise`.<[ArcTransactionDataResult](ArcTransactionDataResult.md)[Hash](../#Hash)>
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[setParameters](extendtrufflecontract.md#setparameters)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[setParameters](ExtendTruffleContract.md#setParameters)*
 
-*Defined in [contracts/genesisProtocol.ts:863](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L863)*
+*Defined in [contracts/genesisProtocol.ts:872](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L872)*
 
 
 
@@ -1300,13 +1372,13 @@ Set the contract parameters.
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| params | [GenesisProtocolParams](../interfaces/genesisprotocolparams.md)   |  - |
+| params | [GenesisProtocolParams](../interfaces/GenesisProtocolParams.md)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionDataResult](arctransactiondataresult.md)[Hash](../#hash)>
+**Returns:** `Promise`.<[ArcTransactionDataResult](ArcTransactionDataResult.md)[Hash](../#Hash)>
 parameters hash
 
 
@@ -1316,15 +1388,15 @@ parameters hash
 
 ___
 
-<a id="shouldboost"></a>
+<a id="shouldBoost"></a>
 
 ###  shouldBoost
 
-► **shouldBoost**(opts?: *[ShouldBoostConfig](../interfaces/shouldboostconfig.md)*): `Promise`.<`boolean`>
+► **shouldBoost**(opts?: *[ShouldBoostConfig](../interfaces/ShouldBoostConfig.md)*): `Promise`.<`boolean`>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:247](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L247)*
+*Defined in [contracts/genesisProtocol.ts:256](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L256)*
 
 
 
@@ -1335,7 +1407,7 @@ Return whether a proposal should be shifted to the boosted phase.
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [ShouldBoostConfig](../interfaces/shouldboostconfig.md)  |  {} as ShouldBoostConfig |   - |
+| opts | [ShouldBoostConfig](../interfaces/ShouldBoostConfig.md)  |  {} as ShouldBoostConfig |   - |
 
 
 
@@ -1351,15 +1423,15 @@ Promise<boolean>
 
 ___
 
-<a id="stake-1"></a>
+<a id="stake"></a>
 
 ###  stake
 
-► **stake**(opts?: *[StakeConfig](../interfaces/stakeconfig.md)*): `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+► **stake**(opts?: *[StakeConfig](../interfaces/StakeConfig.md)*): `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:98](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L98)*
+*Defined in [contracts/genesisProtocol.ts:107](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L107)*
 
 
 
@@ -1372,13 +1444,13 @@ A transfer of tokens from the staker to this GenesisProtocol scheme is automatic
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [StakeConfig](../interfaces/stakeconfig.md)  |  {} as StakeConfig |   - |
+| opts | [StakeConfig](../interfaces/StakeConfig.md)  |  {} as StakeConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+**Returns:** `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 Promise<ArcTransactionResult>
 
 
@@ -1392,11 +1464,11 @@ ___
 
 ###  vote
 
-► **vote**(opts?: *[VoteConfig](../interfaces/voteconfig.md)*): `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+► **vote**(opts?: *[VoteConfig](../interfaces/VoteConfig.md)*): `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:150](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L150)*
+*Defined in [contracts/genesisProtocol.ts:159](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L159)*
 
 
 
@@ -1407,13 +1479,13 @@ Vote on a proposal
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [VoteConfig](../interfaces/voteconfig.md)  |  {} as VoteConfig |   - |
+| opts | [VoteConfig](../interfaces/VoteConfig.md)  |  {} as VoteConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+**Returns:** `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 Promise<ArcTransactionResult>
 
 
@@ -1423,15 +1495,15 @@ Promise<ArcTransactionResult>
 
 ___
 
-<a id="votewithspecifiedamounts"></a>
+<a id="voteWithSpecifiedAmounts"></a>
 
 ###  voteWithSpecifiedAmounts
 
-► **voteWithSpecifiedAmounts**(opts?: *[VoteWithSpecifiedAmountsConfig](../interfaces/votewithspecifiedamountsconfig.md)*): `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+► **voteWithSpecifiedAmounts**(opts?: *[VoteWithSpecifiedAmountsConfig](../interfaces/VoteWithSpecifiedAmountsConfig.md)*): `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
-*Defined in [contracts/genesisProtocol.ts:181](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L181)*
+*Defined in [contracts/genesisProtocol.ts:190](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L190)*
 
 
 
@@ -1442,13 +1514,13 @@ Vote on a proposal, staking some reputation that the final outcome will match th
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [VoteWithSpecifiedAmountsConfig](../interfaces/votewithspecifiedamountsconfig.md)  |  {} as VoteWithSpecifiedAmountsConfig |   - |
+| opts | [VoteWithSpecifiedAmountsConfig](../interfaces/VoteWithSpecifiedAmountsConfig.md)  |  {} as VoteWithSpecifiedAmountsConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+**Returns:** `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 Promise<ArcTransactionResult>
 
 

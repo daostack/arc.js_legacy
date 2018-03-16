@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [VoteWithSpecifiedAmountsConfig](../interfaces/votewithspecifiedamountsconfig.md)
+[API Reference](../README.md) > [VoteWithSpecifiedAmountsConfig](../interfaces/VoteWithSpecifiedAmountsConfig.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="proposalid"></a>
+<a id="proposalId"></a>
 
 ###  proposalId
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1193](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1193)*
+*Defined in [contracts/genesisProtocol.ts:1203](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1203)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  reputation**:  *`BigNumber.BigNumber`⎮`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1201](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1201)*
+*Defined in [contracts/genesisProtocol.ts:1211](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1211)*
 
 
 
@@ -46,7 +46,7 @@ ___
 
 **●  vote**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1197](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1197)*
+*Defined in [contracts/genesisProtocol.ts:1207](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1207)*
 
 
 

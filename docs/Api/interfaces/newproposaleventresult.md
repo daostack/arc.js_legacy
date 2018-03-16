@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [NewProposalEventResult](../interfaces/newproposaleventresult.md)
+[API Reference](../README.md) > [NewProposalEventResult](../interfaces/NewProposalEventResult.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="_numofchoices"></a>
+<a id="_numOfChoices"></a>
 
 ###  _numOfChoices
 
 **●  _numOfChoices**:  *`number`* 
 
-*Defined in [contracts/commonEventInterfaces.ts:5](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L5)*
+*Defined in [contracts/commonEventInterfaces.ts:5](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L5)*
 
 
 
@@ -20,13 +20,13 @@
 
 ___
 
-<a id="_paramshash"></a>
+<a id="_paramsHash"></a>
 
 ###  _paramsHash
 
-**●  _paramsHash**:  *[Hash](../#hash)* 
+**●  _paramsHash**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:6](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L6)*
+*Defined in [contracts/commonEventInterfaces.ts:6](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L6)*
 
 
 
@@ -34,13 +34,13 @@ ___
 
 ___
 
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:10](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L10)*
+*Defined in [contracts/commonEventInterfaces.ts:10](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L10)*
 
 
 
@@ -55,9 +55,9 @@ ___
 
 ###  _proposer
 
-**●  _proposer**:  *[Address](../#address)* 
+**●  _proposer**:  *[Address](../#Address)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:11](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L11)*
+*Defined in [contracts/commonEventInterfaces.ts:11](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L11)*
 
 
 

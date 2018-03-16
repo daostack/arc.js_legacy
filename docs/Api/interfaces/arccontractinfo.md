@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ArcContractInfo](../interfaces/arccontractinfo.md)
+[API Reference](../README.md) > [ArcContractInfo](../interfaces/ArcContractInfo.md)
 
 
 
@@ -15,7 +15,7 @@ Arc contract information as contained in ArcDeployedContractNames
 
 **●  address**:  *`string`* 
 
-*Defined in [contracts.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L26)*
+*Defined in [contracts.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts.ts#L26)*
 
 
 
@@ -32,7 +32,7 @@ ___
 
 **●  contract**:  *`any`* 
 
-*Defined in [contracts.ts:20](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts.ts#L20)*
+*Defined in [contracts.ts:20](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts.ts#L20)*
 
 
 

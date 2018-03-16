@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ContributionRewardRedeemParams](../interfaces/contributionrewardredeemparams.md)
+[API Reference](../README.md) > [ContributionRewardRedeemParams](../interfaces/ContributionRewardRedeemParams.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/contributionreward.ts:663](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L663)*
+*Defined in [contracts/contributionreward.ts:671](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L671)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  ethers**:  *`boolean`* 
 
-*Defined in [contracts/contributionreward.ts:678](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L678)*
+*Defined in [contracts/contributionreward.ts:686](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L686)*
 
 
 
@@ -40,13 +40,13 @@ true to reward ethers Default is false
 
 ___
 
-<a id="externaltokens"></a>
+<a id="externalTokens"></a>
 
 ### «Optional» externalTokens
 
 **●  externalTokens**:  *`boolean`* 
 
-*Defined in [contracts/contributionreward.ts:683](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L683)*
+*Defined in [contracts/contributionreward.ts:691](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L691)*
 
 
 
@@ -57,13 +57,13 @@ true to reward external tokens Default is false
 
 ___
 
-<a id="nativetokens"></a>
+<a id="nativeTokens"></a>
 
 ### «Optional» nativeTokens
 
 **●  nativeTokens**:  *`boolean`* 
 
-*Defined in [contracts/contributionreward.ts:673](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L673)*
+*Defined in [contracts/contributionreward.ts:681](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L681)*
 
 
 
@@ -74,13 +74,13 @@ true to reward native tokens Default is false
 
 ___
 
-<a id="proposalid"></a>
+<a id="proposalId"></a>
 
 ###  proposalId
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/contributionreward.ts:659](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L659)*
+*Defined in [contracts/contributionreward.ts:667](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L667)*
 
 
 
@@ -97,7 +97,7 @@ ___
 
 **●  reputation**:  *`boolean`* 
 
-*Defined in [contracts/contributionreward.ts:668](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L668)*
+*Defined in [contracts/contributionreward.ts:676](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L676)*
 
 
 

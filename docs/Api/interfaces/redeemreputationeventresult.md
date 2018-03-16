@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [RedeemReputationEventResult](../interfaces/redeemreputationeventresult.md)
+[API Reference](../README.md) > [RedeemReputationEventResult](../interfaces/RedeemReputationEventResult.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  _amount**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/commonEventInterfaces.ts:43](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L43)*
+*Defined in [contracts/commonEventInterfaces.ts:43](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L43)*
 
 
 
@@ -24,9 +24,9 @@ ___
 
 ###  _avatar
 
-**●  _avatar**:  *[Address](../#address)* 
+**●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:47](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L47)*
+*Defined in [contracts/commonEventInterfaces.ts:47](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L47)*
 
 
 
@@ -41,9 +41,9 @@ ___
 
 ###  _beneficiary
 
-**●  _beneficiary**:  *[Address](../#address)* 
+**●  _beneficiary**:  *[Address](../#Address)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:51](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L51)*
+*Defined in [contracts/commonEventInterfaces.ts:51](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L51)*
 
 
 
@@ -54,13 +54,13 @@ indexed
 
 ___
 
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:55](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L55)*
+*Defined in [contracts/commonEventInterfaces.ts:55](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L55)*
 
 
 

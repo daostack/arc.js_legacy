@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ProposalRewards](../interfaces/proposalrewards.md)
+[API Reference](../README.md) > [ProposalRewards](../interfaces/ProposalRewards.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="ethreward"></a>
+<a id="ethReward"></a>
 
 ###  ethReward
 
 **●  ethReward**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/contributionreward.ts:557](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L557)*
+*Defined in [contracts/contributionreward.ts:565](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L565)*
 
 
 
@@ -20,13 +20,13 @@
 
 ___
 
-<a id="ethrewardunredeemed"></a>
+<a id="ethRewardUnredeemed"></a>
 
 ###  ethRewardUnredeemed
 
 **●  ethRewardUnredeemed**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/contributionreward.ts:558](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L558)*
+*Defined in [contracts/contributionreward.ts:566](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L566)*
 
 
 
@@ -34,13 +34,13 @@ ___
 
 ___
 
-<a id="externaltokenreward"></a>
+<a id="externalTokenReward"></a>
 
 ###  externalTokenReward
 
 **●  externalTokenReward**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/contributionreward.ts:559](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L559)*
+*Defined in [contracts/contributionreward.ts:567](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L567)*
 
 
 
@@ -48,13 +48,13 @@ ___
 
 ___
 
-<a id="externaltokenrewardunredeemed"></a>
+<a id="externalTokenRewardUnredeemed"></a>
 
 ###  externalTokenRewardUnredeemed
 
 **●  externalTokenRewardUnredeemed**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/contributionreward.ts:560](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L560)*
+*Defined in [contracts/contributionreward.ts:568](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L568)*
 
 
 
@@ -62,13 +62,13 @@ ___
 
 ___
 
-<a id="nativetokenreward"></a>
+<a id="nativeTokenReward"></a>
 
 ###  nativeTokenReward
 
 **●  nativeTokenReward**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/contributionreward.ts:561](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L561)*
+*Defined in [contracts/contributionreward.ts:569](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L569)*
 
 
 
@@ -76,13 +76,13 @@ ___
 
 ___
 
-<a id="nativetokenrewardunredeemed"></a>
+<a id="nativeTokenRewardUnredeemed"></a>
 
 ###  nativeTokenRewardUnredeemed
 
 **●  nativeTokenRewardUnredeemed**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/contributionreward.ts:562](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L562)*
+*Defined in [contracts/contributionreward.ts:570](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L570)*
 
 
 
@@ -90,13 +90,13 @@ ___
 
 ___
 
-<a id="proposalid"></a>
+<a id="proposalId"></a>
 
 ###  proposalId
 
-**●  proposalId**:  *[Hash](../#hash)* 
+**●  proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/contributionreward.ts:563](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L563)*
+*Defined in [contracts/contributionreward.ts:571](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L571)*
 
 
 
@@ -104,13 +104,13 @@ ___
 
 ___
 
-<a id="reputationchange"></a>
+<a id="reputationChange"></a>
 
 ###  reputationChange
 
 **●  reputationChange**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/contributionreward.ts:564](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L564)*
+*Defined in [contracts/contributionreward.ts:572](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L572)*
 
 
 
@@ -118,13 +118,13 @@ ___
 
 ___
 
-<a id="reputationchangeunredeemed"></a>
+<a id="reputationChangeUnredeemed"></a>
 
 ###  reputationChangeUnredeemed
 
 **●  reputationChangeUnredeemed**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/contributionreward.ts:565](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L565)*
+*Defined in [contracts/contributionreward.ts:573](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L573)*
 
 
 

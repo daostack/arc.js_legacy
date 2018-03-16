@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ProposeControllerParams](../interfaces/proposecontrollerparams.md)
+[API Reference](../README.md) > [ProposeControllerParams](../interfaces/ProposeControllerParams.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/upgradescheme.ts:190](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L190)*
+*Defined in [contracts/upgradescheme.ts:191](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/upgradescheme.ts#L191)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  controller**:  *`string`* 
 
-*Defined in [contracts/upgradescheme.ts:194](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/upgradescheme.ts#L194)*
+*Defined in [contracts/upgradescheme.ts:195](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/upgradescheme.ts#L195)*
 
 
 

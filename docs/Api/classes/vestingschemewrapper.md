@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [VestingSchemeWrapper](../classes/vestingschemewrapper.md)
+[API Reference](../README.md) > [VestingSchemeWrapper](../classes/VestingSchemeWrapper.md)
 
 
 
@@ -7,7 +7,7 @@
 ## Hierarchy
 
 
- [ExtendTruffleContract](extendtrufflecontract.md)
+ [ExtendTruffleContract](ExtendTruffleContract.md)
 
 **↳ VestingSchemeWrapper**
 
@@ -21,43 +21,45 @@
 
 ### Constructors
 
-* [constructor](vestingschemewrapper.md#constructor)
+* [constructor](VestingSchemeWrapper.md#constructor)
 
 
 ### Properties
 
-* [AgreementCancel](vestingschemewrapper.md#agreementcancel)
-* [AgreementProposal](vestingschemewrapper.md#agreementproposal)
-* [Collect](vestingschemewrapper.md#collect)
-* [NewVestedAgreement](vestingschemewrapper.md#newvestedagreement)
-* [ProposalExecuted](vestingschemewrapper.md#proposalexecuted)
-* [RevokeSignToCancelAgreement](vestingschemewrapper.md#revokesigntocancelagreement)
-* [SignToCancelAgreement](vestingschemewrapper.md#signtocancelagreement)
-* [contract](vestingschemewrapper.md#contract)
+* [AgreementCancel](VestingSchemeWrapper.md#AgreementCancel)
+* [AgreementProposal](VestingSchemeWrapper.md#AgreementProposal)
+* [Collect](VestingSchemeWrapper.md#Collect)
+* [NewVestedAgreement](VestingSchemeWrapper.md#NewVestedAgreement)
+* [ProposalExecuted](VestingSchemeWrapper.md#ProposalExecuted)
+* [RevokeSignToCancelAgreement](VestingSchemeWrapper.md#RevokeSignToCancelAgreement)
+* [SignToCancelAgreement](VestingSchemeWrapper.md#SignToCancelAgreement)
+* [contract](VestingSchemeWrapper.md#contract)
 
 
 ### Accessors
 
-* [address](vestingschemewrapper.md#address)
+* [address](VestingSchemeWrapper.md#address)
 
 
 ### Methods
 
-* [collect](vestingschemewrapper.md#collect-1)
-* [create](vestingschemewrapper.md#create)
-* [getAgreements](vestingschemewrapper.md#getagreements)
-* [getDefaultPermissions](vestingschemewrapper.md#getdefaultpermissions)
-* [getParameters](vestingschemewrapper.md#getparameters)
-* [getParametersArray](vestingschemewrapper.md#getparametersarray)
-* [getSchemeParameters](vestingschemewrapper.md#getschemeparameters)
-* [getSchemeParametersHash](vestingschemewrapper.md#getschemeparametershash)
-* [hydrateFromAt](vestingschemewrapper.md#hydratefromat)
-* [hydrateFromDeployed](vestingschemewrapper.md#hydratefromdeployed)
-* [hydrateFromNew](vestingschemewrapper.md#hydratefromnew)
-* [propose](vestingschemewrapper.md#propose)
-* [revokeSignToCancel](vestingschemewrapper.md#revokesigntocancel)
-* [setParameters](vestingschemewrapper.md#setparameters)
-* [signToCancel](vestingschemewrapper.md#signtocancel)
+* [collect](VestingSchemeWrapper.md#collect)
+* [create](VestingSchemeWrapper.md#create)
+* [getAgreements](VestingSchemeWrapper.md#getAgreements)
+* [getController](VestingSchemeWrapper.md#getController)
+* [getDefaultPermissions](VestingSchemeWrapper.md#getDefaultPermissions)
+* [getParameters](VestingSchemeWrapper.md#getParameters)
+* [getParametersArray](VestingSchemeWrapper.md#getParametersArray)
+* [getPermissions](VestingSchemeWrapper.md#getPermissions)
+* [getSchemeParameters](VestingSchemeWrapper.md#getSchemeParameters)
+* [getSchemeParametersHash](VestingSchemeWrapper.md#getSchemeParametersHash)
+* [hydrateFromAt](VestingSchemeWrapper.md#hydrateFromAt)
+* [hydrateFromDeployed](VestingSchemeWrapper.md#hydrateFromDeployed)
+* [hydrateFromNew](VestingSchemeWrapper.md#hydrateFromNew)
+* [propose](VestingSchemeWrapper.md#propose)
+* [revokeSignToCancel](VestingSchemeWrapper.md#revokeSignToCancel)
+* [setParameters](VestingSchemeWrapper.md#setParameters)
+* [signToCancel](VestingSchemeWrapper.md#signToCancel)
 
 
 
@@ -66,12 +68,12 @@
 <a id="constructor"></a>
 
 
-### ⊕ **new VestingSchemeWrapper**(solidityContract: *`any`*): [VestingSchemeWrapper](vestingschemewrapper.md)
+### ⊕ **new VestingSchemeWrapper**(solidityContract: *`any`*): [VestingSchemeWrapper](VestingSchemeWrapper.md)
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[constructor](extendtrufflecontract.md#constructor)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[constructor](ExtendTruffleContract.md#constructor)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -88,19 +90,19 @@ ContractWrapperFactory constructs this
 
 
 
-**Returns:** [VestingSchemeWrapper](vestingschemewrapper.md)
+**Returns:** [VestingSchemeWrapper](VestingSchemeWrapper.md)
 
 ---
 
 
 ## Properties
-<a id="agreementcancel"></a>
+<a id="AgreementCancel"></a>
 
 ###  AgreementCancel
 
-**●  AgreementCancel**:  *[EventFetcherFactory](../#eventfetcherfactory)[AgreementCancelEventResult](../interfaces/agreementcanceleventresult.md)*  =  this.createEventFetcherFactory<AgreementCancelEventResult>("AgreementCancel")
+**●  AgreementCancel**:  *[EventFetcherFactory](../#EventFetcherFactory)[AgreementCancelEventResult](../interfaces/AgreementCancelEventResult.md)*  =  this.createEventFetcherFactory<AgreementCancelEventResult>("AgreementCancel")
 
-*Defined in [contracts/vestingscheme.ts:47](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L47)*
+*Defined in [contracts/vestingscheme.ts:32](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L32)*
 
 
 
@@ -108,13 +110,13 @@ ContractWrapperFactory constructs this
 
 ___
 
-<a id="agreementproposal"></a>
+<a id="AgreementProposal"></a>
 
 ###  AgreementProposal
 
-**●  AgreementProposal**:  *[EventFetcherFactory](../#eventfetcherfactory)[AgreementProposalEventResult](../interfaces/agreementproposaleventresult.md)*  =  this.createEventFetcherFactory<AgreementProposalEventResult>("AgreementProposal")
+**●  AgreementProposal**:  *[EventFetcherFactory](../#EventFetcherFactory)[AgreementProposalEventResult](../interfaces/AgreementProposalEventResult.md)*  =  this.createEventFetcherFactory<AgreementProposalEventResult>("AgreementProposal")
 
-*Defined in [contracts/vestingscheme.ts:43](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L43)*
+*Defined in [contracts/vestingscheme.ts:28](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L28)*
 
 
 
@@ -122,13 +124,13 @@ ___
 
 ___
 
-<a id="collect"></a>
+<a id="Collect"></a>
 
 ###  Collect
 
-**●  Collect**:  *[EventFetcherFactory](../#eventfetcherfactory)[CollectEventResult](../interfaces/collecteventresult.md)*  =  this.createEventFetcherFactory<CollectEventResult>("Collect")
+**●  Collect**:  *[EventFetcherFactory](../#EventFetcherFactory)[CollectEventResult](../interfaces/CollectEventResult.md)*  =  this.createEventFetcherFactory<CollectEventResult>("Collect")
 
-*Defined in [contracts/vestingscheme.ts:48](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L48)*
+*Defined in [contracts/vestingscheme.ts:33](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L33)*
 
 
 
@@ -136,13 +138,13 @@ ___
 
 ___
 
-<a id="newvestedagreement"></a>
+<a id="NewVestedAgreement"></a>
 
 ###  NewVestedAgreement
 
-**●  NewVestedAgreement**:  *[EventFetcherFactory](../#eventfetcherfactory)[NewVestedAgreementEventResult](../interfaces/newvestedagreementeventresult.md)*  =  this.createEventFetcherFactory<NewVestedAgreementEventResult>("NewVestedAgreement")
+**●  NewVestedAgreement**:  *[EventFetcherFactory](../#EventFetcherFactory)[NewVestedAgreementEventResult](../interfaces/NewVestedAgreementEventResult.md)*  =  this.createEventFetcherFactory<NewVestedAgreementEventResult>("NewVestedAgreement")
 
-*Defined in [contracts/vestingscheme.ts:44](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L44)*
+*Defined in [contracts/vestingscheme.ts:29](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L29)*
 
 
 
@@ -150,13 +152,13 @@ ___
 
 ___
 
-<a id="proposalexecuted"></a>
+<a id="ProposalExecuted"></a>
 
 ###  ProposalExecuted
 
-**●  ProposalExecuted**:  *[EventFetcherFactory](../#eventfetcherfactory)[ProposalExecutedEventResult](../interfaces/proposalexecutedeventresult.md)*  =  this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted")
+**●  ProposalExecuted**:  *[EventFetcherFactory](../#EventFetcherFactory)[ProposalExecutedEventResult](../interfaces/ProposalExecutedEventResult.md)*  =  this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted")
 
-*Defined in [contracts/vestingscheme.ts:42](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L42)*
+*Defined in [contracts/vestingscheme.ts:27](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L27)*
 
 
 
@@ -167,13 +169,13 @@ Events
 
 ___
 
-<a id="revokesigntocancelagreement"></a>
+<a id="RevokeSignToCancelAgreement"></a>
 
 ###  RevokeSignToCancelAgreement
 
-**●  RevokeSignToCancelAgreement**:  *[EventFetcherFactory](../#eventfetcherfactory)[RevokeSignToCancelAgreementEventResult](../interfaces/revokesigntocancelagreementeventresult.md)*  =  this.createEventFetcherFactory<RevokeSignToCancelAgreementEventResult>("RevokeSignToCancelAgreement")
+**●  RevokeSignToCancelAgreement**:  *[EventFetcherFactory](../#EventFetcherFactory)[RevokeSignToCancelAgreementEventResult](../interfaces/RevokeSignToCancelAgreementEventResult.md)*  =  this.createEventFetcherFactory<RevokeSignToCancelAgreementEventResult>("RevokeSignToCancelAgreement")
 
-*Defined in [contracts/vestingscheme.ts:46](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L46)*
+*Defined in [contracts/vestingscheme.ts:31](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L31)*
 
 
 
@@ -181,13 +183,13 @@ ___
 
 ___
 
-<a id="signtocancelagreement"></a>
+<a id="SignToCancelAgreement"></a>
 
 ###  SignToCancelAgreement
 
-**●  SignToCancelAgreement**:  *[EventFetcherFactory](../#eventfetcherfactory)[SignToCancelAgreementEventResult](../interfaces/signtocancelagreementeventresult.md)*  =  this.createEventFetcherFactory<SignToCancelAgreementEventResult>("SignToCancelAgreement")
+**●  SignToCancelAgreement**:  *[EventFetcherFactory](../#EventFetcherFactory)[SignToCancelAgreementEventResult](../interfaces/SignToCancelAgreementEventResult.md)*  =  this.createEventFetcherFactory<SignToCancelAgreementEventResult>("SignToCancelAgreement")
 
-*Defined in [contracts/vestingscheme.ts:45](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L45)*
+*Defined in [contracts/vestingscheme.ts:30](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L30)*
 
 
 
@@ -201,9 +203,9 @@ ___
 
 **●  contract**:  *`any`* 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[contract](extendtrufflecontract.md#contract)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[contract](ExtendTruffleContract.md#contract)*
 
-*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L26)*
+*Defined in [ExtendTruffleContract.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L26)*
 
 
 
@@ -221,17 +223,17 @@ ___
 ###  address
 
 
-getaddress(): [Address](../#address)
+getaddress(): [Address](../#Address)
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[address](extendtrufflecontract.md#address)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[address](ExtendTruffleContract.md#address)*
 
-*Defined in [ExtendTruffleContract.ts:128](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L128)*
-
-
+*Defined in [ExtendTruffleContract.ts:148](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L148)*
 
 
 
-**Returns:** [Address](../#address)
+
+
+**Returns:** [Address](../#Address)
 
 
 
@@ -239,15 +241,15 @@ ___
 
 
 ## Methods
-<a id="collect-1"></a>
+<a id="collect"></a>
 
 ###  collect
 
-► **collect**(opts?: *[CollectVestingAgreementConfig](../interfaces/collectvestingagreementconfig.md)*): `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+► **collect**(opts?: *[CollectVestingAgreementConfig](../interfaces/CollectVestingAgreementConfig.md)*): `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
-*Defined in [contracts/vestingscheme.ts:185](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L185)*
+*Defined in [contracts/vestingscheme.ts:185](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L185)*
 
 
 
@@ -258,13 +260,13 @@ Collects for a beneficiary, according to the agreement
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [CollectVestingAgreementConfig](../interfaces/collectvestingagreementconfig.md)  |  {} as CollectVestingAgreementConfig |   - |
+| opts | [CollectVestingAgreementConfig](../interfaces/CollectVestingAgreementConfig.md)  |  {} as CollectVestingAgreementConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+**Returns:** `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
@@ -276,11 +278,11 @@ ___
 
 ###  create
 
-► **create**(opts?: *[CreateVestingAgreementConfig](../interfaces/createvestingagreementconfig.md)*): `Promise`.<[ArcTransactionAgreementResult](arctransactionagreementresult.md)>
+► **create**(opts?: *[CreateVestingAgreementConfig](../interfaces/CreateVestingAgreementConfig.md)*): `Promise`.<[ArcTransactionAgreementResult](ArcTransactionAgreementResult.md)>
 
 
 
-*Defined in [contracts/vestingscheme.ts:91](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L91)*
+*Defined in [contracts/vestingscheme.ts:91](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L91)*
 
 
 
@@ -291,13 +293,13 @@ Create a new vesting agreement
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [CreateVestingAgreementConfig](../interfaces/createvestingagreementconfig.md)  |  {} as CreateVestingAgreementConfig |   - |
+| opts | [CreateVestingAgreementConfig](../interfaces/CreateVestingAgreementConfig.md)  |  {} as CreateVestingAgreementConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionAgreementResult](arctransactionagreementresult.md)>
+**Returns:** `Promise`.<[ArcTransactionAgreementResult](ArcTransactionAgreementResult.md)>
 
 
 
@@ -305,15 +307,15 @@ Create a new vesting agreement
 
 ___
 
-<a id="getagreements"></a>
+<a id="getAgreements"></a>
 
 ###  getAgreements
 
-► **getAgreements**(opts?: *[GetAgreementParams](../interfaces/getagreementparams.md)*): `Promise`.<`Array`.<[Agreement](../interfaces/agreement.md)>>
+► **getAgreements**(opts?: *[GetAgreementParams](../interfaces/GetAgreementParams.md)*): `Promise`.<`Array`.<[Agreement](../interfaces/Agreement.md)>>
 
 
 
-*Defined in [contracts/vestingscheme.ts:210](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L210)*
+*Defined in [contracts/vestingscheme.ts:210](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L210)*
 
 
 
@@ -324,13 +326,13 @@ Return all agreements ever created by this scheme Filter by the optional agreeme
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [GetAgreementParams](../interfaces/getagreementparams.md)  |  {} as GetAgreementParams |   - |
+| opts | [GetAgreementParams](../interfaces/GetAgreementParams.md)  |  {} as GetAgreementParams |   - |
 
 
 
 
 
-**Returns:** `Promise`.<`Array`.<[Agreement](../interfaces/agreement.md)>>
+**Returns:** `Promise`.<`Array`.<[Agreement](../interfaces/Agreement.md)>>
 
 
 
@@ -338,17 +340,52 @@ Return all agreements ever created by this scheme Filter by the optional agreeme
 
 ___
 
-<a id="getdefaultpermissions"></a>
+<a id="getController"></a>
+
+###  getController
+
+► **getController**(avatarAddress: *[Address](../#Address)*): `Promise`.<`any`>
+
+
+
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getController](ExtendTruffleContract.md#getController)*
+
+*Defined in [ExtendTruffleContract.ts:143](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L143)*
+
+
+
+return the controller associated with the given avatar
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| avatarAddress | [Address](../#Address)   |  - |
+
+
+
+
+
+**Returns:** `Promise`.<`any`>
+
+
+
+
+
+___
+
+<a id="getDefaultPermissions"></a>
 
 ###  getDefaultPermissions
 
-► **getDefaultPermissions**(overrideValue?: *`string`*): `string`
+► **getDefaultPermissions**(overrideValue?: *[SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)*): [SchemePermissions](../enums/SchemePermissions.md)
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getDefaultPermissions](extendtrufflecontract.md#getdefaultpermissions)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getDefaultPermissions](ExtendTruffleContract.md#getDefaultPermissions)*
 
-*Defined in [contracts/vestingscheme.ts:255](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L255)*
+*Defined in [contracts/vestingscheme.ts:255](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L255)*
 
 
 
@@ -356,13 +393,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| overrideValue | `string`   |  - |
+| overrideValue | [SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)   |  - |
 
 
 
 
 
-**Returns:** `string`
+**Returns:** [SchemePermissions](../enums/SchemePermissions.md)
 
 
 
@@ -370,17 +407,17 @@ ___
 
 ___
 
-<a id="getparameters"></a>
+<a id="getParameters"></a>
 
 ###  getParameters
 
-► **getParameters**(paramsHash: *[Hash](../#hash)*): `Promise`.<[StandardSchemeParams](../interfaces/standardschemeparams.md)>
+► **getParameters**(paramsHash: *[Hash](../#Hash)*): `Promise`.<[StandardSchemeParams](../interfaces/StandardSchemeParams.md)>
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[getParameters](extendtrufflecontract.md#getparameters)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[getParameters](ExtendTruffleContract.md#getParameters)*
 
-*Defined in [contracts/vestingscheme.ts:263](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L263)*
+*Defined in [contracts/vestingscheme.ts:264](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L264)*
 
 
 
@@ -388,13 +425,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| paramsHash | [Hash](../#hash)   |  - |
+| paramsHash | [Hash](../#Hash)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[StandardSchemeParams](../interfaces/standardschemeparams.md)>
+**Returns:** `Promise`.<[StandardSchemeParams](../interfaces/StandardSchemeParams.md)>
 
 
 
@@ -402,17 +439,17 @@ ___
 
 ___
 
-<a id="getparametersarray"></a>
+<a id="getParametersArray"></a>
 
 ###  getParametersArray
 
-► **getParametersArray**(paramsHash: *[Hash](../#hash)*): `Promise`.<`Array`.<`any`>>
+► **getParametersArray**(paramsHash: *[Hash](../#Hash)*): `Promise`.<`Array`.<`any`>>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getParametersArray](extendtrufflecontract.md#getparametersarray)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getParametersArray](ExtendTruffleContract.md#getParametersArray)*
 
-*Defined in [ExtendTruffleContract.ts:124](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L124)*
+*Defined in [ExtendTruffleContract.ts:135](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L135)*
 
 
 
@@ -423,7 +460,7 @@ Given a hash, return the associated parameters as an array, ordered by the order
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| paramsHash | [Hash](../#hash)   |  - |
+| paramsHash | [Hash](../#Hash)   |  - |
 
 
 
@@ -437,29 +474,34 @@ Given a hash, return the associated parameters as an array, ordered by the order
 
 ___
 
-<a id="getschemeparameters"></a>
+<a id="getPermissions"></a>
 
-###  getSchemeParameters
+###  getPermissions
 
-► **getSchemeParameters**(avatarAddress: *[Address](../#address)*): `Promise`.<[StandardSchemeParams](../interfaces/standardschemeparams.md)>
+► **getPermissions**(avatarAddress: *[Address](../#Address)*): `Promise`.<[SchemePermissions](../enums/SchemePermissions.md)>
 
 
 
-*Defined in [contracts/vestingscheme.ts:259](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L259)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getPermissions](ExtendTruffleContract.md#getPermissions)*
 
+*Defined in [ExtendTruffleContract.ts:106](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L106)*
+
+
+
+Return this scheme's permissions.
 
 
 **Parameters:**
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| avatarAddress | [Address](../#address)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[StandardSchemeParams](../interfaces/standardschemeparams.md)>
+**Returns:** `Promise`.<[SchemePermissions](../enums/SchemePermissions.md)>
 
 
 
@@ -467,17 +509,47 @@ ___
 
 ___
 
-<a id="getschemeparametershash"></a>
+<a id="getSchemeParameters"></a>
+
+###  getSchemeParameters
+
+► **getSchemeParameters**(avatarAddress: *[Address](../#Address)*): `Promise`.<[StandardSchemeParams](../interfaces/StandardSchemeParams.md)>
+
+
+
+*Defined in [contracts/vestingscheme.ts:260](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L260)*
+
+
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| avatarAddress | [Address](../#Address)   |  - |
+
+
+
+
+
+**Returns:** `Promise`.<[StandardSchemeParams](../interfaces/StandardSchemeParams.md)>
+
+
+
+
+
+___
+
+<a id="getSchemeParametersHash"></a>
 
 ###  getSchemeParametersHash
 
-► **getSchemeParametersHash**(avatarAddress: *[Address](../#address)*): `Promise`.<[Hash](../#hash)>
+► **getSchemeParametersHash**(avatarAddress: *[Address](../#Address)*): `Promise`.<[Hash](../#Hash)>
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[getSchemeParametersHash](extendtrufflecontract.md#getschemeparametershash)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[getSchemeParametersHash](ExtendTruffleContract.md#getSchemeParametersHash)*
 
-*Defined in [ExtendTruffleContract.ts:114](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L114)*
+*Defined in [ExtendTruffleContract.ts:125](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L125)*
 
 
 
@@ -488,13 +560,13 @@ Given an avatar address, return the schemes parameters hash
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| avatarAddress | [Address](../#address)   |  - |
+| avatarAddress | [Address](../#Address)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[Hash](../#hash)>
+**Returns:** `Promise`.<[Hash](../#Hash)>
 
 
 
@@ -502,7 +574,7 @@ Given an avatar address, return the schemes parameters hash
 
 ___
 
-<a id="hydratefromat"></a>
+<a id="hydrateFromAt"></a>
 
 ###  hydrateFromAt
 
@@ -510,9 +582,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromAt](extendtrufflecontract.md#hydratefromat)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromAt](ExtendTruffleContract.md#hydrateFromAt)*
 
-*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L56)*
+*Defined in [ExtendTruffleContract.ts:56](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L56)*
 
 
 
@@ -539,7 +611,7 @@ this
 
 ___
 
-<a id="hydratefromdeployed"></a>
+<a id="hydrateFromDeployed"></a>
 
 ###  hydrateFromDeployed
 
@@ -547,9 +619,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromDeployed](extendtrufflecontract.md#hydratefromdeployed)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromDeployed](ExtendTruffleContract.md#hydrateFromDeployed)*
 
-*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L71)*
+*Defined in [ExtendTruffleContract.ts:71](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L71)*
 
 
 
@@ -568,7 +640,7 @@ this
 
 ___
 
-<a id="hydratefromnew"></a>
+<a id="hydrateFromNew"></a>
 
 ###  hydrateFromNew
 
@@ -576,9 +648,9 @@ ___
 
 
 
-*Inherited from [ExtendTruffleContract](extendtrufflecontract.md).[hydrateFromNew](extendtrufflecontract.md#hydratefromnew)*
+*Inherited from [ExtendTruffleContract](ExtendTruffleContract.md).[hydrateFromNew](ExtendTruffleContract.md#hydrateFromNew)*
 
-*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L40)*
+*Defined in [ExtendTruffleContract.ts:40](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L40)*
 
 
 
@@ -609,11 +681,11 @@ ___
 
 ###  propose
 
-► **propose**(opts?: *[ProposeVestingAgreementConfig](../interfaces/proposevestingagreementconfig.md)*): `Promise`.<[ArcTransactionProposalResult](arctransactionproposalresult.md)>
+► **propose**(opts?: *[ProposeVestingAgreementConfig](../interfaces/ProposeVestingAgreementConfig.md)*): `Promise`.<[ArcTransactionProposalResult](ArcTransactionProposalResult.md)>
 
 
 
-*Defined in [contracts/vestingscheme.ts:55](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L55)*
+*Defined in [contracts/vestingscheme.ts:55](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L55)*
 
 
 
@@ -624,13 +696,13 @@ Propose a new vesting agreement
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [ProposeVestingAgreementConfig](../interfaces/proposevestingagreementconfig.md)  |  {} as ProposeVestingAgreementConfig |   - |
+| opts | [ProposeVestingAgreementConfig](../interfaces/ProposeVestingAgreementConfig.md)  |  {} as ProposeVestingAgreementConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionProposalResult](arctransactionproposalresult.md)>
+**Returns:** `Promise`.<[ArcTransactionProposalResult](ArcTransactionProposalResult.md)>
 
 
 
@@ -638,15 +710,15 @@ Propose a new vesting agreement
 
 ___
 
-<a id="revokesigntocancel"></a>
+<a id="revokeSignToCancel"></a>
 
 ###  revokeSignToCancel
 
-► **revokeSignToCancel**(opts?: *[RevokeSignToCancelVestingAgreementConfig](../interfaces/revokesigntocancelvestingagreementconfig.md)*): `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+► **revokeSignToCancel**(opts?: *[RevokeSignToCancelVestingAgreementConfig](../interfaces/RevokeSignToCancelVestingAgreementConfig.md)*): `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
-*Defined in [contracts/vestingscheme.ts:160](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L160)*
+*Defined in [contracts/vestingscheme.ts:160](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L160)*
 
 
 
@@ -657,13 +729,13 @@ Revoke vote for cancelling a vesting agreement
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [RevokeSignToCancelVestingAgreementConfig](../interfaces/revokesigntocancelvestingagreementconfig.md)  |  {} as RevokeSignToCancelVestingAgreementConfig |   - |
+| opts | [RevokeSignToCancelVestingAgreementConfig](../interfaces/RevokeSignToCancelVestingAgreementConfig.md)  |  {} as RevokeSignToCancelVestingAgreementConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+**Returns:** `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
@@ -671,17 +743,17 @@ Revoke vote for cancelling a vesting agreement
 
 ___
 
-<a id="setparameters"></a>
+<a id="setParameters"></a>
 
 ###  setParameters
 
-► **setParameters**(params: *[StandardSchemeParams](../interfaces/standardschemeparams.md)*): `Promise`.<[ArcTransactionDataResult](arctransactiondataresult.md)[Hash](../#hash)>
+► **setParameters**(params: *[StandardSchemeParams](../interfaces/StandardSchemeParams.md)*): `Promise`.<[ArcTransactionDataResult](ArcTransactionDataResult.md)[Hash](../#Hash)>
 
 
 
-*Overrides [ExtendTruffleContract](extendtrufflecontract.md).[setParameters](extendtrufflecontract.md#setparameters)*
+*Overrides [ExtendTruffleContract](ExtendTruffleContract.md).[setParameters](ExtendTruffleContract.md#setParameters)*
 
-*Defined in [contracts/vestingscheme.ts:248](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L248)*
+*Defined in [contracts/vestingscheme.ts:248](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L248)*
 
 
 
@@ -689,13 +761,13 @@ ___
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| params | [StandardSchemeParams](../interfaces/standardschemeparams.md)   |  - |
+| params | [StandardSchemeParams](../interfaces/StandardSchemeParams.md)   |  - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionDataResult](arctransactiondataresult.md)[Hash](../#hash)>
+**Returns:** `Promise`.<[ArcTransactionDataResult](ArcTransactionDataResult.md)[Hash](../#Hash)>
 
 
 
@@ -703,15 +775,15 @@ ___
 
 ___
 
-<a id="signtocancel"></a>
+<a id="signToCancel"></a>
 
 ###  signToCancel
 
-► **signToCancel**(opts?: *[SignToCancelVestingAgreementConfig](../interfaces/signtocancelvestingagreementconfig.md)*): `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+► **signToCancel**(opts?: *[SignToCancelVestingAgreementConfig](../interfaces/SignToCancelVestingAgreementConfig.md)*): `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 
-*Defined in [contracts/vestingscheme.ts:135](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L135)*
+*Defined in [contracts/vestingscheme.ts:135](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L135)*
 
 
 
@@ -722,13 +794,13 @@ Sign to cancel a vesting agreement
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| opts | [SignToCancelVestingAgreementConfig](../interfaces/signtocancelvestingagreementconfig.md)  |  {} as SignToCancelVestingAgreementConfig |   - |
+| opts | [SignToCancelVestingAgreementConfig](../interfaces/SignToCancelVestingAgreementConfig.md)  |  {} as SignToCancelVestingAgreementConfig |   - |
 
 
 
 
 
-**Returns:** `Promise`.<[ArcTransactionResult](arctransactionresult.md)>
+**Returns:** `Promise`.<[ArcTransactionResult](ArcTransactionResult.md)>
 
 
 

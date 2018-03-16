@@ -10,3 +10,4 @@ migrated_contracts/
 *.sublime-project
 yarn.lock
 test-dist/
+site/

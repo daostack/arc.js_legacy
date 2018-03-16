@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ProposeVoteConfig](../interfaces/proposevoteconfig.md)
+[API Reference](../README.md) > [ProposeVoteConfig](../interfaces/ProposeVoteConfig.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1129](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1129)*
+*Defined in [contracts/genesisProtocol.ts:1139](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1139)*
 
 
 
@@ -29,7 +29,7 @@ ___
 
 **●  executable**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1146](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1146)*
+*Defined in [contracts/genesisProtocol.ts:1156](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1156)*
 
 
 
@@ -40,13 +40,13 @@ contract that implements ExecutableInterface to invoke if/when the vote passes
 
 ___
 
-<a id="numofchoices"></a>
+<a id="numOfChoices"></a>
 
 ###  numOfChoices
 
 **●  numOfChoices**:  *`number`* 
 
-*Defined in [contracts/genesisProtocol.ts:1138](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1138)*
+*Defined in [contracts/genesisProtocol.ts:1148](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1148)*
 
 
 
@@ -57,13 +57,13 @@ number of choices when voting. Must be between 1 and 10.
 
 ___
 
-<a id="paramshash"></a>
+<a id="paramsHash"></a>
 
 ###  paramsHash
 
 **●  paramsHash**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1142](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1142)*
+*Defined in [contracts/genesisProtocol.ts:1152](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1152)*
 
 
 
@@ -80,7 +80,7 @@ ___
 
 **●  proposer**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1134](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1134)*
+*Defined in [contracts/genesisProtocol.ts:1144](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1144)*
 
 
 

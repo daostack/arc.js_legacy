@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [Utils](../classes/utils.md)
+[API Reference](../README.md) > [Utils](../classes/Utils.md)
 
 
 
@@ -8,57 +8,57 @@
 
 ### Accessors
 
-* [NULL_ADDRESS](utils.md#null_address)
-* [NULL_HASH](utils.md#null_hash)
+* [NULL_ADDRESS](Utils.md#NULL_ADDRESS)
+* [NULL_HASH](Utils.md#NULL_HASH)
 
 
 ### Methods
 
-* [SHA3](utils.md#sha3)
-* [getDefaultAccount](utils.md#getdefaultaccount)
-* [getValueFromLogs](utils.md#getvaluefromlogs)
-* [getWeb3](utils.md#getweb3)
-* [numberToPermissionsString](utils.md#numbertopermissionsstring)
-* [permissionsStringToNumber](utils.md#permissionsstringtonumber)
-* [requireContract](utils.md#requirecontract)
+* [SHA3](Utils.md#SHA3)
+* [getDefaultAccount](Utils.md#getDefaultAccount)
+* [getValueFromLogs](Utils.md#getValueFromLogs)
+* [getWeb3](Utils.md#getWeb3)
+* [numberToPermissionsString](Utils.md#numberToPermissionsString)
+* [permissionsStringToNumber](Utils.md#permissionsStringToNumber)
+* [requireContract](Utils.md#requireContract)
 
 
 
 ---
 ## Accessors
-<a id="null_address"></a>
+<a id="NULL_ADDRESS"></a>
 
 ### «Static» NULL_ADDRESS
 
 
-getNULL_ADDRESS(): [Address](../#address)
+getNULL_ADDRESS(): [Address](../#Address)
 
-*Defined in [utils.ts:12](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L12)*
-
-
+*Defined in [utils.ts:12](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L12)*
 
 
 
-**Returns:** [Address](../#address)
+
+
+**Returns:** [Address](../#Address)
 
 
 
 ___
 
-<a id="null_hash"></a>
+<a id="NULL_HASH"></a>
 
 ### «Static» NULL_HASH
 
 
-getNULL_HASH(): [Hash](../#hash)
+getNULL_HASH(): [Hash](../#Hash)
 
-*Defined in [utils.ts:13](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L13)*
-
-
+*Defined in [utils.ts:13](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L13)*
 
 
 
-**Returns:** [Hash](../#hash)
+
+
+**Returns:** [Hash](../#Hash)
 
 
 
@@ -66,7 +66,7 @@ ___
 
 
 ## Methods
-<a id="sha3"></a>
+<a id="SHA3"></a>
 
 ### «Static» SHA3
 
@@ -74,7 +74,7 @@ ___
 
 
 
-*Defined in [utils.ts:176](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L176)*
+*Defined in [utils.ts:176](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L176)*
 
 
 
@@ -99,7 +99,7 @@ Return the hash of a string the same way solidity would, and to a format that wi
 
 ___
 
-<a id="getdefaultaccount"></a>
+<a id="getDefaultAccount"></a>
 
 ### «Static» getDefaultAccount
 
@@ -107,7 +107,7 @@ ___
 
 
 
-*Defined in [utils.ts:157](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L157)*
+*Defined in [utils.ts:157](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L157)*
 
 
 
@@ -128,15 +128,15 @@ Throws an exception on failure.
 
 ___
 
-<a id="getvaluefromlogs"></a>
+<a id="getValueFromLogs"></a>
 
 ### «Static» getValueFromLogs
 
-► **getValueFromLogs**(tx: *[TransactionReceiptTruffle](../interfaces/transactionreceipttruffle.md)*, arg: *`string`*, eventName?: *`string`*, index?: *`number`*): `any`⎮`undefined`
+► **getValueFromLogs**(tx: *[TransactionReceiptTruffle](../interfaces/TransactionReceiptTruffle.md)*, arg: *`string`*, eventName?: *`string`*, index?: *`number`*): `any`⎮`undefined`
 
 
 
-*Defined in [utils.ts:93](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L93)*
+*Defined in [utils.ts:93](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L93)*
 
 
 
@@ -147,7 +147,7 @@ Returns a value from the given transaction log. Undefined if not found for any r
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| tx | [TransactionReceiptTruffle](../interfaces/transactionreceipttruffle.md)  | - |   The transaction |
+| tx | [TransactionReceiptTruffle](../interfaces/TransactionReceiptTruffle.md)  | - |   The transaction |
 | arg | `string`  | - |   The name of the property whose value we wish to return from the args object: tx.logs[index].args[argName] |
 | eventName | `string`  |  null |   Overrides index, identifies which log, where tx.logs[n].event === eventName |
 | index | `number`  | 0 |   Identifies which log when eventName is not given |
@@ -164,7 +164,7 @@ Returns a value from the given transaction log. Undefined if not found for any r
 
 ___
 
-<a id="getweb3"></a>
+<a id="getWeb3"></a>
 
 ### «Static» getWeb3
 
@@ -172,7 +172,7 @@ ___
 
 
 
-*Defined in [utils.ts:46](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L46)*
+*Defined in [utils.ts:46](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L46)*
 
 
 
@@ -189,15 +189,15 @@ Returns the web3 object. When called for the first time, web3 is initialized fro
 
 ___
 
-<a id="numbertopermissionsstring"></a>
+<a id="numberToPermissionsString"></a>
 
 ### «Static» numberToPermissionsString
 
-► **numberToPermissionsString**(permissions: *`number`*): `string`
+► **numberToPermissionsString**(permissions: *[SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)*): `string`
 
 
 
-*Defined in [utils.ts:193](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L193)*
+*Defined in [utils.ts:193](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L193)*
 
 
 
@@ -208,7 +208,7 @@ Convert number to a scheme permissions string
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| permissions | `number`   |  - |
+| permissions | [SchemePermissions](../enums/SchemePermissions.md)⎮[DefaultSchemePermissions](../enums/DefaultSchemePermissions.md)   |  - |
 
 
 
@@ -222,15 +222,15 @@ Convert number to a scheme permissions string
 
 ___
 
-<a id="permissionsstringtonumber"></a>
+<a id="permissionsStringToNumber"></a>
 
 ### «Static» permissionsStringToNumber
 
-► **permissionsStringToNumber**(permissions: *`string`*): `number`
+► **permissionsStringToNumber**(permissions: *`string`*): [SchemePermissions](../enums/SchemePermissions.md)
 
 
 
-*Defined in [utils.ts:184](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L184)*
+*Defined in [utils.ts:184](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L184)*
 
 
 
@@ -247,7 +247,7 @@ Convert scheme permissions string to a number
 
 
 
-**Returns:** `number`
+**Returns:** [SchemePermissions](../enums/SchemePermissions.md)
 
 
 
@@ -255,7 +255,7 @@ Convert scheme permissions string to a number
 
 ___
 
-<a id="requirecontract"></a>
+<a id="requireContract"></a>
 
 ### «Static» requireContract
 
@@ -263,7 +263,7 @@ ___
 
 
 
-*Defined in [utils.ts:22](https://github.com/daostack/arc.js/blob/0fff6d4/lib/utils.ts#L22)*
+*Defined in [utils.ts:22](https://github.com/daostack/arc.js/blob/61e5f90/lib/utils.ts#L22)*
 
 
 

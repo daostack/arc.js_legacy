@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ProposeToRemoveGlobalConstraintParams](../interfaces/proposetoremoveglobalconstraintparams.md)
+[API Reference](../README.md) > [ProposeToRemoveGlobalConstraintParams](../interfaces/ProposeToRemoveGlobalConstraintParams.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:195](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L195)*
+*Defined in [contracts/globalconstraintregistrar.ts:196](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L196)*
 
 
 
@@ -23,13 +23,13 @@ avatar address
 
 ___
 
-<a id="globalconstraint"></a>
+<a id="globalConstraint"></a>
 
 ###  globalConstraint
 
 **●  globalConstraint**:  *`string`* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:199](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L199)*
+*Defined in [contracts/globalconstraintregistrar.ts:200](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L200)*
 
 
 

@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [CommonVestingAgreementConfig](../interfaces/commonvestingagreementconfig.md)
+[API Reference](../README.md) > [CommonVestingAgreementConfig](../interfaces/CommonVestingAgreementConfig.md)
 
 
 
@@ -8,12 +8,12 @@
 
 **CommonVestingAgreementConfig**
 
-↳  [CreateVestingAgreementConfig](createvestingagreementconfig.md)
+↳  [CreateVestingAgreementConfig](CreateVestingAgreementConfig.md)
 
 
 
 
-↳  [ProposeVestingAgreementConfig](proposevestingagreementconfig.md)
+↳  [ProposeVestingAgreementConfig](ProposeVestingAgreementConfig.md)
 
 
 
@@ -24,13 +24,13 @@
 
 
 ## Properties
-<a id="amountperperiod"></a>
+<a id="amountPerPeriod"></a>
 
 ###  amountPerPeriod
 
 **●  amountPerPeriod**:  *`BigNumber.BigNumber`⎮`string`* 
 
-*Defined in [contracts/vestingscheme.ts:405](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L405)*
+*Defined in [contracts/vestingscheme.ts:402](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L402)*
 
 
 
@@ -47,7 +47,7 @@ ___
 
 **●  beneficiary**:  *`string`* 
 
-*Defined in [contracts/vestingscheme.ts:388](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L388)*
+*Defined in [contracts/vestingscheme.ts:385](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L385)*
 
 
 
@@ -58,13 +58,13 @@ Address of the recipient of the proposed agreement.
 
 ___
 
-<a id="cliffinperiods"></a>
+<a id="cliffInPeriods"></a>
 
 ###  cliffInPeriods
 
 **●  cliffInPeriods**:  *`number`* 
 
-*Defined in [contracts/vestingscheme.ts:421](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L421)*
+*Defined in [contracts/vestingscheme.ts:418](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L418)*
 
 
 
@@ -75,13 +75,13 @@ The minimum number of periods that must pass before the beneficiary may collect 
 
 ___
 
-<a id="numofagreedperiods"></a>
+<a id="numOfAgreedPeriods"></a>
 
 ###  numOfAgreedPeriods
 
 **●  numOfAgreedPeriods**:  *`number`* 
 
-*Defined in [contracts/vestingscheme.ts:415](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L415)*
+*Defined in [contracts/vestingscheme.ts:412](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L412)*
 
 
 
@@ -92,13 +92,13 @@ maximum number of periods that can be paid out. Must be greater than zero.
 
 ___
 
-<a id="periodlength"></a>
+<a id="periodLength"></a>
 
 ###  periodLength
 
 **●  periodLength**:  *`number`* 
 
-*Defined in [contracts/vestingscheme.ts:410](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L410)*
+*Defined in [contracts/vestingscheme.ts:407](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L407)*
 
 
 
@@ -109,13 +109,13 @@ number of blocks in a period. Must be greater than zero.
 
 ___
 
-<a id="returnoncanceladdress"></a>
+<a id="returnOnCancelAddress"></a>
 
 ###  returnOnCancelAddress
 
 **●  returnOnCancelAddress**:  *`string`* 
 
-*Defined in [contracts/vestingscheme.ts:392](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L392)*
+*Defined in [contracts/vestingscheme.ts:389](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L389)*
 
 
 
@@ -126,13 +126,13 @@ Where to send the tokens in case of cancellation
 
 ___
 
-<a id="signaturesreqtocancel"></a>
+<a id="signaturesReqToCancel"></a>
 
 ###  signaturesReqToCancel
 
 **●  signaturesReqToCancel**:  *`number`* 
 
-*Defined in [contracts/vestingscheme.ts:426](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L426)*
+*Defined in [contracts/vestingscheme.ts:423](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L423)*
 
 
 
@@ -149,7 +149,7 @@ ___
 
 **●  signers**:  *`Array`.<`string`>* 
 
-*Defined in [contracts/vestingscheme.ts:431](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L431)*
+*Defined in [contracts/vestingscheme.ts:428](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L428)*
 
 
 
@@ -160,13 +160,13 @@ An array of addresses of those who will be allowed to sign to cancel an agreemen
 
 ___
 
-<a id="startingblock"></a>
+<a id="startingBlock"></a>
 
 ###  startingBlock
 
 **●  startingBlock**:  *`number`* 
 
-*Defined in [contracts/vestingscheme.ts:398](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L398)*
+*Defined in [contracts/vestingscheme.ts:395](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L395)*
 
 
 

@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ControllerAddGlobalConstraintsEventLogEntry](../interfaces/controlleraddglobalconstraintseventlogentry.md)
+[API Reference](../README.md) > [ControllerAddGlobalConstraintsEventLogEntry](../interfaces/ControllerAddGlobalConstraintsEventLogEntry.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="_globalconstraint"></a>
+<a id="_globalConstraint"></a>
 
 ###  _globalConstraint
 
-**●  _globalConstraint**:  *[Address](../#address)* 
+**●  _globalConstraint**:  *[Address](../#Address)* 
 
-*Defined in [dao.ts:338](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L338)*
+*Defined in [dao.ts:338](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L338)*
 
 
 
@@ -24,9 +24,9 @@ ___
 
 ###  _params
 
-**●  _params**:  *[Hash](../#hash)* 
+**●  _params**:  *[Hash](../#Hash)* 
 
-*Defined in [dao.ts:339](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L339)*
+*Defined in [dao.ts:339](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L339)*
 
 
 

@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ProposeToRemoveSchemeParams](../interfaces/proposetoremoveschemeparams.md)
+[API Reference](../README.md) > [ProposeToRemoveSchemeParams](../interfaces/ProposeToRemoveSchemeParams.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/schemeregistrar.ts:265](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L265)*
+*Defined in [contracts/schemeregistrar.ts:234](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L234)*
 
 
 
@@ -23,13 +23,13 @@ avatar address
 
 ___
 
-<a id="scheme"></a>
+<a id="schemeAddress"></a>
 
-###  scheme
+###  schemeAddress
 
-**●  scheme**:  *`string`* 
+**●  schemeAddress**:  *`string`* 
 
-*Defined in [contracts/schemeregistrar.ts:269](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/schemeregistrar.ts#L269)*
+*Defined in [contracts/schemeregistrar.ts:238](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/schemeregistrar.ts#L238)*
 
 
 

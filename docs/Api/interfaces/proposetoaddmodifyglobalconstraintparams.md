@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ProposeToAddModifyGlobalConstraintParams](../interfaces/proposetoaddmodifyglobalconstraintparams.md)
+[API Reference](../README.md) > [ProposeToAddModifyGlobalConstraintParams](../interfaces/ProposeToAddModifyGlobalConstraintParams.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:176](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L176)*
+*Defined in [contracts/globalconstraintregistrar.ts:177](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L177)*
 
 
 
@@ -23,13 +23,13 @@ avatar address
 
 ___
 
-<a id="globalconstraint"></a>
+<a id="globalConstraint"></a>
 
 ###  globalConstraint
 
 **●  globalConstraint**:  *`string`* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:180](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L180)*
+*Defined in [contracts/globalconstraintregistrar.ts:181](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L181)*
 
 
 
@@ -40,13 +40,13 @@ the address of the global constraint to add
 
 ___
 
-<a id="globalconstraintparametershash"></a>
+<a id="globalConstraintParametersHash"></a>
 
 ###  globalConstraintParametersHash
 
 **●  globalConstraintParametersHash**:  *`string`* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:184](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L184)*
+*Defined in [contracts/globalconstraintregistrar.ts:185](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L185)*
 
 
 
@@ -57,13 +57,13 @@ hash of the parameters of the global contraint
 
 ___
 
-<a id="votingmachinehash"></a>
+<a id="votingMachineHash"></a>
 
 ###  votingMachineHash
 
 **●  votingMachineHash**:  *`string`* 
 
-*Defined in [contracts/globalconstraintregistrar.ts:188](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/globalconstraintregistrar.ts#L188)*
+*Defined in [contracts/globalconstraintregistrar.ts:189](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/globalconstraintregistrar.ts#L189)*
 
 
 

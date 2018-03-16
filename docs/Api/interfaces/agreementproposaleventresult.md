@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [AgreementProposalEventResult](../interfaces/agreementproposaleventresult.md)
+[API Reference](../README.md) > [AgreementProposalEventResult](../interfaces/AgreementProposalEventResult.md)
 
 
 
@@ -10,9 +10,9 @@
 
 ###  _avatar
 
-**●  _avatar**:  *[Address](../#address)* 
+**●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/vestingscheme.ts:337](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L337)*
+*Defined in [contracts/vestingscheme.ts:334](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L334)*
 
 
 
@@ -23,13 +23,13 @@ indexed
 
 ___
 
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/vestingscheme.ts:338](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L338)*
+*Defined in [contracts/vestingscheme.ts:335](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L335)*
 
 
 

@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ProposalExecutedEventResult](../interfaces/proposalexecutedeventresult.md)
+[API Reference](../README.md) > [ProposalExecutedEventResult](../interfaces/ProposalExecutedEventResult.md)
 
 
 
@@ -13,9 +13,9 @@ fired by schemes
 
 ###  _avatar
 
-**●  _avatar**:  *[Address](../#address)* 
+**●  _avatar**:  *[Address](../#Address)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:76](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L76)*
+*Defined in [contracts/commonEventInterfaces.ts:76](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L76)*
 
 
 
@@ -32,7 +32,7 @@ ___
 
 **●  _param**:  *`number`* 
 
-*Defined in [contracts/commonEventInterfaces.ts:77](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L77)*
+*Defined in [contracts/commonEventInterfaces.ts:77](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L77)*
 
 
 
@@ -40,13 +40,13 @@ ___
 
 ___
 
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/commonEventInterfaces.ts:81](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L81)*
+*Defined in [contracts/commonEventInterfaces.ts:81](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L81)*
 
 
 

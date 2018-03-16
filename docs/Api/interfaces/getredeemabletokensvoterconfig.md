@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GetRedeemableTokensVoterConfig](../interfaces/getredeemabletokensvoterconfig.md)
+[API Reference](../README.md) > [GetRedeemableTokensVoterConfig](../interfaces/GetRedeemableTokensVoterConfig.md)
 
 
 
@@ -15,7 +15,7 @@ return the amount of tokens to which the voter will be entitled as an outcome of
 
 **●  beneficiary**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1271](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1271)*
+*Defined in [contracts/genesisProtocol.ts:1281](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1281)*
 
 
 
@@ -26,13 +26,13 @@ the voter
 
 ___
 
-<a id="proposalid"></a>
+<a id="proposalId"></a>
 
 ###  proposalId
 
 **●  proposalId**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1267](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1267)*
+*Defined in [contracts/genesisProtocol.ts:1277](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1277)*
 
 
 

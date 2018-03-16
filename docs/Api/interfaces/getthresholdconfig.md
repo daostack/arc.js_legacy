@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GetThresholdConfig](../interfaces/getthresholdconfig.md)
+[API Reference](../README.md) > [GetThresholdConfig](../interfaces/GetThresholdConfig.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  avatar**:  *`string`* 
 
-*Defined in [contracts/genesisProtocol.ts:1233](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1233)*
+*Defined in [contracts/genesisProtocol.ts:1243](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1243)*
 
 
 

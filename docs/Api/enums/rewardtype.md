@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [RewardType](../enums/rewardtype.md)
+[API Reference](../README.md) > [RewardType](../enums/RewardType.md)
 
 
 
@@ -8,22 +8,22 @@
 
 ### Enumeration members
 
-* [Eth](rewardtype.md#eth)
-* [ExternalToken](rewardtype.md#externaltoken)
-* [NativeToken](rewardtype.md#nativetoken)
-* [Reputation](rewardtype.md#reputation)
+* [Eth](RewardType.md#Eth)
+* [ExternalToken](RewardType.md#ExternalToken)
+* [NativeToken](RewardType.md#NativeToken)
+* [Reputation](RewardType.md#Reputation)
 
 
 
 ---
 ## Enumeration members
-<a id="eth"></a>
+<a id="Eth"></a>
 
 ###  Eth
 
 ** Eth**:    = 2
 
-*Defined in [contracts/contributionreward.ts:467](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L467)*
+*Defined in [contracts/contributionreward.ts:475](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L475)*
 
 
 
@@ -31,13 +31,13 @@
 
 ___
 
-<a id="externaltoken"></a>
+<a id="ExternalToken"></a>
 
 ###  ExternalToken
 
 ** ExternalToken**:    = 3
 
-*Defined in [contracts/contributionreward.ts:468](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L468)*
+*Defined in [contracts/contributionreward.ts:476](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L476)*
 
 
 
@@ -45,13 +45,13 @@ ___
 
 ___
 
-<a id="nativetoken"></a>
+<a id="NativeToken"></a>
 
 ###  NativeToken
 
 ** NativeToken**:    = 1
 
-*Defined in [contracts/contributionreward.ts:466](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L466)*
+*Defined in [contracts/contributionreward.ts:474](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L474)*
 
 
 
@@ -59,13 +59,13 @@ ___
 
 ___
 
-<a id="reputation"></a>
+<a id="Reputation"></a>
 
 ###  Reputation
 
 ** Reputation**:    = 0
 
-*Defined in [contracts/contributionreward.ts:465](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/contributionreward.ts#L465)*
+*Defined in [contracts/contributionreward.ts:473](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/contributionreward.ts#L473)*
 
 
 

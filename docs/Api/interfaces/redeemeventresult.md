@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [RedeemEventResult](../interfaces/redeemeventresult.md)
+[API Reference](../README.md) > [RedeemEventResult](../interfaces/RedeemEventResult.md)
 
 
 
@@ -12,7 +12,7 @@
 
 **●  _amount**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/genesisProtocol.ts:962](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L962)*
+*Defined in [contracts/genesisProtocol.ts:972](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L972)*
 
 
 
@@ -24,9 +24,9 @@ ___
 
 ###  _beneficiary
 
-**●  _beneficiary**:  *[Address](../#address)* 
+**●  _beneficiary**:  *[Address](../#Address)* 
 
-*Defined in [contracts/genesisProtocol.ts:966](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L966)*
+*Defined in [contracts/genesisProtocol.ts:976](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L976)*
 
 
 
@@ -37,13 +37,13 @@ indexed
 
 ___
 
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Defined in [contracts/genesisProtocol.ts:970](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L970)*
+*Defined in [contracts/genesisProtocol.ts:980](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L980)*
 
 
 

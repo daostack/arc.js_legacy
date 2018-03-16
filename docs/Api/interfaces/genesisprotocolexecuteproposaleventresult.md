@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [GenesisProtocolExecuteProposalEventResult](../interfaces/genesisprotocolexecuteproposaleventresult.md)
+[API Reference](../README.md) > [GenesisProtocolExecuteProposalEventResult](../interfaces/GenesisProtocolExecuteProposalEventResult.md)
 
 
 
@@ -7,7 +7,7 @@
 ## Hierarchy
 
 
- [ExecuteProposalEventResult](executeproposaleventresult.md)
+ [ExecuteProposalEventResult](ExecuteProposalEventResult.md)
 
 **↳ GenesisProtocolExecuteProposalEventResult**
 
@@ -25,9 +25,9 @@
 
 **●  _decision**:  *`BigNumber.BigNumber`* 
 
-*Inherited from [ExecuteProposalEventResult](executeproposaleventresult.md).[_decision](executeproposaleventresult.md#_decision)*
+*Inherited from [ExecuteProposalEventResult](ExecuteProposalEventResult.md).[_decision](ExecuteProposalEventResult.md#_decision)*
 
-*Defined in [contracts/commonEventInterfaces.ts:18](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L18)*
+*Defined in [contracts/commonEventInterfaces.ts:18](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L18)*
 
 
 
@@ -35,13 +35,13 @@
 
 ___
 
-<a id="_executionstate"></a>
+<a id="_executionState"></a>
 
 ###  _executionState
 
 **●  _executionState**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/genesisProtocol.ts:1411](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/genesisProtocol.ts#L1411)*
+*Defined in [contracts/genesisProtocol.ts:1421](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/genesisProtocol.ts#L1421)*
 
 
 
@@ -52,15 +52,15 @@ _executionState.toNumber() will give you a value from the enum `ExecutionState`
 
 ___
 
-<a id="_proposalid"></a>
+<a id="_proposalId"></a>
 
 ###  _proposalId
 
-**●  _proposalId**:  *[Hash](../#hash)* 
+**●  _proposalId**:  *[Hash](../#Hash)* 
 
-*Inherited from [ExecuteProposalEventResult](executeproposaleventresult.md).[_proposalId](executeproposaleventresult.md#_proposalid)*
+*Inherited from [ExecuteProposalEventResult](ExecuteProposalEventResult.md).[_proposalId](ExecuteProposalEventResult.md#_proposalId)*
 
-*Defined in [contracts/commonEventInterfaces.ts:22](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L22)*
+*Defined in [contracts/commonEventInterfaces.ts:22](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L22)*
 
 
 
@@ -71,15 +71,15 @@ indexed
 
 ___
 
-<a id="_totalreputation"></a>
+<a id="_totalReputation"></a>
 
 ###  _totalReputation
 
 **●  _totalReputation**:  *`BigNumber.BigNumber`* 
 
-*Inherited from [ExecuteProposalEventResult](executeproposaleventresult.md).[_totalReputation](executeproposaleventresult.md#_totalreputation)*
+*Inherited from [ExecuteProposalEventResult](ExecuteProposalEventResult.md).[_totalReputation](ExecuteProposalEventResult.md#_totalReputation)*
 
-*Defined in [contracts/commonEventInterfaces.ts:26](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/commonEventInterfaces.ts#L26)*
+*Defined in [contracts/commonEventInterfaces.ts:26](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/commonEventInterfaces.ts#L26)*
 
 
 

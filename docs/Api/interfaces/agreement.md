@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [Agreement](../interfaces/agreement.md)
+[API Reference](../README.md) > [Agreement](../interfaces/Agreement.md)
 
 
 
@@ -6,13 +6,13 @@
 
 
 ## Properties
-<a id="agreementid"></a>
+<a id="agreementId"></a>
 
 ###  agreementId
 
 **●  agreementId**:  *`number`* 
 
-*Defined in [contracts/vestingscheme.ts:482](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L482)*
+*Defined in [contracts/vestingscheme.ts:479](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L479)*
 
 
 
@@ -20,13 +20,13 @@
 
 ___
 
-<a id="amountperperiod"></a>
+<a id="amountPerPeriod"></a>
 
 ###  amountPerPeriod
 
 **●  amountPerPeriod**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/vestingscheme.ts:483](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L483)*
+*Defined in [contracts/vestingscheme.ts:480](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L480)*
 
 
 
@@ -38,9 +38,9 @@ ___
 
 ###  beneficiary
 
-**●  beneficiary**:  *[Address](../#address)* 
+**●  beneficiary**:  *[Address](../#Address)* 
 
-*Defined in [contracts/vestingscheme.ts:484](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L484)*
+*Defined in [contracts/vestingscheme.ts:481](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L481)*
 
 
 
@@ -48,13 +48,13 @@ ___
 
 ___
 
-<a id="cliffinperiods"></a>
+<a id="cliffInPeriods"></a>
 
 ###  cliffInPeriods
 
 **●  cliffInPeriods**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/vestingscheme.ts:485](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L485)*
+*Defined in [contracts/vestingscheme.ts:482](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L482)*
 
 
 
@@ -62,13 +62,13 @@ ___
 
 ___
 
-<a id="collectedperiods"></a>
+<a id="collectedPeriods"></a>
 
 ###  collectedPeriods
 
 **●  collectedPeriods**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/vestingscheme.ts:486](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L486)*
+*Defined in [contracts/vestingscheme.ts:483](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L483)*
 
 
 
@@ -76,13 +76,13 @@ ___
 
 ___
 
-<a id="numofagreedperiods"></a>
+<a id="numOfAgreedPeriods"></a>
 
 ###  numOfAgreedPeriods
 
 **●  numOfAgreedPeriods**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/vestingscheme.ts:487](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L487)*
+*Defined in [contracts/vestingscheme.ts:484](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L484)*
 
 
 
@@ -90,13 +90,13 @@ ___
 
 ___
 
-<a id="periodlength"></a>
+<a id="periodLength"></a>
 
 ###  periodLength
 
 **●  periodLength**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/vestingscheme.ts:488](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L488)*
+*Defined in [contracts/vestingscheme.ts:485](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L485)*
 
 
 
@@ -104,13 +104,13 @@ ___
 
 ___
 
-<a id="returnoncanceladdress"></a>
+<a id="returnOnCancelAddress"></a>
 
 ###  returnOnCancelAddress
 
-**●  returnOnCancelAddress**:  *[Address](../#address)* 
+**●  returnOnCancelAddress**:  *[Address](../#Address)* 
 
-*Defined in [contracts/vestingscheme.ts:489](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L489)*
+*Defined in [contracts/vestingscheme.ts:486](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L486)*
 
 
 
@@ -118,13 +118,13 @@ ___
 
 ___
 
-<a id="signaturesreqtocancel"></a>
+<a id="signaturesReqToCancel"></a>
 
 ###  signaturesReqToCancel
 
 **●  signaturesReqToCancel**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/vestingscheme.ts:490](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L490)*
+*Defined in [contracts/vestingscheme.ts:487](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L487)*
 
 
 
@@ -132,13 +132,13 @@ ___
 
 ___
 
-<a id="startingblock"></a>
+<a id="startingBlock"></a>
 
 ###  startingBlock
 
 **●  startingBlock**:  *`BigNumber.BigNumber`* 
 
-*Defined in [contracts/vestingscheme.ts:491](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L491)*
+*Defined in [contracts/vestingscheme.ts:488](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L488)*
 
 
 
@@ -150,9 +150,9 @@ ___
 
 ###  token
 
-**●  token**:  *[Address](../#address)* 
+**●  token**:  *[Address](../#Address)* 
 
-*Defined in [contracts/vestingscheme.ts:492](https://github.com/daostack/arc.js/blob/0fff6d4/lib/contracts/vestingscheme.ts#L492)*
+*Defined in [contracts/vestingscheme.ts:489](https://github.com/daostack/arc.js/blob/61e5f90/lib/contracts/vestingscheme.ts#L489)*
 
 
 

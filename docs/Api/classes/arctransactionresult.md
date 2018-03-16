@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ArcTransactionResult](../classes/arctransactionresult.md)
+[API Reference](../README.md) > [ArcTransactionResult](../classes/ArcTransactionResult.md)
 
 
 
@@ -8,17 +8,17 @@
 
 **ArcTransactionResult**
 
-↳  [ArcTransactionProposalResult](arctransactionproposalresult.md)
+↳  [ArcTransactionProposalResult](ArcTransactionProposalResult.md)
 
 
 
 
-↳  [ArcTransactionDataResult](arctransactiondataresult.md)
+↳  [ArcTransactionDataResult](ArcTransactionDataResult.md)
 
 
 
 
-↳  [ArcTransactionAgreementResult](arctransactionagreementresult.md)
+↳  [ArcTransactionAgreementResult](ArcTransactionAgreementResult.md)
 
 
 
@@ -31,17 +31,17 @@
 
 ### Constructors
 
-* [constructor](arctransactionresult.md#constructor)
+* [constructor](ArcTransactionResult.md#constructor)
 
 
 ### Properties
 
-* [tx](arctransactionresult.md#tx)
+* [tx](ArcTransactionResult.md#tx)
 
 
 ### Methods
 
-* [getValueFromTx](arctransactionresult.md#getvaluefromtx)
+* [getValueFromTx](ArcTransactionResult.md#getValueFromTx)
 
 
 
@@ -50,10 +50,10 @@
 <a id="constructor"></a>
 
 
-### ⊕ **new ArcTransactionResult**(tx: *[TransactionReceiptTruffle](../interfaces/transactionreceipttruffle.md)*): [ArcTransactionResult](arctransactionresult.md)
+### ⊕ **new ArcTransactionResult**(tx: *[TransactionReceiptTruffle](../interfaces/TransactionReceiptTruffle.md)*): [ArcTransactionResult](ArcTransactionResult.md)
 
 
-*Defined in [ExtendTruffleContract.ts:247](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L247)*
+*Defined in [ExtendTruffleContract.ts:258](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L258)*
 
 
 
@@ -61,13 +61,13 @@
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| tx | [TransactionReceiptTruffle](../interfaces/transactionreceipttruffle.md)   |  - |
+| tx | [TransactionReceiptTruffle](../interfaces/TransactionReceiptTruffle.md)   |  - |
 
 
 
 
 
-**Returns:** [ArcTransactionResult](arctransactionresult.md)
+**Returns:** [ArcTransactionResult](ArcTransactionResult.md)
 
 ---
 
@@ -77,9 +77,9 @@
 
 ###  tx
 
-**●  tx**:  *[TransactionReceiptTruffle](../interfaces/transactionreceipttruffle.md)* 
+**●  tx**:  *[TransactionReceiptTruffle](../interfaces/TransactionReceiptTruffle.md)* 
 
-*Defined in [ExtendTruffleContract.ts:247](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L247)*
+*Defined in [ExtendTruffleContract.ts:258](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L258)*
 
 
 
@@ -92,7 +92,7 @@ ___
 
 
 ## Methods
-<a id="getvaluefromtx"></a>
+<a id="getValueFromTx"></a>
 
 ###  getValueFromTx
 
@@ -100,7 +100,7 @@ ___
 
 
 
-*Defined in [ExtendTruffleContract.ts:260](https://github.com/daostack/arc.js/blob/0fff6d4/lib/ExtendTruffleContract.ts#L260)*
+*Defined in [ExtendTruffleContract.ts:271](https://github.com/daostack/arc.js/blob/61e5f90/lib/ExtendTruffleContract.ts#L271)*
 
 
 

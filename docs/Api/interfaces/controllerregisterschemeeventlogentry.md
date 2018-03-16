@@ -1,4 +1,4 @@
-[@DAOstack/Arc.js API Reference](../README.md) > [ControllerRegisterSchemeEventLogEntry](../interfaces/controllerregisterschemeeventlogentry.md)
+[API Reference](../README.md) > [ControllerRegisterSchemeEventLogEntry](../interfaces/ControllerRegisterSchemeEventLogEntry.md)
 
 
 
@@ -10,9 +10,9 @@
 
 ###  _scheme
 
-**●  _scheme**:  *[Address](../#address)* 
+**●  _scheme**:  *[Address](../#Address)* 
 
-*Defined in [dao.ts:343](https://github.com/daostack/arc.js/blob/0fff6d4/lib/dao.ts#L343)*
+*Defined in [dao.ts:343](https://github.com/daostack/arc.js/blob/61e5f90/lib/dao.ts#L343)*
 
 
 
