@@ -1,9 +1,10 @@
-const fs = require("fs");
 const glob = require("glob");
 const path = require("path");
 
-let rootDir = process.argv[2];
-let searchSpec = process.argv[3];
+/* eslint-disable no-console */
+
+const rootDir = process.argv[2];
+const searchSpec = process.argv[3];
 
 process.chdir(rootDir);
 

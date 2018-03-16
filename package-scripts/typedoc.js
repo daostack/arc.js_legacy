@@ -11,20 +11,20 @@ require("colors");
  */
 Reflection.prototype.getAlias = function () {
   if (!this._alias) {
-    var alias = this.name.replace(/[^a-z0-9]/gi, '_');
-    if (alias === '') {
-      alias = 'reflection-' + this.id;
+    let alias = this.name.replace(/[^a-z0-9]/gi, "_");
+    if (alias === "") {
+      alias = "reflection-" + this.id;
     }
-    var target = this;
+    let target = this;
     while (target.parent && !target.parent.isProject() && !target.hasOwnDocument) {
       target = target.parent;
     }
     if (!target._aliases) {
       target._aliases = [];
     }
-    var suffix = '', index = 0;
+    let suffix = "", index = 0;
     while (target._aliases.indexOf(alias + suffix) !== -1) {
-      suffix = '-' + (++index).toString();
+      suffix = "-" + (++index).toString();
     }
     alias += suffix;
     target._aliases.push(alias);
