@@ -11,3 +11,4 @@ migrated_contracts/
 yarn.lock
 test-dist/
 site/
+docs/api/
