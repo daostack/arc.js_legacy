@@ -187,6 +187,10 @@ module.exports = {
           "nps docs.website.build",
         ),
         andPreview: series("nps docs.build", "nps docs.website.preview"),
+        /**
+         * Note everytime you do a build it creates new files that will require a
+         * git commit.
+         */
         andDeploy: series("nps docs.build", "nps docs.website.deploy")
       }
     }
