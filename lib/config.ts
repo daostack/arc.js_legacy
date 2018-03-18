@@ -19,7 +19,7 @@ export class Config {
 
       if (process && process.env) {
         Object.keys(process.env).forEach((key: string) => {
-          if (defaults.hasOwnProperty(key)) {
+          if (defaults.hasOwnProperty(`arcjs_${key}`)) {
             defaults[key] = process.env[key];
           }
         });
