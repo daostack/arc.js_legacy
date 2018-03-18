@@ -1,9 +1,9 @@
-[![Build Status](https://api.travis-ci.org/daostack/arc.js.svg?branch=master)](http://travis-ci.org/daostack/arc.js)
-[![NPM Package](http://img.shields.io/npm/v/@daostack/arc.js.svg?style=flat-square)](http://www.npmjs.org/package/@daostack/arc.js)
+[![Build Status](https://api.travis-ci.org/daostack/arc.js.svg?branch=master)](https://travis-ci.org/daostack/arc.js)
+[![NPM Package](https://img.shields.io/npm/v/@daostack/arc.js.svg?style=flat-square)](https://www.npmjs.org/package/@daostack/arc.js)
 
 # DAOstack Arc.js
 
-[DAOstack Arc.js](http://github.com/daostack/arc.js) sits just above [DAOstack Arc](http://github.com/daostack/arc) on the DAO stack.  It is a library that facilitates javascript application access to the DAOstack Arc ethereum smart contracts.
+[DAOstack Arc.js](https://github.com/daostack/arc.js) sits just above [DAOstack Arc](https://github.com/daostack/arc) on the DAO stack.  It is a library that facilitates javascript application access to the DAOstack Arc ethereum smart contracts.
 
 For more information about Arc contracts and the entire DAOstack ecosystem, please refer to the [Arc documentation](https://daostack.github.io/arc/README/).
 
@@ -11,7 +11,7 @@ For more information about Arc contracts and the entire DAOstack ecosystem, plea
 
 ### Installation
 
-Ensure that [NodeJS](http://nodejs.org/), v9.4.0 or greater, is installed.
+Ensure that [NodeJS](https://nodejs.org/), v9.4.0 or greater, is installed.
 
 Install the npm package into your project:
 
@@ -239,7 +239,7 @@ const newDao = await DAO.new({
 
 Create a DAO using the DAOstack `Controller` contract by passing `false` for `universalController`.
 
-For more information about choosing between Universal an Single Controller, see [this article](http://daostack.github.io/arc/contracts/controller/UController/).
+For more information about choosing between Universal an Single Controller, see [this article](https://daostack.github.io/arc/contracts/controller/UController/).
 
 ```javascript
 const newDao = await DAO.new({

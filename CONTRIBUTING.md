@@ -45,4 +45,4 @@ For the submission of more substantial changes or additions, an issue should be 
 ## Code Formatting and Commentary
 
 ### Javascript
-All Javascript must be formatted with [ESLint](http://eslint.org/) using the DAOSTACK [configuration](https://github.com/daostack/arc.js/blob/master/.eslintrc.json).
+All Javascript must be formatted with [ESLint](https://eslint.org/) using the DAOSTACK [configuration](https://github.com/daostack/arc.js/blob/master/.eslintrc.json).
