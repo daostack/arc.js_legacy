@@ -242,8 +242,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
   }
 }
 
-const DaoCreator = new ContractWrapperFactory("DaoCreator", DaoCreatorWrapper);
-export { DaoCreator };
+export const DaoCreator = new ContractWrapperFactory("DaoCreator", DaoCreatorWrapper);
 
 export interface NewOrgEventResult {
   _avatar: Address;

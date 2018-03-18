@@ -111,9 +111,12 @@ module.exports = {
         "nps build.clean",
         mkdirp(joinPath(pathArcJsRoot, "dist")),
         `node node_modules/typescript/bin/tsc --outDir ${joinPath(pathArcJsRoot, "dist")}`
-
+        // "nps build.generateTypings"
       ),
-      clean: rimraf(joinPath(pathArcJsRoot, "dist"))
+      clean: rimraf(joinPath(pathArcJsRoot, "dist")),
+      // generateTypings: `node node_modules/typescript/bin/tsc --outFile ${joinPath(pathArcJsRoot, "index.js")} --module amd --declaration`
+      // generateTypings: `node ./node_modules/dts-bundle/lib/dts-bundle.js --configJson dts-bundle.json`
+      // seems to want js, not ts.  generateTypings: `node ./node_modules/dts-pack/dist/cli.js --entry ./dist/*.d.ts --rootName @daostack/arc.js --moduleName index --outDir .`
     },
     deploy: {
       pack: series("nps build", "npm pack"),
@@ -130,10 +133,7 @@ module.exports = {
        *
        * Run migrateContracts.fetchFromArc first if you want to start with fresh unmigrated contracts from @daostack/arc.
        */
-      default: series(
-        `nps build`,
-        `${truffleCommand} migrate --contracts_build_directory ${pathArcJsContracts} --without-compile --network ${network}`
-      ),
+      default: `${truffleCommand} migrate --contracts_build_directory ${pathArcJsContracts} --without-compile --network ${network}`,
       /**
        * Clean the outputted contract json files, optionally andMigrate.
        *

@@ -6,7 +6,8 @@
     "preserveConstEnums": true,
     "noUnusedLocals": true,
     "sourceMap": true,
-    "baseUrl": "lib"
+    "baseUrl": "lib",
+    "declaration": true
   },
   "include": [
     "lib/**/*",

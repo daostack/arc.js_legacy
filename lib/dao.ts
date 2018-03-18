@@ -76,7 +76,7 @@ export class DAO {
    * returns schemes currently registered into this DAO, as Array<DaoSchemeInfo>
    * @param name like "SchemeRegistrar"
    */
-  public async getSchemes(name: string): Promise<Array<DaoSchemeInfo>> {
+  public async getSchemes(name?: string): Promise<Array<DaoSchemeInfo>> {
     // return the schemes registered on this controller satisfying the contract spec
     // return all schemes if contract is not given
     const schemes = await this._getSchemes();
@@ -186,7 +186,7 @@ export class DAO {
    * Returns global constraints currently registered into this DAO, as Array<DaoGlobalConstraintInfo>
    * @param name like "TokenCapGC"
    */
-  public async getGlobalConstraints(name: string): Promise<Array<DaoGlobalConstraintInfo>> {
+  public async getGlobalConstraints(name?: string): Promise<Array<DaoGlobalConstraintInfo>> {
     // return the global constraints registered on this controller satisfying the contract spec
     // return all global constraints if name is not given
     const constraints = await this._getConstraints();
@@ -334,11 +334,11 @@ export interface DaoGlobalConstraintInfo {
   paramsHash: string;
 }
 
-interface ControllerAddGlobalConstraintsEventLogEntry {
+export interface ControllerAddGlobalConstraintsEventLogEntry {
   _globalConstraint: Address;
   _params: Hash;
 }
 
-interface ControllerRegisterSchemeEventLogEntry {
+export interface ControllerRegisterSchemeEventLogEntry {
   _scheme: Address;
 }

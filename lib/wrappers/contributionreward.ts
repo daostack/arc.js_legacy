@@ -482,8 +482,7 @@ enum RewardType {
   ExternalToken = 3,
 }
 
-const ContributionReward = new ContractWrapperFactory("ContributionReward", ContributionRewardWrapper);
-export { ContributionReward };
+export const ContributionReward = new ContractWrapperFactory("ContributionReward", ContributionRewardWrapper);
 
 export interface NewContributionProposalEventResult {
   /**

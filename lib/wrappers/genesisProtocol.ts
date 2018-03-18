@@ -959,8 +959,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
   }
 }
 
-const GenesisProtocol = new ContractWrapperFactory("GenesisProtocol", GenesisProtocolWrapper);
-export { GenesisProtocol };
+export const GenesisProtocol = new ContractWrapperFactory("GenesisProtocol", GenesisProtocolWrapper);
 
 export interface StakeEventResult {
   _amount: BigNumber.BigNumber;

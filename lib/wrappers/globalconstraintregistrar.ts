@@ -138,9 +138,8 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
   }
 }
 
-const GlobalConstraintRegistrar = new ContractWrapperFactory(
+export const GlobalConstraintRegistrar = new ContractWrapperFactory(
   "GlobalConstraintRegistrar", GlobalConstraintRegistrarWrapper);
-export { GlobalConstraintRegistrar };
 
 export interface NewGlobalConstraintsProposalEventResult {
   /**

@@ -330,8 +330,7 @@ export class ArcTransactionAgreementResult extends ArcTransactionResult {
   }
 }
 
-const VestingScheme = new ContractWrapperFactory("VestingScheme", VestingSchemeWrapper);
-export { VestingScheme };
+export const VestingScheme = new ContractWrapperFactory("VestingScheme", VestingSchemeWrapper);
 
 export interface AgreementProposalEventResult {
   /**

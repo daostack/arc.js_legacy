@@ -90,8 +90,7 @@ export class AbsoluteVoteWrapper extends ContractWrapperBase {
   }
 }
 
-const AbsoluteVote = new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper);
-export { AbsoluteVote };
+export const AbsoluteVote = new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper);
 
 export interface CancelProposalEventResult {
   /**
