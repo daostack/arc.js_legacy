@@ -1,0 +1,2534 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="A JavaScript library for interacting with @daostack/arc ethereum smart contracts">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../../img/favicon.ico">
+      <meta name="generator" content="mkdocs-0.17.3, mkdocs-material-2.7.0">
+    
+    
+      
+        <title>ConsoleLogger - DAOstack Arc.js Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.78aab2dc.css">
+      
+        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.6079476c.css">
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="teal" data-md-color-accent="amber">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <a href="#class-consolelogger" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../../../Home/" title="DAOstack Arc.js Documentation" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                DAOstack Arc.js Documentation
+              </span>
+              <span class="md-header-nav__topic">
+                ConsoleLogger
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/daostack/arc.js/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      daostack/arc.js
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </span>
+    DAOstack Arc.js Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/daostack/arc.js/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      daostack/arc.js
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../Home/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../Configuration/" title="Configuration" class="md-nav__link">
+      Configuration
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../CreateDao/" title="DAOs" class="md-nav__link">
+      DAOs
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../Schemes/" title="Schemes" class="md-nav__link">
+      Schemes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../Proposals/" title="Proposals" class="md-nav__link">
+      Proposals
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../GCs/" title="Global Constraints" class="md-nav__link">
+      Global Constraints
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../Migration/" title="Contract Migration" class="md-nav__link">
+      Contract Migration
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../GanacheDb/" title="Using GanacheDb" class="md-nav__link">
+      Using GanacheDb
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9" checked>
+    
+    <label class="md-nav__link" for="nav-9">
+      API Reference
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        API Reference
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../README/" title="Index" class="md-nav__link">
+      Index
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../AbsoluteVoteWrapper/" title="AbsoluteVoteWrapper" class="md-nav__link">
+      AbsoluteVoteWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ArcTransactionAgreementResult/" title="ArcTransactionAgreementResult" class="md-nav__link">
+      ArcTransactionAgreementResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ArcTransactionDataResult/" title="ArcTransactionDataResult" class="md-nav__link">
+      ArcTransactionDataResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ArcTransactionProposalResult/" title="ArcTransactionProposalResult" class="md-nav__link">
+      ArcTransactionProposalResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ArcTransactionResult/" title="ArcTransactionResult" class="md-nav__link">
+      ArcTransactionResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../AvatarService/" title="AvatarService" class="md-nav__link">
+      AvatarService
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Config/" title="Config" class="md-nav__link">
+      Config
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        ConsoleLogger
+      </label>
+    
+    <a href="./" title="ConsoleLogger" class="md-nav__link md-nav__link--active">
+      ConsoleLogger
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#implements" title="Implements" class="md-nav__link">
+    Implements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#index" title="Index" class="md-nav__link">
+    Index
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#properties" title="Properties" class="md-nav__link">
+    Properties
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods" title="Methods" class="md-nav__link">
+    Methods
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#properties_1" title="Properties" class="md-nav__link">
+    Properties
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#level" title="level" class="md-nav__link">
+    level
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methods_1" title="Methods" class="md-nav__link">
+    Methods
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#debug" title="debug" class="md-nav__link">
+    debug
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error" title="error" class="md-nav__link">
+    error
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info" title="info" class="md-nav__link">
+    info
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#warn" title="warn" class="md-nav__link">
+    warn
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Contracts/" title="Contracts" class="md-nav__link">
+      Contracts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ContractWrapperFactory/" title="ContractWrapperFactory" class="md-nav__link">
+      ContractWrapperFactory
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ContributionRewardWrapper/" title="ContributionRewardWrapper" class="md-nav__link">
+      ContributionRewardWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../DAO/" title="DAO" class="md-nav__link">
+      DAO
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../DaoCreatorWrapper/" title="DaoCreatorWrapper" class="md-nav__link">
+      DaoCreatorWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ExtendTruffleContract/" title="ExtendTruffleContract" class="md-nav__link">
+      ExtendTruffleContract
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../GenesisProtocolWrapper/" title="GenesisProtocolWrapper" class="md-nav__link">
+      GenesisProtocolWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../GlobalConstraintRegistrarWrapper/" title="GlobalConstraintRegistrarWrapper" class="md-nav__link">
+      GlobalConstraintRegistrarWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../LoggingService/" title="LoggingService" class="md-nav__link">
+      LoggingService
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../SchemeRegistrarWrapper/" title="SchemeRegistrarWrapper" class="md-nav__link">
+      SchemeRegistrarWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../TokenCapGCWrapper/" title="TokenCapGCWrapper" class="md-nav__link">
+      TokenCapGCWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../UpgradeSchemeWrapper/" title="UpgradeSchemeWrapper" class="md-nav__link">
+      UpgradeSchemeWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Utils/" title="Utils" class="md-nav__link">
+      Utils
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../VestingSchemeWrapper/" title="VestingSchemeWrapper" class="md-nav__link">
+      VestingSchemeWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../VoteInOrganizationSchemeWrapper/" title="VoteInOrganizationSchemeWrapper" class="md-nav__link">
+      VoteInOrganizationSchemeWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../enums/BinaryVoteResult/" title="BinaryVoteResult" class="md-nav__link">
+      BinaryVoteResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../enums/DefaultSchemePermissions/" title="DefaultSchemePermissions" class="md-nav__link">
+      DefaultSchemePermissions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../enums/ExecutionState/" title="ExecutionState" class="md-nav__link">
+      ExecutionState
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../enums/LogLevel/" title="LogLevel" class="md-nav__link">
+      LogLevel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../enums/RewardType/" title="RewardType" class="md-nav__link">
+      RewardType
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../enums/SchemePermissions/" title="SchemePermissions" class="md-nav__link">
+      SchemePermissions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/AbsoluteVoteParams/" title="AbsoluteVoteParams" class="md-nav__link">
+      AbsoluteVoteParams
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/Agreement/" title="Agreement" class="md-nav__link">
+      Agreement
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/AgreementCancelEventResult/" title="AgreementCancelEventResult" class="md-nav__link">
+      AgreementCancelEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/AgreementProposalEventResult/" title="AgreementProposalEventResult" class="md-nav__link">
+      AgreementProposalEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ArcContractInfo/" title="ArcContractInfo" class="md-nav__link">
+      ArcContractInfo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ArcDeployedContractNames/" title="ArcDeployedContractNames" class="md-nav__link">
+      ArcDeployedContractNames
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ArcDeployedContracts/" title="ArcDeployedContracts" class="md-nav__link">
+      ArcDeployedContracts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/CancelProposalEventResult/" title="CancelProposalEventResult" class="md-nav__link">
+      CancelProposalEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/CancelVotingEventResult/" title="CancelVotingEventResult" class="md-nav__link">
+      CancelVotingEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ChangeUpgradeSchemeProposalEventResult/" title="ChangeUpgradeSchemeProposalEventResult" class="md-nav__link">
+      ChangeUpgradeSchemeProposalEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/CollectEventResult/" title="CollectEventResult" class="md-nav__link">
+      CollectEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/CollectVestingAgreementConfig/" title="CollectVestingAgreementConfig" class="md-nav__link">
+      CollectVestingAgreementConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/CommonVestingAgreementConfig/" title="CommonVestingAgreementConfig" class="md-nav__link">
+      CommonVestingAgreementConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ContributionProposal/" title="ContributionProposal" class="md-nav__link">
+      ContributionProposal
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ContributionRewardParams/" title="ContributionRewardParams" class="md-nav__link">
+      ContributionRewardParams
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ContributionRewardParamsReturn/" title="ContributionRewardParamsReturn" class="md-nav__link">
+      ContributionRewardParamsReturn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ContributionRewardRedeemParams/" title="ContributionRewardRedeemParams" class="md-nav__link">
+      ContributionRewardRedeemParams
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ContributionRewardSpecifiedRedemptionParams/" title="ContributionRewardSpecifiedRedemptionParams" class="md-nav__link">
+      ContributionRewardSpecifiedRedemptionParams
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ControllerAddGlobalConstraintsEventLogEntry/" title="ControllerAddGlobalConstraintsEventLogEntry" class="md-nav__link">
+      ControllerAddGlobalConstraintsEventLogEntry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ControllerRegisterSchemeEventLogEntry/" title="ControllerRegisterSchemeEventLogEntry" class="md-nav__link">
+      ControllerRegisterSchemeEventLogEntry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/CreateVestingAgreementConfig/" title="CreateVestingAgreementConfig" class="md-nav__link">
+      CreateVestingAgreementConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/DaoGlobalConstraintInfo/" title="DaoGlobalConstraintInfo" class="md-nav__link">
+      DaoGlobalConstraintInfo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/DaoSchemeInfo/" title="DaoSchemeInfo" class="md-nav__link">
+      DaoSchemeInfo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/DecodedLogEntry/" title="DecodedLogEntry" class="md-nav__link">
+      DecodedLogEntry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/DecodedLogEntryEvent/" title="DecodedLogEntryEvent" class="md-nav__link">
+      DecodedLogEntryEvent
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/EventFetcher/" title="EventFetcher" class="md-nav__link">
+      EventFetcher
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ExecutableInterface/" title="ExecutableInterface" class="md-nav__link">
+      ExecutableInterface
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ExecutedGenesisProposal/" title="ExecutedGenesisProposal" class="md-nav__link">
+      ExecutedGenesisProposal
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ExecuteProposalEventResult/" title="ExecuteProposalEventResult" class="md-nav__link">
+      ExecuteProposalEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/FilterObject/" title="FilterObject" class="md-nav__link">
+      FilterObject
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ForgeOrgConfig/" title="ForgeOrgConfig" class="md-nav__link">
+      ForgeOrgConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/FounderConfig/" title="FounderConfig" class="md-nav__link">
+      FounderConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GenesisProtocolExecuteProposalEventResult/" title="GenesisProtocolExecuteProposalEventResult" class="md-nav__link">
+      GenesisProtocolExecuteProposalEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GenesisProtocolParams/" title="GenesisProtocolParams" class="md-nav__link">
+      GenesisProtocolParams
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetAgreementParams/" title="GetAgreementParams" class="md-nav__link">
+      GetAgreementParams
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetBeneficiaryRewardsParams/" title="GetBeneficiaryRewardsParams" class="md-nav__link">
+      GetBeneficiaryRewardsParams
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetDaoProposalsConfig/" title="GetDaoProposalsConfig" class="md-nav__link">
+      GetDaoProposalsConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetNumberOfChoicesConfig/" title="GetNumberOfChoicesConfig" class="md-nav__link">
+      GetNumberOfChoicesConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetProposalAvatarConfig/" title="GetProposalAvatarConfig" class="md-nav__link">
+      GetProposalAvatarConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetProposalStatusConfig/" title="GetProposalStatusConfig" class="md-nav__link">
+      GetProposalStatusConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetProposalStatusResult/" title="GetProposalStatusResult" class="md-nav__link">
+      GetProposalStatusResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetRedeemableReputationProposerConfig/" title="GetRedeemableReputationProposerConfig" class="md-nav__link">
+      GetRedeemableReputationProposerConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetRedeemableReputationStakerConfig/" title="GetRedeemableReputationStakerConfig" class="md-nav__link">
+      GetRedeemableReputationStakerConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetRedeemableReputationVoterConfig/" title="GetRedeemableReputationVoterConfig" class="md-nav__link">
+      GetRedeemableReputationVoterConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetRedeemableTokensStakerConfig/" title="GetRedeemableTokensStakerConfig" class="md-nav__link">
+      GetRedeemableTokensStakerConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetRedeemableTokensVoterConfig/" title="GetRedeemableTokensVoterConfig" class="md-nav__link">
+      GetRedeemableTokensVoterConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetScoreConfig/" title="GetScoreConfig" class="md-nav__link">
+      GetScoreConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetScoreThresholdParamsConfig/" title="GetScoreThresholdParamsConfig" class="md-nav__link">
+      GetScoreThresholdParamsConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetScoreThresholdParamsResult/" title="GetScoreThresholdParamsResult" class="md-nav__link">
+      GetScoreThresholdParamsResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetStakerInfoConfig/" title="GetStakerInfoConfig" class="md-nav__link">
+      GetStakerInfoConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetStakerInfoResult/" title="GetStakerInfoResult" class="md-nav__link">
+      GetStakerInfoResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetStateConfig/" title="GetStateConfig" class="md-nav__link">
+      GetStateConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetThresholdConfig/" title="GetThresholdConfig" class="md-nav__link">
+      GetThresholdConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetTotalReputationSupplyConfig/" title="GetTotalReputationSupplyConfig" class="md-nav__link">
+      GetTotalReputationSupplyConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetVoterInfoConfig/" title="GetVoterInfoConfig" class="md-nav__link">
+      GetVoterInfoConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetVoterInfoResult/" title="GetVoterInfoResult" class="md-nav__link">
+      GetVoterInfoResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetVoteStakeConfig/" title="GetVoteStakeConfig" class="md-nav__link">
+      GetVoteStakeConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetVoteStatusConfig/" title="GetVoteStatusConfig" class="md-nav__link">
+      GetVoteStatusConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetWinningVoteConfig/" title="GetWinningVoteConfig" class="md-nav__link">
+      GetWinningVoteConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ILogger/" title="ILogger" class="md-nav__link">
+      ILogger
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/InitialSchemesSetEventResult/" title="InitialSchemesSetEventResult" class="md-nav__link">
+      InitialSchemesSetEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/IsVotableConfig/" title="IsVotableConfig" class="md-nav__link">
+      IsVotableConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/LogEntry/" title="LogEntry" class="md-nav__link">
+      LogEntry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/LogEntryEvent/" title="LogEntryEvent" class="md-nav__link">
+      LogEntryEvent
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/NewContributionProposalEventResult/" title="NewContributionProposalEventResult" class="md-nav__link">
+      NewContributionProposalEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/NewDaoConfig/" title="NewDaoConfig" class="md-nav__link">
+      NewDaoConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/NewDaoVotingMachineConfig/" title="NewDaoVotingMachineConfig" class="md-nav__link">
+      NewDaoVotingMachineConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/NewGlobalConstraintsProposalEventResult/" title="NewGlobalConstraintsProposalEventResult" class="md-nav__link">
+      NewGlobalConstraintsProposalEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/NewOrgEventResult/" title="NewOrgEventResult" class="md-nav__link">
+      NewOrgEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/NewProposalEventResult/" title="NewProposalEventResult" class="md-nav__link">
+      NewProposalEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/NewSchemeProposalEventResult/" title="NewSchemeProposalEventResult" class="md-nav__link">
+      NewSchemeProposalEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/NewUpgradeProposalEventResult/" title="NewUpgradeProposalEventResult" class="md-nav__link">
+      NewUpgradeProposalEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/NewVestedAgreementEventResult/" title="NewVestedAgreementEventResult" class="md-nav__link">
+      NewVestedAgreementEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ProposalDeletedEventResult/" title="ProposalDeletedEventResult" class="md-nav__link">
+      ProposalDeletedEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ProposalExecutedEventResult/" title="ProposalExecutedEventResult" class="md-nav__link">
+      ProposalExecutedEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ProposalRewards/" title="ProposalRewards" class="md-nav__link">
+      ProposalRewards
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ProposeContributionRewardParams/" title="ProposeContributionRewardParams" class="md-nav__link">
+      ProposeContributionRewardParams
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ProposeControllerParams/" title="ProposeControllerParams" class="md-nav__link">
+      ProposeControllerParams
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ProposeToAddModifyGlobalConstraintParams/" title="ProposeToAddModifyGlobalConstraintParams" class="md-nav__link">
+      ProposeToAddModifyGlobalConstraintParams
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ProposeToAddModifySchemeParams/" title="ProposeToAddModifySchemeParams" class="md-nav__link">
+      ProposeToAddModifySchemeParams
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ProposeToRemoveGlobalConstraintParams/" title="ProposeToRemoveGlobalConstraintParams" class="md-nav__link">
+      ProposeToRemoveGlobalConstraintParams
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ProposeToRemoveSchemeParams/" title="ProposeToRemoveSchemeParams" class="md-nav__link">
+      ProposeToRemoveSchemeParams
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ProposeUpgradingSchemeParams/" title="ProposeUpgradingSchemeParams" class="md-nav__link">
+      ProposeUpgradingSchemeParams
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ProposeVestingAgreementConfig/" title="ProposeVestingAgreementConfig" class="md-nav__link">
+      ProposeVestingAgreementConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ProposeVoteConfig/" title="ProposeVoteConfig" class="md-nav__link">
+      ProposeVoteConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/RedeemConfig/" title="RedeemConfig" class="md-nav__link">
+      RedeemConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/RedeemEtherEventResult/" title="RedeemEtherEventResult" class="md-nav__link">
+      RedeemEtherEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/RedeemEventResult/" title="RedeemEventResult" class="md-nav__link">
+      RedeemEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/RedeemExternalTokenEventResult/" title="RedeemExternalTokenEventResult" class="md-nav__link">
+      RedeemExternalTokenEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/RedeemNativeTokenEventResult/" title="RedeemNativeTokenEventResult" class="md-nav__link">
+      RedeemNativeTokenEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/RedeemReputationEventResult/" title="RedeemReputationEventResult" class="md-nav__link">
+      RedeemReputationEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/RemoveGlobalConstraintsProposalEventResult/" title="RemoveGlobalConstraintsProposalEventResult" class="md-nav__link">
+      RemoveGlobalConstraintsProposalEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/RemoveSchemeProposalEventResult/" title="RemoveSchemeProposalEventResult" class="md-nav__link">
+      RemoveSchemeProposalEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/RevokeSignToCancelAgreementEventResult/" title="RevokeSignToCancelAgreementEventResult" class="md-nav__link">
+      RevokeSignToCancelAgreementEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/RevokeSignToCancelVestingAgreementConfig/" title="RevokeSignToCancelVestingAgreementConfig" class="md-nav__link">
+      RevokeSignToCancelVestingAgreementConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/SchemeConfig/" title="SchemeConfig" class="md-nav__link">
+      SchemeConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/SchemesConfig/" title="SchemesConfig" class="md-nav__link">
+      SchemesConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/SetSchemesConfig/" title="SetSchemesConfig" class="md-nav__link">
+      SetSchemesConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/ShouldBoostConfig/" title="ShouldBoostConfig" class="md-nav__link">
+      ShouldBoostConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/SignToCancelAgreementEventResult/" title="SignToCancelAgreementEventResult" class="md-nav__link">
+      SignToCancelAgreementEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/SignToCancelVestingAgreementConfig/" title="SignToCancelVestingAgreementConfig" class="md-nav__link">
+      SignToCancelVestingAgreementConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/StakeConfig/" title="StakeConfig" class="md-nav__link">
+      StakeConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/StakeEventResult/" title="StakeEventResult" class="md-nav__link">
+      StakeEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/StandardSchemeParams/" title="StandardSchemeParams" class="md-nav__link">
+      StandardSchemeParams
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/TokenCapGcParams/" title="TokenCapGcParams" class="md-nav__link">
+      TokenCapGcParams
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/TransactionReceipt/" title="TransactionReceipt" class="md-nav__link">
+      TransactionReceipt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/TransactionReceiptTruffle/" title="TransactionReceiptTruffle" class="md-nav__link">
+      TransactionReceiptTruffle
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/VoteConfig/" title="VoteConfig" class="md-nav__link">
+      VoteConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/VoteInOrganizationProposeVoteConfig/" title="VoteInOrganizationProposeVoteConfig" class="md-nav__link">
+      VoteInOrganizationProposeVoteConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/VoteOnBehalfEventResult/" title="VoteOnBehalfEventResult" class="md-nav__link">
+      VoteOnBehalfEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/VoteProposalEventResult/" title="VoteProposalEventResult" class="md-nav__link">
+      VoteProposalEventResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/VoteWithSpecifiedAmountsConfig/" title="VoteWithSpecifiedAmountsConfig" class="md-nav__link">
+      VoteWithSpecifiedAmountsConfig
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#implements" title="Implements" class="md-nav__link">
+    Implements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#index" title="Index" class="md-nav__link">
+    Index
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#properties" title="Properties" class="md-nav__link">
+    Properties
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods" title="Methods" class="md-nav__link">
+    Methods
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#properties_1" title="Properties" class="md-nav__link">
+    Properties
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#level" title="level" class="md-nav__link">
+    level
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methods_1" title="Methods" class="md-nav__link">
+    Methods
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#debug" title="debug" class="md-nav__link">
+    debug
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error" title="error" class="md-nav__link">
+    error
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info" title="info" class="md-nav__link">
+    info
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#warn" title="warn" class="md-nav__link">
+    warn
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/daostack/arc.js/edit/master/docs/api/classes/ConsoleLogger.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <p><a href="../../README/">API Reference</a> &gt; <a href="./">ConsoleLogger</a></p>
+<h1 id="class-consolelogger">Class: ConsoleLogger<a class="headerlink" href="#class-consolelogger" title="Permanent link">&para;</a></h1>
+<h2 id="implements">Implements<a class="headerlink" href="#implements" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../../interfaces/ILogger/">ILogger</a></li>
+</ul>
+<h2 id="index">Index<a class="headerlink" href="#index" title="Permanent link">&para;</a></h2>
+<h3 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="./#level">level</a></li>
+</ul>
+<h3 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="./#debug">debug</a></li>
+<li><a href="./#error">error</a></li>
+<li><a href="./#info">info</a></li>
+<li><a href="./#warn">warn</a></li>
+</ul>
+<hr />
+<h2 id="properties_1">Properties<a class="headerlink" href="#properties_1" title="Permanent link">&para;</a></h2>
+<p><a id="level"></a></p>
+<h3 id="level">level<a class="headerlink" href="#level" title="Permanent link">&para;</a></h3>
+<p><strong>●  level</strong>:  <em><a href="../../enums/LogLevel/">LogLevel</a></em>  =  parseInt(Config.get("logLevel"), 10) as LogLevel</p>
+<p><em>Implementation of <a href="../../interfaces/ILogger/">ILogger</a>.<a href="../../interfaces/ILogger/#level">level</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d51e283/lib/loggingService.ts#L50">loggingService.ts:50</a></em></p>
+<hr />
+<h2 id="methods_1">Methods<a class="headerlink" href="#methods_1" title="Permanent link">&para;</a></h2>
+<p><a id="debug"></a></p>
+<h3 id="debug">debug<a class="headerlink" href="#debug" title="Permanent link">&para;</a></h3>
+<p>► <strong>debug</strong>(message: <em><code>string</code></em>): <code>void</code></p>
+<p><em>Implementation of <a href="../../interfaces/ILogger/">ILogger</a>.<a href="../../interfaces/ILogger/#debug">debug</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d51e283/lib/loggingService.ts#L52">loggingService.ts:52</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>message</td>
+<td><code>string</code></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>void</code></p>
+<hr />
+<p><a id="error"></a></p>
+<h3 id="error">error<a class="headerlink" href="#error" title="Permanent link">&para;</a></h3>
+<p>► <strong>error</strong>(message: <em><code>string</code></em>): <code>void</code></p>
+<p><em>Implementation of <a href="../../interfaces/ILogger/">ILogger</a>.<a href="../../interfaces/ILogger/#error">error</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d51e283/lib/loggingService.ts#L58">loggingService.ts:58</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>message</td>
+<td><code>string</code></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>void</code></p>
+<hr />
+<p><a id="info"></a></p>
+<h3 id="info">info<a class="headerlink" href="#info" title="Permanent link">&para;</a></h3>
+<p>► <strong>info</strong>(message: <em><code>string</code></em>): <code>void</code></p>
+<p><em>Implementation of <a href="../../interfaces/ILogger/">ILogger</a>.<a href="../../interfaces/ILogger/#info">info</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d51e283/lib/loggingService.ts#L54">loggingService.ts:54</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>message</td>
+<td><code>string</code></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>void</code></p>
+<hr />
+<p><a id="warn"></a></p>
+<h3 id="warn">warn<a class="headerlink" href="#warn" title="Permanent link">&para;</a></h3>
+<p>► <strong>warn</strong>(message: <em><code>string</code></em>): <code>void</code></p>
+<p><em>Implementation of <a href="../../interfaces/ILogger/">ILogger</a>.<a href="../../interfaces/ILogger/#warn">warn</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d51e283/lib/loggingService.ts#L56">loggingService.ts:56</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>message</td>
+<td><code>string</code></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>void</code></p>
+<hr />
+                
+                  
+                
+              
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../Config/" title="Config" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Config
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../Contracts/" title="Contracts" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Contracts
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/daostack/arc.js" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://daostack.slack.com" class="md-footer-social__link fa fa-slack"></a>
+    
+      <a href="https://t.me/daostackcommunity" class="md-footer-social__link fa fa-telegram"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/application.8eb9be28.js"></script>
+      
+      <script>app.initialize({version:"0.17.3",url:{base:"../../.."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>
