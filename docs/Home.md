@@ -65,8 +65,8 @@ See [Deploying to Other Testnets](#deploying-to-other-testnets) if you want to r
 
 ### Using the Arc.js Library in your Code
 
-#### TypeScript
-Arc.js itself is written using TypeScript. The Arc.js library includes TypeScript type definitions defined in an index.d.ts.
+#### Typescript
+Arc.js itself is written using Typescript. The Arc.js library includes Typescript type definitions defined in an index.d.ts.
 
 #### Javascript
 The javascript included in the Arc.js library is ES6 in a commonjs module format.
