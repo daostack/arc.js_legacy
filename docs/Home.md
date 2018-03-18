@@ -24,7 +24,7 @@ Now you can proceed with migrating contracts to a running testnet and configurin
 ### API Reference
 You can find a [detailed reference for the entire Arc.js API here](/api/README.md).  Read on here for step-by-step examples on how to get started with Arc.js.
 
-### Set up Arc.js
+### Setting up Arc.js
 
 The following sections describe the basic steps for setting up Arc.js in your application. These steps basically involve:
 
