@@ -4,7 +4,6 @@ import * as Web3 from "web3";
 /* tslint:disable:max-line-length */
 
 declare module "@daostack/arc.js" {
-
   export enum SchemePermissions {
     None = 0,
     /**
@@ -88,23 +87,6 @@ declare module "@daostack/arc.js" {
     error(message: string): void;
   }
 
-  /*******************************
-   * Arc contract information as contained in ArcDeployedContractNames (see settings)
-   */
-  export interface ArcContractInfo {
-    /**
-     * An uninitialized instance of ContractWrapperBase,
-     * basically the class factory with static methods.
-     */
-    contract: any;
-    /**
-     * address of the instance deployed by Arc.
-     * Calling contract.at() (a static method on ContractWrapperBase) will return a
-     * the properly initialized instance of ContractWrapperBase.
-     */
-    address: string;
-  }
-
   /**
    * Base or actual type returned by all contract wrapper methods that generate a transaction.
    */
@@ -141,43 +123,6 @@ declare module "@daostack/arc.js" {
   export interface ArcTransactionAgreementResult extends ArcTransactionResult {
     agreementId: number;
   }
-  /**
-   * An object with property names being a contract key and property value as the corresponding ArcContractInfo.
-   * For all contracts deployed by Arc.js.
-   */
-  export interface ArcDeployedContractNames {
-    AbsoluteVote: ArcContractInfo;
-    ContributionReward: ArcContractInfo;
-    DaoCreator: ArcContractInfo;
-    GenesisProtocol: ArcContractInfo;
-    GlobalConstraintRegistrar: ArcContractInfo;
-    SchemeRegistrar: ArcContractInfo;
-    TokenCapGC: ArcContractInfo;
-    UpgradeScheme: ArcContractInfo;
-    VestingScheme: ArcContractInfo;
-    VoteInOrganizationScheme: ArcContractInfo;
-  }
-
-  /**
-   * ArcDeployedContractNames, and those contracts organized by type.
-   * Call it.at(it.address) to get javascript wrapper
-   */
-  export interface ArcDeployedWrappers {
-    allWrappers: ArcDeployedContractNames;
-
-    /**
-     * All deployed schemes
-     */
-    schemes: Array<ArcContractInfo>;
-    /**
-     * All deployed voting machines
-     */
-    votingMachines: Array<ArcContractInfo>;
-    /**
-     * All deployed global constraints
-     */
-    globalConstraints: Array<ArcContractInfo>;
-  }
 
   /********************************
    * ConfigService
@@ -190,22 +135,116 @@ declare module "@daostack/arc.js" {
   }
 
   /********************************
-   * contracts
+   * ContractWrapperFactory
    */
-  export class WrapperService {
-    public static getDeployedWrappers(): ArcDeployedWrappers;
+  export class ContractWrapperFactory<TWrapper extends ContractWrapperBase> {
+    public new(...rest: Array<any>): Promise<TWrapper>;
+
+    public at(address: string): Promise<TWrapper>;
+
+    public deployed(): Promise<TWrapper>;
+  }
+
+  /********************************
+   * WrapperService
+   */
+
+  /**
+   * An object with property names being a contract key and property value as the
+   * corresponding wrapper factory (ContractWrapperFactory<TWrapper).
+   */
+  export interface ArcWrapperFactories {
+    AbsoluteVote: ContractWrapperFactory<AbsoluteVoteWrapper>;
+    ContributionReward: ContractWrapperFactory<ContributionRewardWrapper>;
+    DaoCreator: ContractWrapperFactory<DaoCreatorWrapper>;
+    GenesisProtocol: ContractWrapperFactory<GenesisProtocolWrapper>;
+    GlobalConstraintRegistrar: ContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
+    SchemeRegistrar: ContractWrapperFactory<SchemeRegistrarWrapper>;
+    TokenCapGC: ContractWrapperFactory<TokenCapGCWrapper>;
+    UpgradeScheme: ContractWrapperFactory<UpgradeSchemeWrapper>;
+    VestingScheme: ContractWrapperFactory<VestingSchemeWrapper>;
+    VoteInOrganizationScheme: ContractWrapperFactory<VoteInOrganizationSchemeWrapper>;
+  }
+
+  /**
+   * An object with property names being a contract key and property value as the
+   * corresponding wrapper.
+   */
+  export interface ArcWrappers {
+    AbsoluteVote: AbsoluteVoteWrapper;
+    ContributionReward: ContributionRewardWrapper;
+    DaoCreator: DaoCreatorWrapper;
+    GenesisProtocol: GenesisProtocolWrapper;
+    GlobalConstraintRegistrar: GlobalConstraintRegistrarWrapper;
+    SchemeRegistrar: SchemeRegistrarWrapper;
+    TokenCapGC: TokenCapGCWrapper;
+    UpgradeScheme: UpgradeSchemeWrapper;
+    VestingScheme: VestingSchemeWrapper;
+    VoteInOrganizationScheme: VoteInOrganizationSchemeWrapper;
+  }
+
+  /**
+   * Arc.js wrapper factores grouped by type.
+   */
+  export interface ArcWrappersByType {
     /**
-     * Returns an Arc.js scheme wrapper, or undefined if not found
-     * @param contract - name of an Arc scheme, like "SchemeRegistrar"
+     * All wrapped contracts
+     */
+    allWrappers: ArcWrappers;
+    /**
+     * All wrapped schemes
+     */
+    schemes: Array<ContractWrapperBase>;
+    /**
+     * All wrapped voting machines
+     */
+    votingMachines: Array<ContractWrapperBase>;
+    /**
+     * All wrapped global constraints
+     */
+    globalConstraints: Array<ContractWrapperBase>;
+    /**
+     * Other types of wrappers
+     */
+    other: Array<ContractWrapperBase>;
+  }
+
+  export class WrapperService {
+
+    /**
+     * Wrappers by name, hydrated with contracts as deployed by this version of Arc.js.
+     */
+    public static wrappers: ArcWrappers;
+    /**
+     * Contract wrapper factories grouped by type
+     */
+    public static wrappersByType: ArcWrappersByType;
+    /**
+     * Wrapper factories by name.  Use these when you want to do `.at()` or `.new()`.  You can also
+     * use for `deployed()`, but the wrappers for deployed contracts are directly available from the
+     * `wrappers` and `wrappersByType` properties.
+     */
+    public static factories: ArcWrapperFactories;
+
+    /**
+     * initialize() must be called before any of the static properties will have values.
+     * It is currently called in ArcInitialize(), which in trun must be invoked by any applicaiton
+     * using Arc.js.
+     */
+    public static initialize(): Promise<void>;
+
+    /**
+     * Returns an Arc.js contract wrapper or undefined if not found.
+     * @param contractName - name of an Arc contract, like "SchemeRegistrar"
      * @param address - optional
      */
-    public static getContractWrapper(contract: string, address?: string): Promise<ExtendTruffleScheme | undefined>;
+    public static getContractWrapper(contractName: string, address?: string)
+      : Promise<ContractWrapperBase | undefined>;
   }
 
   /********************************
    * utils
    */
-
   export class Utils {
 
     /**
@@ -321,10 +360,6 @@ declare module "@daostack/arc.js" {
      * @param paramsHash
      */
     public getParametersArray(paramsHash: Hash): Promise<Array<any>>;
-  }
-
-  export class ExtendTruffleScheme extends ContractWrapperBase {
-    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
   }
 
   export type Hash = string;
@@ -531,10 +566,7 @@ declare module "@daostack/arc.js" {
     votePerc?: number;
   }
 
-  export class AbsoluteVote extends ExtendTruffleScheme {
-    public static new(): AbsoluteVote;
-    public static at(address: string): AbsoluteVote;
-    public static deployed(): AbsoluteVote;
+  export class AbsoluteVoteWrapper extends ContractWrapperBase {
 
     public NewProposal: EventFetcherFactory<NewProposalEventResult>;
     public CancelProposal: EventFetcherFactory<CancelProposalEventResult>;
@@ -684,10 +716,7 @@ declare module "@daostack/arc.js" {
     _avatar: Address;
   }
 
-  export class DaoCreator extends ExtendTruffleScheme {
-    public static new(): DaoCreator;
-    public static at(address: string): DaoCreator;
-    public static deployed(): DaoCreator;
+  export class DaoCreatorWrapper extends ContractWrapperBase {
     public NewOrg: EventFetcherFactory<NewOrgEventResult>;
     public InitialSchemesSet: EventFetcherFactory<InitialSchemesSetEventResult>;
     /**
@@ -798,7 +827,7 @@ declare module "@daostack/arc.js" {
     public getContractWrapper(
       contractName: string,
       address?: string
-    ): Promise<ExtendTruffleScheme | undefined>;
+    ): Promise<ContractWrapperBase | undefined>;
 
     /**
      * returns whether the scheme with the given address is registered to this DAO's controller
@@ -887,11 +916,7 @@ declare module "@daostack/arc.js" {
     _proposalId: Hash;
   }
 
-  export class GlobalConstraintRegistrar extends ExtendTruffleScheme {
-    public static new(): GlobalConstraintRegistrar;
-
-    public static at(address: string): GlobalConstraintRegistrar;
-    public static deployed(): GlobalConstraintRegistrar;
+  export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase {
     public NewGlobalConstraintsProposal: EventFetcherFactory<NewGlobalConstraintsProposalEventResult>;
     public RemoveGlobalConstraintsProposal: EventFetcherFactory<RemoveGlobalConstraintsProposalEventResult>;
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
@@ -991,10 +1016,7 @@ declare module "@daostack/arc.js" {
     _scheme: Address;
   }
 
-  export class SchemeRegistrar extends ExtendTruffleScheme {
-    public static new(): SchemeRegistrar;
-    public static at(address: string): SchemeRegistrar;
-    public static deployed(): SchemeRegistrar;
+  export class SchemeRegistrarWrapper extends ContractWrapperBase {
     public NewSchemeProposal: EventFetcherFactory<NewSchemeProposalEventResult>;
     public RemoveSchemeProposal: EventFetcherFactory<RemoveSchemeProposalEventResult>;
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
@@ -1080,10 +1102,7 @@ declare module "@daostack/arc.js" {
     newUpgradeScheme: Address;
   }
 
-  export class UpgradeScheme extends ExtendTruffleScheme {
-    public static new(): UpgradeScheme;
-    public static at(address: string): UpgradeScheme;
-    public static deployed(): UpgradeScheme;
+  export class UpgradeSchemeWrapper extends ContractWrapperBase {
     public NewUpgradeProposal: EventFetcherFactory<NewUpgradeProposalEventResult>;
     public ChangeUpgradeSchemeProposal: EventFetcherFactory<ChangeUpgradeSchemeProposalEventResult>;
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
@@ -1349,10 +1368,7 @@ declare module "@daostack/arc.js" {
     proposalId?: string;
   }
 
-  export class ContributionReward extends ExtendTruffleScheme {
-    public static new(): ContributionReward;
-    public static at(address: string): ContributionReward;
-    public static deployed(): ContributionReward;
+  export class ContributionRewardWrapper extends ContractWrapperBase {
     public NewContributionProposal: EventFetcherFactory<NewContributionProposalEventResult>;
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
     public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
@@ -1549,10 +1565,7 @@ declare module "@daostack/arc.js" {
     token: Address;
   }
 
-  export class VestingScheme extends ExtendTruffleScheme {
-    public static new(): VestingScheme;
-    public static at(address: string): VestingScheme;
-    public static deployed(): VestingScheme;
+  export class VestingSchemeWrapper extends ContractWrapperBase {
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
     public AgreementProposal: EventFetcherFactory<AgreementProposalEventResult>;
     public NewVestedAgreement: EventFetcherFactory<NewVestedAgreementEventResult>;
@@ -1617,10 +1630,7 @@ declare module "@daostack/arc.js" {
     _params: Array<Hash>;
   }
 
-  export class VoteInOrganizationScheme extends ExtendTruffleScheme {
-    public static new(): VoteInOrganizationScheme;
-    public static at(address: string): VoteInOrganizationScheme;
-    public static deployed(): VoteInOrganizationScheme;
+  export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase {
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
     public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
     public VoteOnBehalf: EventFetcherFactory<VoteOnBehalfEventResult>;
@@ -2068,10 +2078,7 @@ declare module "@daostack/arc.js" {
     No = 2,
   }
 
-  export class GenesisProtocol extends ExtendTruffleScheme {
-    public static new(): GenesisProtocol;
-    public static at(address: string): GenesisProtocol;
-    public static deployed(): GenesisProtocol;
+  export class GenesisProtocolWrapper extends ContractWrapperBase {
 
     public NewProposal: EventFetcherFactory<NewProposalEventResult>;
     public ExecuteProposal: EventFetcherFactory<GenesisProtocolExecuteProposalEventResult>;
@@ -2108,5 +2115,11 @@ declare module "@daostack/arc.js" {
     public getState(options: GetStateConfig): Promise<number>;
     public setParameters(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>>;
     public getSchemeParameters(avatarAddress: Address): Promise<GenesisProtocolParams>;
+  }
+
+  /*********************
+   * TokenCapGC
+   */
+  export class TokenCapGCWrapper extends ContractWrapperBase {
   }
 }

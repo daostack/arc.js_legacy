@@ -86,7 +86,7 @@ export class WrapperService {
    */
   public static wrappersByType: ArcWrappersByType;
   /**
-   * Wrapper factories by name.  Use these when you want to do `.at()` or `.new()`.  You can also 
+   * Wrapper factories by name.  Use these when you want to do `.at()` or `.new()`.  You can also
    * use for `deployed()`, but the wrappers for deployed contracts are directly available from the
    * `wrappers` and `wrappersByType` properties.
    */
