@@ -16,11 +16,12 @@ export class Config {
   constructor() {
     if (!Config.instance) {
       const defaults = require("../config/default.json");
-
+      const prefix = "arcjs_";
       if (process && process.env) {
         Object.keys(process.env).forEach((key: string) => {
-          if (defaults.hasOwnProperty(key)) {
-            defaults[key] = process.env[key];
+          const internalKey = key.startsWith(prefix) ? key.replace(prefix, "") : key;
+          if (defaults.hasOwnProperty(internalKey)) {
+            defaults[internalKey] = process.env[key];
           }
         });
       }
