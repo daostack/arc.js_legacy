@@ -130,10 +130,7 @@ module.exports = {
        *
        * Run migrateContracts.fetchFromArc first if you want to start with fresh unmigrated contracts from @daostack/arc.
        */
-      default: series(
-        `nps build`,
-        `${truffleCommand} migrate --contracts_build_directory ${pathArcJsContracts} --without-compile --network ${network}`
-      ),
+      default: `${truffleCommand} migrate --contracts_build_directory ${pathArcJsContracts} --without-compile --network ${network}`,
       /**
        * Clean the outputted contract json files, optionally andMigrate.
        *
