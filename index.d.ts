@@ -180,9 +180,9 @@ declare module "@daostack/arc.js" {
   }
 
   /********************************
-   * Config
+   * ConfigService
    */
-  export class Config {
+  export class ConfigService {
     public static get(key: string): any;
     public static set(key: string, value: any): void;
     public static setLogLevel(level: LogLevel): void;
@@ -192,7 +192,7 @@ declare module "@daostack/arc.js" {
   /********************************
    * contracts
    */
-  export class Contracts {
+  export class WrapperService {
     public static getDeployedContracts(): ArcDeployedContracts;
     /**
      * Returns an Arc.js scheme wrapper, or undefined if not found

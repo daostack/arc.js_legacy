@@ -11,7 +11,7 @@ import {
   SchemePermissions,
   VoteConfig
 } from "../commonTypes";
-import { Config } from "../config";
+import { ConfigService } from "../configService";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
@@ -130,7 +130,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase {
     /**
      * approve immediate transfer of staked tokens from onBehalfOf to this scheme
      */
-    if (Config.get("autoApproveTokenTransfers")) {
+    if (ConfigService.get("autoApproveTokenTransfers")) {
       const token = await
         (await Utils.requireContract("StandardToken")).at(await this.contract.stakingToken()) as any;
       await token.approve(this.address,

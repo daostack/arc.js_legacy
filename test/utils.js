@@ -1,8 +1,8 @@
 "use strict";
 import "./helpers";
-import { AbsoluteVote } from "../test-dist/contracts/absoluteVote";
+import { AbsoluteVote } from "../test-dist/wrappers/absoluteVote";
 import { DefaultSchemePermissions } from "../test-dist/commonTypes";
-import { TestWrapper } from "../test-dist/test/contracts/testWrapper";
+import { TestWrapper } from "../test-dist/test/wrappers/testWrapper";
 import { Utils } from "../test-dist/utils";
 
 describe("ContractWrapperBase", () => {

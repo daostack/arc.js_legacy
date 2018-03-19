@@ -2,7 +2,7 @@
 import * as BigNumber from "bignumber.js";
 import dopts = require("default-options");
 import { Address, DefaultSchemePermissions, fnVoid, Hash, SchemePermissions } from "../commonTypes";
-import { Config } from "../config";
+import { ConfigService } from "../configService";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
@@ -107,7 +107,7 @@ export class VestingSchemeWrapper extends ContractWrapperBase {
     /**
      * approve immediate transfer of the given tokens from currentAccount to the VestingScheme
      */
-    if (Config.get("autoApproveTokenTransfers")) {
+    if (ConfigService.get("autoApproveTokenTransfers")) {
       const token = await (await Utils.requireContract("StandardToken")).at(options.token) as any;
       await token.approve(this.address, amountPerPeriod.mul(options.numOfAgreedPeriods));
     }

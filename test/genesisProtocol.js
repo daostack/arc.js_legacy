@@ -1,7 +1,7 @@
 import { Utils } from "../test-dist/utils";
-import { Contracts } from "../test-dist/contracts.js";
-import { GenesisProtocol } from "../test-dist/contracts/genesisProtocol";
-import { SchemeRegistrar } from "../test-dist/contracts/schemeregistrar";
+import { WrapperService } from "../test-dist/wrapperService";
+import { GenesisProtocol } from "../test-dist/wrappers/genesisProtocol";
+import { SchemeRegistrar } from "../test-dist/wrappers/schemeregistrar";
 import * as helpers from "./helpers";
 
 describe("GenesisProtocol", () => {
@@ -142,7 +142,7 @@ describe("GenesisProtocol", () => {
 
     assert.isOk(votingMachine);
     assert.equal(votingMachine.constructor.name, "GenesisProtocolWrapper", "schemeRegistrar is not using GeneisisProtocol");
-    assert.equal(votingMachine.address, (await Contracts.getDeployedContracts()).allContracts.GenesisProtocol.address, "voting machine address is not that of GenesisProtocol");
+    assert.equal(votingMachine.address, (await WrapperService.getDeployedContracts()).allContracts.GenesisProtocol.address, "voting machine address is not that of GenesisProtocol");
     assert.isFalse(await helpers.voteWasExecuted(votingMachine, result.proposalId));
 
     await helpers.vote(votingMachine, result.proposalId, 1, accounts[0]);
@@ -441,7 +441,7 @@ describe("GenesisProtocol", () => {
 
   it("can do deployed", async () => {
     const scheme = await GenesisProtocol.deployed();
-    assert.equal(scheme.address, (await Contracts.getDeployedContracts()).allContracts.GenesisProtocol.address);
+    assert.equal(scheme.address, (await WrapperService.getDeployedContracts()).allContracts.GenesisProtocol.address);
   });
 
   it("can register new proposal", async () => {

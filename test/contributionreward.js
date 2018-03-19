@@ -1,5 +1,5 @@
 import * as helpers from "./helpers";
-import { ContributionReward } from "../test-dist/contracts/contributionreward";
+import { ContributionReward } from "../test-dist/wrappers/contributionreward";
 
 describe("ContributionReward scheme", () => {
   let dao, scheme, votingMachine;

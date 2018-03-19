@@ -1,6 +1,6 @@
-import { VoteInOrganizationScheme } from "../test-dist/contracts/voteInOrganizationScheme";
+import { VoteInOrganizationScheme } from "../test-dist/wrappers/voteInOrganizationScheme";
 import * as helpers from "./helpers";
-import { SchemeRegistrar } from "../test-dist/contracts/schemeregistrar";
+import { SchemeRegistrar } from "../test-dist/wrappers/schemeregistrar";
 
 const createProposal = async () => {
 

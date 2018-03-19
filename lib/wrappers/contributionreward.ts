@@ -9,7 +9,7 @@ import {
   Hash,
   SchemePermissions
 } from "../commonTypes";
-import { Config } from "../config";
+import { ConfigService } from "../configService";
 
 import * as BigNumber from "bignumber.js";
 import {
@@ -128,7 +128,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
 
     const orgNativeTokenFee = (await this.getSchemeParameters(options.avatar)).orgNativeTokenFee;
 
-    if (Config.get("autoApproveTokenTransfers") && (orgNativeTokenFee.toNumber() > 0)) {
+    if (ConfigService.get("autoApproveTokenTransfers") && (orgNativeTokenFee.toNumber() > 0)) {
       /**
        * approve immediate transfer of native tokens from msg.sender to the avatar
        */

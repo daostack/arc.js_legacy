@@ -1,14 +1,14 @@
-import { AbsoluteVote } from "./contracts/absoluteVote.js";
-import { ContributionReward } from "./contracts/contributionreward.js";
-import { DaoCreator } from "./contracts/daocreator.js";
-import { GenesisProtocol } from "./contracts/genesisProtocol.js";
-import { GlobalConstraintRegistrar } from "./contracts/globalconstraintregistrar.js";
-import { SchemeRegistrar } from "./contracts/schemeregistrar.js";
-import { TokenCapGC } from "./contracts/tokenCapGC.js";
-import { UpgradeScheme } from "./contracts/upgradescheme.js";
-import { VestingScheme } from "./contracts/vestingscheme.js";
-import { VoteInOrganizationScheme } from "./contracts/voteInOrganizationScheme.js";
 import { ContractWrapperBase } from "./contractWrapperBase";
+import { AbsoluteVote } from "./wrappers/absoluteVote.js";
+import { ContributionReward } from "./wrappers/contributionreward.js";
+import { DaoCreator } from "./wrappers/daocreator.js";
+import { GenesisProtocol } from "./wrappers/genesisProtocol.js";
+import { GlobalConstraintRegistrar } from "./wrappers/globalconstraintregistrar.js";
+import { SchemeRegistrar } from "./wrappers/schemeregistrar.js";
+import { TokenCapGC } from "./wrappers/tokenCapGC.js";
+import { UpgradeScheme } from "./wrappers/upgradescheme.js";
+import { VestingScheme } from "./wrappers/vestingscheme.js";
+import { VoteInOrganizationScheme } from "./wrappers/voteInOrganizationScheme.js";
 
 /*******************************
  * Arc contract information as contained in ArcDeployedContractNames
@@ -66,13 +66,13 @@ export interface ArcDeployedContracts {
   globalConstraints: Array<ArcContractInfo>;
 }
 
-export class Contracts {
+export class WrapperService {
 
-  public static contracts: ArcDeployedContracts;
+  public static wrappers: ArcDeployedContracts;
 
   public static async getDeployedContracts(): Promise<ArcDeployedContracts> {
 
-    if (!Contracts.contracts) {
+    if (!WrapperService.wrappers) {
       /**
        * These are the contract wrapper instances deployed by Arc.js.
        */
@@ -133,7 +133,7 @@ export class Contracts {
         },
       };
 
-      Contracts.contracts = {
+      WrapperService.wrappers = {
         allContracts: contracts,
         globalConstraints: [
           contracts.TokenCapGC,
@@ -153,7 +153,7 @@ export class Contracts {
         ],
       };
     }
-    return Contracts.contracts;
+    return WrapperService.wrappers;
   }
 
   /**
@@ -163,8 +163,8 @@ export class Contracts {
    */
   public static async getContractWrapper(contract: string, address?: string)
     : Promise<ContractWrapperBase | undefined> {
-    const contracts = await Contracts.getDeployedContracts();
-    const contractInfo = contracts.allContracts[contract];
+    const wrapperService = await WrapperService.getDeployedContracts();
+    const contractInfo = wrapperService.allContracts[contract];
     if (!contractInfo) {
       return undefined;
     }

@@ -4,8 +4,7 @@ import dopts = require("default-options");
 import * as BigNumber from "bignumber.js";
 import { AvatarService } from "../avatarService";
 import { Address, DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
-import { Config } from "../config";
-import { Contracts } from "../contracts.js";
+import { ConfigService } from "../configService";
 import {
   ArcTransactionResult,
   ContractWrapperBase,
@@ -13,6 +12,7 @@ import {
 } from "../contractWrapperBase";
 import ContractWrapperFactory from "../contractWrapperFactory";
 import { Utils } from "../utils";
+import { WrapperService } from "../wrapperService.js";
 
 export class DaoCreatorWrapper extends ContractWrapperBase {
 
@@ -84,7 +84,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
        *
        * TODO:  Dynamically compute the gas requirement for both cases.
        */
-      controllerAddress ? undefined : { gas: Config.get("gasLimit_deployment") }
+      controllerAddress ? undefined : { gas: ConfigService.get("gasLimit_deployment") }
     );
 
     return new ArcTransactionResult(tx);
@@ -119,14 +119,14 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
     const avatarService = new AvatarService(options.avatar);
     const reputationAddress = await avatarService.getNativeReputationAddress();
-    const configuredVotingMachineName = Config.get("defaultVotingMachine");
+    const configuredVotingMachineName = ConfigService.get("defaultVotingMachine");
     const defaultVotingMachineParams = Object.assign({
       // voting machines can't supply reputation as a default -- they don't know what it is
       reputation: reputationAddress,
       votingMachineName: configuredVotingMachineName,
     }, options.votingMachineParams || {});
 
-    const defaultVotingMachine = await Contracts.getContractWrapper(
+    const defaultVotingMachine = await WrapperService.getContractWrapper(
       defaultVotingMachineParams.votingMachineName,
       defaultVotingMachineParams.votingMachineAddress);
 
@@ -148,8 +148,8 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
         throw new Error("options.schemes[n].name is not defined");
       }
 
-      const contracts = await Contracts.getDeployedContracts();
-      const arcSchemeInfo = contracts.allContracts[schemeOptions.name];
+      const wrapperService = await WrapperService.getDeployedContracts();
+      const arcSchemeInfo = wrapperService.allContracts[schemeOptions.name];
 
       if (!arcSchemeInfo) {
         throw new Error("Non-arc schemes are not currently supported here.  You can add them later in your workflow.");
@@ -186,7 +186,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
           if (!schemeVotingMachineName) {
             schemeVotingMachineParams.votingMachineName = defaultVotingMachineParams.votingMachineName;
           }
-          schemeVotingMachine = await Contracts.getContractWrapper(
+          schemeVotingMachine = await WrapperService.getContractWrapper(
             schemeVotingMachineParams.votingMachineName,
             schemeVotingMachineParams.votingMachineAddress);
 

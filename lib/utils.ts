@@ -3,7 +3,7 @@ import abi = require("ethereumjs-abi");
 import TruffleContract = require("truffle-contract");
 import Web3 = require("web3");
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "./commonTypes";
-import { Config } from "./config";
+import { ConfigService } from "./configService";
 import { TransactionReceiptTruffle } from "./contractWrapperBase";
 import { LoggingService } from "./loggingService";
 
@@ -28,7 +28,7 @@ export class Utils {
       contract.setProvider(myWeb3.currentProvider);
       contract.defaults({
         from: await Utils.getDefaultAccount(),
-        gas: Config.get("gasLimit_runtime"),
+        gas: ConfigService.get("gasLimit_runtime"),
       });
       LoggingService.info(`requireContract: loaded ${contractName}`);
       return contract;
@@ -63,7 +63,7 @@ export class Utils {
       // No web3 is injected, look for a provider at providerUrl:providerPort (which defaults to localhost)
       // This happens when running tests, or in a browser that is not running MetaMask
       preWeb3 = new Web3(
-        new Web3.providers.HttpProvider(`${Config.get("providerUrl")}:${Config.get("providerPort")}`)
+        new Web3.providers.HttpProvider(`${ConfigService.get("providerUrl")}:${ConfigService.get("providerPort")}`)
       );
     }
 

@@ -1,5 +1,5 @@
 import * as helpers from "./helpers";
-import { VestingScheme } from "../test-dist/contracts/vestingscheme";
+import { VestingScheme } from "../test-dist/wrappers/vestingscheme";
 
 describe("VestingScheme scheme", () => {
   let dao;

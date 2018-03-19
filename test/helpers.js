@@ -1,9 +1,9 @@
 import { Utils } from "../test-dist/utils";
-import { Config } from "../test-dist/config.js";
+import { ConfigService } from "../test-dist/configService.js";
 import { assert } from "chai";
 import { DAO } from "../test-dist/dao.js";
-import { Contracts } from "../test-dist/contracts.js";
-import { SchemeRegistrar } from "../test-dist/contracts/schemeregistrar";
+import { WrapperService } from "../test-dist/wrapperService";
+import { SchemeRegistrar } from "../test-dist/wrappers/schemeregistrar";
 
 export const NULL_HASH = Utils.NULL_HASH;
 export const NULL_ADDRESS = Utils.NULL_ADDRESS;
@@ -101,8 +101,8 @@ export async function getSchemeVotingMachineParametersHash(dao, scheme) {
 
 export async function getSchemeVotingMachine(dao, scheme, votingMachineName) {
   const votingMachineAddress = (await scheme.getSchemeParameters(dao.avatar.address)).votingMachineAddress;
-  votingMachineName = votingMachineName || Config.get("defaultVotingMachine");
-  return Contracts.getContractWrapper(votingMachineName, votingMachineAddress);
+  votingMachineName = votingMachineName || ConfigService.get("defaultVotingMachine");
+  return WrapperService.getContractWrapper(votingMachineName, votingMachineAddress);
 }
 
 export async function getVotingMachineParameters(votingMachine, votingMachineParamsHash) {
@@ -180,7 +180,7 @@ export function assertJump(error) {
 }
 
 export async function contractsForTest() {
-  return await Contracts.getDeployedContracts();
+  return await WrapperService.getDeployedContracts();
 }
 
 // Increases ganache time by the passed duration in seconds
