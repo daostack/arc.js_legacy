@@ -188,7 +188,11 @@ module.exports = {
         ),
         andPreview: series("nps docs.build", "nps docs.website.preview"),
         andDeploy: series("nps docs.build", "nps docs.website.deploy")
-      }
+      },
+      clean: series(
+        rimraf(joinPath(pathArcJsRoot, "docs", "api")),
+        rimraf(joinPath(pathArcJsRoot, "site"))
+      )
     }
   }
 };
