@@ -1,13 +1,13 @@
-const config = require("../config/default.json");
 // the following requires that a build has been done
+const Config = require("../dist/Config").Config;
 const DefaultSchemePermissions = require("../dist/commonTypes").DefaultSchemePermissions;
 /**
  * Migration callback
  */
 module.exports = async (deployer) => {
 
-  const gasAmount = config.gasLimit_deployment;
-  const network = config.network;
+  const gasAmount = Config.get("gasLimit_deployment");
+  const network = Config.get("network");
   const founders = require("./founders.json").founders[network];
 
   /* eslint-disable no-console */
