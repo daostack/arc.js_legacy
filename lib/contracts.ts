@@ -8,7 +8,7 @@ import { TokenCapGC } from "./contracts/tokenCapGC.js";
 import { UpgradeScheme } from "./contracts/upgradescheme.js";
 import { VestingScheme } from "./contracts/vestingscheme.js";
 import { VoteInOrganizationScheme } from "./contracts/voteInOrganizationScheme.js";
-import { ExtendTruffleContract } from "./ExtendTruffleContract";
+import { ContractWrapperBase } from "./contractWrapperBase";
 
 /*******************************
  * Arc contract information as contained in ArcDeployedContractNames
@@ -162,13 +162,13 @@ export class Contracts {
    * @param address - optional
    */
   public static async getContractWrapper(contract: string, address?: string)
-    : Promise<ExtendTruffleContract | undefined> {
+    : Promise<ContractWrapperBase | undefined> {
     const contracts = await Contracts.getDeployedContracts();
     const contractInfo = contracts.allContracts[contract];
     if (!contractInfo) {
       return undefined;
     }
     return contractInfo.contract.at(address ? address : contractInfo.address)
-      .then((resultingContract: ExtendTruffleContract) => resultingContract, () => undefined);
+      .then((resultingContract: ContractWrapperBase) => resultingContract, () => undefined);
   }
 }

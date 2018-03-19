@@ -12,16 +12,16 @@ import {
 import { Config } from "../config";
 
 import * as BigNumber from "bignumber.js";
-import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   ArcTransactionResult,
+  ContractWrapperBase,
   DecodedLogEntryEvent,
   EventFetcherFactory,
-  ExtendTruffleContract,
   StandardSchemeParams,
-} from "../ExtendTruffleContract";
+} from "../contractWrapperBase";
+import ContractWrapperFactory from "../contractWrapperFactory";
 import { Utils } from "../utils";
 import {
   ProposalDeletedEventResult,
@@ -29,7 +29,7 @@ import {
   RedeemReputationEventResult,
 } from "./commonEventInterfaces";
 
-export class ContributionRewardWrapper extends ExtendTruffleContract {
+export class ContributionRewardWrapper extends ContractWrapperBase {
 
   /**
    * Events

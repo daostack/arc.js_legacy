@@ -2,12 +2,12 @@
 import { Address, Hash } from "../commonTypes";
 import {
   ArcTransactionDataResult,
-  ExtendTruffleContract,
-} from "../ExtendTruffleContract";
+  ContractWrapperBase,
+} from "../contractWrapperBase";
 
-import ContractWrapperFactory from "../ContractWrapperFactory";
+import ContractWrapperFactory from "../contractWrapperFactory";
 
-export class TokenCapGCWrapper extends ExtendTruffleContract {
+export class TokenCapGCWrapper extends ContractWrapperBase {
   public async setParameters(params: TokenCapGcParams): Promise<ArcTransactionDataResult<Hash>> {
 
     if (!params.token) {

@@ -3,17 +3,17 @@ import * as BigNumber from "bignumber.js";
 import dopts = require("default-options");
 import { Address, DefaultSchemePermissions, fnVoid, Hash, SchemePermissions } from "../commonTypes";
 import { Config } from "../config";
-import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   ArcTransactionResult,
+  ContractWrapperBase,
   DecodedLogEntryEvent,
   EventFetcherFactory,
-  ExtendTruffleContract,
   StandardSchemeParams,
   TransactionReceiptTruffle,
-} from "../ExtendTruffleContract";
+} from "../contractWrapperBase";
+import ContractWrapperFactory from "../contractWrapperFactory";
 import { Utils } from "../utils";
 import { ProposalExecutedEventResult } from "./commonEventInterfaces";
 
@@ -32,7 +32,7 @@ const defaultCreateOptions = {
   startingBlock: null,
 };
 
-export class VestingSchemeWrapper extends ExtendTruffleContract {
+export class VestingSchemeWrapper extends ContractWrapperBase {
 
   /**
    * Events

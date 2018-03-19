@@ -1,7 +1,7 @@
-import { ExtendTruffleContract } from "ExtendTruffleContract";
+import { ContractWrapperBase } from "./contractWrapperBase";
 import { Utils } from "./utils";
 
-export default class ContractWrapperFactory<TContract extends ExtendTruffleContract> {
+export default class ContractWrapperFactory<TContract extends ContractWrapperBase> {
 
   private solidityContract: any;
 

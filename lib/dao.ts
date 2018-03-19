@@ -4,7 +4,7 @@ import { Address, fnVoid, Hash, SchemePermissions } from "./commonTypes";
 import { Contracts } from "./contracts.js";
 import { DaoCreator } from "./contracts/daocreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult } from "./contracts/daocreator";
-import { DecodedLogEntryEvent, ExtendTruffleContract } from "./ExtendTruffleContract";
+import { ContractWrapperBase, DecodedLogEntryEvent } from "./contractWrapperBase";
 import { Utils } from "./utils";
 
 export class DAO {
@@ -171,7 +171,7 @@ export class DAO {
    * @param contract - name of an Arc contract, like "SchemeRegistrar"
    * @param address - optional
    */
-  public async getContractWrapper(contract: string, address?: Address): Promise<ExtendTruffleContract | undefined> {
+  public async getContractWrapper(contract: string, address?: Address): Promise<ContractWrapperBase | undefined> {
     return Contracts.getContractWrapper(contract, address);
   }
 
@@ -319,7 +319,7 @@ export interface DaoSchemeInfo {
   address: string;
   /**
    * The scheme's permissions.
-   * See ExtendTruffleContract.getDefaultPermissions for what this string
+   * See ContractWrapperBase.getDefaultPermissions for what this string
    * looks like.
    */
   permissions: SchemePermissions;

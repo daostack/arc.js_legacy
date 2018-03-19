@@ -93,14 +93,14 @@ declare module "@daostack/arc.js" {
    */
   export interface ArcContractInfo {
     /**
-     * An uninitialized instance of ExtendTruffleContract,
+     * An uninitialized instance of ContractWrapperBase,
      * basically the class factory with static methods.
      */
     contract: any;
     /**
      * address of the instance deployed by Arc.
-     * Calling contract.at() (a static method on ExtendTruffleContract) will return a
-     * the properly initialized instance of ExtendTruffleContract.
+     * Calling contract.at() (a static method on ContractWrapperBase) will return a
+     * the properly initialized instance of ContractWrapperBase.
      */
     address: string;
   }
@@ -235,7 +235,7 @@ declare module "@daostack/arc.js" {
   }
 
   /********************************
-  * ExtendTruffleContract
+  * ContractWrapperBase
   */
   export interface TransactionLog {
     address: string;
@@ -271,7 +271,7 @@ declare module "@daostack/arc.js" {
     tx: string;
   }
 
-  export class ExtendTruffleContract {
+  export class ContractWrapperBase {
     /**
      * Instantiate the class.  This will migrate a new instance of the contract to the net.
      */
@@ -323,7 +323,7 @@ declare module "@daostack/arc.js" {
     public getParametersArray(paramsHash: Hash): Promise<Array<any>>;
   }
 
-  export class ExtendTruffleScheme extends ExtendTruffleContract {
+  export class ExtendTruffleScheme extends ContractWrapperBase {
     public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
   }
 
@@ -630,7 +630,7 @@ declare module "@daostack/arc.js" {
     /**
      * Extra permissions on the scheme.  The minimum permissions for the scheme
      * will be enforced (or'd with anything you supply).
-     * See ExtendTruffleContract.getDefaultPermissions for what this string
+     * See ContractWrapperBase.getDefaultPermissions for what this string
      * should look like.
      */
     permissions?: SchemePermissions | DefaultSchemePermissions;
@@ -728,7 +728,7 @@ declare module "@daostack/arc.js" {
     address: string;
     /**
      * The scheme's permissions.
-     * See ExtendTruffleContract.getDefaultPermissions for what this string
+     * See ContractWrapperBase.getDefaultPermissions for what this string
      * looks like.
      */
     permissions: SchemePermissions;

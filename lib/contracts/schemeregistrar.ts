@@ -4,15 +4,15 @@ import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../c
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
+  ContractWrapperBase,
   EventFetcherFactory,
-  ExtendTruffleContract,
   StandardSchemeParams,
-} from "../ExtendTruffleContract";
+} from "../contractWrapperBase";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
-import ContractWrapperFactory from "../ContractWrapperFactory";
+import ContractWrapperFactory from "../contractWrapperFactory";
 
-export class SchemeRegistrarWrapper extends ExtendTruffleContract {
+export class SchemeRegistrarWrapper extends ContractWrapperBase {
 
   /**
    * Events

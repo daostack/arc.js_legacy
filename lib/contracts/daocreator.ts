@@ -6,15 +6,15 @@ import { AvatarService } from "../avatarService";
 import { Address, DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
 import { Config } from "../config";
 import { Contracts } from "../contracts.js";
-import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ArcTransactionResult,
+  ContractWrapperBase,
   EventFetcherFactory,
-  ExtendTruffleContract,
-} from "../ExtendTruffleContract";
+} from "../contractWrapperBase";
+import ContractWrapperFactory from "../contractWrapperFactory";
 import { Utils } from "../utils";
 
-export class DaoCreatorWrapper extends ExtendTruffleContract {
+export class DaoCreatorWrapper extends ContractWrapperBase {
 
   /**
    * Events
@@ -334,7 +334,7 @@ export interface SchemeConfig {
   /**
    * Extra permissions on the scheme.  The minimum permissions for the scheme
    * will be enforced (or'd with anything you supply).
-   * See ExtendTruffleContract.getDefaultPermissions for what this string
+   * See ContractWrapperBase.getDefaultPermissions for what this string
    * should look like.
    */
   permissions?: SchemePermissions | DefaultSchemePermissions;

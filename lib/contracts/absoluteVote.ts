@@ -2,16 +2,16 @@
 import dopts = require("default-options");
 import { Address, Hash, VoteConfig } from "../commonTypes";
 
-import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionResult,
-  EventFetcherFactory,
-  ExtendTruffleContract
-} from "../ExtendTruffleContract";
+  ContractWrapperBase,
+  EventFetcherFactory
+} from "../contractWrapperBase";
+import ContractWrapperFactory from "../contractWrapperFactory";
 import { ExecuteProposalEventResult, NewProposalEventResult, VoteProposalEventResult } from "./commonEventInterfaces";
 
-export class AbsoluteVoteWrapper extends ExtendTruffleContract {
+export class AbsoluteVoteWrapper extends ContractWrapperBase {
 
   /**
    * Events

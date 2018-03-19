@@ -1,17 +1,17 @@
 "use strict";
 import dopts = require("default-options");
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
-import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
+  ContractWrapperBase,
   EventFetcherFactory,
-  ExtendTruffleContract,
   StandardSchemeParams,
-} from "../ExtendTruffleContract";
+} from "../contractWrapperBase";
+import ContractWrapperFactory from "../contractWrapperFactory";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
-export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
+export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase {
 
   /**
    * Events

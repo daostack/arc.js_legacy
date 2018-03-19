@@ -324,7 +324,7 @@ const genesisDao = await DAO.getGenesisDao();
 
 ## Using the Arc Contracts
 
-Arc.js wraps every Arc contract in a JavaScript "wrapper" class.  Every wrapper class inherits from `ExtendTruffleContract` which provides a common set of functions in addition to all of the functions implemented by the specific Arc contract being wrapped.
+Arc.js wraps every Arc contract in a JavaScript "wrapper" class.  Every wrapper class inherits from `ContractWrapperBase` which provides a common set of functions in addition to all of the functions implemented by the specific Arc contract being wrapped.
 
 ### Categories of Arc Contracts
 Arc contracts and associated Arc.js contract wrapper classes can be categorized as follows:

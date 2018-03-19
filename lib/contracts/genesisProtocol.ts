@@ -12,15 +12,15 @@ import {
   VoteConfig
 } from "../commonTypes";
 import { Config } from "../config";
-import ContractWrapperFactory from "../ContractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   ArcTransactionResult,
+  ContractWrapperBase,
   DecodedLogEntryEvent,
   EventFetcherFactory,
-  ExtendTruffleContract,
-} from "../ExtendTruffleContract";
+} from "../contractWrapperBase";
+import ContractWrapperFactory from "../contractWrapperFactory";
 import { Utils } from "../utils";
 import {
   ExecuteProposalEventResult,
@@ -29,7 +29,7 @@ import {
   VoteProposalEventResult,
 } from "./commonEventInterfaces";
 
-export class GenesisProtocolWrapper extends ExtendTruffleContract {
+export class GenesisProtocolWrapper extends ContractWrapperBase {
 
   /**
    * Events

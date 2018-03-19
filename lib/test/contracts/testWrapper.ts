@@ -1,10 +1,10 @@
 "use strict";
 import { AbsoluteVoteParams } from "contracts/absoluteVote";
 import { DefaultSchemePermissions, Hash, SchemePermissions } from "../../commonTypes";
-import ContractWrapperFactory from "../../ContractWrapperFactory";
-import { ArcTransactionDataResult, ExtendTruffleContract } from "../../ExtendTruffleContract";
+import { ArcTransactionDataResult, ContractWrapperBase } from "../../contractWrapperBase";
+import ContractWrapperFactory from "../../contractWrapperFactory";
 
-export class TestWrapperWrapper extends ExtendTruffleContract {
+export class TestWrapperWrapper extends ContractWrapperBase {
 
   public foo(): string {
     return "bar";

@@ -7,17 +7,17 @@ import { Utils } from "./utils";
  *
  * Example of how to define a wrapper:
  *
- *   import { ExtendTruffleContract } from "../ExtendTruffleContract";
- *   import ContractWrapperFactory from "../ContractWrapperFactory";
+ *   import { ContractWrapperBase } from "../contractWrapperBase";
+ *   import ContractWrapperFactory from "../contractWrapperFactory";
  *
- *   export class AbsoluteVoteWrapper extends ExtendTruffleContract {
+ *   export class AbsoluteVoteWrapper extends ContractWrapperBase {
  *     [ wrapper properties and methods ]
  *   }
  *
  *   const AbsoluteVote = new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper);
  *   export { AbsoluteVote };
  */
-export abstract class ExtendTruffleContract {
+export abstract class ContractWrapperBase {
 
   /**
    * The underlying truffle contract object.  Use this to access

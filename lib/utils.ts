@@ -4,7 +4,7 @@ import TruffleContract = require("truffle-contract");
 import Web3 = require("web3");
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "./commonTypes";
 import { Config } from "./config";
-import { TransactionReceiptTruffle } from "./ExtendTruffleContract";
+import { TransactionReceiptTruffle } from "./contractWrapperBase";
 import { LoggingService } from "./loggingService";
 
 export class Utils {

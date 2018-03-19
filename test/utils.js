@@ -5,7 +5,7 @@ import { DefaultSchemePermissions } from "../test-dist/commonTypes";
 import { TestWrapper } from "../test-dist/test/contracts/testWrapper";
 import { Utils } from "../test-dist/utils";
 
-describe("ExtendTruffleContract", () => {
+describe("ContractWrapperBase", () => {
   it("can call getDefaultAccount", async () => {
     const defaultAccount = accounts[0];
     const defaultAccountAsync = await Utils.getDefaultAccount();
