@@ -6,5 +6,5 @@
   "network": "ganache",
   "providerUrl": "http://127.0.0.1",
   "providerPort": 8545,
-  "logLevel": 8
+  "logLevel": 9
 }

@@ -148,19 +148,17 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
         throw new Error("options.schemes[n].name is not defined");
       }
 
-      const wrapperService = await WrapperService.getDeployedContracts();
-      const arcSchemeInfo = wrapperService.allContracts[schemeOptions.name];
+      const wrapperFactory = WrapperService.factories[schemeOptions.name];
 
-      if (!arcSchemeInfo) {
+      if (!wrapperFactory) {
         throw new Error("Non-arc schemes are not currently supported here.  You can add them later in your workflow.");
       }
 
       /**
        * scheme will be a contract wrapper
        */
-      const scheme = await arcSchemeInfo.contract.at(
-        schemeOptions.address || arcSchemeInfo.address
-      );
+      const scheme = schemeOptions.address ?
+        await wrapperFactory.at(schemeOptions.address) : WrapperService.wrappers[schemeOptions.name];
 
       let schemeVotingMachineParams = schemeOptions.votingMachineParams;
       let schemeVoteParametersHash;

@@ -162,8 +162,8 @@ declare module "@daostack/arc.js" {
    * ArcDeployedContractNames, and those contracts organized by type.
    * Call it.at(it.address) to get javascript wrapper
    */
-  export interface ArcDeployedContracts {
-    allContracts: ArcDeployedContractNames;
+  export interface ArcDeployedWrappers {
+    allWrappers: ArcDeployedContractNames;
 
     /**
      * All deployed schemes
@@ -193,7 +193,7 @@ declare module "@daostack/arc.js" {
    * contracts
    */
   export class WrapperService {
-    public static getDeployedContracts(): ArcDeployedContracts;
+    public static getDeployedWrappers(): ArcDeployedWrappers;
     /**
      * Returns an Arc.js scheme wrapper, or undefined if not found
      * @param contract - name of an Arc scheme, like "SchemeRegistrar"

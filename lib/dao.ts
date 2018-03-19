@@ -16,7 +16,7 @@ export class DAO {
     if (opts.daoCreator) {
       daoCreator = await DaoCreator.at(opts.daoCreator);
     } else {
-      daoCreator = await DaoCreator.deployed();
+      daoCreator = WrapperService.wrappers.DaoCreator;
     }
 
     const result = await daoCreator.forgeOrg(opts);
@@ -48,9 +48,9 @@ export class DAO {
     return new Promise<string>(
       async (resolve: (address: Address) => void, reject: (ex: any) => void): Promise<void> => {
         try {
-          const wrapperService = await WrapperService.getDeployedContracts();
-          const daoCreator = await DaoCreator.at(
-            daoCreatorAddress ? daoCreatorAddress : wrapperService.allContracts.DaoCreator.address);
+          const daoCreator =
+            daoCreatorAddress ?
+              await WrapperService.factories.DaoCreator.at(daoCreatorAddress) : WrapperService.wrappers.DaoCreator;
           let avatarAddress;
           const event = daoCreator.InitialSchemesSet({}, { fromBlock: 0 });
           /**
@@ -97,15 +97,15 @@ export class DAO {
     const controller = this.controller;
     const avatar = this.avatar;
     const arcTypesMap = new Map<Address, string>(); // <address: Address, name: string>
-    const wrapperService = await WrapperService.getDeployedContracts();
+    const wrapperService = WrapperService.wrappersByType;
 
     /**
      * TODO:  This should pull in all known versions of the schemes, names
      * and versions in one fell swoop.
      */
     /* tslint:disable-next-line:forin */
-    for (const name in wrapperService.allContracts) {
-      const contract = wrapperService.allContracts[name];
+    for (const name in wrapperService.allWrappers) {
+      const contract = wrapperService.allWrappers[name];
       arcTypesMap.set(contract.address, name);
     }
 
@@ -206,15 +206,15 @@ export class DAO {
     const controller = this.controller;
     const avatar = this.avatar;
     const arcTypesMap = new Map<Address, string>(); // <address: Address, name: string>
-    const wrapperService = await WrapperService.getDeployedContracts();
+    const wrapperService = WrapperService.wrappersByType;
 
     /**
      * TODO:  This should pull in all known versions of the constraints, names
      * and versions in one fell swoop.
      */
     /* tslint:disable-next-line:forin */
-    for (const name in wrapperService.allContracts) {
-      const contract = wrapperService.allContracts[name];
+    for (const name in wrapperService.allWrappers) {
+      const contract = wrapperService.allWrappers[name];
       arcTypesMap.set(contract.address, name);
     }
 

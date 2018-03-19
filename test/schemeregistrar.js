@@ -5,14 +5,14 @@ import { SchemeRegistrar } from "../test-dist/wrappers/schemeregistrar";
 describe("SchemeRegistrar", () => {
   it("proposeToAddModifyScheme javascript wrapper should add new scheme", async () => {
     const dao = await helpers.forgeDao();
-    const wrapperService = await helpers.contractsForTest();
+    const wrappers = helpers.contractsForTest();
 
     const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
     const ContributionReward = await dao.getSchemes("ContributionReward");
     assert.equal(ContributionReward.length, 0, "scheme is already present");
 
     const contributionRewardAddress =
-      wrapperService.allContracts.ContributionReward.address;
+      wrappers.ContributionReward.address;
 
     assert.isFalse(
       await dao.isSchemeRegistered(contributionRewardAddress),

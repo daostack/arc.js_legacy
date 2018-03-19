@@ -4,6 +4,7 @@ import { assert } from "chai";
 import { DAO } from "../test-dist/dao.js";
 import { WrapperService } from "../test-dist/wrapperService";
 import { SchemeRegistrar } from "../test-dist/wrappers/schemeregistrar";
+import { InitializeArc } from "../test-dist/arc";
 
 export const NULL_HASH = Utils.NULL_HASH;
 export const NULL_ADDRESS = Utils.NULL_ADDRESS;
@@ -11,7 +12,7 @@ export const SOME_HASH = "0x1000000000000000000000000000000000000000000000000000
 export const SOME_ADDRESS = "0x1000000000000000000000000000000000000000";
 
 beforeEach(async () => {
-  global.web3 = Utils.getWeb3();
+  global.web3 = await InitializeArc();
   global.assert = assert;
   global.accounts = [];
   await etherForEveryone();
@@ -179,8 +180,8 @@ export function assertJump(error) {
   );
 }
 
-export async function contractsForTest() {
-  return await WrapperService.getDeployedContracts();
+export function contractsForTest() {
+  return WrapperService.wrappers;
 }
 
 // Increases ganache time by the passed duration in seconds

@@ -142,7 +142,7 @@ describe("GenesisProtocol", () => {
 
     assert.isOk(votingMachine);
     assert.equal(votingMachine.constructor.name, "GenesisProtocolWrapper", "schemeRegistrar is not using GeneisisProtocol");
-    assert.equal(votingMachine.address, (await WrapperService.getDeployedContracts()).allContracts.GenesisProtocol.address, "voting machine address is not that of GenesisProtocol");
+    assert.equal(votingMachine.address, WrapperService.wrappers.GenesisProtocol.address, "voting machine address is not that of GenesisProtocol");
     assert.isFalse(await helpers.voteWasExecuted(votingMachine, result.proposalId));
 
     await helpers.vote(votingMachine, result.proposalId, 1, accounts[0]);
@@ -441,7 +441,7 @@ describe("GenesisProtocol", () => {
 
   it("can do deployed", async () => {
     const scheme = await GenesisProtocol.deployed();
-    assert.equal(scheme.address, (await WrapperService.getDeployedContracts()).allContracts.GenesisProtocol.address);
+    assert.equal(scheme.address, WrapperService.wrappers.GenesisProtocol.address);
   });
 
   it("can register new proposal", async () => {

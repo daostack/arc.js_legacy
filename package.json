@@ -13,6 +13,7 @@
     "migrated_contracts/",
     "config/",
     "index.d.ts",
+    "wrapperSpecs.json",
     "package-scripts.js",
     "package-scripts/",
     "truffle.js",
