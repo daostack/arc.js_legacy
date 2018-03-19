@@ -5,7 +5,6 @@ import { DefaultSchemePermissions } from "../test-dist/commonTypes";
 import { LoggingService, LogLevel } from "../test-dist/loggingService";
 import { TestWrapper } from "../test-dist/test/contracts/testWrapper";
 import { Utils } from "../test-dist/utils";
-import * as helpers from "./helpers";
 
 describe("Utils", () => {
 
@@ -14,8 +13,6 @@ describe("Utils", () => {
   });
 
   it("can get a single event in timely manner", async () => {
-
-    const dao = await helpers.forgeDao();
 
     const uController = await (await Utils.requireContract("UController")).deployed();
 
