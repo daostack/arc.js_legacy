@@ -31,6 +31,8 @@ import {
 
 export class ContributionRewardWrapper extends ContractWrapperBase {
 
+  public name: string = "ContributionReward";
+  public frendlyName: string = "Contribution Reward";
   /**
    * Events
    */
@@ -422,6 +424,10 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
   public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
     // return overrideValue || Utils.numberToPermissionsString(DefaultSchemePermissions.ContributionReward);
     return (overrideValue || DefaultSchemePermissions.ContributionReward) as SchemePermissions;
+  }
+
+  public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
+    return this._getSchemePermissions(avatarAddress);
   }
 
   public async getSchemeParameters(avatarAddress: Address): Promise<ContributionRewardParamsReturn> {

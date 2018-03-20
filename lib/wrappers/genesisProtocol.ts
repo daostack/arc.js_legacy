@@ -9,6 +9,7 @@ import {
   GetDaoProposalsConfig,
   Hash,
   SchemePermissions,
+  SchemeWrapper,
   VoteConfig
 } from "../commonTypes";
 import { ConfigService } from "../configService";
@@ -29,8 +30,10 @@ import {
   VoteProposalEventResult,
 } from "./commonEventInterfaces";
 
-export class GenesisProtocolWrapper extends ContractWrapperBase {
+export class GenesisProtocolWrapper extends ContractWrapperBase implements SchemeWrapper {
 
+  public name: string = "GenesisProtocol";
+  public frendlyName: string = "Genesis Protocol";
   /**
    * Events
    */
@@ -919,6 +922,10 @@ export class GenesisProtocolWrapper extends ContractWrapperBase {
   public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
     // return overrideValue || Utils.numberToPermissionsString(DefaultSchemePermissions.GenesisProtocol);
     return (overrideValue || DefaultSchemePermissions.GenesisProtocol) as SchemePermissions;
+  }
+
+  public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
+    return this._getSchemePermissions(avatarAddress);
   }
 
   public async getSchemeParameters(avatarAddress: Address): Promise<GenesisProtocolParams> {

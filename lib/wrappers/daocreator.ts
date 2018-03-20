@@ -16,6 +16,8 @@ import { WrapperService } from "../wrapperService.js";
 
 export class DaoCreatorWrapper extends ContractWrapperBase {
 
+  public name: string = "DaoCreator";
+  public frendlyName: string = "Dao Creator";
   /**
    * Events
    */

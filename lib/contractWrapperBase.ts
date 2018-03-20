@@ -1,5 +1,5 @@
 import { AvatarService } from "./avatarService";
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "./commonTypes";
+import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
 /**
@@ -19,6 +19,18 @@ import { Utils } from "./utils";
  */
 export abstract class ContractWrapperBase {
 
+  /**
+   * The name of the contract.
+   */
+  public name: string = "[name property has not been overridden]";
+  /**
+   * A more friendly name for the contract.
+   */
+  public frendlyName: string = "[friendlyName property has not been overridden]";
+  /**
+   * The address of the contract
+   */
+  public get address(): Address { return this.contract.address; }
   /**
    * The underlying truffle contract object.  Use this to access
    * parts of the contract that aren't accessible via the wrapper.
@@ -93,24 +105,6 @@ export abstract class ContractWrapperBase {
   }
 
   /**
-   * The subclass must override this for there to be any permissions at all, unless caller provides a value.
-   */
-  public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
-    throw new Error("getDefaultPermissions has not been implemented by the wrapper");
-  }
-
-  /**
-   * Return this scheme's permissions.
-   * @param avatarAddress
-   */
-  public async getPermissions(avatarAddress: Address): Promise<SchemePermissions> {
-    const permissions = (await this.getController(avatarAddress))
-      .getSchemePermissions(this.address, avatarAddress) as string;
-
-    return SchemePermissions.fromString(permissions);
-  }
-
-  /**
    * Given a hash, return the associated parameters as an object.
    * @param paramsHash
    */
@@ -145,7 +139,16 @@ export abstract class ContractWrapperBase {
     return avatarService.getController();
   }
 
-  public get address(): Address { return this.contract.address; }
+  /**
+   * Return this scheme's permissions.
+   * @param avatarAddress
+   */
+  protected async _getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
+    const permissions = (await this.getController(avatarAddress))
+      .getSchemePermissions(this.address, avatarAddress) as string;
+
+    return SchemePermissions.fromString(permissions);
+  }
 
   protected async _getSchemeParameters(avatarAddress: Address): Promise<any> {
     const paramsHash = await this.getSchemeParametersHash(avatarAddress);

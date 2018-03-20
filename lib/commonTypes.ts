@@ -84,3 +84,9 @@ export namespace SchemePermissions {
   }
 }
 /*tslint:enable:no-namespace */
+
+export interface SchemeWrapper {
+  getSchemeParameters(avatarAddress: Address): Promise<any>;
+  getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+  getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
+}

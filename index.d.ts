@@ -310,21 +310,21 @@ declare module "@daostack/arc.js" {
     tx: string;
   }
 
+  export interface SchemeWrapper {
+    getSchemeParameters(avatarAddress: Address): Promise<any>;
+    getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
+  }
+
   export class ContractWrapperBase {
     /**
-     * Instantiate the class.  This will migrate a new instance of the contract to the net.
+     * The name of the contract.
      */
-    public static new(): any;
+    public name: string;
     /**
-     * Instantiate the class as it was migrated to the given address on
-     * the current network.
-     * @param address
+     * A more friendly name for the contract.
      */
-    public static at(address: string): any;
-    /**
-     * Instantiate the class as it was migrated by Arc.js on the given network.
-     */
-    public static deployed(): any;
+    public frendlyName: string;
     /**
      * The underlying truffle contract object
      */
@@ -360,6 +360,11 @@ declare module "@daostack/arc.js" {
      * @param paramsHash
      */
     public getParametersArray(paramsHash: Hash): Promise<Array<any>>;
+    /**
+     * get the controller for the given avatar
+     * @param avatarAddress
+     */
+    public getController(avatarAddress: Address): Promise<any>;
   }
 
   export type Hash = string;
@@ -662,8 +667,6 @@ declare module "@daostack/arc.js" {
     /**
      * Extra permissions on the scheme.  The minimum permissions for the scheme
      * will be enforced (or'd with anything you supply).
-     * See ContractWrapperBase.getDefaultPermissions for what this string
-     * should look like.
      */
     permissions?: SchemePermissions | DefaultSchemePermissions;
     /**
@@ -757,8 +760,6 @@ declare module "@daostack/arc.js" {
     address: string;
     /**
      * The scheme's permissions.
-     * See ContractWrapperBase.getDefaultPermissions for what this string
-     * looks like.
      */
     permissions: SchemePermissions;
   }
@@ -916,7 +917,7 @@ declare module "@daostack/arc.js" {
     _proposalId: Hash;
   }
 
-  export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase {
+  export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implements SchemeWrapper {
     public NewGlobalConstraintsProposal: EventFetcherFactory<NewGlobalConstraintsProposalEventResult>;
     public RemoveGlobalConstraintsProposal: EventFetcherFactory<RemoveGlobalConstraintsProposalEventResult>;
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
@@ -939,6 +940,8 @@ declare module "@daostack/arc.js" {
 
     public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
     public getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams>;
+    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    public getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
   }
 
   /********************************
@@ -1016,7 +1019,7 @@ declare module "@daostack/arc.js" {
     _scheme: Address;
   }
 
-  export class SchemeRegistrarWrapper extends ContractWrapperBase {
+  export class SchemeRegistrarWrapper extends ContractWrapperBase implements SchemeWrapper {
     public NewSchemeProposal: EventFetcherFactory<NewSchemeProposalEventResult>;
     public RemoveSchemeProposal: EventFetcherFactory<RemoveSchemeProposalEventResult>;
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
@@ -1038,6 +1041,8 @@ declare module "@daostack/arc.js" {
 
     public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
     public getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams>;
+    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    public getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
   }
 
   /********************************
@@ -1102,7 +1107,7 @@ declare module "@daostack/arc.js" {
     newUpgradeScheme: Address;
   }
 
-  export class UpgradeSchemeWrapper extends ContractWrapperBase {
+  export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeWrapper {
     public NewUpgradeProposal: EventFetcherFactory<NewUpgradeProposalEventResult>;
     public ChangeUpgradeSchemeProposal: EventFetcherFactory<ChangeUpgradeSchemeProposalEventResult>;
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
@@ -1124,6 +1129,8 @@ declare module "@daostack/arc.js" {
 
     public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
     public getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams>;
+    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    public getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
   }
 
   /********************************
@@ -1368,7 +1375,7 @@ declare module "@daostack/arc.js" {
     proposalId?: string;
   }
 
-  export class ContributionRewardWrapper extends ContractWrapperBase {
+  export class ContributionRewardWrapper extends ContractWrapperBase implements SchemeWrapper {
     public NewContributionProposal: EventFetcherFactory<NewContributionProposalEventResult>;
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
     public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
@@ -1398,6 +1405,8 @@ declare module "@daostack/arc.js" {
 
     public setParameters(params: ContributionRewardParams): Promise<ArcTransactionDataResult<Hash>>;
     public getSchemeParameters(avatarAddress: Address): Promise<ContributionRewardParams>;
+    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    public getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
   }
 
   /********************************
@@ -1565,7 +1574,7 @@ declare module "@daostack/arc.js" {
     token: Address;
   }
 
-  export class VestingSchemeWrapper extends ContractWrapperBase {
+  export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeWrapper {
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
     public AgreementProposal: EventFetcherFactory<AgreementProposalEventResult>;
     public NewVestedAgreement: EventFetcherFactory<NewVestedAgreementEventResult>;
@@ -1605,6 +1614,8 @@ declare module "@daostack/arc.js" {
 
     public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
     public getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams>;
+    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    public getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
   }
 
   /********************************
@@ -1630,7 +1641,7 @@ declare module "@daostack/arc.js" {
     _params: Array<Hash>;
   }
 
-  export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase {
+  export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase implements SchemeWrapper {
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
     public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
     public VoteOnBehalf: EventFetcherFactory<VoteOnBehalfEventResult>;
@@ -1648,6 +1659,8 @@ declare module "@daostack/arc.js" {
 
     public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
     public getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams>;
+    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    public getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
   }
 
   /*******************
@@ -2078,7 +2091,7 @@ declare module "@daostack/arc.js" {
     No = 2,
   }
 
-  export class GenesisProtocolWrapper extends ContractWrapperBase {
+  export class GenesisProtocolWrapper extends ContractWrapperBase implements SchemeWrapper {
 
     public NewProposal: EventFetcherFactory<NewProposalEventResult>;
     public ExecuteProposal: EventFetcherFactory<GenesisProtocolExecuteProposalEventResult>;
@@ -2115,6 +2128,8 @@ declare module "@daostack/arc.js" {
     public getState(options: GetStateConfig): Promise<number>;
     public setParameters(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>>;
     public getSchemeParameters(avatarAddress: Address): Promise<GenesisProtocolParams>;
+    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    public getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
   }
 
   /*********************

@@ -1,6 +1,6 @@
 "use strict";
 import dopts = require("default-options");
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
@@ -12,8 +12,10 @@ import {
 import ContractWrapperFactory from "../contractWrapperFactory";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
-export class UpgradeSchemeWrapper extends ContractWrapperBase {
+export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeWrapper {
 
+  public name: string = "UpgradeScheme";
+  public frendlyName: string = "Upgrade Scheme";
   /**
    * Events
    */
@@ -118,6 +120,10 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase {
   public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
     // return overrideValue || Utils.numberToPermissionsString(DefaultSchemePermissions.UpgradeScheme);
     return (overrideValue || DefaultSchemePermissions.UpgradeScheme) as SchemePermissions;
+  }
+
+  public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
+    return this._getSchemePermissions(avatarAddress);
   }
 
   public async getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams> {

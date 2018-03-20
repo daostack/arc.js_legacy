@@ -13,6 +13,9 @@ import { ExecuteProposalEventResult, NewProposalEventResult, VoteProposalEventRe
 
 export class AbsoluteVoteWrapper extends ContractWrapperBase {
 
+  public name: string = "AbsoluteVote";
+  public frendlyName: string = "Absolute Vote";
+
   /**
    * Events
    */

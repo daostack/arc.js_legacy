@@ -1,7 +1,7 @@
 "use strict";
 import * as BigNumber from "bignumber.js";
 import dopts = require("default-options");
-import { Address, DefaultSchemePermissions, fnVoid, Hash, SchemePermissions } from "../commonTypes";
+import { Address, DefaultSchemePermissions, fnVoid, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
 import { ConfigService } from "../configService";
 import {
   ArcTransactionDataResult,
@@ -17,8 +17,10 @@ import ContractWrapperFactory from "../contractWrapperFactory";
 import { Utils } from "../utils";
 import { ProposalExecutedEventResult } from "./commonEventInterfaces";
 
-export class VestingSchemeWrapper extends ContractWrapperBase {
+export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeWrapper {
 
+  public name: string = "VestingScheme";
+  public frendlyName: string = "Vesting Scheme";
   /**
    * Events
    */
@@ -255,6 +257,10 @@ export class VestingSchemeWrapper extends ContractWrapperBase {
   public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
     // return overrideValue || Utils.numberToPermissionsString(DefaultSchemePermissions.VestingScheme);
     return (overrideValue || DefaultSchemePermissions.VestingScheme) as SchemePermissions;
+  }
+
+  public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
+    return this._getSchemePermissions(avatarAddress);
   }
 
   public async getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams> {

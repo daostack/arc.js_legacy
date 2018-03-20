@@ -403,7 +403,7 @@ const wrapperTypes = await WrapperService.wrappersByType;
 const schemeWrappers = wrapperTypes.schemes;
 
 schemeWrappers.forEach((scheme) => {
-  console.log(scheme.address);
+  console.log(`${scheme.friendlyName} is at ${scheme.address}`);
 });
 
 ```
