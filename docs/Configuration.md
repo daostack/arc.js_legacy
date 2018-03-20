@@ -34,15 +34,15 @@ The level of logging.  Default is 8 (error).  The available log levels, which ma
 ### Obtain a configuration setting at runtime
 
 ```javascript
-import { Config } from '@daostack/arc.js';
-Config.get('network');
+import { ConfigService } from '@daostack/arc.js';
+ConfigService.get('network');
 ```
 
 ### Override a configuration setting at runtime
 
 ```javascript
-import { Config } from '@daostack/arc.js';
-Config.set('network', 'kovan');
+import { ConfigService } from '@daostack/arc.js';
+ConfigService.set('network', 'kovan');
 ```
 
 ### Environment variables
