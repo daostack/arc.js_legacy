@@ -1,4 +1,4 @@
-import { ContractWrapperBase } from "./ContractWrapperBase";
+import { ContractWrapperBase } from "./contractWrapperBase";
 import ContractWrapperFactory from "./contractWrapperFactory.js";
 import { LoggingService } from "./loggingService";
 import { AbsoluteVote, AbsoluteVoteWrapper } from "./wrappers/absoluteVote.js";
