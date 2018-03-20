@@ -315,7 +315,7 @@ describe("GenesisProtocol", () => {
 
     const result = await genesisProtocol.redeem({
       proposalId: proposalId,
-      beneficiary: accounts[0]
+      beneficiaryAddress: accounts[0]
     });
     assert.isOk(result);
     assert.isOk(result.tx);
@@ -340,7 +340,7 @@ describe("GenesisProtocol", () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getRedeemableTokensStaker({
       proposalId: proposalId,
-      beneficiary: accounts[0]
+      beneficiaryAddress: accounts[0]
     });
     assert(typeof result !== "undefined");
   });
@@ -357,7 +357,7 @@ describe("GenesisProtocol", () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getRedeemableTokensVoter({
       proposalId: proposalId,
-      beneficiary: accounts[0]
+      beneficiaryAddress: accounts[0]
     });
     assert(typeof result !== "undefined");
   });
@@ -366,7 +366,7 @@ describe("GenesisProtocol", () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getRedeemableReputationVoter({
       proposalId: proposalId,
-      beneficiary: accounts[0]
+      beneficiaryAddress: accounts[0]
     });
     assert(typeof result !== "undefined");
   });
@@ -375,7 +375,7 @@ describe("GenesisProtocol", () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getRedeemableReputationStaker({
       proposalId: proposalId,
-      beneficiary: accounts[0]
+      beneficiaryAddress: accounts[0]
     });
     assert(typeof result !== "undefined");
   });

@@ -378,5 +378,5 @@ export interface SetSchemesConfig extends SchemesConfig {
   /**
    * avatar address
    */
-  avatar: string;
+  avatar: Address;
 }

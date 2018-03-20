@@ -36,7 +36,7 @@ describe("VestingScheme scheme", () => {
 
     const options = {
       token: await dao.token.address,
-      beneficiary: accounts[0],
+      beneficiaryAddress: accounts[0],
       returnOnCancelAddress: helpers.SOME_ADDRESS,
       amountPerPeriod: web3.toWei(10),
       periodLength: 1,
@@ -62,14 +62,14 @@ describe("VestingScheme scheme", () => {
 
     assert.equal(agreements.length, 1, "Should have found 1 agreements");
     assert(agreements.filter(p => p.agreementId === agreementId2).length, "agreement2 not found");
-    assert.equal(agreements[0].beneficiary, accounts[0], "beneficiary not set properly on agreement");
+    assert.equal(agreements[0].beneficiaryAddress, accounts[0], "beneficiaryAddress not set properly on agreement");
   });
 
   it("can collect on the agreement", async () => {
 
     const options = {
       token: await dao.token.address,
-      beneficiary: accounts[0],
+      beneficiaryAddress: accounts[0],
       returnOnCancelAddress: helpers.SOME_ADDRESS,
       amountPerPeriod: web3.toWei(10),
       periodLength: 1,
@@ -97,7 +97,7 @@ describe("VestingScheme scheme", () => {
 
     const options = {
       token: await dao.token.address,
-      beneficiary: helpers.SOME_ADDRESS,
+      beneficiaryAddress: helpers.SOME_ADDRESS,
       returnOnCancelAddress: helpers.SOME_ADDRESS,
       amountPerPeriod: web3.toWei(10),
       periodLength: 1,
@@ -130,7 +130,7 @@ describe("VestingScheme scheme", () => {
 
     const options = {
       token: await dao.token.address,
-      beneficiary: helpers.SOME_ADDRESS,
+      beneficiaryAddress: helpers.SOME_ADDRESS,
       returnOnCancelAddress: accounts[0],
       amountPerPeriod: web3.toWei(10),
       periodLength: 1,
@@ -155,7 +155,7 @@ describe("VestingScheme scheme", () => {
 
     const options = {
       token: await dao.token.address,
-      beneficiary: helpers.SOME_ADDRESS,
+      beneficiaryAddress: helpers.SOME_ADDRESS,
       returnOnCancelAddress: helpers.SOME_ADDRESS,
       amountPerPeriod: web3.toWei(10),
       periodLength: 1,
@@ -176,7 +176,7 @@ describe("VestingScheme scheme", () => {
   it("propose agreement", async () => {
 
     const options = {
-      beneficiary: helpers.SOME_ADDRESS,
+      beneficiaryAddress: helpers.SOME_ADDRESS,
       returnOnCancelAddress: helpers.SOME_ADDRESS,
       amountPerPeriod: web3.toWei(10),
       periodLength: 1,
@@ -195,7 +195,7 @@ describe("VestingScheme scheme", () => {
   it("propose agreement fails when no period is given", async () => {
 
     const options = {
-      beneficiary: helpers.SOME_ADDRESS,
+      beneficiaryAddress: helpers.SOME_ADDRESS,
       returnOnCancelAddress: helpers.SOME_ADDRESS,
       amountPerPeriod: web3.toWei(10),
       // periodLength: 1,

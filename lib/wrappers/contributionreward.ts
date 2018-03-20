@@ -60,7 +60,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
      */
     const defaults = {
       avatar: undefined,
-      beneficiary: undefined,
+      beneficiaryAddress: undefined,
       description: undefined,
       ethReward: 0,
       externalToken: null,
@@ -124,8 +124,8 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       );
     }
 
-    if (!options.beneficiary) {
-      throw new Error("beneficiary is not defined");
+    if (!options.beneficiaryAddress) {
+      throw new Error("beneficiaryAddress is not defined");
     }
 
     const orgNativeTokenFee = (await this.getSchemeParameters(options.avatar)).orgNativeTokenFee;
@@ -145,7 +145,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       reputationChange,
       [nativeTokenReward, ethReward, externalTokenReward, options.periodLength, options.numberOfPeriods],
       options.externalToken,
-      options.beneficiary
+      options.beneficiaryAddress
     );
     return new ArcTransactionProposalResult(tx);
   }
@@ -364,7 +364,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
 
     const defaults = {
       avatar: undefined,
-      beneficiary: undefined,
+      beneficiaryAddress: undefined,
       proposalId: null,
     };
 
@@ -374,8 +374,8 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
-    if (!options.beneficiary) {
-      throw new Error("beneficiary is not defined");
+    if (!options.beneficiaryAddress) {
+      throw new Error("beneficiaryAddress is not defined");
     }
 
     const proposals = await this.getDaoProposals(options);
@@ -447,11 +447,11 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
     proposalRewards: ProposalRewards,
     proposal: ContributionProposal,
     rewardName: string,
-    avatar: Address,
+    avatarAddress: Address,
     rewardType: RewardType): Promise<void> {
 
     const amountToRedeemPerPeriod = proposal[rewardName];
-    const countRedeemedPeriods = await this.contract.getRedeemedPeriods(proposal.proposalId, avatar, rewardType);
+    const countRedeemedPeriods = await this.contract.getRedeemedPeriods(proposal.proposalId, avatarAddress, rewardType);
     const totalReward = amountToRedeemPerPeriod.mul(proposal.numberOfPeriods);
     const amountRewarded = amountToRedeemPerPeriod.mul(countRedeemedPeriods);
     proposalRewards[rewardName] = totalReward;
@@ -460,7 +460,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
 
   private orgProposalToContributionProposal(orgProposal: Array<any>, proposalId: Hash): ContributionProposal {
     return {
-      beneficiary: orgProposal[6],
+      beneficiaryAddress: orgProposal[6],
       contributionDescriptionHash: orgProposal[9],
       ethReward: orgProposal[3],
       executionTime: orgProposal[9],
@@ -555,7 +555,7 @@ export interface RedeemExternalTokenEventResult {
 
 export interface ContributionProposal {
   proposalId: Hash;
-  beneficiary: Address;
+  beneficiaryAddress: Address;
   contributionDescriptionHash: Hash;
   ethReward: BigNumber.BigNumber;
   executionTime: number;
@@ -591,7 +591,7 @@ export interface ContributionRewardSpecifiedRedemptionParams {
   /**
    * The avatar under which the proposal was made
    */
-  avatar: string;
+  avatar: Address;
   /**
    * The reward proposal
    */
@@ -602,11 +602,11 @@ export interface GetBeneficiaryRewardsParams {
   /**
    * The avatar under which the proposals were created
    */
-  avatar: string;
+  avatar: Address;
   /**
    * The agent who is to receive the rewards
    */
-  beneficiary: string;
+  beneficiaryAddress: string;
   /**
    * Optionally filter on the given proposalId
    */
@@ -617,7 +617,7 @@ export interface ProposeContributionRewardParams {
   /**
    * avatar address
    */
-  avatar: string;
+  avatar: Address;
   /**
    * description of the constraint
    */
@@ -663,7 +663,7 @@ export interface ProposeContributionRewardParams {
   /**
    *  beneficiary address
    */
-  beneficiary: string;
+  beneficiaryAddress: string;
 }
 
 export interface ContributionRewardRedeemParams {
@@ -674,7 +674,7 @@ export interface ContributionRewardRedeemParams {
   /**
    * The avatar under which the proposal was made
    */
-  avatar: string;
+  avatar: Address;
   /**
    * true to credit/debit reputation
    * Default is false

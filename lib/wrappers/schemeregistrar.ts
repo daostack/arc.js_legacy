@@ -8,9 +8,8 @@ import {
   EventFetcherFactory,
   StandardSchemeParams,
 } from "../contractWrapperBase";
-import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
-
 import ContractWrapperFactory from "../contractWrapperFactory";
+import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 export class SchemeRegistrarWrapper extends ContractWrapperBase implements SchemeWrapper {
 
@@ -56,7 +55,7 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
     const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeToAddModifySchemeParams;
 
     if (!options.avatar) {
-      throw new Error("avatar address is not defined");
+      throw new Error("avatar is not defined");
     }
 
     if (!options.schemeAddress) {
@@ -120,7 +119,7 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
     const options = dopts(opts, defaults, { allowUnknown: true });
 
     if (!options.avatar) {
-      throw new Error("avatar address is not defined");
+      throw new Error("avatar is not defined");
     }
 
     if (!options.schemeAddress) {
@@ -237,7 +236,7 @@ export interface ProposeToRemoveSchemeParams {
   /**
    * avatar address
    */
-  avatar: string;
+  avatar: Address;
   /**
    *  the address of the global constraint to remove
    */

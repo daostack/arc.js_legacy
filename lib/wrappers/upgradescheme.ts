@@ -172,14 +172,14 @@ export interface ChangeUpgradeSchemeProposalEventResult {
    * indexed
    */
   _proposalId: Hash;
-  newUpgradeScheme: Address;
+  _newUpgradeScheme: Address;
 }
 
 export interface ProposeUpgradingSchemeParams {
   /**
    * avatar address
    */
-  avatar: string;
+  avatar: Address;
   /**
    *  upgrading scheme address
    */
@@ -194,7 +194,7 @@ export interface ProposeControllerParams {
   /**
    * avatar address
    */
-  avatar: string;
+  avatar: Address;
   /**
    *  controller address
    */

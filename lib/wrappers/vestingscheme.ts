@@ -40,7 +40,7 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
    */
   private defaultCreateOptions: CommonVestingAgreementConfig = {
     amountPerPeriod: undefined,
-    beneficiary: undefined,
+    beneficiaryAddress: undefined,
     cliffInPeriods: undefined,
     numOfAgreedPeriods: undefined,
     periodLength: undefined,
@@ -71,7 +71,7 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
     await this.validateCreateParams(options);
 
     const tx = await this.contract.proposeVestingAgreement(
-      options.beneficiary,
+      options.beneficiaryAddress,
       options.returnOnCancelAddress,
       options.startingBlock,
       Utils.getWeb3().toBigNumber(options.amountPerPeriod),
@@ -116,7 +116,7 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
 
     const tx = await this.contract.createVestedAgreement(
       options.token,
-      options.beneficiary,
+      options.beneficiaryAddress,
       options.returnOnCancelAddress,
       options.startingBlock,
       amountPerPeriod,
@@ -307,7 +307,7 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
     return {
       agreementId,
       amountPerPeriod: schemeAgreement[4],
-      beneficiary: schemeAgreement[1],
+      beneficiaryAddress: schemeAgreement[1],
       cliffInPeriods: schemeAgreement[7],
       collectedPeriods: schemeAgreement[9],
       numOfAgreedPeriods: schemeAgreement[6],
@@ -315,7 +315,7 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
       returnOnCancelAddress: schemeAgreement[2],
       signaturesReqToCancel: schemeAgreement[8],
       startingBlock: schemeAgreement[3],
-      token: schemeAgreement[0],
+      tokenAddress: schemeAgreement[0],
     };
   }
 }
@@ -388,7 +388,7 @@ export interface CommonVestingAgreementConfig {
   /**
    * Address of the recipient of the proposed agreement.
    */
-  beneficiary: string;
+  beneficiaryAddress: Address;
   /**
    * Where to send the tokens in case of cancellation
    */
@@ -446,7 +446,7 @@ export interface ProposeVestingAgreementConfig extends CommonVestingAgreementCon
   /**
    * The address of the avatar in which the proposal is being be made.
    */
-  avatar: string;
+  avatar: Address;
 }
 
 export interface SignToCancelVestingAgreementConfig {
@@ -474,7 +474,7 @@ export interface GetAgreementParams {
   /**
    * The address of the avatar
    */
-  avatar: string;
+  avatar: Address;
   /**
    * the agreementId
    */
@@ -484,7 +484,7 @@ export interface GetAgreementParams {
 export interface Agreement {
   agreementId: number;
   amountPerPeriod: BigNumber.BigNumber;
-  beneficiary: Address;
+  beneficiaryAddress: Address;
   cliffInPeriods: BigNumber.BigNumber;
   collectedPeriods: BigNumber.BigNumber;
   numOfAgreedPeriods: BigNumber.BigNumber;
@@ -492,5 +492,5 @@ export interface Agreement {
   returnOnCancelAddress: Address;
   signaturesReqToCancel: BigNumber.BigNumber;
   startingBlock: BigNumber.BigNumber;
-  token: Address;
+  tokenAddress: Address;
 }

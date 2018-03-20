@@ -180,7 +180,7 @@ export interface ProposeToAddModifyGlobalConstraintParams {
   /**
    * avatar address
    */
-  avatar: string;
+  avatar: Address;
   /**
    *  the address of the global constraint to add
    */
@@ -199,7 +199,7 @@ export interface ProposeToRemoveGlobalConstraintParams {
   /**
    * avatar address
    */
-  avatar: string;
+  avatar: Address;
   /**
    *  the address of the global constraint to remove
    */

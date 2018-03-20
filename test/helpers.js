@@ -5,11 +5,14 @@ import { DAO } from "../test-dist/dao.js";
 import { WrapperService } from "../test-dist/wrapperService";
 import { SchemeRegistrar } from "../test-dist/wrappers/schemeregistrar";
 import { InitializeArc } from "../test-dist/arc";
+import { LoggingService, LogLevel } from "../test-dist/loggingService";
 
 export const NULL_HASH = Utils.NULL_HASH;
 export const NULL_ADDRESS = Utils.NULL_ADDRESS;
 export const SOME_HASH = "0x1000000000000000000000000000000000000000000000000000000000000000";
 export const SOME_ADDRESS = "0x1000000000000000000000000000000000000000";
+
+LoggingService.setLogLevel(LogLevel.error);
 
 beforeEach(async () => {
   global.web3 = await InitializeArc();

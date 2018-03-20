@@ -22,7 +22,7 @@ describe("ContributionReward scheme", () => {
     return await scheme.proposeContributionReward(Object.assign({
       avatar: dao.avatar.address,
       description: "A new contribution",
-      beneficiary: accounts[1],
+      beneficiaryAddress: accounts[1],
       periodLength: 1,
       numberOfPeriods: 1
     }, rewardsSpec));
@@ -211,10 +211,10 @@ describe("ContributionReward scheme", () => {
 
     assert.equal(proposals.length, 1, "Should have found 1 proposals");
     assert(proposals.filter(p => p.proposalId === proposalId2).length, "proposalId2 not found");
-    assert.equal(proposals[0].beneficiary, accounts[1], "beneficiary not set properly on proposal");
+    assert.equal(proposals[0].beneficiaryAddress, accounts[1], "benebeneficiaryAddressficiary not set properly on proposal");
   });
 
-  it("can get beneficiary's outstanding rewards", async () => {
+  it("can get beneficiaryAddress's outstanding rewards", async () => {
 
     let result = await proposeReward({ nativeTokenReward: web3.toWei(10) });
 
@@ -232,7 +232,7 @@ describe("ContributionReward scheme", () => {
 
     let rewards = await scheme.getBeneficiaryRewards({
       avatar: dao.avatar.address,
-      beneficiary: accounts[1],
+      beneficiaryAddress: accounts[1],
     });
 
     assert.equal(rewards.length, 2, "Should have found 2 sets of proposal rewards");
@@ -251,7 +251,7 @@ describe("ContributionReward scheme", () => {
 
     rewards = await scheme.getBeneficiaryRewards({
       avatar: dao.avatar.address,
-      beneficiary: accounts[1],
+      beneficiaryAddress: accounts[1],
     });
 
     /**
@@ -279,7 +279,7 @@ describe("ContributionReward scheme", () => {
 
     rewards = await scheme.getBeneficiaryRewards({
       avatar: dao.avatar.address,
-      beneficiary: accounts[1],
+      beneficiaryAddress: accounts[1],
     });
 
     assert.equal(rewards.length, 2, "Should have found 2 sets of proposal rewards");

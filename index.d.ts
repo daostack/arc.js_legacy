@@ -709,7 +709,7 @@ declare module "@daostack/arc.js" {
     /**
      * avatar address
      */
-    avatar: string;
+    avatar: Address;
   }
 
   export interface NewOrgEventResult {
@@ -857,7 +857,7 @@ declare module "@daostack/arc.js" {
     /**
      * avatar address
      */
-    avatar: string;
+    avatar: Address;
     /**
      *  the address of the global constraint to add
      */
@@ -876,7 +876,7 @@ declare module "@daostack/arc.js" {
     /**
      * avatar address
      */
-    avatar: string;
+    avatar: Address;
     /**
      *  the address of the global constraint to remove
      */
@@ -978,7 +978,7 @@ declare module "@daostack/arc.js" {
     /**
      * avatar address
      */
-    avatar: string;
+    avatar: Address;
     /**
      *  the address of the global constraint to remove
      */
@@ -1052,7 +1052,7 @@ declare module "@daostack/arc.js" {
     /**
      * avatar address
      */
-    avatar: string;
+    avatar: Address;
     /**
      *  upgrading scheme address
      */
@@ -1067,7 +1067,7 @@ declare module "@daostack/arc.js" {
     /**
      * avatar address
      */
-    avatar: string;
+    avatar: Address;
     /**
      *  controller address
      */
@@ -1144,7 +1144,7 @@ declare module "@daostack/arc.js" {
     /**
      * avatar address
      */
-    avatar: string;
+    avatar: Address;
     /**
      * description of the constraint
      */
@@ -1190,7 +1190,7 @@ declare module "@daostack/arc.js" {
     /**
      *  beneficiary address
      */
-    beneficiary: string;
+    beneficiaryAddress: Address;
   }
 
   export interface ContributionRewardRedeemResult {
@@ -1220,7 +1220,7 @@ declare module "@daostack/arc.js" {
     /**
      * The avatar under which the proposal was made
      */
-    avatar: string;
+    avatar: Address;
     /**
      * true to credit/debit reputation
      * Default is false
@@ -1315,7 +1315,7 @@ declare module "@daostack/arc.js" {
     /**
      * The avatar under which the proposal was made
      */
-    avatar: string;
+    avatar: Address;
     /**
      * The reward proposal
      */
@@ -1323,7 +1323,7 @@ declare module "@daostack/arc.js" {
   }
 
   export interface ContributionProposal {
-    beneficiary: string;
+    beneficiaryAddress: Address;
     contributionDescriptionHash: string;
     ethReward: BigNumber.BigNumber;
     executionTime: number;
@@ -1353,7 +1353,7 @@ declare module "@daostack/arc.js" {
     /**
      * The avatar under which the proposals were created
      */
-    avatar: string;
+    avatar: Address;
     /**
      * Optionally filter on the given proposalId
      */
@@ -1364,11 +1364,11 @@ declare module "@daostack/arc.js" {
     /**
      * The avatar under which the proposals were created
      */
-    avatar: string;
+    avatar: Address;
     /**
      * The agent who is to receive the rewards
      */
-    beneficiary: string;
+    beneficiaryAddress: Address;
     /**
      * Optionally filter on the given proposalId
      */
@@ -1416,7 +1416,7 @@ declare module "@daostack/arc.js" {
     /**
      * Address of the recipient of the proposed agreement.
      */
-    beneficiary: string;
+    beneficiaryAddress: Address;
     /**
      * Where to send the tokens in case of cancellation
      */
@@ -1474,7 +1474,7 @@ declare module "@daostack/arc.js" {
     /**
      * The address of the avatar in which the proposal is being be made.
      */
-    avatar: string;
+    avatar: Address;
   }
 
   export interface SignToCancelVestingAgreementConfig {
@@ -1553,7 +1553,7 @@ declare module "@daostack/arc.js" {
     /**
      * The address of the avatar
      */
-    avatar: string;
+    avatar: Address;
     /**
      * the agreementId
      */
@@ -1563,7 +1563,7 @@ declare module "@daostack/arc.js" {
   export interface Agreement {
     agreementId: number;
     amountPerPeriod: BigNumber.BigNumber;
-    beneficiary: Address;
+    beneficiaryAddress: Address;
     cliffInPeriods: BigNumber.BigNumber;
     collectedPeriods: BigNumber.BigNumber;
     numOfAgreedPeriods: BigNumber.BigNumber;
@@ -1625,7 +1625,7 @@ declare module "@daostack/arc.js" {
     /**
      * Avatar whose voters are being given the chance to vote on the original proposal.
      */
-    avatar: string;
+    avatar: Address;
     /**
      * Address of the voting machine used by the original proposal.  The voting machine must
      * implement IntVoteInterface (as defined in Arc).
@@ -1743,14 +1743,14 @@ declare module "@daostack/arc.js" {
    * for information purposes.
    */
   export interface ExecutableInterface {
-    execute(proposalId: number, avatar: string, vote: number): Promise<boolean>;
+    execute(proposalId: number, avatar: Address, vote: number): Promise<boolean>;
   }
 
   export interface ProposeVoteConfig {
     /**
      * The DAO's avatar under which the proposal is being made.
      */
-    avatar: string;
+    avatar: Address;
     /**
      * address of the agent making the proposal.
      * Default is the current default account.
@@ -1848,7 +1848,7 @@ declare module "@daostack/arc.js" {
     /**
      * agent to whom to award the proposal payoffs
      */
-    beneficiary: string;
+    beneficiaryAddress: Address;
   }
 
   export interface ShouldBoostConfig {
@@ -1869,7 +1869,7 @@ declare module "@daostack/arc.js" {
     /**
      * the DAO's avatar address
      */
-    avatar: string;
+    avatar: Address;
   }
 
   /**
@@ -1883,7 +1883,7 @@ declare module "@daostack/arc.js" {
     /**
      * the staker
      */
-    beneficiary: string;
+    beneficiaryAddress: Address;
   }
 
   /**
@@ -1907,7 +1907,7 @@ declare module "@daostack/arc.js" {
     /**
      * the voter
      */
-    beneficiary: string;
+    beneficiaryAddress: Address;
   }
 
   /**
@@ -1921,7 +1921,7 @@ declare module "@daostack/arc.js" {
     /**
      * the voter
      */
-    beneficiary: string;
+    beneficiaryAddress: Address;
   }
 
   /**
@@ -1935,7 +1935,7 @@ declare module "@daostack/arc.js" {
     /**
      * the staker
      */
-    beneficiary: string;
+    beneficiaryAddress: Address;
   }
 
   export interface GetNumberOfChoicesConfig {
@@ -1996,7 +1996,7 @@ declare module "@daostack/arc.js" {
     /**
      * the DAO's avatar address
      */
-    avatar: string;
+    avatar: Address;
   }
 
   export interface GetStakerInfoConfig {

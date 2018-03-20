@@ -101,7 +101,7 @@ export interface VoteInOrganizationProposeVoteConfig {
   /**
    * Avatar whose voters are being given the chance to vote on the original proposal.
    */
-  avatar: string;
+  avatar: Address;
   /**
    * Address of the voting machine used by the original proposal.  The voting machine must
    * implement IntVoteInterface (as defined in Arc).

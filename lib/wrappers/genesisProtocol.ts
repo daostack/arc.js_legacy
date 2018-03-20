@@ -229,7 +229,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
   public async redeem(opts: RedeemConfig = {} as RedeemConfig): Promise<ArcTransactionResult> {
 
     const defaults = {
-      beneficiary: undefined,
+      beneficiaryAddress: undefined,
       proposalId: undefined,
     };
 
@@ -239,13 +239,13 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("proposalId is not defined");
     }
 
-    if (!options.beneficiary) {
-      throw new Error("beneficiary is not defined");
+    if (!options.beneficiaryAddress) {
+      throw new Error("beneficiaryAddress is not defined");
     }
 
     const tx = await this.contract.redeem(
       options.proposalId,
-      options.beneficiary
+      options.beneficiaryAddress
     );
 
     return new ArcTransactionResult(tx);
@@ -334,7 +334,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     : Promise<BigNumber.BigNumber> {
 
     const defaults = {
-      beneficiary: undefined,
+      beneficiaryAddress: undefined,
       proposalId: undefined,
     };
 
@@ -344,13 +344,13 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("proposalId is not defined");
     }
 
-    if (!options.beneficiary) {
-      throw new Error("beneficiary is not defined");
+    if (!options.beneficiaryAddress) {
+      throw new Error("beneficiaryAddress is not defined");
     }
 
     const redeemAmount = await this.contract.getRedeemableTokensStaker(
       options.proposalId,
-      options.beneficiary
+      options.beneficiaryAddress
     );
 
     return redeemAmount;
@@ -392,7 +392,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     : Promise<BigNumber.BigNumber> {
 
     const defaults = {
-      beneficiary: undefined,
+      beneficiaryAddress: undefined,
       proposalId: undefined,
     };
 
@@ -402,13 +402,13 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("proposalId is not defined");
     }
 
-    if (!options.beneficiary) {
-      throw new Error("beneficiary is not defined");
+    if (!options.beneficiaryAddress) {
+      throw new Error("beneficiaryAddress is not defined");
     }
 
     const amount = await this.contract.getRedeemableTokensVoter(
       options.proposalId,
-      options.beneficiary
+      options.beneficiaryAddress
     );
 
     return amount;
@@ -424,7 +424,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     : Promise<BigNumber.BigNumber> {
 
     const defaults = {
-      beneficiary: undefined,
+      beneficiaryAddress: undefined,
       proposalId: undefined,
     };
 
@@ -434,13 +434,13 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("proposalId is not defined");
     }
 
-    if (!options.beneficiary) {
-      throw new Error("beneficiary is not defined");
+    if (!options.beneficiaryAddress) {
+      throw new Error("beneficiaryAddress is not defined");
     }
 
     const reputation = await this.contract.getRedeemableReputationVoter(
       options.proposalId,
-      options.beneficiary
+      options.beneficiaryAddress
     );
 
     return reputation;
@@ -456,7 +456,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     : Promise<BigNumber.BigNumber> {
 
     const defaults = {
-      beneficiary: undefined,
+      beneficiaryAddress: undefined,
       proposalId: undefined,
     };
 
@@ -466,13 +466,13 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("proposalId is not defined");
     }
 
-    if (!options.beneficiary) {
-      throw new Error("beneficiary is not defined");
+    if (!options.beneficiaryAddress) {
+      throw new Error("beneficiaryAddress is not defined");
     }
 
     const reputation = await this.contract.getRedeemableReputationStaker(
       options.proposalId,
-      options.beneficiary
+      options.beneficiaryAddress
     );
 
     return reputation;
@@ -1136,14 +1136,14 @@ export interface GenesisProtocolParams {
  * for information purposes.
  */
 export interface ExecutableInterface {
-  execute(proposalId: number, avatar: string, vote: number): Promise<boolean>;
+  execute(proposalId: number, avatar: Address, vote: number): Promise<boolean>;
 }
 
 export interface ProposeVoteConfig {
   /**
    * The DAO's avatar under which the proposal is being made.
    */
-  avatar: string;
+  avatar: Address;
   /**
    * address of the agent making the proposal.
    * Default is the current default account.
@@ -1226,7 +1226,7 @@ export interface RedeemConfig {
   /**
    * agent to whom to award the proposal payoffs
    */
-  beneficiary: string;
+  beneficiaryAddress: Address;
 }
 
 export interface ShouldBoostConfig {
@@ -1247,7 +1247,7 @@ export interface GetThresholdConfig {
   /**
    * the DAO's avatar address
    */
-  avatar: string;
+  avatar: Address;
 }
 
 /**
@@ -1261,7 +1261,7 @@ export interface GetRedeemableTokensStakerConfig {
   /**
    * the staker
    */
-  beneficiary: string;
+  beneficiaryAddress: Address;
 }
 
 /**
@@ -1285,7 +1285,7 @@ export interface GetRedeemableTokensVoterConfig {
   /**
    * the voter
    */
-  beneficiary: string;
+  beneficiaryAddress: Address;
 }
 
 /**
@@ -1299,7 +1299,7 @@ export interface GetRedeemableReputationVoterConfig {
   /**
    * the voter
    */
-  beneficiary: string;
+  beneficiaryAddress: Address;
 }
 
 /**
@@ -1313,7 +1313,7 @@ export interface GetRedeemableReputationStakerConfig {
   /**
    * the staker
    */
-  beneficiary: string;
+  beneficiaryAddress: Address;
 }
 
 export interface GetNumberOfChoicesConfig {
@@ -1374,7 +1374,7 @@ export interface GetScoreThresholdParamsConfig {
   /**
    * the DAO's avatar address
    */
-  avatar: string;
+  avatar: Address;
 }
 
 export interface GetStakerInfoConfig {
