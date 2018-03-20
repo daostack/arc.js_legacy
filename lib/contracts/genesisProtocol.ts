@@ -1187,7 +1187,7 @@ export interface StakeConfig {
    */
   onBehalfOf?: Address;
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
   /**
@@ -1198,7 +1198,7 @@ export interface StakeConfig {
 
 export interface VoteWithSpecifiedAmountsConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
   /**
@@ -1213,7 +1213,7 @@ export interface VoteWithSpecifiedAmountsConfig {
 
 export interface RedeemConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
   /**
@@ -1224,14 +1224,14 @@ export interface RedeemConfig {
 
 export interface ShouldBoostConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
 }
 
 export interface GetScoreConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
 }
@@ -1248,7 +1248,7 @@ export interface GetThresholdConfig {
  */
 export interface GetRedeemableTokensStakerConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
   /**
@@ -1262,7 +1262,7 @@ export interface GetRedeemableTokensStakerConfig {
  */
 export interface GetRedeemableReputationProposerConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
 }
@@ -1272,7 +1272,7 @@ export interface GetRedeemableReputationProposerConfig {
  */
 export interface GetRedeemableTokensVoterConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
   /**
@@ -1286,7 +1286,7 @@ export interface GetRedeemableTokensVoterConfig {
  */
 export interface GetRedeemableReputationVoterConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
   /**
@@ -1300,7 +1300,7 @@ export interface GetRedeemableReputationVoterConfig {
  */
 export interface GetRedeemableReputationStakerConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
   /**
@@ -1311,14 +1311,14 @@ export interface GetRedeemableReputationStakerConfig {
 
 export interface GetNumberOfChoicesConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
 }
 
 export interface GetVoterInfoConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
   voter: string;
@@ -1326,7 +1326,7 @@ export interface GetVoterInfoConfig {
 
 export interface GetVoteStatusConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
   /**
@@ -1337,28 +1337,28 @@ export interface GetVoteStatusConfig {
 
 export interface IsVotableConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
 }
 
 export interface GetProposalStatusConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
 }
 
 export interface GetTotalReputationSupplyConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
 }
 
 export interface GetProposalAvatarConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
 }
@@ -1372,7 +1372,7 @@ export interface GetScoreThresholdParamsConfig {
 
 export interface GetStakerInfoConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
   /**
@@ -1383,7 +1383,7 @@ export interface GetStakerInfoConfig {
 
 export interface GetVoteStakeConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
   /**
@@ -1394,14 +1394,14 @@ export interface GetVoteStakeConfig {
 
 export interface GetWinningVoteConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
 }
 
 export interface GetStateConfig {
   /**
-   * unique hash of proposal index in the scope of the scheme
+   * unique hash of proposal index
    */
   proposalId: string;
 }

@@ -10,8 +10,9 @@ export default class ContractWrapperFactory<TContract extends ContractWrapperBas
    * @param solidityContract Name of the contract
    * @param wrapper Class of the contract
    */
-  public constructor(private solidityContractName: string, private wrapper: new (solidityContract: any) => TContract) {
-  }
+  public constructor(
+    private solidityContractName: string,
+    private wrapper: new (solidityContract: any) => TContract) { }
 
   public async new(...rest: Array<any>): Promise<TContract> {
     await this.ensureSolidityContract();

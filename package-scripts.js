@@ -130,7 +130,10 @@ module.exports = {
        *
        * Run migrateContracts.fetchFromArc first if you want to start with fresh unmigrated contracts from @daostack/arc.
        */
-      default: `${truffleCommand} migrate --contracts_build_directory ${pathArcJsContracts} --without-compile --network ${network}`,
+      default: series(
+        `nps build`,
+        `${truffleCommand} migrate --contracts_build_directory ${pathArcJsContracts} --without-compile --network ${network}`
+      ),
       /**
        * Clean the outputted contract json files, optionally andMigrate.
        *
@@ -165,6 +168,34 @@ module.exports = {
        */
       fetchFromArc: copy(`${joinPath(pathDaostackArcRepo, "build", "contracts", "*")}  ${pathArcJsContracts}`)
     },
-    "docs": "node ./package-scripts/docs/createMarkdown.js"
+    docs: {
+      api: {
+        build: "node ./package-scripts/typedoc.js",
+        /**
+         * This is to create a list of all the API files for inclusion in mkdocs.yml
+         * Whenever the set of API objects changes, you must copy the output of this
+         * script and paste it into mkdocs.yml after the line:
+         * `- Index : "api/README.md"`
+         */
+        createPagesList: `node ./package-scripts/createApiPagesList.js ./docs api/*/**`
+      },
+      website: {
+        build: "mkdocs build",
+        preview: "mkdocs serve",
+        deploy: "mkdocs gh-deploy --force"
+      },
+      build: {
+        default: series(
+          "nps docs.api.build",
+          "nps docs.website.build",
+        ),
+        andPreview: series("nps docs.build", "nps docs.website.preview"),
+        andDeploy: series("nps docs.build", "nps docs.website.deploy")
+      },
+      clean: series(
+        rimraf(joinPath(pathArcJsRoot, "docs", "api")),
+        rimraf(joinPath(pathArcJsRoot, "site"))
+      )
+    }
   }
 };
