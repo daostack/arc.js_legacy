@@ -60,7 +60,6 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       avatar: undefined,
       executable: undefined,
       numOfChoices: 0,
-      paramsHash: undefined,
       proposer: await Utils.getDefaultAccount(),
     };
 
@@ -68,10 +67,6 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
     if (!options.avatar) {
       throw new Error("avatar is not defined");
-    }
-
-    if (!options.paramsHash) {
-      throw new Error("paramsHash is not defined");
     }
 
     if (!options.executable) {
@@ -88,7 +83,6 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
     const tx = await this.contract.propose(
       options.numOfChoices,
-      options.paramsHash,
       options.avatar,
       options.executable,
       options.proposer
@@ -1122,10 +1116,6 @@ export interface ProposeVoteConfig {
    * number of choices when voting.  Must be between 1 and 10.
    */
   numOfChoices: number;
-  /**
-   * GenesisProtocol parameters to apply to this proposal
-   */
-  paramsHash: string;
   /**
    * contract that implements ExecutableInterface to invoke if/when the vote passes
    */
