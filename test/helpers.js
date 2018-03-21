@@ -4,7 +4,7 @@ import { assert } from "chai";
 import { DAO } from "../test-dist/dao.js";
 import { WrapperService } from "../test-dist/wrapperService";
 import { SchemeRegistrar } from "../test-dist/wrappers/schemeregistrar";
-import { InitializeArc } from "../test-dist/arc";
+import { InitializeArc } from "../test-dist/index";
 import { LoggingService, LogLevel } from "../test-dist/loggingService";
 
 export const NULL_HASH = Utils.NULL_HASH;
