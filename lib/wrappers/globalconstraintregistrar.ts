@@ -1,6 +1,6 @@
 "use strict";
 import dopts = require("default-options");
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
@@ -11,8 +11,10 @@ import {
 import ContractWrapperFactory from "../contractWrapperFactory";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
-export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase {
+export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implements SchemeWrapper {
 
+  public name: string = "GlobalConstraintRegistrar";
+  public frendlyName: string = "Global Constraint Registrar";
   /**
    * Events
    */
@@ -119,6 +121,10 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase {
     return (overrideValue || DefaultSchemePermissions.GlobalConstraintRegistrar) as SchemePermissions;
   }
 
+  public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
+    return this._getSchemePermissions(avatarAddress);
+  }
+
   public async getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams> {
     return this._getSchemeParameters(avatarAddress);
   }
@@ -174,7 +180,7 @@ export interface ProposeToAddModifyGlobalConstraintParams {
   /**
    * avatar address
    */
-  avatar: string;
+  avatar: Address;
   /**
    *  the address of the global constraint to add
    */
@@ -193,7 +199,7 @@ export interface ProposeToRemoveGlobalConstraintParams {
   /**
    * avatar address
    */
-  avatar: string;
+  avatar: Address;
   /**
    *  the address of the global constraint to remove
    */

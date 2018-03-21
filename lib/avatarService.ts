@@ -1,3 +1,4 @@
+import { Address } from "./commonTypes";
 import { Utils } from "./utils";
 
 /**
@@ -10,7 +11,7 @@ import { Utils } from "./utils";
 export class AvatarService {
 
   public isUController: boolean;
-  private avatarAddress: string;
+  private avatarAddress: Address;
   private avatar: any;
   private controllerAddress: any;
   private controller: any;
@@ -19,7 +20,7 @@ export class AvatarService {
   private nativeTokenAddress: any;
   private nativeToken: any;
 
-  constructor(avatarAddress: string) {
+  constructor(avatarAddress: Address) {
     this.avatarAddress = avatarAddress;
     this.isUController = undefined;
   }

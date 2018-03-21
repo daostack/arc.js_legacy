@@ -1,20 +1,20 @@
 /**
  * get and set global Arc.js settings
  */
-export class Config {
-  public static instance: Config;
+export class ConfigService {
+  public static instance: ConfigService;
   public static data: any;
 
   public static get(setting: string): any {
-    return Config.data[setting];
+    return ConfigService.data[setting];
   }
 
   public static set(setting: string, value: any): void {
-    Config.data[setting] = value;
+    ConfigService.data[setting] = value;
   }
 
   constructor() {
-    if (!Config.instance) {
+    if (!ConfigService.instance) {
       const defaults = require("../config/default.json");
       const prefix = "arcjs_";
       if (process && process.env) {
@@ -26,15 +26,15 @@ export class Config {
         });
       }
 
-      Config.data = defaults;
-      Config.instance = this;
+      ConfigService.data = defaults;
+      ConfigService.instance = this;
     }
-    return Config.instance;
+    return ConfigService.instance;
   }
 }
 
 /**
- * This will automagically create a static instance of Config that will be used whenever
- * someone imports Config.
+ * This will automagically create a static instance of ConfigService that will be used whenever
+ * someone imports ConfigService.
  */
-Object.freeze(new Config());
+Object.freeze(new ConfigService());

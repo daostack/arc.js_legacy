@@ -1,6 +1,6 @@
 "use strict";
 import dopts = require("default-options");
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
@@ -12,8 +12,10 @@ import {
 import ContractWrapperFactory from "../contractWrapperFactory";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
-export class UpgradeSchemeWrapper extends ContractWrapperBase {
+export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeWrapper {
 
+  public name: string = "UpgradeScheme";
+  public frendlyName: string = "Upgrade Scheme";
   /**
    * Events
    */
@@ -120,6 +122,10 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase {
     return (overrideValue || DefaultSchemePermissions.UpgradeScheme) as SchemePermissions;
   }
 
+  public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
+    return this._getSchemePermissions(avatarAddress);
+  }
+
   public async getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams> {
     return this._getSchemeParameters(avatarAddress);
   }
@@ -166,14 +172,14 @@ export interface ChangeUpgradeSchemeProposalEventResult {
    * indexed
    */
   _proposalId: Hash;
-  newUpgradeScheme: Address;
+  _newUpgradeScheme: Address;
 }
 
 export interface ProposeUpgradingSchemeParams {
   /**
    * avatar address
    */
-  avatar: string;
+  avatar: Address;
   /**
    *  upgrading scheme address
    */
@@ -188,7 +194,7 @@ export interface ProposeControllerParams {
   /**
    * avatar address
    */
-  avatar: string;
+  avatar: Address;
   /**
    *  controller address
    */

@@ -1,4 +1,4 @@
-import { Config } from "./config";
+import { ConfigService } from "./configService";
 
 export enum LogLevel {
   none = 0,
@@ -47,7 +47,7 @@ class ConsoleLogger implements ILogger {
 
   /* tslint:disable:no-console */
   /* tslint:disable:no-bitwise */
-  public level: LogLevel = parseInt(Config.get("logLevel"), 10) as LogLevel;
+  public level: LogLevel = parseInt(ConfigService.get("logLevel"), 10) as LogLevel;
 
   public debug(message: string): void { if (this.level & LogLevel.debug) { console.log(message); } }
 

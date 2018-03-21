@@ -1,5 +1,5 @@
 // the following requires that a build has been done
-const Config = require("../dist/config").Config;
+const Config = require("../dist/configService").ConfigService;
 const DefaultSchemePermissions = require("../dist/commonTypes").DefaultSchemePermissions;
 /**
  * Migration callback

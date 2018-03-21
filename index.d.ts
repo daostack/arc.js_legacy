@@ -4,7 +4,6 @@ import * as Web3 from "web3";
 /* tslint:disable:max-line-length */
 
 declare module "@daostack/arc.js" {
-
   export enum SchemePermissions {
     None = 0,
     /**
@@ -88,23 +87,6 @@ declare module "@daostack/arc.js" {
     error(message: string): void;
   }
 
-  /*******************************
-   * Arc contract information as contained in ArcDeployedContractNames (see settings)
-   */
-  export interface ArcContractInfo {
-    /**
-     * An uninitialized instance of ContractWrapperBase,
-     * basically the class factory with static methods.
-     */
-    contract: any;
-    /**
-     * address of the instance deployed by Arc.
-     * Calling contract.at() (a static method on ContractWrapperBase) will return a
-     * the properly initialized instance of ContractWrapperBase.
-     */
-    address: string;
-  }
-
   /**
    * Base or actual type returned by all contract wrapper methods that generate a transaction.
    */
@@ -141,48 +123,11 @@ declare module "@daostack/arc.js" {
   export interface ArcTransactionAgreementResult extends ArcTransactionResult {
     agreementId: number;
   }
-  /**
-   * An object with property names being a contract key and property value as the corresponding ArcContractInfo.
-   * For all contracts deployed by Arc.js.
-   */
-  export interface ArcDeployedContractNames {
-    AbsoluteVote: ArcContractInfo;
-    ContributionReward: ArcContractInfo;
-    DaoCreator: ArcContractInfo;
-    GenesisProtocol: ArcContractInfo;
-    GlobalConstraintRegistrar: ArcContractInfo;
-    SchemeRegistrar: ArcContractInfo;
-    TokenCapGC: ArcContractInfo;
-    UpgradeScheme: ArcContractInfo;
-    VestingScheme: ArcContractInfo;
-    VoteInOrganizationScheme: ArcContractInfo;
-  }
-
-  /**
-   * ArcDeployedContractNames, and those contracts organized by type.
-   * Call it.at(it.address) to get javascript wrapper
-   */
-  export interface ArcDeployedContracts {
-    allContracts: ArcDeployedContractNames;
-
-    /**
-     * All deployed schemes
-     */
-    schemes: Array<ArcContractInfo>;
-    /**
-     * All deployed voting machines
-     */
-    votingMachines: Array<ArcContractInfo>;
-    /**
-     * All deployed global constraints
-     */
-    globalConstraints: Array<ArcContractInfo>;
-  }
 
   /********************************
-   * Config
+   * ConfigService
    */
-  export class Config {
+  export class ConfigService {
     public static get(key: string): any;
     public static set(key: string, value: any): void;
     public static setLogLevel(level: LogLevel): void;
@@ -190,22 +135,116 @@ declare module "@daostack/arc.js" {
   }
 
   /********************************
-   * contracts
+   * ContractWrapperFactory
    */
-  export class Contracts {
-    public static getDeployedContracts(): ArcDeployedContracts;
+  export class ContractWrapperFactory<TWrapper extends ContractWrapperBase> {
+    public new(...rest: Array<any>): Promise<TWrapper>;
+
+    public at(address: string): Promise<TWrapper>;
+
+    public deployed(): Promise<TWrapper>;
+  }
+
+  /********************************
+   * WrapperService
+   */
+
+  /**
+   * An object with property names being a contract key and property value as the
+   * corresponding wrapper factory (ContractWrapperFactory<TWrapper).
+   */
+  export interface ArcWrapperFactories {
+    AbsoluteVote: ContractWrapperFactory<AbsoluteVoteWrapper>;
+    ContributionReward: ContractWrapperFactory<ContributionRewardWrapper>;
+    DaoCreator: ContractWrapperFactory<DaoCreatorWrapper>;
+    GenesisProtocol: ContractWrapperFactory<GenesisProtocolWrapper>;
+    GlobalConstraintRegistrar: ContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
+    SchemeRegistrar: ContractWrapperFactory<SchemeRegistrarWrapper>;
+    TokenCapGC: ContractWrapperFactory<TokenCapGCWrapper>;
+    UpgradeScheme: ContractWrapperFactory<UpgradeSchemeWrapper>;
+    VestingScheme: ContractWrapperFactory<VestingSchemeWrapper>;
+    VoteInOrganizationScheme: ContractWrapperFactory<VoteInOrganizationSchemeWrapper>;
+  }
+
+  /**
+   * An object with property names being a contract key and property value as the
+   * corresponding wrapper.
+   */
+  export interface ArcWrappers {
+    AbsoluteVote: AbsoluteVoteWrapper;
+    ContributionReward: ContributionRewardWrapper;
+    DaoCreator: DaoCreatorWrapper;
+    GenesisProtocol: GenesisProtocolWrapper;
+    GlobalConstraintRegistrar: GlobalConstraintRegistrarWrapper;
+    SchemeRegistrar: SchemeRegistrarWrapper;
+    TokenCapGC: TokenCapGCWrapper;
+    UpgradeScheme: UpgradeSchemeWrapper;
+    VestingScheme: VestingSchemeWrapper;
+    VoteInOrganizationScheme: VoteInOrganizationSchemeWrapper;
+  }
+
+  /**
+   * Arc.js wrapper factories grouped by type.
+   */
+  export interface ArcWrappersByType {
     /**
-     * Returns an Arc.js scheme wrapper, or undefined if not found
-     * @param contract - name of an Arc scheme, like "SchemeRegistrar"
+     * All wrapped contracts
+     */
+    allWrappers: ArcWrappers;
+    /**
+     * All wrapped schemes
+     */
+    schemes: Array<ContractWrapperBase>;
+    /**
+     * All wrapped voting machines
+     */
+    votingMachines: Array<ContractWrapperBase>;
+    /**
+     * All wrapped global constraints
+     */
+    globalConstraints: Array<ContractWrapperBase>;
+    /**
+     * Other types of wrappers
+     */
+    other: Array<ContractWrapperBase>;
+  }
+
+  export class WrapperService {
+
+    /**
+     * Wrappers by name, hydrated with contracts as deployed by this version of Arc.js.
+     */
+    public static wrappers: ArcWrappers;
+    /**
+     * Contract wrapper factories grouped by type
+     */
+    public static wrappersByType: ArcWrappersByType;
+    /**
+     * Wrapper factories by name.  Use these when you want to do `.at()` or `.new()`.  You can also
+     * use for `deployed()`, but the wrappers for deployed contracts are directly available from the
+     * `wrappers` and `wrappersByType` properties.
+     */
+    public static factories: ArcWrapperFactories;
+
+    /**
+     * initialize() must be called before any of the static properties will have values.
+     * It is currently called in ArcInitialize(), which in trun must be invoked by any applicaiton
+     * using Arc.js.
+     */
+    public static initialize(): Promise<void>;
+
+    /**
+     * Returns an Arc.js contract wrapper or undefined if not found.
+     * @param contractName - name of an Arc contract, like "SchemeRegistrar"
      * @param address - optional
      */
-    public static getContractWrapper(contract: string, address?: string): Promise<ExtendTruffleScheme | undefined>;
+    public static getContractWrapper(contractName: string, address?: string)
+      : Promise<ContractWrapperBase | undefined>;
   }
 
   /********************************
    * utils
    */
-
   export class Utils {
 
     /**
@@ -271,21 +310,21 @@ declare module "@daostack/arc.js" {
     tx: string;
   }
 
+  export interface SchemeWrapper {
+    getSchemeParameters(avatarAddress: Address): Promise<any>;
+    getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
+  }
+
   export class ContractWrapperBase {
     /**
-     * Instantiate the class.  This will migrate a new instance of the contract to the net.
+     * The name of the contract.
      */
-    public static new(): any;
+    public name: string;
     /**
-     * Instantiate the class as it was migrated to the given address on
-     * the current network.
-     * @param address
+     * A more friendly name for the contract.
      */
-    public static at(address: string): any;
-    /**
-     * Instantiate the class as it was migrated by Arc.js on the given network.
-     */
-    public static deployed(): any;
+    public frendlyName: string;
     /**
      * The underlying truffle contract object
      */
@@ -321,10 +360,11 @@ declare module "@daostack/arc.js" {
      * @param paramsHash
      */
     public getParametersArray(paramsHash: Hash): Promise<Array<any>>;
-  }
-
-  export class ExtendTruffleScheme extends ContractWrapperBase {
-    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    /**
+     * get the controller for the given avatar
+     * @param avatarAddress
+     */
+    public getController(avatarAddress: Address): Promise<any>;
   }
 
   export type Hash = string;
@@ -531,10 +571,7 @@ declare module "@daostack/arc.js" {
     votePerc?: number;
   }
 
-  export class AbsoluteVote extends ExtendTruffleScheme {
-    public static new(): AbsoluteVote;
-    public static at(address: string): AbsoluteVote;
-    public static deployed(): AbsoluteVote;
+  export class AbsoluteVoteWrapper extends ContractWrapperBase {
 
     public NewProposal: EventFetcherFactory<NewProposalEventResult>;
     public CancelProposal: EventFetcherFactory<CancelProposalEventResult>;
@@ -630,8 +667,6 @@ declare module "@daostack/arc.js" {
     /**
      * Extra permissions on the scheme.  The minimum permissions for the scheme
      * will be enforced (or'd with anything you supply).
-     * See ContractWrapperBase.getDefaultPermissions for what this string
-     * should look like.
      */
     permissions?: SchemePermissions | DefaultSchemePermissions;
     /**
@@ -674,7 +709,7 @@ declare module "@daostack/arc.js" {
     /**
      * avatar address
      */
-    avatar: string;
+    avatar: Address;
   }
 
   export interface NewOrgEventResult {
@@ -684,10 +719,7 @@ declare module "@daostack/arc.js" {
     _avatar: Address;
   }
 
-  export class DaoCreator extends ExtendTruffleScheme {
-    public static new(): DaoCreator;
-    public static at(address: string): DaoCreator;
-    public static deployed(): DaoCreator;
+  export class DaoCreatorWrapper extends ContractWrapperBase {
     public NewOrg: EventFetcherFactory<NewOrgEventResult>;
     public InitialSchemesSet: EventFetcherFactory<InitialSchemesSetEventResult>;
     /**
@@ -728,8 +760,6 @@ declare module "@daostack/arc.js" {
     address: string;
     /**
      * The scheme's permissions.
-     * See ContractWrapperBase.getDefaultPermissions for what this string
-     * looks like.
      */
     permissions: SchemePermissions;
   }
@@ -798,7 +828,7 @@ declare module "@daostack/arc.js" {
     public getContractWrapper(
       contractName: string,
       address?: string
-    ): Promise<ExtendTruffleScheme | undefined>;
+    ): Promise<ContractWrapperBase | undefined>;
 
     /**
      * returns whether the scheme with the given address is registered to this DAO's controller
@@ -827,7 +857,7 @@ declare module "@daostack/arc.js" {
     /**
      * avatar address
      */
-    avatar: string;
+    avatar: Address;
     /**
      *  the address of the global constraint to add
      */
@@ -846,7 +876,7 @@ declare module "@daostack/arc.js" {
     /**
      * avatar address
      */
-    avatar: string;
+    avatar: Address;
     /**
      *  the address of the global constraint to remove
      */
@@ -887,11 +917,7 @@ declare module "@daostack/arc.js" {
     _proposalId: Hash;
   }
 
-  export class GlobalConstraintRegistrar extends ExtendTruffleScheme {
-    public static new(): GlobalConstraintRegistrar;
-
-    public static at(address: string): GlobalConstraintRegistrar;
-    public static deployed(): GlobalConstraintRegistrar;
+  export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implements SchemeWrapper {
     public NewGlobalConstraintsProposal: EventFetcherFactory<NewGlobalConstraintsProposalEventResult>;
     public RemoveGlobalConstraintsProposal: EventFetcherFactory<RemoveGlobalConstraintsProposalEventResult>;
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
@@ -914,6 +940,8 @@ declare module "@daostack/arc.js" {
 
     public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
     public getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams>;
+    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    public getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
   }
 
   /********************************
@@ -950,7 +978,7 @@ declare module "@daostack/arc.js" {
     /**
      * avatar address
      */
-    avatar: string;
+    avatar: Address;
     /**
      *  the address of the global constraint to remove
      */
@@ -991,10 +1019,7 @@ declare module "@daostack/arc.js" {
     _scheme: Address;
   }
 
-  export class SchemeRegistrar extends ExtendTruffleScheme {
-    public static new(): SchemeRegistrar;
-    public static at(address: string): SchemeRegistrar;
-    public static deployed(): SchemeRegistrar;
+  export class SchemeRegistrarWrapper extends ContractWrapperBase implements SchemeWrapper {
     public NewSchemeProposal: EventFetcherFactory<NewSchemeProposalEventResult>;
     public RemoveSchemeProposal: EventFetcherFactory<RemoveSchemeProposalEventResult>;
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
@@ -1016,6 +1041,8 @@ declare module "@daostack/arc.js" {
 
     public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
     public getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams>;
+    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    public getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
   }
 
   /********************************
@@ -1025,7 +1052,7 @@ declare module "@daostack/arc.js" {
     /**
      * avatar address
      */
-    avatar: string;
+    avatar: Address;
     /**
      *  upgrading scheme address
      */
@@ -1040,7 +1067,7 @@ declare module "@daostack/arc.js" {
     /**
      * avatar address
      */
-    avatar: string;
+    avatar: Address;
     /**
      *  controller address
      */
@@ -1080,10 +1107,7 @@ declare module "@daostack/arc.js" {
     newUpgradeScheme: Address;
   }
 
-  export class UpgradeScheme extends ExtendTruffleScheme {
-    public static new(): UpgradeScheme;
-    public static at(address: string): UpgradeScheme;
-    public static deployed(): UpgradeScheme;
+  export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeWrapper {
     public NewUpgradeProposal: EventFetcherFactory<NewUpgradeProposalEventResult>;
     public ChangeUpgradeSchemeProposal: EventFetcherFactory<ChangeUpgradeSchemeProposalEventResult>;
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
@@ -1105,6 +1129,8 @@ declare module "@daostack/arc.js" {
 
     public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
     public getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams>;
+    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    public getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
   }
 
   /********************************
@@ -1118,7 +1144,7 @@ declare module "@daostack/arc.js" {
     /**
      * avatar address
      */
-    avatar: string;
+    avatar: Address;
     /**
      * description of the constraint
      */
@@ -1164,7 +1190,7 @@ declare module "@daostack/arc.js" {
     /**
      *  beneficiary address
      */
-    beneficiary: string;
+    beneficiaryAddress: Address;
   }
 
   export interface ContributionRewardRedeemResult {
@@ -1194,7 +1220,7 @@ declare module "@daostack/arc.js" {
     /**
      * The avatar under which the proposal was made
      */
-    avatar: string;
+    avatar: Address;
     /**
      * true to credit/debit reputation
      * Default is false
@@ -1289,7 +1315,7 @@ declare module "@daostack/arc.js" {
     /**
      * The avatar under which the proposal was made
      */
-    avatar: string;
+    avatar: Address;
     /**
      * The reward proposal
      */
@@ -1297,7 +1323,7 @@ declare module "@daostack/arc.js" {
   }
 
   export interface ContributionProposal {
-    beneficiary: string;
+    beneficiaryAddress: Address;
     contributionDescriptionHash: string;
     ethReward: BigNumber.BigNumber;
     executionTime: number;
@@ -1327,7 +1353,7 @@ declare module "@daostack/arc.js" {
     /**
      * The avatar under which the proposals were created
      */
-    avatar: string;
+    avatar: Address;
     /**
      * Optionally filter on the given proposalId
      */
@@ -1338,21 +1364,18 @@ declare module "@daostack/arc.js" {
     /**
      * The avatar under which the proposals were created
      */
-    avatar: string;
+    avatar: Address;
     /**
      * The agent who is to receive the rewards
      */
-    beneficiary: string;
+    beneficiaryAddress: Address;
     /**
      * Optionally filter on the given proposalId
      */
     proposalId?: string;
   }
 
-  export class ContributionReward extends ExtendTruffleScheme {
-    public static new(): ContributionReward;
-    public static at(address: string): ContributionReward;
-    public static deployed(): ContributionReward;
+  export class ContributionRewardWrapper extends ContractWrapperBase implements SchemeWrapper {
     public NewContributionProposal: EventFetcherFactory<NewContributionProposalEventResult>;
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
     public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
@@ -1382,6 +1405,8 @@ declare module "@daostack/arc.js" {
 
     public setParameters(params: ContributionRewardParams): Promise<ArcTransactionDataResult<Hash>>;
     public getSchemeParameters(avatarAddress: Address): Promise<ContributionRewardParams>;
+    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    public getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
   }
 
   /********************************
@@ -1391,7 +1416,7 @@ declare module "@daostack/arc.js" {
     /**
      * Address of the recipient of the proposed agreement.
      */
-    beneficiary: string;
+    beneficiaryAddress: Address;
     /**
      * Where to send the tokens in case of cancellation
      */
@@ -1449,7 +1474,7 @@ declare module "@daostack/arc.js" {
     /**
      * The address of the avatar in which the proposal is being be made.
      */
-    avatar: string;
+    avatar: Address;
   }
 
   export interface SignToCancelVestingAgreementConfig {
@@ -1528,7 +1553,7 @@ declare module "@daostack/arc.js" {
     /**
      * The address of the avatar
      */
-    avatar: string;
+    avatar: Address;
     /**
      * the agreementId
      */
@@ -1538,7 +1563,7 @@ declare module "@daostack/arc.js" {
   export interface Agreement {
     agreementId: number;
     amountPerPeriod: BigNumber.BigNumber;
-    beneficiary: Address;
+    beneficiaryAddress: Address;
     cliffInPeriods: BigNumber.BigNumber;
     collectedPeriods: BigNumber.BigNumber;
     numOfAgreedPeriods: BigNumber.BigNumber;
@@ -1549,10 +1574,7 @@ declare module "@daostack/arc.js" {
     token: Address;
   }
 
-  export class VestingScheme extends ExtendTruffleScheme {
-    public static new(): VestingScheme;
-    public static at(address: string): VestingScheme;
-    public static deployed(): VestingScheme;
+  export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeWrapper {
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
     public AgreementProposal: EventFetcherFactory<AgreementProposalEventResult>;
     public NewVestedAgreement: EventFetcherFactory<NewVestedAgreementEventResult>;
@@ -1592,6 +1614,8 @@ declare module "@daostack/arc.js" {
 
     public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
     public getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams>;
+    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    public getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
   }
 
   /********************************
@@ -1601,7 +1625,7 @@ declare module "@daostack/arc.js" {
     /**
      * Avatar whose voters are being given the chance to vote on the original proposal.
      */
-    avatar: string;
+    avatar: Address;
     /**
      * Address of the voting machine used by the original proposal.  The voting machine must
      * implement IntVoteInterface (as defined in Arc).
@@ -1617,10 +1641,7 @@ declare module "@daostack/arc.js" {
     _params: Array<Hash>;
   }
 
-  export class VoteInOrganizationScheme extends ExtendTruffleScheme {
-    public static new(): VoteInOrganizationScheme;
-    public static at(address: string): VoteInOrganizationScheme;
-    public static deployed(): VoteInOrganizationScheme;
+  export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase implements SchemeWrapper {
     public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult>;
     public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
     public VoteOnBehalf: EventFetcherFactory<VoteOnBehalfEventResult>;
@@ -1638,6 +1659,8 @@ declare module "@daostack/arc.js" {
 
     public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>>;
     public getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams>;
+    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    public getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
   }
 
   /*******************
@@ -1720,14 +1743,14 @@ declare module "@daostack/arc.js" {
    * for information purposes.
    */
   export interface ExecutableInterface {
-    execute(proposalId: number, avatar: string, vote: number): Promise<boolean>;
+    execute(proposalId: number, avatar: Address, vote: number): Promise<boolean>;
   }
 
   export interface ProposeVoteConfig {
     /**
      * The DAO's avatar under which the proposal is being made.
      */
-    avatar: string;
+    avatar: Address;
     /**
      * address of the agent making the proposal.
      * Default is the current default account.
@@ -1825,7 +1848,7 @@ declare module "@daostack/arc.js" {
     /**
      * agent to whom to award the proposal payoffs
      */
-    beneficiary: string;
+    beneficiaryAddress: Address;
   }
 
   export interface ShouldBoostConfig {
@@ -1846,7 +1869,7 @@ declare module "@daostack/arc.js" {
     /**
      * the DAO's avatar address
      */
-    avatar: string;
+    avatar: Address;
   }
 
   /**
@@ -1860,7 +1883,7 @@ declare module "@daostack/arc.js" {
     /**
      * the staker
      */
-    beneficiary: string;
+    beneficiaryAddress: Address;
   }
 
   /**
@@ -1884,7 +1907,7 @@ declare module "@daostack/arc.js" {
     /**
      * the voter
      */
-    beneficiary: string;
+    beneficiaryAddress: Address;
   }
 
   /**
@@ -1898,7 +1921,7 @@ declare module "@daostack/arc.js" {
     /**
      * the voter
      */
-    beneficiary: string;
+    beneficiaryAddress: Address;
   }
 
   /**
@@ -1912,7 +1935,7 @@ declare module "@daostack/arc.js" {
     /**
      * the staker
      */
-    beneficiary: string;
+    beneficiaryAddress: Address;
   }
 
   export interface GetNumberOfChoicesConfig {
@@ -1973,7 +1996,7 @@ declare module "@daostack/arc.js" {
     /**
      * the DAO's avatar address
      */
-    avatar: string;
+    avatar: Address;
   }
 
   export interface GetStakerInfoConfig {
@@ -2068,10 +2091,7 @@ declare module "@daostack/arc.js" {
     No = 2,
   }
 
-  export class GenesisProtocol extends ExtendTruffleScheme {
-    public static new(): GenesisProtocol;
-    public static at(address: string): GenesisProtocol;
-    public static deployed(): GenesisProtocol;
+  export class GenesisProtocolWrapper extends ContractWrapperBase implements SchemeWrapper {
 
     public NewProposal: EventFetcherFactory<NewProposalEventResult>;
     public ExecuteProposal: EventFetcherFactory<GenesisProtocolExecuteProposalEventResult>;
@@ -2108,5 +2128,13 @@ declare module "@daostack/arc.js" {
     public getState(options: GetStateConfig): Promise<number>;
     public setParameters(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>>;
     public getSchemeParameters(avatarAddress: Address): Promise<GenesisProtocolParams>;
+    public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions;
+    public getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
+  }
+
+  /*********************
+   * TokenCapGC
+   */
+  export class TokenCapGCWrapper extends ContractWrapperBase {
   }
 }

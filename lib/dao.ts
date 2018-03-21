@@ -1,11 +1,11 @@
 "use strict";
 import { AvatarService } from "./avatarService";
 import { Address, fnVoid, Hash, SchemePermissions } from "./commonTypes";
-import { Contracts } from "./contracts.js";
-import { DaoCreator } from "./contracts/daocreator";
-import { ForgeOrgConfig, InitialSchemesSetEventResult } from "./contracts/daocreator";
 import { ContractWrapperBase, DecodedLogEntryEvent } from "./contractWrapperBase";
 import { Utils } from "./utils";
+import { DaoCreator } from "./wrappers/daocreator";
+import { ForgeOrgConfig, InitialSchemesSetEventResult } from "./wrappers/daocreator";
+import { WrapperService } from "./wrapperService.js";
 
 export class DAO {
 
@@ -16,7 +16,7 @@ export class DAO {
     if (opts.daoCreator) {
       daoCreator = await DaoCreator.at(opts.daoCreator);
     } else {
-      daoCreator = await DaoCreator.deployed();
+      daoCreator = WrapperService.wrappers.DaoCreator;
     }
 
     const result = await daoCreator.forgeOrg(opts);
@@ -48,9 +48,9 @@ export class DAO {
     return new Promise<string>(
       async (resolve: (address: Address) => void, reject: (ex: any) => void): Promise<void> => {
         try {
-          const contracts = await Contracts.getDeployedContracts();
-          const daoCreator = await DaoCreator.at(
-            daoCreatorAddress ? daoCreatorAddress : contracts.allContracts.DaoCreator.address);
+          const daoCreator =
+            daoCreatorAddress ?
+              await WrapperService.factories.DaoCreator.at(daoCreatorAddress) : WrapperService.wrappers.DaoCreator;
           let avatarAddress;
           const event = daoCreator.InitialSchemesSet({}, { fromBlock: 0 });
           /**
@@ -97,15 +97,15 @@ export class DAO {
     const controller = this.controller;
     const avatar = this.avatar;
     const arcTypesMap = new Map<Address, string>(); // <address: Address, name: string>
-    const contracts = await Contracts.getDeployedContracts();
+    const wrapperService = WrapperService.wrappersByType;
 
     /**
      * TODO:  This should pull in all known versions of the schemes, names
      * and versions in one fell swoop.
      */
     /* tslint:disable-next-line:forin */
-    for (const name in contracts.allContracts) {
-      const contract = contracts.allContracts[name];
+    for (const name in wrapperService.allWrappers) {
+      const contract = wrapperService.allWrappers[name];
       arcTypesMap.set(contract.address, name);
     }
 
@@ -172,7 +172,7 @@ export class DAO {
    * @param address - optional
    */
   public async getContractWrapper(contract: string, address?: Address): Promise<ContractWrapperBase | undefined> {
-    return Contracts.getContractWrapper(contract, address);
+    return WrapperService.getContractWrapper(contract, address);
   }
 
   /**
@@ -206,15 +206,15 @@ export class DAO {
     const controller = this.controller;
     const avatar = this.avatar;
     const arcTypesMap = new Map<Address, string>(); // <address: Address, name: string>
-    const contracts = await Contracts.getDeployedContracts();
+    const wrapperService = WrapperService.wrappersByType;
 
     /**
      * TODO:  This should pull in all known versions of the constraints, names
      * and versions in one fell swoop.
      */
     /* tslint:disable-next-line:forin */
-    for (const name in contracts.allContracts) {
-      const contract = contracts.allContracts[name];
+    for (const name in wrapperService.allWrappers) {
+      const contract = wrapperService.allWrappers[name];
       arcTypesMap.set(contract.address, name);
     }
 

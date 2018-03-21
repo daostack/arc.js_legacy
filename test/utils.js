@@ -1,9 +1,9 @@
 "use strict";
 import "./helpers";
-import { AbsoluteVote } from "../test-dist/contracts/absoluteVote";
 import { DefaultSchemePermissions } from "../test-dist/commonTypes";
-import { TestWrapper } from "../test-dist/test/contracts/testWrapper";
+import { TestWrapper } from "../test-dist/test/wrappers/testWrapper";
 import { Utils } from "../test-dist/utils";
+import { WrapperService } from "../test-dist/wrapperService";
 
 describe("ContractWrapperBase", () => {
   it("can call getDefaultAccount", async () => {
@@ -26,7 +26,7 @@ describe("ContractWrapperBase", () => {
     );
     assert.equal(scheme.getDefaultPermissions(), DefaultSchemePermissions.MinimumPermissions);
 
-    scheme = await TestWrapper.at((await AbsoluteVote.deployed()).address);
+    scheme = await TestWrapper.at(WrapperService.wrappers.AbsoluteVote.address);
     assert.equal(scheme.foo(), "bar");
     assert.equal(scheme.aMethod(), "abc");
   });

@@ -3,7 +3,7 @@ import abi = require("ethereumjs-abi");
 import TruffleContract = require("truffle-contract");
 import Web3 = require("web3");
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "./commonTypes";
-import { Config } from "./config";
+import { ConfigService } from "./configService";
 import { TransactionReceiptTruffle } from "./contractWrapperBase";
 import { LoggingService } from "./loggingService";
 
@@ -28,9 +28,9 @@ export class Utils {
       contract.setProvider(myWeb3.currentProvider);
       contract.defaults({
         from: await Utils.getDefaultAccount(),
-        gas: Config.get("gasLimit_runtime"),
+        gas: ConfigService.get("gasLimit_runtime"),
       });
-      LoggingService.info(`requireContract: loaded ${contractName}`);
+      LoggingService.debug(`requireContract: loaded ${contractName}`);
       return contract;
     } catch (ex) {
       LoggingService.error(`requireContract failing: ${ex}`);
@@ -43,10 +43,12 @@ export class Utils {
    * When called for the first time, web3 is initialized from the Arc.js configuration.
    * Throws an exception when web3 cannot be initialized.
    */
-  public static getWeb3(): any {
+  public static getWeb3(): Web3 {
     if (Utils.web3) {
       return Utils.web3;
     }
+
+    LoggingService.debug("Utils: getting web3");
 
     let preWeb3;
 
@@ -63,7 +65,7 @@ export class Utils {
       // No web3 is injected, look for a provider at providerUrl:providerPort (which defaults to localhost)
       // This happens when running tests, or in a browser that is not running MetaMask
       preWeb3 = new Web3(
-        new Web3.providers.HttpProvider(`${Config.get("providerUrl")}:${Config.get("providerPort")}`)
+        new Web3.providers.HttpProvider(`${ConfigService.get("providerUrl")}:${ConfigService.get("providerPort")}`)
       );
     }
 

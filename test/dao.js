@@ -1,8 +1,8 @@
 import { DAO } from "../test-dist/dao";
 import * as helpers from "./helpers";
-import { GlobalConstraintRegistrar, GlobalConstraintRegistrarWrapper } from "../test-dist/contracts/globalconstraintregistrar";
-import { UpgradeScheme, UpgradeSchemeWrapper } from "../test-dist/contracts/upgradescheme";
-import { SchemeRegistrar, SchemeRegistrarWrapper } from "../test-dist/contracts/schemeregistrar";
+import { GlobalConstraintRegistrar, GlobalConstraintRegistrarWrapper } from "../test-dist/wrappers/globalconstraintregistrar";
+import { UpgradeScheme, UpgradeSchemeWrapper } from "../test-dist/wrappers/upgradescheme";
+import { SchemeRegistrar, SchemeRegistrarWrapper } from "../test-dist/wrappers/schemeregistrar";
 import { SchemePermissions } from "../test-dist/commonTypes";
 
 describe("DAO", () => {
@@ -190,14 +190,14 @@ describe("DAO", () => {
 
   it("has a working getSchemes() function to access its schemes", async () => {
     dao = await helpers.forgeDao();
-    const contracts = await helpers.contractsForTest();
+    const wrappers = helpers.contractsForTest();
     // a new dao comes with three known schemes
     assert.equal((await dao.getSchemes()).length, 3);
     let scheme = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
     assert.isOk(scheme, "scheme not found");
     assert.equal(
       scheme.address,
-      contracts.allContracts.GlobalConstraintRegistrar.address
+      wrappers.GlobalConstraintRegistrar.address
     );
     assert.isTrue(!!scheme.contract, "contract must be set");
     assert.isTrue(!!scheme.address, "address must be set");
@@ -207,7 +207,7 @@ describe("DAO", () => {
     assert.isOk(scheme, "scheme not found");
     assert.equal(
       scheme.address,
-      contracts.allContracts.SchemeRegistrar.address
+      wrappers.SchemeRegistrar.address
     );
     assert.isTrue(!!scheme.contract, "contract must be set");
     assert.isTrue(!!scheme.address, "address must be set");
@@ -217,7 +217,7 @@ describe("DAO", () => {
     assert.isOk(scheme, "scheme not found");
     assert.equal(
       scheme.address,
-      contracts.allContracts.UpgradeScheme.address
+      wrappers.UpgradeScheme.address
     );
     assert.isTrue(!!scheme.contract, "contract must be set");
     assert.isTrue(!!scheme.address, "address must be set");

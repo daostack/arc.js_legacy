@@ -1,8 +1,8 @@
 "use strict";
-import { AbsoluteVoteParams } from "contracts/absoluteVote";
 import { DefaultSchemePermissions, Hash, SchemePermissions } from "../../commonTypes";
 import { ArcTransactionDataResult, ContractWrapperBase } from "../../contractWrapperBase";
 import ContractWrapperFactory from "../../contractWrapperFactory";
+import { AbsoluteVoteParams } from "../../wrappers/absoluteVote";
 
 export class TestWrapperWrapper extends ContractWrapperBase {
 

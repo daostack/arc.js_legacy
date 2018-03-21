@@ -1,7 +1,7 @@
 import { Utils } from "../test-dist/utils";
-import { Contracts } from "../test-dist/contracts.js";
-import { GenesisProtocol } from "../test-dist/contracts/genesisProtocol";
-import { SchemeRegistrar } from "../test-dist/contracts/schemeregistrar";
+import { WrapperService } from "../test-dist/wrapperService";
+import { GenesisProtocol } from "../test-dist/wrappers/genesisProtocol";
+import { SchemeRegistrar } from "../test-dist/wrappers/schemeregistrar";
 import * as helpers from "./helpers";
 
 describe("GenesisProtocol", () => {
@@ -142,7 +142,7 @@ describe("GenesisProtocol", () => {
 
     assert.isOk(votingMachine);
     assert.equal(votingMachine.constructor.name, "GenesisProtocolWrapper", "schemeRegistrar is not using GeneisisProtocol");
-    assert.equal(votingMachine.address, (await Contracts.getDeployedContracts()).allContracts.GenesisProtocol.address, "voting machine address is not that of GenesisProtocol");
+    assert.equal(votingMachine.address, WrapperService.wrappers.GenesisProtocol.address, "voting machine address is not that of GenesisProtocol");
     assert.isFalse(await helpers.voteWasExecuted(votingMachine, result.proposalId));
 
     await helpers.vote(votingMachine, result.proposalId, 1, accounts[0]);
@@ -315,7 +315,7 @@ describe("GenesisProtocol", () => {
 
     const result = await genesisProtocol.redeem({
       proposalId: proposalId,
-      beneficiary: accounts[0]
+      beneficiaryAddress: accounts[0]
     });
     assert.isOk(result);
     assert.isOk(result.tx);
@@ -340,7 +340,7 @@ describe("GenesisProtocol", () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getRedeemableTokensStaker({
       proposalId: proposalId,
-      beneficiary: accounts[0]
+      beneficiaryAddress: accounts[0]
     });
     assert(typeof result !== "undefined");
   });
@@ -357,7 +357,7 @@ describe("GenesisProtocol", () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getRedeemableTokensVoter({
       proposalId: proposalId,
-      beneficiary: accounts[0]
+      beneficiaryAddress: accounts[0]
     });
     assert(typeof result !== "undefined");
   });
@@ -366,7 +366,7 @@ describe("GenesisProtocol", () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getRedeemableReputationVoter({
       proposalId: proposalId,
-      beneficiary: accounts[0]
+      beneficiaryAddress: accounts[0]
     });
     assert(typeof result !== "undefined");
   });
@@ -375,7 +375,7 @@ describe("GenesisProtocol", () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getRedeemableReputationStaker({
       proposalId: proposalId,
-      beneficiary: accounts[0]
+      beneficiaryAddress: accounts[0]
     });
     assert(typeof result !== "undefined");
   });
@@ -441,7 +441,7 @@ describe("GenesisProtocol", () => {
 
   it("can do deployed", async () => {
     const scheme = await GenesisProtocol.deployed();
-    assert.equal(scheme.address, (await Contracts.getDeployedContracts()).allContracts.GenesisProtocol.address);
+    assert.equal(scheme.address, WrapperService.wrappers.GenesisProtocol.address);
   });
 
   it("can register new proposal", async () => {

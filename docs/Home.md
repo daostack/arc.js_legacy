@@ -78,7 +78,6 @@ Import everything from ArcJs as follows:
 ```javascript
 import * as ArcJs from '@daostack/arc.js';
 ```
-
 #### Configuring Arc.js
 
 Please refer [here](./Configuration.md) for complete documentation on configuration settings.
@@ -86,14 +85,26 @@ Please refer [here](./Configuration.md) for complete documentation on configurat
 To obtain a configuration setting:
 
 ```javascript
-import { Config } from '@daostack/arc.js';
-Config.get('network');
+import { ConfigService } from '@daostack/arc.js';
+ConfigService.get('network');
 ```
 
 To override a configuration setting at runtime:
 ```javascript
-import { Config } from '@daostack/arc.js';
-Config.set('network', 'kovan');
+import { ConfigService } from '@daostack/arc.js';
+ConfigService.set('network', 'kovan');
+```
+
+**Note:** You can also override the defaults using OS environment variables.
+
+#### Initializing Arc.js at Runtime
+
+Your application must invoke `ArcInitialize()` once at runtime before doing anything else.
+
+```
+import { ArcInitialize } from "@daostack/arc.js";
+
+await ArcInitialize();
 ```
 
 #### Working with DAOs and Arc Contracts
@@ -168,7 +179,9 @@ const newDao = await DAO.new({
 
 ### Create a new DAO overriding the default voting machine
 
-By default, `DAO.new` assigns the AbsoluteVote voting machine to each scheme, with default parameter values for AbsoluteVote.  You may override the voting machine's default parameters by adding a "votingMachineParams" element, either at the root level or on individual schemes. You can also specify that you want to assign a completely different type of voting machine, such as GenesisProtocol.  See `NewDaoVotingMachineConfig` and `SchemesConfig`.
+By default, `DAO.new` assigns the AbsoluteVote voting machine to each scheme, with default parameter values for AbsoluteVote.  You may override the voting machine's default parameters by adding a "votingMachineParams" element, either at the root level or on individual schemes. You can also specify that you want to assign a completely different type of voting machine, such as GenesisProtocol.
+
+**Note:** If you want change the default for all calls to `DAO.new` you can do it using the ConfigService setting "defaultVotingMachine". See [Arc.js Configuration Settings](Configuration.md).
 
 #### Root-level, applying to all schemes
 
@@ -213,7 +226,7 @@ const newDao = await DAO.new({
   }
 });
 ```
-**Important note**:  If you want to use GenesisProtocol on _any_ scheme, you must also add GenesisProtocol as scheme on the DAO itself (see [Create a new DAO with schemes](#create-a-new-dao-with-schemes)).
+**Note**:  If you want to use GenesisProtocol on _any_ scheme, you must also add GenesisProtocol as scheme on the DAO itself (see [Create a new DAO with schemes](#create-a-new-dao-with-schemes)).
 
 #### Scheme-specific
 
@@ -271,6 +284,8 @@ Get a previously-created DAO using the avatar address:
 const dao = await DAO.at(daoAvatarAddress);
 ```
 
+**Note:** `DAO.at` will throw an exception if there is any problem loading the DAO.
+
 ### Get the DAOstack Genesis DAO
 
 The DAOstack DAO is named "Genesis".  Obtain it like this:
@@ -279,11 +294,85 @@ The DAOstack DAO is named "Genesis".  Obtain it like this:
 const genesisDao = await DAO.getGenesisDao();
 ```
 
-## Using the Arc Contracts
+## Using the Arc Contract Wrappers
 
-Arc.js wraps every Arc contract in a JavaScript "wrapper" class.  Every wrapper class inherits from `ExtendTruffleContract` which provides a common set of functions in addition to all of the functions implemented by the specific Arc contract being wrapped.
+Arc.js wraps several Arc contracts in a contract "wrapper" JavaScript class.  Every wrapper class inherits from `ContractWrapperBase` which provides a common set of functions and properties plus specific helper functions for common operations specific to the contract it wraps.  The wrapper also contains a `contract` property which is the original "wrapped" Truffle contract you can use to access all of the Truffle functionality of the specific Arc contract being wrapped.
 
-### Categories of Arc Contracts
+Each wrapper has a factory class based on `ContractWrapperFactor<TWrapper>`, where `TWrapper` is the type of the wrapper class.  The factory class contains `at(someAddress)`, `new()` and `deployed()` methods you can use to instantiate a contract wrapper class.
+
+The following sections describe the various ways you can obtain and use contract wrappers.
+
+### How to obtain a contract wrapper
+Arc.js provides several ways to obtain a contract wrapper:
+
+1. Using the `WrapperService.wrappers` to obtain the wrappers of the contracts as deployed by the current version of Arc.js.
+2. Using the wrapper's factory class and calling `at(someAddress)`, `new()` and `deployed()`.
+3. Using `WrapperService.getContractWrapper` or  `DAO.getContractWrapper`
+4. Using `DAO.getSchemes` to obtain scheme contracts registered with the DAO.
+
+The following sections provide examples of the above methods for obtaining contract wrappers.
+
+#### From WrapperService.wrappers
+You can use `WrapperService.wrappers` to obtain wrappers of the contracts as deployed by the current version of Arc.js.  For example:
+
+```
+import { WrapperService } from "@daostack/arc.js";
+const upgradeScheme = WrapperService.wrappers.UpgradeScheme;
+```
+
+#### Using the wrapper's factory
+You can use a wrapper's factory class to obtain a fully-hydrated  instance of a wrapper.  There are two ways to obtain a factory class, by importing it or using `WrapperService.factories`.  For example:
+
+##### By importing the factory
+```
+import { UpgradeScheme as upgradeSchemeFactory} from "@daostack/arc.js";
+const upgradeScheme = await upgradeSchemeFactory.at(someAddress);
+```
+
+##### Using WrapperService.factories
+```
+import { WrapperService } from "@daostack/arc.js";
+const upgradeSchemeFactory = WrapperService.factories.UpgradeScheme;
+const upgradeScheme = await upgradeSchemeFactory.at(someAddress);
+```
+
+**Note:** `WrapperFactoryy.at` will throw an exception if it can't find the contract at the given address.
+
+#### From getContractWrapper
+You can obtain a contract wrapper using either `WrapperService.getContractWrapper` or  `DAO.getContractWrapper`.  The latter just invokes the former.
+
+For example:
+```
+import { WrapperService } from "@daostack/arc.js";
+const upgradeScheme = await WrapperService.getContractWrapper("UpgradeScheme);
+```
+
+Or at a given address:
+
+```
+import { WrapperService } from "@daostack/arc.js";
+const upgradeScheme = await WrapperService.getContractWrapper("UpgradeScheme, someAddress);
+```
+
+**Note:** `WrapperService.getContractWrapper` returns undefined when the contract cannot be found.
+
+#### From DAO.getSchemes
+You can obtain the names and addresses of all of the schemes that are registered with a DAO using `DAO.getSchemes`:
+
+```javascript
+const daoSchemeInfos = await myDao.getSchemes();
+```
+
+Or info about a single scheme:
+
+```javascript
+const daoSchemeInfos =  = await myDao.getSchemes("UpgradeScheme");
+const upgradeSchemeInfo = daoSchemeInfos[0];
+```
+
+`DAO.getSchemes` returns a object that contains `name` and `address` properties. 
+
+### Types of Arc contracts
 Arc contracts and associated Arc.js contract wrapper classes can be categorized as follows:
 
 #### Schemes
@@ -306,109 +395,22 @@ Arc contracts and associated Arc.js contract wrapper classes can be categorized 
 #### Others
 * DaoCreator
 
-You can pull those categorizations into your code as follows:
+You can obtain these categorizations using `WrapperService.wrappersByType`.  This property contains collections of wrappers as deployed in the current version of Arc.js:
 
 ```javascript
-import * as ArcJs from '@daostack/arc.js';
-const arcJsWrapperCategories = await ArcJs.Contracts.getDeployedContracts();
-```
+import { WrapperService} from '@daostack/arc.js';
+const wrapperTypes = await WrapperService.wrappersByType;
+const schemeWrappers = wrapperTypes.schemes;
 
-You may find that `getDeployedContracts()` is somewhat time-consuming to run the first time because it fetches all of the wrappers from the chain, but it does cache its results and run much faster thereafter.
+schemeWrappers.forEach((scheme) => {
+  console.log(`${scheme.friendlyName} is at ${scheme.address}`);
+});
 
-`getDeployedContracts()` returns a object that contains a wrapper factory and address of each deployed contract that has a wrapper, keyed by the contract `name`.  See `ArcDeployedContracts`.
-
-The following sections show how you can obtain contract wrappers using factories, names and addresses.
-
-
-### Obtain the names and addresses of a DAO's schemes
-
-You may obtain the names and addresses of all of the schemes that are registered with a DAO using `DAO.getSchemes`:
-
-```javascript
-const daoSchemeInfos = await myDao.getSchemes();
-```
-
-Or info about a single scheme:
-
-```javascript
-const daoSchemeInfos =  = await myDao.getSchemes("UpgradeScheme");
-const upgradeSchemeInfo = daoSchemeInfos[0];
-```
-
-`DAO.getSchemes` returns a object that contains `name` and `address` properties.  See `DaoSchemeInfo`.
-
-The following sections show how you can get contract wrappers using names and addresses.
-
-### Obtain an Arc.js wrapper by its Arc contract name
-
-Recall from [Categories of Arc Contracts](#categories-of-arc-contracts) that `getDeployedContracts()` returns categorized factories, names and addresses of Arc contracts that have wrappers. That information can be used to obtain the wrappers themselves.
-
-#### The deployed contract
-
-```javascript
-import * as ArcJs from '@daostack/arc.js';
-const upgradeScheme = await ArcJs.Contracts.getContractWrapper("UpgradeScheme");
-```
-
-#### At a specific address
-```javascript
-import * as ArcJs from '@daostack/arc.js';
-const upgradeScheme = await ArcJs.Contracts.getContractWrapper("UpgradeScheme", anAddress);
-```
-
-#### Via the DAO
-
-The identical method is available on the DAO class:
-
-```javascript
-const upgradeScheme = await DAO.getContractWrapper("UpgradeScheme");
-```
-
-### Obtain a wrapper using the wrapper's factory class
-
-Each wrapper has a factory that provides static `.new()`, `.deployed()` and `.at()` methods.  These methods are implemented by `ContractWrapperFactory`.
-
-Examples of their use:
-
-#### deployed
-
-Obtain the instance of the contract as deployed by Arc.js:
-
-```javascript
-import { UpgradeScheme } from "@daostack/arc.js";
-const deployedContract = await UpgradeScheme.deployed();
-```
-
-#### new
-
-Call `new()` to migrate a new instance of the contract:
-
-```javascript
-import { UpgradeScheme } from "@daostack/arc.js";
-const newInstance = await UpgradeScheme.new();
-```
-
-#### at
-
-Obtain the wrapper from a given address:
-
-```javascript
-import { UpgradeScheme } from "@daostack/arc.js";
-const newInstance = await UpgradeScheme.at(anAddress);
-```
-
-### Obtain any Arc contract using Utils.requireContract
-
-Not all Arc contracts have been given wrapper classes, for example, `Avatar`, `UController` and many more.  But you can obtain a raw TruffleContract for any contract, enabling you to work with the contract:
-
-```javascript
-import { Utils } from "@daostack/arc.js";
-const truffleContract = await Utils.requireContract("Avatar");
 ```
 
 ### Obtain a DAO scheme's parameters
 
-Although you can always register your own schemes with a DAO, whether they be totally custom non-Arc schemes, or redeployed Arc schemes, by default a DAO is created with Arc schemes that are universal in the sense that the code is implemented in one place, without redundancy.  But every scheme registered with a DAO is configured with its own DAO-scoped parameter values, and references DAO-scoped data, such as proposals. All are stored in the DAO's controller where each universal scheme is able to find them.  (If the controller is the Universal Controller then the parameters and data are keyed by the DAO's avatar address.)
+Although you can always register your own schemes with a DAO, whether they be totally custom non-Arc schemes, or redeployed Arc schemes, by default a DAO is created with Arc schemes that are universal in the sense that the code is implemented in one place, without redundancy.  But every scheme registered with a DAO is configured with a particular set of parameter values, and references such as proposals. All of these are stored in the DAO's own controller where each universal scheme is able to find them.  (If the controller is the Universal Controller then the parameters and data are keyed by the DAO's avatar address.)
 
 If you want to obtain a DAO scheme's parameters, you can do it like this:
 
@@ -425,6 +427,16 @@ const schemeParameters = schemeWrapper.getSchemeParameters(avatarAddress);
 const votingMachineAddress = schemeParameters.votingMachineAddress;
 ```
 
+## Working with Unwrapped Arc Contracts
+
+Not all Arc contracts have been given wrapper classes, for example, `Avatar`, `UController` and many more.  But using `Utils.requireContract` you can obtain a raw TruffleContract for any contract, enabling you to work with the contract just by providing the name of the Arc contract:
+
+```javascript
+import { Utils } from "@daostack/arc.js";
+const avatarTruffleContract = await Utils.requireContract("Avatar");
+```
+
+**Note:** `Utils.requireContract` throws an exception when there is any problem creating the truffle contract object.
 
 ## Working with Arc.js Scripts
 Arc.js contains a set of scripts for building, publishing, running tests and migrating contracts to any network.  These scripts are meant to be accessible and readily usable by client applications.

@@ -1,6 +1,6 @@
 "use strict";
 import dopts = require("default-options");
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
@@ -8,12 +8,13 @@ import {
   EventFetcherFactory,
   StandardSchemeParams,
 } from "../contractWrapperBase";
+import ContractWrapperFactory from "../contractWrapperFactory";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
-import ContractWrapperFactory from "../contractWrapperFactory";
+export class SchemeRegistrarWrapper extends ContractWrapperBase implements SchemeWrapper {
 
-export class SchemeRegistrarWrapper extends ContractWrapperBase {
-
+  public name: string = "SchemeRegistrar";
+  public frendlyName: string = "Scheme Registrar";
   /**
    * Events
    */
@@ -54,7 +55,7 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase {
     const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeToAddModifySchemeParams;
 
     if (!options.avatar) {
-      throw new Error("avatar address is not defined");
+      throw new Error("avatar is not defined");
     }
 
     if (!options.schemeAddress) {
@@ -118,7 +119,7 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase {
     const options = dopts(opts, defaults, { allowUnknown: true });
 
     if (!options.avatar) {
-      throw new Error("avatar address is not defined");
+      throw new Error("avatar is not defined");
     }
 
     if (!options.schemeAddress) {
@@ -144,6 +145,10 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase {
   public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
     // return overrideValue || Utils.numberToPermissionsString(DefaultSchemePermissions.SchemeRegistrar);
     return (overrideValue || DefaultSchemePermissions.SchemeRegistrar) as SchemePermissions;
+  }
+
+  public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
+    return this._getSchemePermissions(avatarAddress);
   }
 
   public async getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams> {
@@ -231,7 +236,7 @@ export interface ProposeToRemoveSchemeParams {
   /**
    * avatar address
    */
-  avatar: string;
+  avatar: Address;
   /**
    *  the address of the global constraint to remove
    */

@@ -1,6 +1,6 @@
 "use strict";
 import dopts = require("default-options");
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
@@ -11,8 +11,10 @@ import {
 import ContractWrapperFactory from "../contractWrapperFactory";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
-export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase {
+export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase implements SchemeWrapper {
 
+  public name: string = "VoteInOrganizationScheme";
+  public frendlyName: string = "Vote In Organization Scheme";
   /**
    * Events
    */
@@ -70,6 +72,10 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase {
     return (overrideValue || DefaultSchemePermissions.VoteInOrganizationScheme) as SchemePermissions;
   }
 
+  public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
+    return this._getSchemePermissions(avatarAddress);
+  }
+
   public async getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams> {
     return this._getSchemeParameters(avatarAddress);
   }
@@ -95,7 +101,7 @@ export interface VoteInOrganizationProposeVoteConfig {
   /**
    * Avatar whose voters are being given the chance to vote on the original proposal.
    */
-  avatar: string;
+  avatar: Address;
   /**
    * Address of the voting machine used by the original proposal.  The voting machine must
    * implement IntVoteInterface (as defined in Arc).

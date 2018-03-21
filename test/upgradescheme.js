@@ -1,5 +1,5 @@
 import { Utils } from "../test-dist/utils";
-import { UpgradeScheme } from "../test-dist/contracts/upgradescheme";
+import { UpgradeScheme } from "../test-dist/wrappers/upgradescheme";
 import * as helpers from "./helpers";
 
 describe("UpgradeScheme", () => {
