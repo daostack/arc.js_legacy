@@ -1,8 +1,0 @@
-{
-  "name": "dsarcjs",
-  "baseDir": "dist",
-  "main": "**/*.d.ts",
-  "out": "index.d.ts",
-  "indent": "  ",
-  "verbose": true
-}
