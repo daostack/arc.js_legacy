@@ -184,7 +184,7 @@ declare module "@daostack/arc.js" {
   }
 
   /**
-   * Arc.js wrapper factores grouped by type.
+   * Arc.js wrapper factories grouped by type.
    */
   export interface ArcWrappersByType {
     /**

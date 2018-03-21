@@ -47,7 +47,7 @@ export interface ArcWrappers {
 }
 
 /**
- * Arc.js wrapper factores grouped by type.
+ * Arc.js wrapper factories grouped by type.
  */
 export interface ArcWrappersByType {
   /**
@@ -154,7 +154,7 @@ export class WrapperService {
   }
 
   /**
-   * Returns an Arc.js contract wrapper or undefined if not found.
+   * Returns the promise of an Arc.js contract wrapper or undefined if not found.
    * @param contractName - name of an Arc contract, like "SchemeRegistrar"
    * @param address - optional
    */
