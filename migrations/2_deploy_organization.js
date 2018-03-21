@@ -32,6 +32,7 @@ module.exports = async (deployer) => {
   const VestingScheme = artifacts.require("VestingScheme.sol");
   const VoteInOrganizationScheme = artifacts.require("VoteInOrganizationScheme.sol");
   const GenesisProtocol = artifacts.require("GenesisProtocol.sol");
+  const ControllerCreator = artifacts.require("ControllerCreator.sol");
   /**
    *  Genesis DAO parameters,  FOR TESTING PURPOSES ONLY
    */
@@ -51,8 +52,7 @@ module.exports = async (deployer) => {
     proposingRepRewardConstB: 5, // how much to weight strength of yes votes vs no votes in reward
     stakerFeeRatioForVoters: 1, // 1 percent of staker fee given to voters
     votersReputationLossRatio: 1, // 1 percent of rep lost by voting
-    votersGainRepRatioFromLostRep: 80, // percentage of how much rep correct voters get from incorrect voters who lost rep
-    governanceFormulasInterface: "0x0000000000000000000000000000000000000000"
+    votersGainRepRatioFromLostRep: 80 // percentage of how much rep correct voters get from incorrect voters who lost rep
   };
   const schemeRegistrarPermissions = DefaultSchemePermissions.SchemeRegistrar;
   const globalConstraintRegistrarPermissions = DefaultSchemePermissions.GlobalConstraintRegistrar;
@@ -64,10 +64,10 @@ module.exports = async (deployer) => {
    * Apparently we must wrap the first deploy call in a `then` to avoid
    * what seems to be race conditions during deployment.
    */
-  deployer.deploy(DaoCreator, { gas: gasAmount }).then(async () => {
-
-    const daoCreatorInst = await DaoCreator.deployed();
-
+  deployer.deploy(ControllerCreator).then(async () => {
+    const controllerCreator = await ControllerCreator.deployed();
+    await deployer.deploy(DaoCreator, controllerCreator.address);
+    const daoCreatorInst = await DaoCreator.deployed(controllerCreator.address);
     /**
      * Create the Genesis DAO
      */
@@ -125,8 +125,7 @@ module.exports = async (deployer) => {
         defaultVotingMachineParams.stakerFeeRatioForVoters,
         defaultVotingMachineParams.votersReputationLossRatio,
         defaultVotingMachineParams.votersGainRepRatioFromLostRep
-      ],
-      defaultVotingMachineParams.governanceFormulasInterface
+      ]
     );
 
     await genesisProtocolInst.setParameters(
@@ -143,8 +142,7 @@ module.exports = async (deployer) => {
         defaultVotingMachineParams.stakerFeeRatioForVoters,
         defaultVotingMachineParams.votersReputationLossRatio,
         defaultVotingMachineParams.votersGainRepRatioFromLostRep
-      ],
-      defaultVotingMachineParams.governanceFormulasInterface
+      ]
     );
     /**
      * Set/get the Genesis DAO's scheme parameters, using the GenesisProtocol voting machine
