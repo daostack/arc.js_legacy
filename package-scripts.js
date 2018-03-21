@@ -111,7 +111,6 @@ module.exports = {
         "nps build.clean",
         mkdirp(joinPath(pathArcJsRoot, "dist")),
         `node node_modules/typescript/bin/tsc --outDir ${joinPath(pathArcJsRoot, "dist")}`
-
       ),
       clean: rimraf(joinPath(pathArcJsRoot, "dist"))
     },

@@ -164,8 +164,7 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
   }
 }
 
-const SchemeRegistrar = new ContractWrapperFactory("SchemeRegistrar", SchemeRegistrarWrapper);
-export { SchemeRegistrar };
+export const SchemeRegistrar = new ContractWrapperFactory("SchemeRegistrar", SchemeRegistrarWrapper);
 
 export interface NewSchemeProposalEventResult {
   /**

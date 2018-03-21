@@ -89,9 +89,8 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase impleme
   }
 }
 
-const VoteInOrganizationScheme = new ContractWrapperFactory(
+export const VoteInOrganizationScheme = new ContractWrapperFactory(
   "VoteInOrganizationScheme", VoteInOrganizationSchemeWrapper);
-export { VoteInOrganizationScheme };
 
 export interface VoteOnBehalfEventResult {
   _params: Array<Hash>;

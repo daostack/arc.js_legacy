@@ -139,8 +139,7 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeW
   }
 }
 
-const UpgradeScheme = new ContractWrapperFactory("UpgradeScheme", UpgradeSchemeWrapper);
-export { UpgradeScheme };
+export const UpgradeScheme = new ContractWrapperFactory("UpgradeScheme", UpgradeSchemeWrapper);
 
 export interface NewUpgradeProposalEventResult {
   /**

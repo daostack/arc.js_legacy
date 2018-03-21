@@ -14,8 +14,7 @@ import { Utils } from "./utils";
  *     [ wrapper properties and methods ]
  *   }
  *
- *   const AbsoluteVote = new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper);
- *   export { AbsoluteVote };
+ *   export const AbsoluteVote = new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper);
  */
 export abstract class ContractWrapperBase {
 
@@ -311,7 +310,7 @@ export type EventCallback<TArgs> =
     log: Array<DecodedLogEntryEvent<TArgs>>
   ) => void;
 
-interface TransactionReceipt {
+export interface TransactionReceipt {
   blockHash: string;
   blockNumber: number;
   transactionHash: string;

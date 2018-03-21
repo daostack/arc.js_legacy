@@ -27,8 +27,7 @@ export class TokenCapGCWrapper extends ContractWrapperBase {
   }
 }
 
-const TokenCapGC = new ContractWrapperFactory("TokenCapGC", TokenCapGCWrapper);
-export { TokenCapGC };
+export const TokenCapGC = new ContractWrapperFactory("TokenCapGC", TokenCapGCWrapper);
 
 export interface TokenCapGcParams {
   cap: number | string;

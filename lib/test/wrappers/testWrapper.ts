@@ -36,5 +36,4 @@ export class TestWrapperWrapper extends ContractWrapperBase {
   }
 }
 
-const TestWrapper = new ContractWrapperFactory("AbsoluteVote", TestWrapperWrapper);
-export { TestWrapper };
+export const TestWrapper = new ContractWrapperFactory("AbsoluteVote", TestWrapperWrapper);
