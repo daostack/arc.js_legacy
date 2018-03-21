@@ -111,12 +111,8 @@ module.exports = {
         "nps build.clean",
         mkdirp(joinPath(pathArcJsRoot, "dist")),
         `node node_modules/typescript/bin/tsc --outDir ${joinPath(pathArcJsRoot, "dist")}`
-        // "nps build.generateTypings"
       ),
-      clean: rimraf(joinPath(pathArcJsRoot, "dist")),
-      // generateTypings: `node node_modules/typescript/bin/tsc --outFile ${joinPath(pathArcJsRoot, "index.js")} --module amd --declaration`
-      // generateTypings: `node ./node_modules/dts-bundle/lib/dts-bundle.js --configJson dts-bundle.json`
-      // seems to want js, not ts.  generateTypings: `node ./node_modules/dts-pack/dist/cli.js --entry ./dist/*.d.ts --rootName @daostack/arc.js --moduleName index --outDir .`
+      clean: rimraf(joinPath(pathArcJsRoot, "dist"))
     },
     deploy: {
       pack: series("nps build", "npm pack"),
