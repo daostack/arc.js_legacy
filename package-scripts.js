@@ -132,7 +132,8 @@ module.exports = {
       default: series(
         `nps build`,
         `${truffleCommand} migrate --contracts_build_directory ${pathArcJsContracts} --without-compile --network ${network}`
-      ),       /**
+      ),
+      /**
        * Clean the outputted contract json files, optionally andMigrate.
        *
        * IMPORTANT! Only do this if you aren't worried about losing
