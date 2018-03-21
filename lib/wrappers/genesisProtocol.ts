@@ -309,6 +309,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
     const defaults = {
       avatar: undefined,
+      proposalId: undefined,
     };
 
     const options = dopts(opts, defaults, { allowUnknown: true }) as GetThresholdConfig;
@@ -317,7 +318,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("avatar is not defined");
     }
 
+    if (!options.proposalId) {
+      throw new Error("proposalId is not defined");
+    }
+
     const threshold = await this.contract.threshold(
+      options.proposalId,
       options.avatar
     );
 
@@ -622,36 +628,11 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     );
 
     return {
-      totalStakes: result[1],
+      totalStaked: result[2],
+      totalStakerStakes: result[1],
+      totalVoterStakes: result[3],
       totalVotes: result[0],
-      votersStakes: result[2],
     };
-  }
-
-  /**
-   * Return the total reputation supply for a given proposal.
-   * @param {GetTotalReputationSupplyConfig} opts
-   * @returns Promise<BigNumber.BigNumber>
-   */
-  public async getTotalReputationSupply(
-    opts: GetTotalReputationSupplyConfig = {} as GetTotalReputationSupplyConfig)
-    : Promise<BigNumber.BigNumber> {
-
-    const defaults = {
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetTotalReputationSupplyConfig;
-
-    if (!options.proposalId) {
-      throw new Error("proposalId is not defined");
-    }
-
-    const supply = await this.contract.totalReputationSupply(
-      options.proposalId
-    );
-
-    return supply;
   }
 
   /**
@@ -877,7 +858,6 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     params = Object.assign({},
       {
         boostedVotePeriodLimit: 60,
-        governanceFormulasInterface: Utils.NULL_ADDRESS,
         minimumStakingFee: 0,
         preBoostedVotePeriodLimit: 60,
         preBoostedVoteRequiredPercentage: 50,
@@ -914,8 +894,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
         params.stakerFeeRatioForVoters,
         params.votersReputationLossRatio,
         params.votersGainRepRatioFromLostRep,
-      ],
-      params.governanceFormulasInterface
+      ]
     );
   }
 
@@ -936,18 +915,17 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     const params = await this.getParametersArray(paramsHash);
     return {
       boostedVotePeriodLimit: params[2],
-      governanceFormulasInterface: params[5],
-      minimumStakingFee: params[6],
+      minimumStakingFee: params[5],
       preBoostedVotePeriodLimit: params[1],
       preBoostedVoteRequiredPercentage: params[0],
-      proposingRepRewardConstA: params[8],
-      proposingRepRewardConstB: params[9],
-      quietEndingPeriod: params[7],
-      stakerFeeRatioForVoters: params[10],
+      proposingRepRewardConstA: params[7],
+      proposingRepRewardConstB: params[8],
+      quietEndingPeriod: params[6],
+      stakerFeeRatioForVoters: params[9],
       thresholdConstA: params[3],
       thresholdConstB: params[4],
-      votersGainRepRatioFromLostRep: params[12],
-      votersReputationLossRatio: params[11],
+      votersGainRepRatioFromLostRep: params[11],
+      votersReputationLossRatio: params[10],
     };
   }
 
@@ -1016,10 +994,6 @@ export interface GenesisProtocolParams {
    */
   thresholdConstB: number;
   /**
-   * GenesisProtocolFormulasInterface address
-   */
-  governanceFormulasInterface?: string;
-  /**
    * Default is 0
    */
   minimumStakingFee: number;
@@ -1087,10 +1061,6 @@ export interface GenesisProtocolParams {
    * Default is 1
    */
   thresholdConstB: number;
-  /**
-   * GenesisProtocolFormulasInterface address
-   */
-  governanceFormulasInterface?: string;
   /**
    * Default is 0
    */
@@ -1168,9 +1138,22 @@ export interface GetVoterInfoResult {
 }
 
 export interface GetProposalStatusResult {
+  /**
+   * Amount of reputation voted
+   */
   totalVotes: BigNumber.BigNumber;
-  totalStakes: BigNumber.BigNumber;
-  votersStakes: BigNumber.BigNumber;
+  /**
+   * Number of staked tokens currently redeemable by stakers
+   */
+  totalStakerStakes: BigNumber.BigNumber;
+  /**
+   * Total number of tokens staked
+   */
+  totalStaked: BigNumber.BigNumber;
+  /**
+   * Number of staked tokens set aside and redeemable for all voters (via the staking fee)
+   */
+  totalVoterStakes: BigNumber.BigNumber;
 }
 
 export interface GetScoreThresholdParamsResult {
@@ -1247,6 +1230,10 @@ export interface GetThresholdConfig {
    * the DAO's avatar address
    */
   avatar: Address;
+  /**
+   * unique hash of proposal index
+   */
+  proposalId: string;
 }
 
 /**
