@@ -5,7 +5,7 @@ import { SchemeRegistrar } from "../test-dist/wrappers/schemeregistrar";
 import * as helpers from "./helpers";
 
 describe("GenesisProtocol", () => {
-  let dao, genesisProtocol, paramsHash, executableTest;
+  let dao, genesisProtocol, executableTest;
   let ExecutableTest;
 
   const createProposal = async () => {
@@ -13,7 +13,6 @@ describe("GenesisProtocol", () => {
     const result = await genesisProtocol.propose({
       avatar: dao.avatar.address,
       numOfChoices: 2,
-      paramsHash: paramsHash,
       executable: executableTest.address
     });
 
@@ -63,9 +62,6 @@ describe("GenesisProtocol", () => {
     genesisProtocol = await GenesisProtocol.at(scheme[0].address);
 
     assert.isOk(genesisProtocol);
-
-    // all default parameters
-    paramsHash = (await genesisProtocol.setParameters({})).result;
 
     executableTest = await ExecutableTest.deployed();
   });
@@ -210,8 +206,8 @@ describe("GenesisProtocol", () => {
 
     assert.isOk(result);
     assert.equal(web3.fromWei(result.totalVotes), 1000);
-    assert.equal(result.totalStakes, 0);
-    assert.equal(result.votersStakes, 0);
+    assert.equal(result.totalStaked, 0);
+    assert.equal(result.totalVoterStakes, 0);
   });
 
   it("can call getStakerInfo", async () => {
@@ -330,8 +326,10 @@ describe("GenesisProtocol", () => {
   });
 
   it("can call getThreshold", async () => {
+    const proposalId = await createProposal();
     const result = await genesisProtocol.getThreshold({
-      avatar: dao.avatar.address
+      avatar: dao.avatar.address,
+      proposalId: proposalId
     });
     assert(typeof result !== "undefined");
   });
@@ -397,14 +395,6 @@ describe("GenesisProtocol", () => {
   });
 
 
-  it("can call getTotalReputationSupply", async () => {
-    const proposalId = await createProposal();
-    const result = await genesisProtocol.getTotalReputationSupply({
-      proposalId: proposalId
-    });
-    assert(typeof result !== "undefined");
-  });
-
   it("can call getProposalAvatar", async () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getProposalAvatar({
@@ -430,7 +420,7 @@ describe("GenesisProtocol", () => {
     const result = await genesisProtocol.getState({
       proposalId: proposalId
     });
-    assert.equal(result, 2); // PreBoosted
+    assert.equal(result, 3); // PreBoosted
   });
 
   it("can do new", async () => {
@@ -454,7 +444,7 @@ describe("GenesisProtocol", () => {
       await genesisProtocol.propose({});
       assert(false, "Should have thrown validation exception");
     } catch (ex) {
-      assert.equal(ex, "Error: Missing required properties: avatar, executable, paramsHash");
+      assert.equal(ex, "Error: Missing required properties: avatar, executable");
     }
   });
 
@@ -464,7 +454,6 @@ describe("GenesisProtocol", () => {
       await genesisProtocol.propose({
         avatar: dao.avatar.address,
         numOfChoices: 13,
-        paramsHash: paramsHash,
         executable: executableTest.address
       });
       assert(false, "Should have thrown validation exception");

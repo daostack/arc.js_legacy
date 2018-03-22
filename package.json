@@ -65,7 +65,7 @@
     "es6-promisify": "^6.0.0",
     "ethereumjs-abi": "^0.6.5",
     "fs-extra": "^5.0.0",
-    "ganache-cli": "^6.0.3",
+    "ganache-cli": "^6.1.0",
     "has-flag": "^3.0.0",
     "locate-path": "^2.0.0",
     "node-glob": "^1.2.0",
@@ -79,7 +79,7 @@
     "uint32": "^0.2.1"
   },
   "devDependencies": {
-    "@daostack/arc": "0.0.0-alpha.35",
+    "@daostack/arc": "0.0.0-alpha.37",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-polyfill": "^6.26.0",

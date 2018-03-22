@@ -126,7 +126,7 @@ export abstract class ContractWrapperBase {
    * @param paramsHash
    */
   public async getParametersArray(paramsHash: Hash): Promise<Array<any>> {
-    return this.contract.parameters ? this.contract.parameters(paramsHash) : this.contract.params(paramsHash);
+    return this.contract.parameters(paramsHash);
   }
 
   /**
