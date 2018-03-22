@@ -446,8 +446,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../api/classes/Config/" title="Config" class="md-nav__link">
-      Config
+    <a href="../api/classes/ConfigService/" title="ConfigService" class="md-nav__link">
+      ConfigService
     </a>
   </li>
 
@@ -470,8 +470,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../api/classes/Contracts/" title="Contracts" class="md-nav__link">
-      Contracts
+    <a href="../api/classes/ContractWrapperBase/" title="ContractWrapperBase" class="md-nav__link">
+      ContractWrapperBase
     </a>
   </li>
 
@@ -520,18 +520,6 @@
   <li class="md-nav__item">
     <a href="../api/classes/DaoCreatorWrapper/" title="DaoCreatorWrapper" class="md-nav__link">
       DaoCreatorWrapper
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/classes/ExtendTruffleContract/" title="ExtendTruffleContract" class="md-nav__link">
-      ExtendTruffleContract
     </a>
   </li>
 
@@ -650,6 +638,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/classes/WrapperService/" title="WrapperService" class="md-nav__link">
+      WrapperService
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/enums/BinaryVoteResult/" title="BinaryVoteResult" class="md-nav__link">
       BinaryVoteResult
     </a>
@@ -688,6 +688,18 @@
   <li class="md-nav__item">
     <a href="../api/enums/LogLevel/" title="LogLevel" class="md-nav__link">
       LogLevel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/enums/ProposalState/" title="ProposalState" class="md-nav__link">
+      ProposalState
     </a>
   </li>
 
@@ -770,8 +782,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../api/interfaces/ArcContractInfo/" title="ArcContractInfo" class="md-nav__link">
-      ArcContractInfo
+    <a href="../api/interfaces/ArcWrapperFactories/" title="ArcWrapperFactories" class="md-nav__link">
+      ArcWrapperFactories
     </a>
   </li>
 
@@ -782,8 +794,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../api/interfaces/ArcDeployedContractNames/" title="ArcDeployedContractNames" class="md-nav__link">
-      ArcDeployedContractNames
+    <a href="../api/interfaces/ArcWrappers/" title="ArcWrappers" class="md-nav__link">
+      ArcWrappers
     </a>
   </li>
 
@@ -794,8 +806,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../api/interfaces/ArcDeployedContracts/" title="ArcDeployedContracts" class="md-nav__link">
-      ArcDeployedContracts
+    <a href="../api/interfaces/ArcWrappersByType/" title="ArcWrappersByType" class="md-nav__link">
+      ArcWrappersByType
     </a>
   </li>
 
@@ -1886,6 +1898,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/interfaces/SchemeWrapper/" title="SchemeWrapper" class="md-nav__link">
+      SchemeWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/interfaces/SetSchemesConfig/" title="SetSchemesConfig" class="md-nav__link">
       SetSchemesConfig
     </a>
@@ -2098,12 +2122,23 @@
                 <h1 id="deploying-contracts-to-a-specified-network">Deploying Contracts to a Specified Network<a class="headerlink" href="#deploying-contracts-to-a-specified-network" title="Permanent link">&para;</a></h1>
 <p>To deploy contracts to a specified network, follow these steps:</p>
 <ol>
-<li>set the environment variable "network" to the name of the network ("ganache", "kovan", "live"). The default is "ganache".  Truffle will use this to find the specified network settings in truffle.js.</li>
-<li>if needed, set <code>network</code>, and <code>gasLimit_deployment</code> in /config/default.json.</li>
-<li>make sure that /migrations/founders.json has an entry for your network, with the appropriate founders</li>
-<li>run <code>npm start migrateContracts</code></li>
+<li>Set the environment variable "arcjs_network" (or "network" in /config/defaults.json in the Arc.js package) to the name of the network ("ganache", "kovan", "ropsten", "live"). The default is "ganache".  Truffle will use this setting to find the specified settings in truffle.js in the Arc.js package.  The migration script will also use this setting just to feedback to you which network truffle is using.</li>
+<li>The migration script will use <code>arcjs_gasLimit_deployment</code> (or "gasLimit_deployment" in /config/defaults.json in the Arc.js package), allowing you to customize the gas amount if needed.</li>
+<li>make sure that /migrations/founders.json in the Arc.js package folder has an entry for your test network with the founders to add to the Genesis DAO.</li>
+<li>make sure you have your testnet running and listening on the right port.</li>
 </ol>
-<p>Note: For safety, truffle.js specifies a different HTTP port for each network.</p>
+<p>For safety, truffle.js specifies a different HTTP port for each network.  You will need to make sure that the testnet you are using is listening on that port.  The port values are:</p>
+<table style="margin-left:2.5rem">
+<tr style="text-align:left"><th>Network</th><th>Port</th></tr>
+<tr><td>Ganache</td><td>8545</td></tr>
+<tr><td>Kovan</td><td>8547</td></tr>
+<tr><td>Ropsten</td><td>8548</td></tr>
+<tr><td>Live (Mainnet)</td><td>8546</td></tr>
+</table>
+
+<ol>
+<li>run <code>npm start migrateContracts</code>, or from your application: <code>npm explore @daostack/arc.js -- npm start migrateContracts</code></li>
+</ol>
                 
                   
                 

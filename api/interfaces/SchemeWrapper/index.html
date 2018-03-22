@@ -38,7 +38,7 @@
     
     
       
-        <title>ArcDeployedContracts - DAOstack Arc.js Documentation</title>
+        <title>SchemeWrapper - DAOstack Arc.js Documentation</title>
       
     
     
@@ -95,7 +95,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <a href="#interface-arcdeployedcontracts" tabindex="1" class="md-skip">
+      <a href="#interface-schemewrapper" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -121,7 +121,7 @@
                 DAOstack Arc.js Documentation
               </span>
               <span class="md-header-nav__topic">
-                ArcDeployedContracts
+                SchemeWrapper
               </span>
             
           
@@ -439,8 +439,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../classes/Config/" title="Config" class="md-nav__link">
-      Config
+    <a href="../../classes/ConfigService/" title="ConfigService" class="md-nav__link">
+      ConfigService
     </a>
   </li>
 
@@ -463,8 +463,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../classes/Contracts/" title="Contracts" class="md-nav__link">
-      Contracts
+    <a href="../../classes/ContractWrapperBase/" title="ContractWrapperBase" class="md-nav__link">
+      ContractWrapperBase
     </a>
   </li>
 
@@ -513,18 +513,6 @@
   <li class="md-nav__item">
     <a href="../../classes/DaoCreatorWrapper/" title="DaoCreatorWrapper" class="md-nav__link">
       DaoCreatorWrapper
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../classes/ExtendTruffleContract/" title="ExtendTruffleContract" class="md-nav__link">
-      ExtendTruffleContract
     </a>
   </li>
 
@@ -643,6 +631,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../classes/WrapperService/" title="WrapperService" class="md-nav__link">
+      WrapperService
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../enums/BinaryVoteResult/" title="BinaryVoteResult" class="md-nav__link">
       BinaryVoteResult
     </a>
@@ -681,6 +681,18 @@
   <li class="md-nav__item">
     <a href="../../enums/LogLevel/" title="LogLevel" class="md-nav__link">
       LogLevel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../enums/ProposalState/" title="ProposalState" class="md-nav__link">
+      ProposalState
     </a>
   </li>
 
@@ -763,8 +775,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../ArcContractInfo/" title="ArcContractInfo" class="md-nav__link">
-      ArcContractInfo
+    <a href="../ArcWrapperFactories/" title="ArcWrapperFactories" class="md-nav__link">
+      ArcWrapperFactories
     </a>
   </li>
 
@@ -775,8 +787,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../ArcDeployedContractNames/" title="ArcDeployedContractNames" class="md-nav__link">
-      ArcDeployedContractNames
+    <a href="../ArcWrappers/" title="ArcWrappers" class="md-nav__link">
+      ArcWrappers
     </a>
   </li>
 
@@ -785,83 +797,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="toc">
-        ArcDeployedContracts
-      </label>
-    
-    <a href="./" title="ArcDeployedContracts" class="md-nav__link md-nav__link--active">
-      ArcDeployedContracts
+  <li class="md-nav__item">
+    <a href="../ArcWrappersByType/" title="ArcWrappersByType" class="md-nav__link">
+      ArcWrappersByType
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#properties" title="Properties" class="md-nav__link">
-    Properties
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#allcontracts" title="allContracts" class="md-nav__link">
-    allContracts
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#globalconstraints" title="globalConstraints" class="md-nav__link">
-    globalConstraints
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#schemes" title="schemes" class="md-nav__link">
-    schemes
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#votingmachines" title="votingMachines" class="md-nav__link">
-    votingMachines
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -1949,6 +1889,90 @@
           
           
 
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        SchemeWrapper
+      </label>
+    
+    <a href="./" title="SchemeWrapper" class="md-nav__link md-nav__link--active">
+      SchemeWrapper
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#implemented-by" title="Implemented by" class="md-nav__link">
+    Implemented by
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methods" title="Methods" class="md-nav__link">
+    Methods
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getdefaultpermissions" title="getDefaultPermissions" class="md-nav__link">
+    getDefaultPermissions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getschemeparameters" title="getSchemeParameters" class="md-nav__link">
+    getSchemeParameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getschemepermissions" title="getSchemePermissions" class="md-nav__link">
+    getSchemePermissions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
 
   <li class="md-nav__item">
     <a href="../SetSchemesConfig/" title="SetSchemesConfig" class="md-nav__link">
@@ -2151,37 +2175,37 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#properties" title="Properties" class="md-nav__link">
-    Properties
+  <a href="#implemented-by" title="Implemented by" class="md-nav__link">
+    Implemented by
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methods" title="Methods" class="md-nav__link">
+    Methods
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#allcontracts" title="allContracts" class="md-nav__link">
-    allContracts
+  <a href="#getdefaultpermissions" title="getDefaultPermissions" class="md-nav__link">
+    getDefaultPermissions
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#globalconstraints" title="globalConstraints" class="md-nav__link">
-    globalConstraints
+  <a href="#getschemeparameters" title="getSchemeParameters" class="md-nav__link">
+    getSchemeParameters
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#schemes" title="schemes" class="md-nav__link">
-    schemes
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#votingmachines" title="votingMachines" class="md-nav__link">
-    votingMachines
+  <a href="#getschemepermissions" title="getSchemePermissions" class="md-nav__link">
+    getSchemePermissions
   </a>
   
 </li>
@@ -2207,36 +2231,89 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/daostack/arc.js/edit/master/docs/api/interfaces/ArcDeployedContracts.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/daostack/arc.js/edit/master/docs/api/interfaces/SchemeWrapper.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <p><a href="../../README/">API Reference</a> &gt; <a href="./">ArcDeployedContracts</a></p>
-<h1 id="interface-arcdeployedcontracts">Interface: ArcDeployedContracts<a class="headerlink" href="#interface-arcdeployedcontracts" title="Permanent link">&para;</a></h1>
-<p>ArcDeployedContractNames, and those contracts organized by type. Call it.at(it.address) to get contract wrapper</p>
-<h2 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h2>
-<p><a id="allContracts"></a></p>
-<h3 id="allcontracts">allContracts<a class="headerlink" href="#allcontracts" title="Permanent link">&para;</a></h3>
-<p><strong>●  allContracts</strong>:  <em><a href="../ArcDeployedContractNames/">ArcDeployedContractNames</a></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/9d02a7c/lib/contracts.ts#L54">contracts.ts:54</a></em></p>
-<p>All wrapped contracts</p>
+                <p><a href="../../README/">API Reference</a> &gt; <a href="./">SchemeWrapper</a></p>
+<h1 id="interface-schemewrapper">Interface: SchemeWrapper<a class="headerlink" href="#interface-schemewrapper" title="Permanent link">&para;</a></h1>
+<h2 id="implemented-by">Implemented by<a class="headerlink" href="#implemented-by" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../../classes/GenesisProtocolWrapper/">GenesisProtocolWrapper</a></li>
+<li><a href="../../classes/GlobalConstraintRegistrarWrapper/">GlobalConstraintRegistrarWrapper</a></li>
+<li><a href="../../classes/SchemeRegistrarWrapper/">SchemeRegistrarWrapper</a></li>
+<li><a href="../../classes/UpgradeSchemeWrapper/">UpgradeSchemeWrapper</a></li>
+<li><a href="../../classes/VestingSchemeWrapper/">VestingSchemeWrapper</a></li>
+<li><a href="../../classes/VoteInOrganizationSchemeWrapper/">VoteInOrganizationSchemeWrapper</a></li>
+</ul>
+<h2 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h2>
+<p><a id="getDefaultPermissions"></a></p>
+<h3 id="getdefaultpermissions">getDefaultPermissions<a class="headerlink" href="#getdefaultpermissions" title="Permanent link">&para;</a></h3>
+<p>► <strong>getDefaultPermissions</strong>(overrideValue?: <em><a href="../../enums/SchemePermissions/">SchemePermissions</a>⎮<a href="../../enums/DefaultSchemePermissions/">DefaultSchemePermissions</a></em>): <a href="../../enums/SchemePermissions/">SchemePermissions</a></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/42de6847/lib/commonTypes.ts#L90">commonTypes.ts:90</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>overrideValue</td>
+<td><a href="../../enums/SchemePermissions/">SchemePermissions</a>⎮<a href="../../enums/DefaultSchemePermissions/">DefaultSchemePermissions</a></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="../../enums/SchemePermissions/">SchemePermissions</a></p>
 <hr />
-<p><a id="globalConstraints"></a></p>
-<h3 id="globalconstraints">globalConstraints<a class="headerlink" href="#globalconstraints" title="Permanent link">&para;</a></h3>
-<p><strong>●  globalConstraints</strong>:  <em><code>Array</code>.&lt;<a href="../ArcContractInfo/">ArcContractInfo</a>&gt;</em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/9d02a7c/lib/contracts.ts#L66">contracts.ts:66</a></em></p>
-<p>All wrapped global constraints</p>
+<p><a id="getSchemeParameters"></a></p>
+<h3 id="getschemeparameters">getSchemeParameters<a class="headerlink" href="#getschemeparameters" title="Permanent link">&para;</a></h3>
+<p>► <strong>getSchemeParameters</strong>(avatarAddress: <em><a href="../../#Address">Address</a></em>): <code>Promise</code>.&lt;<code>any</code>&gt;</p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/42de6847/lib/commonTypes.ts#L89">commonTypes.ts:89</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>avatarAddress</td>
+<td><a href="../../#Address">Address</a></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>any</code>&gt;</p>
 <hr />
-<p><a id="schemes"></a></p>
-<h3 id="schemes">schemes<a class="headerlink" href="#schemes" title="Permanent link">&para;</a></h3>
-<p><strong>●  schemes</strong>:  <em><code>Array</code>.&lt;<a href="../ArcContractInfo/">ArcContractInfo</a>&gt;</em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/9d02a7c/lib/contracts.ts#L58">contracts.ts:58</a></em></p>
-<p>All wrapped schemes</p>
-<hr />
-<p><a id="votingMachines"></a></p>
-<h3 id="votingmachines">votingMachines<a class="headerlink" href="#votingmachines" title="Permanent link">&para;</a></h3>
-<p><strong>●  votingMachines</strong>:  <em><code>Array</code>.&lt;<a href="../ArcContractInfo/">ArcContractInfo</a>&gt;</em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/9d02a7c/lib/contracts.ts#L62">contracts.ts:62</a></em></p>
-<p>All wrapped voting machines</p>
+<p><a id="getSchemePermissions"></a></p>
+<h3 id="getschemepermissions">getSchemePermissions<a class="headerlink" href="#getschemepermissions" title="Permanent link">&para;</a></h3>
+<p>► <strong>getSchemePermissions</strong>(avatarAddress: <em><a href="../../#Address">Address</a></em>): <code>Promise</code>.&lt;<a href="../../enums/SchemePermissions/">SchemePermissions</a>&gt;</p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/42de6847/lib/commonTypes.ts#L91">commonTypes.ts:91</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>avatarAddress</td>
+<td><a href="../../#Address">Address</a></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Promise</code>.&lt;<a href="../../enums/SchemePermissions/">SchemePermissions</a>&gt;</p>
 <hr />
                 
                   
@@ -2256,7 +2333,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../ArcDeployedContractNames/" title="ArcDeployedContractNames" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../SchemesConfig/" title="SchemesConfig" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -2265,19 +2342,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                ArcDeployedContractNames
+                SchemesConfig
               </span>
             </div>
           </a>
         
         
-          <a href="../CancelProposalEventResult/" title="CancelProposalEventResult" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../SetSchemesConfig/" title="SetSchemesConfig" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                CancelProposalEventResult
+                SetSchemesConfig
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

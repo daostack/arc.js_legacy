@@ -277,13 +277,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#obtain-a-configuration-setting-at-runtime" title="Obtain a configuration setting at runtime" class="md-nav__link">
-    Obtain a configuration setting at runtime
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#override-a-configuration-setting-at-runtime" title="Override a configuration setting at runtime" class="md-nav__link">
     Override a configuration setting at runtime
   </a>
@@ -489,8 +482,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../api/classes/Config/" title="Config" class="md-nav__link">
-      Config
+    <a href="../api/classes/ConfigService/" title="ConfigService" class="md-nav__link">
+      ConfigService
     </a>
   </li>
 
@@ -513,8 +506,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../api/classes/Contracts/" title="Contracts" class="md-nav__link">
-      Contracts
+    <a href="../api/classes/ContractWrapperBase/" title="ContractWrapperBase" class="md-nav__link">
+      ContractWrapperBase
     </a>
   </li>
 
@@ -563,18 +556,6 @@
   <li class="md-nav__item">
     <a href="../api/classes/DaoCreatorWrapper/" title="DaoCreatorWrapper" class="md-nav__link">
       DaoCreatorWrapper
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/classes/ExtendTruffleContract/" title="ExtendTruffleContract" class="md-nav__link">
-      ExtendTruffleContract
     </a>
   </li>
 
@@ -693,6 +674,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/classes/WrapperService/" title="WrapperService" class="md-nav__link">
+      WrapperService
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/enums/BinaryVoteResult/" title="BinaryVoteResult" class="md-nav__link">
       BinaryVoteResult
     </a>
@@ -731,6 +724,18 @@
   <li class="md-nav__item">
     <a href="../api/enums/LogLevel/" title="LogLevel" class="md-nav__link">
       LogLevel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/enums/ProposalState/" title="ProposalState" class="md-nav__link">
+      ProposalState
     </a>
   </li>
 
@@ -813,8 +818,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../api/interfaces/ArcContractInfo/" title="ArcContractInfo" class="md-nav__link">
-      ArcContractInfo
+    <a href="../api/interfaces/ArcWrapperFactories/" title="ArcWrapperFactories" class="md-nav__link">
+      ArcWrapperFactories
     </a>
   </li>
 
@@ -825,8 +830,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../api/interfaces/ArcDeployedContractNames/" title="ArcDeployedContractNames" class="md-nav__link">
-      ArcDeployedContractNames
+    <a href="../api/interfaces/ArcWrappers/" title="ArcWrappers" class="md-nav__link">
+      ArcWrappers
     </a>
   </li>
 
@@ -837,8 +842,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../api/interfaces/ArcDeployedContracts/" title="ArcDeployedContracts" class="md-nav__link">
-      ArcDeployedContracts
+    <a href="../api/interfaces/ArcWrappersByType/" title="ArcWrappersByType" class="md-nav__link">
+      ArcWrappersByType
     </a>
   </li>
 
@@ -1929,6 +1934,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/interfaces/SchemeWrapper/" title="SchemeWrapper" class="md-nav__link">
+      SchemeWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/interfaces/SetSchemesConfig/" title="SetSchemesConfig" class="md-nav__link">
       SetSchemesConfig
     </a>
@@ -2129,13 +2146,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#obtain-a-configuration-setting-at-runtime" title="Obtain a configuration setting at runtime" class="md-nav__link">
-    Obtain a configuration setting at runtime
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#override-a-configuration-setting-at-runtime" title="Override a configuration setting at runtime" class="md-nav__link">
     Override a configuration setting at runtime
   </a>
@@ -2173,9 +2183,9 @@
 <p><strong>defaultVotingMachine</strong>
   The voting machine used by default by <code>Dao.new</code> when creating new DAOs.  Default is "AbsoluteVote".</p>
 <p><strong>gasLimit_deployment</strong>
-Gas sent to transactions when migrating contracts and when creating DAOs that don't use a Unversal Controller.  A number like 4543760.</p>
+Gas sent to transactions when migrating contracts and when creating DAOs that don't use a Unversal Controller.  A number like 4543760. The default number changes with most new releases of Arc.js  You can find the current value for your Arc.js installation by looking in the <code>config/default.json</code> file.</p>
 <p><strong>gasLimit_runtime</strong>
-Gas sent to transactions in all cases except  those covere by gasLimit_deployment.  A number like 4543760.</p>
+Gas sent to transactions in all cases except  those covere by gasLimit_deployment.  A number like 4543760. The default number changes with most new releases of Arc.js  You can find the current value for your Arc.js installation by looking in the <code>config/default.json</code> file.</p>
 <p><strong>network</strong>
 Name of the blockchain network used during Arc contract migration.  Other information like url and port come from Arc.js's truffle.js file.  Default is "ganache".</p>
 <p><strong>providerUrl</strong>
@@ -2183,18 +2193,39 @@ The url to use when connecting to the blockchain network at runtime.  Default is
 <p><strong>providerPort</strong>
 The port to use when connecting to the blockchain network at runtime.  Default is 8545.</p>
 <p><strong>logLevel</strong>
-The level of logging.  Default is 8 (error).</p>
-<h3 id="obtain-a-configuration-setting-at-runtime">Obtain a configuration setting at runtime<a class="headerlink" href="#obtain-a-configuration-setting-at-runtime" title="Permanent link">&para;</a></h3>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">Config</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@daostack/arc.js&#39;</span><span class="p">;</span>
-<span class="nx">Config</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;network&#39;</span><span class="p">);</span>
+The level of logging.  Default is 8 (error).  The available log levels, which may be combined, are:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>  <span class="n">none</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">info</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="n">warn</span> <span class="o">=</span> <span class="mi">2</span>
+  <span class="n">debug</span> <span class="o">=</span> <span class="mi">4</span>
+  <span class="n">error</span> <span class="o">=</span> <span class="mi">8</span>
+  <span class="nb">all</span> <span class="o">=</span> <span class="mi">15</span>
+  <span class="sb">``</span><span class="err">`</span>
+
+<span class="c1">### Obtain a configuration setting at runtime</span>
+
+<span class="sb">``</span><span class="err">`</span><span class="n">javascript</span>
+<span class="kn">import</span> <span class="p">{</span> <span class="n">ConfigService</span> <span class="p">}</span> <span class="kn">from</span> <span class="s1">&#39;@daostack/arc.js&#39;</span><span class="p">;</span>
+<span class="n">ConfigService</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;network&#39;</span><span class="p">);</span>
 </pre></div>
 </td></tr></table>
 
 <h3 id="override-a-configuration-setting-at-runtime">Override a configuration setting at runtime<a class="headerlink" href="#override-a-configuration-setting-at-runtime" title="Permanent link">&para;</a></h3>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">Config</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@daostack/arc.js&#39;</span><span class="p">;</span>
-<span class="nx">Config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;network&#39;</span><span class="p">,</span> <span class="s1">&#39;kovan&#39;</span><span class="p">);</span>
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">ConfigService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@daostack/arc.js&#39;</span><span class="p">;</span>
+<span class="nx">ConfigService</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;network&#39;</span><span class="p">,</span> <span class="s1">&#39;kovan&#39;</span><span class="p">);</span>
 </pre></div>
 </td></tr></table>
 

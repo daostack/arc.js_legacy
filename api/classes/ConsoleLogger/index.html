@@ -439,8 +439,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../Config/" title="Config" class="md-nav__link">
-      Config
+    <a href="../ConfigService/" title="ConfigService" class="md-nav__link">
+      ConfigService
     </a>
   </li>
 
@@ -589,8 +589,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../Contracts/" title="Contracts" class="md-nav__link">
-      Contracts
+    <a href="../ContractWrapperBase/" title="ContractWrapperBase" class="md-nav__link">
+      ContractWrapperBase
     </a>
   </li>
 
@@ -639,18 +639,6 @@
   <li class="md-nav__item">
     <a href="../DaoCreatorWrapper/" title="DaoCreatorWrapper" class="md-nav__link">
       DaoCreatorWrapper
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../ExtendTruffleContract/" title="ExtendTruffleContract" class="md-nav__link">
-      ExtendTruffleContract
     </a>
   </li>
 
@@ -769,6 +757,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../WrapperService/" title="WrapperService" class="md-nav__link">
+      WrapperService
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../enums/BinaryVoteResult/" title="BinaryVoteResult" class="md-nav__link">
       BinaryVoteResult
     </a>
@@ -807,6 +807,18 @@
   <li class="md-nav__item">
     <a href="../../enums/LogLevel/" title="LogLevel" class="md-nav__link">
       LogLevel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../enums/ProposalState/" title="ProposalState" class="md-nav__link">
+      ProposalState
     </a>
   </li>
 
@@ -889,8 +901,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../interfaces/ArcContractInfo/" title="ArcContractInfo" class="md-nav__link">
-      ArcContractInfo
+    <a href="../../interfaces/ArcWrapperFactories/" title="ArcWrapperFactories" class="md-nav__link">
+      ArcWrapperFactories
     </a>
   </li>
 
@@ -901,8 +913,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../interfaces/ArcDeployedContractNames/" title="ArcDeployedContractNames" class="md-nav__link">
-      ArcDeployedContractNames
+    <a href="../../interfaces/ArcWrappers/" title="ArcWrappers" class="md-nav__link">
+      ArcWrappers
     </a>
   </li>
 
@@ -913,8 +925,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../interfaces/ArcDeployedContracts/" title="ArcDeployedContracts" class="md-nav__link">
-      ArcDeployedContracts
+    <a href="../../interfaces/ArcWrappersByType/" title="ArcWrappersByType" class="md-nav__link">
+      ArcWrappersByType
     </a>
   </li>
 
@@ -2005,6 +2017,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../interfaces/SchemeWrapper/" title="SchemeWrapper" class="md-nav__link">
+      SchemeWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../interfaces/SetSchemesConfig/" title="SetSchemesConfig" class="md-nav__link">
       SetSchemesConfig
     </a>
@@ -2340,16 +2364,16 @@
 <h2 id="properties_1">Properties<a class="headerlink" href="#properties_1" title="Permanent link">&para;</a></h2>
 <p><a id="level"></a></p>
 <h3 id="level">level<a class="headerlink" href="#level" title="Permanent link">&para;</a></h3>
-<p><strong>●  level</strong>:  <em><a href="../../enums/LogLevel/">LogLevel</a></em>  =  parseInt(Config.get("logLevel"), 10) as LogLevel</p>
+<p><strong>●  level</strong>:  <em><a href="../../enums/LogLevel/">LogLevel</a></em>  =  parseInt(ConfigService.get("logLevel"), 10) as LogLevel</p>
 <p><em>Implementation of <a href="../../interfaces/ILogger/">ILogger</a>.<a href="../../interfaces/ILogger/#level">level</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/9d02a7c/lib/loggingService.ts#L50">loggingService.ts:50</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/42de6847/lib/loggingService.ts#L50">loggingService.ts:50</a></em></p>
 <hr />
 <h2 id="methods_1">Methods<a class="headerlink" href="#methods_1" title="Permanent link">&para;</a></h2>
 <p><a id="debug"></a></p>
 <h3 id="debug">debug<a class="headerlink" href="#debug" title="Permanent link">&para;</a></h3>
 <p>► <strong>debug</strong>(message: <em><code>string</code></em>): <code>void</code></p>
 <p><em>Implementation of <a href="../../interfaces/ILogger/">ILogger</a>.<a href="../../interfaces/ILogger/#debug">debug</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/9d02a7c/lib/loggingService.ts#L52">loggingService.ts:52</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/42de6847/lib/loggingService.ts#L52">loggingService.ts:52</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2373,7 +2397,7 @@
 <h3 id="error">error<a class="headerlink" href="#error" title="Permanent link">&para;</a></h3>
 <p>► <strong>error</strong>(message: <em><code>string</code></em>): <code>void</code></p>
 <p><em>Implementation of <a href="../../interfaces/ILogger/">ILogger</a>.<a href="../../interfaces/ILogger/#error">error</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/9d02a7c/lib/loggingService.ts#L58">loggingService.ts:58</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/42de6847/lib/loggingService.ts#L58">loggingService.ts:58</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2397,7 +2421,7 @@
 <h3 id="info">info<a class="headerlink" href="#info" title="Permanent link">&para;</a></h3>
 <p>► <strong>info</strong>(message: <em><code>string</code></em>): <code>void</code></p>
 <p><em>Implementation of <a href="../../interfaces/ILogger/">ILogger</a>.<a href="../../interfaces/ILogger/#info">info</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/9d02a7c/lib/loggingService.ts#L54">loggingService.ts:54</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/42de6847/lib/loggingService.ts#L54">loggingService.ts:54</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2421,7 +2445,7 @@
 <h3 id="warn">warn<a class="headerlink" href="#warn" title="Permanent link">&para;</a></h3>
 <p>► <strong>warn</strong>(message: <em><code>string</code></em>): <code>void</code></p>
 <p><em>Implementation of <a href="../../interfaces/ILogger/">ILogger</a>.<a href="../../interfaces/ILogger/#warn">warn</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/9d02a7c/lib/loggingService.ts#L56">loggingService.ts:56</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/42de6847/lib/loggingService.ts#L56">loggingService.ts:56</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2459,7 +2483,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../Config/" title="Config" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../ConfigService/" title="ConfigService" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -2468,19 +2492,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Config
+                ConfigService
               </span>
             </div>
           </a>
         
         
-          <a href="../Contracts/" title="Contracts" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../ContractWrapperBase/" title="ContractWrapperBase" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Contracts
+                ContractWrapperBase
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
