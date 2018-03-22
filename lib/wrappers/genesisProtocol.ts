@@ -782,7 +782,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
    * @param {GetStateConfig} opts
    * @returns Promise<number>
    */
-  public async getState(opts: GetStateConfig = {} as GetStateConfig): Promise<number> {
+  public async getState(opts: GetStateConfig = {} as GetStateConfig): Promise<ProposalState> {
 
     const defaults = {
       proposalId: undefined,
@@ -1413,4 +1413,13 @@ export interface ExecutedGenesisProposal {
    */
   totalReputation: BigNumber.BigNumber;
   executionState: ExecutionState;
+}
+
+export enum ProposalState {
+  None,
+  Closed,
+  Executed,
+  PreBoosted,
+  Boosted,
+  QuietEndingPeriod
 }
