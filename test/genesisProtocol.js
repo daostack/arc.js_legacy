@@ -420,7 +420,7 @@ describe("GenesisProtocol", () => {
     const result = await genesisProtocol.getState({
       proposalId: proposalId
     });
-    assert.equal(result, 2); // PreBoosted
+    assert.equal(result, 3); // PreBoosted
   });
 
   it("can do new", async () => {

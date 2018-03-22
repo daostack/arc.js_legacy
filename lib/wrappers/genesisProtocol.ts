@@ -798,7 +798,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       options.proposalId
     );
 
-    return state;
+    return state.toNumber();
   }
 
   /**
