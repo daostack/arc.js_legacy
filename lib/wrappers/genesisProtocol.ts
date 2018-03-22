@@ -1421,5 +1421,5 @@ export enum ProposalState {
   Executed,
   PreBoosted,
   Boosted,
-  QuietEndingPeriod
+  QuietEndingPeriod,
 }
