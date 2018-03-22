@@ -83,6 +83,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
     const tx = await this.contract.propose(
       options.numOfChoices,
+      Utils.NULL_HASH,
       options.avatar,
       options.executable,
       options.proposer
