@@ -172,11 +172,14 @@ module.exports = {
         build: "node ./package-scripts/typedoc.js",
         /**
          * This is to create a list of all the API files for inclusion in mkdocs.yml
-         * Whenever the set of API objects changes, you must copy the output of this
+         * Whenever the set of API objects is going to change, you must copy the output of this
          * script and paste it into mkdocs.yml after the line:
          * `- Index : "api/README.md"`
          */
-        createPagesList: `node ./package-scripts/createApiPagesList.js ./docs api/*/**`
+        createPagesList: series(
+          `nps docs.build`,
+          `node ./package-scripts/createApiPagesList.js ./docs api/*/**`
+        )
       },
       website: {
         build: "mkdocs build",

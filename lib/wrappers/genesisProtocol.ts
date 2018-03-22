@@ -1138,7 +1138,7 @@ export interface GetProposalStatusResult {
    */
   totalStakerStakes: BigNumber.BigNumber;
   /**
-   * Total number of tokens staked
+   * Total number of staked tokens currently redeemable by everyone
    */
   totalStaked: BigNumber.BigNumber;
   /**
