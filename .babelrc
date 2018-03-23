@@ -3,6 +3,9 @@
     [
       "env",
       {
+        "targets": {
+          "node": "current"
+        },
         "useBuiltIns": true
       }
     ]
