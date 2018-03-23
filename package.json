@@ -22,6 +22,7 @@
   "scripts": {
     "start": "nps",
     "test": "npm start test",
+    "buildtest": "npm start test.build",
     "build": "npm start build",
     "lint": "npm start lint",
     "ganache": "npm start test.ganache.run",

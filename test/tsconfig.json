@@ -4,10 +4,9 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "preserveConstEnums": true,
-    "sourceRoot": "../lib",
     "sourceMap": true,
     "baseUrl": "../lib",
-    "allowJs": true,
+    "declaration": true,
     "lib": [
       "es2015"
     ],
@@ -18,6 +17,7 @@
     "../custom_typings/system.d.ts"
   ],
   "exclude": [
-    "../node_modules"
+    "../node_modules",
+    "../dist"
   ]
 }

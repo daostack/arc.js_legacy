@@ -100,7 +100,6 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
    */
   public async setSchemes(opts: SetSchemesConfig = {} as SetSchemesConfig):
     Promise<ArcTransactionResult> {
-
     /**
      * See SetSchemesConfig
      */
@@ -342,13 +341,17 @@ export interface SchemeConfig {
    * Note it costs more gas to add them here.
    *
    * New schemes will be created with these parameters and the DAO's native reputation contract.
+   * 
+   * **Note**: This is only relevant to schemes that can create proposals upon which
+   * there can be a vote.  Other schemes will ignore these parameters.
    *
-   * Defaults are the Arc.js-deployed AbsoluteVote, the Arc.js-deployed Reputation, votePerc 50%, ownerVote true
+   * Defaults are those of whatever voting machine is the default for DaoCreator.  The default
+   * default VotingMachine is AbsoluteVote. 
    */
   votingMachineParams?: NewDaoVotingMachineConfig;
   /**
    * Other scheme parameters, any params besides those already provided in votingMachineParams.
-   * For example, ContributionReward requires orgNativeTokenFee.
+   * For example, ContributionReward requires orgNativeTokenFee.  SchemeRegistrar has voteRemoveParametersHash.
    *
    * Default is {}
    */
@@ -361,6 +364,9 @@ export interface SchemesConfig {
    * new DAO with its own voting parameters.
    *
    * New schemes will be created these parameters.
+   * 
+   * **Note**: This is only relevant to schemes that can create proposals upon which
+   * there can be a vote.  Other schemes will ignore these parameters.
    *
    * Defaults are described in NewDaoVotingMachineConfig.
    */

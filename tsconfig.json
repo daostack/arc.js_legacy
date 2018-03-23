@@ -11,8 +11,7 @@
   },
   "include": [
     "lib/**/*",
-    "custom_typings/system.d.ts",
-    "index.d.ts"
+    "custom_typings/system.d.ts"
   ],
   "exclude": [
     "node_modules",

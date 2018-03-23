@@ -61,6 +61,9 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase impleme
   }
 
   public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
+
+    this.validateStandardSchemeParams(params);
+
     return super.setParameters(
       params.voteParametersHash,
       params.votingMachineAddress

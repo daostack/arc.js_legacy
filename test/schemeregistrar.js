@@ -1,10 +1,57 @@
 import { Utils } from "../test-dist/utils";
 import * as helpers from "./helpers";
 import { SchemeRegistrar } from "../test-dist/wrappers/schemeregistrar";
+import { WrapperService } from "../test-dist/wrapperService";
 
 describe("SchemeRegistrar", () => {
+  it("can add scheme with voteToRemove parameters ", async () => {
+    const voteParamsArray = [helpers.SOME_ADDRESS, 33, true];
+
+    // see AbsoluteVote Parameters struct
+    const voteParamsHash = Utils.keccak256(
+      ["address", "uint", "bool"],
+      voteParamsArray)
+
+    // // register the hash
+    // WrapperService.wrappers.AbsoluteVote.setParameters({
+    //   reputation: voteParamsArray[0],
+    //   votePerc: voteParamsArray[1],
+    //   ownerVote: voteParamsArray[2]
+    // });
+
+    const dao = await helpers.forgeDao({
+      schemes: [{
+        name: "SchemeRegistrar",
+        additionalParams: {
+          voteRemoveParametersHash: voteParamsHash
+        }
+      }]
+    });
+
+    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
+    assert.isOk(schemeRegistrar);
+
+    const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar);
+
+    assert.equal(
+      await votingMachine.contract.getParametersHash(voteParamsArray[0], voteParamsArray[1], voteParamsArray[2]),
+      voteParamsHash, "voting machine params hash was not correctly computed");
+
+    let voteParams = await votingMachine.getParameters(voteParamsHash);
+
+    assert.equal(voteParams.reputation, helpers.SOME_ADDRESS);
+    assert.equal(voteParams.votePerc, 33);
+    assert.equal(voteParams.ownerVote, true);
+
+    const schemeParams = await schemeRegistrar.getSchemeParameters(dao.avatar.address);
+
+    assert.equal(schemeParams.voteRemoveParametersHash, voteParamsHash, "hash was not persisted correctly");
+  });
+
   it("proposeToAddModifyScheme javascript wrapper should add new scheme", async () => {
+
     const dao = await helpers.forgeDao();
+
     const wrappers = helpers.contractsForTest();
 
     const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
