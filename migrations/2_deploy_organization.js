@@ -1,13 +1,15 @@
 // the following requires that a build has been done
-const Config = require("../dist/configService").ConfigService;
+const config = require("../config/default.json");
+const env = require("env-variable")();
+// must've done a build to ensure these are good.
 const DefaultSchemePermissions = require("../dist/commonTypes").DefaultSchemePermissions;
 /**
  * Migration callback
  */
 module.exports = async (deployer) => {
 
-  const gasAmount = Config.get("gasLimit_deployment");
-  const network = Config.get("network");
+  const gasAmount = env.arcjs_gasLimit_deployment || config.gasLimit_deployment;
+  const network = env.arcjs_network || config.network || "ganache";
   const founders = require("./founders.json").founders[network];
 
   /* eslint-disable no-console */
