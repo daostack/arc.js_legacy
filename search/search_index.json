@@ -3891,6 +3891,36 @@
             "title": "\u00abOptional\u00bb votePerc"
         }, 
         {
+            "location": "/api/interfaces/AbsoluteVoteParamsResult/", 
+            "text": "API Reference\n \n \nAbsoluteVoteParamsResult\n\n\nInterface: AbsoluteVoteParamsResult\n\n\nProperties\n\n\n\n\nownerVote\n\n\n\u25cf  ownerVote\n:  \nboolean\n \n\n\nDefined in \nwrappers/absoluteVote.ts:117\n\n\n\n\n\n\nreputation\n\n\n\u25cf  reputation\n:  \nstring\n \n\n\nDefined in \nwrappers/absoluteVote.ts:118\n\n\n\n\n\n\nvotePerc\n\n\n\u25cf  votePerc\n:  \nnumber\n \n\n\nDefined in \nwrappers/absoluteVote.ts:119", 
+            "title": "AbsoluteVoteParamsResult"
+        }, 
+        {
+            "location": "/api/interfaces/AbsoluteVoteParamsResult/#interface-absolutevoteparamsresult", 
+            "text": "", 
+            "title": "Interface: AbsoluteVoteParamsResult"
+        }, 
+        {
+            "location": "/api/interfaces/AbsoluteVoteParamsResult/#properties", 
+            "text": "", 
+            "title": "Properties"
+        }, 
+        {
+            "location": "/api/interfaces/AbsoluteVoteParamsResult/#ownervote", 
+            "text": "\u25cf  ownerVote :   boolean    Defined in  wrappers/absoluteVote.ts:117", 
+            "title": "ownerVote"
+        }, 
+        {
+            "location": "/api/interfaces/AbsoluteVoteParamsResult/#reputation", 
+            "text": "\u25cf  reputation :   string    Defined in  wrappers/absoluteVote.ts:118", 
+            "title": "reputation"
+        }, 
+        {
+            "location": "/api/interfaces/AbsoluteVoteParamsResult/#voteperc", 
+            "text": "\u25cf  votePerc :   number    Defined in  wrappers/absoluteVote.ts:119", 
+            "title": "votePerc"
+        }, 
+        {
             "location": "/api/interfaces/Agreement/", 
             "text": "API Reference\n \n \nAgreement\n\n\nInterface: Agreement\n\n\nProperties\n\n\n\n\nagreementId\n\n\n\u25cf  agreementId\n:  \nnumber\n \n\n\nDefined in \nwrappers/vestingscheme.ts:487\n\n\n\n\n\n\namountPerPeriod\n\n\n\u25cf  amountPerPeriod\n:  \nBigNumber.BigNumber\n \n\n\nDefined in \nwrappers/vestingscheme.ts:488\n\n\n\n\n\n\nbeneficiaryAddress\n\n\n\u25cf  beneficiaryAddress\n:  \nAddress\n \n\n\nDefined in \nwrappers/vestingscheme.ts:489\n\n\n\n\n\n\ncliffInPeriods\n\n\n\u25cf  cliffInPeriods\n:  \nBigNumber.BigNumber\n \n\n\nDefined in \nwrappers/vestingscheme.ts:490\n\n\n\n\n\n\ncollectedPeriods\n\n\n\u25cf  collectedPeriods\n:  \nBigNumber.BigNumber\n \n\n\nDefined in \nwrappers/vestingscheme.ts:491\n\n\n\n\n\n\nnumOfAgreedPeriods\n\n\n\u25cf  numOfAgreedPeriods\n:  \nBigNumber.BigNumber\n \n\n\nDefined in \nwrappers/vestingscheme.ts:492\n\n\n\n\n\n\nperiodLength\n\n\n\u25cf  periodLength\n:  \nBigNumber.BigNumber\n \n\n\nDefined in \nwrappers/vestingscheme.ts:493\n\n\n\n\n\n\nreturnOnCancelAddress\n\n\n\u25cf  returnOnCancelAddress\n:  \nAddress\n \n\n\nDefined in \nwrappers/vestingscheme.ts:494\n\n\n\n\n\n\nsignaturesReqToCancel\n\n\n\u25cf  signaturesReqToCancel\n:  \nBigNumber.BigNumber\n \n\n\nDefined in \nwrappers/vestingscheme.ts:495\n\n\n\n\n\n\nstartingBlock\n\n\n\u25cf  startingBlock\n:  \nBigNumber.BigNumber\n \n\n\nDefined in \nwrappers/vestingscheme.ts:496\n\n\n\n\n\n\ntokenAddress\n\n\n\u25cf  tokenAddress\n:  \nAddress\n \n\n\nDefined in \nwrappers/vestingscheme.ts:497", 
             "title": "Agreement"
@@ -7244,6 +7274,41 @@
             "location": "/api/interfaces/SchemeConfig/#optional-votingmachineparams", 
             "text": "\u25cf  votingMachineParams :   NewDaoVotingMachineConfig    Defined in  wrappers/daocreator.ts:351  Optional votingMachine parameters if you have not supplied them in NewDaoConfig or want to override them. Note it costs more gas to add them here.  New schemes will be created with these parameters and the DAO's native reputation contract.  Note : This is only relevant to schemes that can create proposals upon which there can be a vote. Other schemes will ignore these parameters.  Defaults are those of whatever voting machine is the default for DaoCreator. The default default VotingMachine is AbsoluteVote.", 
             "title": "\u00abOptional\u00bb votingMachineParams"
+        }, 
+        {
+            "location": "/api/interfaces/SchemeRegistrarParams/", 
+            "text": "API Reference\n \n \nSchemeRegistrarParams\n\n\nInterface: SchemeRegistrarParams\n\n\nHierarchy\n\n\nStandardSchemeParams\n\n\n\u21b3 SchemeRegistrarParams\n\n\nProperties\n\n\n\n\nvoteParametersHash\n\n\n\u25cf  voteParametersHash\n:  \nHash\n \n\n\nInherited from \nStandardSchemeParams\n.\nvoteParametersHash\n\n\nDefined in \ncontractWrapperBase.ts:412\n\n\nHash of the voting machine parameters to use when voting on a proposal.\n\n\n\n\n\n\n\u00abOptional\u00bb voteRemoveParametersHash\n\n\n\u25cf  voteRemoveParametersHash\n:  \nHash\n \n\n\nDefined in \nwrappers/schemeregistrar.ts:256\n\n\nOptional hash of voting machine parameters to use when voting on a proposal to unregister a scheme that is being registered.\n\n\nDefault is the value of voteParametersHash.\n\n\n\n\n\n\nvotingMachineAddress\n\n\n\u25cf  votingMachineAddress\n:  \nAddress\n \n\n\nInherited from \nStandardSchemeParams\n.\nvotingMachineAddress\n\n\nDefined in \ncontractWrapperBase.ts:416\n\n\nAddress of the voting machine to use when voting on a proposal.", 
+            "title": "SchemeRegistrarParams"
+        }, 
+        {
+            "location": "/api/interfaces/SchemeRegistrarParams/#interface-schemeregistrarparams", 
+            "text": "", 
+            "title": "Interface: SchemeRegistrarParams"
+        }, 
+        {
+            "location": "/api/interfaces/SchemeRegistrarParams/#hierarchy", 
+            "text": "StandardSchemeParams  \u21b3 SchemeRegistrarParams", 
+            "title": "Hierarchy"
+        }, 
+        {
+            "location": "/api/interfaces/SchemeRegistrarParams/#properties", 
+            "text": "", 
+            "title": "Properties"
+        }, 
+        {
+            "location": "/api/interfaces/SchemeRegistrarParams/#voteparametershash", 
+            "text": "\u25cf  voteParametersHash :   Hash    Inherited from  StandardSchemeParams . voteParametersHash  Defined in  contractWrapperBase.ts:412  Hash of the voting machine parameters to use when voting on a proposal.", 
+            "title": "voteParametersHash"
+        }, 
+        {
+            "location": "/api/interfaces/SchemeRegistrarParams/#optional-voteremoveparametershash", 
+            "text": "\u25cf  voteRemoveParametersHash :   Hash    Defined in  wrappers/schemeregistrar.ts:256  Optional hash of voting machine parameters to use when voting on a proposal to unregister a scheme that is being registered.  Default is the value of voteParametersHash.", 
+            "title": "\u00abOptional\u00bb voteRemoveParametersHash"
+        }, 
+        {
+            "location": "/api/interfaces/SchemeRegistrarParams/#votingmachineaddress", 
+            "text": "\u25cf  votingMachineAddress :   Address    Inherited from  StandardSchemeParams . votingMachineAddress  Defined in  contractWrapperBase.ts:416  Address of the voting machine to use when voting on a proposal.", 
+            "title": "votingMachineAddress"
         }, 
         {
             "location": "/api/interfaces/SchemesConfig/", 

@@ -260,6 +260,12 @@
     </url>
         
     <url>
+     <loc>/api/interfaces/AbsoluteVoteParamsResult/</loc>
+     <lastmod>2018-03-23</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
      <loc>/api/interfaces/Agreement/</loc>
      <lastmod>2018-03-23</lastmod>
      <changefreq>daily</changefreq>
@@ -825,6 +831,12 @@
         
     <url>
      <loc>/api/interfaces/SchemeConfig/</loc>
+     <lastmod>2018-03-23</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/SchemeRegistrarParams/</loc>
      <lastmod>2018-03-23</lastmod>
      <changefreq>daily</changefreq>
     </url>
