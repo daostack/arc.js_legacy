@@ -2,7 +2,7 @@
 
 To deploy contracts to a specified network, follow these steps:
 
-1. Set the environment variable "arcjs_network" to the name of the network ("ganache", "kovan", "ropsten", "live"). The default is "ganache".  Truffle will use this setting to find the specified settings in truffle.js in the Arc.js package.  The migration script will also use this setting just to feedback to you which network truffle is using.
+1. Set the environment variable `arcjs_network` to the name of the network ("ganache", "kovan", "ropsten", "live"). The default is "ganache".  Truffle will use this setting to find the specified settings in truffle.js in the Arc.js package.  The migration script will also use this setting just to feedback to you which network truffle is using.
 2. The migration script will use `arcjs_gasLimit_deployment`, allowing you to customize the gas amount if needed.
 3. make sure that /migrations/founders.json in the Arc.js package folder has an entry for your test network with the founders to add to the Genesis DAO.
 4. make sure you have your testnet running and listening on the right port.
@@ -19,4 +19,6 @@ To deploy contracts to a specified network, follow these steps:
 
 5. run `npm start migrateContracts`, or from your application: `npm explore @daostack/arc.js -- npm start migrateContracts`
 
+**Note:**  If you want to start from scratch with brand-new contracts, run: `npm start migrateContracts.clean.andMigrate`.
 
+**Note:**  When migrating to Kovan, the migration will not succeed until your node is completely caught up syncing with the net.

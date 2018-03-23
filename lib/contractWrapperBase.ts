@@ -236,6 +236,15 @@ export abstract class ContractWrapperBase {
 
     return eventFetcherFactory;
   }
+
+  protected validateStandardSchemeParams(params: StandardSchemeParams): void {
+    if (!params.voteParametersHash) {
+      throw new Error(`voteParametersHash is not defined`);
+    }
+    if (!params.votingMachineAddress) {
+      throw new Error(`votingMachineAddress is not defined`);
+    }
+  }
 }
 
 /**
@@ -393,7 +402,16 @@ export interface DecodedLogEntryEvent<TArgs> extends DecodedLogEntry<TArgs> {
   removed: boolean;
 }
 
+/**
+ * Common scheme parameters for schemes that are able to create proposals.
+ */
 export interface StandardSchemeParams {
+  /**
+   * Hash of the voting machine parameters to use when voting on a proposal.
+   */
   voteParametersHash: Hash;
+  /**
+   * Address of the voting machine to use when voting on a proposal.
+   */
   votingMachineAddress: Address;
 }

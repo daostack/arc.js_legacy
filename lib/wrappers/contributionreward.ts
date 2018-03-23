@@ -408,6 +408,8 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
 
   public async setParameters(params: ContributionRewardParams): Promise<ArcTransactionDataResult<Hash>> {
 
+    this.validateStandardSchemeParams(params);
+
     params = Object.assign({},
       {
         orgNativeTokenFee: 0,

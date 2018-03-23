@@ -1,6 +1,6 @@
 {
   "name": "@daostack/arc.js",
-  "version": "0.0.0-alpha.40",
+  "version": "0.0.0-alpha.41",
   "description": "A JavaScript library for interacting with @daostack/arc ethereum smart contracts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,6 +22,7 @@
   "scripts": {
     "start": "nps",
     "test": "npm start test",
+    "buildtest": "npm start test.build",
     "build": "npm start build",
     "lint": "npm start lint",
     "ganache": "npm start test.ganache.run",

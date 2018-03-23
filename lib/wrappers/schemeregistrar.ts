@@ -134,10 +134,13 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
     return new ArcTransactionProposalResult(tx);
   }
 
-  public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
+  public async setParameters(params: SchemeRegistrarParams): Promise<ArcTransactionDataResult<Hash>> {
+
+    this.validateStandardSchemeParams(params);
+
     return super.setParameters(
       params.voteParametersHash,
-      params.voteParametersHash,
+      params.voteRemoveParametersHash ? params.voteRemoveParametersHash : params.voteParametersHash,
       params.votingMachineAddress
     );
   }
@@ -151,14 +154,15 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
     return this._getSchemePermissions(avatarAddress);
   }
 
-  public async getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams> {
+  public async getSchemeParameters(avatarAddress: Address): Promise<SchemeRegistrarParams> {
     return this._getSchemeParameters(avatarAddress);
   }
 
-  public async getParameters(paramsHash: Hash): Promise<StandardSchemeParams> {
+  public async getParameters(paramsHash: Hash): Promise<SchemeRegistrarParams> {
     const params = await this.getParametersArray(paramsHash);
     return {
       voteParametersHash: params[0],
+      voteRemoveParametersHash: params[1],
       votingMachineAddress: params[2],
     };
   }
@@ -240,4 +244,14 @@ export interface ProposeToRemoveSchemeParams {
    *  the address of the global constraint to remove
    */
   schemeAddress: string;
+}
+
+export interface SchemeRegistrarParams extends StandardSchemeParams {
+  /**
+   * Optional hash of voting machine parameters to use when voting on a
+   * proposal to unregister a scheme that is being registered.
+   *
+   * Default is the value of voteParametersHash.
+   */
+  voteRemoveParametersHash?: Hash;
 }

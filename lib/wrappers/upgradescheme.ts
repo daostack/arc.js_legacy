@@ -111,6 +111,9 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeW
   }
 
   public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
+
+    this.validateStandardSchemeParams(params);
+
     return super.setParameters(
       params.voteParametersHash,
       params.votingMachineAddress

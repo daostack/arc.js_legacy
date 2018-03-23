@@ -176,7 +176,33 @@ export class Utils {
    * @param str a string
    */
   public static SHA3(str: string): string {
-    return `0x${abi.soliditySHA3(["string"], [str]).toString("hex")}`;
+    return Utils.keccak256(["string"], [str]);
+  }
+
+  /**
+   * Return the tightly-packed hash of any arbtrary array of
+   * object, to a hex format that will be properly translated into
+   * a bytes32 that solidity expects.
+   *
+   * See: https://github.com/ethereumjs/ethereumjs-abi
+   *
+   * @param types array of type names.  Can be:
+   *   case "bytes[N]', - fails if (N < 1 || N > 32)
+   *   case "string',
+   *   case "bool',
+   *   case "address',
+   *   case "uint[N]' - fails if ((N % 8) || (N < 8) || (N > 256))
+   *   case "int[N]'  - fails if ((N % 8) || (N < 8) || (N > 256))
+   *
+   * The types much appear in the same order in which the values would be
+   * hashed in solidity using Solidity's `keccak256` function.
+   *
+   * Use "bytes32" for a Hash value
+   *
+   * @param values - the values to pack and hash.  These must appear in the same order in which the types are ordered.
+   */
+  public static keccak256(types: Array<string>, values: Array<any>): string {
+    return `0x${abi.soliditySHA3(types, values).toString("hex")}`;
   }
 
   /**

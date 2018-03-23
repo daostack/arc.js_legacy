@@ -10,8 +10,6 @@
       }
     ]
   ],
-  "sourceMaps": "inline",
-  "retainLines": true,
   "ignore": [
     "test-dist",
     "node_modules"

@@ -80,12 +80,12 @@ export class AbsoluteVoteWrapper extends ContractWrapperBase {
     );
   }
 
-  public async getParameters(paramsHash: Hash): Promise<any> {
+  public async getParameters(paramsHash: Hash): Promise<AbsoluteVoteParamsResult> {
     const params = await this.getParametersArray(paramsHash);
     return {
       ownerVote: params[2],
       reputation: params[0],
-      votePerc: params[1],
+      votePerc: params[1].toNumber(),
     };
   }
 }
@@ -111,4 +111,10 @@ export interface AbsoluteVoteParams {
   ownerVote?: boolean;
   reputation: string;
   votePerc?: number;
+}
+
+export interface AbsoluteVoteParamsResult {
+  ownerVote: boolean;
+  reputation: string;
+  votePerc: number;
 }
