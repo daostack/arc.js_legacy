@@ -237,7 +237,7 @@ export abstract class ContractWrapperBase {
     return eventFetcherFactory;
   }
 
-  protected validateStandardSchemeParams(params: StandardSchemeParams) {
+  protected validateStandardSchemeParams(params: StandardSchemeParams): void {
     if (!params.voteParametersHash) {
       throw new Error(`voteParametersHash is not defined`);
     }

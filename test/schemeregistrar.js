@@ -1,7 +1,6 @@
 import { Utils } from "../test-dist/utils";
 import * as helpers from "./helpers";
 import { SchemeRegistrar } from "../test-dist/wrappers/schemeregistrar";
-import { WrapperService } from "../test-dist/wrapperService";
 
 describe("SchemeRegistrar", () => {
   it("can add scheme with voteToRemove parameters ", async () => {
@@ -10,14 +9,7 @@ describe("SchemeRegistrar", () => {
     // see AbsoluteVote Parameters struct
     const voteParamsHash = Utils.keccak256(
       ["address", "uint", "bool"],
-      voteParamsArray)
-
-    // // register the hash
-    // WrapperService.wrappers.AbsoluteVote.setParameters({
-    //   reputation: voteParamsArray[0],
-    //   votePerc: voteParamsArray[1],
-    //   ownerVote: voteParamsArray[2]
-    // });
+      voteParamsArray);
 
     const dao = await helpers.forgeDao({
       schemes: [{
@@ -37,7 +29,7 @@ describe("SchemeRegistrar", () => {
       await votingMachine.contract.getParametersHash(voteParamsArray[0], voteParamsArray[1], voteParamsArray[2]),
       voteParamsHash, "voting machine params hash was not correctly computed");
 
-    let voteParams = await votingMachine.getParameters(voteParamsHash);
+    const voteParams = await votingMachine.getParameters(voteParamsHash);
 
     assert.equal(voteParams.reputation, helpers.SOME_ADDRESS);
     assert.equal(voteParams.votePerc, 33);

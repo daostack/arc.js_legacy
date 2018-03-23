@@ -83,9 +83,9 @@ export class AbsoluteVoteWrapper extends ContractWrapperBase {
   public async getParameters(paramsHash: Hash): Promise<AbsoluteVoteParamsResult> {
     const params = await this.getParametersArray(paramsHash);
     return {
+      ownerVote: params[2],
       reputation: params[0],
       votePerc: params[1].toNumber(),
-      ownerVote: params[2],
     };
   }
 }

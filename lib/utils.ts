@@ -196,7 +196,7 @@ export class Utils {
    *
    * The types much appear in the same order in which the values would be
    * hashed in solidity using Solidity's `keccak256` function.
-   * 
+   *
    * Use "bytes32" for a Hash value
    *
    * @param values - the values to pack and hash.  These must appear in the same order in which the types are ordered.

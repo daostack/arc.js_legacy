@@ -341,12 +341,12 @@ export interface SchemeConfig {
    * Note it costs more gas to add them here.
    *
    * New schemes will be created with these parameters and the DAO's native reputation contract.
-   * 
+   *
    * **Note**: This is only relevant to schemes that can create proposals upon which
    * there can be a vote.  Other schemes will ignore these parameters.
    *
    * Defaults are those of whatever voting machine is the default for DaoCreator.  The default
-   * default VotingMachine is AbsoluteVote. 
+   * default VotingMachine is AbsoluteVote.
    */
   votingMachineParams?: NewDaoVotingMachineConfig;
   /**
@@ -364,7 +364,7 @@ export interface SchemesConfig {
    * new DAO with its own voting parameters.
    *
    * New schemes will be created these parameters.
-   * 
+   *
    * **Note**: This is only relevant to schemes that can create proposals upon which
    * there can be a vote.  Other schemes will ignore these parameters.
    *

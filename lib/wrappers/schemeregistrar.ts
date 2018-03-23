@@ -250,7 +250,7 @@ export interface SchemeRegistrarParams extends StandardSchemeParams {
   /**
    * Optional hash of voting machine parameters to use when voting on a
    * proposal to unregister a scheme that is being registered.
-   * 
+   *
    * Default is the value of voteParametersHash.
    */
   voteRemoveParametersHash?: Hash;
