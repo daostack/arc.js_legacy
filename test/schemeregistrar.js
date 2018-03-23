@@ -25,6 +25,8 @@ describe("SchemeRegistrar", () => {
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar);
 
+    await votingMachine.contract.setParameters(voteParamsArray[0], voteParamsArray[1], voteParamsArray[2]);
+
     assert.equal(
       await votingMachine.contract.getParametersHash(voteParamsArray[0], voteParamsArray[1], voteParamsArray[2]),
       voteParamsHash, "voting machine params hash was not correctly computed");

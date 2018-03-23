@@ -17,7 +17,6 @@ install:
   - npm install
   - nohup npm start test.ganache.run &
   - npm start migrateContracts.fetchFromArc
-  - npm start build
   - npm start migrateContracts
   
 script:
