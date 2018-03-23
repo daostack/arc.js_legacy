@@ -2544,7 +2544,10 @@
 <h3 id="static-keccak256">«Static» keccak256<a class="headerlink" href="#static-keccak256" title="Permanent link">&para;</a></h3>
 <p>► <strong>keccak256</strong>(types: <em><code>Array</code>.&lt;<code>string</code>&gt;</em>, values: <em><code>Array</code>.&lt;<code>any</code>&gt;</em>): <code>string</code></p>
 <p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/5be17506/lib/utils.ts#L204">utils.ts:204</a></em></p>
-<p>Return the tightly-packed hash of any arbtrary array of object, to a hex format that will be properly translated into a bytes32 that solidity expects.</p>
+<p>Return the tightly-packed hash of any arbitrary array of objects just as Solidity's <code>keccak256</code> function would do.</p>
+<p>Items in the <code>types</code> array must appear in the same order in which the values would be passed to Solidity's <code>keccak256</code> function.</p>
+<p>Type names can be: "bytes[N]' - fails if (N &lt; 1 || N &gt; 32) "string' "bool' "address' "uint[N]' - fails if ((N % 8) || (N &lt; 8) || (N &gt; 256)) "int[N]' - fails if ((N % 8) || (N &lt; 8) || (N &gt; 256))</p>
+<p>Use "bytes32" for a Hash value</p>
 <p>See: <a href="https://github.com/ethereumjs/ethereumjs-abi">https://github.com/ethereumjs/ethereumjs-abi</a></p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2559,7 +2562,7 @@
 <tr>
 <td>types</td>
 <td><code>Array</code>.&lt;<code>string</code>&gt;</td>
-<td>array of type names. Can be: case "bytes[N]', - fails if (N &lt; 1</td>
+<td>array of type names.</td>
 </tr>
 <tr>
 <td>values</td>
