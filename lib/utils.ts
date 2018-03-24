@@ -180,25 +180,25 @@ export class Utils {
   }
 
   /**
-   * Return the tightly-packed hash of any arbtrary array of
-   * object, to a hex format that will be properly translated into
-   * a bytes32 that solidity expects.
+   * Return the tightly-packed hash of any arbitrary array of
+   * objects just as Solidity's `keccak256` function would do.
    *
-   * See: https://github.com/ethereumjs/ethereumjs-abi
+   * Items in the `types` array must appear in the same order in which the values would be
+   * passed to Solidity's `keccak256` function.
    *
-   * @param types array of type names.  Can be:
-   *   case "bytes[N]', - fails if (N < 1 || N > 32)
-   *   case "string',
-   *   case "bool',
-   *   case "address',
-   *   case "uint[N]' - fails if ((N % 8) || (N < 8) || (N > 256))
-   *   case "int[N]'  - fails if ((N % 8) || (N < 8) || (N > 256))
-   *
-   * The types much appear in the same order in which the values would be
-   * hashed in solidity using Solidity's `keccak256` function.
+   * Type names can be:
+   *   "bytes[N]' - fails if (N < 1 || N > 32)
+   *   "string'
+   *   "bool'
+   *   "address'
+   *   "uint[N]'  - fails if ((N % 8) || (N < 8) || (N > 256))
+   *   "int[N]'   - fails if ((N % 8) || (N < 8) || (N > 256))
    *
    * Use "bytes32" for a Hash value
    *
+   * See: https://github.com/ethereumjs/ethereumjs-abi
+   *
+   * @param types array of type names.
    * @param values - the values to pack and hash.  These must appear in the same order in which the types are ordered.
    */
   public static keccak256(types: Array<string>, values: Array<any>): string {

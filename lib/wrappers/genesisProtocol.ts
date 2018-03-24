@@ -600,7 +600,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
   }
 
   /**
-   * Return the total votes, total stakes and voter stakes for a given proposal
+   * Return the total votes, total staked, voter stakes and staker stakes for a given proposal
    * @param {GetProposalStatusConfig} opts
    * @returns Promise<GetProposalStatusResult>
    */

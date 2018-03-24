@@ -20,7 +20,7 @@ The url to use when connecting to the blockchain network at runtime.  Default is
 The port to use when connecting to the blockchain network at runtime.  Default is 8545.
 
 **logLevel**
-The level of logging.  Default is 8 (error).  The available log levels, which may be combined, are:
+The level of logging.  Default is 9 (error | info).  The available log levels, which may be combined, are:
 
 ```
   none = 0
