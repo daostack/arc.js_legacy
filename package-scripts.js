@@ -37,18 +37,8 @@ const pathDaostackArcGanacheDbZip = joinPath(pathArcJsRoot, "ganacheDb.zip");
 const network = env.arcjs_network || config.network || "ganache";
 
 // this is needed to force travis to use our modified version of truffle
-const truffleCommand = `node ${joinPath(pathArcJsRoot, "node_modules", "truffle-core-migrate-without-compile", "cli")}`;
-
-const packagesAreInstalled = fs.existsSync(joinPath(pathArcJsRoot, "package-lock.json"));
-const runningAsInstalledPackage = path.basename(joinPath(pathArcJsRoot, "../..")) === "node_modules";
-const isBuilt = fs.existsSync(joinPath(pathArcJsRoot, "dist"));
-/**
- * If running in an application then make sure packages are installed locally,
- * otherwise migrateContracts will fail (even if it looks
- * for truffle-core-migrate-without-compile in a sibling package)
- */
-const migrationBuildCommand =
-  (runningAsInstalledPackage && !packagesAreInstalled) ? "npm install" : isBuilt ? "" : "nps build";
+const truffleIsInternal = fs.existsSync(joinPath(pathArcJsRoot, "node_modules", "truffle-core-migrate-without-compile"));
+const truffleCommand = `node ${joinPath(pathArcJsRoot, truffleIsInternal ? "node_modules" : "../../", "truffle-core-migrate-without-compile", "cli")}`;
 
 const ganacheCommand = `ganache-cli -l ${config.gasLimit_deployment} --account="0x8d4408014d165ec69d8cc9f091d8f4578ac5564f376f21887e98a6d33a6e3549,9999999999999999999999999999999999999999999" --account="0x2215f0a41dd3bb93f03049514949aaafcf136e6965f4a066d6bf42cc9f75a106,9999999999999999999999999999999999999999999" --account="0x6695c8ef58fecfc7410bf8b80c17319eaaca8b9481cc9c682fd5da116f20ef05,9999999999999999999999999999999999999999999" --account="0xb9a8635b40a60ad5b78706d4ede244ddf934dc873262449b473076de0c1e2959,9999999999999999999999999999999999999999999" --account="0x55887c2c6107237ac3b50fb17d9ff7313cad67757e44d1be5eb7bbf9fc9ca2ea,9999999999999999999999999999999999999999999" --account="0xb16a587ad59c2b3a3f47679ed2df348d6828a3bb5c6bb3797a1d5a567ce823cb,9999999999999999999999999999999999999999999"`;
 const ganacheDbCommand = `ganache-cli --db ${pathDaostackArcGanacheDb} -l ${config.gasLimit_deployment} --networkId 1512051714758 --mnemonic "behave pipe turkey animal voyage dial relief menu blush match jeans general"`;
@@ -140,10 +130,7 @@ module.exports = {
        *
        * Run migrateContracts.fetchFromArc first if you want to start with fresh unmigrated contracts from @daostack/arc.
        */
-      default: series(
-        migrationBuildCommand,
-        `${truffleCommand} migrate --contracts_build_directory ${pathArcJsContracts} --without-compile --network ${network}`
-      ),
+      default: `${truffleCommand} migrate --contracts_build_directory ${pathArcJsContracts} --without-compile --network ${network}`,
       /**
        * Clean the outputted contract json files, optionally andMigrate.
        *
