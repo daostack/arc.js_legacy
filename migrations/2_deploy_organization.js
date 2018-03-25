@@ -1,15 +1,11 @@
-// the following requires that a build has been done
 const config = require("../config/default.json");
-const env = require("env-variable")();
-// must've done a build to ensure these are good.
-const DefaultSchemePermissions = require("../dist/commonTypes").DefaultSchemePermissions;
 /**
  * Migration callback
  */
 module.exports = async (deployer) => {
 
-  const gasAmount = env.arcjs_gasLimit_deployment || config.gasLimit_deployment;
-  const network = env.arcjs_network || config.network || "ganache";
+  const gasAmount = process.env.arcjs_gasLimit_deployment || config.gasLimit_deployment;
+  const network = process.env.arcjs_network || config.network || "ganache";
   const founders = require("./founders.json").founders[network];
 
   /* eslint-disable no-console */
@@ -56,11 +52,11 @@ module.exports = async (deployer) => {
     votersReputationLossRatio: 1, // 1 percent of rep lost by voting
     votersGainRepRatioFromLostRep: 80 // percentage of how much rep correct voters get from incorrect voters who lost rep
   };
-  const schemeRegistrarPermissions = DefaultSchemePermissions.SchemeRegistrar;
-  const globalConstraintRegistrarPermissions = DefaultSchemePermissions.GlobalConstraintRegistrar;
-  const upgradeSchemePermissions = DefaultSchemePermissions.UpgradeScheme;
-  const contributionRewardPermissions = DefaultSchemePermissions.ContributionReward;
-  const genesisProtocolPermissions = DefaultSchemePermissions.GenesisProtocol;
+  const schemeRegistrarPermissions = "0x0000001f";
+  const globalConstraintRegistrarPermissions = "0x00000005";
+  const upgradeSchemePermissions = "0x0000000b";
+  const contributionRewardPermissions = "0x00000001";
+  const genesisProtocolPermissions = "0x00000001";
 
   /**
    * Apparently we must wrap the first deploy call in a `then` to avoid
@@ -205,4 +201,3 @@ module.exports = async (deployer) => {
     await deployer.deploy(ExecutableTest);
   });
 };
-
