@@ -8,7 +8,6 @@ const {
 } = require("nps-utils");
 const env = require("env-variable")();
 const joinPath = require("path.join");
-const path = require("path");
 const cwd = require("cwd")();
 const config = require("./config/default.json");
 /**
