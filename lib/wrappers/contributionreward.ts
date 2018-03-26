@@ -480,7 +480,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
   }
 }
 
-enum RewardType {
+export enum RewardType {
   Reputation = 0,
   NativeToken = 1,
   Eth = 2,
