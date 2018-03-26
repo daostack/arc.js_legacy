@@ -996,17 +996,17 @@ export interface GenesisProtocolParams {
    */
   preBoostedVotePeriodLimit: number;
   /**
-   * the time limit in seconds for a proposal to be in an relative voting mode.
+   * The time limit in seconds for a proposal to be in an relative voting mode.
    * Default is 604800 (one week).
    */
   boostedVotePeriodLimit: number;
   /**
-   * Constant A in the threshold calculation. See [[GenesisProtocol.getThreshold]].
+   * Constant A in the threshold calculation. See [[GenesisProtocolWrapper.getThreshold]].
    * Default is 2, converted to Wei
    */
   thresholdConstA: BigNumber.BigNumber | string;
   /**
-   * Constant B in the threshold calculation. See [[GenesisProtocol.getThreshold]].
+   * Constant B in the threshold calculation. See [[GenesisProtocolWrapper.getThreshold]].
    * Default is 10
    */
   thresholdConstB: number;
@@ -1021,12 +1021,12 @@ export interface GenesisProtocolParams {
    */
   quietEndingPeriod: number;
   /**
-   * Constant A in the calculation of the proposer's reward. See [[GenesisProtocol.getRedeemableReputationProposer]].
+   * Constant A in the calculation of the proposer's reward. See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
    * Default is 5, converted to Wei.
    */
   proposingRepRewardConstA: BigNumber.BigNumber | string;
   /**
-   * Constant B in the calculation of the proposer's reward. See [[GenesisProtocol.getRedeemableReputationProposer]].
+   * Constant B in the calculation of the proposer's reward. See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
    * Default is 5, converted to Wei.
    */
   proposingRepRewardConstB: BigNumber.BigNumber | string;

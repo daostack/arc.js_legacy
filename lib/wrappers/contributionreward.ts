@@ -572,17 +572,44 @@ export interface ContributionProposal {
 }
 
 export interface ProposalRewards {
+  /**
+   * The total ETH reward
+   */
   ethReward: BigNumber.BigNumber;
+  /**
+   * The total unredeemed amount of ETH
+   */
   ethRewardUnredeemed: BigNumber.BigNumber;
+  /**
+   * The total external token reward
+   */
   ethRewardRedeemable: BigNumber.BigNumber;
   externalTokenReward: BigNumber.BigNumber;
+  /**
+   * The total unredeemed number of external tokens
+   */
   externalTokenRewardUnredeemed: BigNumber.BigNumber;
+  /**
+   * The total native token reward
+   */
   externalTokenRewardRedeemable: BigNumber.BigNumber;
   nativeTokenReward: BigNumber.BigNumber;
+  /**
+   * The total unredeemed number of native tokens
+   */
   nativeTokenRewardUnredeemed: BigNumber.BigNumber;
+  /**
+   * the proposal Id
+   */
   nativeTokenRewardRedeemable: BigNumber.BigNumber;
   proposalId: Hash;
+  /**
+   * The total reputation reward
+   */
   reputationChange: BigNumber.BigNumber;
+  /**
+   * The total unredeemed amount of reputation
+   */
   reputationChangeUnredeemed: BigNumber.BigNumber;
   reputationChangeRedeemable: BigNumber.BigNumber;
 }
