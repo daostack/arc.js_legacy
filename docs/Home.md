@@ -307,7 +307,7 @@ Arc.js provides several ways to obtain a contract wrapper:
 
 1. Using the `WrapperService.wrappers` to obtain the wrappers of the contracts as deployed by the current version of Arc.js.
 2. Using the wrapper's factory class and calling `at(someAddress)`, `new()` and `deployed()`.
-3. Using `WrapperService.getContractWrapper` or  `DAO.getContractWrapper`
+3. Using `WrapperService.getContractWrapper`
 4. Using `DAO.getSchemes` to obtain scheme contracts registered with the DAO.
 
 The following sections provide examples of the above methods for obtaining contract wrappers.
@@ -339,7 +339,7 @@ const upgradeScheme = await upgradeSchemeFactory.at(someAddress);
 **Note:** `WrapperFactoryy.at` will throw an exception if it can't find the contract at the given address.
 
 #### From getContractWrapper
-You can obtain a contract wrapper using either `WrapperService.getContractWrapper` or  `DAO.getContractWrapper`.  The latter just invokes the former.
+You can obtain a contract wrapper using either `WrapperService.getContractWrapper`.
 
 For example:
 ```
