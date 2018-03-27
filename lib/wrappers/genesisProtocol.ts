@@ -869,34 +869,74 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       },
       params);
 
-    const proposingRepRewardConstB = web3.toBigNumber(params.proposingRepRewardConstB);
+    const maxEthValue = 10 ** 26;
+    const proposingRepRewardConstA = web3.toBigNumber(params.proposingRepRewardConstA);
 
-    if (proposingRepRewardConstB.lte(0)) {
-      throw new Error("proposingRepRewardConstB must be greater than 0");
+    if (proposingRepRewardConstA.lt(0)) {
+      throw new Error("proposingRepRewardConstA must be greater than or equal to 0");
     }
 
-    const preBoostedVoteRequiredPercentage = web3.toBigNumber(params.preBoostedVoteRequiredPercentage);
+    if (proposingRepRewardConstA.gt(maxEthValue)) {
+      throw new Error(`proposingRepRewardConstA must be less than ${maxEthValue}`);
+    }
 
-    if (preBoostedVoteRequiredPercentage.lte(0) || preBoostedVoteRequiredPercentage.gt(100)) {
+    const proposingRepRewardConstB = web3.toBigNumber(params.proposingRepRewardConstB);
+
+    if (proposingRepRewardConstB.lt(0)) {
+      throw new Error("proposingRepRewardConstB must be greater than or equal to 0");
+    }
+
+    if (proposingRepRewardConstB.gt(maxEthValue)) {
+      throw new Error(`proposingRepRewardConstB must be less than ${maxEthValue}`);
+    }
+
+    const thresholdConstA = web3.toBigNumber(params.thresholdConstA);
+
+    if (thresholdConstA.lt(0)) {
+      throw new Error("thresholdConstA must be greater than or equal to 0");
+    }
+
+    if (thresholdConstA.gt(maxEthValue)) {
+      throw new Error(`thresholdConstA must be less than ${maxEthValue}`);
+    }
+
+    const thresholdConstB = web3.toBigNumber(params.thresholdConstB);
+
+    if (thresholdConstB.lte(0)) {
+      throw new Error("thresholdConstB must be greater than 0");
+    }
+
+    /**
+     * thresholdConstB is a number, and is not supposed to be in Wei (unlike the other
+     * params checked above), but we check this condition anyways as not everyone
+     * may be using the type checking of TypeScript, and it is a condition of the Solidity code.
+     */
+    if (thresholdConstB.gt(maxEthValue)) {
+      throw new Error(`thresholdConstB must be less than ${maxEthValue}`);
+    }
+
+    const preBoostedVoteRequiredPercentage = params.preBoostedVoteRequiredPercentage || 0;
+
+    if ((preBoostedVoteRequiredPercentage <= 0) || (preBoostedVoteRequiredPercentage > 100)) {
       throw new Error("preBoostedVoteRequiredPercentage must be greater than 0 and less than or equal to 100");
     }
 
-    const stakerFeeRatioForVoters = web3.toBigNumber(params.stakerFeeRatioForVoters);
+    const stakerFeeRatioForVoters = params.stakerFeeRatioForVoters || 0;
 
-    if (stakerFeeRatioForVoters.lte(0) || stakerFeeRatioForVoters.gt(100)) {
-      throw new Error("stakerFeeRatioForVoters must be greater than 0 and less than or equal to 100");
+    if ((stakerFeeRatioForVoters < 0) || (stakerFeeRatioForVoters > 100)) {
+      throw new Error("stakerFeeRatioForVoters must be greater than or equal to 0 and less than or equal to 100");
     }
 
-    const votersGainRepRatioFromLostRep = web3.toBigNumber(params.votersGainRepRatioFromLostRep);
+    const votersGainRepRatioFromLostRep = params.votersGainRepRatioFromLostRep || 0;
 
-    if (votersGainRepRatioFromLostRep.lte(0) || votersGainRepRatioFromLostRep.gt(100)) {
-      throw new Error("votersGainRepRatioFromLostRep must be greater than 0 and less than or equal to 100");
+    if ((votersGainRepRatioFromLostRep < 0) || (votersGainRepRatioFromLostRep > 100)) {
+      throw new Error("votersGainRepRatioFromLostRep must be greater than or equal to 0 and less than or equal to 100");
     }
 
-    const votersReputationLossRatio = web3.toBigNumber(params.votersReputationLossRatio);
+    const votersReputationLossRatio = params.votersReputationLossRatio || 0;
 
-    if (votersReputationLossRatio.lte(0) || votersReputationLossRatio.gt(100)) {
-      throw new Error("votersReputationLossRatio must be greater than 0 and less than or equal to 100");
+    if ((votersReputationLossRatio < 0) || (votersReputationLossRatio > 100)) {
+      throw new Error("votersReputationLossRatio must be greater than or equal to  0 and less than or equal to 100");
     }
 
     return super.setParameters(
@@ -1001,7 +1041,7 @@ export interface GenesisProtocolParams {
    */
   boostedVotePeriodLimit: number;
   /**
-   * Constant A in the threshold calculation. See [[GenesisProtocolWrapper.getThreshold]].
+   * Constant A in the threshold calculation,in Wei. See [[GenesisProtocolWrapper.getThreshold]].
    * Default is 2, converted to Wei
    */
   thresholdConstA: BigNumber.BigNumber | string;
@@ -1021,12 +1061,14 @@ export interface GenesisProtocolParams {
    */
   quietEndingPeriod: number;
   /**
-   * Constant A in the calculation of the proposer's reward. See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
+   * Constant A in the calculation of the proposer's reward, in Wei
+   * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
    * Default is 5, converted to Wei.
    */
   proposingRepRewardConstA: BigNumber.BigNumber | string;
   /**
-   * Constant B in the calculation of the proposer's reward. See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
+   * Constant B in the calculation of the proposer's reward, in Wei
+   * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
    * Default is 5, converted to Wei.
    */
   proposingRepRewardConstB: BigNumber.BigNumber | string;
