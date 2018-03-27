@@ -81,7 +81,7 @@ export class DAO {
     // return all schemes if contract is not given
     const schemes = await this._getSchemes();
     if (name) {
-      return schemes.filter((s: DaoSchemeInfo) => s.name === name);
+      return schemes.filter((s: DaoSchemeInfo) => s.wrapper.name && (s.wrapper.name === name));
     } else {
       return schemes;
     }
@@ -96,17 +96,13 @@ export class DAO {
     const schemesMap = new Map<string, DaoSchemeInfo>();
     const controller = this.controller;
     const avatar = this.avatar;
-    const arcTypesMap = new Map<Address, string>(); // <address: Address, name: string>
-    const wrapperService = WrapperService.wrappersByType;
+    const wrapperNamesByAddress = new Map<Address, string>(); // <address: Address, name: string>
+    const schemes = WrapperService.wrappersByType.schemes;
 
-    /**
-     * TODO:  This should pull in all known versions of the schemes, names
-     * and versions in one fell swoop.
-     */
     /* tslint:disable-next-line:forin */
-    for (const name in wrapperService.allWrappers) {
-      const contract = wrapperService.allWrappers[name];
-      arcTypesMap.set(contract.address, name);
+    for (const name in schemes) {
+      const wrapper = schemes[name];
+      wrapperNamesByAddress.set(wrapper.address, name);
     }
 
     const registerSchemeEvent = controller.RegisterScheme(
@@ -119,7 +115,7 @@ export class DAO {
         Array<DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry>>) =>
         this._handleSchemeEvent(
           log,
-          arcTypesMap,
+          wrapperNamesByAddress,
           schemesMap
         ).then((): void => {
           resolve();
@@ -141,7 +137,7 @@ export class DAO {
   public async _handleSchemeEvent(
     log: DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry> |
       Array<DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry>>,
-    arcTypesMap: Map<Address, string>,
+    wrapperNamesByAddress: Map<Address, string>,
     schemesMap: Map<string, DaoSchemeInfo>
   ): Promise<void> {
 
@@ -151,14 +147,11 @@ export class DAO {
     const count = log.length;
     for (let i = 0; i < count; i++) {
       const schemeAddress = log[i].args._scheme;
-      // will be all zeros if not registered
-      const permissions = await this.controller.getSchemePermissions(schemeAddress, this.avatar.address);
 
-      const schemeInfo = {
+      const schemeInfo: DaoSchemeInfo = {
         address: schemeAddress,
         // will be undefined if not a known scheme
-        name: arcTypesMap.get(schemeAddress),
-        permissions: SchemePermissions.fromString(permissions),
+        wrapper: await WrapperService.getContractWrapper(wrapperNamesByAddress.get(schemeAddress), schemeAddress)
       };
 
       // dedup
@@ -191,7 +184,7 @@ export class DAO {
     // return all global constraints if name is not given
     const constraints = await this._getConstraints();
     if (name) {
-      return constraints.filter((s: DaoGlobalConstraintInfo) => s.name === name);
+      return constraints.filter((s: DaoGlobalConstraintInfo) => s.wrapper.name && (s.wrapper.name === name));
     } else {
       return constraints;
     }
@@ -205,17 +198,13 @@ export class DAO {
     const constraintsMap = new Map<string, DaoGlobalConstraintInfo>(); // <string, DaoGlobalConstraintInfo>
     const controller = this.controller;
     const avatar = this.avatar;
-    const arcTypesMap = new Map<Address, string>(); // <address: Address, name: string>
-    const wrapperService = WrapperService.wrappersByType;
+    const wrapperNamesByAddress = new Map<Address, string>(); // <address: Address, name: string>
+    const constraints = WrapperService.wrappersByType.globalConstraints;
 
-    /**
-     * TODO:  This should pull in all known versions of the constraints, names
-     * and versions in one fell swoop.
-     */
     /* tslint:disable-next-line:forin */
-    for (const name in wrapperService.allWrappers) {
-      const contract = wrapperService.allWrappers[name];
-      arcTypesMap.set(contract.address, name);
+    for (const name in constraints) {
+      const wrapper = constraints[name];
+      wrapperNamesByAddress.set(wrapper.address, name);
     }
 
     const event = controller.AddGlobalConstraint(
@@ -228,7 +217,7 @@ export class DAO {
         Array<DecodedLogEntryEvent<ControllerAddGlobalConstraintsEventLogEntry>>) =>
         this._handleConstraintEvent(
           log,
-          arcTypesMap,
+          wrapperNamesByAddress,
           constraintsMap
         ).then(() => {
           resolve();
@@ -250,7 +239,7 @@ export class DAO {
   public async _handleConstraintEvent(
     log: DecodedLogEntryEvent<ControllerAddGlobalConstraintsEventLogEntry> |
       Array<DecodedLogEntryEvent<ControllerAddGlobalConstraintsEventLogEntry>>,
-    arcTypesMap: Map<Address, string>,
+    wrapperNamesByAddress: Map<Address, string>,
     constraintsMap: Map<string, DaoGlobalConstraintInfo>
   ): Promise<void> {
     if (!Array.isArray(log)) {
@@ -261,10 +250,10 @@ export class DAO {
       const address = log[i].args._globalConstraint;
       const paramsHash = log[i].args._params;
 
-      const info = {
+      const info: DaoGlobalConstraintInfo = {
         address,
         // will be undefined if not a known scheme
-        name: arcTypesMap.get(address),
+        wrapper: await WrapperService.getContractWrapper(wrapperNamesByAddress.get(address), address),
         paramsHash,
       };
 
@@ -310,27 +299,27 @@ export interface NewDaoConfig extends ForgeOrgConfig {
  */
 export interface DaoSchemeInfo {
   /**
-   * Arc scheme name.  Will be undefined if not an Arc scheme.
-   */
-  name?: string;
-  /**
    * Scheme address
    */
   address: string;
   /**
-   * The scheme's permissions.
-   * See ContractWrapperBase.getDefaultPermissions for what this string
-   * looks like.
+   * Wrapper class for the scheme if the scheme is an Arc scheme
    */
-  permissions: SchemePermissions;
+  wrapper?: ContractWrapperBase;
 }
 
 /********************************
  * Returned from DAO.getGlobalConstraints
  */
 export interface DaoGlobalConstraintInfo {
-  name: string;
+  /**
+   * Global constraint address
+   */
   address: string;
+  /**
+   * Wrapper class for the constraint if the constraint is an Arc constraint
+   */
+  wrapper: ContractWrapperBase;
   paramsHash: string;
 }
 
