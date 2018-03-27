@@ -50,7 +50,7 @@ module.exports = {
         "nps lint.js"
       ),
       ts: {
-        default: "tslint lib/**/* custom_typings/system.d.ts index.d.ts",
+        default: "tslint lib/**/* custom_typings/system.d.ts",
         andFix: "nps \"lint.ts --fix\""
       },
       js: {

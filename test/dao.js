@@ -4,6 +4,7 @@ import { GlobalConstraintRegistrar, GlobalConstraintRegistrarWrapper } from "../
 import { UpgradeScheme, UpgradeSchemeWrapper } from "../test-dist/wrappers/upgradescheme";
 import { SchemeRegistrar, SchemeRegistrarWrapper } from "../test-dist/wrappers/schemeregistrar";
 import { SchemePermissions } from "../test-dist/commonTypes";
+import { WrapperService } from "../test-dist/wrapperService";
 
 describe("DAO", () => {
   let dao;
@@ -229,32 +230,13 @@ describe("DAO", () => {
     assert.equal((await dao.getSchemes()).length, 4);
   });
 
-  it("has a working getContractWrapper() function", async () => {
-    const dao = await helpers.forgeDao();
-    const scheme = await dao.getContractWrapper("UpgradeScheme");
-    assert.isOk(scheme);
-    assert(scheme instanceof UpgradeSchemeWrapper);
-  });
-
-  it("getContractWrapper() function handles bad scheme", async () => {
-    const dao = await helpers.forgeDao();
-    const scheme = await dao.getContractWrapper("NoSuchScheme");
-    assert.equal(scheme, undefined);
-  });
-
-  it("getContractWrapper() function handles bad address", async () => {
-    const dao = await helpers.forgeDao();
-    const scheme = await dao.getContractWrapper("UpgradeScheme", helpers.NULL_ADDRESS);
-    assert.equal(scheme, undefined);
-  });
-
   it("has a working getGlobalConstraints() function to access its constraints", async () => {
     const dao = await helpers.forgeDao();
 
     assert.equal((await dao.getGlobalConstraints()).length, 0);
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address))[1].toNumber(), 0);
 
-    const tokenCapGC = await dao.getContractWrapper("TokenCapGC");
+    const tokenCapGC = await WrapperService.wrappers.TokenCapGC;
 
     const globalConstraintParametersHash = (await tokenCapGC.setParameters({
       token: dao.token.address,
