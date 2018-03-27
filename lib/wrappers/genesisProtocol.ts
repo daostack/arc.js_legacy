@@ -869,7 +869,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       },
       params);
 
-    const maxEthValue = 10 ** 26;
+    const maxEthValue = web3.toBigNumber(10).pow(26);
+
     const proposingRepRewardConstA = web3.toBigNumber(params.proposingRepRewardConstA);
 
     if (proposingRepRewardConstA.lt(0)) {
