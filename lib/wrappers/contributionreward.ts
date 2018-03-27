@@ -454,10 +454,13 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
 
     const amountToRedeemPerPeriod = proposal[rewardName];
     const countRedeemedPeriods = await this.contract.getRedeemedPeriods(proposal.proposalId, avatarAddress, rewardType);
+    const countRedeemablePeriods = await this.contract.getPeriodsToPay(proposal.proposalId, avatarAddress, rewardType);
     const totalReward = amountToRedeemPerPeriod.mul(proposal.numberOfPeriods);
     const amountRewarded = amountToRedeemPerPeriod.mul(countRedeemedPeriods);
+    const amountRedeemable = amountToRedeemPerPeriod.mul(countRedeemablePeriods);
     proposalRewards[rewardName] = totalReward;
     proposalRewards[`${rewardName}Unredeemed`] = totalReward.sub(amountRewarded);
+    proposalRewards[`${rewardName}Redeemable`] = amountRedeemable;
   }
 
   private orgProposalToContributionProposal(orgProposal: Array<any>, proposalId: Hash): ContributionProposal {
@@ -571,13 +574,17 @@ export interface ContributionProposal {
 export interface ProposalRewards {
   ethReward: BigNumber.BigNumber;
   ethRewardUnredeemed: BigNumber.BigNumber;
+  ethRewardRedeemable: BigNumber.BigNumber;
   externalTokenReward: BigNumber.BigNumber;
   externalTokenRewardUnredeemed: BigNumber.BigNumber;
+  externalTokenRewardRedeemable: BigNumber.BigNumber;
   nativeTokenReward: BigNumber.BigNumber;
   nativeTokenRewardUnredeemed: BigNumber.BigNumber;
+  nativeTokenRewardRedeemable: BigNumber.BigNumber;
   proposalId: Hash;
   reputationChange: BigNumber.BigNumber;
   reputationChangeUnredeemed: BigNumber.BigNumber;
+  reputationChangeRedeemable: BigNumber.BigNumber;
 }
 
 export interface ContributionRewardParams extends StandardSchemeParams {

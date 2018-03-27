@@ -262,6 +262,14 @@ describe("ContributionReward scheme", () => {
     // this will mine a block, allowing the award to be redeemed
     await helpers.increaseTime(1);
 
+    const nativeTokenRewardsAfterVote = await scheme.getBeneficiaryRewards({
+      avatar: dao.avatar.address,
+      beneficiaryAddress: accounts[1],
+      proposalId: nativeRewardProposalId,
+    });
+
+    assert.equal(web3.fromWei(nativeTokenRewardsAfterVote[0].nativeTokenRewardRedeemable).toNumber(), 10, "native tokens should be redeemable");
+
     // now try to redeem some native tokens
     await scheme.redeemNativeToken({
       proposalId: nativeRewardProposalId,
