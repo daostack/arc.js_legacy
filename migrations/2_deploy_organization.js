@@ -42,12 +42,12 @@ module.exports = async (deployer) => {
     preBoostedVoteRequiredPercentage: 50,
     preBoostedVotePeriodLimit: 5184000, // 2 months
     boostedVotePeriodLimit: 604800, // 1 week
-    thresholdConstA: 2,
+    thresholdConstA: web3.toWei(2),
     thresholdConstB: 10,
     minimumStakingFee: 0,
     quietEndingPeriod: 7200, // Two hours
-    proposingRepRewardConstA: 5, // baseline rep rewarded
-    proposingRepRewardConstB: 5, // how much to weight strength of yes votes vs no votes in reward
+    proposingRepRewardConstA: web3.toWei(5), // baseline rep rewarded
+    proposingRepRewardConstB: web3.toWei(5), // how much to weight strength of yes votes vs no votes in reward
     stakerFeeRatioForVoters: 1, // 1 percent of staker fee given to voters
     votersReputationLossRatio: 1, // 1 percent of rep lost by voting
     votersGainRepRatioFromLostRep: 80 // percentage of how much rep correct voters get from incorrect voters who lost rep

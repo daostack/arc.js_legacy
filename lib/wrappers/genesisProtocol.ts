@@ -296,7 +296,9 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
   }
 
   /**
-   * Return the DAO's score threshold that is required by a proposal to it shift to boosted state.
+   * Return the threshold that is required by a proposal to it shift it into boosted state.
+   * The computation depends on the current number of boosted proposals in the DAO
+   * as well as the GenesisProtocol parameters thresholdConstA and thresholdConstB.
    * @param {GetThresholdConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
@@ -852,32 +854,95 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
     params = Object.assign({},
       {
-        boostedVotePeriodLimit: 60,
+        boostedVotePeriodLimit: 604800, // 1 week
         minimumStakingFee: 0,
-        preBoostedVotePeriodLimit: 60,
+        preBoostedVotePeriodLimit: 5184000, // 2 months
         preBoostedVoteRequiredPercentage: 50,
-        proposingRepRewardConstA: 1,
-        proposingRepRewardConstB: 1,
-        quietEndingPeriod: 0,
+        proposingRepRewardConstA: web3.toWei(5),
+        proposingRepRewardConstB: web3.toWei(5),
+        quietEndingPeriod: 7200, // Two hours
         stakerFeeRatioForVoters: 1,
-        thresholdConstA: 1,
-        thresholdConstB: 1,
+        thresholdConstA: web3.toWei(2),
+        thresholdConstB: 10,
         votersGainRepRatioFromLostRep: 80,
-        votersReputationLossRatio: 10,
+        votersReputationLossRatio: 1,
       },
       params);
 
-    if (params.proposingRepRewardConstB <= 0) {
-      throw new Error("proposingRepRewardConstB must be greater than 0");
+    const maxEthValue = web3.toBigNumber(10).pow(26);
+
+    const proposingRepRewardConstA = web3.toBigNumber(params.proposingRepRewardConstA);
+
+    if (proposingRepRewardConstA.lt(0)) {
+      throw new Error("proposingRepRewardConstA must be greater than or equal to 0");
     }
 
-    if ((params.preBoostedVoteRequiredPercentage <= 0) || (params.preBoostedVoteRequiredPercentage > 100)) {
+    if (proposingRepRewardConstA.gt(maxEthValue)) {
+      throw new Error(`proposingRepRewardConstA must be less than ${maxEthValue}`);
+    }
+
+    const proposingRepRewardConstB = web3.toBigNumber(params.proposingRepRewardConstB);
+
+    if (proposingRepRewardConstB.lt(0)) {
+      throw new Error("proposingRepRewardConstB must be greater than or equal to 0");
+    }
+
+    if (proposingRepRewardConstB.gt(maxEthValue)) {
+      throw new Error(`proposingRepRewardConstB must be less than ${maxEthValue}`);
+    }
+
+    const thresholdConstA = web3.toBigNumber(params.thresholdConstA);
+
+    if (thresholdConstA.lt(0)) {
+      throw new Error("thresholdConstA must be greater than or equal to 0");
+    }
+
+    if (thresholdConstA.gt(maxEthValue)) {
+      throw new Error(`thresholdConstA must be less than ${maxEthValue}`);
+    }
+
+    const thresholdConstB = web3.toBigNumber(params.thresholdConstB);
+
+    if (thresholdConstB.lte(0)) {
+      throw new Error("thresholdConstB must be greater than 0");
+    }
+
+    /**
+     * thresholdConstB is a number, and is not supposed to be in Wei (unlike the other
+     * params checked above), but we check this condition anyways as not everyone
+     * may be using the type checking of TypeScript, and it is a condition of the Solidity code.
+     */
+    if (thresholdConstB.gt(maxEthValue)) {
+      throw new Error(`thresholdConstB must be less than ${maxEthValue}`);
+    }
+
+    const preBoostedVoteRequiredPercentage = params.preBoostedVoteRequiredPercentage || 0;
+
+    if ((preBoostedVoteRequiredPercentage <= 0) || (preBoostedVoteRequiredPercentage > 100)) {
       throw new Error("preBoostedVoteRequiredPercentage must be greater than 0 and less than or equal to 100");
+    }
+
+    const stakerFeeRatioForVoters = params.stakerFeeRatioForVoters || 0;
+
+    if ((stakerFeeRatioForVoters < 0) || (stakerFeeRatioForVoters > 100)) {
+      throw new Error("stakerFeeRatioForVoters must be greater than or equal to 0 and less than or equal to 100");
+    }
+
+    const votersGainRepRatioFromLostRep = params.votersGainRepRatioFromLostRep || 0;
+
+    if ((votersGainRepRatioFromLostRep < 0) || (votersGainRepRatioFromLostRep > 100)) {
+      throw new Error("votersGainRepRatioFromLostRep must be greater than or equal to 0 and less than or equal to 100");
+    }
+
+    const votersReputationLossRatio = params.votersReputationLossRatio || 0;
+
+    if ((votersReputationLossRatio < 0) || (votersReputationLossRatio > 100)) {
+      throw new Error("votersReputationLossRatio must be greater than or equal to  0 and less than or equal to 100");
     }
 
     return super.setParameters(
       [
-        params.preBoostedVoteRequiredPercentage,
+        preBoostedVoteRequiredPercentage,
         params.preBoostedVotePeriodLimit,
         params.boostedVotePeriodLimit,
         params.thresholdConstA,
@@ -885,10 +950,10 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
         params.minimumStakingFee,
         params.quietEndingPeriod,
         params.proposingRepRewardConstA,
-        params.proposingRepRewardConstB,
-        params.stakerFeeRatioForVoters,
-        params.votersReputationLossRatio,
-        params.votersGainRepRatioFromLostRep,
+        proposingRepRewardConstB,
+        stakerFeeRatioForVoters,
+        votersReputationLossRatio,
+        votersGainRepRatioFromLostRep,
       ]
     );
   }
@@ -961,138 +1026,72 @@ export interface RedeemEventResult {
 
 export interface GenesisProtocolParams {
   /**
-   * the absolute vote percentages bar
-   * Must be greater than zero.
+   * The percentage of the absolute vote that must be exceeded to result in a win.
+   * Must be between 0 and 100.
    * Default is 50.
    */
   preBoostedVoteRequiredPercentage: number;
   /**
-   * the time limit for a proposal to be in an absolute voting mode.
-   * TODO: Units? Default?
-   * Default is 60.
+   * The time limit in seconds for a proposal to be in an absolute voting mode.
+   * Default is 5184000 (two months).
    */
   preBoostedVotePeriodLimit: number;
   /**
-   * the time limit for a proposal to be in an relative voting mode.
-   * TODO: Units? Default?
-   * Default is 60.
+   * The time limit in seconds for a proposal to be in an relative voting mode.
+   * Default is 604800 (one week).
    */
   boostedVotePeriodLimit: number;
   /**
-   * TODO: Purpose?
-   * Default is 1
+   * Constant A in the threshold calculation,in Wei. See [[GenesisProtocolWrapper.getThreshold]].
+   * Default is 2, converted to Wei
    */
-  thresholdConstA: number;
+  thresholdConstA: BigNumber.BigNumber | string;
   /**
-   * TODO: Purpose?
-   * Default is 1
+   * Constant B in the threshold calculation. See [[GenesisProtocolWrapper.getThreshold]].
+   * Default is 10
    */
   thresholdConstB: number;
   /**
+   * A floor on the staking fee which is normally computed using [[GenesisProtocolParams.stakerFeeRatioForVoters]].
    * Default is 0
    */
   minimumStakingFee: number;
   /**
-   * TODO: Purpose?
-   * Default is 0
+   * The duration of the quietEndingPeriod, in seconds.
+   * Default is 7200 (two hours)
    */
   quietEndingPeriod: number;
   /**
-   * TODO: Purpose?
-   * Default is 1
+   * Constant A in the calculation of the proposer's reward, in Wei
+   * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
+   * Default is 5, converted to Wei.
    */
-  proposingRepRewardConstA: number;
+  proposingRepRewardConstA: BigNumber.BigNumber | string;
   /**
-   * TODO: Purpose?
-   * Default is 1
+   * Constant B in the calculation of the proposer's reward, in Wei
+   * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
+   * Default is 5, converted to Wei.
    */
-  proposingRepRewardConstB: number;
+  proposingRepRewardConstB: BigNumber.BigNumber | string;
   /**
-   * a value between 0-100
-   * TODO: Purpose?
-   * Default is 1 (?)
+   * The percentage of a stake that is given to all voters.
+   * Voters (pre and during boosting period) share this amount in proportion to their reputation.
+   * Must be between 0 and 100.
+   * Default is 1.
    */
   stakerFeeRatioForVoters: number;
   /**
-   * a value between 0-100
-   * TODO: Purpose?
-   * Default is 10
-   */
-  votersReputationLossRatio: number;
-  /**
-   * a value between 0-100
-   * TODO: Purpose?
+   * The percentage of lost reputation, in proportion to voters' reputation.
+   * Must be between 0 and 100.
    * Default is 80
    */
   votersGainRepRatioFromLostRep: number;
-}
-
-export interface GenesisProtocolParams {
   /**
-   * the absolute vote percentages bar
-   * Must be greater than zero.
-   * Default is 50.
-   */
-  preBoostedVoteRequiredPercentage: number;
-  /**
-   * the time limit for a proposal to be in an absolute voting mode.
-   * TODO: Units? Default?
-   * Default is 60.
-   */
-  preBoostedVotePeriodLimit: number;
-  /**
-   * the time limit for a proposal to be in an relative voting mode.
-   * TODO: Units? Default?
-   * Default is 60.
-   */
-  boostedVotePeriodLimit: number;
-  /**
-   * TODO: Purpose?
+   * The percentage of reputation that is lost by pre-booster voters.
+   * Must be between 0 and 100.
    * Default is 1
-   */
-  thresholdConstA: number;
-  /**
-   * TODO: Purpose?
-   * Default is 1
-   */
-  thresholdConstB: number;
-  /**
-   * Default is 0
-   */
-  minimumStakingFee: number;
-  /**
-   * TODO: Purpose?
-   * Default is 0
-   */
-  quietEndingPeriod: number;
-  /**
-   * TODO: Purpose?
-   * Default is 1
-   */
-  proposingRepRewardConstA: number;
-  /**
-   * TODO: Purpose?
-   * Default is 1
-   */
-  proposingRepRewardConstB: number;
-  /**
-   * a value between 0-100
-   * TODO: Purpose?
-   * Default is 1 (?)
-   */
-  stakerFeeRatioForVoters: number;
-  /**
-   * a value between 0-100
-   * TODO: Purpose?
-   * Default is 10
    */
   votersReputationLossRatio: number;
-  /**
-   * a value between 0-100
-   * TODO: Purpose?
-   * Default is 80
-   */
-  votersGainRepRatioFromLostRep: number;
 }
 
 /**
