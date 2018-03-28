@@ -3,7 +3,7 @@ import { AvatarService } from "./avatarService";
 import { Address, fnVoid, Hash } from "./commonTypes";
 import { ContractWrapperBase, DecodedLogEntryEvent } from "./contractWrapperBase";
 import { Utils } from "./utils";
-import { DaoCreator } from "./wrappers/daocreator";
+import { DaoCreatorFactory } from "./wrappers/daocreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult } from "./wrappers/daocreator";
 import { WrapperService } from "./wrapperService.js";
 
@@ -21,7 +21,7 @@ export class DAO {
     let daoCreator;
 
     if (opts.daoCreator) {
-      daoCreator = await DaoCreator.at(opts.daoCreator);
+      daoCreator = await DaoCreatorFactory.at(opts.daoCreator);
     } else {
       daoCreator = WrapperService.wrappers.DaoCreator;
     }

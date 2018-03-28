@@ -1,6 +1,6 @@
 import { Utils } from "../test-dist/utils";
 import * as helpers from "./helpers";
-import { SchemeRegistrar } from "../test-dist/wrappers/schemeregistrar";
+import { SchemeRegistrarFactory } from "../test-dist/wrappers/schemeregistrar";
 
 describe("SchemeRegistrar", () => {
   it("can add scheme with voteToRemove parameters ", async () => {
@@ -20,7 +20,7 @@ describe("SchemeRegistrar", () => {
       }]
     });
 
-    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
+    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory);
     assert.isOk(schemeRegistrar);
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar);
@@ -48,7 +48,7 @@ describe("SchemeRegistrar", () => {
 
     const wrappers = helpers.contractsForTest();
 
-    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
+    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory);
     const contributionReward = await dao.getSchemes("ContributionReward");
     assert.equal(contributionReward.length, 0, "scheme is already present");
 
@@ -81,7 +81,7 @@ describe("SchemeRegistrar", () => {
   it("proposeToAddModifyScheme javascript wrapper should modify existing scheme", async () => {
     const dao = await helpers.forgeDao();
 
-    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
+    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory);
     const upgradeScheme = await dao.getSchemes("SchemeRegistrar");
     assert.equal(upgradeScheme.length, 1, "scheme is not present");
 
@@ -112,7 +112,7 @@ describe("SchemeRegistrar", () => {
   it("proposeToRemoveScheme javascript wrapper should remove scheme", async () => {
     const dao = await helpers.forgeDao();
 
-    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
+    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory);
     // schemeRegistrar can't remove a scheme with greater permissions that it has
     const removedScheme = schemeRegistrar;
 

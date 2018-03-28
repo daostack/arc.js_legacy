@@ -3,7 +3,7 @@ import { ConfigService } from "../test-dist/configService.js";
 import { assert } from "chai";
 import { DAO } from "../test-dist/dao.js";
 import { WrapperService } from "../test-dist/wrapperService";
-import { SchemeRegistrar } from "../test-dist/wrappers/schemeregistrar";
+import { SchemeRegistrarFactory } from "../test-dist/wrappers/schemeregistrar";
 import { InitializeArc } from "../test-dist/index";
 import { LoggingService, LogLevel } from "../test-dist/loggingService";
 
@@ -76,7 +76,7 @@ export async function forgeDao(opts = {}) {
  * @returns the ContributionReward wrapper
  */
 export async function addProposeContributionReward(dao) {
-  const schemeRegistrar = await getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
+  const schemeRegistrar = await getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory);
   const contributionReward = await WrapperService.wrappers.ContributionReward;
 
   const votingMachineHash = await getSchemeVotingMachineParametersHash(dao, schemeRegistrar);

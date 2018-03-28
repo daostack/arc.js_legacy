@@ -18,6 +18,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
   public name: string = "DaoCreator";
   public frendlyName: string = "Dao Creator";
+  public factory: ContractWrapperFactory<DaoCreatorWrapper> = DaoCreatorFactory;
   /**
    * Events
    */
@@ -243,7 +244,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
   }
 }
 
-export const DaoCreator = new ContractWrapperFactory("DaoCreator", DaoCreatorWrapper);
+export const DaoCreatorFactory = new ContractWrapperFactory("DaoCreator", DaoCreatorWrapper);
 
 export interface NewOrgEventResult {
   _avatar: Address;

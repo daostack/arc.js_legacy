@@ -2,16 +2,46 @@ import { Address } from "./commonTypes";
 import { ContractWrapperBase } from "./contractWrapperBase";
 import ContractWrapperFactory from "./contractWrapperFactory.js";
 import { LoggingService } from "./loggingService";
-import { AbsoluteVote, AbsoluteVoteWrapper } from "./wrappers/absoluteVote.js";
-import { ContributionReward, ContributionRewardWrapper } from "./wrappers/contributionreward.js";
-import { DaoCreator, DaoCreatorWrapper } from "./wrappers/daocreator.js";
-import { GenesisProtocol, GenesisProtocolWrapper } from "./wrappers/genesisProtocol.js";
-import { GlobalConstraintRegistrar, GlobalConstraintRegistrarWrapper } from "./wrappers/globalconstraintregistrar.js";
-import { SchemeRegistrar, SchemeRegistrarWrapper } from "./wrappers/schemeregistrar.js";
-import { TokenCapGC, TokenCapGCWrapper } from "./wrappers/tokenCapGC.js";
-import { UpgradeScheme, UpgradeSchemeWrapper } from "./wrappers/upgradescheme.js";
-import { VestingScheme, VestingSchemeWrapper } from "./wrappers/vestingscheme.js";
-import { VoteInOrganizationScheme, VoteInOrganizationSchemeWrapper } from "./wrappers/voteInOrganizationScheme.js";
+import {
+  AbsoluteVoteFactory,
+  AbsoluteVoteWrapper
+} from "./wrappers/absoluteVote.js";
+import {
+  ContributionRewardFactory,
+  ContributionRewardWrapper
+} from "./wrappers/contributionreward.js";
+import {
+  DaoCreatorFactory,
+  DaoCreatorWrapper
+} from "./wrappers/daocreator.js";
+import {
+  GenesisProtocolFactory,
+  GenesisProtocolWrapper
+} from "./wrappers/genesisProtocol.js";
+import {
+  GlobalConstraintRegistrarFactory,
+  GlobalConstraintRegistrarWrapper
+} from "./wrappers/globalconstraintregistrar.js";
+import {
+  SchemeRegistrarFactory,
+  SchemeRegistrarWrapper
+} from "./wrappers/schemeregistrar.js";
+import {
+  TokenCapGCFactory,
+  TokenCapGCWrapper
+} from "./wrappers/tokenCapGC.js";
+import {
+  UpgradeSchemeFactory,
+  UpgradeSchemeWrapper
+} from "./wrappers/upgradescheme.js";
+import {
+  VestingSchemeFactory,
+  VestingSchemeWrapper
+} from "./wrappers/vestingscheme.js";
+import {
+  VoteInOrganizationSchemeFactory,
+  VoteInOrganizationSchemeWrapper
+} from "./wrappers/voteInOrganizationScheme.js";
 
 /**
  * An object with property names being a contract key and property value as the
@@ -81,27 +111,29 @@ export class WrapperService {
   /**
    * Wrappers by name, hydrated with contracts as deployed by the running version of Arc.js.
    */
-  public static wrappers: ArcWrappers;
+  public static wrappers: ArcWrappers = {} as ArcWrappers;
   /**
    * Contract wrapper factories grouped by type
    */
-  public static wrappersByType: ArcWrappersByType;
+  public static wrappersByType: ArcWrappersByType = {} as ArcWrappersByType;
   /**
    * Wrapper factories by name.  Use these when you want to do `.at()` or `.new()`.  You can also
    * use for `deployed()`, but the wrappers for deployed contracts are directly available from the
    * `wrappers` and `wrappersByType` properties.
    */
   public static factories: ArcWrapperFactories = {
-    AbsoluteVote: AbsoluteVote as ContractWrapperFactory<AbsoluteVoteWrapper>,
-    ContributionReward: ContributionReward as ContractWrapperFactory<ContributionRewardWrapper>,
-    DaoCreator: DaoCreator as ContractWrapperFactory<DaoCreatorWrapper>,
-    GenesisProtocol: GenesisProtocol as ContractWrapperFactory<GenesisProtocolWrapper>,
-    GlobalConstraintRegistrar: GlobalConstraintRegistrar as ContractWrapperFactory<GlobalConstraintRegistrarWrapper>,
-    SchemeRegistrar: SchemeRegistrar as ContractWrapperFactory<SchemeRegistrarWrapper>,
-    TokenCapGC: TokenCapGC as ContractWrapperFactory<TokenCapGCWrapper>,
-    UpgradeScheme: UpgradeScheme as ContractWrapperFactory<UpgradeSchemeWrapper>,
-    VestingScheme: VestingScheme as ContractWrapperFactory<VestingSchemeWrapper>,
-    VoteInOrganizationScheme: VoteInOrganizationScheme as ContractWrapperFactory<VoteInOrganizationSchemeWrapper>,
+    AbsoluteVote: AbsoluteVoteFactory as ContractWrapperFactory<AbsoluteVoteWrapper>,
+    ContributionReward: ContributionRewardFactory as ContractWrapperFactory<ContributionRewardWrapper>,
+    DaoCreator: DaoCreatorFactory as ContractWrapperFactory<DaoCreatorWrapper>,
+    GenesisProtocol: GenesisProtocolFactory as ContractWrapperFactory<GenesisProtocolWrapper>,
+    GlobalConstraintRegistrar: GlobalConstraintRegistrarFactory as
+      ContractWrapperFactory<GlobalConstraintRegistrarWrapper>,
+    SchemeRegistrar: SchemeRegistrarFactory as ContractWrapperFactory<SchemeRegistrarWrapper>,
+    TokenCapGC: TokenCapGCFactory as ContractWrapperFactory<TokenCapGCWrapper>,
+    UpgradeScheme: UpgradeSchemeFactory as ContractWrapperFactory<UpgradeSchemeWrapper>,
+    VestingScheme: VestingSchemeFactory as ContractWrapperFactory<VestingSchemeWrapper>,
+    VoteInOrganizationScheme: VoteInOrganizationSchemeFactory as
+      ContractWrapperFactory<VoteInOrganizationSchemeWrapper>,
   };
 
   /**
@@ -112,7 +144,7 @@ export class WrapperService {
    * Currently only returns wrappers for contracts deployed by the running
    * version of Arc.js.
    */
-  public static wrappersByAddress: Map<Address, ContractWrapperBase>;
+  public static wrappersByAddress: Map<Address, ContractWrapperBase> = new Map<Address, ContractWrapperBase>();
 
   /**
    * initialize() must be called before any of the static properties will have values.
@@ -124,50 +156,44 @@ export class WrapperService {
     /**
      * Deployed contract wrappers by name.
      */
-    WrapperService.wrappers = {
-      AbsoluteVote: await AbsoluteVote.deployed(),
-      ContributionReward: await ContributionReward.deployed(),
-      DaoCreator: await DaoCreator.deployed(),
-      GenesisProtocol: await GenesisProtocol.deployed(),
-      GlobalConstraintRegistrar: await GlobalConstraintRegistrar.deployed(),
-      SchemeRegistrar: await SchemeRegistrar.deployed(),
-      TokenCapGC: await TokenCapGC.deployed(),
-      UpgradeScheme: await UpgradeScheme.deployed(),
-      VestingScheme: await VestingScheme.deployed(),
-      VoteInOrganizationScheme: await VoteInOrganizationScheme.deployed(),
-    };
+    WrapperService.wrappers.AbsoluteVote = await AbsoluteVoteFactory.deployed();
+    WrapperService.wrappers.ContributionReward = await ContributionRewardFactory.deployed();
+    WrapperService.wrappers.DaoCreator = await DaoCreatorFactory.deployed();
+    WrapperService.wrappers.GenesisProtocol = await GenesisProtocolFactory.deployed();
+    WrapperService.wrappers.GlobalConstraintRegistrar = await GlobalConstraintRegistrarFactory.deployed();
+    WrapperService.wrappers.SchemeRegistrar = await SchemeRegistrarFactory.deployed();
+    WrapperService.wrappers.TokenCapGC = await TokenCapGCFactory.deployed();
+    WrapperService.wrappers.UpgradeScheme = await UpgradeSchemeFactory.deployed();
+    WrapperService.wrappers.VestingScheme = await VestingSchemeFactory.deployed();
+    WrapperService.wrappers.VoteInOrganizationScheme = await VoteInOrganizationSchemeFactory.deployed();
 
     /**
      * Contract wrappers grouped by type
      */
-    WrapperService.wrappersByType = {
-      allWrappers: WrapperService.wrappers,
-      globalConstraints: [
-        WrapperService.wrappers.TokenCapGC,
-      ],
-      other: [
-        WrapperService.wrappers.DaoCreator,
-      ],
-      schemes: [
-        WrapperService.wrappers.ContributionReward,
-        WrapperService.wrappers.GenesisProtocol,
-        WrapperService.wrappers.GlobalConstraintRegistrar,
-        WrapperService.wrappers.SchemeRegistrar,
-        WrapperService.wrappers.UpgradeScheme,
-        WrapperService.wrappers.VestingScheme,
-        WrapperService.wrappers.VoteInOrganizationScheme,
-      ],
-      votingMachines: [
-        WrapperService.wrappers.AbsoluteVote,
-        WrapperService.wrappers.GenesisProtocol,
-      ],
-    };
+    WrapperService.wrappersByType.allWrappers = WrapperService.wrappers;
+    WrapperService.wrappersByType.globalConstraints = [
+      WrapperService.wrappers.TokenCapGC,
+    ];
+    WrapperService.wrappersByType.other = [
+      WrapperService.wrappers.DaoCreator,
+    ];
+    WrapperService.wrappersByType.schemes = [
+      WrapperService.wrappers.ContributionReward,
+      WrapperService.wrappers.GenesisProtocol,
+      WrapperService.wrappers.GlobalConstraintRegistrar,
+      WrapperService.wrappers.SchemeRegistrar,
+      WrapperService.wrappers.UpgradeScheme,
+      WrapperService.wrappers.VestingScheme,
+      WrapperService.wrappers.VoteInOrganizationScheme,
+    ];
+    WrapperService.wrappersByType.votingMachines = [
+      WrapperService.wrappers.AbsoluteVote,
+      WrapperService.wrappers.GenesisProtocol,
+    ];
 
     /**
      * TODO: this should be made aware of previously-deployed GCs
      */
-    WrapperService.wrappersByAddress = new Map<Address, ContractWrapperBase>();
-
     /* tslint:disable-next-line:forin */
     for (const wrapperName in WrapperService.wrappers) {
       const wrapper = WrapperService.wrappers[wrapperName];
@@ -199,3 +225,20 @@ export class WrapperService {
     }
   }
 }
+
+/**
+ * for quicker access to the contract wrappers
+ */
+export const ContractWrappers: ArcWrappers = WrapperService.wrappers;
+/**
+ * for quicker access to the contract wrapper factories
+ */
+export const ContractWrapperFactories: ArcWrapperFactories = WrapperService.factories;
+/**
+ * for quicker access to the contract wrapper types
+ */
+export const ContractWrappersByType: ArcWrappersByType = WrapperService.wrappersByType;
+/**
+ * for quicker access to the contract wrappers by address
+ */
+export const ContractWrappersByAddress: Map<Address, ContractWrapperBase> = WrapperService.wrappersByAddress;

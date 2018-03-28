@@ -34,6 +34,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   public name: string = "GenesisProtocol";
   public frendlyName: string = "Genesis Protocol";
+  public factory: ContractWrapperFactory<GenesisProtocolWrapper> = GenesisProtocolFactory;
   /**
    * Events
    */
@@ -996,7 +997,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
   }
 }
 
-export const GenesisProtocol = new ContractWrapperFactory("GenesisProtocol", GenesisProtocolWrapper);
+export const GenesisProtocolFactory = new ContractWrapperFactory("GenesisProtocol", GenesisProtocolWrapper);
 
 export interface StakeEventResult {
   _amount: BigNumber.BigNumber;

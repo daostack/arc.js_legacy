@@ -1,8 +1,8 @@
 import { DAO } from "../test-dist/dao";
 import * as helpers from "./helpers";
-import { GlobalConstraintRegistrar, GlobalConstraintRegistrarWrapper } from "../test-dist/wrappers/globalconstraintregistrar";
-import { UpgradeScheme, UpgradeSchemeWrapper } from "../test-dist/wrappers/upgradescheme";
-import { SchemeRegistrar, SchemeRegistrarWrapper } from "../test-dist/wrappers/schemeregistrar";
+import { GlobalConstraintRegistrarFactory, GlobalConstraintRegistrarWrapper } from "../test-dist/wrappers/globalconstraintregistrar";
+import { UpgradeSchemeFactory, UpgradeSchemeWrapper } from "../test-dist/wrappers/upgradescheme";
+import { SchemeRegistrarFactory, SchemeRegistrarWrapper } from "../test-dist/wrappers/schemeregistrar";
 import { SchemePermissions } from "../test-dist/commonTypes";
 import { WrapperService } from "../test-dist/wrapperService";
 
@@ -29,7 +29,7 @@ describe("DAO", () => {
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
-    const scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
+    const scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory);
     assert.equal(scheme.getDefaultPermissions(), SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
   });
 
@@ -66,14 +66,14 @@ describe("DAO", () => {
     assert.equal(org1.avatar.address, org2.avatar.address);
     assert.equal(await org1.getName(), await org2.getName());
     assert.equal(await org1.getTokenName(), await org2.getTokenName());
-    const schemeRegistrar1 = await helpers.getDaoScheme(org1, "SchemeRegistrar", SchemeRegistrar);
-    const schemeRegistrar2 = await helpers.getDaoScheme(org2, "SchemeRegistrar", SchemeRegistrar);
+    const schemeRegistrar1 = await helpers.getDaoScheme(org1, "SchemeRegistrar", SchemeRegistrarFactory);
+    const schemeRegistrar2 = await helpers.getDaoScheme(org2, "SchemeRegistrar", SchemeRegistrarFactory);
     assert.equal(schemeRegistrar1.address, schemeRegistrar2.address);
-    const upgradeScheme1 = await helpers.getDaoScheme(org1, "UpgradeScheme", UpgradeScheme);
-    const upgradeScheme2 = await helpers.getDaoScheme(org2, "UpgradeScheme", UpgradeScheme);
+    const upgradeScheme1 = await helpers.getDaoScheme(org1, "UpgradeScheme", UpgradeSchemeFactory);
+    const upgradeScheme2 = await helpers.getDaoScheme(org2, "UpgradeScheme", UpgradeSchemeFactory);
     assert.equal(upgradeScheme1.address, upgradeScheme2.address);
-    const globalConstraintRegistrar1 = await helpers.getDaoScheme(org1, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
-    const globalConstraintRegistrar2 = await helpers.getDaoScheme(org2, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
+    const globalConstraintRegistrar1 = await helpers.getDaoScheme(org1, "GlobalConstraintRegistrar", GlobalConstraintRegistrarFactory);
+    const globalConstraintRegistrar2 = await helpers.getDaoScheme(org2, "GlobalConstraintRegistrar", GlobalConstraintRegistrarFactory);
     assert.equal(
       globalConstraintRegistrar1.address,
       globalConstraintRegistrar2.address
@@ -120,7 +120,7 @@ describe("DAO", () => {
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
-    const scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
+    const scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory);
     assert.equal(scheme.getDefaultPermissions(), SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
   });
 
@@ -141,7 +141,7 @@ describe("DAO", () => {
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
-    const scheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
+    const scheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory);
     assert.equal(scheme.getDefaultPermissions(), SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
 
     const votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, scheme);
@@ -173,14 +173,14 @@ describe("DAO", () => {
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
-    let scheme = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
+    let scheme = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrarFactory);
     assert.equal(scheme.getDefaultPermissions(), SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
     let votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, scheme);
     let votingMachine = await helpers.getSchemeVotingMachine(dao, scheme);
     let votingMachineParams = await helpers.getVotingMachineParameters(votingMachine, votingMachineParamsHash);
     assert.equal(votingMachineParams[1].toNumber(), 30);
 
-    scheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
+    scheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory);
     assert.equal(scheme.getDefaultPermissions(), SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
 
     votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, scheme);
@@ -194,7 +194,7 @@ describe("DAO", () => {
     const wrappers = helpers.contractsForTest();
     // a new dao comes with three known schemes
     assert.equal((await dao.getSchemes()).length, 3);
-    let scheme = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
+    let scheme = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrarFactory);
     assert.isOk(scheme, "scheme not found");
     assert.equal(
       scheme.address,
@@ -204,7 +204,7 @@ describe("DAO", () => {
     assert.isTrue(!!scheme.address, "address must be set");
     assert.isTrue(scheme instanceof GlobalConstraintRegistrarWrapper);
 
-    scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
+    scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory);
     assert.isOk(scheme, "scheme not found");
     assert.equal(
       scheme.address,
@@ -214,7 +214,7 @@ describe("DAO", () => {
     assert.isTrue(!!scheme.address, "address must be set");
     assert.isTrue(scheme instanceof SchemeRegistrarWrapper);
 
-    scheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
+    scheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory);
     assert.isOk(scheme, "scheme not found");
     assert.equal(
       scheme.address,
@@ -243,7 +243,7 @@ describe("DAO", () => {
       cap: 3141
     })).result;
 
-    const globalConstraintRegistrar = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
+    const globalConstraintRegistrar = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrarFactory);
 
     const votingMachineHash = await helpers.getSchemeVotingMachineParametersHash(dao, globalConstraintRegistrar);
     const votingMachine = await helpers.getSchemeVotingMachine(dao, globalConstraintRegistrar);

@@ -1,7 +1,7 @@
 import * as helpers from "./helpers";
 import { DefaultSchemePermissions } from "../test-dist/commonTypes";
-import { TokenCapGC } from "../test-dist/wrappers/tokenCapGC";
-import { GlobalConstraintRegistrar } from "../test-dist/wrappers/globalconstraintregistrar";
+import { TokenCapGCFactory } from "../test-dist/wrappers/tokenCapGC";
+import { GlobalConstraintRegistrarFactory } from "../test-dist/wrappers/globalconstraintregistrar";
 import { WrapperService } from "../test-dist";
 
 describe("GlobalConstraintRegistrar", () => {
@@ -12,7 +12,7 @@ describe("GlobalConstraintRegistrar", () => {
 
     const globalConstraintParametersHash = (await tokenCapGC.setParameters({ token: dao.token.address, cap: 3141 })).result;
 
-    const globalConstraintRegistrar = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
+    const globalConstraintRegistrar = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrarFactory);
 
     const votingMachineHash = await helpers.getSchemeVotingMachineParametersHash(dao, globalConstraintRegistrar);
 
@@ -28,14 +28,14 @@ describe("GlobalConstraintRegistrar", () => {
     const dao = await helpers.forgeDao();
 
     // do some sanity checks on the globalconstriantregistrar
-    const gcr = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
+    const gcr = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrarFactory);
     // check if indeed the registrar is registered as a scheme on  the controller
     assert.equal(await dao.isSchemeRegistered(gcr.address), true);
     // DAO.new standardly registers no global constraints
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address))[1].toNumber(), 0);
 
     // create a new global constraint - a TokenCapGC instance
-    const tokenCapGC = await TokenCapGC.new();
+    const tokenCapGC = await TokenCapGCFactory.new();
     // register paramets for setting a cap on the nativeToken of our dao of 21 million
     const tokenCapGCParamsHash = (await tokenCapGC.setParameters({ token: dao.token.address, cap: 21e9 })).result;
 
@@ -91,7 +91,7 @@ describe("GlobalConstraintRegistrar", () => {
 
     let globalConstraintParametersHash = (await tokenCapGC.setParameters({ token: dao.token.address, cap: 21e9 })).result;
 
-    const globalConstraintRegistrar = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrar);
+    const globalConstraintRegistrar = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrarFactory);
     const votingMachineHash = await helpers.getSchemeVotingMachineParametersHash(dao, globalConstraintRegistrar);
 
     let result = await globalConstraintRegistrar.proposeToAddModifyGlobalConstraint({

@@ -1,3 +1,4 @@
+import ContractWrapperFactory from "contractWrapperFactory";
 import { AvatarService } from "./avatarService";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { LoggingService } from "./loggingService";
@@ -18,14 +19,15 @@ import { Utils } from "./utils";
  */
 export abstract class ContractWrapperBase {
 
+  public abstract factory: ContractWrapperFactory<any>;
   /**
    * The name of the contract.
    */
-  public name: string = "[name property has not been overridden]";
+  public abstract name: string;
   /**
    * A more friendly name for the contract.
    */
-  public frendlyName: string = "[friendlyName property has not been overridden]";
+  public abstract frendlyName: string;
   /**
    * The address of the contract
    */

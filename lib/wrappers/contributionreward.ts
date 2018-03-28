@@ -33,6 +33,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
 
   public name: string = "ContributionReward";
   public frendlyName: string = "Contribution Reward";
+  public factory: ContractWrapperFactory<ContributionRewardWrapper> = ContributionRewardFactory;
   /**
    * Events
    */
@@ -487,7 +488,7 @@ export enum RewardType {
   ExternalToken = 3,
 }
 
-export const ContributionReward = new ContractWrapperFactory("ContributionReward", ContributionRewardWrapper);
+export const ContributionRewardFactory = new ContractWrapperFactory("ContributionReward", ContributionRewardWrapper);
 
 export interface NewContributionProposalEventResult {
   /**

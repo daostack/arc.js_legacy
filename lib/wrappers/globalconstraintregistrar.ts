@@ -15,6 +15,7 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
 
   public name: string = "GlobalConstraintRegistrar";
   public frendlyName: string = "Global Constraint Registrar";
+  public factory: ContractWrapperFactory<GlobalConstraintRegistrarWrapper> = GlobalConstraintRegistrarFactory;
   /**
    * Events
    */
@@ -141,7 +142,7 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
   }
 }
 
-export const GlobalConstraintRegistrar = new ContractWrapperFactory(
+export const GlobalConstraintRegistrarFactory = new ContractWrapperFactory(
   "GlobalConstraintRegistrar", GlobalConstraintRegistrarWrapper);
 
 export interface NewGlobalConstraintsProposalEventResult {

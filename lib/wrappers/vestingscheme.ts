@@ -21,6 +21,7 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
 
   public name: string = "VestingScheme";
   public frendlyName: string = "Vesting Scheme";
+  public factory: ContractWrapperFactory<VestingSchemeWrapper> = VestingSchemeFactory;
   /**
    * Events
    */
@@ -333,7 +334,7 @@ export class ArcTransactionAgreementResult extends ArcTransactionResult {
   }
 }
 
-export const VestingScheme = new ContractWrapperFactory("VestingScheme", VestingSchemeWrapper);
+export const VestingSchemeFactory = new ContractWrapperFactory("VestingScheme", VestingSchemeWrapper);
 
 export interface AgreementProposalEventResult {
   /**
