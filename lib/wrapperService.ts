@@ -84,7 +84,7 @@ export interface ArcWrappersByType {
   /**
    * All wrapped contracts
    */
-  allWrappers: ArcWrappers;
+  allWrappers: Array<ContractWrapperBase>;
   /**
    * All wrapped schemes
    */
@@ -137,19 +137,18 @@ export class WrapperService {
   };
 
   /**
-   * Contract wrappers keyed by address.  For example:
+   * Map of contract wrappers keyed by address.  For example:
    *
    * `const wrapper = WrapperService.wrappersByAddress.get(anAddress);`
    *
-   * Currently only returns wrappers for contracts deployed by the running
+   * Currently only returns the wrappers for contracts that were deployed by the running
    * version of Arc.js.
    */
   public static wrappersByAddress: Map<Address, ContractWrapperBase> = new Map<Address, ContractWrapperBase>();
 
   /**
    * initialize() must be called before any of the static properties will have values.
-   * It is currently called in ArcInitialize(), which in trun must be invoked by any applicaiton
-   * using Arc.js.
+   * It is called by ArcInitialize(), which in tur must be invoked by any application using Arc.js.
    */
   public static async initialize(): Promise<void> {
     LoggingService.debug("WrapperService: initializing");
@@ -166,11 +165,10 @@ export class WrapperService {
     WrapperService.wrappers.UpgradeScheme = await UpgradeSchemeFactory.deployed();
     WrapperService.wrappers.VestingScheme = await VestingSchemeFactory.deployed();
     WrapperService.wrappers.VoteInOrganizationScheme = await VoteInOrganizationSchemeFactory.deployed();
-
     /**
      * Contract wrappers grouped by type
      */
-    WrapperService.wrappersByType.allWrappers = WrapperService.wrappers;
+    WrapperService.wrappersByType.allWrappers = Object.values(WrapperService.wrappers) as Array<ContractWrapperBase>;
     WrapperService.wrappersByType.globalConstraints = [
       WrapperService.wrappers.TokenCapGC,
     ];

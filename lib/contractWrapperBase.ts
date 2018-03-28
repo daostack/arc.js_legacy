@@ -1,4 +1,4 @@
-import ContractWrapperFactory from "contractWrapperFactory";
+import ContractWrapperFactory from "./contractWrapperFactory";
 import { AvatarService } from "./avatarService";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { LoggingService } from "./loggingService";

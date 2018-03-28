@@ -11,6 +11,22 @@ import {
 
 describe("WrapperService", () => {
 
+  it("Can enumerate wrappers", () => {
+    for (var wrapperName in ContractWrappers) {
+      const wrapper = ContractWrappers[wrapperName];
+      assert.isOk(wrapper);
+      assert(wrapper.name.length > 0);
+    }
+  });
+
+
+  it("Can enumerate allWrappers", () => {
+    for (var wrapper of ContractWrappersByType.allWrappers) {
+      assert.isOk(wrapper);
+      assert(wrapper.name.length > 0);
+    }
+  });
+
   it("can import quick-access types", async () => {
     assert.isOk(ContractWrappers);
     assert.isOk(ContractWrappers.UpgradeScheme);
