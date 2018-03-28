@@ -2,12 +2,13 @@ import * as helpers from "./helpers";
 import { DefaultSchemePermissions } from "../test-dist/commonTypes";
 import { TokenCapGC } from "../test-dist/wrappers/tokenCapGC";
 import { GlobalConstraintRegistrar } from "../test-dist/wrappers/globalconstraintregistrar";
+import { WrapperService } from "../test-dist";
 
 describe("GlobalConstraintRegistrar", () => {
   it("proposeToAddModifyGlobalConstraint javascript wrapper should work", async () => {
     const dao = await helpers.forgeDao();
 
-    const tokenCapGC = await dao.getContractWrapper("TokenCapGC");
+    const tokenCapGC = await WrapperService.wrappers.TokenCapGC;
 
     const globalConstraintParametersHash = (await tokenCapGC.setParameters({ token: dao.token.address, cap: 3141 })).result;
 
@@ -86,7 +87,7 @@ describe("GlobalConstraintRegistrar", () => {
   it("proposeGlobalConstraint() should accept different parameters [TODO]", async () => {
     const dao = await helpers.forgeDao();
 
-    const tokenCapGC = await dao.getContractWrapper("TokenCapGC");
+    const tokenCapGC = await WrapperService.wrappers.TokenCapGC;
 
     let globalConstraintParametersHash = (await tokenCapGC.setParameters({ token: dao.token.address, cap: 21e9 })).result;
 

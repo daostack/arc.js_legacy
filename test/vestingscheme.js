@@ -24,7 +24,7 @@ describe("VestingScheme scheme", () => {
 
     assert.isOk(schemeInDao);
     assert.equal(schemeInDao.length, 1);
-    assert.equal(schemeInDao[0].name, "VestingScheme");
+    assert.equal(schemeInDao[0].wrapper.name, "VestingScheme");
 
     vestingScheme = await VestingScheme.at(schemeInDao[0].address);
 

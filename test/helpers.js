@@ -75,7 +75,7 @@ export async function forgeDao(opts = {}) {
  */
 export async function addProposeContributionReward(dao) {
   const schemeRegistrar = await getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
-  const contributionReward = await dao.getContractWrapper("ContributionReward");
+  const contributionReward = await WrapperService.wrappers.ContributionReward;
 
   const votingMachineHash = await getSchemeVotingMachineParametersHash(dao, schemeRegistrar);
   const votingMachine = await getSchemeVotingMachine(dao, schemeRegistrar);

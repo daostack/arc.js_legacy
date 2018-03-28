@@ -1,3 +1,4 @@
+import { Address } from "./commonTypes";
 import { ContractWrapperBase } from "./contractWrapperBase";
 import ContractWrapperFactory from "./contractWrapperFactory.js";
 import { LoggingService } from "./loggingService";
@@ -78,7 +79,7 @@ export interface ArcWrappersByType {
 export class WrapperService {
 
   /**
-   * Wrappers by name, hydrated with contracts as deployed by this version of Arc.js.
+   * Wrappers by name, hydrated with contracts as deployed by the running version of Arc.js.
    */
   public static wrappers: ArcWrappers;
   /**
@@ -102,6 +103,16 @@ export class WrapperService {
     VestingScheme: VestingScheme as ContractWrapperFactory<VestingSchemeWrapper>,
     VoteInOrganizationScheme: VoteInOrganizationScheme as ContractWrapperFactory<VoteInOrganizationSchemeWrapper>,
   };
+
+  /**
+   * Contract wrappers keyed by address.  For example:
+   *
+   * `const wrapper = WrapperService.wrappersByAddress.get(anAddress);`
+   *
+   * Currently only returns wrappers for contracts deployed by the running
+   * version of Arc.js.
+   */
+  public static wrappersByAddress: Map<Address, ContractWrapperBase>;
 
   /**
    * initialize() must be called before any of the static properties will have values.
@@ -151,10 +162,25 @@ export class WrapperService {
         WrapperService.wrappers.GenesisProtocol,
       ],
     };
+
+    /**
+     * TODO: this should be made aware of previously-deployed GCs
+     */
+    WrapperService.wrappersByAddress = new Map<Address, ContractWrapperBase>();
+
+    /* tslint:disable-next-line:forin */
+    for (const wrapperName in WrapperService.wrappers) {
+      const wrapper = WrapperService.wrappers[wrapperName];
+      WrapperService.wrappersByAddress.set(wrapper.address, wrapper);
+    }
   }
 
   /**
    * Returns the promise of an Arc.js contract wrapper or undefined if not found.
+   *
+   * Most useful when you have both contract name and address and wish to most
+   * efficiently return the associated wrapper, or undefined when not found.
+   *
    * @param contractName - name of an Arc contract, like "SchemeRegistrar"
    * @param address - optional
    */

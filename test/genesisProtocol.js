@@ -57,7 +57,7 @@ describe("GenesisProtocol", () => {
 
     assert.isOk(scheme);
     assert.equal(scheme.length, 1);
-    assert.equal(scheme[0].name, "GenesisProtocol");
+    assert.equal(scheme[0].wrapper.name, "GenesisProtocol");
 
     genesisProtocol = await GenesisProtocol.at(scheme[0].address);
 

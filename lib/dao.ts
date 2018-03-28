@@ -1,14 +1,21 @@
 "use strict";
 import { AvatarService } from "./avatarService";
-import { Address, fnVoid, Hash, SchemePermissions } from "./commonTypes";
+import { Address, fnVoid, Hash } from "./commonTypes";
 import { ContractWrapperBase, DecodedLogEntryEvent } from "./contractWrapperBase";
 import { Utils } from "./utils";
 import { DaoCreator } from "./wrappers/daocreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult } from "./wrappers/daocreator";
 import { WrapperService } from "./wrapperService.js";
 
+/**
+ * Helper class and factory for DAOs.
+ */
 export class DAO {
 
+  /**
+   * Returns the promise of a new DAO
+   * @param {NewDaoConfig} opts Configuration of the new DAO
+   */
   public static async new(opts: NewDaoConfig): Promise<DAO> {
 
     let daoCreator;
@@ -28,6 +35,10 @@ export class DAO {
     return DAO.at(avatarAddress);
   }
 
+  /**
+   * Returns the promise of a DAO at the given address.  Throws an exception if not found.
+   * @param avatarAddress The DAO's address
+   */
   public static async at(avatarAddress: Address): Promise<DAO> {
     const dao = new DAO();
 
@@ -42,7 +53,7 @@ export class DAO {
   }
 
   /**
-   * Returns promise of the DAOstack Genesis avatar address, or undefined if not found
+   * Returns the promise of the DAOstack Genesis avatar address, or undefined if not found
    */
   public static async getGenesisDao(daoCreatorAddress: Address): Promise<string> {
     return new Promise<string>(
@@ -66,48 +77,100 @@ export class DAO {
       });
   }
 
+  /**
+   * TruffleContract for the DAO's Avatar
+   */
   public avatar: any;
+  /**
+   * TruffleContract for the DAO's controller (Controller or UController by default, see DAO.hasUController)
+   */
   public controller: any;
+  /**
+   * `true` if the DAO is using Arc's universal controller
+   */
   public hasUController: boolean;
+  /**
+   * TruffleContract for the DAO's native token (DAOToken by default)
+   */
   public token: any;
+  /**
+   * TruffleContract for the DAO's native reputation (Reputation)
+   */
   public reputation: any;
 
   /**
-   * returns schemes currently registered into this DAO, as Array<DaoSchemeInfo>
-   * @param name like "SchemeRegistrar"
+   * Returns the promise of all of the schemes registered into this DAO, as Array<DaoSchemeInfo>
+   * @param name Optionally filter by the name of a scheme, like "SchemeRegistrar"
    */
   public async getSchemes(name?: string): Promise<Array<DaoSchemeInfo>> {
-    // return the schemes registered on this controller satisfying the contract spec
-    // return all schemes if contract is not given
     const schemes = await this._getSchemes();
     if (name) {
-      return schemes.filter((s: DaoSchemeInfo) => s.name === name);
+      return schemes.filter((s: DaoSchemeInfo) => s.wrapper.name && (s.wrapper.name === name));
     } else {
       return schemes;
     }
   }
+  /**
+   * Returns the promise of all os the global constraints currently registered into this DAO,
+   * as Array<DaoGlobalConstraintInfo>
+   * @param name Optionally filter by the name of a global constraint, like "TokenCapGC"
+   */
+  public async getGlobalConstraints(name?: string): Promise<Array<DaoGlobalConstraintInfo>> {
+    // return the global constraints registered on this controller satisfying the contract spec
+    // return all global constraints if name is not given
+    const constraints = await this._getConstraints();
+    if (name) {
+      return constraints.filter((s: DaoGlobalConstraintInfo) => s.wrapper.name && (s.wrapper.name === name));
+    } else {
+      return constraints;
+    }
+  }
 
   /**
-   * returns schemes currently in this DAO as Array<DaoSchemeInfo>
+   * Returns whether the scheme with the given address is registered to this DAO's controller
    */
-  public async _getSchemes(): Promise<Array<DaoSchemeInfo>> {
-    // private method returns all registered schemes.
-    // TODO: this is *expensive*, we need to cache the results (and perhaps poll for latest changes if necessary)
-    const schemesMap = new Map<string, DaoSchemeInfo>();
+  public async isSchemeRegistered(schemeAddress: Address): Promise<boolean> {
+    return await this.controller.isSchemeRegistered(schemeAddress, this.avatar.address);
+  }
+
+  /**
+   * Returns whether the global constraint with the given address is registered to this DAO's controller
+   */
+  public async isGlobalConstraintRegistered(gc: Address): Promise<boolean> {
+    return await this.controller.isGlobalConstraintRegistered(gc, this.avatar.address);
+  }
+
+  /**
+   * Returns the promise of the name of the DAO as stored in the Avatar
+   * @return {Promise<string>}
+   */
+  public async getName(): Promise<string> {
+    return Utils.getWeb3().toUtf8(await this.avatar.orgName());
+  }
+
+  /**
+   * Returns the promise of the  token name for the DAO as stored in the native token
+   * @return {Promise<string>}
+   */
+  public async getTokenName(): Promise<string> {
+    return await this.token.name();
+  }
+
+  /**
+   * Returns  the promise of the token symbol for the DAO as stored in the native token
+   * @return {Promise<string>}
+   */
+  public async getTokenSymbol(): Promise<string> {
+    return await this.token.symbol();
+  }
+
+  /**
+   * Returns promise of schemes currently in this DAO as Array<DaoSchemeInfo>
+   */
+  private async _getSchemes(): Promise<Array<DaoSchemeInfo>> {
+    const foundSchemes = new Map<string, DaoSchemeInfo>();
     const controller = this.controller;
     const avatar = this.avatar;
-    const arcTypesMap = new Map<Address, string>(); // <address: Address, name: string>
-    const wrapperService = WrapperService.wrappersByType;
-
-    /**
-     * TODO:  This should pull in all known versions of the schemes, names
-     * and versions in one fell swoop.
-     */
-    /* tslint:disable-next-line:forin */
-    for (const name in wrapperService.allWrappers) {
-      const contract = wrapperService.allWrappers[name];
-      arcTypesMap.set(contract.address, name);
-    }
 
     const registerSchemeEvent = controller.RegisterScheme(
       {},
@@ -115,21 +178,21 @@ export class DAO {
     );
 
     await new Promise((resolve: fnVoid): void => {
-      registerSchemeEvent.get((err: any, log: DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry> |
-        Array<DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry>>) =>
-        this._handleSchemeEvent(
-          log,
-          arcTypesMap,
-          schemesMap
-        ).then((): void => {
-          resolve();
-        })
+      registerSchemeEvent.get((
+        err: any,
+        log: DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry> |
+          Array<DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry>>) =>
+
+        this._handleSchemeEvent(log, foundSchemes)
+          .then((): void => {
+            resolve();
+          })
       );
     });
 
     const registeredSchemes = [];
 
-    for (const scheme of schemesMap.values()) {
+    for (const scheme of foundSchemes.values()) {
       if (await controller.isSchemeRegistered(scheme.address, avatar.address)) {
         registeredSchemes.push(scheme);
       }
@@ -138,10 +201,9 @@ export class DAO {
     return registeredSchemes;
   }
 
-  public async _handleSchemeEvent(
+  private async _handleSchemeEvent(
     log: DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry> |
       Array<DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry>>,
-    arcTypesMap: Map<Address, string>,
     schemesMap: Map<string, DaoSchemeInfo>
   ): Promise<void> {
 
@@ -150,73 +212,27 @@ export class DAO {
     }
     const count = log.length;
     for (let i = 0; i < count; i++) {
-      const schemeAddress = log[i].args._scheme;
-      // will be all zeros if not registered
-      const permissions = await this.controller.getSchemePermissions(schemeAddress, this.avatar.address);
+      const address = log[i].args._scheme;
+      const wrapper = WrapperService.wrappersByAddress.get(address);
 
-      const schemeInfo = {
-        address: schemeAddress,
-        // will be undefined if not a known scheme
-        name: arcTypesMap.get(schemeAddress),
-        permissions: SchemePermissions.fromString(permissions),
+      const schemeInfo: DaoSchemeInfo = {
+        address,
+        // will be undefined if not an Arc scheme deployed by the running version of Arc.js
+        // TODO: this should be aware of previously-deployed schemes
+        wrapper,
       };
 
       // dedup
-      schemesMap.set(schemeAddress, schemeInfo);
+      schemesMap.set(address, schemeInfo);
     }
   }
 
   /**
-   * Returns an Arc.js contract wrapper or undefined if not found.
-   * @param contract - name of an Arc contract, like "SchemeRegistrar"
-   * @param address - optional
+   * Returns promise of global constraints currently in this DAO, as DaoGlobalConstraintInfo
    */
-  public async getContractWrapper(contract: string, address?: Address): Promise<ContractWrapperBase | undefined> {
-    return WrapperService.getContractWrapper(contract, address);
-  }
-
-  /**
-   * returns whether the scheme with the given name is registered to this DAO's controller
-   */
-  public async isSchemeRegistered(schemeAddress: Address): Promise<boolean> {
-    return await this.controller.isSchemeRegistered(schemeAddress, this.avatar.address);
-  }
-
-  /**
-   * Returns global constraints currently registered into this DAO, as Array<DaoGlobalConstraintInfo>
-   * @param name like "TokenCapGC"
-   */
-  public async getGlobalConstraints(name?: string): Promise<Array<DaoGlobalConstraintInfo>> {
-    // return the global constraints registered on this controller satisfying the contract spec
-    // return all global constraints if name is not given
-    const constraints = await this._getConstraints();
-    if (name) {
-      return constraints.filter((s: DaoGlobalConstraintInfo) => s.name === name);
-    } else {
-      return constraints;
-    }
-  }
-
-  /**
-   * returns global constraints currently in this DAO, as DaoGlobalConstraintInfo
-   */
-  public async _getConstraints(): Promise<Array<DaoGlobalConstraintInfo>> {
-    // TODO: this is *expensive*, we need to cache the results (and perhaps poll for latest changes if necessary)
-    const constraintsMap = new Map<string, DaoGlobalConstraintInfo>(); // <string, DaoGlobalConstraintInfo>
+  private async _getConstraints(): Promise<Array<DaoGlobalConstraintInfo>> {
+    const foundConstraints = new Map<string, DaoGlobalConstraintInfo>(); // <string, DaoGlobalConstraintInfo>
     const controller = this.controller;
-    const avatar = this.avatar;
-    const arcTypesMap = new Map<Address, string>(); // <address: Address, name: string>
-    const wrapperService = WrapperService.wrappersByType;
-
-    /**
-     * TODO:  This should pull in all known versions of the constraints, names
-     * and versions in one fell swoop.
-     */
-    /* tslint:disable-next-line:forin */
-    for (const name in wrapperService.allWrappers) {
-      const contract = wrapperService.allWrappers[name];
-      arcTypesMap.set(contract.address, name);
-    }
 
     const event = controller.AddGlobalConstraint(
       {},
@@ -224,13 +240,12 @@ export class DAO {
     );
 
     await new Promise((resolve: fnVoid): void => {
-      event.get((err: any, log: DecodedLogEntryEvent<ControllerAddGlobalConstraintsEventLogEntry> |
-        Array<DecodedLogEntryEvent<ControllerAddGlobalConstraintsEventLogEntry>>) =>
-        this._handleConstraintEvent(
-          log,
-          arcTypesMap,
-          constraintsMap
-        ).then(() => {
+      event.get((
+        err: any,
+        log: DecodedLogEntryEvent<ControllerAddGlobalConstraintsEventLogEntry> |
+          Array<DecodedLogEntryEvent<ControllerAddGlobalConstraintsEventLogEntry>>) =>
+
+        this._handleConstraintEvent(log, foundConstraints).then(() => {
           resolve();
         })
       );
@@ -238,8 +253,8 @@ export class DAO {
 
     const registeredConstraints = [];
 
-    for (const gc of constraintsMap.values()) {
-      if (await controller.isGlobalConstraintRegistered(gc.address, avatar.address)) {
+    for (const gc of foundConstraints.values()) {
+      if (await this.isGlobalConstraintRegistered(gc.address)) {
         registeredConstraints.push(gc);
       }
     }
@@ -247,10 +262,9 @@ export class DAO {
     return registeredConstraints;
   }
 
-  public async _handleConstraintEvent(
+  private async _handleConstraintEvent(
     log: DecodedLogEntryEvent<ControllerAddGlobalConstraintsEventLogEntry> |
       Array<DecodedLogEntryEvent<ControllerAddGlobalConstraintsEventLogEntry>>,
-    arcTypesMap: Map<Address, string>,
     constraintsMap: Map<string, DaoGlobalConstraintInfo>
   ): Promise<void> {
     if (!Array.isArray(log)) {
@@ -260,41 +274,19 @@ export class DAO {
     for (let i = 0; i < count; i++) {
       const address = log[i].args._globalConstraint;
       const paramsHash = log[i].args._params;
+      const wrapper = WrapperService.wrappersByAddress.get(address);
 
-      const info = {
+      const info: DaoGlobalConstraintInfo = {
         address,
-        // will be undefined if not a known scheme
-        name: arcTypesMap.get(address),
         paramsHash,
+        // will be undefined if not an Arc GC deployed by the running version of Arc.js
+        // TODO: this should be aware of previously-deployed GCs
+        wrapper,
       };
 
       // dedup
       constraintsMap.set(address, info);
     }
-  }
-
-  /**
-   * Returns the name of the DAO as stored in the Avatar
-   * @return {Promise<string>}
-   */
-  public async getName(): Promise<string> {
-    return Utils.getWeb3().toUtf8(await this.avatar.orgName());
-  }
-
-  /**
-   * Returns the token name for the DAO as stored in the native token
-   * @return {Promise<string>}
-   */
-  public async getTokenName(): Promise<string> {
-    return await this.token.name();
-  }
-
-  /**
-   * Returns the token symbol for the DAO as stored in the native token
-   * @return {Promise<string>}
-   */
-  public async getTokenSymbol(): Promise<string> {
-    return await this.token.symbol();
   }
 }
 
@@ -310,27 +302,30 @@ export interface NewDaoConfig extends ForgeOrgConfig {
  */
 export interface DaoSchemeInfo {
   /**
-   * Arc scheme name.  Will be undefined if not an Arc scheme.
-   */
-  name?: string;
-  /**
    * Scheme address
    */
   address: string;
   /**
-   * The scheme's permissions.
-   * See ContractWrapperBase.getDefaultPermissions for what this string
-   * looks like.
+   * Wrapper class for the scheme if it was deployed by the running version of Arc.js
    */
-  permissions: SchemePermissions;
+  wrapper?: ContractWrapperBase;
 }
 
 /********************************
  * Returned from DAO.getGlobalConstraints
  */
 export interface DaoGlobalConstraintInfo {
-  name: string;
+  /**
+   * Global constraint address
+   */
   address: string;
+  /**
+   * Wrapper class for the constraint if it was deployed by the running version of Arc.js
+   */
+  wrapper: ContractWrapperBase;
+  /**
+   * hash of the constraint parameters
+   */
   paramsHash: string;
 }
 
