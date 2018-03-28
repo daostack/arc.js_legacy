@@ -111,7 +111,8 @@ export class DAO {
     }
   }
   /**
-   * Returns the promise of all os the global constraints currently registered into this DAO, as Array<DaoGlobalConstraintInfo>
+   * Returns the promise of all os the global constraints currently registered into this DAO,
+   * as Array<DaoGlobalConstraintInfo>
    * @param name Optionally filter by the name of a global constraint, like "TokenCapGC"
    */
   public async getGlobalConstraints(name?: string): Promise<Array<DaoGlobalConstraintInfo>> {

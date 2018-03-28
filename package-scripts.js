@@ -172,7 +172,7 @@ module.exports = {
          * Whenever the set of API objects changes, you must copy the output of this
          * script and paste it into mkdocs.yml after the line:
          * `- Index : "api/README.md"`
-         * 
+         *
          * Easy Powershell command:  nps -s docs.api.createPagesList | ac .\mkdocs.yml
          */
         createPagesList: `node ./package-scripts/createApiPagesList.js ./docs api/*/**`
