@@ -7,8 +7,15 @@ import { DaoCreator } from "./wrappers/daocreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult } from "./wrappers/daocreator";
 import { WrapperService } from "./wrapperService.js";
 
+/**
+ * Helper class and factory for DAOs.
+ */
 export class DAO {
 
+  /**
+   * Returns the promise of a new DAO
+   * @param {NewDaoConfig} opts Configuration of the new DAO
+   */
   public static async new(opts: NewDaoConfig): Promise<DAO> {
 
     let daoCreator;
@@ -28,6 +35,10 @@ export class DAO {
     return DAO.at(avatarAddress);
   }
 
+  /**
+   * Returns the promise of a DAO at the given address.  Throws an exception if not found.
+   * @param avatarAddress The DAO's address
+   */
   public static async at(avatarAddress: Address): Promise<DAO> {
     const dao = new DAO();
 
@@ -42,7 +53,7 @@ export class DAO {
   }
 
   /**
-   * Returns promise of the DAOstack Genesis avatar address, or undefined if not found
+   * Returns the promise of the DAOstack Genesis avatar address, or undefined if not found
    */
   public static async getGenesisDao(daoCreatorAddress: Address): Promise<string> {
     return new Promise<string>(
@@ -66,14 +77,29 @@ export class DAO {
       });
   }
 
+  /**
+   * TruffleContract for the DAO's Avatar
+   */
   public avatar: any;
+  /**
+   * TruffleContract for the DAO's controller (Controller or UController by default, see DAO.hasUController)
+   */
   public controller: any;
+  /**
+   * `true` if the DAO is using Arc's universal controller
+   */
   public hasUController: boolean;
+  /**
+   * TruffleContract for the DAO's native token (DAOToken by default)
+   */
   public token: any;
+  /**
+   * TruffleContract for the DAO's native reputation (Reputation)
+   */
   public reputation: any;
 
   /**
-   * returns a promise of all of the schemes registered into this DAO, as Array<DaoSchemeInfo>
+   * Returns the promise of all of the schemes registered into this DAO, as Array<DaoSchemeInfo>
    * @param name Optionally filter by the name of a scheme, like "SchemeRegistrar"
    */
   public async getSchemes(name?: string): Promise<Array<DaoSchemeInfo>> {
@@ -85,8 +111,8 @@ export class DAO {
     }
   }
   /**
-   * Returns global constraints currently registered into this DAO, as Array<DaoGlobalConstraintInfo>
-   * @param name like "TokenCapGC"
+   * Returns the promise of all os the global constraints currently registered into this DAO, as Array<DaoGlobalConstraintInfo>
+   * @param name Optionally filter by the name of a global constraint, like "TokenCapGC"
    */
   public async getGlobalConstraints(name?: string): Promise<Array<DaoGlobalConstraintInfo>> {
     // return the global constraints registered on this controller satisfying the contract spec
@@ -100,21 +126,21 @@ export class DAO {
   }
 
   /**
-   * returns whether the scheme with the given address is registered to this DAO's controller
+   * Returns whether the scheme with the given address is registered to this DAO's controller
    */
   public async isSchemeRegistered(schemeAddress: Address): Promise<boolean> {
     return await this.controller.isSchemeRegistered(schemeAddress, this.avatar.address);
   }
 
   /**
-   * returns whether the global constraint with the given address is registered to this DAO's controller
+   * Returns whether the global constraint with the given address is registered to this DAO's controller
    */
   public async isGlobalConstraintRegistered(gc: Address): Promise<boolean> {
     return await this.controller.isGlobalConstraintRegistered(gc, this.avatar.address);
   }
 
   /**
-   * Returns the name of the DAO as stored in the Avatar
+   * Returns the promise of the name of the DAO as stored in the Avatar
    * @return {Promise<string>}
    */
   public async getName(): Promise<string> {
@@ -122,7 +148,7 @@ export class DAO {
   }
 
   /**
-   * Returns the token name for the DAO as stored in the native token
+   * Returns the promise of the  token name for the DAO as stored in the native token
    * @return {Promise<string>}
    */
   public async getTokenName(): Promise<string> {
@@ -130,7 +156,7 @@ export class DAO {
   }
 
   /**
-   * Returns the token symbol for the DAO as stored in the native token
+   * Returns  the promise of the token symbol for the DAO as stored in the native token
    * @return {Promise<string>}
    */
   public async getTokenSymbol(): Promise<string> {
