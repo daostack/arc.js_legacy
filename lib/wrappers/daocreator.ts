@@ -300,7 +300,7 @@ export interface ForgeOrgConfig {
    */
   name: string;
   /**
-   * A cap on the number of tokens, in DAO's token.  Default is zero, which means no cap.
+   * A cap on the number of tokens, in the DAO's token.  Default is zero, which means no cap.
    */
   tokenCap: BigNumber.BigNumber | string;
   /**
