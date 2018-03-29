@@ -300,9 +300,9 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
    * The computation depends on the current number of boosted proposals in the DAO
    * as well as the GenesisProtocol parameters thresholdConstA and thresholdConstB.
    * @param {GetThresholdConfig} opts
-   * @returns Promise<BigNumber.BigNumber>
+   * @returns Promise<number>
    */
-  public async getThreshold(opts: GetThresholdConfig = {} as GetThresholdConfig): Promise<BigNumber.BigNumber> {
+  public async getThreshold(opts: GetThresholdConfig = {} as GetThresholdConfig): Promise<number> {
 
     const defaults = {
       avatar: undefined,
@@ -324,8 +324,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       options.avatar
     );
 
-    // TODO: convert to number?
-    return threshold;
+    return threshold.toNumber();
   }
 
   /**
@@ -945,11 +944,11 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
         preBoostedVoteRequiredPercentage,
         params.preBoostedVotePeriodLimit,
         params.boostedVotePeriodLimit,
-        params.thresholdConstA,
-        params.thresholdConstB,
+        thresholdConstA,
+        thresholdConstB,
         params.minimumStakingFee,
         params.quietEndingPeriod,
-        params.proposingRepRewardConstA,
+        proposingRepRewardConstA,
         proposingRepRewardConstB,
         stakerFeeRatioForVoters,
         votersReputationLossRatio,
