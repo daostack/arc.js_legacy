@@ -12,7 +12,7 @@ import {
 describe("WrapperService", () => {
 
   it("Can enumerate wrappers", () => {
-    for (var wrapperName in ContractWrappers) {
+    for (const wrapperName in ContractWrappers) {
       const wrapper = ContractWrappers[wrapperName];
       assert.isOk(wrapper);
       assert(wrapper.name.length > 0);
@@ -21,7 +21,7 @@ describe("WrapperService", () => {
 
 
   it("Can enumerate allWrappers", () => {
-    for (var wrapper of ContractWrappersByType.allWrappers) {
+    for (const wrapper of ContractWrappersByType.allWrappers) {
       assert.isOk(wrapper);
       assert(wrapper.name.length > 0);
     }

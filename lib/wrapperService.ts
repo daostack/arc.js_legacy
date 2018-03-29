@@ -180,7 +180,8 @@ export class WrapperService {
      * factories by name
      */
     WrapperService.factories.AbsoluteVote = AbsoluteVoteFactory as ContractWrapperFactory<AbsoluteVoteWrapper>;
-    WrapperService.factories.ContributionReward = ContributionRewardFactory as ContractWrapperFactory<ContributionRewardWrapper>;
+    WrapperService.factories.ContributionReward = ContributionRewardFactory as
+      ContractWrapperFactory<ContributionRewardWrapper>;
     WrapperService.factories.DaoCreator = DaoCreatorFactory as ContractWrapperFactory<DaoCreatorWrapper>;
     WrapperService.factories.GenesisProtocol = GenesisProtocolFactory as ContractWrapperFactory<GenesisProtocolWrapper>;
     WrapperService.factories.GlobalConstraintRegistrar = GlobalConstraintRegistrarFactory as
