@@ -16,7 +16,6 @@ describe("UpgradeScheme", () => {
     Avatar = await Utils.requireContract("Avatar");
     Reputation = await Utils.requireContract("Reputation");
 
-    // let accounts = web3.eth.accounts;
     const token = await DAOToken.new("TEST", "TST", 0);
     // set up a reputation system
     const reputation = await Reputation.new();
