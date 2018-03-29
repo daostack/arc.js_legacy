@@ -118,11 +118,11 @@ Now that you've got Arc.js plugged into your application, configured, and contra
 
 ### Overview
 
-Arc.js wraps several Arc contracts in a "contract wrapper" JavaScript class.  Every wrapper class inherits from `ContractWrapperBase` providing a common set of functions and properties and specific helper functions for operations specific to the contract it wraps.
+Arc.js wraps several Arc contracts in a "contract wrapper" JavaScript class.  Every wrapper class inherits from [ContractWrapperBase](api/classes/ContractWrapperBase) providing a common set of functions and properties and specific helper functions for operations specific to the contract it wraps.
 
 Each wrapper contains a `contract` property which is the original "wrapped" Truffle contract that you can use to access all of the Truffle functionality of the specific Arc contract being wrapped.
 
-Each wrapper also contains a `factory` property.  This is the static instance of the wrapper factory class which is based on `ContractWrapperFactor<TWrapper>` (where `TWrapper` is the type (class) of the wrapper).  Each factory contains the static methods `at(someAddress)`, `new()` and `deployed()` that you can use to instantiate the associated wrapper class.
+Each wrapper also contains a `factory` property.  This is the static instance of the wrapper factory class which is based on [ContractWrapperFactory<TWrapper>](api/classes/ContractWrapperFactory) (where `TWrapper` is the type (class) of the wrapper).  Each factory contains the static methods `at(someAddress)`, `new()` and `deployed()` that you can use to instantiate the associated wrapper class.
 
 Arc.js provides multiple ways to obtain contract wrappers, each optimal in particular use cases:
 
@@ -371,7 +371,7 @@ By default, `DAO.new` assigns the AbsoluteVote voting machine to each scheme, wi
 !!! tip
     If you want change the default for all calls to `DAO.new` you can do it using the ConfigService setting "defaultVotingMachine". See [Arc.js Configuration Settings](Configuration.md).
 
-#### Root-level, applying to all schemes
+At the root-level, applying to all schemes:
 
 ```javascript
 const newDao = await DAO.new({
@@ -385,7 +385,7 @@ const newDao = await DAO.new({
 });
 ```
 
-#### With alternate AbsoluteVote voting machine address
+With an alternate AbsoluteVote voting machine address:
 
 ```javascript
 const newDao = await DAO.new({
@@ -400,7 +400,7 @@ const newDao = await DAO.new({
 });
 ```
 
-#### With GenesisProtocol
+With GenesisProtocol:
 
 This will tell `DAO.new` to assign the Arc.js-deployed GenesisProtocol voting machine to every scheme, using default GenesisProtocol parameters.
 
@@ -417,7 +417,7 @@ const newDao = await DAO.new({
 !!! note
     If you want to use GenesisProtocol on _any_ scheme, you must also add GenesisProtocol as scheme on the DAO itself (see [Create a new DAO with schemes](#create-a-new-dao-with-schemes)).
 
-#### Scheme-specific
+Scheme-specific:
 
 ```javascript
 const newDao = await DAO.new({

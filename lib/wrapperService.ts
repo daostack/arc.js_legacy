@@ -121,20 +121,7 @@ export class WrapperService {
    * use for `deployed()`, but the wrappers for deployed contracts are directly available from the
    * `wrappers` and `wrappersByType` properties.
    */
-  public static factories: ArcWrapperFactories = {
-    AbsoluteVote: AbsoluteVoteFactory as ContractWrapperFactory<AbsoluteVoteWrapper>,
-    ContributionReward: ContributionRewardFactory as ContractWrapperFactory<ContributionRewardWrapper>,
-    DaoCreator: DaoCreatorFactory as ContractWrapperFactory<DaoCreatorWrapper>,
-    GenesisProtocol: GenesisProtocolFactory as ContractWrapperFactory<GenesisProtocolWrapper>,
-    GlobalConstraintRegistrar: GlobalConstraintRegistrarFactory as
-      ContractWrapperFactory<GlobalConstraintRegistrarWrapper>,
-    SchemeRegistrar: SchemeRegistrarFactory as ContractWrapperFactory<SchemeRegistrarWrapper>,
-    TokenCapGC: TokenCapGCFactory as ContractWrapperFactory<TokenCapGCWrapper>,
-    UpgradeScheme: UpgradeSchemeFactory as ContractWrapperFactory<UpgradeSchemeWrapper>,
-    VestingScheme: VestingSchemeFactory as ContractWrapperFactory<VestingSchemeWrapper>,
-    VoteInOrganizationScheme: VoteInOrganizationSchemeFactory as
-      ContractWrapperFactory<VoteInOrganizationSchemeWrapper>,
-  } as ArcWrapperFactories;
+  public static factories: ArcWrapperFactories = {} as ArcWrapperFactories;
 
   /**
    * Map of contract wrappers keyed by address.  For example:
@@ -189,6 +176,21 @@ export class WrapperService {
       WrapperService.wrappers.GenesisProtocol,
     ];
 
+    /**
+     * factories by name
+     */
+    WrapperService.factories.AbsoluteVote = AbsoluteVoteFactory as ContractWrapperFactory<AbsoluteVoteWrapper>;
+    WrapperService.factories.ContributionReward = ContributionRewardFactory as ContractWrapperFactory<ContributionRewardWrapper>;
+    WrapperService.factories.DaoCreator = DaoCreatorFactory as ContractWrapperFactory<DaoCreatorWrapper>;
+    WrapperService.factories.GenesisProtocol = GenesisProtocolFactory as ContractWrapperFactory<GenesisProtocolWrapper>;
+    WrapperService.factories.GlobalConstraintRegistrar = GlobalConstraintRegistrarFactory as
+      ContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
+    WrapperService.factories.SchemeRegistrar = SchemeRegistrarFactory as ContractWrapperFactory<SchemeRegistrarWrapper>;
+    WrapperService.factories.TokenCapGC = TokenCapGCFactory as ContractWrapperFactory<TokenCapGCWrapper>;
+    WrapperService.factories.UpgradeScheme = UpgradeSchemeFactory as ContractWrapperFactory<UpgradeSchemeWrapper>;
+    WrapperService.factories.VestingScheme = VestingSchemeFactory as ContractWrapperFactory<VestingSchemeWrapper>;
+    WrapperService.factories.VoteInOrganizationScheme = VoteInOrganizationSchemeFactory as
+      ContractWrapperFactory<VoteInOrganizationSchemeWrapper>;
     /**
      * TODO: this should be made aware of previously-deployed GCs
      */
