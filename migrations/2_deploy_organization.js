@@ -78,7 +78,7 @@ module.exports = async (deployer) => {
       founders.map((f) => web3.toWei(f.reputation)),
       // use non-universal controller
       0,
-      100000000, // token cap of one hundred million GEN
+      web3.toWei(100000000), // token cap of one hundred million GEN, in Wei
       { gas: gasAmount });
 
     const AvatarInst = await Avatar.at(tx.logs[0].args._avatar);
