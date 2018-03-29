@@ -67,7 +67,8 @@ const options = {
   "excludeProtected": true,
   "excludePrivate": true,
   "name": "API Reference",
-  "theme": "markdown"
+  "theme": "markdown",
+  "lib": ["lib.dom.d.ts", "lib.es2015.d.ts", "lib.es2017.d.ts"]
 };
 
 options.logger = function (message, level, newLine) {

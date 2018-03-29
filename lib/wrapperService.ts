@@ -134,7 +134,7 @@ export class WrapperService {
     VestingScheme: VestingSchemeFactory as ContractWrapperFactory<VestingSchemeWrapper>,
     VoteInOrganizationScheme: VoteInOrganizationSchemeFactory as
       ContractWrapperFactory<VoteInOrganizationSchemeWrapper>,
-  };
+  } as ArcWrapperFactories;
 
   /**
    * Map of contract wrappers keyed by address.  For example:

@@ -32,7 +32,8 @@ The following sections describe the basic steps for setting up Arc.js in your ap
 2. deploying the Arc contracts to the net
 3. using the Arc.js code in your application
 
-!!! noteAll of the script examples assume you are running the scripts in the root folder of your application.  If you happen to be running the scripts in the context of a cloned Arc.js repository, omit the prefix `npm explore @daostack/arc.js -- `. See [more about working with Arc.js Scripts](#working-with-arcjs-scripts).
+!!! note
+    All of the script examples assume you are running the scripts in the root folder of your application.  If you happen to be running the scripts in the context of a cloned Arc.js repository, omit the prefix `npm explore @daostack/arc.js -- `. See [more about working with Arc.js Scripts](#working-with-arcjs-scripts).
 
 ### Setting up a Testnet with Arc Contracts
 
@@ -95,15 +96,15 @@ import { ConfigService } from '@daostack/arc.js';
 ConfigService.set('network', 'kovan');
 ```
 
-!!! noteYou can also override the defaults using OS environment variables.
+!!! tip
+    You can also override the defaults using OS environment variables.
 
 #### Initializing Arc.js at Runtime
 
 Your application must invoke `ArcInitialize()` once at runtime before doing anything else.
 
-```
+```javascript
 import { ArcInitialize } from "@daostack/arc.js";
-
 await ArcInitialize();
 ```
 
@@ -125,11 +126,11 @@ Each wrapper also contains a `factory` property.  This is the static instance of
 
 Arc.js provides multiple ways to obtain contract wrappers, each optimal in particular use cases:
 
-* [get a deployed wrapper by the Arc Contract name](Home/#get_a-deployed-wrapper-by-name)
+* [get a deployed wrapper by the Arc contract name](Home/#get-a-deployed-wrapper-by-name)
 * [enumerate all of the deployed wrappers](Home/#enumerate-all-of-the-deployed-wrappers)
-* [enumerate contracts by contract type](Home/#enumerate-contracts-by-contract-type)
+* [enumerate wrappers by contract type](Home/#enumerate-wrappers-by-contract-type)
+* [get a wrapper at a given address](Home/#get-a-wrapper-at-a-given-address)
 * [deploy a new contract](Home/#deploy-a-new-contract)
-* [get a contract at a given address](Home/#get-a-contract-at-a-given-address)
 
 The following sections describe what to do in each of the above use cases.
 
@@ -137,86 +138,67 @@ The following sections describe what to do in each of the above use cases.
 
 You can obtain, by its Arc contract name, any wrapper deployed by the running version of Arc.js:
 
-#### Using [ContractWrappers](api/README/#const-contractwrappers):
-
 ```javascript
 import { ContractWrappers } from "@daostack/arc.js";
 const upgradeScheme = ContractWrappers.UpgradeScheme;
 ```
 
-#### Using [WrapperService.wrappers](classes/WrapperService/#wrappers) :
-
-```javascript
-import { WrapperService } from "@daostack/arc.js";
-const upgradeScheme = WrapperService.wrappers.UpgradeScheme;
-```
-
 !!! tip
-    `ContractWrappers` is an alias for `WrapperService.wrappers`
+    `ContractWrappers` is an alias for [WrapperService.wrappers](api/classes/WrapperService/#wrappers)
+    ```javascript
+    import { WrapperService } from "@daostack/arc.js";
+    const upgradeScheme = WrapperService.wrappers.UpgradeScheme;
+    ```
 
 ### Enumerate all of the deployed wrappers
 
 You can enumerate all of the wrappers of contracts deployed by the running version of Arc.js:
 
-#### Using [ContractWrappersByType.allWrappers](api/README/#const-contractwrappersbytype) :
-
-```javascript
-import { ContractWrappersByType } from "@daostack/arc.js";
-for (var wrapper of ContractWrappersByType.allWrappers) {
-  console.log(`${wrapper.friendlyName} is at ${wrapper.address}`);
-}
-```
-
-#### Using [ContractWrappers](api/README/#const-contractwrappers):
-
 ```javascript
 import { ContractWrappers } from "@daostack/arc.js";
-for (var wrapperName in ContractWrappers) {
-  const wrapper = ContractWrappers[wrapperName];
+for (var wrapper in ContractWrappers) {
   console.log(`${wrapper.friendlyName} is at ${wrapper.address}`);
 }
 ```
 
-#### Using [WrapperService.wrappers](classes/WrapperService/#wrappers) :
+!!! tip
+    `ContractWrappers` is an alias for [WrapperService.wrappers](api/classes/WrapperService/#wrappers)
+    ```javascript
+    import { WrapperService } from "@daostack/arc.js";
+    for (var wrapperName in WrapperService.wrappers) {
+      const wrapper = WrapperService.wrappers[wrapperName];
+      console.log(`${wrapper.friendlyName} is at ${wrapper.address}`);
+    }
+    ```
 
-```javascript
-import { WrapperService } from "@daostack/arc.js";
-for (var wrapperName in WrapperService.wrappers) {
-  const wrapper = WrapperService.wrappers[wrapperName];
-  console.log(`${wrapper.friendlyName} is at ${wrapper.address}`);
-}
-```
-
-!!! info
-    `ContractWrappers` is an alias for `WrapperService.wrappers`
-
-### Enumerate contracts by contract type
+### Enumerate wrappers by contract type
 
 Arc contracts and associated Arc.js contract wrapper classes can be categorized as follows:
 
-#### Schemes
+**Schemes**
+
+* ContributionReward
+* GenesisProtocol
+* GlobalConstraintRegistrar
 * SchemeRegistrar
 * UpgradeScheme
-* GlobalConstraintRegistrar
-* ContributionReward
 * VoteInOrganizationScheme
 * VestingScheme
-* GenesisProtocol
 
-#### Voting Machines
+**Voting Machines**
+
 * AbsoluteVote
 * GenesisProtocol
 
-#### Global Constraints
+**Global Constraints**
 
 * TokenCapGC
 
-#### Others
+**Others**
+
 * DaoCreator
 
-You can enumerate the wrappers in each category, using an example of schemes:
-
-#### Using [ContractWrappersByType](api/README/#const-contractwrappersbytype) :
+You can enumerate the wrappers in each category, for example, schemes:
 
 ```javascript
 import { ContractWrappersByType } from "@daostack/arc.js";
@@ -225,74 +207,66 @@ for (var schemeWrapper of ContractWrappersByType.schemes) {
 }
 ```
 
-#### Using [WrapperService.wrappersByType](classes/WrapperService/#wrappersByType) :
+!!! tip
+    `ContractWrappersByType` is an alias for [WrapperService.wrappersByType](api/classes/WrapperService/#wrappersByType)
+    ```javascript
+    import { WrapperService} from '@daostack/arc.js';
+    const wrapperTypes = WrapperService.wrappersByType;
+
+    for (var schemeWrapper of wrapperTypes.schemes) {
+      console.log(`${schemeWrapper.friendlyName} is at ${schemeWrapper.address}`);
+    }
+    ```
+
+!!! tip
+    `ContractWrappersByType.allWrappers` is an array of all of wrappers.
+
+### Get a wrapper at a given address
+
+You can use a wrapper's factory class to obtain a wrapper for a contract deployed to any given address:
 
 ```javascript
-import { WrapperService} from '@daostack/arc.js';
-const wrapperTypes = await WrapperService.wrappersByType;
-
-for (var schemeWrapper of wrapperTypes.schemes) {
-  console.log(`${schemeWrapper.friendlyName} is at ${schemeWrapper.address}`);
-}
+import { UpgradeSchemeFactory} from "@daostack/arc.js";
+const upgradeScheme = await UpgradeSchemeFactory.at(someAddress);
 ```
 
 !!! info
-    `ContractWrappersByType` is an alias for `WrapperService.wrappersByType`
+    `.at` will throw an exception if it can't find the contract at the given address.
+
+!!! tip
+    `ContractWrapperFactories` is an alias for [WrapperService.factories](api/classes/WrapperService/#factories)
+    ```javascript
+    import { ContractWrapperFactories } from "@daostack/arc.js";
+    const upgradeScheme = await ContractWrapperFactories.UpgradeScheme.at(someAddress);
+    }
+    ```
+
+Another way to get a wrapper at a given address is using [WrapperService.getContractWrapper](api/classes/WrapperService/#getContractWrapper).  This is most useful when you have both contract name
+and address and wish to most efficiently return the associated wrapper, or undefined when not found:
+
+```javascript
+import { WrapperService } from "@daostack/arc.js";
+// returns undefined when not found, unlike the factory `.at` which throws an exception 
+const upgradeScheme = await WrapperService.getContractWrapper("UpgradeScheme", someAddress);
+}
+```
 
 ### Deploy a new contract
 
-You can use a wrapper's factory class to obtain a fully-hydrated  instance of a wrapper.  There are two ways to obtain a factory class, by importing it or using `WrapperService.factories`.  For example:
+You can use a wrapper's factory class to deploy a new instance of a contract and obtain a wrapper for it:
 
 ```javascript
-import { WrapperService } from "@daostack/arc.js";
-const upgradeSchemeFactory = WrapperService.factories.UpgradeScheme;
-const upgradeScheme = await upgradeSchemeFactory.at(someAddress);
+import { UpgradeSchemeFactory} from "@daostack/arc.js";
+const newUpgradeScheme = await UpgradeSchemeFactory.new();
 ```
 
-### Get a contract at a given address
-
-```javascript
-import { UpgradeScheme as upgradeSchemeFactory} from "@daostack/arc.js";
-const upgradeScheme = await upgradeSchemeFactory.at(someAddress);
-```
-
-!!! note
-    `WrapperFactory.at` will throw an exception if it can't find the contract at the given address.
-
-### From getContractWrapper
-You can obtain a contract wrapper using either `WrapperService.getContractWrapper`.
-
-For example:
-```javascript
-import { WrapperService } from "@daostack/arc.js";
-const upgradeScheme = await WrapperService.getContractWrapper("UpgradeScheme);
-```
-
-Or at a given address:
-
-```javascript
-import { WrapperService } from "@daostack/arc.js";
-const upgradeScheme = await WrapperService.getContractWrapper("UpgradeScheme, someAddress);
-```
-
-!!! note
-    `WrapperService.getContractWrapper` returns undefined when the contract cannot be found.
-
-### From DAO.getSchemes
-You can obtain the names and addresses of all of the schemes that are registered with a DAO using `DAO.getSchemes`:
-
-```javascript
-const daoSchemeInfos = await myDao.getSchemes();
-```
-
-Or info about a single scheme:
-
-```javascript
-const daoSchemeInfos =  = await myDao.getSchemes("UpgradeScheme");
-const upgradeSchemeInfo = daoSchemeInfos[0];
-```
-
-`DAO.getSchemes` returns a object that contains `name` and `address` properties. 
+!!! tip
+    `ContractWrapperFactories` is an alias for [WrapperService.factories](api/classes/WrapperService/#factories)
+    ```javascript
+    import { ContractWrapperFactories } from "@daostack/arc.js";
+    const newUpgradeScheme = await ContractWrapperFactories.UpgradeScheme.new();
+    }
+    ```
 
 ### Obtain a DAO scheme's parameters
 
@@ -300,7 +274,7 @@ Although you can always register your own schemes with a DAO, whether they be to
 
 If you want to obtain a DAO scheme's parameters, you can do it like this:
 
-```
+```javascript
 const schemeParameters = schemeWrapper.getSchemeParameters(avatarAddress);
 ```
 
@@ -308,7 +282,7 @@ This will return an object containing the scheme's parameter values.  The object
 
 For example, to obtain the voting machine address for a scheme that has one as a parameter:
 
-```
+```javascript
 const schemeParameters = schemeWrapper.getSchemeParameters(avatarAddress);
 const votingMachineAddress = schemeParameters.votingMachineAddress;
 ```
@@ -322,7 +296,7 @@ import { Utils } from "@daostack/arc.js";
 const avatarTruffleContract = await Utils.requireContract("Avatar");
 ```
 
-!!! note
+!!! info
     `Utils.requireContract` throws an exception when there is any problem creating the truffle contract object.
 
 ## Working with DAOs
@@ -394,7 +368,8 @@ const newDao = await DAO.new({
 
 By default, `DAO.new` assigns the AbsoluteVote voting machine to each scheme, with default parameter values for AbsoluteVote.  You may override the voting machine's default parameters by adding a "votingMachineParams" element, either at the root level or on individual schemes. You can also specify that you want to assign a completely different type of voting machine, such as GenesisProtocol.
 
-!!! noteIf you want change the default for all calls to `DAO.new` you can do it using the ConfigService setting "defaultVotingMachine". See [Arc.js Configuration Settings](Configuration.md).
+!!! tip
+    If you want change the default for all calls to `DAO.new` you can do it using the ConfigService setting "defaultVotingMachine". See [Arc.js Configuration Settings](Configuration.md).
 
 #### Root-level, applying to all schemes
 
@@ -498,12 +473,36 @@ Get a previously-created DAO using the avatar address:
 const dao = await DAO.at(daoAvatarAddress);
 ```
 
-!!! note
+!!! info
     `DAO.at` will throw an exception if there is any problem loading the DAO.
+
+### Get all the schemes registered to the DAO
+You can obtain the addresses of all of the schemes that are registered with a DAO using [DAO.getSchemes](classes/DAO/#getSchemes).  You will also get contract wrapper when the scheme is the one deployed by the running version of Arc.js:
+
+```javascript
+const daoSchemeInfos = await myDao.getSchemes();
+for (let schemeInfo of daoSchemeInfos) {
+  console.log(`scheme address: ${schemeInfo.address}`);
+  if (schemeInfo.wrapper) {
+    console.log(`scheme name: ${schemeInfo.wrapper.name}`);
+  }
+}
+```
+
+Or info about a single scheme:
+
+```javascript
+const daoSchemeInfos =  = await myDao.getSchemes("UpgradeScheme");
+const upgradeSchemeInfo = daoSchemeInfos[0];
+console.log(`scheme address: ${upgradeSchemeInfo.address}`);
+if (upgradeSchemeInfo.wrapper) {
+  console.log(`scheme name: ${upgradeSchemeInfo.wrapper.name}`);
+}
+```
 
 ### Get the DAOstack Genesis DAO
 
-The DAOstack DAO is named "Genesis".  Obtain it like this:
+The DAOstack DAO is named "Genesis".  You can obtain it like this:
 
 ```javascript
 const genesisDao = await DAO.getGenesisDao();
@@ -512,7 +511,7 @@ const genesisDao = await DAO.getGenesisDao();
 Arc.js contains a set of scripts for building, publishing, running tests and migrating contracts to any network.  These scripts are meant to be accessible and readily usable by client applications.
 
 Typically an application will run an Arc.js script by prefixing "`npm explore @daostack/arc.js -- `" to the Arc.js script.  For example, to run the Arc.js script `npm start test.ganache.run` from your application, you would run:
-```
+```javascript
 npm explore @daostack/arc.js -- npm start test.ganache.run
 ```
 
@@ -535,13 +534,13 @@ It can be very handy to run Arc.js tests or your application against a Ganache d
 To run lint and the Arc.js tests, run the following script in the Arc.js root folder, assuming you have already
 [installed all the npm packages](#installation), are [running a testnet with migrated Arc contracts](#setting-up-a-testnet-with-arc-contracts):
 
-```
+```script
 npm test
 ```
 
 ### Stop on the first failure
 
-```
+```script
 npm start test.bail
 ```
 
@@ -549,12 +548,12 @@ npm start test.bail
 
 Sometimes you want to run just a single test module:
 
-```
+```script
 npm start "test.automated test/[filename]"
 ```
 
 To bail:
 
-```
+```script
 npm start "test.automated test/[filename] --bail"
 ```
