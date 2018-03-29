@@ -18,7 +18,7 @@ describe("UpgradeScheme", () => {
 
     // let accounts = web3.eth.accounts;
     const token = await DAOToken.new("TEST", "TST", 0);
-    // set up a reputaiton system
+    // set up a reputation system
     const reputation = await Reputation.new();
     avatar = await Avatar.new("name", token.address, reputation.address);
   });
