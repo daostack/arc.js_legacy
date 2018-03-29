@@ -681,10 +681,9 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       options.avatar
     );
 
-    // TODO:  convert to number??  dunno what these values represent.
     return {
       thresholdConstA: result[0],
-      thresholdConstB: result[1],
+      thresholdConstB: result[1].toNumber(),
     };
   }
 
@@ -869,6 +868,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       },
       params);
 
+    // in Wei
     const maxEthValue = web3.toBigNumber(10).pow(26);
 
     const proposingRepRewardConstA = web3.toBigNumber(params.proposingRepRewardConstA);
@@ -910,7 +910,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     /**
      * thresholdConstB is a number, and is not supposed to be in Wei (unlike the other
      * params checked above), but we check this condition anyways as not everyone
-     * may be using the type checking of TypeScript, and it is a condition of the Solidity code.
+     * may be using the type checking of TypeScript, and it is a condition in the Solidity code.
      */
     if (thresholdConstB.gt(maxEthValue)) {
       throw new Error(`thresholdConstB must be less than ${maxEthValue}`);
@@ -974,18 +974,18 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
   public async getParameters(paramsHash: Hash): Promise<GenesisProtocolParams> {
     const params = await this.getParametersArray(paramsHash);
     return {
-      boostedVotePeriodLimit: params[2],
-      minimumStakingFee: params[5],
-      preBoostedVotePeriodLimit: params[1],
-      preBoostedVoteRequiredPercentage: params[0],
+      boostedVotePeriodLimit: params[2].toNumber(),
+      minimumStakingFee: params[5].toNumber(),
+      preBoostedVotePeriodLimit: params[1].toNumber(),
+      preBoostedVoteRequiredPercentage: params[0].toNumber(),
       proposingRepRewardConstA: params[7],
       proposingRepRewardConstB: params[8],
-      quietEndingPeriod: params[6],
-      stakerFeeRatioForVoters: params[9],
+      quietEndingPeriod: params[6].toNumber(),
+      stakerFeeRatioForVoters: params[9].toNumber(),
       thresholdConstA: params[3],
-      thresholdConstB: params[4],
-      votersGainRepRatioFromLostRep: params[11],
-      votersReputationLossRatio: params[10],
+      thresholdConstB: params[4].toNumber(),
+      votersGainRepRatioFromLostRep: params[11].toNumber(),
+      votersReputationLossRatio: params[10].toNumber(),
     };
   }
 
@@ -1147,7 +1147,7 @@ export interface GetProposalStatusResult {
 }
 
 export interface GetScoreThresholdParamsResult {
-  thresholdConstA: number;
+  thresholdConstA: BigNumber.BigNumber;
   thresholdConstB: number;
 }
 
