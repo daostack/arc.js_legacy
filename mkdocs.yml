@@ -30,7 +30,7 @@ extra:
 pages:
 - 'Overview': Home.md
 - 'Configuration': 'Configuration.md'
-- 'DAOs': 'CreateDao.md'
+- 'DAOs': 'Daos.md'
 - 'Schemes': 'Schemes.md'
 - 'Proposals': 'Proposals.md'
 - 'Global Constraints': 'GCs.md'
