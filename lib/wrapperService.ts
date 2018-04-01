@@ -177,7 +177,9 @@ export class WrapperService {
     ];
 
     /**
-     * factories by name
+     * factories by name.  This particular way of initializing the object is due to a
+     * weird thing in typedocs where it doesn't treat `factories` as a property of `WrapperService`
+     * unless we initialize it this way (otherwise it shows up in the "Object Literal" section).
      */
     WrapperService.factories.AbsoluteVote = AbsoluteVoteFactory as ContractWrapperFactory<AbsoluteVoteWrapper>;
     WrapperService.factories.ContributionReward = ContributionRewardFactory as
