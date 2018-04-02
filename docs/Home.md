@@ -109,7 +109,7 @@ await ArcInitialize();
 ### Working with Arc Contracts
 Now that you've got Arc.js plugged into your application, configured, and contracts migrated to a running testnet, you are ready to start coding against DAOs and other Arc entities.
 
-You will likely start by creating or referencing one more DAOs.  Arc.js provides a class called [DAO](api/classes/DAO) that facilitates creating and working with DAOs.  Refer here for [all about the DAO class](DAOs).
+You will likely start by creating or referencing one or more DAOs.  Arc.js provides a class called [DAO](api/classes/DAO) that facilitates creating and working with DAOs.  Refer here for [all about the DAO class](DAOs).
 
 Once you have a DAO or set of DAOs, you can start working with them, most often using schemes to work with proposals. Arc.js facilitates working with proposals, schemes and other entities such as global constraints and voting machines by providing contract "wrapper" classes.  Refer here for [all about wrapper classes](Wrappers).
 
@@ -117,7 +117,6 @@ Once you have a DAO or set of DAOs, you can start working with them, most often 
 
 Arc.js provides a few "service" classes that can be helpful, including:
 
-- [AvatarService](api/classes/AvatarService) - provides info about a given Avatar.
 - [ConfigService](api/classes/ConfigService) - for working with Arc.js configuration settings. [Read more here](Configuration.md).
 - [LoggingService](api/classes/LoggingService) - for logging.  See also the [`logLevel` configuration setting](Configuration.md).
 - [Utils](api/classes/Utils) - miscellaneous API for working with web3, truffle contracts and transactions.
