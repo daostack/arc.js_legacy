@@ -19,7 +19,7 @@
 
     
     <url>
-     <loc>/Wrappers/</loc>
+     <loc>/CreateDao/</loc>
      <lastmod>2018-04-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -27,7 +27,7 @@
 
     
     <url>
-     <loc>/Daos/</loc>
+     <loc>/Schemes/</loc>
      <lastmod>2018-04-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -43,7 +43,7 @@
 
     
     <url>
-     <loc>/Scripts/</loc>
+     <loc>/GCs/</loc>
      <lastmod>2018-04-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
