@@ -34,16 +34,13 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
    */
   public async forgeOrg(opts: ForgeOrgConfig = {} as ForgeOrgConfig)
     : Promise<ArcTransactionResult> {
-
-    const web3 = Utils.getWeb3();
-
     /**
      * See these properties in ForgeOrgConfig
      */
     const defaults = {
       founders: [],
       name: undefined,
-      tokenCap: web3.toBigNumber(0),
+      tokenCap: 0,
       tokenName: undefined,
       tokenSymbol: undefined,
       universalController: true,
@@ -63,6 +60,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       throw new Error("DAO token symbol is not defined");
     }
 
+    const web3 = Utils.getWeb3();
     let controllerAddress;
 
     if (options.universalController) {
@@ -303,9 +301,9 @@ export interface ForgeOrgConfig {
    */
   name: string;
   /**
-   * Optional cap on the number of tokens, in the DAO's token.  Default is zero, which means no cap.
+   * A cap on the number of tokens, in the DAO's token.  Default is zero, which means no cap.
    */
-  tokenCap?: BigNumber.BigNumber | string;
+  tokenCap: BigNumber.BigNumber | string;
   /**
    * The name of the token to be associated with the DAO
    */
@@ -318,7 +316,7 @@ export interface ForgeOrgConfig {
    * Optional array describing founders.
    * Default is [].
    */
-  founders?: Array<FounderConfig>;
+  founders: Array<FounderConfig>;
   /**
    * true to use the UniversalController contract, false to instantiate and use a new Controller contract.
    * The default is true.
@@ -346,7 +344,7 @@ export interface SchemeConfig {
    */
   permissions?: SchemePermissions | DefaultSchemePermissions;
   /**
-   * Optional votingMachine parameters if you have not supplied them in ForgeOrgConfig or want to override them.
+   * Optional votingMachine parameters if you have not supplied them in NewDaoConfig or want to override them.
    * Note it costs more gas to add them here.
    *
    * New schemes will be created with these parameters and the DAO's native reputation contract.
