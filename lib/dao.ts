@@ -3,7 +3,7 @@ import { AvatarService } from "./avatarService";
 import { Address, fnVoid, Hash } from "./commonTypes";
 import { ContractWrapperBase, DecodedLogEntryEvent } from "./contractWrapperBase";
 import { Utils } from "./utils";
-import { DaoCreatorWrapper, DaoCreatorFactory } from "./wrappers/daocreator";
+import { DaoCreatorFactory, DaoCreatorWrapper } from "./wrappers/daocreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult, SchemesConfig } from "./wrappers/daocreator";
 import { WrapperService } from "./wrapperService.js";
 
