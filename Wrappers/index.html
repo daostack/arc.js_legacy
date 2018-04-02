@@ -38,7 +38,7 @@
     
     
       
-        <title>DAOs - DAOstack Arc.js Documentation</title>
+        <title>Contract Wrappers - DAOstack Arc.js Documentation</title>
       
     
     
@@ -95,7 +95,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <a href="#working-with-daos" tabindex="1" class="md-skip">
+      <a href="#using-arc-contract-wrappers" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -121,7 +121,7 @@
                 DAOstack Arc.js Documentation
               </span>
               <span class="md-header-nav__topic">
-                DAOs
+                Contract Wrappers
               </span>
             
           
@@ -270,9 +270,87 @@
       
     
     
-    <a href="./" title="DAOs" class="md-nav__link md-nav__link--active">
-      DAOs
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Contract Wrappers
+      </label>
+    
+    <a href="./" title="Contract Wrappers" class="md-nav__link md-nav__link--active">
+      Contract Wrappers
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" title="Overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-a-deployed-wrapper-by-name" title="Get a deployed wrapper by name" class="md-nav__link">
+    Get a deployed wrapper by name
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumerate-all-of-the-deployed-wrappers" title="Enumerate all of the deployed wrappers" class="md-nav__link">
+    Enumerate all of the deployed wrappers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumerate-wrappers-by-contract-type" title="Enumerate wrappers by contract type" class="md-nav__link">
+    Enumerate wrappers by contract type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-a-wrapper-at-a-given-address" title="Get a wrapper at a given address" class="md-nav__link">
+    Get a wrapper at a given address
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-a-new-contract" title="Deploy a new contract" class="md-nav__link">
+    Deploy a new contract
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#obtain-a-dao-schemes-parameters" title="Obtain a DAO scheme's parameters" class="md-nav__link">
+    Obtain a DAO scheme's parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-unwrapped-arc-contracts" title="Working with Unwrapped Arc Contracts" class="md-nav__link">
+    Working with Unwrapped Arc Contracts
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -283,8 +361,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../Schemes/" title="Schemes" class="md-nav__link">
-      Schemes
+    <a href="../Daos/" title="DAOs" class="md-nav__link">
+      DAOs
     </a>
   </li>
 
@@ -307,8 +385,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../GCs/" title="Global Constraints" class="md-nav__link">
-      Global Constraints
+    <a href="../Scripts/" title="Scripts" class="md-nav__link">
+      Scripts
     </a>
   </li>
 
@@ -2130,6 +2208,71 @@
     
   
   
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" title="Overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-a-deployed-wrapper-by-name" title="Get a deployed wrapper by name" class="md-nav__link">
+    Get a deployed wrapper by name
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumerate-all-of-the-deployed-wrappers" title="Enumerate all of the deployed wrappers" class="md-nav__link">
+    Enumerate all of the deployed wrappers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumerate-wrappers-by-contract-type" title="Enumerate wrappers by contract type" class="md-nav__link">
+    Enumerate wrappers by contract type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-a-wrapper-at-a-given-address" title="Get a wrapper at a given address" class="md-nav__link">
+    Get a wrapper at a given address
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-a-new-contract" title="Deploy a new contract" class="md-nav__link">
+    Deploy a new contract
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#obtain-a-dao-schemes-parameters" title="Obtain a DAO scheme's parameters" class="md-nav__link">
+    Obtain a DAO scheme's parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-unwrapped-arc-contracts" title="Working with Unwrapped Arc Contracts" class="md-nav__link">
+    Working with Unwrapped Arc Contracts
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2140,11 +2283,209 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/daostack/arc.js/edit/master/docs/CreateDao.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/daostack/arc.js/edit/master/docs/Wrappers.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="working-with-daos">Working with DAOs<a class="headerlink" href="#working-with-daos" title="Permanent link">&para;</a></h1>
-<p>[Documentation Coming Soon]</p>
+                <h1 id="using-arc-contract-wrappers">Using Arc Contract Wrappers<a class="headerlink" href="#using-arc-contract-wrappers" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Arc.js wraps several Arc contracts in a "contract wrapper" JavaScript class.  Every wrapper class inherits from <a href="../api/classes/ContractWrapperBase">ContractWrapperBase</a> providing a common set of functions and properties and specific helper functions for operations specific to the contract it wraps.</p>
+<p>Each wrapper contains a <code>contract</code> property which is the original "wrapped" Truffle contract that you can use to access all of the Truffle functionality of the specific Arc contract being wrapped.</p>
+<p>Each wrapper also contains a <code>factory</code> property.  This is the static instance of the wrapper factory class which is based on <a href="../api/classes/ContractWrapperFactory">ContractWrapperFactory<TWrapper></a> (where <code>TWrapper</code> is the type (class) of the wrapper).  Each factory contains the static methods <code>at(someAddress)</code>, <code>new()</code> and <code>deployed()</code> that you can use to instantiate the associated wrapper class.</p>
+<p>Arc.js provides multiple ways to obtain contract wrappers, each optimal in particular use cases:</p>
+<ul>
+<li><a href="../Home/#get-a-deployed-wrapper-by-name">get a deployed wrapper by the Arc contract name</a></li>
+<li><a href="../Home/#enumerate-all-of-the-deployed-wrappers">enumerate all of the deployed wrappers</a></li>
+<li><a href="../Home/#enumerate-wrappers-by-contract-type">enumerate wrappers by contract type</a></li>
+<li><a href="../Home/#get-a-wrapper-at-a-given-address">get a wrapper at a given address</a></li>
+<li><a href="../Home/#deploy-a-new-contract">deploy a new contract</a></li>
+</ul>
+<p>The following sections describe what to do in each of the above use cases.</p>
+<div class="admonition note">
+<p class="admonition-title">Keep in mind</p>
+<p>In Arc.js all token and reputation amounts should be expressed in Wei.</p>
+</div>
+<h2 id="get-a-deployed-wrapper-by-name">Get a deployed wrapper by name<a class="headerlink" href="#get-a-deployed-wrapper-by-name" title="Permanent link">&para;</a></h2>
+<p>You can obtain, by its Arc contract name, any wrapper deployed by the running version of Arc.js:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">ContractWrappers</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">upgradeScheme</span> <span class="o">=</span> <span class="nx">ContractWrappers</span><span class="p">.</span><span class="nx">UpgradeScheme</span><span class="p">;</span>
+</pre></div>
+</td></tr></table>
+
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><code>ContractWrappers</code> is an alias for <a href="../api/classes/WrapperService/#wrappers">WrapperService.wrappers</a>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">WrapperService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">upgradeScheme</span> <span class="o">=</span> <span class="nx">WrapperService</span><span class="p">.</span><span class="nx">wrappers</span><span class="p">.</span><span class="nx">UpgradeScheme</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></p>
+</div>
+<h2 id="enumerate-all-of-the-deployed-wrappers">Enumerate all of the deployed wrappers<a class="headerlink" href="#enumerate-all-of-the-deployed-wrappers" title="Permanent link">&para;</a></h2>
+<p>You can enumerate all of the wrappers of contracts deployed by the running version of Arc.js:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">ContractWrappers</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">wrapper</span> <span class="k">in</span> <span class="nx">ContractWrappers</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">wrapper</span><span class="p">.</span><span class="nx">friendlyName</span><span class="si">}</span><span class="sb"> is at </span><span class="si">${</span><span class="nx">wrapper</span><span class="p">.</span><span class="nx">address</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><code>ContractWrappers</code> is an alias for <a href="../api/classes/WrapperService/#wrappers">WrapperService.wrappers</a>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">WrapperService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">wrapperName</span> <span class="k">in</span> <span class="nx">WrapperService</span><span class="p">.</span><span class="nx">wrappers</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">WrapperService</span><span class="p">.</span><span class="nx">wrappers</span><span class="p">[</span><span class="nx">wrapperName</span><span class="p">];</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">wrapper</span><span class="p">.</span><span class="nx">friendlyName</span><span class="si">}</span><span class="sb"> is at </span><span class="si">${</span><span class="nx">wrapper</span><span class="p">.</span><span class="nx">address</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></p>
+</div>
+<h2 id="enumerate-wrappers-by-contract-type">Enumerate wrappers by contract type<a class="headerlink" href="#enumerate-wrappers-by-contract-type" title="Permanent link">&para;</a></h2>
+<p>Arc contracts and associated Arc.js contract wrapper classes can be categorized as follows:</p>
+<p><strong>Schemes</strong></p>
+<ul>
+<li>ContributionReward</li>
+<li>GenesisProtocol</li>
+<li>GlobalConstraintRegistrar</li>
+<li>SchemeRegistrar</li>
+<li>UpgradeScheme</li>
+<li>VoteInOrganizationScheme</li>
+<li>VestingScheme</li>
+</ul>
+<p><strong>Voting Machines</strong></p>
+<ul>
+<li>AbsoluteVote</li>
+<li>GenesisProtocol</li>
+</ul>
+<p><strong>Global Constraints</strong></p>
+<ul>
+<li>TokenCapGC</li>
+</ul>
+<p><strong>Others</strong></p>
+<ul>
+<li>DaoCreator</li>
+</ul>
+<p>You can enumerate the wrappers in each category, for example, schemes:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">ContractWrappersByType</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">schemeWrapper</span> <span class="k">of</span> <span class="nx">ContractWrappersByType</span><span class="p">.</span><span class="nx">schemes</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">schemeWrapper</span><span class="p">.</span><span class="nx">friendlyName</span><span class="si">}</span><span class="sb"> is at </span><span class="si">${</span><span class="nx">schemeWrapper</span><span class="p">.</span><span class="nx">address</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><code>ContractWrappersByType</code> is an alias for <a href="../api/classes/WrapperService/#wrappersByType">WrapperService.wrappersByType</a>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">WrapperService</span><span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@daostack/arc.js&#39;</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">wrapperTypes</span> <span class="o">=</span> <span class="nx">WrapperService</span><span class="p">.</span><span class="nx">wrappersByType</span><span class="p">;</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">schemeWrapper</span> <span class="k">of</span> <span class="nx">wrapperTypes</span><span class="p">.</span><span class="nx">schemes</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">schemeWrapper</span><span class="p">.</span><span class="nx">friendlyName</span><span class="si">}</span><span class="sb"> is at </span><span class="si">${</span><span class="nx">schemeWrapper</span><span class="p">.</span><span class="nx">address</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><code>ContractWrappersByType.allWrappers</code> is an array of all of wrappers.</p>
+</div>
+<h2 id="get-a-wrapper-at-a-given-address">Get a wrapper at a given address<a class="headerlink" href="#get-a-wrapper-at-a-given-address" title="Permanent link">&para;</a></h2>
+<p>You can use a wrapper's factory class to obtain a wrapper for a contract deployed to any given address:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">UpgradeSchemeFactory</span><span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">upgradeScheme</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">UpgradeSchemeFactory</span><span class="p">.</span><span class="nx">at</span><span class="p">(</span><span class="nx">someAddress</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p><code>.at</code> will throw an exception if it can't find the contract at the given address.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><code>ContractWrapperFactories</code> is an alias for <a href="../api/classes/WrapperService/#factories">WrapperService.factories</a>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">ContractWrapperFactories</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">upgradeScheme</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">ContractWrapperFactories</span><span class="p">.</span><span class="nx">UpgradeScheme</span><span class="p">.</span><span class="nx">at</span><span class="p">(</span><span class="nx">someAddress</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></p>
+</div>
+<p>Another way to get a wrapper at a given address is using <a href="../api/classes/WrapperService/#getContractWrapper">WrapperService.getContractWrapper</a>.  This is most useful when you have both contract name
+and address and wish to most efficiently return the associated wrapper, or undefined when not found:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">WrapperService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+<span class="c1">// returns undefined when not found, unlike the factory `.at` which throws an exception </span>
+<span class="kr">const</span> <span class="nx">upgradeScheme</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">WrapperService</span><span class="p">.</span><span class="nx">getContractWrapper</span><span class="p">(</span><span class="s2">&quot;UpgradeScheme&quot;</span><span class="p">,</span> <span class="nx">someAddress</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<h2 id="deploy-a-new-contract">Deploy a new contract<a class="headerlink" href="#deploy-a-new-contract" title="Permanent link">&para;</a></h2>
+<p>You can use a wrapper's factory class to deploy a new instance of a contract and obtain a wrapper for it:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">UpgradeSchemeFactory</span><span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">newUpgradeScheme</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">UpgradeSchemeFactory</span><span class="p">.</span><span class="k">new</span><span class="p">();</span>
+</pre></div>
+</td></tr></table>
+
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><code>ContractWrapperFactories</code> is an alias for <a href="../api/classes/WrapperService/#factories">WrapperService.factories</a>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">ContractWrapperFactories</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">newUpgradeScheme</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">ContractWrapperFactories</span><span class="p">.</span><span class="nx">UpgradeScheme</span><span class="p">.</span><span class="k">new</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></p>
+</div>
+<h2 id="obtain-a-dao-schemes-parameters">Obtain a DAO scheme's parameters<a class="headerlink" href="#obtain-a-dao-schemes-parameters" title="Permanent link">&para;</a></h2>
+<p>Although you can always register your own schemes with a DAO, whether they be totally custom non-Arc schemes, or redeployed Arc schemes, by default a DAO is created with Arc schemes that are universal in the sense that the code is implemented in one place, without redundancy.  But every scheme registered with a DAO is configured with a particular set of parameter values, and references such as proposals. All of these are stored in the DAO's own controller where each universal scheme is able to find them.  (If the controller is the Universal Controller then the parameters and data are keyed by the DAO's avatar address.)</p>
+<p>If you want to obtain a DAO scheme's parameters, you can do it like this:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">schemeParameters</span> <span class="o">=</span> <span class="nx">schemeWrapper</span><span class="p">.</span><span class="nx">getSchemeParameters</span><span class="p">(</span><span class="nx">avatarAddress</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<p>This will return an object containing the scheme's parameter values.  The object will be the same as that which one passes to <code>schemeWrapper.setParameters</code> when setting parameters on any contract.</p>
+<p>For example, to obtain the voting machine address for a scheme that has one as a parameter:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">schemeParameters</span> <span class="o">=</span> <span class="nx">schemeWrapper</span><span class="p">.</span><span class="nx">getSchemeParameters</span><span class="p">(</span><span class="nx">avatarAddress</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">votingMachineAddress</span> <span class="o">=</span> <span class="nx">schemeParameters</span><span class="p">.</span><span class="nx">votingMachineAddress</span><span class="p">;</span>
+</pre></div>
+</td></tr></table>
+
+<h2 id="working-with-unwrapped-arc-contracts">Working with Unwrapped Arc Contracts<a class="headerlink" href="#working-with-unwrapped-arc-contracts" title="Permanent link">&para;</a></h2>
+<p>Not all Arc contracts have been given wrapper classes, for example, <code>Avatar</code>, <code>UController</code> and many more.  But using <code>Utils.requireContract</code> you can obtain a raw TruffleContract for any contract, enabling you to work with the contract just by providing the name of the Arc contract:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">Utils</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">avatarTruffleContract</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">Utils</span><span class="p">.</span><span class="nx">requireContract</span><span class="p">(</span><span class="s2">&quot;Avatar&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p><code>Utils.requireContract</code> throws an exception when there is any problem creating the truffle contract object.</p>
+</div>
                 
                   
                 
@@ -2178,13 +2519,13 @@
           </a>
         
         
-          <a href="../Schemes/" title="Schemes" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../Daos/" title="DAOs" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Schemes
+                DAOs
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

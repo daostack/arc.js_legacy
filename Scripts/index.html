@@ -38,7 +38,7 @@
     
     
       
-        <title>Global Constraints - DAOstack Arc.js Documentation</title>
+        <title>Scripts - DAOstack Arc.js Documentation</title>
       
     
     
@@ -95,7 +95,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <a href="#working-with-global-constraints" tabindex="1" class="md-skip">
+      <a href="#working-with-arcjs-scripts" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -121,7 +121,7 @@
                 DAOstack Arc.js Documentation
               </span>
               <span class="md-header-nav__topic">
-                Global Constraints
+                Scripts
               </span>
             
           
@@ -262,8 +262,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../CreateDao/" title="DAOs" class="md-nav__link">
-      DAOs
+    <a href="../Wrappers/" title="Contract Wrappers" class="md-nav__link">
+      Contract Wrappers
     </a>
   </li>
 
@@ -274,8 +274,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../Schemes/" title="Schemes" class="md-nav__link">
-      Schemes
+    <a href="../Daos/" title="DAOs" class="md-nav__link">
+      DAOs
     </a>
   </li>
 
@@ -306,9 +306,72 @@
       
     
     
-    <a href="./" title="Global Constraints" class="md-nav__link md-nav__link--active">
-      Global Constraints
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Scripts
+      </label>
+    
+    <a href="./" title="Scripts" class="md-nav__link md-nav__link--active">
+      Scripts
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-to-other-testnets" title="Deploying to Other Testnets" class="md-nav__link">
+    Deploying to Other Testnets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-against-a-ganache-database" title="Running Against a Ganache Database" class="md-nav__link">
+    Running Against a Ganache Database
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-lint-and-tests" title="Run Lint and Tests" class="md-nav__link">
+    Run Lint and Tests
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stop-on-the-first-failure" title="Stop on the first failure" class="md-nav__link">
+    Stop on the first failure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-an-individual-test-module" title="Run an individual test module" class="md-nav__link">
+    Run an individual test module
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -2130,6 +2193,56 @@
     
   
   
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-to-other-testnets" title="Deploying to Other Testnets" class="md-nav__link">
+    Deploying to Other Testnets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-against-a-ganache-database" title="Running Against a Ganache Database" class="md-nav__link">
+    Running Against a Ganache Database
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-lint-and-tests" title="Run Lint and Tests" class="md-nav__link">
+    Run Lint and Tests
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stop-on-the-first-failure" title="Stop on the first failure" class="md-nav__link">
+    Stop on the first failure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-an-individual-test-module" title="Run an individual test module" class="md-nav__link">
+    Run an individual test module
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2140,11 +2253,44 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/daostack/arc.js/edit/master/docs/GCs.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/daostack/arc.js/edit/master/docs/Scripts.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="working-with-global-constraints">Working with Global Constraints<a class="headerlink" href="#working-with-global-constraints" title="Permanent link">&para;</a></h1>
-<p>[Documentation Coming Soon]</p>
+                <h1 id="working-with-arcjs-scripts">Working with Arc.js Scripts<a class="headerlink" href="#working-with-arcjs-scripts" title="Permanent link">&para;</a></h1>
+<p>Arc.js contains a set of scripts for building, publishing, running tests and migrating contracts to any network.  These scripts are meant to be accessible and readily usable by client applications.</p>
+<p>Typically an application will run an Arc.js script by prefixing "<code>npm explore @daostack/arc.js --</code>" to the Arc.js script.  For example, to run the Arc.js script <code>npm start test.ganache.run</code> from your application, you would run:
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">npm</span> <span class="nx">explore</span> <span class="err">@</span><span class="nx">daostack</span><span class="o">/</span><span class="nx">arc</span><span class="p">.</span><span class="nx">js</span> <span class="o">--</span> <span class="nx">npm</span> <span class="nx">start</span> <span class="nx">test</span><span class="p">.</span><span class="nx">ganache</span><span class="p">.</span><span class="nx">run</span>
+</pre></div>
+</td></tr></table></p>
+<p>Otherwise, when running the scripts at the root of Arc.js, you must omit the <code>npm explore @daostack/arc.js --</code>.</p>
+<p>All of the scripts are defined in the package-scripts.js file.  You have already seen their <a href="#setting-up-a-testnet-with-arc-contracts">most typical use in an application context</a>.</p>
+<p>See also  <a href="#running-against-a-ganache-database">Running Against a Ganache Database</a>, <a href="#deploying-to-other-testnets">Deploying to Other Testnets</a> and <a href="#run-lint-and-tests">Run Lint and Tests</a></p>
+<h2 id="deploying-to-other-testnets">Deploying to Other Testnets<a class="headerlink" href="#deploying-to-other-testnets" title="Permanent link">&para;</a></h2>
+<p>Please refer <a href="../Migration/">here</a> for instructions on migrating contracts to other test networks.</p>
+<h2 id="running-against-a-ganache-database">Running Against a Ganache Database<a class="headerlink" href="#running-against-a-ganache-database" title="Permanent link">&para;</a></h2>
+<p>It can be very handy to run Arc.js tests or your application against a Ganache database that persists the state of the chain across instances of Ganache.  Please refer <a href="../GanacheDb/">here for how to do it</a>.</p>
+<h2 id="run-lint-and-tests">Run Lint and Tests<a class="headerlink" href="#run-lint-and-tests" title="Permanent link">&para;</a></h2>
+<p>To run lint and the Arc.js tests, run the following script in the Arc.js root folder, assuming you have already
+<a href="#installation">installed all the npm packages</a>, are <a href="#setting-up-a-testnet-with-arc-contracts">running a testnet with migrated Arc contracts</a>:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm test
+</pre></div>
+</td></tr></table>
+
+<h3 id="stop-on-the-first-failure">Stop on the first failure<a class="headerlink" href="#stop-on-the-first-failure" title="Permanent link">&para;</a></h3>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm start test.bail
+</pre></div>
+</td></tr></table>
+
+<h3 id="run-an-individual-test-module">Run an individual test module<a class="headerlink" href="#run-an-individual-test-module" title="Permanent link">&para;</a></h3>
+<p>Sometimes you want to run just a single test module:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm start &quot;test.automated test/[filename]&quot;
+</pre></div>
+</td></tr></table>
+
+<p>To bail:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm start &quot;test.automated test/[filename] --bail&quot;
+</pre></div>
+</td></tr></table>
                 
                   
                 
