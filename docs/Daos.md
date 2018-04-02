@@ -1,16 +1,14 @@
 # Working with DAOs
 
-Arc.js provides a class called [DAO](api/classes/DAO) that enables you to create new DAOs and obtain information about them.  The following sections are about creating DAOs, and obtaining information about them.
-
-First, about DAOs...
+Arc.js provides a class called [DAO](api/classes/DAO) that facilitates creating and working with DAOs.  Read on for more information.
 
 ## About DAOs
 
 Every DAO has an architecture defined by Arc that enables it to use the reusable contracts provided by Arc.  Each DAO has an avatar, a controller, a token, a reputation system, a set of schemes and global constraints.
 
-The avatar is a public-facing part of the DAO that handles the interaction of the DAO with the rest of the world, for example interacting with other DAOs or paying third party agents.
+The avatar is a public-facing part of the DAO that handles the interaction of the DAO with the rest of the world, for example interacting with other DAOs or paying third party agents.  A DAO is always referenced using the address of its avatar.
 
-Schemes are the interfaces that agents use to work with proposals respecting the DAO.  Each scheme has a voting machine (or like [GenesisProtocol](api/classes/GenesisProtocolWrapper), is itself a scheme).
+Schemes are the contracts that agents use when they want to work with proposals respecting the DAO.  Each scheme has a voting machine (or like [GenesisProtocol](api/classes/GenesisProtocolWrapper), is itself a scheme).
 
 Global constraints use configured criteria to potentially block any action attempted by the Controller.  An example is [TokenCapGC](api/classes/TokenCapGCWrapper) that limits the total supply of a given token to a certain maximum number.
 
@@ -18,8 +16,12 @@ The controller is a central internal hub for all of the components of the DAO.
 
 DAOs are extensible beyond the reusable contracts that Arc supplies: You can provide your own implementation of the controller, token, and any global constraints and schemes you want.
 
-For more information about the architecture of DAOs please refer to the [Arc documentation](https://daostack.github.io/arc/README/#the-structure-of-a-dao).
+!!! info
+    Please refer here for [more information about the architecture of DAOs](https://daostack.github.io/arc/README/#the-structure-of-a-dao).
 
+!!! info
+    Please refer here for [more information proposals](Proposals).
+    
 ## Creating a new DAO
 
 When creating a DAO you can configure its name, token, founders and schemes.  Of each scheme, you configure the parameters, permissions and voting machine.
