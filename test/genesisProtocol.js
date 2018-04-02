@@ -1,7 +1,7 @@
 import { Utils } from "../test-dist/utils";
 import { WrapperService } from "../test-dist/wrapperService";
-import { GenesisProtocol } from "../test-dist/wrappers/genesisProtocol";
-import { SchemeRegistrar } from "../test-dist/wrappers/schemeregistrar";
+import { GenesisProtocolFactory } from "../test-dist/wrappers/genesisProtocol";
+import { SchemeRegistrarFactory } from "../test-dist/wrappers/schemeregistrar";
 import * as helpers from "./helpers";
 
 describe("GenesisProtocol", () => {
@@ -59,7 +59,7 @@ describe("GenesisProtocol", () => {
     assert.equal(scheme.length, 1);
     assert.equal(scheme[0].wrapper.name, "GenesisProtocol");
 
-    genesisProtocol = await GenesisProtocol.at(scheme[0].address);
+    genesisProtocol = await GenesisProtocolFactory.at(scheme[0].address);
 
     assert.isOk(genesisProtocol);
 
@@ -118,7 +118,7 @@ describe("GenesisProtocol", () => {
     const schemeToDelete = (await dao.getSchemes("ContributionReward"))[0].address;
     assert.isOk(schemeToDelete);
 
-    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrar);
+    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory);
     assert.isOk(schemeRegistrar);
     /**
      * propose to remove ContributionReward.  It should get the ownerVote, then requiring just 30 more reps to execute.
@@ -424,13 +424,13 @@ describe("GenesisProtocol", () => {
   });
 
   it("can do new", async () => {
-    const scheme = await GenesisProtocol.new(Utils.NULL_ADDRESS);
+    const scheme = await GenesisProtocolFactory.new(Utils.NULL_ADDRESS);
     assert.isOk(scheme);
   });
 
 
   it("can do deployed", async () => {
-    const scheme = await GenesisProtocol.deployed();
+    const scheme = await GenesisProtocolFactory.deployed();
     assert.equal(scheme.address, WrapperService.wrappers.GenesisProtocol.address);
   });
 

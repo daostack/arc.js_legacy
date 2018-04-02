@@ -15,6 +15,7 @@ export class AbsoluteVoteWrapper extends ContractWrapperBase {
 
   public name: string = "AbsoluteVote";
   public frendlyName: string = "Absolute Vote";
+  public factory: ContractWrapperFactory<AbsoluteVoteWrapper> = AbsoluteVoteFactory;
 
   /**
    * Events
@@ -90,7 +91,7 @@ export class AbsoluteVoteWrapper extends ContractWrapperBase {
   }
 }
 
-export const AbsoluteVote = new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper);
+export const AbsoluteVoteFactory = new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper);
 
 export interface CancelProposalEventResult {
   /**

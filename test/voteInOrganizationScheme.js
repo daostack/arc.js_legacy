@@ -1,6 +1,6 @@
-import { VoteInOrganizationScheme } from "../test-dist/wrappers/voteInOrganizationScheme";
+import { VoteInOrganizationSchemeFactory } from "../test-dist/wrappers/voteInOrganizationScheme";
 import * as helpers from "./helpers";
-import { SchemeRegistrar } from "../test-dist/wrappers/schemeregistrar";
+import { SchemeRegistrarFactory } from "../test-dist/wrappers/schemeregistrar";
 
 const createProposal = async () => {
 
@@ -32,7 +32,7 @@ const createProposal = async () => {
   const schemeToDelete = (await originalDao.getSchemes("ContributionReward"))[0].address;
   assert.isOk(schemeToDelete);
 
-  const schemeRegistrar = await helpers.getDaoScheme(originalDao, "SchemeRegistrar", SchemeRegistrar);
+  const schemeRegistrar = await helpers.getDaoScheme(originalDao, "SchemeRegistrar", SchemeRegistrarFactory);
   assert.isOk(schemeRegistrar);
   /**
    * propose to remove ContributionReward.  It should get the ownerVote, then requiring just 30 more reps to execute.
@@ -88,7 +88,7 @@ describe("VoteInOrganizationScheme", () => {
       ]
     });
 
-    voteInOrganizationScheme = await helpers.getDaoScheme(dao, "VoteInOrganizationScheme", VoteInOrganizationScheme);
+    voteInOrganizationScheme = await helpers.getDaoScheme(dao, "VoteInOrganizationScheme", VoteInOrganizationSchemeFactory);
 
     assert.isOk(voteInOrganizationScheme);
   });
@@ -150,9 +150,7 @@ describe("VoteInOrganizationScheme", () => {
         else {
           assert(false, "proposal vote not found in original scheme");
         }
-
         resolve();
-
       });
     });
   });

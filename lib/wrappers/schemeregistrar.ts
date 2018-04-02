@@ -15,6 +15,7 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
 
   public name: string = "SchemeRegistrar";
   public frendlyName: string = "Scheme Registrar";
+  public factory: ContractWrapperFactory<SchemeRegistrarWrapper> = SchemeRegistrarFactory;
   /**
    * Events
    */
@@ -168,7 +169,7 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
   }
 }
 
-export const SchemeRegistrar = new ContractWrapperFactory("SchemeRegistrar", SchemeRegistrarWrapper);
+export const SchemeRegistrarFactory = new ContractWrapperFactory("SchemeRegistrar", SchemeRegistrarWrapper);
 
 export interface NewSchemeProposalEventResult {
   /**

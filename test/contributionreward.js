@@ -1,5 +1,5 @@
 import * as helpers from "./helpers";
-import { ContributionReward } from "../test-dist/wrappers/contributionreward";
+import { ContributionRewardFactory } from "../test-dist/wrappers/contributionreward";
 
 describe("ContributionReward scheme", () => {
   let dao, scheme, votingMachine;
@@ -12,7 +12,7 @@ describe("ContributionReward scheme", () => {
       ]
     });
 
-    scheme = await helpers.getDaoScheme(dao, "ContributionReward", ContributionReward);
+    scheme = await helpers.getDaoScheme(dao, "ContributionReward", ContributionRewardFactory);
 
     votingMachine = await helpers.getSchemeVotingMachine(dao, scheme);
 
@@ -36,7 +36,7 @@ describe("ContributionReward scheme", () => {
       ]
     });
 
-    scheme = await helpers.getDaoScheme(dao, "ContributionReward", ContributionReward);
+    scheme = await helpers.getDaoScheme(dao, "ContributionReward", ContributionRewardFactory);
 
     /**
      * should not revert

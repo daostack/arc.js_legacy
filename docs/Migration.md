@@ -19,6 +19,8 @@ To deploy contracts to a specified network, follow these steps:
 
 5. run `npm start migrateContracts`, or from your application: `npm explore @daostack/arc.js -- npm start migrateContracts`
 
-**Note:**  If you want to start from scratch with brand-new contracts, run: `npm start migrateContracts.clean.andMigrate`.
+!!! tip
+    If you want to start from scratch with brand-new contracts, run: `npm start migrateContracts.clean.andMigrate`.
 
-**Note:**  When migrating to Kovan, the migration will not succeed until your node is completely caught up syncing with the net.
+!!! tip
+    When migrating to Kovan, the migration will not succeed until your node is completely caught up syncing with the net.

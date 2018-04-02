@@ -1,5 +1,11 @@
 export * from "./commonTypes";
 export * from "./configService";
+export {
+  ContractWrappers,
+  ContractWrapperFactories,
+  ContractWrappersByType,
+  ContractWrappersByAddress
+} from "./wrapperService";
 export * from "./wrapperService";
 export * from "./wrappers/absoluteVote";
 export * from "./wrappers/commonEventInterfaces";

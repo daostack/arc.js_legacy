@@ -6,6 +6,10 @@ import { AbsoluteVoteParams } from "../../wrappers/absoluteVote";
 
 export class TestWrapperWrapper extends ContractWrapperBase {
 
+  public name: string = "AbsoluteVote";
+  public frendlyName: string = "Test Wrapper";
+  public factory: ContractWrapperFactory<TestWrapperWrapper> = TestWrapperFactory;
+
   public foo(): string {
     return "bar";
   }
@@ -36,4 +40,4 @@ export class TestWrapperWrapper extends ContractWrapperBase {
   }
 }
 
-export const TestWrapper = new ContractWrapperFactory("AbsoluteVote", TestWrapperWrapper);
+export const TestWrapperFactory = new ContractWrapperFactory("AbsoluteVote", TestWrapperWrapper);

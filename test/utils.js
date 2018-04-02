@@ -1,7 +1,7 @@
 "use strict";
 import "./helpers";
 import { DefaultSchemePermissions } from "../test-dist/commonTypes";
-import { TestWrapper } from "../test-dist/test/wrappers/testWrapper";
+import { TestWrapperFactory } from "../test-dist/test/wrappers/testWrapper";
 import { Utils } from "../test-dist/utils";
 import { WrapperService } from "../test-dist/wrapperService";
 
@@ -15,9 +15,9 @@ describe("ContractWrapperBase", () => {
   it("Must have sane inheritance", async () => {
     let scheme;
 
-    assert.isOk(TestWrapper, "TestWrapperWrapper is not defined");
-    assert.isOk(TestWrapper.deployed, "TestWrapperWrapper.deployed is not defined");
-    scheme = await TestWrapper.deployed();
+    assert.isOk(TestWrapperFactory, "TestWrapperWrapper is not defined");
+    assert.isOk(TestWrapperFactory.deployed, "TestWrapperWrapper.deployed is not defined");
+    scheme = await TestWrapperFactory.deployed();
     assert.equal(scheme.foo(), "bar");
     assert.equal(scheme.aMethod(), "abc");
     assert.equal(
@@ -26,8 +26,16 @@ describe("ContractWrapperBase", () => {
     );
     assert.equal(scheme.getDefaultPermissions(), DefaultSchemePermissions.MinimumPermissions);
 
-    scheme = await TestWrapper.at(WrapperService.wrappers.AbsoluteVote.address);
+    scheme = await TestWrapperFactory.at(WrapperService.wrappers.AbsoluteVote.address);
     assert.equal(scheme.foo(), "bar");
     assert.equal(scheme.aMethod(), "abc");
+
+    assert.isOk(scheme.factory);
+    assert.isOk(scheme.factory.at);
+
+    const newScheme = await scheme.factory.new();
+    assert(newScheme);
+    assert(newScheme.name === "AbsoluteVote");
+    assert(newScheme.address !== scheme.address);
   });
 });

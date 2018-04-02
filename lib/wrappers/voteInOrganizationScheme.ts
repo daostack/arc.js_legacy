@@ -15,6 +15,7 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase impleme
 
   public name: string = "VoteInOrganizationScheme";
   public frendlyName: string = "Vote In Organization Scheme";
+  public factory: ContractWrapperFactory<VoteInOrganizationSchemeWrapper> = VoteInOrganizationSchemeFactory;
   /**
    * Events
    */
@@ -92,7 +93,7 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase impleme
   }
 }
 
-export const VoteInOrganizationScheme = new ContractWrapperFactory(
+export const VoteInOrganizationSchemeFactory = new ContractWrapperFactory(
   "VoteInOrganizationScheme", VoteInOrganizationSchemeWrapper);
 
 export interface VoteOnBehalfEventResult {

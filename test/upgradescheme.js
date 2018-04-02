@@ -1,5 +1,5 @@
 import { Utils } from "../test-dist/utils";
-import { UpgradeScheme } from "../test-dist/wrappers/upgradescheme";
+import { UpgradeSchemeFactory } from "../test-dist/wrappers/upgradescheme";
 import * as helpers from "./helpers";
 
 describe("UpgradeScheme", () => {
@@ -25,7 +25,7 @@ describe("UpgradeScheme", () => {
   it("proposeController javascript wrapper should change controller", async () => {
     const dao = await helpers.forgeDao();
 
-    const upgradeScheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
+    const upgradeScheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory);
     const newController = await Controller.new(avatar.address);
 
     assert.equal(
@@ -59,7 +59,7 @@ describe("UpgradeScheme", () => {
 
     const dao = await helpers.forgeDao();
 
-    const upgradeScheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
+    const upgradeScheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory);
 
     // the dao has not been upgraded yet, so newController is the NULL address
     assert.equal(await dao.controller.newControllers(dao.avatar.address), helpers.NULL_ADDRESS);
@@ -95,9 +95,9 @@ describe("UpgradeScheme", () => {
   it("proposeUpgradingScheme javascript wrapper should change upgrade scheme", async () => {
     const dao = await helpers.forgeDao();
 
-    const upgradeScheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
+    const upgradeScheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory);
 
-    const newUpgradeScheme = await UpgradeScheme.new();
+    const newUpgradeScheme = await UpgradeSchemeFactory.new();
 
     assert.isFalse(
       await dao.isSchemeRegistered(newUpgradeScheme.address),
@@ -128,7 +128,7 @@ describe("UpgradeScheme", () => {
   it("proposeUpgradingScheme javascript wrapper should modify the modifying scheme", async () => {
     const dao = await helpers.forgeDao();
 
-    const upgradeScheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeScheme);
+    const upgradeScheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory);
 
     assert.isTrue(
       await dao.isSchemeRegistered(upgradeScheme.address),

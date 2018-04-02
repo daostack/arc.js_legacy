@@ -16,6 +16,7 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeW
 
   public name: string = "UpgradeScheme";
   public frendlyName: string = "Upgrade Scheme";
+  public factory: ContractWrapperFactory<UpgradeSchemeWrapper> = UpgradeSchemeFactory;
   /**
    * Events
    */
@@ -142,7 +143,7 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeW
   }
 }
 
-export const UpgradeScheme = new ContractWrapperFactory("UpgradeScheme", UpgradeSchemeWrapper);
+export const UpgradeSchemeFactory = new ContractWrapperFactory("UpgradeScheme", UpgradeSchemeWrapper);
 
 export interface NewUpgradeProposalEventResult {
   /**

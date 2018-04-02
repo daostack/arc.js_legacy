@@ -18,6 +18,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
   public name: string = "DaoCreator";
   public frendlyName: string = "Dao Creator";
+  public factory: ContractWrapperFactory<DaoCreatorWrapper> = DaoCreatorFactory;
   /**
    * Events
    */
@@ -243,7 +244,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
   }
 }
 
-export const DaoCreator = new ContractWrapperFactory("DaoCreator", DaoCreatorWrapper);
+export const DaoCreatorFactory = new ContractWrapperFactory("DaoCreator", DaoCreatorWrapper);
 
 export interface NewOrgEventResult {
   _avatar: Address;
@@ -348,7 +349,8 @@ export interface SchemeConfig {
    *
    * New schemes will be created with these parameters and the DAO's native reputation contract.
    *
-   * **Note**: This is only relevant to schemes that can create proposals upon which
+   * !!! note
+   *     This is only relevant to schemes that can create proposals upon which
    * there can be a vote.  Other schemes will ignore these parameters.
    *
    * Defaults are those of whatever voting machine is the default for DaoCreator.  The default
@@ -366,15 +368,16 @@ export interface SchemeConfig {
 
 export interface SchemesConfig {
   /**
-   * default votingMachine parameters if you have not configured a scheme that you want to register with the
+   * Default votingMachine parameters if you have not configured a scheme that you want to register with the
    * new DAO with its own voting parameters.
    *
    * New schemes will be created these parameters.
    *
-   * **Note**: This is only relevant to schemes that can create proposals upon which
+   * !!! note
+   *     This is only relevant to schemes that can create proposals upon which
    * there can be a vote.  Other schemes will ignore these parameters.
    *
-   * Defaults are described in NewDaoVotingMachineConfig.
+   * Defaults are described in [[NewDaoVotingMachineConfig]].
    */
   votingMachineParams?: NewDaoVotingMachineConfig;
   /**

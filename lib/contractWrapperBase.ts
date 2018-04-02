@@ -1,5 +1,6 @@
 import { AvatarService } from "./avatarService";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
+import ContractWrapperFactory from "./contractWrapperFactory";
 import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
 /**
@@ -7,25 +8,31 @@ import { Utils } from "./utils";
  *
  * Example of how to define a wrapper:
  *
- *   import { ContractWrapperBase } from "../contractWrapperBase";
- *   import ContractWrapperFactory from "../contractWrapperFactory";
+ * ```
+ * import { ContractWrapperBase } from "../contractWrapperBase";
+ * import ContractWrapperFactory from "../contractWrapperFactory";
  *
- *   export class AbsoluteVoteWrapper extends ContractWrapperBase {
- *     [ wrapper properties and methods ]
- *   }
+ * export class AbsoluteVoteWrapper extends ContractWrapperBase {
+ *   [ wrapper properties and methods ]
+ * }
  *
- *   export const AbsoluteVote = new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper);
+ * export const AbsoluteVote = new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper);
+ * ```
  */
 export abstract class ContractWrapperBase {
 
   /**
+   * The wrapper factor class providing static methods `at(someAddress)`, `new()` and `deployed()`.
+   */
+  public abstract factory: ContractWrapperFactory<any>;
+  /**
    * The name of the contract.
    */
-  public name: string = "[name property has not been overridden]";
+  public abstract name: string;
   /**
    * A more friendly name for the contract.
    */
-  public frendlyName: string = "[friendlyName property has not been overridden]";
+  public abstract frendlyName: string;
   /**
    * The address of the contract
    */
@@ -104,7 +111,7 @@ export abstract class ContractWrapperBase {
   }
 
   /**
-   * Given a hash, return the associated parameters as an object.
+   * Given a hash, returns the associated parameters as an object.
    * @param paramsHash
    */
   public async getParameters(paramsHash: Hash): Promise<any> {
@@ -112,7 +119,7 @@ export abstract class ContractWrapperBase {
   }
 
   /**
-   * Given an avatar address, return the schemes parameters hash
+   * Given an avatar address, returns the schemes parameters hash
    * @param avatarAddress
    */
   public async getSchemeParametersHash(avatarAddress: Address): Promise<Hash> {
@@ -121,7 +128,7 @@ export abstract class ContractWrapperBase {
   }
 
   /**
-   * Given a hash, return the associated parameters as an array, ordered by the order
+   * Given a hash, returns the associated parameters as an array, ordered by the order
    * in which the parameters appear in the contract's Parameters struct.
    * @param paramsHash
    */
@@ -130,7 +137,7 @@ export abstract class ContractWrapperBase {
   }
 
   /**
-   * return the controller associated with the given avatar
+   * Returns the controller associated with the given avatar
    * @param avatarAddress
    */
   public async getController(avatarAddress: Address): Promise<any> {
@@ -139,7 +146,7 @@ export abstract class ContractWrapperBase {
   }
 
   /**
-   * Return this scheme's permissions.
+   * Returns this scheme's permissions.
    * @param avatarAddress
    */
   protected async _getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
@@ -155,7 +162,7 @@ export abstract class ContractWrapperBase {
   }
 
   /**
-   * Return a function that creates an EventFetcher<TArgs>.
+   * Returns a function that creates an EventFetcher<TArgs>.
    * For subclasses to use to create their event handlers.
    * This is identical to what you get with Truffle, except that
    * the result param of the callback is always guaranteed to be an array.
@@ -273,7 +280,7 @@ export class ArcTransactionResult {
   }
 
   /**
-   * Return a value from the transaction logs.
+   * Returns a value from the transaction logs.
    * @param valueName - The name of the property whose value we wish to return
    * @param eventName - Name of the event in whose log we are to look for the value
    * @param index - Index of the log in which to look for the value, when eventName is not given.
