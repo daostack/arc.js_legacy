@@ -39,6 +39,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     const defaults = {
       founders: [],
       name: undefined,
+      tokenCap: 0,
       tokenName: undefined,
       tokenSymbol: undefined,
       universalController: true,
@@ -76,6 +77,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.tokens)),
       options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.reputation)),
       controllerAddress,
+      options.tokenCap,
       /**
        * We need to increase the gas limit when creating for a non-universal controller,
        * or it will revert.  MetaMask will probably complain that our gas exceeds the block limit,
@@ -297,6 +299,10 @@ export interface ForgeOrgConfig {
    * The name of the new DAO.
    */
   name: string;
+  /**
+   * A cap on the number of tokens, in the DAO's token.  Default is zero, which means no cap.
+   */
+  tokenCap: BigNumber.BigNumber | string;
   /**
    * The name of the token to be associated with the DAO
    */

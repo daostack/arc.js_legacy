@@ -480,7 +480,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
   }
 }
 
-enum RewardType {
+export enum RewardType {
   Reputation = 0,
   NativeToken = 1,
   Eth = 2,
@@ -572,18 +572,57 @@ export interface ContributionProposal {
 }
 
 export interface ProposalRewards {
+  /**
+   * The total ETH reward
+   */
   ethReward: BigNumber.BigNumber;
+  /**
+   * The total unredeemed amount of ETH
+   */
   ethRewardUnredeemed: BigNumber.BigNumber;
+  /**
+   * The currently-redeemable external token reward
+   */
   ethRewardRedeemable: BigNumber.BigNumber;
+  /**
+   * The total external token reward
+   */
   externalTokenReward: BigNumber.BigNumber;
+  /**
+   * The total unredeemed number of external tokens
+   */
   externalTokenRewardUnredeemed: BigNumber.BigNumber;
+  /**
+   * The currently-redeemable external token reward
+   */
   externalTokenRewardRedeemable: BigNumber.BigNumber;
+  /**
+   * The total native token reward
+   */
   nativeTokenReward: BigNumber.BigNumber;
+  /**
+   * The total unredeemed number of native tokens
+   */
   nativeTokenRewardUnredeemed: BigNumber.BigNumber;
+  /**
+   * The currently-redeemable native token reward
+   */
   nativeTokenRewardRedeemable: BigNumber.BigNumber;
+  /**
+   * The proposal Id
+   */
   proposalId: Hash;
+  /**
+   * The total reputation reward
+   */
   reputationChange: BigNumber.BigNumber;
+  /**
+   * The total unredeemed amount of reputation
+   */
   reputationChangeUnredeemed: BigNumber.BigNumber;
+  /**
+   * The currently-redeemable reputation reward
+   */
   reputationChangeRedeemable: BigNumber.BigNumber;
 }
 

@@ -1,6 +1,7 @@
 import { WrapperService } from "../test-dist/wrapperService";
-import { NULL_ADDRESS } from "./helpers";
+import { NULL_ADDRESS, DefaultLogLevel } from "./helpers";
 import { UpgradeSchemeWrapper } from "../test-dist/wrappers/upgradescheme";
+import { LoggingService, LogLevel } from "../test-dist/loggingService";
 
 describe("WrapperService", () => {
   it("has a working getContractWrapper() function", async () => {
@@ -15,7 +16,9 @@ describe("WrapperService", () => {
   });
 
   it("getContractWrapper() function handles bad address", async () => {
+    LoggingService.setLogLevel(LogLevel.none);
     const wrapper = await WrapperService.getContractWrapper("UpgradeScheme", NULL_ADDRESS);
+    LoggingService.setLogLevel(DefaultLogLevel);
     assert.equal(wrapper, undefined);
   });
 });

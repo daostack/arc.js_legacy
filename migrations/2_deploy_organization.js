@@ -17,7 +17,6 @@ module.exports = async (deployer) => {
   const AbsoluteVote = artifacts.require("AbsoluteVote.sol");
   const Avatar = artifacts.require("Avatar.sol");
   const ContributionReward = artifacts.require("ContributionReward.sol");
-  const Controller = artifacts.require("Controller.sol");
   const DaoCreator = artifacts.require("DaoCreator.sol");
   // ExecutableTest is used only by tests
   const ExecutableTest = artifacts.require("ExecutableTest.sol");
@@ -42,12 +41,12 @@ module.exports = async (deployer) => {
     preBoostedVoteRequiredPercentage: 50,
     preBoostedVotePeriodLimit: 5184000, // 2 months
     boostedVotePeriodLimit: 604800, // 1 week
-    thresholdConstA: 2,
+    thresholdConstA: web3.toWei(2),
     thresholdConstB: 10,
     minimumStakingFee: 0,
     quietEndingPeriod: 7200, // Two hours
-    proposingRepRewardConstA: 5, // baseline rep rewarded
-    proposingRepRewardConstB: 5, // how much to weight strength of yes votes vs no votes in reward
+    proposingRepRewardConstA: web3.toWei(5), // baseline rep rewarded
+    proposingRepRewardConstB: web3.toWei(5), // how much to weight strength of yes votes vs no votes in reward
     stakerFeeRatioForVoters: 1, // 1 percent of staker fee given to voters
     votersReputationLossRatio: 1, // 1 percent of rep lost by voting
     votersGainRepRatioFromLostRep: 80 // percentage of how much rep correct voters get from incorrect voters who lost rep
@@ -66,6 +65,9 @@ module.exports = async (deployer) => {
     const controllerCreator = await ControllerCreator.deployed();
     await deployer.deploy(DaoCreator, controllerCreator.address);
     const daoCreatorInst = await DaoCreator.deployed(controllerCreator.address);
+
+    await deployer.deploy(UController, { gas: gasAmount });
+    const universalControllerInst = await UController.deployed();
     /**
      * Create the Genesis DAO
      */
@@ -76,14 +78,12 @@ module.exports = async (deployer) => {
       founders.map((f) => f.address),
       founders.map((f) => web3.toWei(f.tokens)),
       founders.map((f) => web3.toWei(f.reputation)),
-      // use non-universal controller
-      0,
+      universalControllerInst.address,
+      web3.toWei(100000000), // token cap of one hundred million GEN, in Wei
       { gas: gasAmount });
 
     const AvatarInst = await Avatar.at(tx.logs[0].args._avatar);
-    const controllerAddress = await AvatarInst.owner();
-    const ControllerInst = await Controller.at(controllerAddress);
-    const nativeTokenAddress = await ControllerInst.nativeToken();
+    const nativeTokenAddress = await AvatarInst.nativeToken();
     /**
      * The voting machine.  GenesisProtocol must be deployed as a scheme if it is
      * to be used by schemes as a voting machine, which is what all of the
@@ -195,7 +195,6 @@ module.exports = async (deployer) => {
     await deployer.deploy(AbsoluteVote);
     await deployer.deploy(SimpleICO);
     await deployer.deploy(TokenCapGC);
-    await deployer.deploy(UController, { gas: gasAmount });
     await deployer.deploy(VestingScheme);
     await deployer.deploy(VoteInOrganizationScheme);
     await deployer.deploy(ExecutableTest);
