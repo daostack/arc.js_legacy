@@ -262,8 +262,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../CreateDao/" title="DAOs" class="md-nav__link">
-      DAOs
+    <a href="../../../Wrappers/" title="Contract Wrappers" class="md-nav__link">
+      Contract Wrappers
     </a>
   </li>
 
@@ -274,8 +274,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../Schemes/" title="Schemes" class="md-nav__link">
-      Schemes
+    <a href="../../../Daos/" title="DAOs" class="md-nav__link">
+      DAOs
     </a>
   </li>
 
@@ -298,8 +298,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../GCs/" title="Global Constraints" class="md-nav__link">
-      Global Constraints
+    <a href="../../../Scripts/" title="Scripts" class="md-nav__link">
+      Scripts
     </a>
   </li>
 
@@ -609,41 +609,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_getconstraints" title="_getConstraints" class="md-nav__link">
-    _getConstraints
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_getschemes" title="_getSchemes" class="md-nav__link">
-    _getSchemes
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_handleconstraintevent" title="_handleConstraintEvent" class="md-nav__link">
-    _handleConstraintEvent
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_handleschemeevent" title="_handleSchemeEvent" class="md-nav__link">
-    _handleSchemeEvent
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#getcontractwrapper" title="getContractWrapper" class="md-nav__link">
-    getContractWrapper
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#getglobalconstraints" title="getGlobalConstraints" class="md-nav__link">
     getGlobalConstraints
   </a>
@@ -674,6 +639,13 @@
           <li class="md-nav__item">
   <a href="#gettokensymbol" title="getTokenSymbol" class="md-nav__link">
     getTokenSymbol
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isglobalconstraintregistered" title="isGlobalConstraintRegistered" class="md-nav__link">
+    isGlobalConstraintRegistered
   </a>
   
 </li>
@@ -2427,41 +2399,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_getconstraints" title="_getConstraints" class="md-nav__link">
-    _getConstraints
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_getschemes" title="_getSchemes" class="md-nav__link">
-    _getSchemes
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_handleconstraintevent" title="_handleConstraintEvent" class="md-nav__link">
-    _handleConstraintEvent
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_handleschemeevent" title="_handleSchemeEvent" class="md-nav__link">
-    _handleSchemeEvent
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#getcontractwrapper" title="getContractWrapper" class="md-nav__link">
-    getContractWrapper
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#getglobalconstraints" title="getGlobalConstraints" class="md-nav__link">
     getGlobalConstraints
   </a>
@@ -2492,6 +2429,13 @@
           <li class="md-nav__item">
   <a href="#gettokensymbol" title="getTokenSymbol" class="md-nav__link">
     getTokenSymbol
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isglobalconstraintregistered" title="isGlobalConstraintRegistered" class="md-nav__link">
+    isGlobalConstraintRegistered
   </a>
   
 </li>
@@ -2550,6 +2494,7 @@
                 
                 <p><a href="../../README/">API Reference</a> &gt; <a href="./">DAO</a></p>
 <h1 id="class-dao">Class: DAO<a class="headerlink" href="#class-dao" title="Permanent link">&para;</a></h1>
+<p>Helper class and factory for DAOs.</p>
 <h2 id="index">Index<a class="headerlink" href="#index" title="Permanent link">&para;</a></h2>
 <h3 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h3>
 <ul>
@@ -2561,16 +2506,12 @@
 </ul>
 <h3 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h3>
 <ul>
-<li><a href="./#_getConstraints">_getConstraints</a></li>
-<li><a href="./#_getSchemes">_getSchemes</a></li>
-<li><a href="./#_handleConstraintEvent">_handleConstraintEvent</a></li>
-<li><a href="./#_handleSchemeEvent">_handleSchemeEvent</a></li>
-<li><a href="./#getContractWrapper">getContractWrapper</a></li>
 <li><a href="./#getGlobalConstraints">getGlobalConstraints</a></li>
 <li><a href="./#getName">getName</a></li>
 <li><a href="./#getSchemes">getSchemes</a></li>
 <li><a href="./#getTokenName">getTokenName</a></li>
 <li><a href="./#getTokenSymbol">getTokenSymbol</a></li>
+<li><a href="./#isGlobalConstraintRegistered">isGlobalConstraintRegistered</a></li>
 <li><a href="./#isSchemeRegistered">isSchemeRegistered</a></li>
 <li><a href="./#at">at</a></li>
 <li><a href="./#getGenesisDao">getGenesisDao</a></li>
@@ -2581,143 +2522,39 @@
 <p><a id="avatar"></a></p>
 <h3 id="avatar">avatar<a class="headerlink" href="#avatar" title="Permanent link">&para;</a></h3>
 <p><strong>●  avatar</strong>:  <em><code>any</code></em> </p>
-<p><em>Defined in dao.ts:69</em></p>
+<p><em>Defined in dao.ts:83</em></p>
+<p>TruffleContract for the DAO's Avatar</p>
 <hr />
 <p><a id="controller"></a></p>
 <h3 id="controller">controller<a class="headerlink" href="#controller" title="Permanent link">&para;</a></h3>
 <p><strong>●  controller</strong>:  <em><code>any</code></em> </p>
-<p><em>Defined in dao.ts:70</em></p>
+<p><em>Defined in dao.ts:87</em></p>
+<p>TruffleContract for the DAO's controller (Controller or UController by default, see DAO.hasUController)</p>
 <hr />
 <p><a id="hasUController"></a></p>
 <h3 id="hasucontroller">hasUController<a class="headerlink" href="#hasucontroller" title="Permanent link">&para;</a></h3>
 <p><strong>●  hasUController</strong>:  <em><code>boolean</code></em> </p>
-<p><em>Defined in dao.ts:71</em></p>
+<p><em>Defined in dao.ts:91</em></p>
+<p><code>true</code> if the DAO is using Arc's universal controller</p>
 <hr />
 <p><a id="reputation"></a></p>
 <h3 id="reputation">reputation<a class="headerlink" href="#reputation" title="Permanent link">&para;</a></h3>
 <p><strong>●  reputation</strong>:  <em><code>any</code></em> </p>
-<p><em>Defined in dao.ts:73</em></p>
+<p><em>Defined in dao.ts:99</em></p>
+<p>TruffleContract for the DAO's native reputation (Reputation)</p>
 <hr />
 <p><a id="token"></a></p>
 <h3 id="token">token<a class="headerlink" href="#token" title="Permanent link">&para;</a></h3>
 <p><strong>●  token</strong>:  <em><code>any</code></em> </p>
-<p><em>Defined in dao.ts:72</em></p>
+<p><em>Defined in dao.ts:95</em></p>
+<p>TruffleContract for the DAO's native token (DAOToken by default)</p>
 <hr />
 <h2 id="methods_1">Methods<a class="headerlink" href="#methods_1" title="Permanent link">&para;</a></h2>
-<p><a id="_getConstraints"></a></p>
-<h3 id="_getconstraints">_getConstraints<a class="headerlink" href="#_getconstraints" title="Permanent link">&para;</a></h3>
-<p>► <strong>_getConstraints</strong>(): <code>Promise</code>.&lt;<code>Array</code>.&lt;<a href="../../interfaces/DaoGlobalConstraintInfo/">DaoGlobalConstraintInfo</a>&gt;&gt;</p>
-<p><em>Defined in dao.ts:203</em></p>
-<p>returns global constraints currently in this DAO, as DaoGlobalConstraintInfo</p>
-<p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>Array</code>.&lt;<a href="../../interfaces/DaoGlobalConstraintInfo/">DaoGlobalConstraintInfo</a>&gt;&gt;</p>
-<hr />
-<p><a id="_getSchemes"></a></p>
-<h3 id="_getschemes">_getSchemes<a class="headerlink" href="#_getschemes" title="Permanent link">&para;</a></h3>
-<p>► <strong>_getSchemes</strong>(): <code>Promise</code>.&lt;<code>Array</code>.&lt;<a href="../../interfaces/DaoSchemeInfo/">DaoSchemeInfo</a>&gt;&gt;</p>
-<p><em>Defined in dao.ts:93</em></p>
-<p>returns schemes currently in this DAO as Array<daoschemeinfo></daoschemeinfo></p>
-<p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>Array</code>.&lt;<a href="../../interfaces/DaoSchemeInfo/">DaoSchemeInfo</a>&gt;&gt;</p>
-<hr />
-<p><a id="_handleConstraintEvent"></a></p>
-<h3 id="_handleconstraintevent">_handleConstraintEvent<a class="headerlink" href="#_handleconstraintevent" title="Permanent link">&para;</a></h3>
-<p>► <strong>_handleConstraintEvent</strong>(log: <em><a href="../../interfaces/DecodedLogEntryEvent/">DecodedLogEntryEvent</a><a href="../../interfaces/ControllerAddGlobalConstraintsEventLogEntry/">ControllerAddGlobalConstraintsEventLogEntry</a>⎮<code>Array</code>.&lt;<a href="../../interfaces/DecodedLogEntryEvent/">DecodedLogEntryEvent</a><a href="../../interfaces/ControllerAddGlobalConstraintsEventLogEntry/">ControllerAddGlobalConstraintsEventLogEntry</a>&gt;</em>, arcTypesMap: <em><code>Map</code>.&lt;<a href="../../#Address">Address</a>&gt;,.&lt;<code>string</code>&gt;</em>, constraintsMap: <em><code>Map</code>.&lt;<code>string</code>&gt;,.&lt;<a href="../../interfaces/DaoGlobalConstraintInfo/">DaoGlobalConstraintInfo</a>&gt;</em>): <code>Promise</code>.&lt;<code>void</code>&gt;</p>
-<p><em>Defined in dao.ts:250</em></p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>log</td>
-<td><a href="../../interfaces/DecodedLogEntryEvent/">DecodedLogEntryEvent</a><a href="../../interfaces/ControllerAddGlobalConstraintsEventLogEntry/">ControllerAddGlobalConstraintsEventLogEntry</a>⎮<code>Array</code>.&lt;<a href="../../interfaces/DecodedLogEntryEvent/">DecodedLogEntryEvent</a><a href="../../interfaces/ControllerAddGlobalConstraintsEventLogEntry/">ControllerAddGlobalConstraintsEventLogEntry</a>&gt;</td>
-<td>-</td>
-</tr>
-<tr>
-<td>arcTypesMap</td>
-<td><code>Map</code>.&lt;<a href="../../#Address">Address</a>&gt;,.&lt;<code>string</code>&gt;</td>
-<td>-</td>
-</tr>
-<tr>
-<td>constraintsMap</td>
-<td><code>Map</code>.&lt;<code>string</code>&gt;,.&lt;<a href="../../interfaces/DaoGlobalConstraintInfo/">DaoGlobalConstraintInfo</a>&gt;</td>
-<td>-</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>void</code>&gt;</p>
-<hr />
-<p><a id="_handleSchemeEvent"></a></p>
-<h3 id="_handleschemeevent">_handleSchemeEvent<a class="headerlink" href="#_handleschemeevent" title="Permanent link">&para;</a></h3>
-<p>► <strong>_handleSchemeEvent</strong>(log: <em><a href="../../interfaces/DecodedLogEntryEvent/">DecodedLogEntryEvent</a><a href="../../interfaces/ControllerRegisterSchemeEventLogEntry/">ControllerRegisterSchemeEventLogEntry</a>⎮<code>Array</code>.&lt;<a href="../../interfaces/DecodedLogEntryEvent/">DecodedLogEntryEvent</a><a href="../../interfaces/ControllerRegisterSchemeEventLogEntry/">ControllerRegisterSchemeEventLogEntry</a>&gt;</em>, arcTypesMap: <em><code>Map</code>.&lt;<a href="../../#Address">Address</a>&gt;,.&lt;<code>string</code>&gt;</em>, schemesMap: <em><code>Map</code>.&lt;<code>string</code>&gt;,.&lt;<a href="../../interfaces/DaoSchemeInfo/">DaoSchemeInfo</a>&gt;</em>): <code>Promise</code>.&lt;<code>void</code>&gt;</p>
-<p><em>Defined in dao.ts:141</em></p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>log</td>
-<td><a href="../../interfaces/DecodedLogEntryEvent/">DecodedLogEntryEvent</a><a href="../../interfaces/ControllerRegisterSchemeEventLogEntry/">ControllerRegisterSchemeEventLogEntry</a>⎮<code>Array</code>.&lt;<a href="../../interfaces/DecodedLogEntryEvent/">DecodedLogEntryEvent</a><a href="../../interfaces/ControllerRegisterSchemeEventLogEntry/">ControllerRegisterSchemeEventLogEntry</a>&gt;</td>
-<td>-</td>
-</tr>
-<tr>
-<td>arcTypesMap</td>
-<td><code>Map</code>.&lt;<a href="../../#Address">Address</a>&gt;,.&lt;<code>string</code>&gt;</td>
-<td>-</td>
-</tr>
-<tr>
-<td>schemesMap</td>
-<td><code>Map</code>.&lt;<code>string</code>&gt;,.&lt;<a href="../../interfaces/DaoSchemeInfo/">DaoSchemeInfo</a>&gt;</td>
-<td>-</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>void</code>&gt;</p>
-<hr />
-<p><a id="getContractWrapper"></a></p>
-<h3 id="getcontractwrapper">getContractWrapper<a class="headerlink" href="#getcontractwrapper" title="Permanent link">&para;</a></h3>
-<p>► <strong>getContractWrapper</strong>(contract: <em><code>string</code></em>, address?: <em><a href="../../#Address">Address</a></em>): <code>Promise</code>.&lt;<a href="../ContractWrapperBase/">ContractWrapperBase</a>⎮<code>undefined</code>&gt;</p>
-<p><em>Defined in dao.ts:174</em></p>
-<p>Returns an Arc.js contract wrapper or undefined if not found.</p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>contract</td>
-<td><code>string</code></td>
-<td>name of an Arc contract, like "SchemeRegistrar"</td>
-</tr>
-<tr>
-<td>address</td>
-<td><a href="../../#Address">Address</a></td>
-<td>optional</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>Promise</code>.&lt;<a href="../ContractWrapperBase/">ContractWrapperBase</a>⎮<code>undefined</code>&gt;</p>
-<hr />
 <p><a id="getGlobalConstraints"></a></p>
 <h3 id="getglobalconstraints">getGlobalConstraints<a class="headerlink" href="#getglobalconstraints" title="Permanent link">&para;</a></h3>
 <p>► <strong>getGlobalConstraints</strong>(name?: <em><code>string</code></em>): <code>Promise</code>.&lt;<code>Array</code>.&lt;<a href="../../interfaces/DaoGlobalConstraintInfo/">DaoGlobalConstraintInfo</a>&gt;&gt;</p>
-<p><em>Defined in dao.ts:189</em></p>
-<p>Returns global constraints currently registered into this DAO, as Array<daoglobalconstraintinfo></daoglobalconstraintinfo></p>
+<p><em>Defined in dao.ts:118</em></p>
+<p>Returns the promise of all os the global constraints currently registered into this DAO, as Array<daoglobalconstraintinfo></daoglobalconstraintinfo></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2731,7 +2568,7 @@
 <tr>
 <td>name</td>
 <td><code>string</code></td>
-<td>like "TokenCapGC"</td>
+<td>Optionally filter by the name of a global constraint, like "TokenCapGC"</td>
 </tr>
 </tbody>
 </table>
@@ -2740,15 +2577,15 @@
 <p><a id="getName"></a></p>
 <h3 id="getname">getName<a class="headerlink" href="#getname" title="Permanent link">&para;</a></h3>
 <p>► <strong>getName</strong>(): <code>Promise</code>.&lt;<code>string</code>&gt;</p>
-<p><em>Defined in dao.ts:280</em></p>
-<p>Returns the name of the DAO as stored in the Avatar</p>
+<p><em>Defined in dao.ts:147</em></p>
+<p>Returns the promise of the name of the DAO as stored in the Avatar</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>string</code>&gt;</p>
 <hr />
 <p><a id="getSchemes"></a></p>
 <h3 id="getschemes">getSchemes<a class="headerlink" href="#getschemes" title="Permanent link">&para;</a></h3>
 <p>► <strong>getSchemes</strong>(name?: <em><code>string</code></em>): <code>Promise</code>.&lt;<code>Array</code>.&lt;<a href="../../interfaces/DaoSchemeInfo/">DaoSchemeInfo</a>&gt;&gt;</p>
-<p><em>Defined in dao.ts:79</em></p>
-<p>returns schemes currently registered into this DAO, as Array<daoschemeinfo></daoschemeinfo></p>
+<p><em>Defined in dao.ts:105</em></p>
+<p>Returns the promise of all of the schemes registered into this DAO, as Array<daoschemeinfo></daoschemeinfo></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2762,7 +2599,7 @@
 <tr>
 <td>name</td>
 <td><code>string</code></td>
-<td>like "SchemeRegistrar"</td>
+<td>Optionally filter by the name of a scheme, like "SchemeRegistrar"</td>
 </tr>
 </tbody>
 </table>
@@ -2771,22 +2608,46 @@
 <p><a id="getTokenName"></a></p>
 <h3 id="gettokenname">getTokenName<a class="headerlink" href="#gettokenname" title="Permanent link">&para;</a></h3>
 <p>► <strong>getTokenName</strong>(): <code>Promise</code>.&lt;<code>string</code>&gt;</p>
-<p><em>Defined in dao.ts:288</em></p>
-<p>Returns the token name for the DAO as stored in the native token</p>
+<p><em>Defined in dao.ts:155</em></p>
+<p>Returns the promise of the token name for the DAO as stored in the native token</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>string</code>&gt;</p>
 <hr />
 <p><a id="getTokenSymbol"></a></p>
 <h3 id="gettokensymbol">getTokenSymbol<a class="headerlink" href="#gettokensymbol" title="Permanent link">&para;</a></h3>
 <p>► <strong>getTokenSymbol</strong>(): <code>Promise</code>.&lt;<code>string</code>&gt;</p>
-<p><em>Defined in dao.ts:296</em></p>
-<p>Returns the token symbol for the DAO as stored in the native token</p>
+<p><em>Defined in dao.ts:163</em></p>
+<p>Returns the promise of the token symbol for the DAO as stored in the native token</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>string</code>&gt;</p>
+<hr />
+<p><a id="isGlobalConstraintRegistered"></a></p>
+<h3 id="isglobalconstraintregistered">isGlobalConstraintRegistered<a class="headerlink" href="#isglobalconstraintregistered" title="Permanent link">&para;</a></h3>
+<p>► <strong>isGlobalConstraintRegistered</strong>(gc: <em><a href="../../#Address">Address</a></em>): <code>Promise</code>.&lt;<code>boolean</code>&gt;</p>
+<p><em>Defined in dao.ts:139</em></p>
+<p>Returns whether the global constraint with the given address is registered to this DAO's controller</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gc</td>
+<td><a href="../../#Address">Address</a></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>boolean</code>&gt;</p>
 <hr />
 <p><a id="isSchemeRegistered"></a></p>
 <h3 id="isschemeregistered">isSchemeRegistered<a class="headerlink" href="#isschemeregistered" title="Permanent link">&para;</a></h3>
 <p>► <strong>isSchemeRegistered</strong>(schemeAddress: <em><a href="../../#Address">Address</a></em>): <code>Promise</code>.&lt;<code>boolean</code>&gt;</p>
-<p><em>Defined in dao.ts:181</em></p>
-<p>returns whether the scheme with the given name is registered to this DAO's controller</p>
+<p><em>Defined in dao.ts:132</em></p>
+<p>Returns whether the scheme with the given address is registered to this DAO's controller</p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2809,7 +2670,8 @@
 <p><a id="at"></a></p>
 <h3 id="static-at">«Static» at<a class="headerlink" href="#static-at" title="Permanent link">&para;</a></h3>
 <p>► <strong>at</strong>(avatarAddress: <em><a href="../../#Address">Address</a></em>): <code>Promise</code>.&lt;<a href="./">DAO</a>&gt;</p>
-<p><em>Defined in dao.ts:31</em></p>
+<p><em>Defined in dao.ts:42</em></p>
+<p>Returns the promise of a DAO at the given address. Throws an exception if not found.</p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2823,7 +2685,7 @@
 <tr>
 <td>avatarAddress</td>
 <td><a href="../../#Address">Address</a></td>
-<td>-</td>
+<td>The DAO's address</td>
 </tr>
 </tbody>
 </table>
@@ -2832,8 +2694,8 @@
 <p><a id="getGenesisDao"></a></p>
 <h3 id="static-getgenesisdao">«Static» getGenesisDao<a class="headerlink" href="#static-getgenesisdao" title="Permanent link">&para;</a></h3>
 <p>► <strong>getGenesisDao</strong>(daoCreatorAddress: <em><a href="../../#Address">Address</a></em>): <code>Promise</code>.&lt;<code>string</code>&gt;</p>
-<p><em>Defined in dao.ts:47</em></p>
-<p>Returns promise of the DAOstack Genesis avatar address, or undefined if not found</p>
+<p><em>Defined in dao.ts:58</em></p>
+<p>Returns the promise of the DAOstack Genesis avatar address, or undefined if not found</p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2855,8 +2717,9 @@
 <hr />
 <p><a id="new"></a></p>
 <h3 id="static-new">«Static» new<a class="headerlink" href="#static-new" title="Permanent link">&para;</a></h3>
-<p>► <strong>new</strong>(opts: <em><a href="../../interfaces/NewDaoConfig/">NewDaoConfig</a></em>): <code>Promise</code>.&lt;<a href="./">DAO</a>&gt;</p>
-<p><em>Defined in dao.ts:12</em></p>
+<p>► <strong>new</strong>(options: <em><a href="../../interfaces/NewDaoConfig/">NewDaoConfig</a></em>): <code>Promise</code>.&lt;<a href="./">DAO</a>&gt;</p>
+<p><em>Defined in dao.ts:19</em></p>
+<p>Returns the promise of a new DAO</p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2868,9 +2731,9 @@
 </thead>
 <tbody>
 <tr>
-<td>opts</td>
+<td>options</td>
 <td><a href="../../interfaces/NewDaoConfig/">NewDaoConfig</a></td>
-<td>-</td>
+<td>Configuration of the new DAO</td>
 </tr>
 </tbody>
 </table>

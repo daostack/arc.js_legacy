@@ -262,8 +262,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../CreateDao/" title="DAOs" class="md-nav__link">
-      DAOs
+    <a href="../../../Wrappers/" title="Contract Wrappers" class="md-nav__link">
+      Contract Wrappers
     </a>
   </li>
 
@@ -274,8 +274,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../Schemes/" title="Schemes" class="md-nav__link">
-      Schemes
+    <a href="../../../Daos/" title="DAOs" class="md-nav__link">
+      DAOs
     </a>
   </li>
 
@@ -298,8 +298,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../GCs/" title="Global Constraints" class="md-nav__link">
-      Global Constraints
+    <a href="../../../Scripts/" title="Scripts" class="md-nav__link">
+      Scripts
     </a>
   </li>
 
@@ -1150,6 +1150,13 @@
           <li class="md-nav__item">
   <a href="#name" title="name" class="md-nav__link">
     name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tokencap" title="tokenCap" class="md-nav__link">
+    tokenCap
   </a>
   
 </li>
@@ -2242,6 +2249,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#tokencap" title="tokenCap" class="md-nav__link">
+    tokenCap
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#tokenname" title="tokenName" class="md-nav__link">
     tokenName
   </a>
@@ -2296,31 +2310,37 @@
 <p><a id="founders"></a></p>
 <h3 id="founders">founders<a class="headerlink" href="#founders" title="Permanent link">&para;</a></h3>
 <p><strong>●  founders</strong>:  <em><code>Array</code>.&lt;<a href="../FounderConfig/">FounderConfig</a>&gt;</em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/547a34a3/lib/wrappers/daocreator.ts#L312">wrappers/daocreator.ts:312</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/57f16b38/lib/wrappers/daocreator.ts#L319">wrappers/daocreator.ts:319</a></em></p>
 <p>Optional array describing founders. Default is [].</p>
 <hr />
 <p><a id="name"></a></p>
 <h3 id="name">name<a class="headerlink" href="#name" title="Permanent link">&para;</a></h3>
 <p><strong>●  name</strong>:  <em><code>string</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/547a34a3/lib/wrappers/daocreator.ts#L299">wrappers/daocreator.ts:299</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/57f16b38/lib/wrappers/daocreator.ts#L302">wrappers/daocreator.ts:302</a></em></p>
 <p>The name of the new DAO.</p>
+<hr />
+<p><a id="tokenCap"></a></p>
+<h3 id="tokencap">tokenCap<a class="headerlink" href="#tokencap" title="Permanent link">&para;</a></h3>
+<p><strong>●  tokenCap</strong>:  <em><code>BigNumber.BigNumber</code>⎮<code>string</code></em> </p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/57f16b38/lib/wrappers/daocreator.ts#L306">wrappers/daocreator.ts:306</a></em></p>
+<p>A cap on the number of tokens, in the DAO's token. Default is zero, which means no cap.</p>
 <hr />
 <p><a id="tokenName"></a></p>
 <h3 id="tokenname">tokenName<a class="headerlink" href="#tokenname" title="Permanent link">&para;</a></h3>
 <p><strong>●  tokenName</strong>:  <em><code>string</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/547a34a3/lib/wrappers/daocreator.ts#L303">wrappers/daocreator.ts:303</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/57f16b38/lib/wrappers/daocreator.ts#L310">wrappers/daocreator.ts:310</a></em></p>
 <p>The name of the token to be associated with the DAO</p>
 <hr />
 <p><a id="tokenSymbol"></a></p>
 <h3 id="tokensymbol">tokenSymbol<a class="headerlink" href="#tokensymbol" title="Permanent link">&para;</a></h3>
 <p><strong>●  tokenSymbol</strong>:  <em><code>string</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/547a34a3/lib/wrappers/daocreator.ts#L307">wrappers/daocreator.ts:307</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/57f16b38/lib/wrappers/daocreator.ts#L314">wrappers/daocreator.ts:314</a></em></p>
 <p>The symbol of the token to be associated with the DAO</p>
 <hr />
 <p><a id="universalController"></a></p>
 <h3 id="optional-universalcontroller">«Optional» universalController<a class="headerlink" href="#optional-universalcontroller" title="Permanent link">&para;</a></h3>
 <p><strong>●  universalController</strong>:  <em><code>boolean</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/547a34a3/lib/wrappers/daocreator.ts#L317">wrappers/daocreator.ts:317</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/57f16b38/lib/wrappers/daocreator.ts#L324">wrappers/daocreator.ts:324</a></em></p>
 <p>true to use the UniversalController contract, false to instantiate and use a new Controller contract. The default is true.</p>
 <hr />
                 
