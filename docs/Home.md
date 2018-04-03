@@ -22,7 +22,7 @@ Now you can proceed with migrating contracts to a running testnet and configurin
 ## API Reference
 You can find a [detailed reference for the entire Arc.js API here](/api/README.md).  Read on here for step-by-step examples on how to get started with Arc.js.
 
-## Setting up Arc.js
+## Getting Started
 
 The following sections describe the basic steps for setting up Arc.js in your application. These steps basically involve:
 
@@ -31,9 +31,9 @@ The following sections describe the basic steps for setting up Arc.js in your ap
 3. using the Arc.js code in your application
 
 !!! note
-    All of the script examples assume you are running the scripts in the root folder of your application.  If you happen to be running the scripts in the context of a cloned Arc.js repository, omit the prefix `npm explore @daostack/arc.js -- `. See [more about working with Arc.js Scripts](#working-with-arcjs-scripts).
+    All of the script examples assume you are running the scripts in the root folder of your application.  If you happen to be running the scripts in the context of a cloned Arc.js repository, omit the prefix `npm explore @daostack/arc.js -- `. See [Working with Arc Contracts](#work-with-arc-contracts).
 
-## Setting up a Testnet with Arc Contracts
+## Set up a Testnet with Arc Contracts
 
 Arc.js runs against an Ethereum network where it assumes that the Arc contracts have been migrated.  Out of the box, Arc.js can find contracts migrated to the mainnet. But for testing, you will need to tell it to migrate the Arc contracts to a testnet of your choice.  You can do this by running a few Arc.js scripts.
 
@@ -58,11 +58,10 @@ npm explore @daostack/arc.js -- npm start migrateContracts
 
 Now when your app uses Arc.js, it will be running against Ganache and the contracts you just migrated.
 
-For more on Arc.js scripts, see [Working with Arc.js Scripts](#working-with-arcjs-scripts).
+!!! note
+    See [Work with Arc Contracts](#work-with-arc-contracts) and [Deploy to Other Testnets](#deploy-to-other-testnets).
 
-See [Deploying to Other Testnets](#deploying-to-other-testnets) if you want to run against a testnet other-than Ganache.
-
-## Using the Arc.js Library in your Code
+## Use the Arc.js Library in your Code
 
 ### Typescript
 Arc.js itself is written using Typescript. The Arc.js library includes Typescript type definitions defined in an index.d.ts.
@@ -70,34 +69,18 @@ Arc.js itself is written using Typescript. The Arc.js library includes Typescrip
 ### JavaScript
 The javascript included in the Arc.js library is ES6 in a commonjs module format.
 
-### Importing Arc.js
+### Import Arc.js
 
 Import everything from ArcJs as follows:
 
 ```javascript
 import * as ArcJs from '@daostack/arc.js';
 ```
-### Configuring Arc.js
+### Configure Arc.js
 
-Please refer [here](./Configuration.md) for complete documentation on configuration settings.
+Refer here for [complete documentation on Arc.js configuration settings](./Configuration.md).
 
-To obtain a configuration setting:
-
-```javascript
-import { ConfigService } from '@daostack/arc.js';
-ConfigService.get('network');
-```
-
-To override a configuration setting at runtime:
-```javascript
-import { ConfigService } from '@daostack/arc.js';
-ConfigService.set('network', 'kovan');
-```
-
-!!! tip
-    You can also override the defaults using OS environment variables.
-
-### Initializing Arc.js at Runtime
+### Initialize Arc.js at Runtime
 
 Your application must invoke `ArcInitialize()` once at runtime before doing anything else.
 
@@ -106,12 +89,12 @@ import { ArcInitialize } from "@daostack/arc.js";
 await ArcInitialize();
 ```
 
-### Working with Arc Contracts
+### Work with Arc Contracts
 Now that you've got Arc.js plugged into your application, configured, and contracts migrated to a running testnet, you are ready to start coding against DAOs and other Arc entities.
 
 You will likely start by creating or referencing one or more DAOs.  Arc.js provides a class called [DAO](api/classes/DAO) that facilitates creating and working with DAOs.  Refer here for [all about the DAO class](DAOs).
 
-Once you have a DAO or set of DAOs, you can start working with them, most often using schemes to work with proposals. Arc.js facilitates working with proposals, schemes and other entities such as global constraints and voting machines by providing contract "wrapper" classes.  Refer here for [all about wrapper classes](Wrappers).
+Once you have a DAO or set of DAOs, you can start working with them, most often using schemes to work with proposals. Arc.js facilitates working with proposals, schemes and other entities such as events, global constraints and voting machines by providing contract "wrapper" classes.  Refer here for [all about contract wrapper classes](Wrappers).
 
 ### Other Service Classes
 

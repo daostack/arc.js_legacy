@@ -23,7 +23,7 @@ The level of logging.  Default is 9 (error | info).  The available log levels, w
   debug = 4
   error = 8
   all = 15
-  ```
+```
 
 ### Obtain a configuration setting at runtime
 

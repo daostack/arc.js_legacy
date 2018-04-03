@@ -8,6 +8,8 @@ Each wrapper contains a `contract` property which is the original "wrapped" Truf
 
 Each wrapper also contains a `factory` property.  This is the static instance of the wrapper factory class which is based on [ContractWrapperFactory<TWrapper>](api/classes/ContractWrapperFactory) (where `TWrapper` is the type (class) of the wrapper).  Each factory contains the static methods `at(someAddress)`, `new()` and `deployed()` that you can use to instantiate the associated wrapper class.
 
+Each wrapper includes the contract's events.  Refer here for more information about [how Arc.js wraps contract events](Events).
+
 Arc.js provides multiple ways to obtain contract wrappers, each optimal in particular use cases:
 
 * [get a deployed wrapper by the Arc contract name](Home/#get-a-deployed-wrapper-by-name)
