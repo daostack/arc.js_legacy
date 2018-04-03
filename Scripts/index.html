@@ -262,18 +262,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../Wrappers/" title="Contract Wrappers" class="md-nav__link">
-      Contract Wrappers
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
     <a href="../Daos/" title="DAOs" class="md-nav__link">
       DAOs
     </a>
@@ -286,8 +274,32 @@
 
 
   <li class="md-nav__item">
-    <a href="../Proposals/" title="Proposals" class="md-nav__link">
-      Proposals
+    <a href="../Wrappers/" title="Contract Wrappers" class="md-nav__link">
+      Contract Wrappers
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../Proposals/" title="Proposals and Schemes" class="md-nav__link">
+      Proposals and Schemes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../Events/" title="Events" class="md-nav__link">
+      Events
     </a>
   </li>
 
@@ -325,8 +337,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#deploying-to-other-testnets" title="Deploying to Other Testnets" class="md-nav__link">
-    Deploying to Other Testnets
+  <a href="#deploying-to-testnets" title="Deploying to Testnets" class="md-nav__link">
+    Deploying to Testnets
   </a>
   
 </li>
@@ -347,15 +359,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#stop-on-the-first-failure" title="Stop on the first failure" class="md-nav__link">
-    Stop on the first failure
+  <a href="#stop-tests-on-the-first-failure" title="Stop tests on the first failure" class="md-nav__link">
+    Stop tests on the first failure
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#run-an-individual-test-module" title="Run an individual test module" class="md-nav__link">
-    Run an individual test module
+  <a href="#run-tests-defined-in-a-single-test-module" title="Run tests defined in a single test module" class="md-nav__link">
+    Run tests defined in a single test module
   </a>
   
 </li>
@@ -407,13 +419,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
     
-    <label class="md-nav__link" for="nav-9">
+    <label class="md-nav__link" for="nav-10">
       API Reference
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-9">
+      <label class="md-nav__title" for="nav-10">
         API Reference
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -2197,8 +2209,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#deploying-to-other-testnets" title="Deploying to Other Testnets" class="md-nav__link">
-    Deploying to Other Testnets
+  <a href="#deploying-to-testnets" title="Deploying to Testnets" class="md-nav__link">
+    Deploying to Testnets
   </a>
   
 </li>
@@ -2219,15 +2231,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#stop-on-the-first-failure" title="Stop on the first failure" class="md-nav__link">
-    Stop on the first failure
+  <a href="#stop-tests-on-the-first-failure" title="Stop tests on the first failure" class="md-nav__link">
+    Stop tests on the first failure
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#run-an-individual-test-module" title="Run an individual test module" class="md-nav__link">
-    Run an individual test module
+  <a href="#run-tests-defined-in-a-single-test-module" title="Run tests defined in a single test module" class="md-nav__link">
+    Run tests defined in a single test module
   </a>
   
 </li>
@@ -2262,26 +2274,35 @@
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">npm</span> <span class="nx">explore</span> <span class="err">@</span><span class="nx">daostack</span><span class="o">/</span><span class="nx">arc</span><span class="p">.</span><span class="nx">js</span> <span class="o">--</span> <span class="nx">npm</span> <span class="nx">start</span> <span class="nx">test</span><span class="p">.</span><span class="nx">ganache</span><span class="p">.</span><span class="nx">run</span>
 </pre></div>
 </td></tr></table></p>
-<p>Otherwise, when running the scripts at the root of Arc.js, you must omit the <code>npm explore @daostack/arc.js --</code>.</p>
-<p>All of the scripts are defined in the package-scripts.js file.  You have already seen their <a href="#setting-up-a-testnet-with-arc-contracts">most typical use in an application context</a>.</p>
-<p>See also  <a href="#running-against-a-ganache-database">Running Against a Ganache Database</a>, <a href="#deploying-to-other-testnets">Deploying to Other Testnets</a> and <a href="#run-lint-and-tests">Run Lint and Tests</a></p>
-<h2 id="deploying-to-other-testnets">Deploying to Other Testnets<a class="headerlink" href="#deploying-to-other-testnets" title="Permanent link">&para;</a></h2>
-<p>Please refer <a href="../Migration/">here</a> for instructions on migrating contracts to other test networks.</p>
+<p>Otherwise, when running the scripts at the root of an Arc.js repo, you must omit the <code>npm explore @daostack/arc.js --</code> so it looks like this.</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">npm</span> <span class="nx">start</span> <span class="nx">test</span><span class="p">.</span><span class="nx">ganache</span><span class="p">.</span><span class="nx">run</span>
+</pre></div>
+</td></tr></table>
+
+<div class="admonition info">
+<p class="admonition-title">More Scripts</p>
+<p>More scripts than are described here are defined in the <code>package-scripts.js</code> file.  The Arc.js package uses <code>nps</code> run these scripts. If you install <code>nps</code> globally you can substitute <code>npm start</code> with <code>nps</code>, so, at the root of an Arc.js repo, it looks like this:
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">nps</span> <span class="nx">test</span><span class="p">.</span><span class="nx">ganache</span><span class="p">.</span><span class="nx">run</span>
+</pre></div>
+</td></tr></table></p>
+</div>
+<h2 id="deploying-to-testnets">Deploying to Testnets<a class="headerlink" href="#deploying-to-testnets" title="Permanent link">&para;</a></h2>
+<p>Refer here for instructions on <a href="../Home#set-up-a-testnet-with-arc-contracts">migrating to Ganache</a> and <a href="../Migration">migrating contracts to other test networks</a>.</p>
 <h2 id="running-against-a-ganache-database">Running Against a Ganache Database<a class="headerlink" href="#running-against-a-ganache-database" title="Permanent link">&para;</a></h2>
-<p>It can be very handy to run Arc.js tests or your application against a Ganache database that persists the state of the chain across instances of Ganache.  Please refer <a href="../GanacheDb/">here for how to do it</a>.</p>
+<p>It can be very handy to run Arc.js tests or your application against a Ganache database that persists the state of the chain across instances of Ganache.  Refer here for <a href="../GanacheDb">how to use a Ganache database</a>.</p>
 <h2 id="run-lint-and-tests">Run Lint and Tests<a class="headerlink" href="#run-lint-and-tests" title="Permanent link">&para;</a></h2>
 <p>To run lint and the Arc.js tests, run the following script in the Arc.js root folder, assuming you have already
-<a href="#installation">installed all the npm packages</a>, are <a href="#setting-up-a-testnet-with-arc-contracts">running a testnet with migrated Arc contracts</a>:</p>
+<a href="../Home#installation">installed all the npm packages</a>, and are <a href="../Home#set-up-a-testnet-with-arc-contracts">running a testnet with migrated Arc contracts</a>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm test
 </pre></div>
 </td></tr></table>
 
-<h3 id="stop-on-the-first-failure">Stop on the first failure<a class="headerlink" href="#stop-on-the-first-failure" title="Permanent link">&para;</a></h3>
+<h3 id="stop-tests-on-the-first-failure">Stop tests on the first failure<a class="headerlink" href="#stop-tests-on-the-first-failure" title="Permanent link">&para;</a></h3>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm start test.bail
 </pre></div>
 </td></tr></table>
 
-<h3 id="run-an-individual-test-module">Run an individual test module<a class="headerlink" href="#run-an-individual-test-module" title="Permanent link">&para;</a></h3>
+<h3 id="run-tests-defined-in-a-single-test-module">Run tests defined in a single test module<a class="headerlink" href="#run-tests-defined-in-a-single-test-module" title="Permanent link">&para;</a></h3>
 <p>Sometimes you want to run just a single test module:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm start &quot;test.automated test/[filename]&quot;
 </pre></div>
@@ -2309,7 +2330,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../Proposals/" title="Proposals" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../Events/" title="Events" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -2318,7 +2339,7 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Proposals
+                Events
               </span>
             </div>
           </a>

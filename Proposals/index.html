@@ -38,7 +38,7 @@
     
     
       
-        <title>Proposals - DAOstack Arc.js Documentation</title>
+        <title>Proposals and Schemes - DAOstack Arc.js Documentation</title>
       
     
     
@@ -95,7 +95,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <a href="#working-with-proposals" tabindex="1" class="md-skip">
+      <a href="#working-with-proposals-and-schemes" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -121,7 +121,7 @@
                 DAOstack Arc.js Documentation
               </span>
               <span class="md-header-nav__topic">
-                Proposals
+                Proposals and Schemes
               </span>
             
           
@@ -262,8 +262,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../Wrappers/" title="Contract Wrappers" class="md-nav__link">
-      Contract Wrappers
+    <a href="../Daos/" title="DAOs" class="md-nav__link">
+      DAOs
     </a>
   </li>
 
@@ -274,8 +274,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../Daos/" title="DAOs" class="md-nav__link">
-      DAOs
+    <a href="../Wrappers/" title="Contract Wrappers" class="md-nav__link">
+      Contract Wrappers
     </a>
   </li>
 
@@ -295,11 +295,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="toc">
-        Proposals
+        Proposals and Schemes
       </label>
     
-    <a href="./" title="Proposals" class="md-nav__link md-nav__link--active">
-      Proposals
+    <a href="./" title="Proposals and Schemes" class="md-nav__link md-nav__link--active">
+      Proposals and Schemes
     </a>
     
       
@@ -313,8 +313,15 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#about-proposals" title="About Proposals" class="md-nav__link">
-    About Proposals
+  <a href="#schemes" title="Schemes" class="md-nav__link">
+    Schemes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proposals" title="Proposals" class="md-nav__link">
+    Proposals
   </a>
   
 </li>
@@ -327,6 +334,18 @@
   
 </nav>
     
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../Events/" title="Events" class="md-nav__link">
+      Events
+    </a>
   </li>
 
     
@@ -373,13 +392,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
     
-    <label class="md-nav__link" for="nav-9">
+    <label class="md-nav__link" for="nav-10">
       API Reference
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-9">
+      <label class="md-nav__title" for="nav-10">
         API Reference
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -2163,8 +2182,15 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#about-proposals" title="About Proposals" class="md-nav__link">
-    About Proposals
+  <a href="#schemes" title="Schemes" class="md-nav__link">
+    Schemes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proposals" title="Proposals" class="md-nav__link">
+    Proposals
   </a>
   
 </li>
@@ -2188,15 +2214,27 @@
                   <a href="https://github.com/daostack/arc.js/edit/master/docs/Proposals.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="working-with-proposals">Working with Proposals<a class="headerlink" href="#working-with-proposals" title="Permanent link">&para;</a></h1>
-<h2 id="about-proposals">About Proposals<a class="headerlink" href="#about-proposals" title="Permanent link">&para;</a></h2>
-<p>The ability to create proposals, vote one's reputation and stake one's reputation and tokens on an outcome of the vote are primary functions of a DAO in the DAOstack ecosystem.  Proposals and how they distribute tokens and reputation are fundamental to promoting coherence and collaboration within and between DAOs in the DAOstack ecosystem.</p>
-<p>We work with proposals using the DAO's schemes.</p>
+                <h1 id="working-with-proposals-and-schemes">Working with Proposals and Schemes<a class="headerlink" href="#working-with-proposals-and-schemes" title="Permanent link">&para;</a></h1>
+<p>The ability to create proposals, vote one's reputation, and stake one's reputation and tokens on an outcome of the vote are primary functions of a DAO in the DAOstack ecosystem.  Proposals and how they distribute tokens and reputation are fundamental to promoting coherence and collaboration within and between DAOs in the DAOstack ecosystem.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>Refer here for more <a href="../Daos">about DAOs</a>.</p>
 </div>
-<p>[More to come]</p>
+<h2 id="schemes">Schemes<a class="headerlink" href="#schemes" title="Permanent link">&para;</a></h2>
+<p>Schemes are public-facing Arc contracts whose primary purpose is to manage proposals respecting the DAO (though technically they could be used for any purpose). For a scheme to be used by a DAO, it must be "registered" with the DAO.  Schemes can be registered both when you create the DAO and afterwards using the <code>SchemeRegistrar</code> Arc contract.  Refer here for how to <a href="../DAOs#get-all-the-schemes-registered-to-the-dao">obtain a list of schemes registered with a DAO</a>.</p>
+<p>Here is a list of the schemes currently wrapped by Arc.js:</p>
+<ul>
+<li>ContributionReward</li>
+<li>GenesisProtocol</li>
+<li>GlobalConstraintRegistrar</li>
+<li>SchemeRegistrar</li>
+<li>UpgradeScheme</li>
+<li>VoteInOrganizationScheme</li>
+<li>VestingScheme</li>
+</ul>
+<p>Refer here for how to <a href="../Wrappers#enumerate-wrappers-by-contract-type">obtain this list of scheme wrappers at runtime</a>.</p>
+<h2 id="proposals">Proposals<a class="headerlink" href="#proposals" title="Permanent link">&para;</a></h2>
+<p>[More on Proposals to Come]</p>
                 
                   
                 
@@ -2215,7 +2253,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../Daos/" title="DAOs" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../Wrappers/" title="Contract Wrappers" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -2224,19 +2262,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                DAOs
+                Contract Wrappers
               </span>
             </div>
           </a>
         
         
-          <a href="../Scripts/" title="Scripts" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../Events/" title="Events" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Scripts
+                Events
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

@@ -260,18 +260,6 @@
       
       
 
-
-  <li class="md-nav__item">
-    <a href="../Wrappers/" title="Contract Wrappers" class="md-nav__link">
-      Contract Wrappers
-    </a>
-  </li>
-
-    
-      
-      
-      
-
   
 
 
@@ -400,8 +388,32 @@
 
 
   <li class="md-nav__item">
-    <a href="../Proposals/" title="Proposals" class="md-nav__link">
-      Proposals
+    <a href="../Wrappers/" title="Contract Wrappers" class="md-nav__link">
+      Contract Wrappers
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../Proposals/" title="Proposals and Schemes" class="md-nav__link">
+      Proposals and Schemes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../Events/" title="Events" class="md-nav__link">
+      Events
     </a>
   </li>
 
@@ -449,13 +461,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
     
-    <label class="md-nav__link" for="nav-9">
+    <label class="md-nav__link" for="nav-10">
       API Reference
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-9">
+      <label class="md-nav__title" for="nav-10">
         API Reference
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -2345,10 +2357,10 @@
 <h2 id="about-daos">About DAOs<a class="headerlink" href="#about-daos" title="Permanent link">&para;</a></h2>
 <p>Every DAO has an architecture defined by Arc that enables it to use the reusable contracts provided by Arc.  Each DAO has an avatar, a controller, a token, a reputation system, a set of schemes and global constraints.</p>
 <p>The avatar is a public-facing part of the DAO that handles the interaction of the DAO with the rest of the world, for example interacting with other DAOs or paying third party agents.  A DAO is always referenced using the address of its avatar.</p>
-<p>Schemes are the contracts that agents use when they want to work with proposals respecting the DAO.  Each scheme has a voting machine (or like <a href="../api/classes/GenesisProtocolWrapper">GenesisProtocol</a>, is itself a scheme).</p>
+<p>Schemes are public-facing contracts any agent can use when they want to work with proposals respecting the DAO.  Each scheme has a voting machine (or like <a href="../api/classes/GenesisProtocolWrapper">GenesisProtocol</a>, is itself a scheme).</p>
 <p>Global constraints use configured criteria to potentially block any action attempted by the Controller.  An example is <a href="../api/classes/TokenCapGCWrapper">TokenCapGC</a> that limits the total supply of a given token to a certain maximum number.</p>
 <p>The controller is a central internal hub for all of the components of the DAO.</p>
-<p>DAOs are extensible beyond the reusable contracts that Arc supplies: You can provide your own implementation of the controller, token, and any global constraints and schemes you want.</p>
+<p>DAOs are extensible beyond the fact that all of the Arc contracts are designed to be reusable: You can provide your own implementation of the controller, token, and any global constraints, voting machines and schemes you want.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>Please refer here for <a href="https://daostack.github.io/arc/README/#the-structure-of-a-dao">more information about the architecture of DAOs</a>.</p>
@@ -2647,9 +2659,16 @@
 
 <h3 id="get-the-daostack-genesis-dao">Get the DAOstack Genesis DAO<a class="headerlink" href="#get-the-daostack-genesis-dao" title="Permanent link">&para;</a></h3>
 <p>The DAOstack DAO is named "Genesis".  Use <a href="../api/classes/DAO#getGenesisDao">DAO.getGenesisDao</a> to obtain its address like this:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">genesisDaoAddress</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAO</span><span class="p">.</span><span class="nx">getGenesisDao</span><span class="p">();</span>
+<p><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">genesisDaoAddress</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAO</span><span class="p">.</span><span class="nx">getGenesisDao</span><span class="p">();</span>
 </pre></div>
 </td></tr></table>
+<em> ContributionReward
+</em> GenesisProtocol
+<em> GlobalConstraintRegistrar
+</em> SchemeRegistrar
+<em> UpgradeScheme
+</em> VoteInOrganizationScheme
+* VestingScheme</p>
                 
                   
                 
@@ -2668,7 +2687,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../Wrappers/" title="Contract Wrappers" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../Configuration/" title="Configuration" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -2677,19 +2696,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Contract Wrappers
+                Configuration
               </span>
             </div>
           </a>
         
         
-          <a href="../Proposals/" title="Proposals" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../Wrappers/" title="Contract Wrappers" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Proposals
+                Contract Wrappers
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

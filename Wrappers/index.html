@@ -260,6 +260,18 @@
       
       
 
+
+  <li class="md-nav__item">
+    <a href="../Daos/" title="DAOs" class="md-nav__link">
+      DAOs
+    </a>
+  </li>
+
+    
+      
+      
+      
+
   
 
 
@@ -361,8 +373,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../Daos/" title="DAOs" class="md-nav__link">
-      DAOs
+    <a href="../Proposals/" title="Proposals and Schemes" class="md-nav__link">
+      Proposals and Schemes
     </a>
   </li>
 
@@ -373,8 +385,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../Proposals/" title="Proposals" class="md-nav__link">
-      Proposals
+    <a href="../Events/" title="Events" class="md-nav__link">
+      Events
     </a>
   </li>
 
@@ -422,13 +434,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
     
-    <label class="md-nav__link" for="nav-9">
+    <label class="md-nav__link" for="nav-10">
       API Reference
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-9">
+      <label class="md-nav__title" for="nav-10">
         API Reference
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -2291,6 +2303,7 @@
 <p>Arc.js wraps several Arc contracts in a "contract wrapper" JavaScript class.  Every wrapper class inherits from <a href="../api/classes/ContractWrapperBase">ContractWrapperBase</a> providing a common set of functions and properties and specific helper functions for operations specific to the contract it wraps.</p>
 <p>Each wrapper contains a <code>contract</code> property which is the original "wrapped" Truffle contract that you can use to access all of the Truffle functionality of the specific Arc contract being wrapped.</p>
 <p>Each wrapper also contains a <code>factory</code> property.  This is the static instance of the wrapper factory class which is based on <a href="../api/classes/ContractWrapperFactory">ContractWrapperFactory<TWrapper></a> (where <code>TWrapper</code> is the type (class) of the wrapper).  Each factory contains the static methods <code>at(someAddress)</code>, <code>new()</code> and <code>deployed()</code> that you can use to instantiate the associated wrapper class.</p>
+<p>Each wrapper includes the contract's events.  Refer here for more information about <a href="../Events">how Arc.js wraps contract events</a>.</p>
 <p>Arc.js provides multiple ways to obtain contract wrappers, each optimal in particular use cases:</p>
 <ul>
 <li><a href="../Home/#get-a-deployed-wrapper-by-name">get a deployed wrapper by the Arc contract name</a></li>
@@ -2504,7 +2517,7 @@ and address and wish to most efficiently return the associated wrapper, or undef
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../Configuration/" title="Configuration" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../Daos/" title="DAOs" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -2513,19 +2526,19 @@ and address and wish to most efficiently return the associated wrapper, or undef
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Configuration
+                DAOs
               </span>
             </div>
           </a>
         
         
-          <a href="../Daos/" title="DAOs" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../Proposals/" title="Proposals and Schemes" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                DAOs
+                Proposals and Schemes
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

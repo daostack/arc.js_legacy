@@ -38,7 +38,7 @@
     
     
       
-        <title>Configuration - DAOstack Arc.js Documentation</title>
+        <title>Events - DAOstack Arc.js Documentation</title>
       
     
     
@@ -95,7 +95,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <a href="#configuring-arcjs" tabindex="1" class="md-skip">
+      <a href="#working-with-events" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -121,7 +121,7 @@
                 DAOstack Arc.js Documentation
               </span>
               <span class="md-header-nav__topic">
-                Configuration
+                Events
               </span>
             
           
@@ -248,63 +248,11 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="toc">
-        Configuration
-      </label>
-    
-    <a href="./" title="Configuration" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../Configuration/" title="Configuration" class="md-nav__link">
       Configuration
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#obtain-a-configuration-setting-at-runtime" title="Obtain a configuration setting at runtime" class="md-nav__link">
-    Obtain a configuration setting at runtime
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#override-a-configuration-setting-at-runtime" title="Override a configuration setting at runtime" class="md-nav__link">
-    Override a configuration setting at runtime
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#environment-variables" title="Environment variables" class="md-nav__link">
-    Environment variables
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
     
@@ -348,11 +296,20 @@
       
       
 
+  
 
-  <li class="md-nav__item">
-    <a href="../Events/" title="Events" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+    <a href="./" title="Events" class="md-nav__link md-nav__link--active">
       Events
     </a>
+    
   </li>
 
     
@@ -2185,36 +2142,6 @@
     
   
   
-    <label class="md-nav__title" for="toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#obtain-a-configuration-setting-at-runtime" title="Obtain a configuration setting at runtime" class="md-nav__link">
-    Obtain a configuration setting at runtime
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#override-a-configuration-setting-at-runtime" title="Override a configuration setting at runtime" class="md-nav__link">
-    Override a configuration setting at runtime
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#environment-variables" title="Environment variables" class="md-nav__link">
-    Environment variables
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -2225,55 +2152,15 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/daostack/arc.js/edit/master/docs/Configuration.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/daostack/arc.js/edit/master/docs/Events.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="configuring-arcjs">Configuring Arc.js<a class="headerlink" href="#configuring-arcjs" title="Permanent link">&para;</a></h1>
-<p>The default configuration settings for Arc.js can be found in its <code>config/default.json</code> file.  Here is a description of the settings:</p>
-<p><strong>defaultVotingMachine</strong>
-  The voting machine used by default by <code>Dao.new</code> when creating new DAOs.  Default is "AbsoluteVote".</p>
-<p><strong>gasLimit_deployment</strong>
-Gas sent to transactions when migrating contracts and when creating DAOs that don't use a Unversal Controller.  A number like 4543760. The default number changes with most new releases of Arc.js  You can find the current value for your Arc.js installation by looking in the <code>config/default.json</code> file.</p>
-<p><strong>gasLimit_runtime</strong>
-Gas sent to transactions in all cases except  those covere by gasLimit_deployment.  A number like 4543760. The default number changes with most new releases of Arc.js  You can find the current value for your Arc.js installation by looking in the <code>config/default.json</code> file.</p>
-<p><strong>network</strong>
-Name of the blockchain network used during Arc contract migration.  Other information like url and port come from Arc.js's truffle.js file.  Default is "ganache".</p>
-<p><strong>providerUrl</strong>
-The url to use when connecting to the blockchain network at runtime.  Default is http://127.0.0.1.</p>
-<p><strong>providerPort</strong>
-The port to use when connecting to the blockchain network at runtime.  Default is 8545.</p>
-<p><strong>logLevel</strong>
-The level of logging.  Default is 9 (error | info).  The available log levels, which may be combined, are:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>  none = 0
-  info = 1
-  warn = 2
-  debug = 4
-  error = 8
-  all = 15
-</pre></div>
-</td></tr></table>
-
-<h3 id="obtain-a-configuration-setting-at-runtime">Obtain a configuration setting at runtime<a class="headerlink" href="#obtain-a-configuration-setting-at-runtime" title="Permanent link">&para;</a></h3>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">ConfigService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@daostack/arc.js&#39;</span><span class="p">;</span>
-<span class="nx">ConfigService</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;network&#39;</span><span class="p">);</span>
-</pre></div>
-</td></tr></table>
-
-<h3 id="override-a-configuration-setting-at-runtime">Override a configuration setting at runtime<a class="headerlink" href="#override-a-configuration-setting-at-runtime" title="Permanent link">&para;</a></h3>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">ConfigService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@daostack/arc.js&#39;</span><span class="p">;</span>
-<span class="nx">ConfigService</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;network&#39;</span><span class="p">,</span> <span class="s1">&#39;kovan&#39;</span><span class="p">);</span>
-</pre></div>
-</td></tr></table>
-
-<h3 id="environment-variables">Environment variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h3>
-<p>You can override the default configuration settings by setting values on properties of <code>node.env</code> (see <a href="https://nodejs.org/dist/latest-v9.x/docs/api/process.html#process-process-env">here</a>) with the same name as the corresponding arc.js configuration setting, <strong>but with "arcjs_" prepended to the name</strong>.  This enables you to use environment variables to control the arc.js configuration.</p>
+                <h1 id="working-with-events">Working with Events<a class="headerlink" href="#working-with-events" title="Permanent link">&para;</a></h1>
+<p>All of the Arc.js contract wrapper classes expose the contract's events that look just like the events as exposed by TruffleContracts, but with a couple of advantages:</p>
+<ol>
+<li>If you are using TypeScript then the event arguments (<code>_args</code>) will by typed, so you will see suggestions and errors in Intellisense and the TypeScript compiler.</li>
+<li>With Truffle, the callback to <code>get</code> or <code>watch</code> may or may not receive an array of events.  Sometimes it can be a single event.  The Arc.js wrapper always gives you an array.</li>
+</ol>
                 
                   
                 
@@ -2292,7 +2179,7 @@ The level of logging.  Default is 9 (error | info).  The available log levels, w
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../Home/" title="Overview" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../Proposals/" title="Proposals and Schemes" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -2301,19 +2188,19 @@ The level of logging.  Default is 9 (error | info).  The available log levels, w
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Overview
+                Proposals and Schemes
               </span>
             </div>
           </a>
         
         
-          <a href="../Daos/" title="DAOs" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../Scripts/" title="Scripts" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                DAOs
+                Scripts
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
