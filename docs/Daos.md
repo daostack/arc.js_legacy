@@ -8,13 +8,13 @@ Every DAO has an architecture defined by Arc that enables it to use the reusable
 
 The avatar is a public-facing part of the DAO that handles the interaction of the DAO with the rest of the world, for example interacting with other DAOs or paying third party agents.  A DAO is always referenced using the address of its avatar.
 
-Schemes are the contracts that agents use when they want to work with proposals respecting the DAO.  Each scheme has a voting machine (or like [GenesisProtocol](api/classes/GenesisProtocolWrapper), is itself a scheme).
+Schemes are public-facing contracts any agent can use when they want to work with proposals respecting the DAO.  Each scheme has a voting machine (or like [GenesisProtocol](api/classes/GenesisProtocolWrapper), is itself a scheme).
 
 Global constraints use configured criteria to potentially block any action attempted by the Controller.  An example is [TokenCapGC](api/classes/TokenCapGCWrapper) that limits the total supply of a given token to a certain maximum number.
 
 The controller is a central internal hub for all of the components of the DAO.
 
-DAOs are extensible beyond the reusable contracts that Arc supplies: You can provide your own implementation of the controller, token, and any global constraints and schemes you want.
+DAOs are extensible beyond the fact that all of the Arc contracts are designed to be reusable: You can provide your own implementation of the controller, token, and any global constraints, voting machines and schemes you want.
 
 !!! info
     Please refer here for [more information about the architecture of DAOs](https://daostack.github.io/arc/README/#the-structure-of-a-dao).
@@ -245,3 +245,10 @@ The DAOstack DAO is named "Genesis".  Use [DAO.getGenesisDao](api/classes/DAO#ge
 ```javascript
 const genesisDaoAddress = await DAO.getGenesisDao();
 ```
+* ContributionReward
+* GenesisProtocol
+* GlobalConstraintRegistrar
+* SchemeRegistrar
+* UpgradeScheme
+* VoteInOrganizationScheme
+* VestingScheme
