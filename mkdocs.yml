@@ -30,9 +30,9 @@ extra:
 pages:
 - 'Overview': Home.md
 - 'Configuration': 'Configuration.md'
-- 'Contract Wrappers': 'Wrappers.md'
 - 'DAOs': 'Daos.md'
-- 'Proposals': 'Proposals.md'
+- 'Contract Wrappers': 'Wrappers.md'
+- 'Proposals and Schemes': 'Proposals.md'
 - 'Events': 'Events.md'
 - 'Scripts': 'Scripts.md'
 - 'Contract Migration': 'Migration.md'
