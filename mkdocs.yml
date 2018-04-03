@@ -33,6 +33,7 @@ pages:
 - 'Contract Wrappers': 'Wrappers.md'
 - 'DAOs': 'Daos.md'
 - 'Proposals': 'Proposals.md'
+- 'Events': 'Events.md'
 - 'Scripts': 'Scripts.md'
 - 'Contract Migration': 'Migration.md'
 - 'Using GanacheDb': 'GanacheDb.md'

@@ -20,7 +20,8 @@ The level of logging.  Default is 9 (error | info).  The available log levels, w
   debug = 4
   error = 8
   all = 15
-  ```
+```
+
 **network**
 Name of the blockchain network used during Arc contract migration.  Other information like url and port come from Arc.js's truffle.js file.  Default is "ganache".
 
