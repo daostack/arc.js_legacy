@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "preserveConstEnums": true,
+    "noUnusedLocals": true,
+    "baseUrl": "migrations",
+    "lib": [
+      "es2015",
+      "es2017",
+      "dom"
+    ]
+  },
+  "include": [
+    "./**/*",
+    "../custom_typings/system.d.ts"
+  ],
+  "exclude": [
+    "../node_modules",
+    "../dist"
+  ]
+}

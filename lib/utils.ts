@@ -2,6 +2,7 @@ import { promisify } from "es6-promisify";
 import abi = require("ethereumjs-abi");
 import TruffleContract = require("truffle-contract");
 import Web3 = require("web3");
+import { gasLimitsConfig } from "../gasLimits.js";
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "./commonTypes";
 import { ConfigService } from "./configService";
 import { TransactionReceiptTruffle } from "./contractWrapperBase";
@@ -28,7 +29,7 @@ export class Utils {
       contract.setProvider(myWeb3.currentProvider);
       contract.defaults({
         from: await Utils.getDefaultAccount(),
-        gas: ConfigService.get("gasLimit_runtime"),
+        gas: gasLimitsConfig.gasLimit_runtime,
       });
       LoggingService.debug(`requireContract: loaded ${contractName}`);
       return contract;

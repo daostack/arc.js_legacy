@@ -2,3 +2,4 @@ node_modules/
 dist/
 test-dist/
 site/
+migrations/2_deploy_organization.js

@@ -9,7 +9,8 @@
     "dist/",
     "docs/",
     "test/",
-    "migrations/",
+    "migrations/*.js",
+    "migrations/founders.json",
     "migrated_contracts/",
     "config/",
     "package-scripts.js",
@@ -17,7 +18,8 @@
     "truffle.js",
     ".babelrc",
     ".eslintignore",
-    ".eslintrc"
+    ".eslintrc",
+    "gasLimits.js"
   ],
   "scripts": {
     "start": "nps",
