@@ -5,11 +5,11 @@ import {
   ContractWrapperBase,
 } from "../contractWrapperBase";
 
-import ContractWrapperFactory from "../contractWrapperFactory";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 
 export class TokenCapGCWrapper extends ContractWrapperBase {
   public name: string = "TokenCapGC";
-  public frendlyName: string = "Token Cap Global Constraint";
+  public friendlyName: string = "Token Cap Global Constraint";
   public factory: ContractWrapperFactory<TokenCapGCWrapper> = TokenCapGCFactory;
 
   public async setParameters(params: TokenCapGcParams): Promise<ArcTransactionDataResult<Hash>> {

@@ -20,6 +20,7 @@ export * from "./wrappers/vestingscheme";
 export * from "./wrappers/voteInOrganizationScheme";
 export * from "./dao";
 export * from "./contractWrapperBase";
+export * from "./contractWrapperFactory";
 export * from "./loggingService";
 export * from "./utils";
 
