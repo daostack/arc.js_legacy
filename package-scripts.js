@@ -180,7 +180,7 @@ module.exports = {
       website: {
         build: "mkdocs build",
         preview: "mkdocs serve",
-        deploy: "mkdocs gh-deploy --force"
+        publish: "mkdocs gh-deploy --force"
       },
       build: {
         default: series(
@@ -188,7 +188,7 @@ module.exports = {
           "nps docs.website.build",
         ),
         andPreview: series("nps docs.build", "nps docs.website.preview"),
-        andDeploy: series("nps docs.build", "nps docs.website.deploy")
+        andPublish: series("nps docs.build", "nps docs.website.publish")
       },
       clean: series(
         rimraf(joinPath(pathArcJsRoot, "docs", "api")),
