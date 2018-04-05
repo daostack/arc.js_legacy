@@ -2355,12 +2355,15 @@
                 <h1 id="working-with-daos">Working with DAOs<a class="headerlink" href="#working-with-daos" title="Permanent link">&para;</a></h1>
 <p>Arc.js provides a class called <a href="../api/classes/DAO">DAO</a> that facilitates creating and working with DAOs.  Read on for more information about DAOs in DAOstack and the <a href="../api/classes/DAO">DAO</a> class.</p>
 <h2 id="about-daos">About DAOs<a class="headerlink" href="#about-daos" title="Permanent link">&para;</a></h2>
-<p>Every DAO in DAOstack has an architecture defined by Arc that enables it to use the reusable contracts provided by Arc.  Each DAO has an avatar, a controller, a token, a reputation system, and a set of schemes and global constraints.</p>
+<p>Every DAO in DAOstack has an architecture designed by Arc that enables it to use the reusable contracts provided by Arc.  Each DAO has an avatar, a controller, a token, a reputation system, and a set of schemes and global constraints.</p>
 <p>The avatar is a public-facing part of the DAO that handles the interaction of the DAO with the rest of the world, for example interacting with other DAOs or paying third party agents.  A DAO is always referenced using the address of its avatar.</p>
-<p>Schemes are public-facing contracts any agent can use when they want to work with proposals respecting the DAO.  Each scheme has a voting machine (or like <a href="../api/classes/GenesisProtocolWrapper">GenesisProtocol</a>, is itself a scheme).</p>
-<p>Global constraints use configured criteria to potentially block any action attempted by the Controller.  An example is <a href="../api/classes/TokenCapGCWrapper">TokenCapGC</a> that limits the total supply of a given token to a certain maximum number.</p>
 <p>The controller is a central internal hub for all of the components of the DAO.</p>
-<p>DAOs are extensible beyond the fact that all of the Arc contracts are designed to be reusable: You can provide your own implementation of the controller, token, and any global constraints, voting machines and schemes you want.</p>
+<p>The token is used as currency in operations like staking in <code>GenesisProtocol</code>, vesting agreements in <code>VestingScheme</code> and rewards in <code>ContributionReward</code>.</p>
+<p>The reputation system provides a kind of currency of influence. Reputation conveys influence in the DAO commenserate with the rules 
+of the DAO, such as when voting and the nature of what causes it to be gained or lost.  Like tokens, reputation can be minted, but it cannot be transferred between agents.</p>
+<p>Schemes are public-facing contracts that any agent can use when they want to work with proposals respecting the DAO.  Accordingly, each scheme is configured with a voting machine (or like <a href="../api/classes/GenesisProtocolWrapper">GenesisProtocol</a>, is itself a scheme).</p>
+<p>Global constraints use configured criteria to potentially block any action attempted by the Controller.  An example is <a href="../api/classes/TokenCapGCWrapper">TokenCapGC</a> that limits the total supply of a given token to a certain maximum number.</p>
+<p>DAOs are extensible beyond the reusability of all Arc contracts: You can provide your own implementation of the controller, token, and any global constraints, voting machines and schemes you want.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>Refer here for <a href="https://daostack.github.io/arc/README/#the-structure-of-a-dao">more information about the architecture of DAOs</a>.</p>
@@ -2533,14 +2536,6 @@
 </pre></div>
 </td></tr></table>
 
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>If you want change the default voting machine for all calls to <code>DAO.new</code> you can do it using the ConfigService setting "defaultVotingMachine". See <a href="../Configuration/">Arc.js Configuration Settings</a>.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Important</p>
-<p>If you want to use GenesisProtocol on <em>any</em> scheme, you must also add GenesisProtocol as scheme on the DAO itself (see <a href="#creating-a-new-dao-with-schemes">Creating a new DAO with schemes</a>).</p>
-</div>
 <p>Here we override the default voting machine parameters on just one of the schemes:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
@@ -2574,6 +2569,14 @@
 </pre></div>
 </td></tr></table>
 
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you want change the default voting machine for all calls to <code>DAO.new</code> you can do it using the ConfigService setting "defaultVotingMachine". See <a href="../Configuration/">Arc.js Configuration Settings</a>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Important</p>
+<p>If you want to use GenesisProtocol on <em>any</em> scheme, you must also add GenesisProtocol as scheme on the DAO itself (see <a href="#creating-a-new-dao-with-schemes">Creating a new DAO with schemes</a>).</p>
+</div>
 <h3 id="creating-a-new-dao-with-a-non-universal-controller">Creating a new DAO with a non-Universal Controller<a class="headerlink" href="#creating-a-new-dao-with-a-non-universal-controller" title="Permanent link">&para;</a></h3>
 <p>There are two types of DAO controller: universal and non-universal.  The default is universal.  You can create a DAO using the DAOstack <code>Controller</code> contract by passing <code>false</code> for <code>universalController</code>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
