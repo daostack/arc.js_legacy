@@ -4,17 +4,22 @@ Arc.js provides a class called [DAO](api/classes/DAO) that facilitates creating 
 
 ## About DAOs
 
-Every DAO in DAOstack has an architecture defined by Arc that enables it to use the reusable contracts provided by Arc.  Each DAO has an avatar, a controller, a token, a reputation system, and a set of schemes and global constraints.
+Every DAO in DAOstack has an architecture designed by Arc that enables it to use the reusable contracts provided by Arc.  Each DAO has an avatar, a controller, a token, a reputation system, and a set of schemes and global constraints.
 
-The avatar is a public-facing part of the DAO that handles the interaction of the DAO with the rest of the world, for example interacting with other DAOs or paying third party agents.  A DAO is always referenced using the address of its avatar.
+**The avatar** is a public-facing part of the DAO that handles the interaction of the DAO with the rest of the world, for example interacting with other DAOs or paying third party agents.  A DAO is always referenced by the address of its avatar.
 
-Schemes are public-facing contracts any agent can use when they want to work with proposals respecting the DAO.  Each scheme has a voting machine (or like [GenesisProtocol](api/classes/GenesisProtocolWrapper), is itself a scheme).
+**The controller** is a central internal hub for all of the components of the DAO.
 
-Global constraints use configured criteria to potentially block any action attempted by the Controller.  An example is [TokenCapGC](api/classes/TokenCapGCWrapper) that limits the total supply of a given token to a certain maximum number.
+**The token** is used as currency in operations like staking in `GenesisProtocol`, vesting agreements in `VestingScheme` and rewards in `ContributionReward`.
 
-The controller is a central internal hub for all of the components of the DAO.
+**The reputation system** provides a kind of currency of influence. Reputation conveys influence in the DAO commenserate with the rules 
+of the DAO, such as when voting and the nature of what causes it to be gained or lost.  Like tokens, reputation can be minted, but it cannot be transferred between agents.
 
-DAOs are extensible beyond the fact that all of the Arc contracts are designed to be reusable: You can provide your own implementation of the controller, token, and any global constraints, voting machines and schemes you want.
+**Schemes** are public-facing contracts that any agent can use when they want to work with proposals respecting the DAO.  Accordingly, each scheme is configured with a voting machine (or like [GenesisProtocol](api/classes/GenesisProtocolWrapper), is itself a scheme).
+
+**Global constraints** use configured criteria to potentially block any action attempted by the Controller.  An example is [TokenCapGC](api/classes/TokenCapGCWrapper) that limits the total supply of a given token to a certain maximum number.
+
+DAOs are extensible beyond the reusability of all Arc contracts: You can provide your own implementation of the controller, token, and any global constraints, voting machines and schemes you want.
 
 !!! info
     Refer here for [more information about the architecture of DAOs](https://daostack.github.io/arc/README/#the-structure-of-a-dao).
@@ -145,12 +150,6 @@ const newDao = await DAO.new({
 });
 ```
 
-!!! tip
-    If you want change the default voting machine for all calls to `DAO.new` you can do it using the ConfigService setting "defaultVotingMachine". See [Arc.js Configuration Settings](Configuration.md).
-
-!!! note "Important"
-    If you want to use GenesisProtocol on _any_ scheme, you must also add GenesisProtocol as scheme on the DAO itself (see [Creating a new DAO with schemes](#creating-a-new-dao-with-schemes)).
-
 Here we override the default voting machine parameters on just one of the schemes:
 
 ```javascript
@@ -170,6 +169,12 @@ const newDao = await DAO.new({
   ]
 });
 ```
+
+!!! tip
+    If you want change the default voting machine for all calls to `DAO.new` you can do it using the ConfigService setting "defaultVotingMachine". See [Arc.js Configuration Settings](Configuration.md).
+
+!!! note "Important"
+    If you want to use GenesisProtocol on _any_ scheme, you must also add GenesisProtocol as scheme on the DAO itself (see [Creating a new DAO with schemes](#creating-a-new-dao-with-schemes)).
 
 ### Creating a new DAO with a non-Universal Controller
 
