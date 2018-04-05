@@ -4,8 +4,8 @@ import { Address, fnVoid, Hash } from "./commonTypes";
 import { ContractWrapperBase, DecodedLogEntryEvent } from "./contractWrapperBase";
 import { Utils } from "./utils";
 import { DaoCreatorFactory } from "./wrappers/daocreator";
-import { ForgeOrgConfig, InitialSchemesSetEventResult } from "./wrappers/daocreator";
-import { WrapperService } from "./wrapperService.js";
+import { ForgeOrgConfig, InitialSchemesSetEventResult, SetSchemesConfig } from "./wrappers/daocreator";
+import { WrapperService } from "./wrapperService";
 
 /**
  * Helper class and factory for DAOs.
@@ -290,7 +290,7 @@ export class DAO {
   }
 }
 
-export interface NewDaoConfig extends ForgeOrgConfig {
+export interface NewDaoConfig extends ForgeOrgConfig, SetSchemesConfig {
   /**
    * The DaoCreator to use.  Default is the DaoCreator supplied in this release of Arc.js.
    */

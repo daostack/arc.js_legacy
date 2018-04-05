@@ -1,8 +1,8 @@
 declare module "system" {
   global {
-    var web3: any;
     interface Window { web3: any; }
     var window: Window;
+    var artifacts: any;
   }
 }
 

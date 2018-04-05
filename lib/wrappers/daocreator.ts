@@ -2,6 +2,7 @@
 import dopts = require("default-options");
 
 import * as BigNumber from "bignumber.js";
+import { computeGasLimit } from "../../gasLimits.js";
 import { AvatarService } from "../avatarService";
 import { Address, DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
 import { ConfigService } from "../configService";
@@ -12,7 +13,7 @@ import {
 } from "../contractWrapperBase";
 import ContractWrapperFactory from "../contractWrapperFactory";
 import { Utils } from "../utils";
-import { WrapperService } from "../wrapperService.js";
+import { WrapperService } from "../wrapperService";
 
 export class DaoCreatorWrapper extends ContractWrapperBase {
 
@@ -72,6 +73,8 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       controllerAddress = 0;
     }
 
+    const totalGas = computeGasLimit(options.founders.length);
+
     const tx = await this.contract.forgeOrg(
       options.name,
       options.tokenName,
@@ -81,17 +84,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.reputation)),
       controllerAddress,
       options.tokenCap,
-      /**
-       * We need to increase the gas limit when creating for a non-universal controller,
-       * or it will revert.  MetaMask will probably complain that our gas exceeds the block limit,
-       * but there is no choice (except the TODO below).
-       *
-       * But the universal controller requires less gas and requires no change in the gas
-       * limit. So to make things easier with MetaMask, we will not set the gas in this case.
-       *
-       * TODO:  Dynamically compute the gas requirement for both cases.
-       */
-      controllerAddress ? undefined : { gas: ConfigService.get("gasLimit_deployment") }
+      { gas: totalGas }
     );
 
     return new ArcTransactionResult(tx);

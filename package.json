@@ -1,6 +1,6 @@
 {
   "name": "@daostack/arc.js",
-  "version": "0.0.0-alpha.42",
+  "version": "0.0.0-alpha.43",
   "description": "A JavaScript library for interacting with @daostack/arc ethereum smart contracts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,8 @@
     "dist/",
     "docs/",
     "test/",
-    "migrations/",
+    "migrations/*.js",
+    "migrations/founders.json",
     "migrated_contracts/",
     "config/",
     "package-scripts.js",
@@ -17,7 +18,8 @@
     "truffle.js",
     ".babelrc",
     ".eslintignore",
-    ".eslintrc"
+    ".eslintrc",
+    "gasLimits.js"
   ],
   "scripts": {
     "start": "nps",

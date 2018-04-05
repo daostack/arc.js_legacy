@@ -1,8 +1,6 @@
 {
   "autoApproveTokenTransfers": true,
   "defaultVotingMachine": "AbsoluteVote",
-  "gasLimit_deployment": 5700000,
-  "gasLimit_runtime": 4543760,
   "network": "ganache",
   "providerUrl": "http://127.0.0.1",
   "providerPort": 8545,
