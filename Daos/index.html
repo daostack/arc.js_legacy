@@ -2356,13 +2356,13 @@
 <p>Arc.js provides a class called <a href="../api/classes/DAO">DAO</a> that facilitates creating and working with DAOs.  Read on for more information about DAOs in DAOstack and the <a href="../api/classes/DAO">DAO</a> class.</p>
 <h2 id="about-daos">About DAOs<a class="headerlink" href="#about-daos" title="Permanent link">&para;</a></h2>
 <p>Every DAO in DAOstack has an architecture designed by Arc that enables it to use the reusable contracts provided by Arc.  Each DAO has an avatar, a controller, a token, a reputation system, and a set of schemes and global constraints.</p>
-<p>The avatar is a public-facing part of the DAO that handles the interaction of the DAO with the rest of the world, for example interacting with other DAOs or paying third party agents.  A DAO is always referenced using the address of its avatar.</p>
-<p>The controller is a central internal hub for all of the components of the DAO.</p>
-<p>The token is used as currency in operations like staking in <code>GenesisProtocol</code>, vesting agreements in <code>VestingScheme</code> and rewards in <code>ContributionReward</code>.</p>
-<p>The reputation system provides a kind of currency of influence. Reputation conveys influence in the DAO commenserate with the rules 
+<p><strong>The avatar</strong> is a public-facing part of the DAO that handles the interaction of the DAO with the rest of the world, for example interacting with other DAOs or paying third party agents.  A DAO is always referenced by the address of its avatar.</p>
+<p><strong>The controller</strong> is a central internal hub for all of the components of the DAO.</p>
+<p><strong>The token</strong> is used as currency in operations like staking in <code>GenesisProtocol</code>, vesting agreements in <code>VestingScheme</code> and rewards in <code>ContributionReward</code>.</p>
+<p><strong>The reputation system</strong> provides a kind of currency of influence. Reputation conveys influence in the DAO commenserate with the rules 
 of the DAO, such as when voting and the nature of what causes it to be gained or lost.  Like tokens, reputation can be minted, but it cannot be transferred between agents.</p>
-<p>Schemes are public-facing contracts that any agent can use when they want to work with proposals respecting the DAO.  Accordingly, each scheme is configured with a voting machine (or like <a href="../api/classes/GenesisProtocolWrapper">GenesisProtocol</a>, is itself a scheme).</p>
-<p>Global constraints use configured criteria to potentially block any action attempted by the Controller.  An example is <a href="../api/classes/TokenCapGCWrapper">TokenCapGC</a> that limits the total supply of a given token to a certain maximum number.</p>
+<p><strong>Schemes</strong> are public-facing contracts that any agent can use when they want to work with proposals respecting the DAO.  Accordingly, each scheme is configured with a voting machine (or like <a href="../api/classes/GenesisProtocolWrapper">GenesisProtocol</a>, is itself a scheme).</p>
+<p><strong>Global constraints</strong> use configured criteria to potentially block any action attempted by the Controller.  An example is <a href="../api/classes/TokenCapGCWrapper">TokenCapGC</a> that limits the total supply of a given token to a certain maximum number.</p>
 <p>DAOs are extensible beyond the reusability of all Arc contracts: You can provide your own implementation of the controller, token, and any global constraints, voting machines and schemes you want.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
