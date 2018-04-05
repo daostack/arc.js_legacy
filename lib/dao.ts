@@ -5,7 +5,7 @@ import { ContractWrapperBase, DecodedLogEntryEvent } from "./contractWrapperBase
 import { Utils } from "./utils";
 import { DaoCreatorFactory } from "./wrappers/daocreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult } from "./wrappers/daocreator";
-import { WrapperService } from "./wrapperService.js";
+import { WrapperService } from "./wrapperService";
 
 /**
  * Helper class and factory for DAOs.

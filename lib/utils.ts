@@ -8,7 +8,9 @@ import { ConfigService } from "./configService";
 import { TransactionReceiptTruffle } from "./contractWrapperBase";
 import { LoggingService } from "./loggingService";
 
-const web3: any;
+/* define web3 here for compiler */
+/* tslint:disable prefer-const */
+let web3: any;
 
 export class Utils {
 
