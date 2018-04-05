@@ -2159,9 +2159,9 @@
 <p>To deploy contracts to a specified network, follow these steps:</p>
 <ol>
 <li>Set the environment variable <code>arcjs_network</code> to the name of the network ("ganache", "kovan", "ropsten", "live"). The default is "ganache".  Truffle will use this setting to find the specified settings in truffle.js in the Arc.js package.  The migration script will also use this setting just to feedback to you which network truffle is using.</li>
-<li>The migration script will use <code>arcjs_gasLimit_deployment</code>, allowing you to customize the gas amount if needed.</li>
-<li>make sure that /migrations/founders.json in the Arc.js package folder has an entry for your test network with the founders to add to the Genesis DAO.</li>
-<li>make sure you have your testnet running and listening on the right port.</li>
+<li>The migration script will use the gas settings defined in the Arc.js file <code>/gasLimits.js</code>.  The gas limit when migrating/creating Daos is computed dynamically as a function of the number of founders.</li>
+<li>Make sure that <code>/migrations/founders.json</code> in the Arc.js package folder has an entry for your test network with the founders to add to the Genesis DAO.  Founders for ganache and kovan are already contained, though note that the kovan founders are used by DAOstack -- you might want to change those.</li>
+<li>Make sure you have your testnet running and listening on the right port.</li>
 </ol>
 <p>For safety, truffle.js specifies a different HTTP port for each network.  You will need to make sure that the testnet you are using is listening on that port.  The port values are:</p>
 <table style="margin-left:2.5rem">
