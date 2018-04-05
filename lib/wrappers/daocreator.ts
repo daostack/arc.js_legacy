@@ -11,14 +11,14 @@ import {
   ContractWrapperBase,
   EventFetcherFactory,
 } from "../contractWrapperBase";
-import ContractWrapperFactory from "../contractWrapperFactory";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { Utils } from "../utils";
 import { WrapperService } from "../wrapperService";
 
 export class DaoCreatorWrapper extends ContractWrapperBase {
 
   public name: string = "DaoCreator";
-  public frendlyName: string = "Dao Creator";
+  public friendlyName: string = "Dao Creator";
   public factory: ContractWrapperFactory<DaoCreatorWrapper> = DaoCreatorFactory;
   /**
    * Events

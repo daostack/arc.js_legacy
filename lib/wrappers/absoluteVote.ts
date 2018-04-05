@@ -8,13 +8,13 @@ import {
   ContractWrapperBase,
   EventFetcherFactory
 } from "../contractWrapperBase";
-import ContractWrapperFactory from "../contractWrapperFactory";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ExecuteProposalEventResult, NewProposalEventResult, VoteProposalEventResult } from "./commonEventInterfaces";
 
 export class AbsoluteVoteWrapper extends ContractWrapperBase {
 
   public name: string = "AbsoluteVote";
-  public frendlyName: string = "Absolute Vote";
+  public friendlyName: string = "Absolute Vote";
   public factory: ContractWrapperFactory<AbsoluteVoteWrapper> = AbsoluteVoteFactory;
 
   /**

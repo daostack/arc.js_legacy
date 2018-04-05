@@ -21,7 +21,7 @@ import {
   EventFetcherFactory,
   StandardSchemeParams,
 } from "../contractWrapperBase";
-import ContractWrapperFactory from "../contractWrapperFactory";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { Utils } from "../utils";
 import {
   ProposalDeletedEventResult,
@@ -32,7 +32,7 @@ import {
 export class ContributionRewardWrapper extends ContractWrapperBase {
 
   public name: string = "ContributionReward";
-  public frendlyName: string = "Contribution Reward";
+  public friendlyName: string = "Contribution Reward";
   public factory: ContractWrapperFactory<ContributionRewardWrapper> = ContributionRewardFactory;
   /**
    * Events

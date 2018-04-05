@@ -1,6 +1,6 @@
 import { AvatarService } from "./avatarService";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
-import ContractWrapperFactory from "./contractWrapperFactory";
+import { ContractWrapperFactory } from "./contractWrapperFactory";
 import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
 /**
@@ -10,7 +10,7 @@ import { Utils } from "./utils";
  *
  * ```
  * import { ContractWrapperBase } from "../contractWrapperBase";
- * import ContractWrapperFactory from "../contractWrapperFactory";
+ * import { ContractWrapperFactory } from "../contractWrapperFactory";
  *
  * export class AbsoluteVoteWrapper extends ContractWrapperBase {
  *   [ wrapper properties and methods ]
@@ -32,7 +32,7 @@ export abstract class ContractWrapperBase {
   /**
    * A more friendly name for the contract.
    */
-  public abstract frendlyName: string;
+  public abstract friendlyName: string;
   /**
    * The address of the contract
    */
@@ -98,15 +98,14 @@ export abstract class ContractWrapperBase {
   }
 
   /**
-   * Call setParameters on this contract.
+   * Call setParameters on this.contract.
    * Returns promise of ArcTransactionDataResult<Hash> where Result is the parameters hash.
    *
-   * @param {any} params -- object with properties whose names are expected by the scheme to correspond to parameters.
-   * Currently all params are required, contract wrappers do not as yet apply default values.
+   * @param {any} params -- parameters as the contract.setParameters function expects them.
    */
-  public async setParameters(...args: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
-    const parametersHash: Hash = await this.contract.getParametersHash(...args);
-    const tx: TransactionReceiptTruffle = await this.contract.setParameters(...args);
+  public async setParameters(...params: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
+    const parametersHash: Hash = await this.contract.getParametersHash(...params);
+    const tx: TransactionReceiptTruffle = await this.contract.setParameters(...params);
     return new ArcTransactionDataResult<Hash>(tx, parametersHash);
   }
 

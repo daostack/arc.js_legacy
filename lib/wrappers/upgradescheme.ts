@@ -9,13 +9,13 @@ import {
   StandardSchemeParams,
 } from "../contractWrapperBase";
 
-import ContractWrapperFactory from "../contractWrapperFactory";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeWrapper {
 
   public name: string = "UpgradeScheme";
-  public frendlyName: string = "Upgrade Scheme";
+  public friendlyName: string = "Upgrade Scheme";
   public factory: ContractWrapperFactory<UpgradeSchemeWrapper> = UpgradeSchemeFactory;
   /**
    * Events
