@@ -1,14 +1,17 @@
-import { ConfigService } from "../lib/configService";
-const computeGasLimit = require("../gasLimits.js").computeGasLimit;
-import { DefaultSchemePermissions, SchemePermissions } from "../lib/commonTypes";
+import { DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
+import { ConfigService } from "../configService";
+import { GetDefaultGenesisProtocolParameters } from "../wrappers/genesisProtocol";
+const computeGasLimit = require("../../gasLimits.js").computeGasLimit;
+
+/*
 /**
  * Migration callback
  */
-module.exports = async (deployer) => {
+export const arcJsDeployer = (web3, artifacts, deployer) => {
 
   const network = ConfigService.get("network") || "ganache";
-  const founders = require("./founders.json").founders[network];
-  let gasAmount = computeGasLimit(founders.length);
+  const founders = require("../../migrations/founders.json").founders[network];
+  const gasAmount = computeGasLimit(founders.length);
 
   /* eslint-disable no-console */
   console.log(`Deploying to ${network}, gasLimit: ${gasAmount},  ${founders.length} founders`);
@@ -39,20 +42,7 @@ module.exports = async (deployer) => {
   const tokenName = "Gen";
   const tokenSymbol = "GEN";
   const orgNativeTokenFee = 0;
-  const defaultVotingMachineParams = {
-    preBoostedVoteRequiredPercentage: 50,
-    preBoostedVotePeriodLimit: 5184000, // 2 months
-    boostedVotePeriodLimit: 604800, // 1 week
-    thresholdConstA: web3.toWei(2),
-    thresholdConstB: 10,
-    minimumStakingFee: 0,
-    quietEndingPeriod: 7200, // Two hours
-    proposingRepRewardConstA: web3.toWei(5), // baseline rep rewarded
-    proposingRepRewardConstB: web3.toWei(5), // how much to weight strength of yes votes vs no votes in reward
-    stakerFeeRatioForVoters: 1, // 1 percent of staker fee given to voters
-    votersReputationLossRatio: 1, // 1 percent of rep lost by voting
-    votersGainRepRatioFromLostRep: 80 // percentage of how much rep correct voters get from incorrect voters who lost rep
-  };
+  const defaultVotingMachineParams = GetDefaultGenesisProtocolParameters();
   const schemeRegistrarPermissions = SchemePermissions.toString(DefaultSchemePermissions.SchemeRegistrar);
   const globalConstraintRegistrarPermissions = SchemePermissions.toString(DefaultSchemePermissions.GlobalConstraintRegistrar);
   const upgradeSchemePermissions = SchemePermissions.toString(DefaultSchemePermissions.UpgradeScheme);
@@ -124,7 +114,7 @@ module.exports = async (deployer) => {
         defaultVotingMachineParams.proposingRepRewardConstB,
         defaultVotingMachineParams.stakerFeeRatioForVoters,
         defaultVotingMachineParams.votersReputationLossRatio,
-        defaultVotingMachineParams.votersGainRepRatioFromLostRep
+        defaultVotingMachineParams.votersGainRepRatioFromLostRep,
       ]
     );
 
@@ -141,7 +131,7 @@ module.exports = async (deployer) => {
         defaultVotingMachineParams.proposingRepRewardConstB,
         defaultVotingMachineParams.stakerFeeRatioForVoters,
         defaultVotingMachineParams.votersReputationLossRatio,
-        defaultVotingMachineParams.votersGainRepRatioFromLostRep
+        defaultVotingMachineParams.votersGainRepRatioFromLostRep,
       ]
     );
     /**
@@ -182,7 +172,7 @@ module.exports = async (deployer) => {
       globalConstraintRegistrarPermissions,
       upgradeSchemePermissions,
       contributionRewardPermissions,
-      genesisProtocolPermissions
+      genesisProtocolPermissions,
     ];
 
     await daoCreatorInst.setSchemes(

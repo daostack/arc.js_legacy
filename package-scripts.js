@@ -21,7 +21,6 @@ const pathArcJsContracts = joinPath(pathArcJsRoot, "migrated_contracts");
 const pathDaostackArcRepo = joinPath(pathArcJsRoot, "node_modules/@daostack/arc");
 
 const pathArcTest = joinPath(pathArcJsRoot, "test");
-const pathArcMigrations = joinPath(pathArcJsRoot, "migrations");
 
 const pathArcTestBuild = joinPath(pathArcJsRoot, "test-dist");
 
@@ -38,7 +37,7 @@ const truffleCommand = `node ${joinPath(pathArcJsRoot, truffleIsInternal ? "node
 const ganacheCommand = `ganache-cli -l ${computeGasLimit(6)} --account="0x8d4408014d165ec69d8cc9f091d8f4578ac5564f376f21887e98a6d33a6e3549,9999999999999999999999999999999999999999999" --account="0x2215f0a41dd3bb93f03049514949aaafcf136e6965f4a066d6bf42cc9f75a106,9999999999999999999999999999999999999999999" --account="0x6695c8ef58fecfc7410bf8b80c17319eaaca8b9481cc9c682fd5da116f20ef05,9999999999999999999999999999999999999999999" --account="0xb9a8635b40a60ad5b78706d4ede244ddf934dc873262449b473076de0c1e2959,9999999999999999999999999999999999999999999" --account="0x55887c2c6107237ac3b50fb17d9ff7313cad67757e44d1be5eb7bbf9fc9ca2ea,9999999999999999999999999999999999999999999" --account="0xb16a587ad59c2b3a3f47679ed2df348d6828a3bb5c6bb3797a1d5a567ce823cb,9999999999999999999999999999999999999999999"`;
 const ganacheDbCommand = `ganache-cli --db ${pathDaostackArcGanacheDb} -l ${computeGasLimit(6)} --networkId 1512051714758 --mnemonic "behave pipe turkey animal voyage dial relief menu blush match jeans general"`;
 
-const migrationScriptExists = fs.existsSync(joinPath(pathArcMigrations, "2_deploy_organization.js"));
+const migrationScriptExists = fs.existsSync(joinPath(pathArcJsRoot, "dist", "migrations", "2_deploy_organization.js"));
 
 module.exports = {
   scripts: {
@@ -48,7 +47,7 @@ module.exports = {
         "nps lint.js"
       ),
       ts: {
-        default: "tslint lib/**/* custom_typings/system.d.ts",
+        default: "tslint lib/**/* custom_typings/system.d.ts -e \"lib/migrations/2_deploy_organization.ts\"",
         andFix: "nps \"lint.ts --fix\""
       },
       js: {
@@ -113,8 +112,8 @@ module.exports = {
       clean: rimraf(joinPath(pathArcJsRoot, "dist"))
     },
     deploy: {
-      pack: series("nps build", "nps migrateContracts.buildScripts", "npm pack"),
-      publish: series("nps build", "nps migrateContracts.buildScripts", "npm publish")
+      pack: series("nps build", "npm pack"),
+      publish: series("nps build", "npm publish")
     },
     /**
      * See README.md for how to use these scripts in a workflow to migrate contracts
@@ -126,17 +125,13 @@ module.exports = {
        * Truffle will merge this migration with whatever previous ones are already present in the contract json files.
        *
        * Run migrateContracts.fetchFromArc first if you want to start with fresh unmigrated contracts from @daostack/arc.
-       *
-       * Run `migrateContracts.buildScripts` if you have modified 2_deploy_organization.ts
        */
       default: series(
-        migrationScriptExists ? `` : `nps migrateContracts.buildScripts`,
+        migrationScriptExists ? `` : `nps build`,
         `${truffleCommand} migrate --contracts_build_directory ${pathArcJsContracts} --without-compile --network ${network}`
       ),
-      buildScripts: `node node_modules/typescript/bin/tsc --project ${pathArcMigrations}`,
-
       /**
-       * Clean the outputted contract json files, optionally andMigrate.
+       * Clean the output contract json files, optionally andMigrate.
        *
        * IMPORTANT! Only do this if you aren't worried about losing
        * previously-performed migrations to other networks.  By cleaning, you'll lose them, starting

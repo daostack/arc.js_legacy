@@ -12,4 +12,3 @@ yarn.lock
 test-dist/
 site/
 docs/Api/
-migrations/2_deploy_organization.js

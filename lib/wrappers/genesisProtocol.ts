@@ -120,6 +120,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
     this._validateVote(options.vote, options.proposalId);
 
+    const web3 = Utils.getWeb3();
     const amount = web3.toBigNumber(options.amount);
 
     if (amount <= 0) {
@@ -852,23 +853,11 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
   public async setParameters(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>> {
 
     params = Object.assign({},
-      {
-        boostedVotePeriodLimit: 604800, // 1 week
-        minimumStakingFee: 0,
-        preBoostedVotePeriodLimit: 5184000, // 2 months
-        preBoostedVoteRequiredPercentage: 50,
-        proposingRepRewardConstA: web3.toWei(5),
-        proposingRepRewardConstB: web3.toWei(5),
-        quietEndingPeriod: 7200, // Two hours
-        stakerFeeRatioForVoters: 1,
-        thresholdConstA: web3.toWei(2),
-        thresholdConstB: 10,
-        votersGainRepRatioFromLostRep: 80,
-        votersReputationLossRatio: 1,
-      },
+      GetDefaultGenesisProtocolParameters(),
       params);
 
     // in Wei
+    const web3 = Utils.getWeb3();
     const maxEthValue = web3.toBigNumber(10).pow(26);
 
     const proposingRepRewardConstA = web3.toBigNumber(params.proposingRepRewardConstA);
@@ -1422,3 +1411,21 @@ export enum ProposalState {
   Boosted,
   QuietEndingPeriod,
 }
+
+export const GetDefaultGenesisProtocolParameters = (): GenesisProtocolParams => {
+  const web3 = Utils.getWeb3();
+  return {
+    boostedVotePeriodLimit: 604800, // 1 week
+    minimumStakingFee: 0,
+    preBoostedVotePeriodLimit: 5184000, // 2 months
+    preBoostedVoteRequiredPercentage: 50,
+    proposingRepRewardConstA: web3.toWei(5),
+    proposingRepRewardConstB: web3.toWei(5),
+    quietEndingPeriod: 7200, // Two hours
+    stakerFeeRatioForVoters: 1,
+    thresholdConstA: web3.toWei(2),
+    thresholdConstB: 10,
+    votersGainRepRatioFromLostRep: 80,
+    votersReputationLossRatio: 1,
+  };
+};
