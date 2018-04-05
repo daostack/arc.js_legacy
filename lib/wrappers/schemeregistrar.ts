@@ -8,13 +8,13 @@ import {
   EventFetcherFactory,
   StandardSchemeParams,
 } from "../contractWrapperBase";
-import ContractWrapperFactory from "../contractWrapperFactory";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 export class SchemeRegistrarWrapper extends ContractWrapperBase implements SchemeWrapper {
 
   public name: string = "SchemeRegistrar";
-  public frendlyName: string = "Scheme Registrar";
+  public friendlyName: string = "Scheme Registrar";
   public factory: ContractWrapperFactory<SchemeRegistrarWrapper> = SchemeRegistrarFactory;
   /**
    * Events

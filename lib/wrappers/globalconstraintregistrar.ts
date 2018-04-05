@@ -8,13 +8,13 @@ import {
   EventFetcherFactory,
   StandardSchemeParams,
 } from "../contractWrapperBase";
-import ContractWrapperFactory from "../contractWrapperFactory";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implements SchemeWrapper {
 
   public name: string = "GlobalConstraintRegistrar";
-  public frendlyName: string = "Global Constraint Registrar";
+  public friendlyName: string = "Global Constraint Registrar";
   public factory: ContractWrapperFactory<GlobalConstraintRegistrarWrapper> = GlobalConstraintRegistrarFactory;
   /**
    * Events

@@ -3,9 +3,9 @@ import { AvatarService } from "./avatarService";
 import { Address, fnVoid, Hash } from "./commonTypes";
 import { ContractWrapperBase, DecodedLogEntryEvent } from "./contractWrapperBase";
 import { Utils } from "./utils";
-import { DaoCreatorFactory } from "./wrappers/daocreator";
+import { DaoCreatorFactory, DaoCreatorWrapper } from "./wrappers/daocreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult, SchemesConfig } from "./wrappers/daocreator";
-import { WrapperService } from "./wrapperService";
+import { WrapperService } from "./wrapperService.js";
 
 /**
  * Helper class and factory for DAOs.
@@ -14,23 +14,23 @@ export class DAO {
 
   /**
    * Returns the promise of a new DAO
-   * @param {NewDaoConfig} opts Configuration of the new DAO
+   * @param {NewDaoConfig} options Configuration of the new DAO
    */
-  public static async new(opts: NewDaoConfig): Promise<DAO> {
+  public static async new(options: NewDaoConfig): Promise<DAO> {
 
-    let daoCreator;
+    let daoCreator: DaoCreatorWrapper;
 
-    if (opts.daoCreator) {
-      daoCreator = await DaoCreatorFactory.at(opts.daoCreator);
+    if (options.daoCreatorAddress) {
+      daoCreator = await DaoCreatorFactory.at(options.daoCreatorAddress);
     } else {
       daoCreator = WrapperService.wrappers.DaoCreator;
     }
 
-    const result = await daoCreator.forgeOrg(opts);
+    const result = await daoCreator.forgeOrg(options);
 
     const avatarAddress = result.getValueFromTx("_avatar", "NewOrg");
 
-    await daoCreator.setSchemes(Object.assign({ avatar: avatarAddress }, opts));
+    await daoCreator.setSchemes(Object.assign({ avatar: avatarAddress }, options));
 
     return DAO.at(avatarAddress);
   }
@@ -292,9 +292,10 @@ export class DAO {
 
 export interface NewDaoConfig extends ForgeOrgConfig, SchemesConfig {
   /**
-   * The DaoCreator to use.  Default is the DaoCreator supplied in this release of Arc.js.
+   * Address of a DaoCreator to use.  Default is the Arc DaoCreator supplied in this release of Arc.js.
+   * If given, the current Arc.js wrapper class must be compatible with Arc contract at the given address.
    */
-  daoCreator?: string;
+  daoCreatorAddress?: Address;
 }
 
 /**

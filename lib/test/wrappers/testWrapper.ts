@@ -1,13 +1,13 @@
 "use strict";
 import { DefaultSchemePermissions, Hash, SchemePermissions } from "../../commonTypes";
 import { ArcTransactionDataResult, ContractWrapperBase } from "../../contractWrapperBase";
-import ContractWrapperFactory from "../../contractWrapperFactory";
+import { ContractWrapperFactory } from "../../contractWrapperFactory";
 import { AbsoluteVoteParams } from "../../wrappers/absoluteVote";
 
 export class TestWrapperWrapper extends ContractWrapperBase {
 
   public name: string = "AbsoluteVote";
-  public frendlyName: string = "Test Wrapper";
+  public friendlyName: string = "Test Wrapper";
   public factory: ContractWrapperFactory<TestWrapperWrapper> = TestWrapperFactory;
 
   public foo(): string {

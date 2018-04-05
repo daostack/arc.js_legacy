@@ -21,7 +21,7 @@ import {
   DecodedLogEntryEvent,
   EventFetcherFactory,
 } from "../contractWrapperBase";
-import ContractWrapperFactory from "../contractWrapperFactory";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { Utils } from "../utils";
 import {
   ExecuteProposalEventResult,
@@ -33,7 +33,7 @@ import {
 export class GenesisProtocolWrapper extends ContractWrapperBase implements SchemeWrapper {
 
   public name: string = "GenesisProtocol";
-  public frendlyName: string = "Genesis Protocol";
+  public friendlyName: string = "Genesis Protocol";
   public factory: ContractWrapperFactory<GenesisProtocolWrapper> = GenesisProtocolFactory;
   /**
    * Events

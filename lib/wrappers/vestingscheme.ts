@@ -13,14 +13,14 @@ import {
   StandardSchemeParams,
   TransactionReceiptTruffle,
 } from "../contractWrapperBase";
-import ContractWrapperFactory from "../contractWrapperFactory";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { Utils } from "../utils";
 import { ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeWrapper {
 
   public name: string = "VestingScheme";
-  public frendlyName: string = "Vesting Scheme";
+  public friendlyName: string = "Vesting Scheme";
   public factory: ContractWrapperFactory<VestingSchemeWrapper> = VestingSchemeFactory;
   /**
    * Events

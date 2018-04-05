@@ -30,10 +30,11 @@ extra:
 pages:
 - 'Overview': Home.md
 - 'Configuration': 'Configuration.md'
-- 'DAOs': 'CreateDao.md'
-- 'Schemes': 'Schemes.md'
-- 'Proposals': 'Proposals.md'
-- 'Global Constraints': 'GCs.md'
+- 'DAOs': 'Daos.md'
+- 'Contract Wrappers': 'Wrappers.md'
+- 'Proposals and Schemes': 'Proposals.md'
+- 'Events': 'Events.md'
+- 'Scripts': 'Scripts.md'
 - 'Contract Migration': 'Migration.md'
 - 'Using GanacheDb': 'GanacheDb.md'
 - 'API Reference': 

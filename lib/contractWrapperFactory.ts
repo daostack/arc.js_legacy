@@ -4,7 +4,7 @@ import { Utils } from "./utils";
 /**
  * Generic class factory for all of the contract wrapper classes.
  */
-export default class ContractWrapperFactory<TWrapper extends ContractWrapperBase> {
+export class ContractWrapperFactory<TWrapper extends ContractWrapperBase> {
 
   private solidityContract: any;
 
