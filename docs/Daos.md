@@ -1,10 +1,10 @@
 # Working with DAOs
 
-Arc.js provides a class called [DAO](api/classes/DAO) that facilitates creating and working with DAOs.  Read on for more information.
+Arc.js provides a class called [DAO](api/classes/DAO) that facilitates creating and working with DAOs.  Read on for more information about DAOs in DAOstack and the [DAO](api/classes/DAO) class.
 
 ## About DAOs
 
-Every DAO has an architecture defined by Arc that enables it to use the reusable contracts provided by Arc.  Each DAO has an avatar, a controller, a token, a reputation system, a set of schemes and global constraints.
+Every DAO in DAOstack has an architecture defined by Arc that enables it to use the reusable contracts provided by Arc.  Each DAO has an avatar, a controller, a token, a reputation system, and a set of schemes and global constraints.
 
 The avatar is a public-facing part of the DAO that handles the interaction of the DAO with the rest of the world, for example interacting with other DAOs or paying third party agents.  A DAO is always referenced using the address of its avatar.
 
@@ -17,18 +17,18 @@ The controller is a central internal hub for all of the components of the DAO.
 DAOs are extensible beyond the fact that all of the Arc contracts are designed to be reusable: You can provide your own implementation of the controller, token, and any global constraints, voting machines and schemes you want.
 
 !!! info
-    Please refer here for [more information about the architecture of DAOs](https://daostack.github.io/arc/README/#the-structure-of-a-dao).
+    Refer here for [more information about the architecture of DAOs](https://daostack.github.io/arc/README/#the-structure-of-a-dao).
 
 !!! info
-    Please refer here for [more information proposals](Proposals).
+    Refer here for [more information about proposals](Proposals).
     
 ## Creating a new DAO
 
-When creating a DAO you can configure its name, token, founders and schemes.  Of each scheme, you configure the parameters, permissions and voting machine.
+When creating a DAO you can configure its name, token, founders and schemes.  For schemes you configure their parameters, permissions and their voting machine.
 
 You will call [DAO.new](api/classes/DAO#new) to create a new DAO, passing it a [configuration object](api/interfaces/NewDaoConfig).
 
-Almost everything in the configuration has a default.  The following sections describe how to supply configurations for all the configurable parts.
+Almost everything in the configuration has a default.  The following sections describe how to supply custom configurations.
 
 ### Creating a new DAO with all defaults
 
@@ -42,7 +42,7 @@ const newDao = await DAO.new({
 });
 ```
 
-And voilà, you have created a new DAO in the DAO stack on Ethereum.  The returned object `newDao` is an instance of [DAO](api/classes/DAO) and you are off and running.  But you won't run far without schemes and founders who can make proposals and vote on them -- no one can vote on a proposal without having some reputation.
+And voilà, you have created a new DAO in the DAO stack on Ethereum.  The returned object `newDao` is an instance of [DAO](api/classes/DAO) and you are off and running.  But you won't run far without schemes and founders who can make proposals and vote on them, and for that, the founders will need some reputation.
 
 ### Creating a new DAO with founders
 
@@ -75,9 +75,9 @@ const newDao = await DAO.new({
 ```
 
 !!! note
-    It is not possible to add or remove founders.  In fact, there is no retained sense of who they ever were.  They are simply addresses you supply when you create a DAO and to whom will immediately be minted tokens and reputation.
+    It is not possible to add or remove founders.  In fact, there is no retained sense of who they even were .  They are simply addresses you supply when you create a DAO and to whom will immediately be minted tokens and reputation.
 
-So this DAO has founders with tokens and reputation, but no way to make proposals, thus nothing on which to vote.  The DAO needs some schemes, at minimum a [SchemeRegistrar](api/classes/SchemeRegistrarWrapper) with which you can propose to add, modify or remove other schemes.
+So this DAO has founders with tokens and reputation, but no way to make proposals, that is, no schemes, and thus nothing on which to vote.  The DAO needs some schemes, at minimum a [SchemeRegistrar](api/classes/SchemeRegistrarWrapper) with which you can propose to add, modify or remove other schemes.
 
 ### Creating a new DAO with schemes
 
@@ -146,7 +146,7 @@ const newDao = await DAO.new({
 ```
 
 !!! tip
-    If you want change the default for all calls to `DAO.new` you can do it using the ConfigService setting "defaultVotingMachine". See [Arc.js Configuration Settings](Configuration.md).
+    If you want change the default voting machine for all calls to `DAO.new` you can do it using the ConfigService setting "defaultVotingMachine". See [Arc.js Configuration Settings](Configuration.md).
 
 !!! note "Important"
     If you want to use GenesisProtocol on _any_ scheme, you must also add GenesisProtocol as scheme on the DAO itself (see [Creating a new DAO with schemes](#creating-a-new-dao-with-schemes)).
@@ -215,7 +215,7 @@ const dao = await DAO.at(daoAvatarAddress);
     `DAO.at` will throw an exception if there is any problem loading the DAO.
 
 ### Get all the schemes registered to the DAO
-You can obtain the addresses of all of the schemes that are registered with a DAO using [DAO.getSchemes](api/classes/DAO/#getSchemes).  You will also get contract wrapper if the scheme is the one deployed by the running version of Arc.js:
+You can obtain the addresses of all of the schemes that are registered with a DAO using [DAO.getSchemes](api/classes/DAO/#getSchemes).  You will also get a contract wrapper if the scheme happens to be the one deployed by the running version of Arc.js:
 
 ```javascript
 const daoSchemeInfos = await myDao.getSchemes();
@@ -245,10 +245,3 @@ The DAOstack DAO is named "Genesis".  Use [DAO.getGenesisDao](api/classes/DAO#ge
 ```javascript
 const genesisDaoAddress = await DAO.getGenesisDao();
 ```
-* ContributionReward
-* GenesisProtocol
-* GlobalConstraintRegistrar
-* SchemeRegistrar
-* UpgradeScheme
-* VoteInOrganizationScheme
-* VestingScheme
