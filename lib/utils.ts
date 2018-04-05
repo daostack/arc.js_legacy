@@ -8,6 +8,8 @@ import { ConfigService } from "./configService";
 import { TransactionReceiptTruffle } from "./contractWrapperBase";
 import { LoggingService } from "./loggingService";
 
+const web3: any;
+
 export class Utils {
 
   static get NULL_ADDRESS(): Address { return "0x0000000000000000000000000000000000000000"; }
@@ -49,11 +51,12 @@ export class Utils {
       return Utils.web3;
     }
 
-    LoggingService.debug("Utils: getting web3");
+    LoggingService.debug("Utils.getWeb3: getting web3");
 
     let preWeb3;
 
     if (typeof web3 !== "undefined") {
+      LoggingService.debug("Utils.getWeb3: instantiating web3 with currentProvider");
       // Look for injected web3 e.g. by truffle in migrations, or MetaMask in the browser window
       // Instead of using the injected Web3.js directly best practice is to use the version of web3.js we have bundled
       /* tslint:disable-next-line:max-line-length */
@@ -61,8 +64,9 @@ export class Utils {
       preWeb3 = new Web3(web3.currentProvider);
     } else if (Utils.alreadyTriedAndFailed) {
       // then avoid time-consuming and futile retry
-      throw new Error("already tried and failed");
+      throw new Error("Utils.getWeb3: already tried and failed");
     } else {
+      LoggingService.debug("Utils.getWeb3: instantiating web3 with configured provider");
       // No web3 is injected, look for a provider at providerUrl:providerPort (which defaults to localhost)
       // This happens when running tests, or in a browser that is not running MetaMask
       preWeb3 = new Web3(
@@ -72,7 +76,7 @@ export class Utils {
 
     if (!preWeb3) {
       Utils.alreadyTriedAndFailed = true;
-      throw new Error("web3 not found");
+      throw new Error("Utils.getWeb3: web3 not found");
     }
 
     if (typeof window !== "undefined") {
@@ -158,10 +162,10 @@ export class Utils {
    * Throws an exception on failure.
    */
   public static async getDefaultAccount(): Promise<string> {
-    const web3 = Utils.getWeb3();
+    const localWeb3 = Utils.getWeb3();
 
-    return promisify(web3.eth.getAccounts)().then((accounts: Array<any>) => {
-      const defaultAccount = web3.eth.defaultAccount = accounts[0];
+    return promisify(localWeb3.eth.getAccounts)().then((accounts: Array<any>) => {
+      const defaultAccount = localWeb3.eth.defaultAccount = accounts[0];
 
       if (!defaultAccount) {
         throw new Error("accounts[0] is not set");
