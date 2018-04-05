@@ -2291,32 +2291,32 @@
 <p><a id="additionalParams"></a></p>
 <h3 id="optional-additionalparams">«Optional» additionalParams<a class="headerlink" href="#optional-additionalparams" title="Permanent link">&para;</a></h3>
 <p><strong>●  additionalParams</strong>:  <em><code>any</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/3a5fbc69/lib/wrappers/daocreator.ts#L361">wrappers/daocreator.ts:361</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/5c00d8e7/lib/wrappers/daocreator.ts#L361">wrappers/daocreator.ts:361</a></em></p>
 <p>Other scheme parameters, any params besides those already provided in votingMachineParams. For example, ContributionReward requires orgNativeTokenFee. SchemeRegistrar has voteRemoveParametersHash.</p>
 <p>Default is {}</p>
 <hr />
 <p><a id="address"></a></p>
 <h3 id="optional-address">«Optional» address<a class="headerlink" href="#optional-address" title="Permanent link">&para;</a></h3>
 <p><strong>●  address</strong>:  <em><code>string</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/3a5fbc69/lib/wrappers/daocreator.ts#L333">wrappers/daocreator.ts:333</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/5c00d8e7/lib/wrappers/daocreator.ts#L333">wrappers/daocreator.ts:333</a></em></p>
 <p>Scheme address if you don't want to use the scheme supplied in this release of Arc.js.</p>
 <hr />
 <p><a id="name"></a></p>
 <h3 id="name">name<a class="headerlink" href="#name" title="Permanent link">&para;</a></h3>
 <p><strong>●  name</strong>:  <em><code>string</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/3a5fbc69/lib/wrappers/daocreator.ts#L329">wrappers/daocreator.ts:329</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/5c00d8e7/lib/wrappers/daocreator.ts#L329">wrappers/daocreator.ts:329</a></em></p>
 <p>The name of the Arc scheme. It must be an Arc scheme.</p>
 <hr />
 <p><a id="permissions"></a></p>
 <h3 id="optional-permissions">«Optional» permissions<a class="headerlink" href="#optional-permissions" title="Permanent link">&para;</a></h3>
 <p><strong>●  permissions</strong>:  <em><a href="../../enums/SchemePermissions/">SchemePermissions</a>⎮<a href="../../enums/DefaultSchemePermissions/">DefaultSchemePermissions</a></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/3a5fbc69/lib/wrappers/daocreator.ts#L340">wrappers/daocreator.ts:340</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/5c00d8e7/lib/wrappers/daocreator.ts#L340">wrappers/daocreator.ts:340</a></em></p>
 <p>Extra permissions on the scheme. The minimum permissions for the scheme will be enforced (or'd with anything you supply). See ContractWrapperBase.getDefaultPermissions for what this string should look like.</p>
 <hr />
 <p><a id="votingMachineParams"></a></p>
 <h3 id="optional-votingmachineparams">«Optional» votingMachineParams<a class="headerlink" href="#optional-votingmachineparams" title="Permanent link">&para;</a></h3>
 <p><strong>●  votingMachineParams</strong>:  <em><a href="../NewDaoVotingMachineConfig/">NewDaoVotingMachineConfig</a></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/3a5fbc69/lib/wrappers/daocreator.ts#L354">wrappers/daocreator.ts:354</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/5c00d8e7/lib/wrappers/daocreator.ts#L354">wrappers/daocreator.ts:354</a></em></p>
 <p>Optional votingMachine parameters if you have not supplied them in ForgeOrgConfig or want to override them. Note it costs more gas to add them here.</p>
 <p>New schemes will be created with these parameters and the DAO's native reputation contract.</p>
 <p>!!! note This is only relevant to schemes that can create proposals upon which there can be a vote. Other schemes will ignore these parameters.</p>
