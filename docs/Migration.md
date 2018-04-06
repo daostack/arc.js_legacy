@@ -32,7 +32,7 @@ To deploy contracts to a specified network, follow these steps:
 
 ## Configuring Founders
 
-For any network besides ganache you will need to supply a list of founders for the Genesis DAO created by the Arc.js migration script.  You can define a list of founders using json that looks like the following (but with real addresses):
+For any network besides ganache you will need to supply a list of founders for the Genesis DAO created by the Arc.js migration script.  You can define a list of founders for one or more networks using json that looks like the following (but with real addresses):
 
 ```json
 {
