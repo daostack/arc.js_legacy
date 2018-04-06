@@ -3,7 +3,6 @@ import { ConfigService } from "../configService";
 import { GetDefaultGenesisProtocolParameters } from "../wrappers/genesisProtocol";
 const computeGasLimit = require("../../gasLimits.js").computeGasLimit;
 
-/*
 /**
  * Migration callback
  */
