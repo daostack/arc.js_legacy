@@ -8,10 +8,6 @@ import { ConfigService } from "./configService";
 import { TransactionReceiptTruffle } from "./contractWrapperBase";
 import { LoggingService } from "./loggingService";
 
-/* define web3 here for compiler */
-/* tslint:disable prefer-const */
-let web3: any;
-
 export class Utils {
 
   static get NULL_ADDRESS(): Address { return "0x0000000000000000000000000000000000000000"; }
@@ -57,13 +53,23 @@ export class Utils {
 
     let preWeb3;
 
-    if (typeof web3 !== "undefined") {
+    let globalWeb3;
+
+    if ((typeof global !== "undefined") && (global as any).web3) {
+      LoggingService.debug("Utils.getWeb3: found web3 in global");
+      globalWeb3 = (global as any).web3;
+    } else if ((typeof window !== "undefined") && (window as any).web3) {
+      LoggingService.debug("Utils.getWeb3: found web3 in window");
+      globalWeb3 = (window as any).web3;
+    }
+
+    if (typeof globalWeb3 !== "undefined") {
       LoggingService.debug("Utils.getWeb3: instantiating web3 with currentProvider");
       // Look for injected web3 e.g. by truffle in migrations, or MetaMask in the browser window
       // Instead of using the injected Web3.js directly best practice is to use the version of web3.js we have bundled
       /* tslint:disable-next-line:max-line-length */
       // see https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#partly_sunny-web3---ethereum-browser-environment-check
-      preWeb3 = new Web3(web3.currentProvider);
+      preWeb3 = new Web3(globalWeb3.currentProvider);
     } else if (Utils.alreadyTriedAndFailed) {
       // then avoid time-consuming and futile retry
       throw new Error("Utils.getWeb3: already tried and failed");
