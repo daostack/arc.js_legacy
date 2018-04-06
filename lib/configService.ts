@@ -19,9 +19,11 @@ export class ConfigService {
       const prefix = "arcjs_";
       if (process && process.env) {
         Object.keys(process.env).forEach((key: string) => {
-          const internalKey = key.startsWith(prefix) ? key.replace(prefix, "") : key;
-          if (defaults.hasOwnProperty(internalKey)) {
-            defaults[internalKey] = process.env[key];
+          if (key.startsWith(prefix)) {
+            const internalKey = key.replace(prefix, "");
+            if (defaults.hasOwnProperty(internalKey)) {
+              defaults[internalKey] = process.env[key];
+            }
           }
         });
       }

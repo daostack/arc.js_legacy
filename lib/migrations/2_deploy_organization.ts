@@ -10,12 +10,29 @@ const computeGasLimit = require("../../gasLimits.js").computeGasLimit;
 export const arcJsDeployer = (web3, artifacts, deployer) => {
 
   const network = ConfigService.get("network") || "ganache";
-  const founders = require("../../migrations/founders.json").founders[network];
+
+  const internalFoundersConfigLocation = "../../migrations/founders.json";
+  const foundersConfig = require(internalFoundersConfigLocation).founders;
+
+  const customFoundersConfigLocation = ConfigService.get("foundersConfigurationLocation");
+
+  if (internalFoundersConfigLocation !== customFoundersConfigLocation) {
+    console.log(`merging custom founders from ${customFoundersConfigLocation}`);
+    const customFoundersConfig = require(customFoundersConfigLocation).founders;
+    // merge the two
+    Object.assign(foundersConfig, customFoundersConfig)
+  }
+
+  const founders = foundersConfig[network];
+
+  if (!founders || (founders.length === 0)) {
+    throw new Error(`no founders were given for the network: ${network}`);
+  }
+
   const gasAmount = computeGasLimit(founders.length);
 
   /* eslint-disable no-console */
   console.log(`Deploying to ${network}, gasLimit: ${gasAmount},  ${founders.length} founders`);
-
   /**
    * Truffle Solidity artifact wrappers
    */

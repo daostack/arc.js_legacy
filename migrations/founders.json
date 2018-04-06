@@ -31,53 +31,6 @@
         "tokens": 1000,
         "reputation": 1000
       }
-    ],
-    "kovan": [
-      {
-        "address": "0x5A4E13fa32A8e60CB7b1865259DCeA118C8BfF9d",
-        "tokens": 1000,
-        "reputation": 1000
-      },
-      {
-        "address": "0xF16294a979a027F297DAcE2F618Cb57bc4Bf5d16",
-        "tokens": 1000,
-        "reputation": 1000
-      },
-      {
-        "address": "0xfa887B44e3E6fc28E89d5953FE4588D86b4e832E",
-        "tokens": 1000,
-        "reputation": 1000
-      },
-      {
-        "address": "0x9e90F4E98B0bF0b4012b73dCed91b8B9567e6c4e",
-        "tokens": 1000,
-        "reputation": 1000
-      },
-      {
-        "address": "0x22f8B3ab4d4557D70516Fdcebbbf91a686cBAbb7",
-        "tokens": 1000,
-        "reputation": 1000
-      },
-      {
-        "address": "0x00037C512DA59Fb367967BE25b8E5df754BB190E",
-        "tokens": 1000,
-        "reputation": 1000
-      },
-      {
-        "address": "0x0084FB1d84F2359Cafd00f92B901C121521d6809",
-        "tokens": 1000,
-        "reputation": 1000
-      },
-      {
-        "address": "0x6279a7c6b5255c56edf89d3560ebd4d031fcb182",
-        "tokens": 1000,
-        "reputation": 1000
-      },
-      {
-        "address": "0x645Ce718617Ad7800358BD5EC7F0815A02c8115e",
-        "tokens": 1000,
-        "reputation": 1000
-      }
     ]
   }
 }

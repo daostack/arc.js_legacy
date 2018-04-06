@@ -12,3 +12,4 @@ yarn.lock
 test-dist/
 site/
 docs/Api/
+migrations/founders.kovan.json

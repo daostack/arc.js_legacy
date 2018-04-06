@@ -1,8 +1,9 @@
 {
   "autoApproveTokenTransfers": true,
   "defaultVotingMachine": "AbsoluteVote",
+  "foundersConfigurationLocation": "../../migrations/founders.json",
+  "logLevel": 9,
   "network": "ganache",
-  "providerUrl": "http://127.0.0.1",
   "providerPort": 8545,
-  "logLevel": 9
+  "providerUrl": "http://127.0.0.1"
 }
