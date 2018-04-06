@@ -89,7 +89,7 @@ export class Utils {
 
     if (typeof window !== "undefined") {
       // Add to window for easy use in the console
-      window.web3 = preWeb3;
+      (<any>window).web3 = preWeb3;
     }
 
     return (Utils.web3 = preWeb3);
