@@ -1,5 +1,7 @@
 const arcJsDeployer = require("../dist/migrations/2_deploy_organization").arcJsDeployer;
 
+/* eslint-disable no-console */
+
 /**
  * Migration callback
  */

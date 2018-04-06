@@ -31,7 +31,6 @@ export const arcJsDeployer = (web3, artifacts, deployer) => {
 
   const gasAmount = computeGasLimit(founders.length);
 
-  /* eslint-disable no-console */
   console.log(`Deploying to ${network}, gasLimit: ${gasAmount},  ${founders.length} founders`);
   /**
    * Truffle Solidity artifact wrappers
