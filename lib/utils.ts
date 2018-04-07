@@ -74,7 +74,8 @@ export class Utils {
       // then avoid time-consuming and futile retry
       throw new Error("Utils.getWeb3: already tried and failed");
     } else {
-      LoggingService.debug("Utils.getWeb3: instantiating web3 with configured provider");
+      /* tslint:disable-next-line:max-line-length */
+      LoggingService.debug(`Utils.getWeb3: instantiating web3 with configured provider ${ConfigService.get("providerUrl")}:${ConfigService.get("providerPort")}`);
       // No web3 is injected, look for a provider at providerUrl:providerPort (which defaults to localhost)
       // This happens when running tests, or in a browser that is not running MetaMask
       preWeb3 = new Web3(
@@ -82,14 +83,14 @@ export class Utils {
       );
     }
 
-    if (!preWeb3) {
+    if (!preWeb3 || !preWeb3.isConnected()) {
       Utils.alreadyTriedAndFailed = true;
       throw new Error("Utils.getWeb3: web3 not found");
     }
 
     if (typeof window !== "undefined") {
       // Add to window for easy use in the console
-      (<any>window).web3 = preWeb3;
+      (window as any).web3 = preWeb3;
     }
 
     return (Utils.web3 = preWeb3);

@@ -104,7 +104,7 @@ describe("ContributionReward scheme", () => {
   it("can redeem ethers", async () => {
 
     let result = await proposeReward({
-      ethReward: web3.toWei(10)
+      ethReward: web3.toWei(.005)
     });
 
     const proposalId = result.proposalId;
@@ -115,7 +115,7 @@ describe("ContributionReward scheme", () => {
     await helpers.increaseTime(1);
 
     // give the avatar some eth to pay out
-    await helpers.transferEthToDao(dao, 10);
+    await helpers.transferEthToDao(dao, .005);
 
     // now try to redeem some native tokens
     result = await scheme.redeemEther({
@@ -128,7 +128,7 @@ describe("ContributionReward scheme", () => {
     const eventProposalId = result.getValueFromTx("_proposalId", "RedeemEther");
     const amount = result.getValueFromTx("_amount", "RedeemEther");
     assert.equal(eventProposalId, proposalId);
-    assert.equal(web3.fromWei(amount), 10);
+    assert.equal(web3.fromWei(amount), .005);
   });
 
 

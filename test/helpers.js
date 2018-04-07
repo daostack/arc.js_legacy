@@ -14,27 +14,31 @@ export const SOME_ADDRESS = "0x1000000000000000000000000000000000000000";
 
 export const DefaultLogLevel = LogLevel.error;
 
-LoggingService.setLogLevel(DefaultLogLevel);
+LoggingService.logLevel = DefaultLogLevel;
+
+let testWeb3;
+
+const etherForEveryone = async () => {
+  // transfer all web3.eth.accounts some ether from the last account
+  accounts = web3.eth.accounts;
+  const count = accounts.length - 1;
+  for (let i = 0; i < count; i++) {
+    await web3.eth.sendTransaction({
+      to: accounts[i],
+      from: accounts[accounts.length - 1],
+      value: web3.toWei(0.1, "ether")
+    });
+  }
+};
 
 beforeEach(async () => {
-  global.web3 = await InitializeArc();
+  if (!testWeb3) {
+    global.web3 = testWeb3 = await InitializeArc();
+  }
   global.assert = assert;
   global.accounts = [];
   await etherForEveryone();
 });
-
-async function etherForEveryone() {
-  // give all web3.eth.accounts some ether
-  accounts = web3.eth.accounts;
-  const count = accounts.length;
-  for (let i = 0; i < count; i++) {
-    await web3.eth.sendTransaction({
-      to: accounts[i],
-      from: accounts[0],
-      value: web3.toWei(0.1, "ether")
-    });
-  }
-}
 
 export async function forgeDao(opts = {}) {
   const founders = Array.isArray(opts.founders) ? opts.founders :

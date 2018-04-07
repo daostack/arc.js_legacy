@@ -11,10 +11,6 @@ export enum LogLevel {
 
 export interface ILogger {
   /**
-   * the LogLevel
-   */
-  level: LogLevel;
-  /**
    * Logs a debug message.
    *
    * @param message The message to log.
@@ -45,42 +41,106 @@ export interface ILogger {
 
 class ConsoleLogger implements ILogger {
 
+  /* tslint:disable:max-line-length */
   /* tslint:disable:no-console */
   /* tslint:disable:no-bitwise */
-  public level: LogLevel = parseInt(ConfigService.get("logLevel"), 10) as LogLevel;
+  public debug(message: string): void { if (LoggingService.logLevel & LogLevel.debug) { console.log(`${LoggingService.moduleName} (debug): ${message}`); } }
 
-  public debug(message: string): void { if (this.level & LogLevel.debug) { console.log(message); } }
+  public info(message: string): void { if (LoggingService.logLevel & LogLevel.info) { console.log(`${LoggingService.moduleName} (info): ${message}`); } }
 
-  public info(message: string): void { if (this.level & LogLevel.info) { console.log(message); } }
+  public warn(message: string): void { if (LoggingService.logLevel & LogLevel.warn) { console.log(`${LoggingService.moduleName} (warn): ${message}`); } }
 
-  public warn(message: string): void { if (this.level & LogLevel.warn) { console.log(message); } }
-
-  public error(message: string): void { if (this.level & LogLevel.error) { console.log(message); } }
+  public error(message: string): void { if (LoggingService.logLevel & LogLevel.error) { console.log(`${LoggingService.moduleName} (error): ${message}`); } }
   /* tslint:enable:no-console */
   /* tslint:enable:no-bitwise */
+  /* tslint:enable:max-line-length */
 }
 
 export class LoggingService {
 
-  public static logger: ILogger = new ConsoleLogger();
+  public static loggers: Array<ILogger> = [new ConsoleLogger()];
 
-  /* tslint:disable:max-line-length */
-  public static debug(message: string): void { LoggingService.logger.debug(`${LoggingService.moduleName} (debug): ${message}`); }
+  public static logLevel: LogLevel = parseInt(ConfigService.get("logLevel"), 10) as LogLevel;
 
-  public static info(message: string): void { LoggingService.logger.info(`${LoggingService.moduleName} (info): ${message}`); }
+  public static moduleName: string = "Arc.js";
 
-  public static warn(message: string): void { LoggingService.logger.warn(`${LoggingService.moduleName} (warn): ${message}`); }
-
-  public static error(message: string): void { LoggingService.logger.error(`${LoggingService.moduleName} (error): ${message}`); }
-  /* tslint:enable:max-line-length */
-
-  public static setLogLevel(level: LogLevel): void {
-    LoggingService.logger.level = level;
+  public static debug(message: string): void {
+    LoggingService.loggers.forEach((logger: ILogger) => {
+      logger.debug(message);
+    });
   }
 
-  public static setLogger(logger: ILogger): void {
-    LoggingService.logger = logger;
+  public static info(message: string): void {
+    LoggingService.loggers.forEach((logger: ILogger) => {
+      logger.info(message);
+    });
   }
 
-  private static moduleName: string = "Arc.js";
+  public static warn(message: string): void {
+    LoggingService.loggers.forEach((logger: ILogger) => {
+      logger.warn(message);
+    });
+  }
+
+  public static error(message: string): void {
+    LoggingService.loggers.forEach((logger: ILogger) => {
+      logger.error(message);
+    });
+  }
+
+  /**
+   * Log a message at potentially multiple levels instead of just one.
+   *
+   * The message will be logged just once, at the first log level in the intersection between
+   * the given log level and the current log level, in the following order of precendence:
+   *
+   *  1. error
+   *  2. warn
+   *  3. info
+   *  4. debug
+   *
+   * So if the current log level is info|error and you call `message("a message", LogLevel.info|LogLevel.error)`
+   * then you will see the message logged as an error.
+   *
+   * @param message
+   * @param level log level(s)
+   */
+  public static message(message: string, level: LogLevel = LoggingService.logLevel): void {
+
+    if (level === LogLevel.none) {
+      return;
+    }
+
+    // only issue the message once
+    let messaged: boolean = false;
+
+    /* tslint:disable:no-bitwise */
+    if (level & LogLevel.error) {
+      LoggingService.error(message);
+      messaged = true;
+    }
+    if (!messaged && (level & LogLevel.warn)) {
+      LoggingService.warn(message);
+      messaged = true;
+    }
+    if (!messaged && (level & LogLevel.info)) {
+      LoggingService.info(message);
+      messaged = true;
+    }
+    if (!messaged && (level & LogLevel.debug)) {
+      LoggingService.debug(message);
+    }
+    /* tslint:enable:no-bitwise */
+  }
+
+  public static addLogger(logger: ILogger): void {
+    LoggingService.loggers.push(logger);
+  }
+
+  public static removeLogger(logger: ILogger): void {
+    const ndx = LoggingService.loggers.indexOf(logger);
+    if (ndx >= 0) {
+      LoggingService.loggers.splice(ndx, 1);
+    }
+  }
 }

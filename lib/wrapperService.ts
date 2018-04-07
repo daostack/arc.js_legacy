@@ -136,22 +136,31 @@ export class WrapperService {
   /**
    * initialize() must be called before any of the static properties will have values.
    * It is called by ArcInitialize(), which in tur must be invoked by any application using Arc.js.
+   *
+   * @param options
    */
-  public static async initialize(): Promise<void> {
+  public static async initialize(options?: WrapperServiceInitializeOptions): Promise<void> {
     LoggingService.debug("WrapperService: initializing");
     /**
      * Deployed contract wrappers by name.
      */
-    WrapperService.wrappers.AbsoluteVote = await AbsoluteVoteFactory.deployed();
-    WrapperService.wrappers.ContributionReward = await ContributionRewardFactory.deployed();
-    WrapperService.wrappers.DaoCreator = await DaoCreatorFactory.deployed();
-    WrapperService.wrappers.GenesisProtocol = await GenesisProtocolFactory.deployed();
-    WrapperService.wrappers.GlobalConstraintRegistrar = await GlobalConstraintRegistrarFactory.deployed();
-    WrapperService.wrappers.SchemeRegistrar = await SchemeRegistrarFactory.deployed();
-    WrapperService.wrappers.TokenCapGC = await TokenCapGCFactory.deployed();
-    WrapperService.wrappers.UpgradeScheme = await UpgradeSchemeFactory.deployed();
-    WrapperService.wrappers.VestingScheme = await VestingSchemeFactory.deployed();
-    WrapperService.wrappers.VoteInOrganizationScheme = await VoteInOrganizationSchemeFactory.deployed();
+    const filter = (options && options.filter) ?
+      Object.assign({}, WrapperService.completeWrapperFilter, options.filter) :
+      WrapperService.defaultWrapperFilter;
+
+    /* tslint:disable:max-line-length */
+    WrapperService.wrappers.AbsoluteVote = filter.AbsoluteVote ? await AbsoluteVoteFactory.deployed() : null;
+    WrapperService.wrappers.ContributionReward = filter.ContributionReward ? await ContributionRewardFactory.deployed() : null;
+    WrapperService.wrappers.DaoCreator = filter.DaoCreator ? await DaoCreatorFactory.deployed() : null;
+    WrapperService.wrappers.GenesisProtocol = filter.GenesisProtocol ? await GenesisProtocolFactory.deployed() : null;
+    WrapperService.wrappers.GlobalConstraintRegistrar = filter.GlobalConstraintRegistrar ? await GlobalConstraintRegistrarFactory.deployed() : null;
+    WrapperService.wrappers.SchemeRegistrar = filter.SchemeRegistrar ? await SchemeRegistrarFactory.deployed() : null;
+    WrapperService.wrappers.TokenCapGC = filter.TokenCapGC ? await TokenCapGCFactory.deployed() : null;
+    WrapperService.wrappers.UpgradeScheme = filter.UpgradeScheme ? await UpgradeSchemeFactory.deployed() : null;
+    WrapperService.wrappers.VestingScheme = filter.VestingScheme ? await VestingSchemeFactory.deployed() : null;
+    WrapperService.wrappers.VoteInOrganizationScheme = filter.VoteInOrganizationScheme ? await VoteInOrganizationSchemeFactory.deployed() : null;
+    /* tslint:enable:max-line-length */
+
     /**
      * Contract wrappers grouped by type
      */
@@ -200,7 +209,9 @@ export class WrapperService {
     /* tslint:disable-next-line:forin */
     for (const wrapperName in WrapperService.wrappers) {
       const wrapper = WrapperService.wrappers[wrapperName];
-      WrapperService.wrappersByAddress.set(wrapper.address, wrapper);
+      if (wrapper) {
+        WrapperService.wrappersByAddress.set(wrapper.address, wrapper);
+      }
     }
   }
 
@@ -227,6 +238,57 @@ export class WrapperService {
       return Promise.resolve(WrapperService.wrappers[contractName]);
     }
   }
+
+  private static defaultWrapperFilter: WrapperFilter = {
+    AbsoluteVote: true,
+    ContributionReward: true,
+    DaoCreator: true,
+    GenesisProtocol: true,
+    GlobalConstraintRegistrar: true,
+    SchemeRegistrar: true,
+    TokenCapGC: true,
+    UpgradeScheme: true,
+    VestingScheme: true,
+    VoteInOrganizationScheme: true,
+  };
+
+  private static completeWrapperFilter: WrapperFilter = {
+    AbsoluteVote: false,
+    ContributionReward: false,
+    DaoCreator: false,
+    GenesisProtocol: false,
+    GlobalConstraintRegistrar: false,
+    SchemeRegistrar: false,
+    TokenCapGC: false,
+    UpgradeScheme: false,
+    VestingScheme: false,
+    VoteInOrganizationScheme: false,
+  };
+
+}
+
+export class WrapperFilter {
+  public AbsoluteVote: boolean = true;
+  public ContributionReward: boolean = true;
+  public DaoCreator: boolean = true;
+  public GenesisProtocol: boolean = true;
+  public GlobalConstraintRegistrar: boolean = true;
+  public SchemeRegistrar: boolean = true;
+  public TokenCapGC: boolean = true;
+  public UpgradeScheme: boolean = true;
+  public VestingScheme: boolean = true;
+  public VoteInOrganizationScheme: boolean = true;
+}
+
+export interface WrapperServiceInitializeOptions {
+  /**
+   * Option filter to only initialize the contracts whose name is set to true.
+   * Any that are omitted or set to false here will appear as `null` in
+   * WrapperService.wrappers and WrapperService.wrappersByType,
+   * and will not be available in WrapperService.wrappersByAddress.
+   * But their factories will still be available in WrapperService.factories.
+   */
+  filter?: WrapperFilter;
 }
 
 /**

@@ -4,6 +4,28 @@ import { DefaultSchemePermissions } from "../test-dist/commonTypes";
 import { TestWrapperFactory } from "../test-dist/test/wrappers/testWrapper";
 import { Utils } from "../test-dist/utils";
 import { WrapperService } from "../test-dist/wrapperService";
+import { InitializeArc } from "../test-dist/index";
+import { ConfigService } from "../test-dist/configService.js";
+
+describe("ArcInitialize", () => {
+  it("Proper error when no web3", async () => {
+
+    const web3 = Utils.getWeb3();
+    const providerUrl = ConfigService.get("providerUrl");
+    let exceptionRaised = false;
+    try {
+      Utils.web3 = undefined;
+      global.web3 = undefined;
+      ConfigService.set("providerUrl", "sdfkjh");
+      await InitializeArc();
+    } catch (ex) {
+      exceptionRaised = ex.message.includes("Utils.getWeb3: web3 not found");
+    }
+    global.web3 = web3;
+    ConfigService.set("providerUrl", providerUrl);
+    assert(exceptionRaised, "proper exception was not raised");
+  });
+});
 
 describe("ContractWrapperBase", () => {
   it("can call getDefaultAccount", async () => {
