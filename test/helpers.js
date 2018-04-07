@@ -4,7 +4,7 @@ import { assert } from "chai";
 import { DAO } from "../test-dist/dao.js";
 import { WrapperService } from "../test-dist/wrapperService";
 import { SchemeRegistrarFactory } from "../test-dist/wrappers/schemeregistrar";
-import { InitializeArc } from "../test-dist/index";
+import { InitializeArcJs } from "../test-dist/index";
 import { LoggingService, LogLevel } from "../test-dist/loggingService";
 
 export const NULL_HASH = Utils.NULL_HASH;
@@ -33,7 +33,7 @@ const etherForEveryone = async () => {
 
 beforeEach(async () => {
   if (!testWeb3) {
-    global.web3 = testWeb3 = await InitializeArc();
+    global.web3 = testWeb3 = await InitializeArcJs();
   }
   global.assert = assert;
   global.accounts = [];

@@ -4,10 +4,10 @@ import { DefaultSchemePermissions } from "../test-dist/commonTypes";
 import { TestWrapperFactory } from "../test-dist/test/wrappers/testWrapper";
 import { Utils } from "../test-dist/utils";
 import { WrapperService } from "../test-dist/wrapperService";
-import { InitializeArc } from "../test-dist/index";
+import { InitializeArcJs } from "../test-dist/index";
 import { ConfigService } from "../test-dist/configService.js";
 
-describe("ArcInitialize", () => {
+describe("InitializeArcJs", () => {
   it("Proper error when no web3", async () => {
 
     const web3 = Utils.getWeb3();
@@ -17,7 +17,7 @@ describe("ArcInitialize", () => {
       Utils.web3 = undefined;
       global.web3 = undefined;
       ConfigService.set("providerUrl", "sdfkjh");
-      await InitializeArc();
+      await InitializeArcJs();
     } catch (ex) {
       exceptionRaised = ex.message.includes("Utils.getWeb3: web3 not found");
     }

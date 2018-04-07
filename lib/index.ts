@@ -35,7 +35,7 @@ export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
 /**
  * initialize() must be called before doing anything with Arc.js.
  */
-export async function InitializeArc(options?: InitializeArcOptions): Promise<Web3> {
+export async function InitializeArcJs(options?: InitializeArcOptions): Promise<Web3> {
   LoggingService.info("Initializing Arc.js");
   try {
     const web3 = Utils.getWeb3();
@@ -43,7 +43,7 @@ export async function InitializeArc(options?: InitializeArcOptions): Promise<Web
     return web3;
   } catch (ex) {
     /* tslint:disable-next-line:no-bitwise */
-    LoggingService.message(`InitializeArc failed: ${ex}`, LogLevel.info | LogLevel.error);
-    throw new Error(`InitializeArc failed: ${ex}`);
+    LoggingService.message(`InitializeArcJs failed: ${ex}`, LogLevel.info | LogLevel.error);
+    throw new Error(`InitializeArcJs failed: ${ex}`);
   }
 }
