@@ -4,11 +4,11 @@ Arc.js provides a class called [DAO](api/classes/DAO) that facilitates creating 
 
 ## About DAOs
 
-Every DAO in DAOstack has an architecture designed by Arc that enables it to use the reusable contracts provided by Arc.  Each DAO has an avatar, a controller, a token, a reputation system, and a set of schemes and global constraints.
+Every DAO in DAOstack has an architecture, implemented by reusable Arc contracts, that includes an avatar, a controller, a token, a reputation system, and a set of schemes and global constraints.
 
 **The avatar** is a public-facing part of the DAO that handles the interaction of the DAO with the rest of the world, for example interacting with other DAOs or paying third party agents.  A DAO is always referenced by the address of its avatar.
 
-**The controller** is a central internal hub for all of the components of the DAO.
+**The controller** is a central internal hub for all of the components of the DAO.  DAOstack documentation often refers to the various components as "organs".
 
 **The token** is used as currency in operations like staking in `GenesisProtocol`, vesting agreements in `VestingScheme` and rewards in `ContributionReward`.
 
