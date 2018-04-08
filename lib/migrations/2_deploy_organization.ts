@@ -1,21 +1,55 @@
+import Web3 = require("web3");
+import { computeGasLimit } from "../../gasLimits.js";
 import { DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
 import { ConfigService } from "../configService";
 import { GetDefaultGenesisProtocolParameters } from "../wrappers/genesisProtocol";
-const computeGasLimit = require("../../gasLimits.js").computeGasLimit;
 
-/*
+/* tslint:disable:no-console */
+/* tslint:disable:max-line-length */
+
+interface FounderSpec {
+  /**
+   * Founders' address
+   */
+  address: string;
+  /**
+   * string | number token amount to be awarded to each founder, in GEN
+   */
+  tokens: string | number;
+  /**
+   * string | number reputation amount to be awarded to each founder,
+   * in units of the Genesis Reputation system.
+   */
+  reputation: string | number;
+}
 /**
  * Migration callback
  */
-export const arcJsDeployer = (web3, artifacts, deployer) => {
+export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void => {
 
   const network = ConfigService.get("network") || "ganache";
-  const founders = require("../../migrations/founders.json").founders[network];
+
+  const internalFoundersConfigLocation = "../../migrations/founders.json";
+  const foundersConfig = require(internalFoundersConfigLocation).founders;
+
+  const customFoundersConfigLocation = ConfigService.get("foundersConfigurationLocation");
+
+  if (internalFoundersConfigLocation !== customFoundersConfigLocation) {
+    console.log(`merging custom founders from ${customFoundersConfigLocation}`);
+    const customFoundersConfig = require(customFoundersConfigLocation).founders;
+    // merge the two
+    Object.assign(foundersConfig, customFoundersConfig);
+  }
+
+  const founders = foundersConfig[network];
+
+  if (!founders || (founders.length === 0)) {
+    throw new Error(`no founders were given for the network: ${network}`);
+  }
+
   const gasAmount = computeGasLimit(founders.length);
 
-  /* eslint-disable no-console */
   console.log(`Deploying to ${network}, gasLimit: ${gasAmount},  ${founders.length} founders`);
-
   /**
    * Truffle Solidity artifact wrappers
    */
@@ -67,9 +101,9 @@ export const arcJsDeployer = (web3, artifacts, deployer) => {
       orgName,
       tokenName,
       tokenSymbol,
-      founders.map((f) => f.address),
-      founders.map((f) => web3.toWei(f.tokens)),
-      founders.map((f) => web3.toWei(f.reputation)),
+      founders.map((f: FounderSpec) => f.address),
+      founders.map((f: FounderSpec) => web3.toWei(f.tokens)),
+      founders.map((f: FounderSpec) => web3.toWei(f.reputation)),
       universalControllerInst.address,
       web3.toWei(100000000), // token cap of one hundred million GEN, in Wei
       { gas: gasAmount });

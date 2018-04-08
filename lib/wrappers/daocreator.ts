@@ -254,12 +254,12 @@ export interface FounderConfig {
    */
   address: string;
   /**
-   * string | BigNumber array of token amounts to be awarded to each founder.
+   * string | BigNumber token amount to be awarded to each founder.
    * Should be given in Wei.
    */
   tokens: string | BigNumber.BigNumber;
   /**
-   * string | BigNumber array of reputation amounts to be awarded to each founder.
+   * string | BigNumber reputation amount to be awarded to each founder.
    * Should be given in Wei.
    */
   reputation: string | BigNumber.BigNumber;
