@@ -2355,14 +2355,20 @@
                 <h1 id="working-with-daos">Working with DAOs<a class="headerlink" href="#working-with-daos" title="Permanent link">&para;</a></h1>
 <p>Arc.js provides a class called <a href="../api/classes/DAO">DAO</a> that facilitates creating and working with DAOs.  Read on for more information about DAOs in DAOstack and the <a href="../api/classes/DAO">DAO</a> class.</p>
 <h2 id="about-daos">About DAOs<a class="headerlink" href="#about-daos" title="Permanent link">&para;</a></h2>
-<p>Every DAO in DAOstack has an architecture designed by Arc that enables it to use the reusable contracts provided by Arc.  Each DAO has an avatar, a controller, a token, a reputation system, and a set of schemes and global constraints.</p>
+<p>Every DAO in DAOstack has an architecture, implemented by reusable Arc contracts, that includes an avatar, a controller, a token, a reputation system, and a set of schemes and global constraints.</p>
 <p><strong>The avatar</strong> is a public-facing part of the DAO that handles the interaction of the DAO with the rest of the world, for example interacting with other DAOs or paying third party agents.  A DAO is always referenced by the address of its avatar.</p>
-<p><strong>The controller</strong> is a central internal hub for all of the components of the DAO.</p>
+<p><strong>The controller</strong> is a central internal hub for all of the components of the DAO.  DAOstack documentation often refers to the various components as "organs".</p>
 <p><strong>The token</strong> is used as currency in operations like staking in <code>GenesisProtocol</code>, vesting agreements in <code>VestingScheme</code> and rewards in <code>ContributionReward</code>.</p>
 <p><strong>The reputation system</strong> provides a kind of currency of influence. Reputation conveys influence in the DAO commenserate with the rules 
 of the DAO, such as when voting and the nature of what causes it to be gained or lost.  Like tokens, reputation can be minted, but it cannot be transferred between agents.</p>
-<p><strong>Schemes</strong> are public-facing contracts that any agent can use when they want to work with proposals respecting the DAO.  Accordingly, each scheme is configured with a voting machine (or like <a href="../api/classes/GenesisProtocolWrapper">GenesisProtocol</a>, is itself a scheme).</p>
-<p><strong>Global constraints</strong> use configured criteria to potentially block any action attempted by the Controller.  An example is <a href="../api/classes/TokenCapGCWrapper">TokenCapGC</a> that limits the total supply of a given token to a certain maximum number.</p>
+<p><strong>Schemes</strong> are public-facing contracts that any agent can use when they want perform primary functions relating to the DAOstack environment or pertaining to the domain of a particular DAO.</p>
+<p>You can use schemes in the context of the general DAOstack environment to create a new DAO <a href="../api/classes/DaoCreatorWrapper">DaoCreatorWrapper</a>, run an ICO (<code>SimpleICO</code>) or manage a DAO registry (<code>OrganizationRegister</code>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>SimpleICO</code> and <code>OrganizationRegister</code> do not yet have <a href="../Wrappers">wrapper classes</a> in Arc.js.</p>
+</div>
+<p>Most often we use schemes to perform primary functions respecting a particular DAO, especially when working with proposals.  Every scheme that works with proposals also is configured with a voting machine.</p>
+<p><strong>Global constraints</strong> use configured criteria to block actions attempted by the Controller that would violate a given constraint.  An example is <a href="../api/classes/TokenCapGCWrapper">TokenCapGC</a> that limits the total supply of a given token to a certain maximum number.</p>
 <p>DAOs are extensible beyond the reusability of all Arc contracts: You can provide your own implementation of the controller, token, and any global constraints, voting machines and schemes you want.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
@@ -2374,8 +2380,12 @@ of the DAO, such as when voting and the nature of what causes it to be gained or
 </div>
 <h2 id="creating-a-new-dao">Creating a new DAO<a class="headerlink" href="#creating-a-new-dao" title="Permanent link">&para;</a></h2>
 <p>When creating a DAO you can configure its name, token, founders and schemes.  For schemes you configure their parameters, permissions and their voting machine.</p>
-<p>You will call <a href="../api/classes/DAO#new">DAO.new</a> to create a new DAO, passing it a <a href="../api/interfaces/NewDaoConfig">configuration object</a>.</p>
+<p>You can call <a href="../api/classes/DAO#new">DAO.new</a> to create a new DAO, passing it a <a href="../api/interfaces/NewDaoConfig">configuration object</a>.</p>
 <p>Almost everything in the configuration has a default.  The following sections describe how to supply custom configurations.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Under the hood, <code>Dao.new</code> uses the <a href="../api/classes/DaoCreatorWrapper">DaoCreatorWrapper</a> class.</p>
+</div>
 <h3 id="creating-a-new-dao-with-all-defaults">Creating a new DAO with all defaults<a class="headerlink" href="#creating-a-new-dao-with-all-defaults" title="Permanent link">&para;</a></h3>
 <p>The simplest example of how to create a new DAO uses all defaults:  No schemes nor founders:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1

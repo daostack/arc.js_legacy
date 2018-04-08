@@ -621,8 +621,22 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#static-logger" title="«Static» logger" class="md-nav__link">
-    «Static» logger
+  <a href="#static-loglevel" title="«Static» logLevel" class="md-nav__link">
+    «Static» logLevel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-loggers" title="«Static» loggers" class="md-nav__link">
+    «Static» loggers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-modulename" title="«Static» moduleName" class="md-nav__link">
+    «Static» moduleName
   </a>
   
 </li>
@@ -639,6 +653,13 @@
   
     <nav class="md-nav">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-addlogger" title="«Static» addLogger" class="md-nav__link">
+    «Static» addLogger
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#static-debug" title="«Static» debug" class="md-nav__link">
@@ -662,15 +683,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#static-setloglevel" title="«Static» setLogLevel" class="md-nav__link">
-    «Static» setLogLevel
+  <a href="#static-message" title="«Static» message" class="md-nav__link">
+    «Static» message
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#static-setlogger" title="«Static» setLogger" class="md-nav__link">
-    «Static» setLogger
+  <a href="#static-removelogger" title="«Static» removeLogger" class="md-nav__link">
+    «Static» removeLogger
   </a>
   
 </li>
@@ -2307,8 +2328,22 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#static-logger" title="«Static» logger" class="md-nav__link">
-    «Static» logger
+  <a href="#static-loglevel" title="«Static» logLevel" class="md-nav__link">
+    «Static» logLevel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-loggers" title="«Static» loggers" class="md-nav__link">
+    «Static» loggers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-modulename" title="«Static» moduleName" class="md-nav__link">
+    «Static» moduleName
   </a>
   
 </li>
@@ -2325,6 +2360,13 @@
   
     <nav class="md-nav">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-addlogger" title="«Static» addLogger" class="md-nav__link">
+    «Static» addLogger
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#static-debug" title="«Static» debug" class="md-nav__link">
@@ -2348,15 +2390,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#static-setloglevel" title="«Static» setLogLevel" class="md-nav__link">
-    «Static» setLogLevel
+  <a href="#static-message" title="«Static» message" class="md-nav__link">
+    «Static» message
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#static-setlogger" title="«Static» setLogger" class="md-nav__link">
-    «Static» setLogger
+  <a href="#static-removelogger" title="«Static» removeLogger" class="md-nav__link">
+    «Static» removeLogger
   </a>
   
 </li>
@@ -2397,29 +2439,65 @@
 <h2 id="index">Index<a class="headerlink" href="#index" title="Permanent link">&para;</a></h2>
 <h3 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h3>
 <ul>
-<li><a href="./#logger">logger</a></li>
+<li><a href="./#logLevel">logLevel</a></li>
+<li><a href="./#loggers">loggers</a></li>
+<li><a href="./#moduleName">moduleName</a></li>
 </ul>
 <h3 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h3>
 <ul>
+<li><a href="./#addLogger">addLogger</a></li>
 <li><a href="./#debug">debug</a></li>
 <li><a href="./#error">error</a></li>
 <li><a href="./#info">info</a></li>
-<li><a href="./#setLogLevel">setLogLevel</a></li>
-<li><a href="./#setLogger">setLogger</a></li>
+<li><a href="./#message">message</a></li>
+<li><a href="./#removeLogger">removeLogger</a></li>
 <li><a href="./#warn">warn</a></li>
 </ul>
 <hr />
 <h2 id="properties_1">Properties<a class="headerlink" href="#properties_1" title="Permanent link">&para;</a></h2>
-<p><a id="logger"></a></p>
-<h3 id="static-logger">«Static» logger<a class="headerlink" href="#static-logger" title="Permanent link">&para;</a></h3>
-<p><strong>●  logger</strong>:  <em><a href="../../interfaces/ILogger/">ILogger</a></em>  =  new ConsoleLogger()</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/827a0aca/lib/loggingService.ts#L65">loggingService.ts:65</a></em></p>
+<p><a id="logLevel"></a></p>
+<h3 id="static-loglevel">«Static» logLevel<a class="headerlink" href="#static-loglevel" title="Permanent link">&para;</a></h3>
+<p><strong>●  logLevel</strong>:  <em><a href="../../enums/LogLevel/">LogLevel</a></em>  =  parseInt(ConfigService.get("logLevel"), 10) as LogLevel</p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/45969bbc/lib/loggingService.ts#L63">loggingService.ts:63</a></em></p>
+<hr />
+<p><a id="loggers"></a></p>
+<h3 id="static-loggers">«Static» loggers<a class="headerlink" href="#static-loggers" title="Permanent link">&para;</a></h3>
+<p><strong>●  loggers</strong>:  <em><code>Array</code>.&lt;<a href="../../interfaces/ILogger/">ILogger</a>&gt;</em>  =  [new ConsoleLogger()]</p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/45969bbc/lib/loggingService.ts#L61">loggingService.ts:61</a></em></p>
+<hr />
+<p><a id="moduleName"></a></p>
+<h3 id="static-modulename">«Static» moduleName<a class="headerlink" href="#static-modulename" title="Permanent link">&para;</a></h3>
+<p><strong>●  moduleName</strong>:  <em><code>string</code></em>  = "Arc.js"</p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/45969bbc/lib/loggingService.ts#L65">loggingService.ts:65</a></em></p>
 <hr />
 <h2 id="methods_1">Methods<a class="headerlink" href="#methods_1" title="Permanent link">&para;</a></h2>
+<p><a id="addLogger"></a></p>
+<h3 id="static-addlogger">«Static» addLogger<a class="headerlink" href="#static-addlogger" title="Permanent link">&para;</a></h3>
+<p>► <strong>addLogger</strong>(logger: <em><a href="../../interfaces/ILogger/">ILogger</a></em>): <code>void</code></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/45969bbc/lib/loggingService.ts#L136">loggingService.ts:136</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>logger</td>
+<td><a href="../../interfaces/ILogger/">ILogger</a></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>void</code></p>
+<hr />
 <p><a id="debug"></a></p>
 <h3 id="static-debug">«Static» debug<a class="headerlink" href="#static-debug" title="Permanent link">&para;</a></h3>
 <p>► <strong>debug</strong>(message: <em><code>string</code></em>): <code>void</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/827a0aca/lib/loggingService.ts#L68">loggingService.ts:68</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/45969bbc/lib/loggingService.ts#L67">loggingService.ts:67</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2442,7 +2520,7 @@
 <p><a id="error"></a></p>
 <h3 id="static-error">«Static» error<a class="headerlink" href="#static-error" title="Permanent link">&para;</a></h3>
 <p>► <strong>error</strong>(message: <em><code>string</code></em>): <code>void</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/827a0aca/lib/loggingService.ts#L74">loggingService.ts:74</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/45969bbc/lib/loggingService.ts#L85">loggingService.ts:85</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2465,7 +2543,7 @@
 <p><a id="info"></a></p>
 <h3 id="static-info">«Static» info<a class="headerlink" href="#static-info" title="Permanent link">&para;</a></h3>
 <p>► <strong>info</strong>(message: <em><code>string</code></em>): <code>void</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/827a0aca/lib/loggingService.ts#L70">loggingService.ts:70</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/45969bbc/lib/loggingService.ts#L73">loggingService.ts:73</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2485,33 +2563,50 @@
 </table>
 <p><strong>Returns:</strong> <code>void</code></p>
 <hr />
-<p><a id="setLogLevel"></a></p>
-<h3 id="static-setloglevel">«Static» setLogLevel<a class="headerlink" href="#static-setloglevel" title="Permanent link">&para;</a></h3>
-<p>► <strong>setLogLevel</strong>(level: <em><a href="../../enums/LogLevel/">LogLevel</a></em>): <code>void</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/827a0aca/lib/loggingService.ts#L77">loggingService.ts:77</a></em></p>
+<p><a id="message"></a></p>
+<h3 id="static-message">«Static» message<a class="headerlink" href="#static-message" title="Permanent link">&para;</a></h3>
+<p>► <strong>message</strong>(message: <em><code>string</code></em>, level?: <em><a href="../../enums/LogLevel/">LogLevel</a></em>): <code>void</code></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/45969bbc/lib/loggingService.ts#L108">loggingService.ts:108</a></em></p>
+<p>Log a message at potentially multiple levels instead of just one.</p>
+<p>The message will be logged just once, at the first log level in the intersection between the given log level and the current log level, in the following order of precendence:</p>
+<ol>
+<li>error</li>
+<li>warn</li>
+<li>info</li>
+<li>debug</li>
+</ol>
+<p>So if the current log level is info|error and you call <code>message("a message", LogLevel.info|LogLevel.error)</code> then you will see the message logged as an error.</p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
 <th>Param</th>
 <th>Type</th>
+<th>Default value</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td>message</td>
+<td><code>string</code></td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
 <td>level</td>
 <td><a href="../../enums/LogLevel/">LogLevel</a></td>
-<td>-</td>
+<td>LoggingService.logLevel</td>
+<td>log level(s)</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Returns:</strong> <code>void</code></p>
 <hr />
-<p><a id="setLogger"></a></p>
-<h3 id="static-setlogger">«Static» setLogger<a class="headerlink" href="#static-setlogger" title="Permanent link">&para;</a></h3>
-<p>► <strong>setLogger</strong>(logger: <em><a href="../../interfaces/ILogger/">ILogger</a></em>): <code>void</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/827a0aca/lib/loggingService.ts#L81">loggingService.ts:81</a></em></p>
+<p><a id="removeLogger"></a></p>
+<h3 id="static-removelogger">«Static» removeLogger<a class="headerlink" href="#static-removelogger" title="Permanent link">&para;</a></h3>
+<p>► <strong>removeLogger</strong>(logger: <em><a href="../../interfaces/ILogger/">ILogger</a></em>): <code>void</code></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/45969bbc/lib/loggingService.ts#L140">loggingService.ts:140</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2534,7 +2629,7 @@
 <p><a id="warn"></a></p>
 <h3 id="static-warn">«Static» warn<a class="headerlink" href="#static-warn" title="Permanent link">&para;</a></h3>
 <p>► <strong>warn</strong>(message: <em><code>string</code></em>): <code>void</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/827a0aca/lib/loggingService.ts#L72">loggingService.ts:72</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/45969bbc/lib/loggingService.ts#L79">loggingService.ts:79</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
