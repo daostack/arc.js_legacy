@@ -145,8 +145,8 @@ export class WrapperService {
      * Deployed contract wrappers by name.
      */
     const filter = (options && options.filter) ?
-      Object.assign({}, WrapperService.completeWrapperFilter, options.filter) :
-      WrapperService.defaultWrapperFilter;
+      Object.assign({}, WrapperService.noWrappersFilter, options.filter) :
+      WrapperService.allWrappersFilter;
 
     /* tslint:disable:max-line-length */
     WrapperService.wrappers.AbsoluteVote = filter.AbsoluteVote ? await AbsoluteVoteFactory.deployed() : null;
@@ -239,7 +239,7 @@ export class WrapperService {
     }
   }
 
-  private static defaultWrapperFilter: WrapperFilter = {
+  private static allWrappersFilter: WrapperFilter = {
     AbsoluteVote: true,
     ContributionReward: true,
     DaoCreator: true,
@@ -252,7 +252,7 @@ export class WrapperService {
     VoteInOrganizationScheme: true,
   };
 
-  private static completeWrapperFilter: WrapperFilter = {
+  private static noWrappersFilter: WrapperFilter = {
     AbsoluteVote: false,
     ContributionReward: false,
     DaoCreator: false,
