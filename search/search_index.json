@@ -3391,6 +3391,81 @@
             "title": "setParameters"
         }, 
         {
+            "location": "/api/classes/WrapperFilter/", 
+            "text": "API Reference\n \n \nWrapperFilter\n\n\nClass: WrapperFilter\n\n\nIndex\n\n\nProperties\n\n\n\n\nAbsoluteVote\n\n\nContributionReward\n\n\nDaoCreator\n\n\nGenesisProtocol\n\n\nGlobalConstraintRegistrar\n\n\nSchemeRegistrar\n\n\nTokenCapGC\n\n\nUpgradeScheme\n\n\nVestingScheme\n\n\nVoteInOrganizationScheme\n\n\n\n\n\n\nProperties\n\n\n\n\nAbsoluteVote\n\n\n\u25cf  AbsoluteVote\n:  \nboolean\n  = true\n\n\nDefined in \nwrapperService.ts:271\n\n\n\n\n\n\nContributionReward\n\n\n\u25cf  ContributionReward\n:  \nboolean\n  = true\n\n\nDefined in \nwrapperService.ts:272\n\n\n\n\n\n\nDaoCreator\n\n\n\u25cf  DaoCreator\n:  \nboolean\n  = true\n\n\nDefined in \nwrapperService.ts:273\n\n\n\n\n\n\nGenesisProtocol\n\n\n\u25cf  GenesisProtocol\n:  \nboolean\n  = true\n\n\nDefined in \nwrapperService.ts:274\n\n\n\n\n\n\nGlobalConstraintRegistrar\n\n\n\u25cf  GlobalConstraintRegistrar\n:  \nboolean\n  = true\n\n\nDefined in \nwrapperService.ts:275\n\n\n\n\n\n\nSchemeRegistrar\n\n\n\u25cf  SchemeRegistrar\n:  \nboolean\n  = true\n\n\nDefined in \nwrapperService.ts:276\n\n\n\n\n\n\nTokenCapGC\n\n\n\u25cf  TokenCapGC\n:  \nboolean\n  = true\n\n\nDefined in \nwrapperService.ts:277\n\n\n\n\n\n\nUpgradeScheme\n\n\n\u25cf  UpgradeScheme\n:  \nboolean\n  = true\n\n\nDefined in \nwrapperService.ts:278\n\n\n\n\n\n\nVestingScheme\n\n\n\u25cf  VestingScheme\n:  \nboolean\n  = true\n\n\nDefined in \nwrapperService.ts:279\n\n\n\n\n\n\nVoteInOrganizationScheme\n\n\n\u25cf  VoteInOrganizationScheme\n:  \nboolean\n  = true\n\n\nDefined in \nwrapperService.ts:280", 
+            "title": "WrapperFilter"
+        }, 
+        {
+            "location": "/api/classes/WrapperFilter/#class-wrapperfilter", 
+            "text": "", 
+            "title": "Class: WrapperFilter"
+        }, 
+        {
+            "location": "/api/classes/WrapperFilter/#index", 
+            "text": "", 
+            "title": "Index"
+        }, 
+        {
+            "location": "/api/classes/WrapperFilter/#properties", 
+            "text": "AbsoluteVote  ContributionReward  DaoCreator  GenesisProtocol  GlobalConstraintRegistrar  SchemeRegistrar  TokenCapGC  UpgradeScheme  VestingScheme  VoteInOrganizationScheme", 
+            "title": "Properties"
+        }, 
+        {
+            "location": "/api/classes/WrapperFilter/#properties_1", 
+            "text": "", 
+            "title": "Properties"
+        }, 
+        {
+            "location": "/api/classes/WrapperFilter/#absolutevote", 
+            "text": "\u25cf  AbsoluteVote :   boolean   = true  Defined in  wrapperService.ts:271", 
+            "title": "AbsoluteVote"
+        }, 
+        {
+            "location": "/api/classes/WrapperFilter/#contributionreward", 
+            "text": "\u25cf  ContributionReward :   boolean   = true  Defined in  wrapperService.ts:272", 
+            "title": "ContributionReward"
+        }, 
+        {
+            "location": "/api/classes/WrapperFilter/#daocreator", 
+            "text": "\u25cf  DaoCreator :   boolean   = true  Defined in  wrapperService.ts:273", 
+            "title": "DaoCreator"
+        }, 
+        {
+            "location": "/api/classes/WrapperFilter/#genesisprotocol", 
+            "text": "\u25cf  GenesisProtocol :   boolean   = true  Defined in  wrapperService.ts:274", 
+            "title": "GenesisProtocol"
+        }, 
+        {
+            "location": "/api/classes/WrapperFilter/#globalconstraintregistrar", 
+            "text": "\u25cf  GlobalConstraintRegistrar :   boolean   = true  Defined in  wrapperService.ts:275", 
+            "title": "GlobalConstraintRegistrar"
+        }, 
+        {
+            "location": "/api/classes/WrapperFilter/#schemeregistrar", 
+            "text": "\u25cf  SchemeRegistrar :   boolean   = true  Defined in  wrapperService.ts:276", 
+            "title": "SchemeRegistrar"
+        }, 
+        {
+            "location": "/api/classes/WrapperFilter/#tokencapgc", 
+            "text": "\u25cf  TokenCapGC :   boolean   = true  Defined in  wrapperService.ts:277", 
+            "title": "TokenCapGC"
+        }, 
+        {
+            "location": "/api/classes/WrapperFilter/#upgradescheme", 
+            "text": "\u25cf  UpgradeScheme :   boolean   = true  Defined in  wrapperService.ts:278", 
+            "title": "UpgradeScheme"
+        }, 
+        {
+            "location": "/api/classes/WrapperFilter/#vestingscheme", 
+            "text": "\u25cf  VestingScheme :   boolean   = true  Defined in  wrapperService.ts:279", 
+            "title": "VestingScheme"
+        }, 
+        {
+            "location": "/api/classes/WrapperFilter/#voteinorganizationscheme", 
+            "text": "\u25cf  VoteInOrganizationScheme :   boolean   = true  Defined in  wrapperService.ts:280", 
+            "title": "VoteInOrganizationScheme"
+        }, 
+        {
             "location": "/api/classes/WrapperService/", 
             "text": "API Reference\n \n \nWrapperService\n\n\nClass: WrapperService\n\n\nService that provides access to Arc.js contract wrapper classes and class factories.\n\n\nIndex\n\n\nProperties\n\n\n\n\nfactories\n\n\nwrappers\n\n\nwrappersByAddress\n\n\nwrappersByType\n\n\n\n\nMethods\n\n\n\n\ngetContractWrapper\n\n\ninitialize\n\n\n\n\n\n\nProperties\n\n\n\n\n\u00abStatic\u00bb factories\n\n\n\u25cf  factories\n:  \nArcWrapperFactories\n  =  {} as ArcWrapperFactories\n\n\nDefined in \nwrapperService.ts:124\n\n\nWrapper factories by name. Use these when you want to do \n.at()\n or \n.new()\n. You can also use for \ndeployed()\n, but the wrappers for deployed contracts are directly available from the \nwrappers\n and \nwrappersByType\n properties.\n\n\n\n\n\n\n\u00abStatic\u00bb wrappers\n\n\n\u25cf  wrappers\n:  \nArcWrappers\n  =  {} as ArcWrappers\n\n\nDefined in \nwrapperService.ts:114\n\n\nWrappers by name, hydrated with contracts as deployed by the running version of Arc.js.\n\n\n\n\n\n\n\u00abStatic\u00bb wrappersByAddress\n\n\n\u25cf  wrappersByAddress\n:  \nMap\n.\nAddress\n,.\nContractWrapperBase\n  =  new Map\n()\n\n\nDefined in \nwrapperService.ts:134\n\n\nMap of contract wrappers keyed by address. For example:\n\n\nconst wrapper = WrapperService.wrappersByAddress.get(anAddress);\n\n\nCurrently only returns the wrappers for contracts that were deployed by the running version of Arc.js.\n\n\n\n\n\n\n\u00abStatic\u00bb wrappersByType\n\n\n\u25cf  wrappersByType\n:  \nArcWrappersByType\n  =  {} as ArcWrappersByType\n\n\nDefined in \nwrapperService.ts:118\n\n\nContract wrapper factories grouped by type\n\n\n\n\nMethods\n\n\n\n\n\u00abStatic\u00bb getContractWrapper\n\n\n\u25ba \ngetContractWrapper\n(contractName: \nstring\n, address?: \nstring\n): \nPromise\n.\nContractWrapperBase\n\u23ae\nundefined\n\n\nDefined in \nwrapperService.ts:227\n\n\nReturns the promise of an Arc.js contract wrapper or undefined if not found.\n\n\nMost useful when you have both contract name and address and wish to most efficiently return the associated wrapper, or undefined when not found.\n\n\nParameters:\n\n\n\n\n\n\n\n\nParam\n\n\nType\n\n\nDescription\n\n\n\n\n\n\n\n\n\n\ncontractName\n\n\nstring\n\n\nname of an Arc contract, like \"SchemeRegistrar\"\n\n\n\n\n\n\naddress\n\n\nstring\n\n\noptional\n\n\n\n\n\n\n\n\nReturns:\n \nPromise\n.\nContractWrapperBase\n\u23ae\nundefined\n\n\n\n\n\n\n\u00abStatic\u00bb initialize\n\n\n\u25ba \ninitialize\n(options?: \nWrapperServiceInitializeOptions\n): \nPromise\n.\nvoid\n\n\nDefined in \nwrapperService.ts:142\n\n\ninitialize() must be called before any of the static properties will have values. It is called by ArcInitialize(), which in tur must be invoked by any application using Arc.js.\n\n\nParameters:\n\n\n\n\n\n\n\n\nParam\n\n\nType\n\n\nDescription\n\n\n\n\n\n\n\n\n\n\noptions\n\n\nWrapperServiceInitializeOptions\n\n\n-\n\n\n\n\n\n\n\n\nReturns:\n \nPromise\n.\nvoid", 
             "title": "WrapperService"
@@ -5941,6 +6016,31 @@
             "title": "warn"
         }, 
         {
+            "location": "/api/interfaces/InitializeArcOptions/", 
+            "text": "API Reference\n \n \nInitializeArcOptions\n\n\nInterface: InitializeArcOptions\n\n\nHierarchy\n\n\nWrapperServiceInitializeOptions\n\n\n\u21b3 InitializeArcOptions\n\n\nProperties\n\n\n\n\n\u00abOptional\u00bb filter\n\n\n\u25cf  filter\n:  \nWrapperFilter\n \n\n\nInherited from \nWrapperServiceInitializeOptions\n.\nfilter\n\n\nDefined in \nwrapperService.ts:291\n\n\nOption filter to only initialize the contracts whose name is set to true. Any that are omitted or set to false here will appear as \nnull\n in WrapperService.wrappers and WrapperService.wrappersByType, and will not be available in WrapperService.wrappersByAddress. But their factories will still be available in WrapperService.factories.", 
+            "title": "InitializeArcOptions"
+        }, 
+        {
+            "location": "/api/interfaces/InitializeArcOptions/#interface-initializearcoptions", 
+            "text": "", 
+            "title": "Interface: InitializeArcOptions"
+        }, 
+        {
+            "location": "/api/interfaces/InitializeArcOptions/#hierarchy", 
+            "text": "WrapperServiceInitializeOptions  \u21b3 InitializeArcOptions", 
+            "title": "Hierarchy"
+        }, 
+        {
+            "location": "/api/interfaces/InitializeArcOptions/#properties", 
+            "text": "", 
+            "title": "Properties"
+        }, 
+        {
+            "location": "/api/interfaces/InitializeArcOptions/#optional-filter", 
+            "text": "\u25cf  filter :   WrapperFilter    Inherited from  WrapperServiceInitializeOptions . filter  Defined in  wrapperService.ts:291  Option filter to only initialize the contracts whose name is set to true. Any that are omitted or set to false here will appear as  null  in WrapperService.wrappers and WrapperService.wrappersByType, and will not be available in WrapperService.wrappersByAddress. But their factories will still be available in WrapperService.factories.", 
+            "title": "\u00abOptional\u00bb filter"
+        }, 
+        {
             "location": "/api/interfaces/InitialSchemesSetEventResult/", 
             "text": "API Reference\n \n \nInitialSchemesSetEventResult\n\n\nInterface: InitialSchemesSetEventResult\n\n\nProperties\n\n\n\n\n_avatar\n\n\n\u25cf  _avatar\n:  \nAddress\n \n\n\nDefined in \nwrappers/daocreator.ts:248", 
             "title": "InitialSchemesSetEventResult"
@@ -7869,6 +7969,31 @@
             "location": "/api/interfaces/VoteWithSpecifiedAmountsConfig/#vote", 
             "text": "\u25cf  vote :   number    Defined in  wrappers/genesisProtocol.ts:1175  the choice of vote. Can be 1 (YES) or 2 (NO).", 
             "title": "vote"
+        }, 
+        {
+            "location": "/api/interfaces/WrapperServiceInitializeOptions/", 
+            "text": "API Reference\n \n \nWrapperServiceInitializeOptions\n\n\nInterface: WrapperServiceInitializeOptions\n\n\nHierarchy\n\n\nWrapperServiceInitializeOptions\n\n\n\u21b3  \nInitializeArcOptions\n\n\nProperties\n\n\n\n\n\u00abOptional\u00bb filter\n\n\n\u25cf  filter\n:  \nWrapperFilter\n \n\n\nDefined in \nwrapperService.ts:291\n\n\nOption filter to only initialize the contracts whose name is set to true. Any that are omitted or set to false here will appear as \nnull\n in WrapperService.wrappers and WrapperService.wrappersByType, and will not be available in WrapperService.wrappersByAddress. But their factories will still be available in WrapperService.factories.", 
+            "title": "WrapperServiceInitializeOptions"
+        }, 
+        {
+            "location": "/api/interfaces/WrapperServiceInitializeOptions/#interface-wrapperserviceinitializeoptions", 
+            "text": "", 
+            "title": "Interface: WrapperServiceInitializeOptions"
+        }, 
+        {
+            "location": "/api/interfaces/WrapperServiceInitializeOptions/#hierarchy", 
+            "text": "WrapperServiceInitializeOptions  \u21b3   InitializeArcOptions", 
+            "title": "Hierarchy"
+        }, 
+        {
+            "location": "/api/interfaces/WrapperServiceInitializeOptions/#properties", 
+            "text": "", 
+            "title": "Properties"
+        }, 
+        {
+            "location": "/api/interfaces/WrapperServiceInitializeOptions/#optional-filter", 
+            "text": "\u25cf  filter :   WrapperFilter    Defined in  wrapperService.ts:291  Option filter to only initialize the contracts whose name is set to true. Any that are omitted or set to false here will appear as  null  in WrapperService.wrappers and WrapperService.wrappersByType, and will not be available in WrapperService.wrappersByAddress. But their factories will still be available in WrapperService.factories.", 
+            "title": "\u00abOptional\u00bb filter"
         }
     ]
 }
