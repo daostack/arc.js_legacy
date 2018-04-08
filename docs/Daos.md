@@ -17,7 +17,7 @@ of the DAO, such as when voting and the nature of what causes it to be gained or
 
 **Schemes** are public-facing contracts that any agent can use when they want perform primary functions relating to the DAOstack environment or pertaining to the domain of a particular DAO.
 
-You can use schemes in the context of the general DAOstack environment to create a new DAO [DaoCreatorWrapper](api/classes/DaoCreatorWrapper), run an ICO (`SimpleICO`) or manage a DAO registry (`OrganizationRegister`).
+You can use schemes in the context of the general DAOstack environment to create a new DAO ([DaoCreatorWrapper](api/classes/DaoCreatorWrapper)), run an ICO (`SimpleICO`) or manage a DAO registry (`OrganizationRegister`).
 
 !!! note
     `SimpleICO` and `OrganizationRegister` do not yet have [wrapper classes](Wrappers) in Arc.js.
