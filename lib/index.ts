@@ -25,16 +25,25 @@ export * from "./loggingService";
 export * from "./utils";
 
 import Web3 = require("web3");
-import { LoggingService } from "./loggingService";
+import { LoggingService, LogLevel } from "./loggingService";
 import { Utils } from "./utils";
-import { WrapperService } from "./wrapperService";
+import { WrapperService, WrapperServiceInitializeOptions } from "./wrapperService";
 
+/* tslint:disable-next-line:no-empty-interface */
+export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
+}
 /**
- * initialize() must be called before doing anything with Arc.js
+ * initialize() must be called before doing anything with Arc.js.
  */
-export async function InitializeArc(): Promise<Web3> {
+export async function InitializeArcJs(options?: InitializeArcOptions): Promise<Web3> {
   LoggingService.info("Initializing Arc.js");
-  const web3 = Utils.getWeb3();
-  await WrapperService.initialize();
-  return web3;
+  try {
+    const web3 = Utils.getWeb3();
+    await WrapperService.initialize();
+    return web3;
+  } catch (ex) {
+    /* tslint:disable-next-line:no-bitwise */
+    LoggingService.message(`InitializeArcJs failed: ${ex}`, LogLevel.info | LogLevel.error);
+    throw new Error(`InitializeArcJs failed: ${ex}`);
+  }
 }

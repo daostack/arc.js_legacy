@@ -1,6 +1,7 @@
 import { WrapperService } from "../test-dist/wrapperService";
 import { NULL_ADDRESS, DefaultLogLevel } from "./helpers";
 import { UpgradeSchemeWrapper } from "../test-dist/wrappers/upgradescheme";
+import { GenesisProtocolWrapper } from "../test-dist/wrappers/genesisProtocol";
 import { LoggingService, LogLevel } from "../test-dist/loggingService";
 import {
   ContractWrappers,
@@ -11,6 +12,26 @@ import {
 
 describe("WrapperService", () => {
 
+  it("can filter loading of contracts", async () => {
+
+    // const savedWrappers = WrapperService.wrappers;
+
+    // WrapperService.wrappers = {};
+
+    await WrapperService.initialize({
+      filter: {
+        ContributionReward: true,
+        GenesisProtocol: true
+      }
+    });
+
+    assert.equal(WrapperService.wrappers.GlobalConstraintRegistrar, null);
+    assert.isOk(WrapperService.wrappers.GenesisProtocol);
+    assert(WrapperService.wrappers.GenesisProtocol instanceof GenesisProtocolWrapper);
+
+    await WrapperService.initialize();
+  });
+
   it("Can enumerate wrappers", () => {
     for (const wrapperName in ContractWrappers) {
       const wrapper = ContractWrappers[wrapperName];
@@ -18,7 +39,6 @@ describe("WrapperService", () => {
       assert(wrapper.name.length > 0);
     }
   });
-
 
   it("Can enumerate allWrappers", () => {
     for (const wrapper of ContractWrappersByType.allWrappers) {
@@ -50,9 +70,9 @@ describe("WrapperService", () => {
   });
 
   it("getContractWrapper() function handles bad address", async () => {
-    LoggingService.setLogLevel(LogLevel.none);
+    LoggingService.logLevel = LogLevel.none;
     const wrapper = await WrapperService.getContractWrapper("UpgradeScheme", NULL_ADDRESS);
-    LoggingService.setLogLevel(DefaultLogLevel);
+    LoggingService.logLevel = DefaultLogLevel;
     assert.equal(wrapper, undefined);
   });
 });
