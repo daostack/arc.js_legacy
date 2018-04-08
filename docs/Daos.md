@@ -15,9 +15,16 @@ Every DAO in DAOstack has an architecture, implemented by reusable Arc contracts
 **The reputation system** provides a kind of currency of influence. Reputation conveys influence in the DAO commenserate with the rules 
 of the DAO, such as when voting and the nature of what causes it to be gained or lost.  Like tokens, reputation can be minted, but it cannot be transferred between agents.
 
-**Schemes** are public-facing contracts that any agent can use when they want to work with proposals respecting the DAO.  Accordingly, each scheme is configured with a voting machine (or like [GenesisProtocol](api/classes/GenesisProtocolWrapper), is itself a scheme).
+**Schemes** are public-facing contracts that any agent can use when they want perform primary functions relating to the DAOstack environment or pertaining to the domain of a particular DAO.
 
-**Global constraints** use configured criteria to potentially block any action attempted by the Controller.  An example is [TokenCapGC](api/classes/TokenCapGCWrapper) that limits the total supply of a given token to a certain maximum number.
+You can use schemes in the context of the general DAOstack environment to create a new DAO [DaoCreatorWrapper](api/classes/DaoCreatorWrapper), run an ICO (`SimpleICO`) or manage a DAO registry (`OrganizationRegister`).
+
+!!! note
+    `SimpleICO` and `OrganizationRegister` do not yet have [wrapper classes](Wrappers) in Arc.js.
+
+Most often we use schemes to perform primary functions respecting a particular DAO, especially when working with proposals.  Every scheme that works with proposals also is configured with a voting machine.
+
+**Global constraints** use configured criteria to block actions attempted by the Controller that would violate a given constraint.  An example is [TokenCapGC](api/classes/TokenCapGCWrapper) that limits the total supply of a given token to a certain maximum number.
 
 DAOs are extensible beyond the reusability of all Arc contracts: You can provide your own implementation of the controller, token, and any global constraints, voting machines and schemes you want.
 
@@ -31,9 +38,12 @@ DAOs are extensible beyond the reusability of all Arc contracts: You can provide
 
 When creating a DAO you can configure its name, token, founders and schemes.  For schemes you configure their parameters, permissions and their voting machine.
 
-You will call [DAO.new](api/classes/DAO#new) to create a new DAO, passing it a [configuration object](api/interfaces/NewDaoConfig).
+You can call [DAO.new](api/classes/DAO#new) to create a new DAO, passing it a [configuration object](api/interfaces/NewDaoConfig).
 
 Almost everything in the configuration has a default.  The following sections describe how to supply custom configurations.
+
+!!! tip
+    Under the hood, `Dao.new` uses the [DaoCreatorWrapper](api/classes/DaoCreatorWrapper) class.
 
 ### Creating a new DAO with all defaults
 
