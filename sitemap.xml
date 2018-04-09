@@ -124,12 +124,6 @@
     </url>
         
     <url>
-     <loc>/api/classes/ConsoleLogger/</loc>
-     <lastmod>2018-04-09</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
      <loc>/api/classes/ContractWrapperBase/</loc>
      <lastmod>2018-04-09</lastmod>
      <changefreq>daily</changefreq>
