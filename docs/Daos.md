@@ -4,25 +4,21 @@ Arc.js provides a class called [DAO](api/classes/DAO) that facilitates creating 
 
 ## About DAOs
 
-Every DAO in DAOstack has an architecture, implemented by reusable Arc contracts, that includes an avatar, a controller, a token, a reputation system, and a set of schemes and global constraints.
+Every DAO in DAOstack includes an avatar, a controller, a token, a reputation system, and zero or more schemes and global constraints.
 
 **The avatar** is a public-facing part of the DAO that handles the interaction of the DAO with the rest of the world, for example interacting with other DAOs or paying third party agents.  A DAO is always referenced by the address of its avatar.
 
-**The controller** is a central internal hub for all of the components of the DAO.  DAOstack documentation often refers to the various components as "organs".
+**The controller** is a central internal hub for all of the components of the DAO.  DAOstack documentation often refers to the various DAO components as "organs".
+
+!!! note
+    Any contract or agent's address can be registered like a scheme with the controller and thus work directly with the controller.
 
 **The token** is used as currency in operations like staking in `GenesisProtocol`, vesting agreements in `VestingScheme` and rewards in `ContributionReward`.
 
 **The reputation system** provides a kind of currency of influence. Reputation conveys influence in the DAO commenserate with the rules 
 of the DAO, such as when voting and the nature of what causes it to be gained or lost.  Like tokens, reputation can be minted, but it cannot be transferred between agents.
 
-**Schemes** are public-facing contracts that any agent can use when they want perform primary functions relating to the DAOstack environment or pertaining to the domain of a particular DAO.
-
-You can use schemes in the context of the general DAOstack environment to create a new DAO ([DaoCreatorWrapper](api/classes/DaoCreatorWrapper)), run an ICO (`SimpleICO`) or manage a DAO registry (`OrganizationRegister`).
-
-!!! note
-    `SimpleICO` and `OrganizationRegister` do not yet have [wrapper classes](Wrappers) in Arc.js.
-
-Most often we use schemes to perform primary functions respecting a particular DAO, especially when working with proposals.  Every scheme that works with proposals also is configured with a voting machine.
+**Schemes** are public-facing contracts that any agent can use when they want perform primary functions relating to the DAOstack environment or respecting the domain of a particular DAO.  Refer here to [more about schemes](Proposals#schemes).
 
 **Global constraints** use configured criteria to block actions attempted by the Controller that would violate a given constraint.  An example is [TokenCapGC](api/classes/TokenCapGCWrapper) that limits the total supply of a given token to a certain maximum number.
 
@@ -35,6 +31,7 @@ DAOs are extensible beyond the reusability of all Arc contracts: You can provide
     Refer here for [more information about proposals](Proposals).
     
 ## Creating a new DAO
+<a name="creatingDAOs"></a>
 
 When creating a DAO you can configure its name, token, founders and schemes.  For schemes you configure their parameters, permissions and their voting machine.
 
@@ -90,7 +87,7 @@ const newDao = await DAO.new({
 ```
 
 !!! note
-    It is not possible to add or remove founders.  In fact, there is no retained sense of who they even were .  They are simply addresses you supply when you create a DAO and to whom will immediately be minted tokens and reputation.
+    It is not possible to add or remove founders.  In fact, there is no retained sense of who they even were .  They are simply addresses you supply when you create a DAO and to whom will immediately be minted tokens and reputation.  You can mint reputation or tokens to others... this would effectively be like adding them as founders.
 
 So this DAO has founders with tokens and reputation, but no way to make proposals, that is, no schemes, and thus nothing on which to vote.  The DAO needs some schemes, at minimum a [SchemeRegistrar](api/classes/SchemeRegistrarWrapper) with which you can propose to add, modify or remove other schemes.
 
@@ -202,9 +199,9 @@ const newDao = await DAO.new({
 !!! info
     For more information about choosing between universal and non-universal controllers, see [this article](https://daostack.github.io/arc/contracts/controller/UController/).
 
-### Creating a new DAO with a non-default DaoCreator scheme
+### Creating a new DAO using a custom DaoCreator scheme
 
-In Arc, a DAO is created by the contract called `DaoCreator`.  You can supply your own alternative `DaoCreator` scheme by passing its address in `daoCreatorScheme`:
+Arc supplies a contract for creating DAOs called `DaoCreator`.  But you don't have to rely on  `DAOCreator` if you prefer different functionality -- you can supply your own DAO creator scheme by passing its address in `daoCreatorScheme`:
 
 ```javascript
 const newDao = await DAO.new({
@@ -216,7 +213,7 @@ const newDao = await DAO.new({
 ```
 
 !!! note
-    Your alternative contract must implement the same ABI as the Arc `DaoCreator` contract shipped with the running version of Arc.js.
+    Your DAO creator contract must, at least as a subset of its functionality, implement the same ABI as the Arc `DaoCreator` contract shipped with the running version of Arc.js.
 
 ### Get a previously-created DAO
 
@@ -230,6 +227,8 @@ const dao = await DAO.at(daoAvatarAddress);
     `DAO.at` will throw an exception if there is any problem loading the DAO.
 
 ### Get all the schemes registered to the DAO
+<a name="gettingDaoSchemes"></a>
+
 You can obtain the addresses of all of the schemes that are registered with a DAO using [DAO.getSchemes](api/classes/DAO/#getSchemes).  You will also get a contract wrapper if the scheme happens to be the one deployed by the running version of Arc.js:
 
 ```javascript

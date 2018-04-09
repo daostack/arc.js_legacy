@@ -159,7 +159,7 @@ const newUpgradeScheme = await UpgradeSchemeFactory.new();
 
 ## Obtain a DAO scheme's parameters
 
-Although you can always register your own schemes with a DAO, whether they be totally custom non-Arc schemes, or redeployed Arc schemes, by default a DAO is created with Arc schemes that are universal in the sense that the code is implemented in one place, without redundancy.  But every scheme registered with a DAO is configured with a particular set of parameter values, and references such as proposals. All of these are stored in the DAO's own controller where each universal scheme is able to find them.  (If the controller is the Universal Controller then the parameters and data are keyed by the DAO's avatar address.)
+Although you can always register your own schemes with a DAO, whether they be totally custom non-Arc schemes, or redeployed Arc schemes, by default a DAO is created with Arc schemes that are universal in the sense that the scheme's code is usable by any DAO with which the scheme can be registered.  But every scheme registered with a DAO is configured with a particular set of parameter values, and references such as proposals. All of these are stored in the DAO's own controller where each universal scheme is able to find them.  (If the controller is the Universal Controller then the parameters and data are keyed by the DAO's avatar address.)
 
 If you want to obtain a DAO scheme's parameters, you can do it like this:
 
