@@ -132,7 +132,7 @@ const newDao = await DAO.new({
 });
 ```
 
-Here we supply an alternate voting machine address, supplying it AbsoluteVote parameters:
+Here we supply an alternate voting machine address, supplying it [AbsoluteVote](api/classes/AbsoluteVoteWrapper) parameters:
 
 ```javascript
 const newDao = await DAO.new({
