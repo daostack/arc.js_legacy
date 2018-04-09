@@ -5,8 +5,8 @@ The ability to create proposals, vote one's reputation and stake one's reputatio
 !!! info
     Refer here for more [about DAOs](Daos).
 
-## Schemes
 <a name="schemes"></a>
+## Schemes
 
 Schemes are public-facing contracts that any agent can use when they want perform primary functions relating to the DAOstack environment or respecting the domain of a particular DAO.
 
@@ -17,21 +17,16 @@ You can use schemes in the context of the general DAOstack environment for vario
 
 Most often we use schemes to perform primary functions respecting a particular DAO, especially when working with proposals.
 
-For a scheme to be used by a DAO, it must be "registered" with the DAO.  Schemes can be registered both when you [create the DAO](Daos#creatingDAOs) and afterwards using the [SchemeRegistrar](api/classes/SchemeRegistrarWrapper).  Refer here for how to [obtain a list of schemes registered with a DAO](Daos#gettingDaoSchemes).
+For a scheme to be used by a DAO, it must be "registered" with the DAO.  Schemes can be registered both when you [create the DAO](Daos#creatingDAOs) and afterwards using the [SchemeRegistrar](api/classes/SchemeRegistrarWrapper).  
 
-Here is a list of the schemes currently wrapped by Arc.js:
 
-* ContributionReward
-* GenesisProtocol
-* GlobalConstraintRegistrar
-* SchemeRegistrar
-* UpgradeScheme
-* VoteInOrganizationScheme
-* VestingScheme
-
-Refer here for how to [obtain this list of scheme wrappers at runtime](Wrappers#enumerate-wrappers-by-contract-type).
+!!! info "More Information about Schemes"
+    - [All the schemes wrapped in Arc.js](Wrappers#wrappersByContractType)
+    - [Obtaining a list of schemes registered with a DAO](Daos#gettingDaoSchemes)
+    
 
 ## Proposals
 [More on Proposals to Come]
 
 ### Voting Machines
+[More on Voting Machines to Come]

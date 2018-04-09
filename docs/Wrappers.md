@@ -60,6 +60,7 @@ for (var wrapper in ContractWrappers) {
     }
     ```
 
+<a name="wrappersByContractType"></a>
 ## Enumerate wrappers by contract type
 
 Arc contracts and associated Arc.js contract wrapper classes can be categorized as follows:
@@ -71,8 +72,8 @@ Arc contracts and associated Arc.js contract wrapper classes can be categorized 
 * GlobalConstraintRegistrar
 * SchemeRegistrar
 * UpgradeScheme
-* VoteInOrganizationScheme
 * VestingScheme
+* VoteInOrganizationScheme
 
 **Voting Machines**
 
@@ -178,7 +179,7 @@ const votingMachineAddress = schemeParameters.votingMachineAddress;
 
 ## Working with Unwrapped Arc Contracts
 
-Not all Arc contracts have been given wrapper classes, for example, `Avatar`, `UController` and many more.  But using `Utils.requireContract` you can obtain a raw TruffleContract for any contract, enabling you to work with the contract just by providing the name of the Arc contract:
+Not all Arc contracts have been given wrapper classes, for example, `Avatar`, `UController` and many more.  But using `Utils.requireContract` you can obtain a raw [Truffle contract](https://github.com/trufflesuite/truffle-contract) for any contract, enabling you to work with the contract just by providing the name of the Arc contract:
 
 ```javascript
 import { Utils } from "@daostack/arc.js";

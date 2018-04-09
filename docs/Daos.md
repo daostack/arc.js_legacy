@@ -181,10 +181,10 @@ const newDao = await DAO.new({
 ```
 
 !!! tip
-    If you want change the default voting machine for all calls to `DAO.new` you can do it using the ConfigService setting "defaultVotingMachine". See [Arc.js Configuration Settings](Configuration.md).
+    If you want change the default voting machine for all calls to `DAO.new` you can do it using the [ConfigService](api/classes/ConfigService) setting `defaultVotingMachine`. See [Arc.js Configuration Settings](Configuration.md).
 
 !!! note "Important"
-    If you want to use GenesisProtocol on _any_ scheme, you must also add GenesisProtocol as scheme on the DAO itself (see [Creating a new DAO with schemes](#creating-a-new-dao-with-schemes)).
+    If you want to use [GenesisProtocol](api/classes/GenesisProtocolWrapper) on _any_ scheme, you must also add it as scheme on the DAO itself (see [Creating a new DAO with schemes](#creating-a-new-dao-with-schemes)).
 
 ### Creating a new DAO with a non-Universal Controller
 
