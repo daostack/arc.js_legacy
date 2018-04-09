@@ -8,21 +8,18 @@ The ability to create proposals, vote one's reputation and stake one's reputatio
 <a name="schemes"></a>
 ## Schemes
 
-Schemes are public-facing contracts that any agent can use when they want perform primary functions relating to the DAOstack environment or respecting the domain of a particular DAO.
-
-You can use schemes in the context of the general DAOstack environment for various functions such as creating a new DAO ([DaoCreatorWrapper](api/classes/DaoCreatorWrapper)), running an ICO (`SimpleICO`) or managing a DAO registry (`OrganizationRegister`).
+Schemes are public-facing contracts that any agent can use to interact with the DAOstack ecosystem and individual DAOs. You can use schemes for various tasks like creating a new DAO ([DaoCreatorWrapper](api/classes/DaoCreatorWrapper)), running an ICO (`SimpleICO`) or managing a DAO registry (`OrganizationRegister`).
 
 !!! note
     `SimpleICO` and `OrganizationRegister` do not yet have [wrapper classes](Wrappers) in Arc.js.
 
-Most often we use schemes to perform primary functions respecting a particular DAO, especially when working with proposals.
-
-For a scheme to be used by a DAO, it must be "registered" with the DAO.  Schemes can be registered both when you [create the DAO](Daos#creatingDAOs) and afterwards using the [SchemeRegistrar](api/classes/SchemeRegistrarWrapper).  
+Often we use schemes for working with proposals. Any scheme that works with proposals must be registered with a DAO's controller.  Schemes can be registered both when you [create the DAO](Daos#creatingDAOs) and afterwards using the [SchemeRegistrar](api/classes/SchemeRegistrarWrapper).  
 
 
 !!! info "More Information about Schemes"
     - [All the schemes wrapped in Arc.js](Wrappers#wrappersByContractType)
     - [Obtaining a list of schemes registered with a DAO](Daos#gettingDaoSchemes)
+    - [Universal Schemes in Arc](https://daostack.github.io/arc/contracts/universalSchemes/README/)
     
 
 ## Proposals
