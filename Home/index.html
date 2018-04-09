@@ -2464,10 +2464,14 @@
 2
 3
 4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">await</span> <span class="nx">InitializeArcJs</span><span class="p">({</span>
-    <span class="s2">&quot;ContributionReward&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="s2">&quot;DaoCreator&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="s2">&quot;GenesisProtocol&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+5
+6
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">await</span> <span class="nx">InitializeArcJs</span><span class="p">({</span>
+    <span class="nx">filter</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;ContributionReward&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">&quot;DaoCreator&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">&quot;GenesisProtocol&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="p">}</span>
   <span class="p">});</span>
 </pre></div>
 </td></tr></table>
