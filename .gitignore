@@ -11,5 +11,5 @@ migrated_contracts/
 yarn.lock
 test-dist/
 site/
-docs/Api/
+docs/api/
 migrations/founders.kovan.json

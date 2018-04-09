@@ -54,7 +54,7 @@ if (tsFiles.length === 0) {
   throw new Error("No source files found.");
 }
 
-const out = "./docs/Api";
+const out = "./docs/api";
 const json = undefined;
 
 const options = {
@@ -66,6 +66,7 @@ const options = {
   "mode": "file",
   "excludeProtected": true,
   "excludePrivate": true,
+  "excludeNotExported": true,
   "name": "API Reference",
   "theme": "markdown",
   "lib": ["lib.dom.d.ts", "lib.es2015.d.ts", "lib.es2017.d.ts"]

@@ -47,7 +47,6 @@ pages:
   - ArcTransactionResult : 'api/classes/ArcTransactionResult.md'
   - AvatarService : 'api/classes/AvatarService.md'
   - ConfigService : 'api/classes/ConfigService.md'
-  - ConsoleLogger : 'api/classes/ConsoleLogger.md'
   - ContractWrapperBase : 'api/classes/ContractWrapperBase.md'
   - ContractWrapperFactory : 'api/classes/ContractWrapperFactory.md'
   - ContributionRewardWrapper : 'api/classes/ContributionRewardWrapper.md'

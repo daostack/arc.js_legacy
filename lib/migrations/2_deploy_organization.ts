@@ -6,7 +6,6 @@ import { GetDefaultGenesisProtocolParameters } from "../wrappers/genesisProtocol
 
 /* tslint:disable:no-console */
 /* tslint:disable:max-line-length */
-
 interface FounderSpec {
   /**
    * Founders' address

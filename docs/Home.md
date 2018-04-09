@@ -82,11 +82,21 @@ Refer here for [complete documentation on Arc.js configuration settings](./Confi
 
 ### Initialize Arc.js at Runtime
 
-Your application must invoke `ArcInitialize()` once at runtime before doing anything else.
+Your application must invoke `InitializeArcJs` once at runtime before doing anything else.
 
 ```javascript
-import { ArcInitialize } from "@daostack/arc.js";
-await ArcInitialize();
+import { InitializeArcJs } from "@daostack/arc.js";
+await InitializeArcJs();
+```
+
+`InitializeArcJs` will load all of the wrapped Arc contracts as deployed by the running version of Arc.js.  As this operation can be time-consuming, you may want to tell `InitializeArcJs` to only load the contracts that you expect to use:
+
+```javascript
+await InitializeArcJs({
+    "ContributionReward": true,
+    "DaoCreator": true,
+    "GenesisProtocol": true,
+  });
 ```
 
 ### Work with Arc Contracts
