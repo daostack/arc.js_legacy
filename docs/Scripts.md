@@ -2,13 +2,14 @@
 Arc.js contains a set of scripts for building, publishing, running tests and migrating contracts to any network.  These scripts are meant to be accessible and readily usable by client applications.
 
 Typically an application will run an Arc.js script by prefixing "`npm explore @daostack/arc.js -- `" to the Arc.js script.  For example, to run the Arc.js script `npm start test.ganache.run` from your application, you would run:
-```javascript
+
+```script
 npm explore @daostack/arc.js -- npm start test.ganache.run
 ```
 
 Otherwise, when running the scripts at the root of an Arc.js repo, you must omit the `npm explore @daostack/arc.js -- ` so it looks like this.
 
-```javascript
+```script
 npm start test.ganache.run
 ```
 

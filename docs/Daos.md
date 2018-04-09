@@ -110,6 +110,9 @@ const newDao = await DAO.new({
 
 Put the last two examples together and you have a DAO with founders and schemes. Now you can _really_ go places.
 
+!!! info
+    Refer here to [more about schemes](Proposals#schemes).
+
 What if we want to configure how voting will proceed when someone submits a proposal?
 
 ### Creating a new DAO overriding the default voting machine
