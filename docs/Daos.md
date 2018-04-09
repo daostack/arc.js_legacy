@@ -108,7 +108,7 @@ const newDao = await DAO.new({
 });
 ```
 
-Put the last two examples together and you have a DAO with founders and schemes. Now you can _really_ go places.
+Put the last two examples together and you have a DAO with founders and schemes and can really start to realize the full potential of a DAO in the DAOstack stack.
 
 !!! info
     Refer here to [more about schemes](Proposals#schemes).
@@ -132,7 +132,7 @@ const newDao = await DAO.new({
 });
 ```
 
-Here we supply an alternate voting machine address, supplying it [AbsoluteVote](api/classes/AbsoluteVoteWrapper) parameters:
+Here we supply an alternate voting machine address, supplying it [AbsoluteVote](api/classes/**AbsoluteVoteWrapper**) parameters:
 
 ```javascript
 const newDao = await DAO.new({
