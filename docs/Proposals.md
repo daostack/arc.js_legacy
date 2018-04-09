@@ -3,7 +3,7 @@
 The ability to create proposals, vote one's reputation and stake one's reputation and tokens on an outcome of a vote are fundamental to promoting coherence and collaboration within and between DAOs in the DAOstack ecosystem.
 
 !!! info
-    Refer here for more [about DAOs](Daos).
+    Refer here for more [about DAOs in Arc.js](Daos) and [about DAOstack's vision for a DAO ecosystem](https://daostack.io/).
 
 <a name="schemes"></a>
 ## Schemes
