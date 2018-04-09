@@ -2294,12 +2294,13 @@
                 
                 <h1 id="working-with-arcjs-scripts">Working with Arc.js Scripts<a class="headerlink" href="#working-with-arcjs-scripts" title="Permanent link">&para;</a></h1>
 <p>Arc.js contains a set of scripts for building, publishing, running tests and migrating contracts to any network.  These scripts are meant to be accessible and readily usable by client applications.</p>
-<p>Typically an application will run an Arc.js script by prefixing "<code>npm explore @daostack/arc.js --</code>" to the Arc.js script.  For example, to run the Arc.js script <code>npm start test.ganache.run</code> from your application, you would run:
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">npm</span> <span class="nx">explore</span> <span class="err">@</span><span class="nx">daostack</span><span class="o">/</span><span class="nx">arc</span><span class="p">.</span><span class="nx">js</span> <span class="o">--</span> <span class="nx">npm</span> <span class="nx">start</span> <span class="nx">test</span><span class="p">.</span><span class="nx">ganache</span><span class="p">.</span><span class="nx">run</span>
+<p>Typically an application will run an Arc.js script by prefixing "<code>npm explore @daostack/arc.js --</code>" to the Arc.js script.  For example, to run the Arc.js script <code>npm start test.ganache.run</code> from your application, you would run:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm explore @daostack/arc.js -- npm start test.ganache.run
 </pre></div>
-</td></tr></table></p>
+</td></tr></table>
+
 <p>Otherwise, when running the scripts at the root of an Arc.js repo, you must omit the <code>npm explore @daostack/arc.js --</code> so it looks like this.</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">npm</span> <span class="nx">start</span> <span class="nx">test</span><span class="p">.</span><span class="nx">ganache</span><span class="p">.</span><span class="nx">run</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm start test.ganache.run
 </pre></div>
 </td></tr></table>
 
