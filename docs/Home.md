@@ -93,9 +93,11 @@ await InitializeArcJs();
 
 ```javascript
 await InitializeArcJs({
-    "ContributionReward": true,
-    "DaoCreator": true,
-    "GenesisProtocol": true,
+    filter: {
+      "ContributionReward": true,
+      "DaoCreator": true,
+      "GenesisProtocol": true,
+    }
   });
 ```
 
