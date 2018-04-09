@@ -2385,6 +2385,7 @@
 </pre></div>
 </td></tr></table></p>
 </div>
+<p><a name="wrappersByContractType"></a></p>
 <h2 id="enumerate-wrappers-by-contract-type">Enumerate wrappers by contract type<a class="headerlink" href="#enumerate-wrappers-by-contract-type" title="Permanent link">&para;</a></h2>
 <p>Arc contracts and associated Arc.js contract wrapper classes can be categorized as follows:</p>
 <p><strong>Schemes</strong></p>
@@ -2394,8 +2395,8 @@
 <li>GlobalConstraintRegistrar</li>
 <li>SchemeRegistrar</li>
 <li>UpgradeScheme</li>
-<li>VoteInOrganizationScheme</li>
 <li>VestingScheme</li>
+<li>VoteInOrganizationScheme</li>
 </ul>
 <p><strong>Voting Machines</strong></p>
 <ul>
@@ -2512,7 +2513,7 @@ and address and wish to most efficiently return the associated wrapper, or undef
 </td></tr></table>
 
 <h2 id="working-with-unwrapped-arc-contracts">Working with Unwrapped Arc Contracts<a class="headerlink" href="#working-with-unwrapped-arc-contracts" title="Permanent link">&para;</a></h2>
-<p>Not all Arc contracts have been given wrapper classes, for example, <code>Avatar</code>, <code>UController</code> and many more.  But using <code>Utils.requireContract</code> you can obtain a raw TruffleContract for any contract, enabling you to work with the contract just by providing the name of the Arc contract:</p>
+<p>Not all Arc contracts have been given wrapper classes, for example, <code>Avatar</code>, <code>UController</code> and many more.  But using <code>Utils.requireContract</code> you can obtain a raw <a href="https://github.com/trufflesuite/truffle-contract">Truffle contract</a> for any contract, enabling you to work with the contract just by providing the name of the Arc contract:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">Utils</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
 <span class="kr">const</span> <span class="nx">avatarTruffleContract</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">Utils</span><span class="p">.</span><span class="nx">requireContract</span><span class="p">(</span><span class="s2">&quot;Avatar&quot;</span><span class="p">);</span>

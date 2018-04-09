@@ -2608,11 +2608,11 @@ of the DAO, such as when voting and the nature of what causes it to be gained or
 
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>If you want change the default voting machine for all calls to <code>DAO.new</code> you can do it using the ConfigService setting "defaultVotingMachine". See <a href="../Configuration/">Arc.js Configuration Settings</a>.</p>
+<p>If you want change the default voting machine for all calls to <code>DAO.new</code> you can do it using the <a href="../api/classes/ConfigService">ConfigService</a> setting <code>defaultVotingMachine</code>. See <a href="../Configuration/">Arc.js Configuration Settings</a>.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Important</p>
-<p>If you want to use GenesisProtocol on <em>any</em> scheme, you must also add GenesisProtocol as scheme on the DAO itself (see <a href="#creating-a-new-dao-with-schemes">Creating a new DAO with schemes</a>).</p>
+<p>If you want to use <a href="../api/classes/GenesisProtocolWrapper">GenesisProtocol</a> on <em>any</em> scheme, you must also add it as scheme on the DAO itself (see <a href="#creating-a-new-dao-with-schemes">Creating a new DAO with schemes</a>).</p>
 </div>
 <h3 id="creating-a-new-dao-with-a-non-universal-controller">Creating a new DAO with a non-Universal Controller<a class="headerlink" href="#creating-a-new-dao-with-a-non-universal-controller" title="Permanent link">&para;</a></h3>
 <p>There are two types of DAO controller: universal and non-universal.  The default is universal.  You can create a DAO using the DAOstack <code>Controller</code> contract by passing <code>false</code> for <code>universalController</code>:</p>
