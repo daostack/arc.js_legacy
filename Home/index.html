@@ -2452,10 +2452,23 @@
 <h3 id="configure-arcjs">Configure Arc.js<a class="headerlink" href="#configure-arcjs" title="Permanent link">&para;</a></h3>
 <p>Refer here for <a href="../Configuration/">complete documentation on Arc.js configuration settings</a>.</p>
 <h3 id="initialize-arcjs-at-runtime">Initialize Arc.js at Runtime<a class="headerlink" href="#initialize-arcjs-at-runtime" title="Permanent link">&para;</a></h3>
-<p>Your application must invoke <code>ArcInitialize()</code> once at runtime before doing anything else.</p>
+<p>Your application must invoke <code>InitializeArcJs</code> once at runtime before doing anything else.</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">ArcInitialize</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
-<span class="nx">await</span> <span class="nx">ArcInitialize</span><span class="p">();</span>
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">InitializeArcJs</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+<span class="nx">await</span> <span class="nx">InitializeArcJs</span><span class="p">();</span>
+</pre></div>
+</td></tr></table>
+
+<p><code>InitializeArcJs</code> will load all of the wrapped Arc contracts as deployed by the running version of Arc.js.  As this operation can be time-consuming, you may want to tell <code>InitializeArcJs</code> to only load the contracts that you expect to use:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">await</span> <span class="nx">InitializeArcJs</span><span class="p">({</span>
+    <span class="s2">&quot;ContributionReward&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;DaoCreator&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;GenesisProtocol&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="p">});</span>
 </pre></div>
 </td></tr></table>
 
