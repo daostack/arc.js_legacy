@@ -209,7 +209,7 @@ describe("VestingScheme scheme", () => {
       await vestingScheme.propose(Object.assign({ avatar: dao.avatar.address }, options));
       assert(false, "should have thrown an exception");
     } catch (ex) {
-      assert.equal(ex, "Error: Missing required properties: periodLength");
+      assert.equal(ex, "Error: periodLength must be an integer greater than zero");
     }
   });
 

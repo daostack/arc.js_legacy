@@ -1,5 +1,4 @@
 import { TransactionService } from "../test-dist/transactionService";
-import { DAO } from "../test-dist/DAO";
 import * as helpers from "./helpers";
 
 describe("TransactionService", () => {
@@ -34,6 +33,6 @@ describe("TransactionService", () => {
 
     assert.equal(txCount, 7);
 
-    TransactionService.unsubscribe(subscription);
+    subscription.unsubscribe();
   });
 });

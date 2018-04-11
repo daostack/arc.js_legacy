@@ -106,17 +106,15 @@ export abstract class ContractWrapperBase {
    */
   public async setParameters(...params: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
 
-    const eventTopic = "txReceipts.ContractWrapperBase.setParameters";
-
-    const txReceiptEventPayload = TransactionService.publishKickoffEvent(eventTopic, params, 1);
-
     const parametersHash: Hash = await this.contract.getParametersHash(...params);
 
-    const tx: TransactionReceiptTruffle = await this.contract.setParameters(...params);
+    const txResult = await this.wrapTransactionInvocation("txReceipts.ContractWrapperBase.setParameters",
+      params,
+      () => {
+        return this.contract.setParameters(...params);
+      });
 
-    TransactionService.publishTx(eventTopic, txReceiptEventPayload, tx);
-
-    return new ArcTransactionDataResult<Hash>(tx, parametersHash);
+    return new ArcTransactionDataResult<Hash>(txResult.tx, parametersHash);
   }
 
   /**
@@ -285,6 +283,27 @@ export abstract class ContractWrapperBase {
     if (!params.votingMachineAddress) {
       throw new Error(`votingMachineAddress is not defined`);
     }
+  }
+
+  /**
+   * Wrap code that creates a transaction in the given transaction event. This is a helper
+   * just for the common case of generating a single transaction.
+   * @param eventTopic
+   * @param options
+   * @param generateTx
+   */
+  protected async wrapTransactionInvocation(
+    eventTopic: string,
+    options: any,
+    generateTx: () => Promise<TransactionReceiptTruffle>): Promise<ArcTransactionResult> {
+
+    const txReceiptEventPayload = TransactionService.publishKickoffEvent(eventTopic, options, 1);
+
+    const tx = await generateTx();
+
+    TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
+
+    return new ArcTransactionResult(tx);
   }
 }
 

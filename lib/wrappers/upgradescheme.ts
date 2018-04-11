@@ -1,5 +1,4 @@
 "use strict";
-import dopts = require("default-options");
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
 import {
   ArcTransactionDataResult,
@@ -32,20 +31,8 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeW
    * proposeController
    */
   public async proposeController(
-    opts: ProposeControllerParams = {} as ProposeControllerParams)
+    options: ProposeControllerParams = {} as ProposeControllerParams)
     : Promise<ArcTransactionProposalResult> {
-    const defaults = {
-      /**
-       * avatar address
-       */
-      avatar: undefined,
-      /**
-       *  controller address
-       */
-      controller: undefined,
-    } as ProposeControllerParams;
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeControllerParams;
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
@@ -55,40 +42,24 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeW
       throw new Error("controller address is not defined");
     }
 
-    const tx = await this.contract.proposeUpgrade(
-      options.avatar,
-      options.controller
-    );
+    const txResult = await this.wrapTransactionInvocation("txReceipts.UpgradeScheme.proposeController",
+      options,
+      () => {
+        return this.contract.proposeUpgrade(
+          options.avatar,
+          options.controller
+        );
+      });
 
-    return new ArcTransactionProposalResult(tx);
+    return new ArcTransactionProposalResult(txResult.tx);
   }
 
   /********************************************
    * proposeUpgradingScheme
    */
   public async proposeUpgradingScheme(
-    opts: ProposeUpgradingSchemeParams = {} as ProposeUpgradingSchemeParams)
+    options: ProposeUpgradingSchemeParams = {} as ProposeUpgradingSchemeParams)
     : Promise<ArcTransactionProposalResult> {
-    /**
-     * Note that explicitly supplying any property with a value of undefined will prevent the property
-     * from taking on its default value (weird behavior of default-options)
-     */
-    const defaults = {
-      /**
-       * avatar address
-       */
-      avatar: undefined,
-      /**
-       *  upgrading scheme address
-       */
-      scheme: undefined,
-      /**
-       * hash of the parameters of the upgrading scheme. These must be already registered with the new scheme.
-       */
-      schemeParametersHash: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeUpgradingSchemeParams;
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
@@ -102,13 +73,17 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeW
       throw new Error("schemeParametersHash is not defined");
     }
 
-    const tx = await this.contract.proposeChangeUpgradingScheme(
-      options.avatar,
-      options.scheme,
-      options.schemeParametersHash
-    );
+    const txResult = await this.wrapTransactionInvocation("txReceipts.UpgradeScheme.proposeUpgradingScheme",
+      options,
+      () => {
+        return this.contract.proposeChangeUpgradingScheme(
+          options.avatar,
+          options.scheme,
+          options.schemeParametersHash
+        );
+      });
 
-    return new ArcTransactionProposalResult(tx);
+    return new ArcTransactionProposalResult(txResult.tx);
   }
 
   public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {

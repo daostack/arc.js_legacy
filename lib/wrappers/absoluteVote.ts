@@ -1,5 +1,4 @@
 "use strict";
-import dopts = require("default-options");
 import { Address, Hash, VoteConfig } from "../commonTypes";
 
 import {
@@ -31,18 +30,16 @@ export class AbsoluteVoteWrapper extends ContractWrapperBase {
 
   /**
    * Vote on a proposal
-   * @param {VoteConfig} opts
+   * @param {VoteConfig} options
    * @returns Promise<ArcTransactionResult>
    */
-  public async vote(opts: VoteConfig = {} as VoteConfig): Promise<ArcTransactionResult> {
+  public async vote(options: VoteConfig = {} as VoteConfig): Promise<ArcTransactionResult> {
 
     const defaults = {
       onBehalfOf: null,
-      proposalId: undefined,
-      vote: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true }) as VoteConfig;
+    options = Object.assign({}, defaults, options) as VoteConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -52,13 +49,17 @@ export class AbsoluteVoteWrapper extends ContractWrapperBase {
       throw new Error("vote is not valid");
     }
 
-    const tx = await this.contract.vote(
-      options.proposalId,
-      options.vote,
-      options.onBehalfOf ? { from: options.onBehalfOf } : undefined
-    );
+    const txResult = await this.wrapTransactionInvocation("txReceipts.AbsoluteVoteWrapper.vote",
+      options,
+      () => {
+        return this.contract.vote(
+          options.proposalId,
+          options.vote,
+          options.onBehalfOf ? { from: options.onBehalfOf } : undefined
+        );
+      });
 
-    return new ArcTransactionResult(tx);
+    return txResult;
   }
 
   public async setParameters(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>> {

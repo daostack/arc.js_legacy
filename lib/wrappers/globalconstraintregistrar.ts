@@ -1,5 +1,4 @@
 "use strict";
-import dopts = require("default-options");
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
 import {
   ArcTransactionDataResult,
@@ -28,28 +27,8 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
   /* tslint:enable:max-line-length */
 
   public async proposeToAddModifyGlobalConstraint(
-    opts: ProposeToAddModifyGlobalConstraintParams = {} as ProposeToAddModifyGlobalConstraintParams)
+    options: ProposeToAddModifyGlobalConstraintParams = {} as ProposeToAddModifyGlobalConstraintParams)
     : Promise<ArcTransactionProposalResult> {
-    const defaults = {
-      /**
-       * avatar address
-       */
-      avatar: undefined,
-      /**
-       *  the address of the global constraint to add
-       */
-      globalConstraint: undefined,
-      /**
-       * hash of the parameters of the global contraint
-       */
-      globalConstraintParametersHash: undefined,
-      /**
-       * voting machine to use when voting to remove the global constraint
-       */
-      votingMachineHash: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeToAddModifyGlobalConstraintParams;
 
     if (!options.avatar) {
       throw new Error("address is not defined");
@@ -67,32 +46,24 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
       throw new Error("votingMachineHash is not defined");
     }
 
-    const tx = await this.contract.proposeGlobalConstraint(
-      options.avatar,
-      options.globalConstraint,
-      options.globalConstraintParametersHash,
-      options.votingMachineHash
-    );
+    const txResult = await this.wrapTransactionInvocation(
+      "txReceipts.GlobalConstraintRegistrarWrapper.proposeToAddModifyGlobalConstraint",
+      options,
+      () => {
+        return this.contract.proposeGlobalConstraint(
+          options.avatar,
+          options.globalConstraint,
+          options.globalConstraintParametersHash,
+          options.votingMachineHash
+        );
+      });
 
-    return new ArcTransactionProposalResult(tx);
+    return new ArcTransactionProposalResult(txResult.tx);
   }
 
   public async proposeToRemoveGlobalConstraint(
-    opts: ProposeToRemoveGlobalConstraintParams = {} as ProposeToRemoveGlobalConstraintParams)
+    options: ProposeToRemoveGlobalConstraintParams = {} as ProposeToRemoveGlobalConstraintParams)
     : Promise<ArcTransactionProposalResult> {
-
-    const defaults = {
-      /**
-       * avatar address
-       */
-      avatar: undefined,
-      /**
-       *  the address of the global constraint to remove
-       */
-      globalConstraint: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeToRemoveGlobalConstraintParams;
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
@@ -102,12 +73,17 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
       throw new Error("avatar globalConstraint is not defined");
     }
 
-    const tx = await this.contract.proposeToRemoveGC(
-      options.avatar,
-      options.globalConstraint
-    );
+    const txResult = await this.wrapTransactionInvocation(
+      "txReceipts.GlobalConstraintRegistrarWrapper.proposeToRemoveGlobalConstraint",
+      options,
+      () => {
+        return this.contract.proposeToRemoveGC(
+          options.avatar,
+          options.globalConstraint
+        );
+      });
 
-    return new ArcTransactionProposalResult(tx);
+    return new ArcTransactionProposalResult(txResult.tx);
   }
 
   public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {

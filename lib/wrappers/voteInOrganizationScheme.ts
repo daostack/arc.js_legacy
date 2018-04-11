@@ -1,5 +1,4 @@
 "use strict";
-import dopts = require("default-options");
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
 import {
   ArcTransactionDataResult,
@@ -27,18 +26,8 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase impleme
   /* tslint:enable:max-line-length */
 
   public async proposeVote(
-    opts: VoteInOrganizationProposeVoteConfig = {} as VoteInOrganizationProposeVoteConfig)
+    options: VoteInOrganizationProposeVoteConfig = {} as VoteInOrganizationProposeVoteConfig)
     : Promise<ArcTransactionProposalResult> {
-    /**
-     * see VoteInOrganizationProposeVoteConfig
-     */
-    const defaults = {
-      avatar: undefined,
-      originalIntVote: undefined,
-      originalProposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true });
 
     if (!options.avatar) {
       throw new Error("avatar is not defined");
@@ -52,13 +41,17 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase impleme
       throw new Error("originalProposalId is not defined");
     }
 
-    const tx = await this.contract.proposeVote(
-      options.avatar,
-      options.originalIntVote,
-      options.originalProposalId
-    );
+    const txResult = await this.wrapTransactionInvocation("txReceipts.VoteInOrganizationScheme.proposeVote",
+      options,
+      () => {
+        return this.contract.proposeVote(
+          options.avatar,
+          options.originalIntVote,
+          options.originalProposalId
+        );
+      });
 
-    return new ArcTransactionProposalResult(tx);
+    return new ArcTransactionProposalResult(txResult.tx);
   }
 
   public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {

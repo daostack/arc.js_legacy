@@ -1,6 +1,5 @@
 "use strict";
 import * as BigNumber from "bignumber.js";
-import dopts = require("default-options");
 import {
   Address,
   BinaryVoteResult,
@@ -22,6 +21,7 @@ import {
   EventFetcherFactory,
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
+import { TransactionService } from "../transactionService";
 import { Utils } from "../utils";
 import {
   ExecuteProposalEventResult,
@@ -53,18 +53,16 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
    * @param {ProposeVoteConfig} options
    * @returns Promise<ArcTransactionProposalResult>
    */
-  public async propose(opts: ProposeVoteConfig = {} as ProposeVoteConfig): Promise<ArcTransactionProposalResult> {
+  public async propose(options: ProposeVoteConfig = {} as ProposeVoteConfig): Promise<ArcTransactionProposalResult> {
     /**
      * see GenesisProtocolProposeVoteConfig
      */
     const defaults = {
-      avatar: undefined,
-      executable: undefined,
       numOfChoices: 0,
       proposer: await Utils.getDefaultAccount(),
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeVoteConfig;
+    options = Object.assign({}, defaults, options);
 
     if (!options.avatar) {
       throw new Error("avatar is not defined");
@@ -82,15 +80,19 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("numOfChoices must be between 1 and 10");
     }
 
-    const tx = await this.contract.propose(
-      options.numOfChoices,
-      Utils.NULL_HASH,
-      options.avatar,
-      options.executable,
-      options.proposer
-    );
+    const txResult = await this.wrapTransactionInvocation("txReceipts.GenesisProtocolWrapper.propose",
+      options,
+      () => {
+        return this.contract.propose(
+          options.numOfChoices,
+          Utils.NULL_HASH,
+          options.avatar,
+          options.executable,
+          options.proposer
+        );
+      });
 
-    return new ArcTransactionProposalResult(tx);
+    return new ArcTransactionProposalResult(txResult.tx);
   }
 
   /**
@@ -100,19 +102,16 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
    * is automatically approved and executed on the token with which
    * this GenesisProtocol scheme was deployed.
    *
-   * @param {StakeConfig} opts
+   * @param {StakeConfig} options
    * @returns Promise<ArcTransactionResult>
    */
-  public async stake(opts: StakeConfig = {} as StakeConfig): Promise<ArcTransactionResult> {
+  public async stake(options: StakeConfig = {} as StakeConfig): Promise<ArcTransactionResult> {
 
     const defaults = {
-      amount: undefined,
       onBehalfOf: null,
-      proposalId: undefined,
-      vote: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true }) as StakeConfig;
+    options = Object.assign({}, defaults, options) as StakeConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -127,18 +126,32 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("amount must be > 0");
     }
 
+    const autoApproveTransfer = ConfigService.get("autoApproveTokenTransfers");
+
+    const eventTopic = "txReceipts.GenesisProtocolWrapper.stake";
+
+    const txReceiptEventPayload = TransactionService.publishKickoffEvent(
+      eventTopic,
+      options,
+      1 + (autoApproveTransfer ? 1 : 0));
+
+    let tx;
     /**
      * approve immediate transfer of staked tokens from onBehalfOf to this scheme
      */
-    if (ConfigService.get("autoApproveTokenTransfers")) {
+    if (autoApproveTransfer) {
+
       const token = await
         (await Utils.requireContract("StandardToken")).at(await this.contract.stakingToken()) as any;
-      await token.approve(this.address,
+
+      tx = await token.approve(this.address,
         amount,
         { from: options.onBehalfOf ? options.onBehalfOf : await Utils.getDefaultAccount() });
+
+      TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
     }
 
-    const tx = await this.contract.stake(
+    tx = await this.contract.stake(
       options.proposalId,
       options.vote,
       amount,
@@ -148,23 +161,23 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       } : undefined
     );
 
+    TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
+
     return new ArcTransactionResult(tx);
   }
 
   /**
    * Vote on a proposal
-   * @param {VoteConfig} opts
+   * @param {VoteConfig} options
    * @returns Promise<ArcTransactionResult>
    */
-  public async vote(opts: VoteConfig = {} as VoteConfig): Promise<ArcTransactionResult> {
+  public async vote(options: VoteConfig = {} as VoteConfig): Promise<ArcTransactionResult> {
 
     const defaults = {
       onBehalfOf: null,
-      proposalId: undefined,
-      vote: undefined,
-    } as VoteConfig;
+    };
 
-    const options = dopts(opts, defaults, { allowUnknown: true }) as VoteConfig;
+    options = Object.assign({}, defaults, options);
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -172,31 +185,26 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
     this._validateVote(options.vote, options.proposalId);
 
-    const tx = await this.contract.vote(
-      options.proposalId,
-      options.vote,
-      options.onBehalfOf ? { from: options.onBehalfOf } : undefined
-    );
-
-    return new ArcTransactionResult(tx);
+    return this.wrapTransactionInvocation("txReceipts.GenesisProtocolWrapper.vote",
+      options,
+      () => {
+        return this.contract.vote(
+          options.proposalId,
+          options.vote,
+          options.onBehalfOf ? { from: options.onBehalfOf } : undefined
+        );
+      });
   }
 
   /**
    * Vote on a proposal, staking some reputation that the final outcome will match this vote.
    * Reputation of 0 will stake all the voter's reputation.
-   * @param {VoteWithSpecifiedAmountsConfig} opts
+   * @param {VoteWithSpecifiedAmountsConfig} options
    * @returns Promise<ArcTransactionResult>
    */
   public async voteWithSpecifiedAmounts(
-    opts: VoteWithSpecifiedAmountsConfig = {} as VoteWithSpecifiedAmountsConfig)
+    options: VoteWithSpecifiedAmountsConfig = {} as VoteWithSpecifiedAmountsConfig)
     : Promise<ArcTransactionResult> {
-    const defaults = {
-      proposalId: undefined,
-      reputation: undefined,
-      vote: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as VoteWithSpecifiedAmountsConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -208,29 +216,24 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("reputation is not defined");
     }
 
-    const tx = await this.contract.voteWithSpecifiedAmounts(
-      options.proposalId,
-      options.vote,
-      options.reputation,
-      0
-    );
-
-    return new ArcTransactionResult(tx);
+    return this.wrapTransactionInvocation("txReceipts.GenesisProtocolWrapper.voteWithSpecifiedAmounts",
+      options,
+      () => {
+        return this.contract.voteWithSpecifiedAmounts(
+          options.proposalId,
+          options.vote,
+          options.reputation,
+          0
+        );
+      });
   }
 
   /**
    * Redeem any tokens and reputation that are due the beneficiary from the outcome of the proposal.
-   * @param {RedeemConfig} opts
+   * @param {RedeemConfig} options
    * @returns Promise<ArcTransactionResult>
    */
-  public async redeem(opts: RedeemConfig = {} as RedeemConfig): Promise<ArcTransactionResult> {
-
-    const defaults = {
-      beneficiaryAddress: undefined,
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as RedeemConfig;
+  public async redeem(options: RedeemConfig = {} as RedeemConfig): Promise<ArcTransactionResult> {
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -240,26 +243,22 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("beneficiaryAddress is not defined");
     }
 
-    const tx = await this.contract.redeem(
-      options.proposalId,
-      options.beneficiaryAddress
-    );
-
-    return new ArcTransactionResult(tx);
+    return this.wrapTransactionInvocation("txReceipts.GenesisProtocolWrapper.redeem",
+      options,
+      () => {
+        return this.contract.redeem(
+          options.proposalId,
+          options.beneficiaryAddress
+        );
+      });
   }
 
   /**
    * Return whether a proposal should be shifted to the boosted phase.
-   * @param {ShouldBoostConfig} opts
+   * @param {ShouldBoostConfig} options
    * @returns Promise<boolean>
    */
-  public async shouldBoost(opts: ShouldBoostConfig = {} as ShouldBoostConfig): Promise<boolean> {
-
-    const defaults = {
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as ShouldBoostConfig;
+  public async shouldBoost(options: ShouldBoostConfig = {} as ShouldBoostConfig): Promise<boolean> {
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -274,16 +273,10 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   /**
    * Return the current proposal score.
-   * @param {GetScoreConfig} opts
+   * @param {GetScoreConfig} options
    * @returns Promise<BigNumber.BigNumber>
    */
-  public async getScore(opts: GetScoreConfig = {} as GetScoreConfig): Promise<BigNumber.BigNumber> {
-
-    const defaults = {
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetScoreConfig;
+  public async getScore(options: GetScoreConfig = {} as GetScoreConfig): Promise<BigNumber.BigNumber> {
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -301,17 +294,10 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
    * Return the threshold that is required by a proposal to it shift it into boosted state.
    * The computation depends on the current number of boosted proposals in the DAO
    * as well as the GenesisProtocol parameters thresholdConstA and thresholdConstB.
-   * @param {GetThresholdConfig} opts
+   * @param {GetThresholdConfig} options
    * @returns Promise<number>
    */
-  public async getThreshold(opts: GetThresholdConfig = {} as GetThresholdConfig): Promise<number> {
-
-    const defaults = {
-      avatar: undefined,
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetThresholdConfig;
+  public async getThreshold(options: GetThresholdConfig = {} as GetThresholdConfig): Promise<number> {
 
     if (!options.avatar) {
       throw new Error("avatar is not defined");
@@ -334,15 +320,9 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
    * @param {GetRedeemableTokensStakerConfig} opts
    * @returns Promise<BigNumber.BigNumber>
    */
-  public async getRedeemableTokensStaker(opts: GetRedeemableTokensStakerConfig = {} as GetRedeemableTokensStakerConfig)
+  public async getRedeemableTokensStaker(
+    options: GetRedeemableTokensStakerConfig = {} as GetRedeemableTokensStakerConfig)
     : Promise<BigNumber.BigNumber> {
-
-    const defaults = {
-      beneficiaryAddress: undefined,
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetRedeemableTokensStakerConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -362,18 +342,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   /**
    * Return the reputation amount to which the proposal proposer is entitled in the event that the proposal is approved.
-   * @param {GetRedeemableReputationProposerConfig} opts
+   * @param {GetRedeemableReputationProposerConfig} options
    * @returns Promise<BigNumber.BigNumber>
    */
   public async getRedeemableReputationProposer(
-    opts: GetRedeemableReputationProposerConfig = {} as GetRedeemableReputationProposerConfig)
+    options: GetRedeemableReputationProposerConfig = {} as GetRedeemableReputationProposerConfig)
     : Promise<BigNumber.BigNumber> {
-
-    const defaults = {
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true });
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -388,19 +362,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   /**
    * Return the token amount to which the voter is entitled in the event that the proposal is approved.
-   * @param {GetRedeemableTokensVoterConfig} opts
+   * @param {GetRedeemableTokensVoterConfig} options
    * @returns Promise<BigNumber.BigNumber>
    */
   public async getRedeemableTokensVoter(
-    opts: GetRedeemableTokensVoterConfig = {} as GetRedeemableTokensVoterConfig)
+    options: GetRedeemableTokensVoterConfig = {} as GetRedeemableTokensVoterConfig)
     : Promise<BigNumber.BigNumber> {
-
-    const defaults = {
-      beneficiaryAddress: undefined,
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetRedeemableTokensVoterConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -420,19 +387,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   /**
    * Return the reputation amount to which the voter is entitled in the event that the proposal is approved.
-   * @param {GetRedeemableReputationVoterConfig} opts
+   * @param {GetRedeemableReputationVoterConfig} options
    * @returns Promise<BigNumber.BigNumber>
    */
   public async getRedeemableReputationVoter(
-    opts: GetRedeemableReputationVoterConfig = {} as GetRedeemableReputationVoterConfig)
+    options: GetRedeemableReputationVoterConfig = {} as GetRedeemableReputationVoterConfig)
     : Promise<BigNumber.BigNumber> {
-
-    const defaults = {
-      beneficiaryAddress: undefined,
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetRedeemableReputationVoterConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -452,19 +412,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   /**
    * Return the reputation amount to which the staker is entitled in the event that the proposal is approved.
-   * @param {GetRedeemableReputationStakerConfig} opts
+   * @param {GetRedeemableReputationStakerConfig} options
    * @returns Promise<BigNumber.BigNumber>
    */
   public async getRedeemableReputationStaker(
-    opts: GetRedeemableReputationStakerConfig = {} as GetRedeemableReputationStakerConfig)
+    options: GetRedeemableReputationStakerConfig = {} as GetRedeemableReputationStakerConfig)
     : Promise<BigNumber.BigNumber> {
-
-    const defaults = {
-      beneficiaryAddress: undefined,
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetRedeemableReputationStakerConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -484,18 +437,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   /**
    * Return the number of possible choices when voting for the proposal.
-   * @param {GetNumberOfChoicesConfig} opts
+   * @param {GetNumberOfChoicesConfig} options
    * @returns Promise<number>
    */
   public async getNumberOfChoices(
-    opts: GetNumberOfChoicesConfig = {} as GetNumberOfChoicesConfig)
+    options: GetNumberOfChoicesConfig = {} as GetNumberOfChoicesConfig)
     : Promise<number> {
-
-    const defaults = {
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetNumberOfChoicesConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -510,19 +457,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   /**
    * Return the vote and the amount of reputation of the voter committed to this proposal
-   * @param {GetVoterInfoResult} opts
+   * @param {GetVoterInfoResult} options
    * @returns Promise<GetVoterInfoResult>
    */
   public async getVoterInfo(
-    opts: GetVoterInfoConfig = {} as GetVoterInfoConfig)
+    options: GetVoterInfoConfig = {} as GetVoterInfoConfig)
     : Promise<GetVoterInfoResult> {
-
-    const defaults = {
-      proposalId: undefined,
-      voter: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetVoterInfoConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -545,19 +485,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   /**
    * Returns the reputation currently voted on the given choice.
-   * @param {GetVoteStatusConfig} opts
+   * @param {GetVoteStatusConfig} options
    * @returns Promise<BigNumber.BigNumber>
    */
   public async getVoteStatus(
-    opts: GetVoteStatusConfig = {} as GetVoteStatusConfig)
+    options: GetVoteStatusConfig = {} as GetVoteStatusConfig)
     : Promise<BigNumber.BigNumber> {
-
-    const defaults = {
-      proposalId: undefined,
-      vote: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetVoteStatusConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -578,18 +511,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   /**
    * Return whether the proposal is in a votable state.
-   * @param {IsVotableConfig} opts
+   * @param {IsVotableConfig} options
    * @returns Promise<boolean>
    */
   public async isVotable(
-    opts: IsVotableConfig = {} as IsVotableConfig)
+    options: IsVotableConfig = {} as IsVotableConfig)
     : Promise<boolean> {
-
-    const defaults = {
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as IsVotableConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -604,18 +531,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   /**
    * Return the total votes, total staked, voter stakes and staker stakes for a given proposal
-   * @param {GetProposalStatusConfig} opts
+   * @param {GetProposalStatusConfig} options
    * @returns Promise<GetProposalStatusResult>
    */
   public async getProposalStatus(
-    opts: GetProposalStatusConfig = {} as GetProposalStatusConfig)
+    options: GetProposalStatusConfig = {} as GetProposalStatusConfig)
     : Promise<GetProposalStatusResult> {
-
-    const defaults = {
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetProposalStatusConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -635,18 +556,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   /**
    * Return the DAO avatar address under which the proposal was made
-   * @param {GetProposalAvatarConfig} opts
+   * @param {GetProposalAvatarConfig} options
    * @returns Promise<string>
    */
   public async getProposalAvatar(
-    opts: GetProposalAvatarConfig = {} as GetProposalAvatarConfig
+    options: GetProposalAvatarConfig = {} as GetProposalAvatarConfig
   ): Promise<string> {
-
-    const defaults = {
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetProposalAvatarConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -661,18 +576,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   /**
    * Return the score threshold params for the given DAO.
-   * @param {GetScoreThresholdParamsConfig} opts
+   * @param {GetScoreThresholdParamsConfig} options
    * @returns Promise<GetScoreThresholdParamsResult>
    */
   public async getScoreThresholdParams(
-    opts: GetScoreThresholdParamsConfig = {} as GetScoreThresholdParamsConfig)
+    options: GetScoreThresholdParamsConfig = {} as GetScoreThresholdParamsConfig)
     : Promise<GetScoreThresholdParamsResult> {
-
-    const defaults = {
-      avatar: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetScoreThresholdParamsConfig;
 
     if (!options.avatar) {
       throw new Error("avatar is not defined");
@@ -690,19 +599,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   /**
    * Return the vote and stake amount for a given proposal and staker.
-   * @param {GetStakerInfoConfig} opts
+   * @param {GetStakerInfoConfig} options
    * @returns Promise<GetStakerInfoResult>
    */
   public async getStakerInfo(
-    opts: GetStakerInfoConfig = {} as GetStakerInfoConfig)
+    options: GetStakerInfoConfig = {} as GetStakerInfoConfig)
     : Promise<GetStakerInfoResult> {
-
-    const defaults = {
-      proposalId: undefined,
-      staker: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetStakerInfoConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -725,19 +627,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   /**
    * Return the amount stakes behind a given proposal and vote.
-   * @param {GetVoteStakeConfig} opts
+   * @param {GetVoteStakeConfig} options
    * @returns Promise<BigNumber.BigNumber>
    */
   public async getVoteStake(
-    opts: GetVoteStakeConfig = {} as GetVoteStakeConfig)
+    options: GetVoteStakeConfig = {} as GetVoteStakeConfig)
     : Promise<BigNumber.BigNumber> {
-
-    const defaults = {
-      proposalId: undefined,
-      vote: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetVoteStakeConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -755,18 +650,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   /**
    * Return the winningVote for a given proposal.
-   * @param {GetWinningVoteConfig} opts
+   * @param {GetWinningVoteConfig} options
    * @returns Promise<number>
    */
   public async getWinningVote(
-    opts: GetWinningVoteConfig = {} as GetWinningVoteConfig)
+    options: GetWinningVoteConfig = {} as GetWinningVoteConfig)
     : Promise<number> {
-
-    const defaults = {
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetWinningVoteConfig;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -781,16 +670,10 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
   /**
    * Return the current state of a given proposal.
-   * @param {GetStateConfig} opts
+   * @param {GetStateConfig} options
    * @returns Promise<number>
    */
-  public async getState(opts: GetStateConfig = {} as GetStateConfig): Promise<ProposalState> {
-
-    const defaults = {
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetStateConfig;
+  public async getState(options: GetStateConfig = {} as GetStateConfig): Promise<ProposalState> {
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -808,15 +691,14 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
    * Filter by the optional proposalId.
    */
   public async getExecutedDaoProposals(
-    opts: GetDaoProposalsConfig = {} as GetDaoProposalsConfig)
+    options: GetDaoProposalsConfig = {} as GetDaoProposalsConfig)
     : Promise<Array<ExecutedGenesisProposal>> {
 
-    const defaults: GetDaoProposalsConfig = {
-      avatar: undefined,
+    const defaults = {
       proposalId: null,
     };
 
-    const options: GetDaoProposalsConfig = dopts(opts, defaults, { allowUnknown: true });
+    options = Object.assign({}, defaults, options);
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");

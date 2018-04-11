@@ -71,28 +71,21 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
     const totalGas = computeGasLimit(options.founders.length);
 
-    const eventTopic = "txReceipts.DaoCreatorWrapper.forgeOrg";
-
-    const txReceiptEventPayload = TransactionService.publishKickoffEvent(
-      eventTopic,
+    return this.wrapTransactionInvocation("txReceipts.DaoCreatorWrapper.forgeOrg",
       options,
-      this.forgeOrgTransactionsCount(options));
-
-    const tx = await this.contract.forgeOrg(
-      options.name,
-      options.tokenName,
-      options.tokenSymbol,
-      options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.address)),
-      options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.tokens)),
-      options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.reputation)),
-      controllerAddress,
-      options.tokenCap,
-      { gas: totalGas }
-    );
-
-    TransactionService.publishTx(eventTopic, txReceiptEventPayload, tx);
-
-    return new ArcTransactionResult(tx);
+      () => {
+        return this.contract.forgeOrg(
+          options.name,
+          options.tokenName,
+          options.tokenSymbol,
+          options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.address)),
+          options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.tokens)),
+          options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.reputation)),
+          controllerAddress,
+          options.tokenCap,
+          { gas: totalGas }
+        );
+      });
   }
 
   /**
@@ -144,7 +137,8 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       this.setSchemesTransactionsCount(options));
 
     /**
-     * subscribe to all "txReceipts.ContractWrapperBase.setParameters" and republish as eventTopic with txReceiptEventPayload
+     * subscribe to all "txReceipts.ContractWrapperBase.setParameters" and
+     * republish as eventTopic with txReceiptEventPayload
      */
     const eventsSubscription = TransactionService.aggregateTxEvents(
       "txReceipts.ContractWrapperBase.setParameters",
@@ -260,27 +254,27 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       initialSchemesPermissions
     );
 
-    TransactionService.publishTx(eventTopic, txReceiptEventPayload, tx);
+    TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
 
     eventsSubscription.unsubscribe();
 
     return new ArcTransactionResult(tx);
   }
 
-  public forgeOrgTransactionsCount(options: ForgeOrgConfig) {
+  public forgeOrgTransactionsCount(options: ForgeOrgConfig): number {
     return 1;
   }
 
-  public setSchemesTransactionsCount(options: SchemesConfig) {
+  public setSchemesTransactionsCount(options: SchemesConfig): number {
     /**
      * one for setSchemes, one for the default votingMachine params,
      * one for each scheme's params, and one for each scheme that is not using the default votingMachine
      */
     const schemes = options.schemes || [];
     const numSchemes = schemes.length;
-    const numSchemesWithDefaultParams = schemes.filter((s) => { return !!s.votingMachineParams; }).length;
+    const numSchemesWithDefaultParams = schemes.filter((s: SchemeConfig) => !!s.votingMachineParams).length;
     return 2 + numSchemes + numSchemesWithDefaultParams;
-  };
+  }
 
 }
 

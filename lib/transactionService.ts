@@ -11,7 +11,7 @@ export class TransactionService extends EventService {
   /**
    * Generate a new invocation key for the given topic and function.
    * Topic should look like "[classname][functionname]".
-   * @param topic 
+   * @param topic
    */
   public static generateInvocationKey(topic: string): symbol {
     return Symbol(topic);
@@ -22,10 +22,10 @@ export class TransactionService extends EventService {
    * events that will carry an actual tx in the payload for the invoked function.
    * `invocationKey` is a unique key for the returned payload that can be used for scoping
    * the events.
-   * @param topic 
-   * @param options 
-   * @param txCount 
-   * @param suppressKickOff 
+   * @param topic
+   * @param options
+   * @param txCount
+   * @param suppressKickOff
    */
   public static publishKickoffEvent(
     topic: string,
@@ -35,16 +35,16 @@ export class TransactionService extends EventService {
 
     const payload = {
       invocationKey: TransactionService.generateInvocationKey(topic),
-      options: options,
+      options,
       tx: null,
-      txCount: txCount
+      txCount,
     };
 
     if (!suppressKickOff) {
       /**
        * publish the "kick-off" event
        */
-      TransactionService.publishTx(topic, payload);
+      TransactionService.publishTxEvent(topic, payload);
     }
 
     return payload;
@@ -52,15 +52,15 @@ export class TransactionService extends EventService {
 
   /**
    * Send the given payload to subscribers of the given topic.
-   * 
+   *
    * @param topic See [subscribe](EventService#subscribe)
    * @param payload Sent in the subscription callback.
    * @param tx the transaction.  Don't supply for kick-off event.
    * @returns True if there are any subscribers
    */
-  public static publishTx(topic: string, payload: TransactionEventInfo, tx?: TransactionReceiptTruffle): boolean {
+  public static publishTxEvent(topic: string, payload: TransactionEventInfo, tx?: TransactionReceiptTruffle): boolean {
     if (tx) {
-      payload = Object.assign({}, payload, { tx: tx });
+      payload = Object.assign({}, payload, { tx });
     }
     return EventService.publish(topic, payload);
   }
@@ -78,7 +78,7 @@ export class TransactionService extends EventService {
 
     return EventService.aggregate(topics, (topic: string, txEventInfo: TransactionEventInfo) => {
       if (txEventInfo.tx) { // skip kick-off events
-        TransactionService.publishTx(superTopic, superPayload, txEventInfo.tx);
+        TransactionService.publishTxEvent(superTopic, superPayload, txEventInfo.tx);
       }
     });
   }
@@ -101,7 +101,7 @@ export interface TransactionEventInfo {
   /**
    * The receipt for the transaction that has completed.  Note that the tx may not necessarily have
    * completed successfully in the case of errors or rejection.
-   * 
+   *
    * If null then this is a "kick-off" event that announces to the subscriber that more events
    * are to follow for the given invocationKey.  Every function will publish a kick-off event before
    * firing events with a tx.

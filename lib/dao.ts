@@ -3,11 +3,11 @@ import { AvatarService } from "./avatarService";
 import { Address, fnVoid, Hash } from "./commonTypes";
 import { ContractWrapperBase, DecodedLogEntryEvent } from "./contractWrapperBase";
 import { LoggingService } from "./loggingService";
+import { TransactionService } from "./transactionService";
 import { Utils } from "./utils";
 import { DaoCreatorFactory, DaoCreatorWrapper } from "./wrappers/daocreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult, SchemesConfig } from "./wrappers/daocreator";
 import { WrapperService } from "./wrapperService";
-import { TransactionService } from "./transactionService";
 
 /**
  * Helper class and factory for DAOs.
@@ -38,7 +38,10 @@ export class DAO {
     /**
      * subscribe to all "txReceipts..DaoCreatorWrapper" and republish as eventTopic with txReceiptEventPayload
      */
-    const eventSubscription = TransactionService.aggregateTxEvents("txReceipts.DaoCreatorWrapper", eventTopic, txReceiptEventPayload);
+    const eventSubscription = TransactionService.aggregateTxEvents(
+      "txReceipts.DaoCreatorWrapper",
+      eventTopic,
+      txReceiptEventPayload);
 
     const result = await daoCreator.forgeOrg(options);
 
