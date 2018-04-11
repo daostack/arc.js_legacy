@@ -183,6 +183,9 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
           if (!schemeVotingMachineName) {
             schemeVotingMachineParams.votingMachineName = defaultVotingMachineParams.votingMachineName;
           }
+          /**
+           * Note we are not supporting non-Arc voting machines here, and it must have a wrapper class.
+           */
           schemeVotingMachine = await WrapperService.getContractWrapper(
             schemeVotingMachineParams.votingMachineName,
             schemeVotingMachineParams.votingMachineAddress);
