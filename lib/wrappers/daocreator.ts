@@ -1,6 +1,4 @@
 "use strict";
-import dopts = require("default-options");
-
 import * as BigNumber from "bignumber.js";
 import { computeGasLimit } from "../../gasLimits.js";
 import { AvatarService } from "../avatarService";
@@ -12,6 +10,7 @@ import {
   EventFetcherFactory,
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
+import { TransactionService } from "../transactionService";
 import { Utils } from "../utils";
 import { WrapperService } from "../wrapperService";
 
@@ -31,9 +30,9 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
   /**
    * Create a new DAO
-   * @param {ForgeOrgConfig} opts
+   * @param {ForgeOrgConfig} options
    */
-  public async forgeOrg(opts: ForgeOrgConfig = {} as ForgeOrgConfig)
+  public async forgeOrg(options: ForgeOrgConfig = {} as ForgeOrgConfig)
     : Promise<ArcTransactionResult> {
 
     const web3 = Utils.getWeb3();
@@ -43,14 +42,11 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
      */
     const defaults = {
       founders: [],
-      name: undefined,
       tokenCap: web3.toBigNumber(0),
-      tokenName: undefined,
-      tokenSymbol: undefined,
       universalController: true,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true }) as ForgeOrgConfig;
+    options = Object.assign({}, defaults, options) as ForgeOrgConfig;
 
     if (!options.name) {
       throw new Error("DAO name is not defined");
@@ -75,6 +71,20 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
     const totalGas = computeGasLimit(options.founders.length);
 
+    const eventName = "txReceipts.DaoCreatorWrapper.forgeOrg";
+
+    const txReceiptEventPayload = {
+      invocationKey: TransactionService.generateInvocationKey(eventName),
+      options: options,
+      tx: null,
+      txCount: this.forgeOrgTransactionsCount(options)
+    };
+
+    /**
+     * publish the "kick-off" event
+     */
+    TransactionService.publish(eventName, txReceiptEventPayload);
+
     const tx = await this.contract.forgeOrg(
       options.name,
       options.tokenName,
@@ -87,6 +97,9 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       { gas: totalGas }
     );
 
+    txReceiptEventPayload.tx = tx;
+    TransactionService.publish(eventName, txReceiptEventPayload);
+
     return new ArcTransactionResult(tx);
   }
 
@@ -94,9 +107,9 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
    * Register schemes with newly-created DAO.
    * Can only be invoked by the agent that created the DAO
    * via forgeOrg, and at that, can only be called one time.
-   * @param {SetSchemesConfig} opts
+   * @param {SetSchemesConfig} options
    */
-  public async setSchemes(opts: SetSchemesConfig = {} as SetSchemesConfig):
+  public async setSchemes(options: SetSchemesConfig = {} as SetSchemesConfig):
     Promise<ArcTransactionResult> {
     /**
      * See SetSchemesConfig
@@ -105,12 +118,11 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       /**
        * avatar address
        */
-      avatar: undefined,
       schemes: [],
       votingMachineParams: {},
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true }) as SetSchemesConfig;
+    options = Object.assign({}, defaults, options) as SetSchemesConfig;
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
@@ -132,10 +144,27 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     // in case it wasn't supplied in order to get the default
     defaultVotingMachineParams.votingMachineAddress = defaultVotingMachine.address;
 
+    const eventName = "txReceipts.DaoCreatorWrapper.setSchemes";
+    const txReceiptEventPayload = {
+      invocationKey: TransactionService.generateInvocationKey(eventName),
+      options: options,
+      tx: null,
+      txCount: this.setSchemesTransactionsCount(options)
+    };
+
+    /**
+     * publish the "kick-off" event
+     */
+    TransactionService.publish(eventName, txReceiptEventPayload);
+
     /**
      * each voting machine applies its own default values in setParameters
      */
-    const defaultVoteParametersHash = (await defaultVotingMachine.setParameters(defaultVotingMachineParams)).result;
+    let txResult = (await defaultVotingMachine.setParameters(defaultVotingMachineParams));
+    const defaultVoteParametersHash = txResult.result;
+
+    txReceiptEventPayload.tx = txResult.tx;
+    TransactionService.publish(eventName, txReceiptEventPayload);
 
     const initialSchemesSchemes = [];
     const initialSchemesParams = [];
@@ -198,7 +227,10 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
         /**
          * get the voting machine parameters
          */
-        schemeVoteParametersHash = (await schemeVotingMachine.setParameters(schemeVotingMachineParams)).result;
+        txResult = (await schemeVotingMachine.setParameters(schemeVotingMachineParams));
+        schemeVoteParametersHash = txResult.result;
+        txReceiptEventPayload.tx = txResult.tx;
+        TransactionService.publish(eventName, txReceiptEventPayload);
 
       } else {
         // using the defaults
@@ -209,14 +241,18 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       /**
        * This is the set of all possible parameters from which the current scheme will choose just the ones it requires
        */
-      const schemeParamsHash = (await scheme.setParameters(
+      txResult = (await scheme.setParameters(
         Object.assign(
           {
             voteParametersHash: schemeVoteParametersHash,
             votingMachineAddress: schemeVotingMachineParams.votingMachineAddress,
           },
           schemeOptions.additionalParams || {}
-        ))).result;
+        )));
+
+      const schemeParamsHash = txResult.result;
+      txReceiptEventPayload.tx = txResult.tx;
+      TransactionService.publish(eventName, txReceiptEventPayload);
 
       initialSchemesSchemes.push(scheme.address);
       initialSchemesParams.push(schemeParamsHash);
@@ -238,8 +274,27 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       initialSchemesPermissions
     );
 
+    txReceiptEventPayload.tx = tx;
+    TransactionService.publish(eventName, txReceiptEventPayload);
+
     return new ArcTransactionResult(tx);
   }
+
+  public forgeOrgTransactionsCount(options: ForgeOrgConfig) {
+    return 1;
+  }
+
+  public setSchemesTransactionsCount(options: SchemesConfig) {
+    /**
+     * one for setSchemes, one for the default votingMachine params,
+     * one for each scheme's params, and one for each scheme that is not using the default votingMachine
+     */
+    const schemes = options.schemes || [];
+    const numSchemes = schemes.length;
+    const numSchemesWithDefaultParams = schemes.filter((s) => { return !!s.votingMachineParams; }).length;
+    return 2 + numSchemes + numSchemesWithDefaultParams;
+  };
+
 }
 
 /**

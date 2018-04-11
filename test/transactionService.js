@@ -1,27 +1,25 @@
 import { TransactionService } from "../test-dist/transactionService";
 import { DAO } from "../test-dist/DAO";
-import "./helpers";
+import * as helpers from "./helpers";
 
 describe("TransactionService", () => {
 
-  it("can get tx counter function from TransactionService", async () => {
+  it("can get tx events from DAO.new", async () => {
 
-    const fnCount = TransactionService.getTransactionCountForAction(DAO.new);
+    let txCount = 0;
 
-    assert(typeof fnCount === "function");
-    assert.equal(fnCount({}), 3);
-    assert.equal(fnCount({
-      schemes: [
-        { name: "SchemeRegistrar" },
-      ]
-    }), 4);
-    assert.equal(fnCount({
-      schemes: [
-        { name: "SchemeRegistrar" },
-        { name: "UpgradeScheme" },
-      ]
-    }), 5);
-    assert.equal(fnCount({
+    const subscription = TransactionService.subscribe("txReceipts.DAO.new", (topic, txEventInfo) => {
+      assert.equal(topic, "txReceipts.DAO.new");
+      assert.isOk(txEventInfo.options);
+      assert.isOk(txEventInfo.options.schemes);
+      assert.equal(txEventInfo.options.schemes.length, 2);
+      assert.equal(txEventInfo.txCount, 6);
+      assert((txCount > 0) || txEventInfo.tx === null);
+      assert((txCount === 0) || txEventInfo.tx !== null);
+      ++txCount;
+    });
+
+    await helpers.forgeDao({
       schemes: [
         { name: "SchemeRegistrar" },
         {
@@ -32,11 +30,10 @@ describe("TransactionService", () => {
           }
         },
       ]
-    }), 6);
-  });
+    });
 
-  it("can get tx counter function when called directly", async () => {
-    assert(typeof DAO.transactionsInNew === "function");
-    assert.equal(DAO.transactionsInNew({}), 3);
+    assert.equal(txCount, 7);
+
+    TransactionService.unsubscribe(subscription);
   });
 });

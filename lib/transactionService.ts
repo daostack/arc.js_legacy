@@ -1,47 +1,103 @@
+import { publish, subscribe, clearAllSubscriptions, unsubscribe } from "pubsub-js";
+import { TransactionReceiptTruffle } from "./contractWrapperBase";
+import { LoggingService } from "./loggingService";
 
 /**
- * Any function that generates transactions.
+ * Enables you to track the completion of transactions triggered by Arc.js functions.
+ * You can subscribe to events that tell you how many transactions are anticipated when
+ * the transactions have completed.  For more information, see [subscribe](TransactionService#subscribe).
  */
-export type Action = (...rest: Array<any>) => Promise<any>;
-/**
- * A function intended to compute a number of transactions given optional parameters.
- */
-export type ActionTransactionsCounter = (...rest: Array<any>) => number;
-
 export class TransactionService {
 
-  private static ActionTransactionsCounters: Map<Action, ActionTransactionsCounter> =
-    new Map<Action, ActionTransactionsCounter>();
-
   /**
-   * The default ActionTransactionsCounter that takes no params and returns 1.
+   * Generate a new invocation key for the given topic and function.
+   * Topic should look like "[classname][functionname]".
+   * @param topic 
    */
-  private static DefaultActionTransactionsCounter = (...rest) => { return 1; };
-
+  public static generateInvocationKey(topic: string): symbol {
+    return Symbol(topic);
+  }
   /**
-   * Wrappers must use this to register, for any function (Action) that
-   * generates one or more transaction, a ActionTransactionsCounter.
-   * @param action 
-   * @param counterFunction default is DefaultActionTransactionsCounter
+   * Send the given payload to subscribers of the given topic.
+   * 
+   * @param topic See [subscribe](TransactionService#subscribe)
+   * @param txEventInfo Sent in the subscription callback.
+   * @returns True if there are any subscribers
    */
-  public static registerActionTransactionCounter(
-    action: Action,
-    counterFunction?: ActionTransactionsCounter) {
-
-    TransactionService.ActionTransactionsCounters.set(action,
-      counterFunction ? counterFunction : TransactionService.DefaultActionTransactionsCounter);
+  public static publish(topic: string, txEventInfo: TransactionEventInfo): boolean {
+    LoggingService.debug(`TransactionService: publishing ${topic}${txEventInfo.tx ? "" : " (kick-off)"}`);
+    return publish(topic, txEventInfo);
   }
 
   /**
-   * Returns a function that computes the number of transactions in the given Action.
-   * Throws an exception when the action is not found.
-   * @param action 
+   * Subscribe to the given topic.
+   * 
+   * The `topic` parameter defines a hierarchical scope that can be
+   * anything from "txReceipts" to "txReceipts.[wrapperClassName].[functionName]":
+   * 
+   * - "txReceipts" subscribes to all events
+   * - "txReceipts.[wrapperClassName]" subscribes to all txReceipts events for the given class
+   * - "txReceipts.[wrapperClassName].[functionName]" subscribes to all txReceipts events for the given function in the given class
+   * 
+   * @param topic Identifies the scope of events to which you wish to subscribe
+   * @param callback The function to call when the requested events are published
+   * @returns A unique token that you can pass to [unsubscribe](TransactionService#unsubscribe)
    */
-  public static getTransactionCountForAction(action: Action): ActionTransactionsCounter {
-    if (TransactionService.ActionTransactionsCounters.has(action)) {
-      return TransactionService.ActionTransactionsCounters.get(action);
-    } else {
-      throw new Error(`getTransactionCountForAction: action has not registered a tx counter`);
-    }
+  public static subscribe(topic: string, callback: TransactionEventCallback): string {
+    return subscribe(topic, callback);
+  }
+
+  /**
+   * Remove all subscriptions
+   */
+  public static clearAllSubscriptions(): void {
+    clearAllSubscriptions();
+  }
+
+  /** 
+   * Removes a subscription.
+   * 
+	 * When passed a token, removes a specific subscription,
+   * when passed a callback, removes all subscriptions for that callback, 
+	 * when passed a topic, removes all subscriptions for the topic hierarchy.
+	 *
+	 * @param subscriptionSpecifier - A token, function or topic to unsubscribe.
+	 */
+  public static unsubscribe(subscriptionSpecifier: string | TransactionEventCallback): void {
+    unsubscribe(subscriptionSpecifier);
   }
 }
+
+/**
+ * Information supplied to the [TransactionEventCallback](README/#transactioneventcallback) when an event is published.
+ */
+export interface TransactionEventInfo {
+  /**
+   * A value that is unique to the invocation of the function that is publishing the event.
+   * This is useful for grouping events by a single function invocation.
+   */
+  invocationKey: symbol;
+  /**
+   * The options that were passed to the function that is publishing the event, if any.
+   * This will have default values filled in.
+   */
+  options?: any;
+  /**
+   * The receipt for the transaction that has completed.  Note that the tx may not necessarily have
+   * completed successfully in the case of errors or rejection.
+   * 
+   * If null then this is a "kick-off" event that announces to the subscriber that more events
+   * are to follow for the given invocationKey.  Every function will publish a kick-off event before
+   * firing events with a tx.
+   */
+  tx: TransactionReceiptTruffle | null;
+  /**
+   * The total expected number of transactions.
+   */
+  txCount: number;
+}
+
+/**
+ * The callback supplied to a subscription and invoked when an event is published.  See [subscribe](classes/TransactionService#subscribe).
+ */
+export type TransactionEventCallback = (topic: string, txEventInfo: TransactionEventInfo) => void;

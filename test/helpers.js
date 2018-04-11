@@ -244,3 +244,7 @@ export async function transferEthToDao(dao, amount, fromAddress) {
   fromAddress = fromAddress || accounts[0];
   return web3.eth.sendTransaction({ from: fromAddress, to: dao.avatar.address, value: web3.toWei(amount) });
 }
+
+export async function sleep(milliseconds) {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}

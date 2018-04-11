@@ -7,7 +7,7 @@ import { Utils } from "./utils";
 import { DaoCreatorFactory, DaoCreatorWrapper } from "./wrappers/daocreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult, SchemesConfig } from "./wrappers/daocreator";
 import { WrapperService } from "./wrapperService";
-import { TransactionService } from "./transactionService";
+import { TransactionService, TransactionEventInfo } from "./transactionService";
 
 /**
  * Helper class and factory for DAOs.
@@ -28,6 +28,31 @@ export class DAO {
       daoCreator = WrapperService.wrappers.DaoCreator;
     }
 
+    const eventName = "txReceipts.DAO.new";
+    const txReceiptEventPayload = {
+      invocationKey: TransactionService.generateInvocationKey(eventName),
+      options: options,
+      tx: null,
+      txCount: daoCreator.forgeOrgTransactionsCount(options) + daoCreator.setSchemesTransactionsCount(options)
+    };
+
+    /**
+     * transform the daocreator events into DAO.new events
+     */
+    const daoCreatorTxEventHandler = (topic: string, txEventInfo: TransactionEventInfo) => {
+      if (txEventInfo.tx) {
+        txReceiptEventPayload.tx = txEventInfo.tx;
+        TransactionService.publish(eventName, txReceiptEventPayload);
+      }
+    };
+
+    const forgeOrgEvents = TransactionService.subscribe("txReceipts.DaoCreatorWrapper.forgeOrg", daoCreatorTxEventHandler);
+    const setSchemesEvents = TransactionService.subscribe("txReceipts.DaoCreatorWrapper.setSchemes", daoCreatorTxEventHandler);
+    /**
+     * publish the "kick-off" event
+     */
+    TransactionService.publish(eventName, txReceiptEventPayload);
+
     const result = await daoCreator.forgeOrg(options);
 
     const avatarAddress = result.getValueFromTx("_avatar", "NewOrg");
@@ -37,6 +62,11 @@ export class DAO {
     }
 
     await daoCreator.setSchemes(Object.assign({ avatar: avatarAddress }, options));
+
+    setTimeout(() => {
+      TransactionService.unsubscribe(forgeOrgEvents);
+      TransactionService.unsubscribe(setSchemesEvents);
+    }, 0);
 
     return DAO.at(avatarAddress);
   }
@@ -358,8 +388,6 @@ export class DAO {
     }
   }
 }
-
-TransactionService.registerActionTransactionCounter(DAO.new, DAO.transactionsInNew);
 
 export interface NewDaoConfig extends ForgeOrgConfig, SchemesConfig {
   /**
