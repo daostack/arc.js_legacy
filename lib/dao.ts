@@ -7,7 +7,7 @@ import { Utils } from "./utils";
 import { DaoCreatorFactory, DaoCreatorWrapper } from "./wrappers/daocreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult, SchemesConfig } from "./wrappers/daocreator";
 import { WrapperService } from "./wrapperService";
-import { TransactionService, TransactionEventInfo } from "./transactionService";
+import { TransactionService } from "./transactionService";
 
 /**
  * Helper class and factory for DAOs.
@@ -28,30 +28,17 @@ export class DAO {
       daoCreator = WrapperService.wrappers.DaoCreator;
     }
 
-    const eventName = "txReceipts.DAO.new";
-    const txReceiptEventPayload = {
-      invocationKey: TransactionService.generateInvocationKey(eventName),
-      options: options,
-      tx: null,
-      txCount: daoCreator.forgeOrgTransactionsCount(options) + daoCreator.setSchemesTransactionsCount(options)
-    };
+    const eventTopic = "txReceipts.DAO.new";
+
+    const txReceiptEventPayload = TransactionService.publishKickoffEvent(
+      eventTopic,
+      options,
+      daoCreator.forgeOrgTransactionsCount(options) + daoCreator.setSchemesTransactionsCount(options));
 
     /**
-     * transform the daocreator events into DAO.new events
+     * subscribe to all "txReceipts..DaoCreatorWrapper" and republish as eventTopic with txReceiptEventPayload
      */
-    const daoCreatorTxEventHandler = (topic: string, txEventInfo: TransactionEventInfo) => {
-      if (txEventInfo.tx) {
-        txReceiptEventPayload.tx = txEventInfo.tx;
-        TransactionService.publish(eventName, txReceiptEventPayload);
-      }
-    };
-
-    const forgeOrgEvents = TransactionService.subscribe("txReceipts.DaoCreatorWrapper.forgeOrg", daoCreatorTxEventHandler);
-    const setSchemesEvents = TransactionService.subscribe("txReceipts.DaoCreatorWrapper.setSchemes", daoCreatorTxEventHandler);
-    /**
-     * publish the "kick-off" event
-     */
-    TransactionService.publish(eventName, txReceiptEventPayload);
+    const eventSubscription = TransactionService.aggregateTxEvents("txReceipts.DaoCreatorWrapper", eventTopic, txReceiptEventPayload);
 
     const result = await daoCreator.forgeOrg(options);
 
@@ -63,10 +50,7 @@ export class DAO {
 
     await daoCreator.setSchemes(Object.assign({ avatar: avatarAddress }, options));
 
-    setTimeout(() => {
-      TransactionService.unsubscribe(forgeOrgEvents);
-      TransactionService.unsubscribe(setSchemesEvents);
-    }, 0);
+    eventSubscription.unsubscribe();
 
     return DAO.at(avatarAddress);
   }

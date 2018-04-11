@@ -2,6 +2,7 @@ import { AvatarService } from "./avatarService";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { ContractWrapperFactory } from "./contractWrapperFactory";
 import { LoggingService } from "./loggingService";
+import { TransactionService } from "./transactionService";
 import { Utils } from "./utils";
 /**
  * Abstract base class for all Arc contract wrapper classes
@@ -104,8 +105,17 @@ export abstract class ContractWrapperBase {
    * @param {any} params -- parameters as the contract.setParameters function expects them.
    */
   public async setParameters(...params: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
+
+    const eventTopic = "txReceipts.ContractWrapperBase.setParameters";
+
+    const txReceiptEventPayload = TransactionService.publishKickoffEvent(eventTopic, params, 1);
+
     const parametersHash: Hash = await this.contract.getParametersHash(...params);
+
     const tx: TransactionReceiptTruffle = await this.contract.setParameters(...params);
+
+    TransactionService.publishTx(eventTopic, txReceiptEventPayload, tx);
+
     return new ArcTransactionDataResult<Hash>(tx, parametersHash);
   }
 

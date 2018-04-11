@@ -1,13 +1,12 @@
-import { publish, subscribe, clearAllSubscriptions, unsubscribe } from "pubsub-js";
 import { TransactionReceiptTruffle } from "./contractWrapperBase";
-import { LoggingService } from "./loggingService";
+import { EventService, IEventSubscription } from "./eventService";
 
 /**
  * Enables you to track the completion of transactions triggered by Arc.js functions.
  * You can subscribe to events that tell you how many transactions are anticipated when
  * the transactions have completed.  For more information, see [subscribe](TransactionService#subscribe).
  */
-export class TransactionService {
+export class TransactionService extends EventService {
 
   /**
    * Generate a new invocation key for the given topic and function.
@@ -17,59 +16,76 @@ export class TransactionService {
   public static generateInvocationKey(topic: string): symbol {
     return Symbol(topic);
   }
+
+  /**
+   * Publish the kick-off event and return the payload that should be used for the ensuing
+   * events that will carry an actual tx in the payload for the invoked function.
+   * `invocationKey` is a unique key for the returned payload that can be used for scoping
+   * the events.
+   * @param topic 
+   * @param options 
+   * @param txCount 
+   * @param suppressKickOff 
+   */
+  public static publishKickoffEvent(
+    topic: string,
+    options: any,
+    txCount: number,
+    suppressKickOff: boolean = false): TransactionEventInfo {
+
+    const payload = {
+      invocationKey: TransactionService.generateInvocationKey(topic),
+      options: options,
+      tx: null,
+      txCount: txCount
+    };
+
+    if (!suppressKickOff) {
+      /**
+       * publish the "kick-off" event
+       */
+      TransactionService.publishTx(topic, payload);
+    }
+
+    return payload;
+  }
+
   /**
    * Send the given payload to subscribers of the given topic.
    * 
-   * @param topic See [subscribe](TransactionService#subscribe)
-   * @param txEventInfo Sent in the subscription callback.
+   * @param topic See [subscribe](EventService#subscribe)
+   * @param payload Sent in the subscription callback.
+   * @param tx the transaction.  Don't supply for kick-off event.
    * @returns True if there are any subscribers
    */
-  public static publish(topic: string, txEventInfo: TransactionEventInfo): boolean {
-    LoggingService.debug(`TransactionService: publishing ${topic}${txEventInfo.tx ? "" : " (kick-off)"}`);
-    return publish(topic, txEventInfo);
+  public static publishTx(topic: string, payload: TransactionEventInfo, tx?: TransactionReceiptTruffle): boolean {
+    if (tx) {
+      payload = Object.assign({}, payload, { tx: tx });
+    }
+    return EventService.publish(topic, payload);
   }
 
   /**
-   * Subscribe to the given topic.
-   * 
-   * The `topic` parameter defines a hierarchical scope that can be
-   * anything from "txReceipts" to "txReceipts.[wrapperClassName].[functionName]":
-   * 
-   * - "txReceipts" subscribes to all events
-   * - "txReceipts.[wrapperClassName]" subscribes to all txReceipts events for the given class
-   * - "txReceipts.[wrapperClassName].[functionName]" subscribes to all txReceipts events for the given function in the given class
-   * 
-   * @param topic Identifies the scope of events to which you wish to subscribe
-   * @param callback The function to call when the requested events are published
-   * @returns A unique token that you can pass to [unsubscribe](TransactionService#unsubscribe)
+   * Subscribe to all given topics and resend as the given supertopic with superPayload.
+   * @param topics Collection of topics
+   * @param superTopic topic to substitute
+   * @returns A single subscription
    */
-  public static subscribe(topic: string, callback: TransactionEventCallback): string {
-    return subscribe(topic, callback);
-  }
+  public static aggregateTxEvents(
+    topics: string | Array<string>,
+    superTopic: string,
+    superPayload: TransactionEventInfo): IEventSubscription {
 
-  /**
-   * Remove all subscriptions
-   */
-  public static clearAllSubscriptions(): void {
-    clearAllSubscriptions();
-  }
-
-  /** 
-   * Removes a subscription.
-   * 
-	 * When passed a token, removes a specific subscription,
-   * when passed a callback, removes all subscriptions for that callback, 
-	 * when passed a topic, removes all subscriptions for the topic hierarchy.
-	 *
-	 * @param subscriptionSpecifier - A token, function or topic to unsubscribe.
-	 */
-  public static unsubscribe(subscriptionSpecifier: string | TransactionEventCallback): void {
-    unsubscribe(subscriptionSpecifier);
+    return EventService.aggregate(topics, (topic: string, txEventInfo: TransactionEventInfo) => {
+      if (txEventInfo.tx) { // skip kick-off events
+        TransactionService.publishTx(superTopic, superPayload, txEventInfo.tx);
+      }
+    });
   }
 }
 
 /**
- * Information supplied to the [TransactionEventCallback](README/#transactioneventcallback) when an event is published.
+ * Information supplied to the event callback when the event is published.
  */
 export interface TransactionEventInfo {
   /**
@@ -96,8 +112,3 @@ export interface TransactionEventInfo {
    */
   txCount: number;
 }
-
-/**
- * The callback supplied to a subscription and invoked when an event is published.  See [subscribe](classes/TransactionService#subscribe).
- */
-export type TransactionEventCallback = (topic: string, txEventInfo: TransactionEventInfo) => void;

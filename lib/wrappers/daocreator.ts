@@ -71,19 +71,12 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
     const totalGas = computeGasLimit(options.founders.length);
 
-    const eventName = "txReceipts.DaoCreatorWrapper.forgeOrg";
+    const eventTopic = "txReceipts.DaoCreatorWrapper.forgeOrg";
 
-    const txReceiptEventPayload = {
-      invocationKey: TransactionService.generateInvocationKey(eventName),
-      options: options,
-      tx: null,
-      txCount: this.forgeOrgTransactionsCount(options)
-    };
-
-    /**
-     * publish the "kick-off" event
-     */
-    TransactionService.publish(eventName, txReceiptEventPayload);
+    const txReceiptEventPayload = TransactionService.publishKickoffEvent(
+      eventTopic,
+      options,
+      this.forgeOrgTransactionsCount(options));
 
     const tx = await this.contract.forgeOrg(
       options.name,
@@ -97,8 +90,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       { gas: totalGas }
     );
 
-    txReceiptEventPayload.tx = tx;
-    TransactionService.publish(eventName, txReceiptEventPayload);
+    TransactionService.publishTx(eventTopic, txReceiptEventPayload, tx);
 
     return new ArcTransactionResult(tx);
   }
@@ -144,27 +136,26 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     // in case it wasn't supplied in order to get the default
     defaultVotingMachineParams.votingMachineAddress = defaultVotingMachine.address;
 
-    const eventName = "txReceipts.DaoCreatorWrapper.setSchemes";
-    const txReceiptEventPayload = {
-      invocationKey: TransactionService.generateInvocationKey(eventName),
-      options: options,
-      tx: null,
-      txCount: this.setSchemesTransactionsCount(options)
-    };
+    const eventTopic = "txReceipts.DaoCreatorWrapper.setSchemes";
+
+    const txReceiptEventPayload = TransactionService.publishKickoffEvent(
+      eventTopic,
+      options,
+      this.setSchemesTransactionsCount(options));
 
     /**
-     * publish the "kick-off" event
+     * subscribe to all "txReceipts.ContractWrapperBase.setParameters" and republish as eventTopic with txReceiptEventPayload
      */
-    TransactionService.publish(eventName, txReceiptEventPayload);
+    const eventsSubscription = TransactionService.aggregateTxEvents(
+      "txReceipts.ContractWrapperBase.setParameters",
+      eventTopic,
+      txReceiptEventPayload);
 
     /**
      * each voting machine applies its own default values in setParameters
      */
-    let txResult = (await defaultVotingMachine.setParameters(defaultVotingMachineParams));
+    let txResult = await defaultVotingMachine.setParameters(defaultVotingMachineParams);
     const defaultVoteParametersHash = txResult.result;
-
-    txReceiptEventPayload.tx = txResult.tx;
-    TransactionService.publish(eventName, txReceiptEventPayload);
 
     const initialSchemesSchemes = [];
     const initialSchemesParams = [];
@@ -227,11 +218,8 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
         /**
          * get the voting machine parameters
          */
-        txResult = (await schemeVotingMachine.setParameters(schemeVotingMachineParams));
+        txResult = await schemeVotingMachine.setParameters(schemeVotingMachineParams);
         schemeVoteParametersHash = txResult.result;
-        txReceiptEventPayload.tx = txResult.tx;
-        TransactionService.publish(eventName, txReceiptEventPayload);
-
       } else {
         // using the defaults
         schemeVotingMachineParams = defaultVotingMachineParams;
@@ -241,18 +229,16 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       /**
        * This is the set of all possible parameters from which the current scheme will choose just the ones it requires
        */
-      txResult = (await scheme.setParameters(
+      txResult = await scheme.setParameters(
         Object.assign(
           {
             voteParametersHash: schemeVoteParametersHash,
             votingMachineAddress: schemeVotingMachineParams.votingMachineAddress,
           },
           schemeOptions.additionalParams || {}
-        )));
+        ));
 
       const schemeParamsHash = txResult.result;
-      txReceiptEventPayload.tx = txResult.tx;
-      TransactionService.publish(eventName, txReceiptEventPayload);
 
       initialSchemesSchemes.push(scheme.address);
       initialSchemesParams.push(schemeParamsHash);
@@ -274,8 +260,9 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       initialSchemesPermissions
     );
 
-    txReceiptEventPayload.tx = tx;
-    TransactionService.publish(eventName, txReceiptEventPayload);
+    TransactionService.publishTx(eventTopic, txReceiptEventPayload, tx);
+
+    eventsSubscription.unsubscribe();
 
     return new ArcTransactionResult(tx);
   }
