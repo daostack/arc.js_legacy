@@ -43,17 +43,21 @@ export class DAO {
       eventTopic,
       txReceiptEventPayload);
 
-    const result = await daoCreator.forgeOrg(options);
+    let avatarAddress;
 
-    const avatarAddress = result.getValueFromTx("_avatar", "NewOrg");
+    try {
+      const result = await daoCreator.forgeOrg(options);
 
-    if (!avatarAddress) {
-      throw new Error("avatar address is not defined");
+      avatarAddress = result.getValueFromTx("_avatar", "NewOrg");
+
+      if (!avatarAddress) {
+        throw new Error("avatar address is not defined");
+      }
+
+      await daoCreator.setSchemes(Object.assign({ avatar: avatarAddress }, options));
+    } finally {
+      eventSubscription.unsubscribe();
     }
-
-    await daoCreator.setSchemes(Object.assign({ avatar: avatarAddress }, options));
-
-    eventSubscription.unsubscribe();
 
     return DAO.at(avatarAddress);
   }
