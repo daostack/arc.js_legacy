@@ -21,7 +21,6 @@ export * from "./wrappers/voteInOrganizationScheme";
 export * from "./dao";
 export * from "./contractWrapperBase";
 export * from "./contractWrapperFactory";
-export * from "./transactionService";
 export * from "./eventService";
 export * from "./transactionService";
 export * from "./utils";
