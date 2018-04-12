@@ -21,7 +21,9 @@ export * from "./wrappers/voteInOrganizationScheme";
 export * from "./dao";
 export * from "./contractWrapperBase";
 export * from "./contractWrapperFactory";
-export * from "./loggingService";
+export * from "./transactionService";
+export * from "./eventService";
+export * from "./transactionService";
 export * from "./utils";
 
 import Web3 = require("web3");
