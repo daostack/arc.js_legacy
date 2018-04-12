@@ -67,16 +67,17 @@ export class TransactionService extends EventService {
 
   /**
    * Subscribe to all given topics and resend as the given supertopic with superPayload.
-   * @param topics Collection of topics
-   * @param superTopic topic to substitute
-   * @returns A single subscription
+   * @param topics topics or topic
+   * @param superTopic topic to resend as
+   * @param superPayload payload to send
+   * @returns An interface with `.unsubscribe()`.  Be sure to call it!
    */
-  public static aggregateTxEvents(
-    topics: string | Array<string>,
+  public static resendTxEvents(
+    topics: Array<string> | string,
     superTopic: string,
     superPayload: TransactionEventInfo): IEventSubscription {
 
-    return EventService.aggregate(topics, (topic: string, txEventInfo: TransactionEventInfo) => {
+    return EventService.subscribe(topics, (topic: string, txEventInfo: TransactionEventInfo) => {
       if (txEventInfo.tx) { // skip kick-off events
         TransactionService.publishTxEvent(superTopic, superPayload, txEventInfo.tx);
       }

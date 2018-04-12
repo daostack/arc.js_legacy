@@ -5,7 +5,6 @@ export class EventService {
 
   /**
    * Send the given payload to subscribers of the given topic.
-   *
    * @param topic See [subscribe](EventService#subscribe)
    * @param payload Sent in the subscription callback.
    * @returns True if there are any subscribers
@@ -16,22 +15,15 @@ export class EventService {
   }
 
   /**
-   * Subscribe to the given topic.
-   *
-   * The `topic` parameter defines a hierarchical scope.  For example:anything from "txReceipts"
-   * to "txReceipts.[wrapperClassName].[functionName]":
-   *
-   * - "txReceipts" subscribes to all events
-   * - "txReceipts.[wrapperClassName]" subscribes to all txReceipts events for the given class
-   * - "txReceipts.[wrapperClassName].[functionName]" subscribes to all txReceipts events
-   * for the given function in the given class
-   *
-   * @param topic Identifies the scope of events to which you wish to subscribe
+   * Subscribe to the given topic or array of topics.
+   * @param topics Identifies the event(s) to which you wish to subscribe
    * @param callback The function to call when the requested events are published
-   * @returns An interface with `.unsubscribe()`.
+   * @returns An interface with `.unsubscribe()`.  Be sure to call it!
    */
-  public static subscribe(topic: string, callback: EventSubscriptionCallback): IEventSubscription {
-    return new EventSubscription(PubSub.subscribe(topic, callback));
+  public static subscribe(topics: string | Array<string>, callback: EventSubscriptionCallback): IEventSubscription {
+    return Array.isArray(topics) ?
+      EventService.aggregate(topics, callback) :
+      new EventSubscription(PubSub.subscribe(topics, callback));
   }
 
   /**
@@ -43,7 +35,6 @@ export class EventService {
 
   /**
    * Removes a subscription.
-   *
    * When passed a token, removes a specific subscription,
    * when passed a callback, removes all subscriptions for that callback,
    * when passed a topic, removes all subscriptions for the topic hierarchy.
@@ -55,13 +46,13 @@ export class EventService {
   }
 
   /**
-   * Subscribe to all given topics with the single given callback.
+   * Subscribe to multiple topics with the single given callback.
    * @param topics topic or collection of topics
    * @param callback Callback to handle them all
-   * @returns A single subscription
+   * @returns An interface with `.unsubscribe()`.  Be sure to call it!
    */
-  public static aggregate(
-    topics: string | Array<string>,
+  private static aggregate(
+    topics: Array<string>,
     callback: EventSubscriptionCallback): IEventSubscription {
 
     return new SubscriptionCollection(topics, callback);

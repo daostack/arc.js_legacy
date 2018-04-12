@@ -108,7 +108,7 @@ export abstract class ContractWrapperBase {
 
     const parametersHash: Hash = await this.contract.getParametersHash(...params);
 
-    const txResult = await this.wrapTransactionInvocation("txReceipts.ContractWrapperBase.setParameters",
+    const txResult = await this.wrapTransactionInvocation("txReceipts.ContractWrapper.setParameters",
       params,
       () => {
         return this.contract.setParameters(...params);

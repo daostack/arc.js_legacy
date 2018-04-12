@@ -49,7 +49,7 @@ export class AbsoluteVoteWrapper extends ContractWrapperBase {
       throw new Error("vote is not valid");
     }
 
-    const txResult = await this.wrapTransactionInvocation("txReceipts.AbsoluteVoteWrapper.vote",
+    return this.wrapTransactionInvocation("txReceipts.AbsoluteVote.vote",
       options,
       () => {
         return this.contract.vote(
@@ -58,8 +58,6 @@ export class AbsoluteVoteWrapper extends ContractWrapperBase {
           options.onBehalfOf ? { from: options.onBehalfOf } : undefined
         );
       });
-
-    return txResult;
   }
 
   public async setParameters(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>> {

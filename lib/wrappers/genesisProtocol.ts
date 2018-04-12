@@ -80,7 +80,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("numOfChoices must be between 1 and 10");
     }
 
-    const txResult = await this.wrapTransactionInvocation("txReceipts.GenesisProtocolWrapper.propose",
+    const txResult = await this.wrapTransactionInvocation("txReceipts.GenesisProtocol.propose",
       options,
       () => {
         return this.contract.propose(
@@ -128,7 +128,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
     const autoApproveTransfer = ConfigService.get("autoApproveTokenTransfers");
 
-    const eventTopic = "txReceipts.GenesisProtocolWrapper.stake";
+    const eventTopic = "txReceipts.GenesisProtocol.stake";
 
     const txReceiptEventPayload = TransactionService.publishKickoffEvent(
       eventTopic,
@@ -185,7 +185,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
     this._validateVote(options.vote, options.proposalId);
 
-    return this.wrapTransactionInvocation("txReceipts.GenesisProtocolWrapper.vote",
+    return this.wrapTransactionInvocation("txReceipts.GenesisProtocol.vote",
       options,
       () => {
         return this.contract.vote(
@@ -216,7 +216,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("reputation is not defined");
     }
 
-    return this.wrapTransactionInvocation("txReceipts.GenesisProtocolWrapper.voteWithSpecifiedAmounts",
+    return this.wrapTransactionInvocation("txReceipts.GenesisProtocol.voteWithSpecifiedAmounts",
       options,
       () => {
         return this.contract.voteWithSpecifiedAmounts(
@@ -243,7 +243,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("beneficiaryAddress is not defined");
     }
 
-    return this.wrapTransactionInvocation("txReceipts.GenesisProtocolWrapper.redeem",
+    return this.wrapTransactionInvocation("txReceipts.GenesisProtocol.redeem",
       options,
       () => {
         return this.contract.redeem(

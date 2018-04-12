@@ -71,7 +71,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
     const totalGas = computeGasLimit(options.founders.length);
 
-    return this.wrapTransactionInvocation("txReceipts.DaoCreatorWrapper.forgeOrg",
+    return this.wrapTransactionInvocation("txReceipts.DaoCreator.forgeOrg",
       options,
       () => {
         return this.contract.forgeOrg(
@@ -129,7 +129,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     // in case it wasn't supplied in order to get the default
     defaultVotingMachineParams.votingMachineAddress = defaultVotingMachine.address;
 
-    const eventTopic = "txReceipts.DaoCreatorWrapper.setSchemes";
+    const eventTopic = "txReceipts.DaoCreator.setSchemes";
 
     const txReceiptEventPayload = TransactionService.publishKickoffEvent(
       eventTopic,
@@ -137,11 +137,11 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       this.setSchemesTransactionsCount(options));
 
     /**
-     * subscribe to all "txReceipts.ContractWrapperBase.setParameters" and
+     * subscribe to all "txReceipts.ContractWrapper.setParameters" and
      * republish as eventTopic with txReceiptEventPayload
      */
-    const eventsSubscription = TransactionService.aggregateTxEvents(
-      "txReceipts.ContractWrapperBase.setParameters",
+    const eventsSubscription = TransactionService.resendTxEvents(
+      "txReceipts.ContractWrapper.setParameters",
       eventTopic,
       txReceiptEventPayload);
 

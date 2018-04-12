@@ -47,7 +47,7 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
     }
 
     const txResult = await this.wrapTransactionInvocation(
-      "txReceipts.GlobalConstraintRegistrarWrapper.proposeToAddModifyGlobalConstraint",
+      "txReceipts.GlobalConstraintRegistrar.proposeToAddModifyGlobalConstraint",
       options,
       () => {
         return this.contract.proposeGlobalConstraint(
@@ -74,7 +74,7 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
     }
 
     const txResult = await this.wrapTransactionInvocation(
-      "txReceipts.GlobalConstraintRegistrarWrapper.proposeToRemoveGlobalConstraint",
+      "txReceipts.GlobalConstraintRegistrar.proposeToRemoveGlobalConstraint",
       options,
       () => {
         return this.contract.proposeToRemoveGC(

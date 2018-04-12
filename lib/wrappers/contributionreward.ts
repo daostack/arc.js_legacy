@@ -183,7 +183,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
-    const txResult = await this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemContributionReward",
+    return this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemContributionReward",
       options,
       () => {
         return this.contract.redeem(
@@ -192,8 +192,6 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
           [options.reputation, options.nativeTokens, options.ethers, options.externalTokens]
         );
       });
-
-    return txResult;
   }
 
   /**
@@ -212,7 +210,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
-    const txResult = await this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemExternalReward",
+    return this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemExternalReward",
       options,
       () => {
         return this.contract.redeemExternalToken(
@@ -220,8 +218,6 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
           options.avatar
         );
       });
-
-    return txResult;
   }
 
   /**
@@ -240,7 +236,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
-    const txResult = await this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemReputation",
+    return this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemReputation",
       options,
       () => {
         return this.contract.redeemReputation(
@@ -248,8 +244,6 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
           options.avatar
         );
       });
-
-    return txResult;
   }
 
   /**
@@ -268,7 +262,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
-    const txResult = await this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemNativeToken",
+    return this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemNativeToken",
       options,
       () => {
         return this.contract.redeemNativeToken(
@@ -276,8 +270,6 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
           options.avatar
         );
       });
-
-    return txResult;
   }
 
   /**
@@ -296,7 +288,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
-    const txResult = await this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemEther",
+    return this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemEther",
       options,
       () => {
         return this.contract.redeemEther(
@@ -304,8 +296,6 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
           options.avatar
         );
       });
-
-    return txResult;
   }
 
   /**
