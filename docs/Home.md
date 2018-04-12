@@ -101,12 +101,16 @@ await InitializeArcJs({
   });
 ```
 
-### Work with Arc Contracts
+### Working with Arc Contracts
 Now that you've got Arc.js plugged into your application, configured, and contracts migrated to a running testnet, you are ready to start coding against DAOs and other Arc entities.
 
 You will likely start by creating or referencing one or more DAOs.  Arc.js provides a class called [DAO](api/classes/DAO) that facilitates creating and working with DAOs.  Refer here for [all about the DAO class](Daos).
 
-Once you have a DAO or set of DAOs, you can start working with them, most often using schemes to work with proposals. Arc.js facilitates working with proposals, schemes and other entities such as events, global constraints and voting machines by providing contract "wrapper" classes.  Refer here for [all about contract wrapper classes](Wrappers).
+Once you have a DAO or set of DAOs, you can start working with them, most often using schemes to work with proposals. Arc.js facilitates working with proposals, schemes and other entities such as events, global constraints and voting machines by providing contract "wrapper" classes.  Refer here for [all about Arc.js contract wrapper classes](Wrappers).
+
+### Working with Events
+
+Arc.js supports events of various types that you can handle, including events from Arc contracts and events that enable you to track transaction as they occur.  Refer here for [all about events in Arc.js](Events).
 
 ### Other Service Classes
 

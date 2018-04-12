@@ -4,7 +4,7 @@
 
 Arc.js wraps several Arc contracts in a "contract wrapper" JavaScript class.  Every wrapper class inherits from [ContractWrapperBase](api/classes/ContractWrapperBase) providing a common set of functions and properties and specific helper functions for operations specific to the contract it wraps.
 
-Each wrapper contains a `contract` property which is the original "wrapped" Truffle contract that you can use to access all of the Truffle functionality of the specific Arc contract being wrapped.
+Each wrapper contains a `contract` property which is the original "wrapped" [Truffle contract](https://github.com/trufflesuite/truffle-contract) that you can use to access all of the Truffle functionality of the specific Arc contract being wrapped.
 
 Each wrapper also contains a `factory` property.  This is the static instance of the wrapper factory class which is based on [ContractWrapperFactory<TWrapper>](api/classes/ContractWrapperFactory) (where `TWrapper` is the type (class) of the wrapper).  Each factory contains the static methods `at(someAddress)`, `new()` and `deployed()` that you can use to instantiate the associated wrapper class.
 
@@ -188,3 +188,6 @@ const avatarTruffleContract = await Utils.requireContract("Avatar");
 
 !!! info
     `Utils.requireContract` throws an exception when there is any problem creating the truffle contract object.
+
+## Working with Events
+All Arc.js wrappers publish events of various types that you can handle, including events from Arc contracts and events that enable you to track transaction as they occur.  Refer here for [all about events in Arc.js](Events).
