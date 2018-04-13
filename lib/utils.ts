@@ -85,8 +85,13 @@ export class Utils {
 
     if (!preWeb3 || !preWeb3.isConnected()) {
       Utils.alreadyTriedAndFailed = true;
-      throw new Error("Utils.getWeb3: web3 not found");
+      if (!preWeb3) {
+        throw new Error("Utils.getWeb3: web3 not found");
+      } else if (!preWeb3.isConnected()) {
+        throw new Error("Utils.getWeb3: web3 not connected");
+      }
     }
+
 
     if (typeof window !== "undefined") {
       // Add to window for easy use in the console
