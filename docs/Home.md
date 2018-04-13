@@ -78,7 +78,7 @@ import * as ArcJs from '@daostack/arc.js';
 ```
 ### Configure Arc.js
 
-Refer here for [complete documentation on Arc.js configuration settings](./Configuration.md).
+Refer here for [complete documentation on Arc.js configuration settings](Configuration.md).
 
 ### Initialize Arc.js at Runtime
 
@@ -86,6 +86,7 @@ Your application must invoke `InitializeArcJs` once at runtime before doing anyt
 
 ```javascript
 import { InitializeArcJs } from "@daostack/arc.js";
+
 await InitializeArcJs();
 ```
 
@@ -100,6 +101,25 @@ await InitializeArcJs({
     }
   });
 ```
+
+You can use the Arc.js [ConfigService](Configuration) to set the provider host and port that web3 uses to connect your applicaton to the net when not using MetaMask.  But you can also tell `InitializeArcJs` to use the settings stored in the Arc.js `truffle.js` file for mainnet (live), kovan, ropsten and ganache.  Here is an example of telling Arc.js to use its default settings for Kovan:
+
+```javascript
+await InitializeArcJs({
+  "useNetworkDefaultsFor": "kovan"
+  });
+```
+
+!!! info
+    For safety, truffle.js specifies a different HTTP port for each network.  You will need to make sure that the testnet you are using is listening on that port.  The port values are:
+
+    <table style="margin-left:2.5rem">
+    <tr style="text-align:left"><th>Network</th><th>Port</th></tr>
+    <tr><td>Ganache</td><td>8545</td></tr>
+    <tr><td>Kovan</td><td>8547</td></tr>
+    <tr><td>Ropsten</td><td>8548</td></tr>
+    <tr><td>Live (Mainnet)</td><td>8546</td></tr>
+    </table>
 
 ### Working with Arc Contracts
 Now that you've got Arc.js plugged into your application, configured, and contracts migrated to a running testnet, you are ready to start coding against DAOs and other Arc entities.
