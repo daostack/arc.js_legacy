@@ -19,7 +19,7 @@ describe("InitializeArcJs", () => {
       ConfigService.set("providerUrl", "sdfkjh");
       await InitializeArcJs();
     } catch (ex) {
-      exceptionRaised = ex.message.includes("Utils.getWeb3: web3 not found");
+      exceptionRaised = ex.message.includes("Utils.getWeb3: web3 not connected");
     }
     global.web3 = web3;
     ConfigService.set("providerUrl", providerUrl);
