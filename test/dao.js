@@ -9,6 +9,18 @@ import { WrapperService } from "../test-dist/wrapperService";
 describe("DAO", () => {
   let dao;
 
+  it("can call getDaos", async () => {
+    await DAO.new({
+      name: "Skynet",
+      tokenName: "Tokens of skynet",
+      tokenSymbol: "SNT"
+    });
+
+    const daos = await DAO.getDaos({});
+    assert.isOk(daos, "daos is not set");
+    assert(daos.length > 0, "no daos found")
+  });
+
   it("default config for counting the number of transactions", async () => {
     dao = await DAO.new({
       name: "Skynet",
