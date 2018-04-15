@@ -83,7 +83,7 @@ export class DAO {
   }
 
   /**
-   * Return a promise of an array of all of the DAOs created by the optionally-given
+   * Return a promise of an array of avatar addresses for all of the DAOs created by the optionally-given
    * DaoCreator contract.  The default DaoCreator is the one deployed by
    * the running version of Arc.js.
    *
@@ -91,11 +91,12 @@ export class DAO {
    * Arc DaoCreater.
    * @param options
    */
-  public static async getDaos(options: GetDaosOptions): Promise<Array<DAO>> {
-    return new Promise<Array<DAO>>(
-      async (resolve: (daos: Array<DAO>) => void, reject: (error: Error) => void): Promise<void> => {
+  public static async getDaos(options: GetDaosOptions): Promise<Array<Address>> {
+    return new Promise<Array<Address>>(
+      async (resolve: (daos: Array<Address>) => void, reject: (error: Error) => void): Promise<void> => {
         try {
-          const daos = new Map<Address, DAO>();
+          // use Set to avoid dups
+          const daos = new Set<Address>();
 
           const daoCreator =
             options.daoCreatorAddress ?
@@ -111,16 +112,11 @@ export class DAO {
             }
             for (const event of log) {
               const avatarAddress = event.args._avatar;
-              // just in case we get the same event twice
-              const alreadyFound = daos.has(avatarAddress);
-              if (!alreadyFound) {
-                const dao = await DAO.at(avatarAddress);
-                LoggingService.debug(`getDaos: loaded dao ${await dao.getName()}: ${dao.avatar.address}`);
-                daos.set(avatarAddress, dao);
-              }
+              LoggingService.debug(`getDaos: loaded dao: ${avatarAddress}`);
+              daos.add(avatarAddress);
             }
             LoggingService.debug("Finished loading daos");
-            resolve(Array.from(daos.values()));
+            resolve(Array.from(daos));
           });
         } catch (ex) {
           LoggingService.error(`getDaos: Error obtaining DAOs: ${ex}`);
