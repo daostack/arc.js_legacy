@@ -18,7 +18,7 @@ describe("DAO", () => {
 
     const daos = await DAO.getDaos({});
     assert.isOk(daos, "daos is not set");
-    assert(daos.length > 0, "no daos found")
+    assert(daos.length > 0, "no daos found");
   });
 
   it("default config for counting the number of transactions", async () => {

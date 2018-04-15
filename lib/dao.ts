@@ -1,8 +1,8 @@
 "use strict";
-import { LoggingService } from "./loggingService";
 import { AvatarService } from "./avatarService";
 import { Address, fnVoid, Hash } from "./commonTypes";
 import { ContractWrapperBase, DecodedLogEntryEvent } from "./contractWrapperBase";
+import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
 import { DaoCreatorFactory, DaoCreatorWrapper } from "./wrappers/daocreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult, SchemesConfig } from "./wrappers/daocreator";
@@ -86,6 +86,9 @@ export class DAO {
    * Return a promise of an array of all of the DAOs created by the optionally-given
    * DaoCreator contract.  The default DaoCreator is the one deployed by
    * the running version of Arc.js.
+   *
+   * An alternative DaoCreator must implement an InitialSchemesSet event just like the
+   * Arc DaoCreater.
    * @param options
    */
   public static async getDaos(options: GetDaosOptions): Promise<Array<DAO>> {
