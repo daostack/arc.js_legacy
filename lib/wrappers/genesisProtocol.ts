@@ -986,7 +986,22 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
   }
 }
 
-export const GenesisProtocolFactory = new ContractWrapperFactory("GenesisProtocol", GenesisProtocolWrapper);
+/**
+ * defined just to add good type checking
+ */
+export class GenesisProtocolFactoryType extends ContractWrapperFactory<GenesisProtocolWrapper> {
+  /**
+   * Migrate a new instance of GenesisProtocol.
+   * @param stakingTokenAddress The token that will be used when staking.  Typically
+   * is the token of the DAO that is going to use this GenesisProtocol.
+   */
+  public async new(stakingTokenAddress: Address): Promise<GenesisProtocolWrapper> {
+    return super.new(stakingTokenAddress);
+  }
+}
+
+export const GenesisProtocolFactory =
+  new GenesisProtocolFactoryType("GenesisProtocol", GenesisProtocolWrapper) as GenesisProtocolFactoryType;
 
 export interface StakeEventResult {
   _amount: BigNumber.BigNumber;
