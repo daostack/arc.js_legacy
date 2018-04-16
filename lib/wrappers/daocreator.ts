@@ -239,7 +239,26 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
   }
 }
 
-export const DaoCreatorFactory = new ContractWrapperFactory("DaoCreator", DaoCreatorWrapper);
+/**
+ * defined just to add good type checking
+ */
+export class DaoCreatorFactoryType extends ContractWrapperFactory<DaoCreatorWrapper> {
+  /**
+   *
+   * @param controllerCreatorAddress The ControllerCreator that Arc will use when migrating
+   * a new non-universal controller in `forgeOrg`.
+   * Typically is `ControllerCreator` from Arc.
+   */
+  public async new(controllerCreatorAddress?: Address): Promise<DaoCreatorWrapper> {
+    if (!controllerCreatorAddress) {
+      controllerCreatorAddress = (await (await Utils.requireContract("ControllerCreator")).deployed()).address;
+    }
+    return super.new(controllerCreatorAddress);
+  }
+}
+
+export const DaoCreatorFactory =
+  new DaoCreatorFactoryType("DaoCreator", DaoCreatorWrapper) as DaoCreatorFactoryType;
 
 export interface NewOrgEventResult {
   _avatar: Address;
