@@ -192,28 +192,53 @@ export abstract class ContractWrapperBase {
     ): EventFetcher<TArgs> => {
 
       let baseEvent: EventFetcher<TArgs>;
+      let receivedEvents: Set<Hash>;
+
+      if (!!filterObject.suppressDups) {
+        receivedEvents = new Set<Hash>();
+      }
+
+      const handleEvent = (
+        error: any,
+        log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>,
+        callback?: EventCallback<TArgs>): void => {
+
+        /**
+         * always provide an array
+         */
+        if (!!error) {
+          log = [];
+        } else if (!Array.isArray(log)) {
+          log = [log];
+        }
+
+        /**
+         * optionally prune duplicate events (see https://github.com/ethereum/web3.js/issues/398)
+         */
+        if (receivedEvents && log.length) {
+          log = log.filter((evt: DecodedLogEntryEvent<TArgs>) => {
+            if (!receivedEvents.has(evt.transactionHash)) {
+              receivedEvents.add(evt.transactionHash);
+              return true;
+            } else {
+              return false;
+            }
+          });
+        }
+        callback(error, log);
+      };
 
       const eventFetcher: EventFetcher<TArgs> = {
 
         get(callback?: EventCallback<TArgs>): void {
           baseEvent.get((error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>) => {
-            if (!!error) {
-              log = [];
-            } else if (!Array.isArray(log)) {
-              log = [log];
-            }
-            callback(error, log);
+            handleEvent(error, log, callback);
           });
         },
 
         watch(callback?: EventCallback<TArgs>): void {
           baseEvent.watch((error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>) => {
-            if (!!error) {
-              log = [];
-            } else if (!Array.isArray(log)) {
-              log = [log];
-            }
-            callback(error, log);
+            handleEvent(error, log, callback);
           });
         },
 
@@ -350,6 +375,7 @@ export interface TransactionReceipt {
  * any event of given type sent from this contract.  Default is {}.
  *
  * filterObject - Additional filter options.  Typically something like { from: "latest" }.
+ * Note if you don't want Arc.js to suppress duplicate events, set `suppressDups` to false.
  *
  * callback - (optional) If you pass a callback it will immediately
  * start watching.  Otherwise you will need to call .get or .watch.
@@ -377,11 +403,19 @@ export interface EventFetcher<TArgs> {
 
 export type LogTopic = null | string | Array<string>;
 
+/**
+ * Options supplied to `EventFetcherFactory` and thence to `get and `watch`.
+ */
 export interface FilterObject {
   fromBlock?: number | string;
   toBlock?: number | string;
   address?: string;
   topics?: Array<LogTopic>;
+  /**
+   * true to suppress duplicate events (see https://github.com/ethereum/web3.js/issues/398).
+   * The default is true.
+   */
+  suppressDups?: boolean;
 }
 
 export interface LogEntry {

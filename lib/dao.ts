@@ -2,6 +2,7 @@
 import { AvatarService } from "./avatarService";
 import { Address, fnVoid, Hash } from "./commonTypes";
 import { ContractWrapperBase, DecodedLogEntryEvent } from "./contractWrapperBase";
+import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
 import { DaoCreatorFactory, DaoCreatorWrapper } from "./wrappers/daocreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult, SchemesConfig } from "./wrappers/daocreator";
@@ -55,7 +56,7 @@ export class DAO {
   /**
    * Returns the promise of the DAOstack Genesis avatar address, or undefined if not found
    */
-  public static async getGenesisDao(daoCreatorAddress: Address): Promise<string> {
+  public static async getGenesisDao(daoCreatorAddress?: Address): Promise<string> {
     return new Promise<string>(
       async (resolve: (address: Address) => void, reject: (ex: any) => void): Promise<void> => {
         try {
@@ -68,10 +69,56 @@ export class DAO {
            * this first DAO returned will be DAOstack
            */
           event.get((err: any, log: Array<DecodedLogEntryEvent<InitialSchemesSetEventResult>>) => {
+            if (err) {
+              LoggingService.error(`getGenesisDao: Error obtaining Genesis Dao: ${err}`);
+              reject(err);
+            }
             avatarAddress = log[0].args._avatar;
             resolve(avatarAddress);
           });
         } catch (ex) {
+          reject(ex);
+        }
+      });
+  }
+
+  /**
+   * Return a promise of an array of avatar addresses for all of the DAOs created by the optionally-given
+   * DaoCreator contract.  The default DaoCreator is the one deployed by
+   * the running version of Arc.js.
+   *
+   * An alternative DaoCreator must implement an InitialSchemesSet event just like the
+   * Arc DaoCreater.
+   * @param options
+   */
+  public static async getDaos(options: GetDaosOptions): Promise<Array<Address>> {
+    return new Promise<Array<Address>>(
+      async (resolve: (daos: Array<Address>) => void, reject: (error: Error) => void): Promise<void> => {
+        try {
+          const daos = new Array<Address>();
+
+          const daoCreator =
+            options.daoCreatorAddress ?
+              await WrapperService.factories.DaoCreator
+                .at(options.daoCreatorAddress) : WrapperService.wrappers.DaoCreator;
+
+          const initSchemesEvent = daoCreator.InitialSchemesSet({}, { fromBlock: 0 });
+
+          initSchemesEvent.get(async (err: any, log: Array<DecodedLogEntryEvent<InitialSchemesSetEventResult>>) => {
+            if (err) {
+              LoggingService.error(`getDaos: Error obtaining DAOs: ${err}`);
+              reject(err);
+            }
+            for (const event of log) {
+              const avatarAddress = event.args._avatar;
+              LoggingService.debug(`getDaos: loaded dao: ${avatarAddress}`);
+              daos.push(avatarAddress);
+            }
+            LoggingService.debug("Finished loading daos");
+            resolve(daos);
+          });
+        } catch (ex) {
+          LoggingService.error(`getDaos: Error obtaining DAOs: ${ex}`);
           reject(ex);
         }
       });
@@ -337,4 +384,8 @@ export interface ControllerAddGlobalConstraintsEventLogEntry {
 
 export interface ControllerRegisterSchemeEventLogEntry {
   _scheme: Address;
+}
+
+export interface GetDaosOptions {
+  daoCreatorAddress?: Address;
 }

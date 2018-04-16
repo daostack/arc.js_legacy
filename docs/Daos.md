@@ -262,3 +262,17 @@ The DAOstack DAO is named "Genesis".  Use [DAO.getGenesisDao](api/classes/DAO#ge
 ```javascript
 const genesisDaoAddress = await DAO.getGenesisDao();
 ```
+
+### Get all the DAOs
+
+You can obtain all of the DAOs that have been created by the DaoCreator that was deployed by the currently-running version of Arc.js:
+
+```javascript
+const avatarAddresses = await DAO.getDaos({});
+```
+
+Or all of the DAOs created by a specific DaoCreator:
+
+```javascript
+const avatarAddresses = await DAO.getDaos({"daoCreatorAddress": [anAddress]});
+```
