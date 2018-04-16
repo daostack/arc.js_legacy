@@ -41,7 +41,7 @@ Now you are ready to handle "txReceipts.DAO.new" events whenever you call `DAO.n
 You can supply additional information in the options passed to the invoked function which are then passed back to you in the event callbacks (`txEventInfo.options`, above). For example, you may desire a tighter coupling between the events and a specific function invocation, and for you the kick-off event and invocationKey may not suffice.  In that case you could do something like:
 
 ```javascript
-options.myInvocationkey = `TransactionService.generateInvocationKey("DAO.new")`;
+options.myInvocationkey = TransactionService.generateInvocationKey("DAO.new");
 ```
 
 to generate a unique invocationKey.  Every call to `generateInvocationKey` generates a unique `Symbol`, regardless of the input.
