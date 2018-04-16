@@ -870,14 +870,10 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error(`proposingRepRewardConstA must be less than ${maxEthValue}`);
     }
 
-    const proposingRepRewardConstB = web3.toBigNumber(params.proposingRepRewardConstB);
+    const proposingRepRewardConstB = params.proposingRepRewardConstB || 0;
 
-    if (proposingRepRewardConstB.lt(0)) {
-      throw new Error("proposingRepRewardConstB must be greater than or equal to 0");
-    }
-
-    if (proposingRepRewardConstB.gt(maxEthValue)) {
-      throw new Error(`proposingRepRewardConstB must be less than ${maxEthValue}`);
+    if ((proposingRepRewardConstB < 0) || (proposingRepRewardConstB > 100)) {
+      throw new Error("proposingRepRewardConstB must be greater than or equal to 0 and less than or equal to 100");
     }
 
     const thresholdConstA = web3.toBigNumber(params.thresholdConstA);
@@ -1072,11 +1068,12 @@ export interface GenesisProtocolParams {
    */
   proposingRepRewardConstA: BigNumber.BigNumber | string;
   /**
-   * Constant B in the calculation of the proposer's reward, in Wei
+   * Constant B in the calculation of the proposer's reward.
    * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
-   * Default is 5, converted to Wei.
+   * Must be between 0 and 100.
+   * Default is 1.
    */
-  proposingRepRewardConstB: BigNumber.BigNumber | string;
+  proposingRepRewardConstB: number;
   /**
    * The percentage of a stake that is given to all voters.
    * Voters (pre and during boosting period) share this amount in proportion to their reputation.
@@ -1435,7 +1432,7 @@ export const GetDefaultGenesisProtocolParameters = (): GenesisProtocolParams => 
     preBoostedVotePeriodLimit: 5184000, // 2 months
     preBoostedVoteRequiredPercentage: 50,
     proposingRepRewardConstA: web3.toWei(5),
-    proposingRepRewardConstB: web3.toWei(5),
+    proposingRepRewardConstB: 1,
     quietEndingPeriod: 7200, // Two hours
     stakerFeeRatioForVoters: 1,
     thresholdConstA: web3.toWei(2),
