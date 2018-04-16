@@ -125,7 +125,7 @@ module.exports = {
        * Truffle will merge this migration with whatever previous ones are already present in the contract json files.
        *
        * Run migrateContracts.fetchFromArc first if you want to start with fresh unmigrated contracts from @daostack/arc.
-       * 
+       *
        * --reset is for ganacheDb to not crash on re-migration
        */
       default: series(
