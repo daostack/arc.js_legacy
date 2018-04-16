@@ -95,8 +95,7 @@ export class DAO {
     return new Promise<Array<Address>>(
       async (resolve: (daos: Array<Address>) => void, reject: (error: Error) => void): Promise<void> => {
         try {
-          // use Set to avoid dups
-          const daos = new Set<Address>();
+          const daos = new Array<Address>();
 
           const daoCreator =
             options.daoCreatorAddress ?
@@ -113,10 +112,10 @@ export class DAO {
             for (const event of log) {
               const avatarAddress = event.args._avatar;
               LoggingService.debug(`getDaos: loaded dao: ${avatarAddress}`);
-              daos.add(avatarAddress);
+              daos.push(avatarAddress);
             }
             LoggingService.debug("Finished loading daos");
-            resolve(Array.from(daos));
+            resolve(daos);
           });
         } catch (ex) {
           LoggingService.error(`getDaos: Error obtaining DAOs: ${ex}`);
