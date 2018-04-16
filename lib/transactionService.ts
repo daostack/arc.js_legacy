@@ -31,7 +31,7 @@ export class TransactionService extends EventService {
     topic: string,
     options: any,
     txCount: number,
-    suppressKickOff: boolean = false): TransactionEventInfo {
+    suppressKickOff: boolean = false): TransactionReceiptsEventInfo {
 
     const payload = {
       invocationKey: TransactionService.generateInvocationKey(topic),
@@ -58,7 +58,7 @@ export class TransactionService extends EventService {
    * @param tx the transaction.  Don't supply for kick-off event.
    * @returns True if there are any subscribers
    */
-  public static publishTxEvent(topic: string, payload: TransactionEventInfo, tx?: TransactionReceiptTruffle): boolean {
+  public static publishTxEvent(topic: string, payload: TransactionReceiptsEventInfo, tx?: TransactionReceiptTruffle): boolean {
     if (tx) {
       payload = Object.assign({}, payload, { tx });
     }
@@ -75,9 +75,9 @@ export class TransactionService extends EventService {
   public static resendTxEvents(
     topics: Array<string> | string,
     superTopic: string,
-    superPayload: TransactionEventInfo): IEventSubscription {
+    superPayload: TransactionReceiptsEventInfo): IEventSubscription {
 
-    return EventService.subscribe(topics, (topic: string, txEventInfo: TransactionEventInfo) => {
+    return EventService.subscribe(topics, (topic: string, txEventInfo: TransactionReceiptsEventInfo) => {
       if (txEventInfo.tx) { // skip kick-off events
         TransactionService.publishTxEvent(superTopic, superPayload, txEventInfo.tx);
       }
@@ -88,7 +88,7 @@ export class TransactionService extends EventService {
 /**
  * Information supplied to the event callback when the event is published.
  */
-export interface TransactionEventInfo {
+export interface TransactionReceiptsEventInfo {
   /**
    * A value that is unique to the invocation of the function that is publishing the event.
    * This is useful for grouping events by a single function invocation.

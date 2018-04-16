@@ -186,7 +186,7 @@ pages:
   - StakeEventResult : 'api/interfaces/StakeEventResult.md'
   - StandardSchemeParams : 'api/interfaces/StandardSchemeParams.md'
   - TokenCapGcParams : 'api/interfaces/TokenCapGcParams.md'
-  - TransactionEventInfo : 'api/interfaces/TransactionEventInfo.md'
+  - TransactionReceiptsEventInfo : 'api/interfaces/TransactionReceiptsEventInfo.md'
   - TransactionReceipt : 'api/interfaces/TransactionReceipt.md'
   - TransactionReceiptTruffle : 'api/interfaces/TransactionReceiptTruffle.md'
   - VoteConfig : 'api/interfaces/VoteConfig.md'
