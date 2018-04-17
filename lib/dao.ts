@@ -3,10 +3,11 @@ import { AvatarService } from "./avatarService";
 import { Address, fnVoid, Hash } from "./commonTypes";
 import { ContractWrapperBase, DecodedLogEntryEvent } from "./contractWrapperBase";
 import { LoggingService } from "./loggingService";
+import { TransactionService } from "./transactionService";
 import { Utils } from "./utils";
 import { DaoCreatorFactory, DaoCreatorWrapper } from "./wrappers/daocreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult, SchemesConfig } from "./wrappers/daocreator";
-import { WrapperService } from "./wrapperService.js";
+import { WrapperService } from "./wrapperService";
 
 /**
  * Helper class and factory for DAOs.
@@ -27,11 +28,36 @@ export class DAO {
       daoCreator = WrapperService.wrappers.DaoCreator;
     }
 
-    const result = await daoCreator.forgeOrg(options);
+    const eventTopic = "txReceipts.DAO.new";
 
-    const avatarAddress = result.getValueFromTx("_avatar", "NewOrg");
+    const txReceiptEventPayload = TransactionService.publishKickoffEvent(
+      eventTopic,
+      options,
+      daoCreator.forgeOrgTransactionsCount(options) + daoCreator.setSchemesTransactionsCount(options));
 
-    await daoCreator.setSchemes(Object.assign({ avatar: avatarAddress }, options));
+    /**
+     * subscribe to all "txReceipts..DaoCreator" and republish as eventTopic with txReceiptEventPayload
+     */
+    const eventSubscription = TransactionService.resendTxEvents(
+      "txReceipts.DaoCreator",
+      eventTopic,
+      txReceiptEventPayload);
+
+    let avatarAddress;
+
+    try {
+      const result = await daoCreator.forgeOrg(options);
+
+      avatarAddress = result.getValueFromTx("_avatar", "NewOrg");
+
+      if (!avatarAddress) {
+        throw new Error("avatar address is not defined");
+      }
+
+      await daoCreator.setSchemes(Object.assign({ avatar: avatarAddress }, options));
+    } finally {
+      eventSubscription.unsubscribe();
+    }
 
     return DAO.at(avatarAddress);
   }

@@ -267,17 +267,17 @@ export class WrapperService {
 
 }
 
-export class WrapperFilter {
-  public AbsoluteVote: boolean = true;
-  public ContributionReward: boolean = true;
-  public DaoCreator: boolean = true;
-  public GenesisProtocol: boolean = true;
-  public GlobalConstraintRegistrar: boolean = true;
-  public SchemeRegistrar: boolean = true;
-  public TokenCapGC: boolean = true;
-  public UpgradeScheme: boolean = true;
-  public VestingScheme: boolean = true;
-  public VoteInOrganizationScheme: boolean = true;
+export interface WrapperFilter {
+  AbsoluteVote: boolean;
+  ContributionReward: boolean;
+  DaoCreator: boolean;
+  GenesisProtocol: boolean;
+  GlobalConstraintRegistrar: boolean;
+  SchemeRegistrar: boolean;
+  TokenCapGC: boolean;
+  UpgradeScheme: boolean;
+  VestingScheme: boolean;
+  VoteInOrganizationScheme: boolean;
 }
 
 export interface WrapperServiceInitializeOptions {

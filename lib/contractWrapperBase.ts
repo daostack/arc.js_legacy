@@ -2,6 +2,7 @@ import { AvatarService } from "./avatarService";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { ContractWrapperFactory } from "./contractWrapperFactory";
 import { LoggingService } from "./loggingService";
+import { TransactionService } from "./transactionService";
 import { Utils } from "./utils";
 /**
  * Abstract base class for all Arc contract wrapper classes
@@ -104,9 +105,16 @@ export abstract class ContractWrapperBase {
    * @param {any} params -- parameters as the contract.setParameters function expects them.
    */
   public async setParameters(...params: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
+
     const parametersHash: Hash = await this.contract.getParametersHash(...params);
-    const tx: TransactionReceiptTruffle = await this.contract.setParameters(...params);
-    return new ArcTransactionDataResult<Hash>(tx, parametersHash);
+
+    const txResult = await this.wrapTransactionInvocation("txReceipts.ContractWrapper.setParameters",
+      params,
+      () => {
+        return this.contract.setParameters(...params);
+      });
+
+    return new ArcTransactionDataResult<Hash>(txResult.tx, parametersHash);
   }
 
   /**
@@ -275,6 +283,27 @@ export abstract class ContractWrapperBase {
     if (!params.votingMachineAddress) {
       throw new Error(`votingMachineAddress is not defined`);
     }
+  }
+
+  /**
+   * Wrap code that creates a transaction in the given transaction event. This is a helper
+   * just for the common case of generating a single transaction.
+   * @param eventTopic
+   * @param options
+   * @param generateTx
+   */
+  protected async wrapTransactionInvocation(
+    eventTopic: string,
+    options: any,
+    generateTx: () => Promise<TransactionReceiptTruffle>): Promise<ArcTransactionResult> {
+
+    const txReceiptEventPayload = TransactionService.publishKickoffEvent(eventTopic, options, 1);
+
+    const tx = await generateTx();
+
+    TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
+
+    return new ArcTransactionResult(tx);
   }
 }
 

@@ -1,5 +1,4 @@
 "use strict";
-import dopts = require("default-options");
 import { AvatarService } from "../avatarService";
 import {
   Address,
@@ -22,6 +21,7 @@ import {
   StandardSchemeParams,
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
+import { TransactionService } from "../transactionService";
 import { Utils } from "../utils";
 import {
   ProposalDeletedEventResult,
@@ -50,29 +50,24 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
 
   /**
    * Submit a proposal for a reward for a contribution
-   * @param {ProposeContributionRewardParams} opts
+   * @param {ProposeContributionRewardParams} options
    */
   public async proposeContributionReward(
-    opts: ProposeContributionRewardParams = {} as ProposeContributionRewardParams)
+    options: ProposeContributionRewardParams = {} as ProposeContributionRewardParams)
     : Promise<ArcTransactionProposalResult> {
     /**
      * Note that explicitly supplying any property with a value of undefined will prevent the property
      * from taking on its default value (weird behavior of default-options)
      */
     const defaults = {
-      avatar: undefined,
-      beneficiaryAddress: undefined,
-      description: undefined,
       ethReward: 0,
       externalToken: null,
       externalTokenReward: 0,
       nativeTokenReward: 0,
-      numberOfPeriods: undefined,
-      periodLength: undefined,
       reputationChange: 0,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeContributionRewardParams;
+    options = Object.assign({}, defaults, options) as ProposeContributionRewardParams;
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
@@ -87,7 +82,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
     }
 
     if (!Number.isInteger(options.periodLength) || (options.periodLength <= 0)) {
-      throw new Error("periodLength must be greater than zero");
+      throw new Error("periodLength must be an integer greater than zero");
     }
 
     /**
@@ -130,17 +125,27 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
     }
 
     const orgNativeTokenFee = (await this.getSchemeParameters(options.avatar)).orgNativeTokenFee;
+    const autoApproveTransfer = ConfigService.get("autoApproveTokenTransfers") && (orgNativeTokenFee.toNumber() > 0);
 
-    if (ConfigService.get("autoApproveTokenTransfers") && (orgNativeTokenFee.toNumber() > 0)) {
+    const eventTopic = "txReceipts.ContributionReward.proposeContributionReward";
+
+    const txReceiptEventPayload = TransactionService.publishKickoffEvent(
+      eventTopic,
+      options,
+      1 + (autoApproveTransfer ? 1 : 0));
+
+    let tx;
+    if (autoApproveTransfer) {
       /**
        * approve immediate transfer of native tokens from msg.sender to the avatar
        */
       const avatarService = new AvatarService(options.avatar);
       const token = await avatarService.getNativeToken();
-      await token.approve(this.address, orgNativeTokenFee, { from: await Utils.getDefaultAccount() });
+      tx = await token.approve(this.address, orgNativeTokenFee, { from: await Utils.getDefaultAccount() });
+      TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
     }
 
-    const tx = await this.contract.proposeContributionReward(
+    tx = await this.contract.proposeContributionReward(
       options.avatar,
       Utils.SHA3(options.description),
       reputationChange,
@@ -148,6 +153,9 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       options.externalToken,
       options.beneficiaryAddress
     );
+
+    TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
+
     return new ArcTransactionProposalResult(tx);
   }
 
@@ -156,18 +164,16 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
    * @param {ContributionRewardRedeemParams} opts
    */
   public async redeemContributionReward(
-    opts: ContributionRewardRedeemParams = {} as ContributionRewardRedeemParams)
+    options: ContributionRewardRedeemParams = {} as ContributionRewardRedeemParams)
     : Promise<ArcTransactionResult> {
     const defaults = {
-      avatar: undefined,
       ethers: false,
       externalTokens: false,
       nativeTokens: false,
-      proposalId: undefined,
       reputation: false,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true }) as ContributionRewardRedeemParams;
+    options = Object.assign({}, defaults, options) as ContributionRewardRedeemParams;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -177,29 +183,24 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
-    const tx = await this.contract.redeem(
-      options.proposalId,
-      options.avatar,
-      [options.reputation, options.nativeTokens, options.ethers, options.externalTokens]
-    );
-
-    return new ArcTransactionResult(tx);
+    return this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemContributionReward",
+      options,
+      () => {
+        return this.contract.redeem(
+          options.proposalId,
+          options.avatar,
+          [options.reputation, options.nativeTokens, options.ethers, options.externalTokens]
+        );
+      });
   }
 
   /**
    * Redeem external token reward for the beneficiary of the proposal
-   * @param {ContributionRewardSpecifiedRedemptionParams} opts
+   * @param {ContributionRewardSpecifiedRedemptionParams} options
    */
   public async redeemExternalToken(
-    opts: ContributionRewardSpecifiedRedemptionParams = {} as ContributionRewardSpecifiedRedemptionParams)
+    options: ContributionRewardSpecifiedRedemptionParams = {} as ContributionRewardSpecifiedRedemptionParams)
     : Promise<ArcTransactionResult> {
-
-    const defaults = {
-      avatar: undefined,
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as ContributionRewardSpecifiedRedemptionParams;
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -209,28 +210,23 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
-    const tx = await this.contract.redeemExternalToken(
-      options.proposalId,
-      options.avatar
-    );
-
-    return new ArcTransactionResult(tx);
+    return this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemExternalReward",
+      options,
+      () => {
+        return this.contract.redeemExternalToken(
+          options.proposalId,
+          options.avatar
+        );
+      });
   }
 
   /**
    * Redeem reputation reward for the beneficiary of the proposal
-   * @param {ContributionRewardSpecifiedRedemptionParams} opts
+   * @param {ContributionRewardSpecifiedRedemptionParams} options
    */
   public async redeemReputation(
-    opts: ContributionRewardSpecifiedRedemptionParams = {} as ContributionRewardSpecifiedRedemptionParams)
+    options: ContributionRewardSpecifiedRedemptionParams = {} as ContributionRewardSpecifiedRedemptionParams)
     : Promise<ArcTransactionResult> {
-
-    const defaults = {
-      avatar: undefined,
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true });
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -240,28 +236,23 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
-    const tx = await this.contract.redeemReputation(
-      options.proposalId,
-      options.avatar
-    );
-
-    return new ArcTransactionResult(tx);
+    return this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemReputation",
+      options,
+      () => {
+        return this.contract.redeemReputation(
+          options.proposalId,
+          options.avatar
+        );
+      });
   }
 
   /**
    * Redeem native token reward for the beneficiary of the proposal
-   * @param {ContributionRewardSpecifiedRedemptionParams} opts
+   * @param {ContributionRewardSpecifiedRedemptionParams} options
    */
   public async redeemNativeToken(
-    opts: ContributionRewardSpecifiedRedemptionParams = {} as ContributionRewardSpecifiedRedemptionParams)
+    options: ContributionRewardSpecifiedRedemptionParams = {} as ContributionRewardSpecifiedRedemptionParams)
     : Promise<ArcTransactionResult> {
-
-    const defaults = {
-      avatar: undefined,
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true });
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -271,28 +262,23 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
-    const tx = await this.contract.redeemNativeToken(
-      options.proposalId,
-      options.avatar
-    );
-
-    return new ArcTransactionResult(tx);
+    return this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemNativeToken",
+      options,
+      () => {
+        return this.contract.redeemNativeToken(
+          options.proposalId,
+          options.avatar
+        );
+      });
   }
 
   /**
    * Redeem ether reward for the beneficiary of the proposal
-   * @param {ContributionRewardSpecifiedRedemptionParams} opts
+   * @param {ContributionRewardSpecifiedRedemptionParams} options
    */
   public async redeemEther(
-    opts: ContributionRewardSpecifiedRedemptionParams = {} as ContributionRewardSpecifiedRedemptionParams)
+    options: ContributionRewardSpecifiedRedemptionParams = {} as ContributionRewardSpecifiedRedemptionParams)
     : Promise<ArcTransactionResult> {
-
-    const defaults = {
-      avatar: undefined,
-      proposalId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true });
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -302,12 +288,14 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
-    const tx = await this.contract.redeemEther(
-      options.proposalId,
-      options.avatar
-    );
-
-    return new ArcTransactionResult(tx);
+    return this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemEther",
+      options,
+      () => {
+        return this.contract.redeemEther(
+          options.proposalId,
+          options.avatar
+        );
+      });
   }
 
   /**
@@ -315,14 +303,13 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
    * Filter by the optional proposalId.
    */
   public async getDaoProposals(
-    opts: GetDaoProposalsConfig = {} as GetDaoProposalsConfig): Promise<Array<ContributionProposal>> {
+    options: GetDaoProposalsConfig = {} as GetDaoProposalsConfig): Promise<Array<ContributionProposal>> {
 
-    const defaults: GetDaoProposalsConfig = {
-      avatar: undefined,
+    const defaults = {
       proposalId: null,
     };
 
-    const options: GetDaoProposalsConfig = dopts(opts, defaults, { allowUnknown: true });
+    options = Object.assign({}, defaults, options);
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
@@ -357,19 +344,17 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
    * that have rewards waiting to be redeemed by the given beneficiary.
    * `ProposalRewards` includes both the total amount redeemable and the amount
    * yet-to-be redeemed.
-   * @param {GetBeneficiaryRewardsParams} opts
+   * @param {GetBeneficiaryRewardsParams} options
    */
   public async getBeneficiaryRewards(
-    opts: GetBeneficiaryRewardsParams = {} as GetBeneficiaryRewardsParams)
+    options: GetBeneficiaryRewardsParams = {} as GetBeneficiaryRewardsParams)
     : Promise<Array<ProposalRewards>> {
 
     const defaults = {
-      avatar: undefined,
-      beneficiaryAddress: undefined,
       proposalId: null,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true }) as GetBeneficiaryRewardsParams;
+    options = Object.assign({}, defaults, options);
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");

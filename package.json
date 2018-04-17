@@ -65,15 +65,17 @@
     "ethereumjs-abi": "^0.6.5",
     "fs-extra": "^5.0.0",
     "ganache-cli": "^6.1.0",
-    "truffle-core-migrate-without-compile": "^4.0.7",
     "node-glob": "^1.2.0",
     "nps": "^5.7.1",
     "nps-utils": "^1.5.0",
     "path.join": "^1.0.0",
-    "truffle-contract": "^3.0.1"
+    "pubsub-js": "^1.6.0",
+    "truffle-contract": "^3.0.1",
+    "truffle-core-migrate-without-compile": "^4.0.7"
   },
   "devDependencies": {
     "@daostack/arc": "0.0.0-alpha.38",
+    "@types/pubsub-js": "^1.5.18",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "chai": "^4.1.2",

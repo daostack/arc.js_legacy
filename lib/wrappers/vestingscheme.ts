@@ -1,6 +1,5 @@
 "use strict";
 import * as BigNumber from "bignumber.js";
-import dopts = require("default-options");
 import { Address, DefaultSchemePermissions, fnVoid, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
 import { ConfigService } from "../configService";
 import {
@@ -14,6 +13,7 @@ import {
   TransactionReceiptTruffle,
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
+import { TransactionService } from "../transactionService";
 import { Utils } from "../utils";
 import { ProposalExecutedEventResult } from "./commonEventInterfaces";
 
@@ -53,17 +53,15 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
 
   /**
    * Propose a new vesting agreement
-   * @param {ProposeVestingAgreementConfig} opts
+   * @param {ProposeVestingAgreementConfig} options
    */
   public async propose(
-    opts: ProposeVestingAgreementConfig = {} as ProposeVestingAgreementConfig)
+    options: ProposeVestingAgreementConfig = {} as ProposeVestingAgreementConfig)
     : Promise<ArcTransactionProposalResult> {
     /**
      * see ProposeVestingAgreementConfig
      */
-    const options = dopts(opts,
-      Object.assign({ avatar: undefined }, this.defaultCreateOptions),
-      { allowUnknown: true }) as ProposeVestingAgreementConfig;
+    options = Object.assign({}, this.defaultCreateOptions, options);
 
     if (!options.avatar) {
       throw new Error("avatar is not defined");
@@ -71,33 +69,37 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
 
     await this.validateCreateParams(options);
 
-    const tx = await this.contract.proposeVestingAgreement(
-      options.beneficiaryAddress,
-      options.returnOnCancelAddress,
-      options.startingBlock,
-      Utils.getWeb3().toBigNumber(options.amountPerPeriod),
-      options.periodLength,
-      options.numOfAgreedPeriods,
-      options.cliffInPeriods,
-      options.signaturesReqToCancel,
-      options.signers,
-      options.avatar
-    );
+    const txResult = await this.wrapTransactionInvocation("txReceipts.VestingScheme.propose",
+      options,
+      () => {
+        return this.contract.proposeVestingAgreement(
+          options.beneficiaryAddress,
+          options.returnOnCancelAddress,
+          options.startingBlock,
+          Utils.getWeb3().toBigNumber(options.amountPerPeriod),
+          options.periodLength,
+          options.numOfAgreedPeriods,
+          options.cliffInPeriods,
+          options.signaturesReqToCancel,
+          options.signers,
+          options.avatar
+        );
+      });
 
-    return new ArcTransactionProposalResult(tx);
+    return new ArcTransactionProposalResult(txResult.tx);
   }
 
   /**
    * Create a new vesting agreement
-   * @param {CreateVestingAgreementConfig} opts
+   * @param {CreateVestingAgreementConfig} options
    */
   public async create(
-    opts: CreateVestingAgreementConfig = {} as CreateVestingAgreementConfig)
+    options: CreateVestingAgreementConfig = {} as CreateVestingAgreementConfig)
     : Promise<ArcTransactionAgreementResult> {
     /**
      * See these properties in CreateVestingAgreementConfig
      */
-    const options = dopts(opts, this.defaultCreateOptions, { allowUnknown: true }) as CreateVestingAgreementConfig;
+    options = Object.assign({}, this.defaultCreateOptions, options);
 
     await this.validateCreateParams(options);
 
@@ -106,16 +108,25 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
     }
 
     const amountPerPeriod = Utils.getWeb3().toBigNumber(options.amountPerPeriod);
+    const autoApproveTransfer = ConfigService.get("autoApproveTokenTransfers");
+    const eventTopic = "txReceipts.VestingScheme.create";
 
+    const txReceiptEventPayload = TransactionService.publishKickoffEvent(
+      eventTopic,
+      options,
+      1 + (autoApproveTransfer ? 1 : 0));
+
+    let tx;
     /**
      * approve immediate transfer of the given tokens from currentAccount to the VestingScheme
      */
-    if (ConfigService.get("autoApproveTokenTransfers")) {
+    if (autoApproveTransfer) {
       const token = await (await Utils.requireContract("StandardToken")).at(options.token) as any;
-      await token.approve(this.address, amountPerPeriod.mul(options.numOfAgreedPeriods));
+      tx = await token.approve(this.address, amountPerPeriod.mul(options.numOfAgreedPeriods));
+      TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
     }
 
-    const tx = await this.contract.createVestedAgreement(
+    tx = await this.contract.createVestedAgreement(
       options.token,
       options.beneficiaryAddress,
       options.returnOnCancelAddress,
@@ -128,82 +139,66 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
       options.signers
     );
 
+    TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
+
     return new ArcTransactionAgreementResult(tx);
   }
 
   /**
    * Sign to cancel a vesting agreement
-   * @param {SignToCancelVestingAgreementConfig} opts
+   * @param {SignToCancelVestingAgreementConfig} options
    */
   public async signToCancel(
-    opts: SignToCancelVestingAgreementConfig = {} as SignToCancelVestingAgreementConfig)
+    options: SignToCancelVestingAgreementConfig = {} as SignToCancelVestingAgreementConfig)
     : Promise<ArcTransactionResult> {
-    /**
-     * See these properties in SignToCancelVestingAgreementConfig
-     */
-    const defaults = {
-      agreementId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as SignToCancelVestingAgreementConfig;
 
     if (options.agreementId === null) {
       throw new Error("agreementId is not defined");
     }
 
-    const tx = await this.contract.signToCancelAgreement(options.agreementId);
-
-    return new ArcTransactionResult(tx);
+    return this.wrapTransactionInvocation("txReceipts.VestingScheme.signToCancel",
+      options,
+      () => {
+        return this.contract.signToCancelAgreement(options.agreementId);
+      });
   }
 
   /**
    * Revoke vote for cancelling a vesting agreement
-   * @param {RevokeSignToCancelVestingAgreementConfig} opts
+   * @param {RevokeSignToCancelVestingAgreementConfig} options
    */
   public async revokeSignToCancel(
-    opts: RevokeSignToCancelVestingAgreementConfig = {} as RevokeSignToCancelVestingAgreementConfig)
+    options: RevokeSignToCancelVestingAgreementConfig = {} as RevokeSignToCancelVestingAgreementConfig)
     : Promise<ArcTransactionResult> {
-    /**
-     * See these properties in RevokeSignToCancelVestingAgreementConfig
-     */
-    const defaults = {
-      agreementId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as RevokeSignToCancelVestingAgreementConfig;
 
     if (options.agreementId === null) {
       throw new Error("agreementId is not defined");
     }
 
-    const tx = await this.contract.revokeSignToCancelAgreement(options.agreementId);
-
-    return new ArcTransactionResult(tx);
+    return this.wrapTransactionInvocation("txReceipts.VestingScheme.revokeSignToCancel",
+      options,
+      () => {
+        return this.contract.revokeSignToCancelAgreement(options.agreementId);
+      });
   }
 
   /**
    * Collects for a beneficiary, according to the agreement
-   * @param {CollectVestingAgreementConfig} opts
+   * @param {CollectVestingAgreementConfig} options
    */
   public async collect(
-    opts: CollectVestingAgreementConfig = {} as CollectVestingAgreementConfig)
+    options: CollectVestingAgreementConfig = {} as CollectVestingAgreementConfig)
     : Promise<ArcTransactionResult> {
-    /**
-     * See these properties in CollectVestingAgreementConfig
-     */
-    const defaults = {
-      agreementId: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true }) as CollectVestingAgreementConfig;
 
     if (options.agreementId === null) {
       throw new Error("agreementId is not defined");
     }
 
-    const tx = await this.contract.collect(options.agreementId);
-
-    return new ArcTransactionResult(tx);
+    return this.wrapTransactionInvocation("txReceipts.VestingScheme.revokeSignToCancel",
+      options,
+      () => {
+        return this.contract.collect(options.agreementId);
+      });
   }
 
   /**
@@ -211,14 +206,13 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
    * Filter by the optional agreementId.
    */
   public async getAgreements(
-    opts: GetAgreementParams = {} as GetAgreementParams): Promise<Array<Agreement>> {
+    options: GetAgreementParams = {} as GetAgreementParams): Promise<Array<Agreement>> {
 
-    const defaults: GetAgreementParams = {
+    const defaults = {
       agreementId: null,
-      avatar: undefined,
     };
 
-    const options: GetAgreementParams = dopts(opts, defaults, { allowUnknown: true });
+    options = Object.assign({}, defaults, options);
 
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
@@ -281,7 +275,7 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
 
   private async validateCreateParams(options: CommonVestingAgreementConfig): Promise<void> {
     if (!Number.isInteger(options.periodLength) || (options.periodLength <= 0)) {
-      throw new Error("periodLength must be greater than zero");
+      throw new Error("periodLength must be an integer greater than zero");
     }
 
     if (Utils.getWeb3().toBigNumber(options.amountPerPeriod) <= 0) {

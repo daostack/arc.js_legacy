@@ -1,5 +1,4 @@
 "use strict";
-import dopts = require("default-options");
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
 import {
   ArcTransactionDataResult,
@@ -38,7 +37,7 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
    * to add or remove schemes having greater permissions than the scheme attempting the change.
    */
   public async proposeToAddModifyScheme(
-    opts: ProposeToAddModifySchemeParams = {} as ProposeToAddModifySchemeParams)
+    options: ProposeToAddModifySchemeParams = {} as ProposeToAddModifySchemeParams)
     : Promise<ArcTransactionProposalResult> {
     /**
      * Note that explicitly supplying any property with a value of undefined will prevent the property
@@ -46,14 +45,11 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
      *
      */
     const defaults = {
-      avatar: undefined,
       permissions: null,
-      schemeAddress: undefined,
       schemeName: null,
-      schemeParametersHash: undefined,
     };
 
-    const options = dopts(opts, defaults, { allowUnknown: true }) as ProposeToAddModifySchemeParams;
+    options = Object.assign({}, defaults, options);
 
     if (!options.avatar) {
       throw new Error("avatar is not defined");
@@ -93,31 +89,23 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
       }
     }
 
-    const tx = await this.contract.proposeScheme(
-      options.avatar,
-      options.schemeAddress,
-      options.schemeParametersHash,
-      SchemePermissions.toString(permissions)
-    );
+    const txResult = await this.wrapTransactionInvocation("txReceipts.SchemeRegistrar.proposeToAddModifyScheme",
+      options,
+      () => {
+        return this.contract.proposeScheme(
+          options.avatar,
+          options.schemeAddress,
+          options.schemeParametersHash,
+          SchemePermissions.toString(permissions)
+        );
+      });
 
-    return new ArcTransactionProposalResult(tx);
+    return new ArcTransactionProposalResult(txResult.tx);
   }
 
   public async proposeToRemoveScheme(
-    opts: ProposeToRemoveSchemeParams = {} as ProposeToRemoveSchemeParams)
+    options: ProposeToRemoveSchemeParams = {} as ProposeToRemoveSchemeParams)
     : Promise<ArcTransactionProposalResult> {
-    const defaults = {
-      /**
-       * avatar address
-       */
-      avatar: undefined,
-      /**
-       * scheme address
-       */
-      schemeAddress: undefined,
-    };
-
-    const options = dopts(opts, defaults, { allowUnknown: true });
 
     if (!options.avatar) {
       throw new Error("avatar is not defined");
@@ -127,12 +115,16 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
       throw new Error("schemeAddress address is not defined");
     }
 
-    const tx = await this.contract.proposeToRemoveScheme(
-      options.avatar,
-      options.schemeAddress
-    );
+    const txResult = await this.wrapTransactionInvocation("txReceipts.SchemeRegistrar.proposeToRemoveScheme",
+      options,
+      () => {
+        return this.contract.proposeToRemoveScheme(
+          options.avatar,
+          options.schemeAddress
+        );
+      });
 
-    return new ArcTransactionProposalResult(tx);
+    return new ArcTransactionProposalResult(txResult.tx);
   }
 
   public async setParameters(params: SchemeRegistrarParams): Promise<ArcTransactionDataResult<Hash>> {
