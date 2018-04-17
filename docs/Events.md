@@ -55,15 +55,14 @@ to generate a unique invocationKey.  Every call to `generateInvocationKey` gener
 !!! note
     `txEventInfo.options` will usually contain the options you passed in, with default values added.  But in the case of `DAO.new`, it will not contain the default values.  If you need the default values then instead of subscribing to "txReceipts.DAO.new" you can subscribe to "txReceipts.DaoCreator" and receive events published by  [DaoCreatorWrapper.forgeOrg](api/classes/DaoCreatorWrapper#forgeOrg) and [DaoCreatorWrapper.setSchemes](api/classes/DaoCreatorWrapper#setSchemes).  Currently this would otherwise be the same as subscribing to "txReceipts.DAO.new", though it cannot be guaranteed it will always be the case in future versions of Arc.js.
 
-### Mapping tx
 ### Specifying Events
 You specify which event to which you wish to subscribe using a string as an event specifier (or in the code, the event "topic").  The event specifier typically incorporates an Arc contract name which will map to events published by a wrapper class for that contract.  For example, the event specifier "txReceipts.DaoCreator" refers to "txReceipts" events published by [DaoCreatorWrapper](api/classes/DaoCreatorWrapper).
 
 !!! note
-    There are a couple of exceptions when a specific contract is not involved, namely with `DAO.new` and `ContractWrapper.setParameters` (the latter covers all calls to [ContractWrapperBase.setParameters](api/classes/ContractWrapperBase#setParameters).
+    There are a couple of exceptions when a specific contract is not involved, namely with `DAO.new` and `ContractWrapper.setParameters` (the latter covers all calls to [ContractWrapperBase.setParameters](api/classes/ContractWrapperBase#setParameters) from all of the wrappers).
 
 Event specifiers are hierachical. So for example: 
    
    - "txReceipts" subscribes to all events published with that prefix (which in this case means those using [TransactionService](api/classes/TransactionService))
-   - "txReceipts.[ContractName]" subscribes to all "txReceipts" events published by the "[ContractName]Wrapper" class
+   - "txReceipts.[ContractName]" subscribes to all "txReceipts" events published by the "ContractName]Wrapper" class
    - "txReceipts.[ContractName].[functionName]" subscribes to all "txReceipts" events published by the given function in the "[ContractName]Wrapper" class
