@@ -356,6 +356,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#working-with-events" title="Working with Events" class="md-nav__link">
+    Working with Events
+  </a>
+  
+</li>
+      
       
       
       
@@ -596,8 +603,56 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/classes/DaoCreatorFactoryType/" title="DaoCreatorFactoryType" class="md-nav__link">
+      DaoCreatorFactoryType
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/classes/DaoCreatorWrapper/" title="DaoCreatorWrapper" class="md-nav__link">
       DaoCreatorWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/classes/EventService/" title="EventService" class="md-nav__link">
+      EventService
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/classes/EventSubscription/" title="EventSubscription" class="md-nav__link">
+      EventSubscription
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/classes/GenesisProtocolFactoryType/" title="GenesisProtocolFactoryType" class="md-nav__link">
+      GenesisProtocolFactoryType
     </a>
   </li>
 
@@ -656,8 +711,32 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/classes/SubscriptionCollection/" title="SubscriptionCollection" class="md-nav__link">
+      SubscriptionCollection
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/classes/TokenCapGCWrapper/" title="TokenCapGCWrapper" class="md-nav__link">
       TokenCapGCWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/classes/TransactionService/" title="TransactionService" class="md-nav__link">
+      TransactionService
     </a>
   </li>
 
@@ -706,18 +785,6 @@
   <li class="md-nav__item">
     <a href="../api/classes/VoteInOrganizationSchemeWrapper/" title="VoteInOrganizationSchemeWrapper" class="md-nav__link">
       VoteInOrganizationSchemeWrapper
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/classes/WrapperFilter/" title="WrapperFilter" class="md-nav__link">
-      WrapperFilter
     </a>
   </li>
 
@@ -1280,6 +1347,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/interfaces/GetDaosOptions/" title="GetDaosOptions" class="md-nav__link">
+      GetDaosOptions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/interfaces/GetNumberOfChoicesConfig/" title="GetNumberOfChoicesConfig" class="md-nav__link">
       GetNumberOfChoicesConfig
     </a>
@@ -1534,6 +1613,18 @@
   <li class="md-nav__item">
     <a href="../api/interfaces/GetWinningVoteConfig/" title="GetWinningVoteConfig" class="md-nav__link">
       GetWinningVoteConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/interfaces/IEventSubscription/" title="IEventSubscription" class="md-nav__link">
+      IEventSubscription
     </a>
   </li>
 
@@ -2144,6 +2235,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/interfaces/TransactionReceiptsEventInfo/" title="TransactionReceiptsEventInfo" class="md-nav__link">
+      TransactionReceiptsEventInfo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/interfaces/TransactionReceiptTruffle/" title="TransactionReceiptTruffle" class="md-nav__link">
       TransactionReceiptTruffle
     </a>
@@ -2206,6 +2309,18 @@
   <li class="md-nav__item">
     <a href="../api/interfaces/VoteWithSpecifiedAmountsConfig/" title="VoteWithSpecifiedAmountsConfig" class="md-nav__link">
       VoteWithSpecifiedAmountsConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/interfaces/WrapperFilter/" title="WrapperFilter" class="md-nav__link">
+      WrapperFilter
     </a>
   </li>
 
@@ -2303,6 +2418,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#working-with-events" title="Working with Events" class="md-nav__link">
+    Working with Events
+  </a>
+  
+</li>
+      
       
       
       
@@ -2325,7 +2447,7 @@
                 <h1 id="using-arc-contract-wrappers">Using Arc Contract Wrappers<a class="headerlink" href="#using-arc-contract-wrappers" title="Permanent link">&para;</a></h1>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>Arc.js wraps several Arc contracts in a "contract wrapper" JavaScript class.  Every wrapper class inherits from <a href="../api/classes/ContractWrapperBase">ContractWrapperBase</a> providing a common set of functions and properties and specific helper functions for operations specific to the contract it wraps.</p>
-<p>Each wrapper contains a <code>contract</code> property which is the original "wrapped" Truffle contract that you can use to access all of the Truffle functionality of the specific Arc contract being wrapped.</p>
+<p>Each wrapper contains a <code>contract</code> property which is the original "wrapped" <a href="https://github.com/trufflesuite/truffle-contract">Truffle contract</a> that you can use to access all of the Truffle functionality of the specific Arc contract being wrapped.</p>
 <p>Each wrapper also contains a <code>factory</code> property.  This is the static instance of the wrapper factory class which is based on <a href="../api/classes/ContractWrapperFactory">ContractWrapperFactory<TWrapper></a> (where <code>TWrapper</code> is the type (class) of the wrapper).  Each factory contains the static methods <code>at(someAddress)</code>, <code>new()</code> and <code>deployed()</code> that you can use to instantiate the associated wrapper class.</p>
 <p>Each wrapper includes the contract's events.  Refer here for more information about <a href="../Events">how Arc.js wraps contract events</a>.</p>
 <p>Arc.js provides multiple ways to obtain contract wrappers, each optimal in particular use cases:</p>
@@ -2524,6 +2646,8 @@ and address and wish to most efficiently return the associated wrapper, or undef
 <p class="admonition-title">Info</p>
 <p><code>Utils.requireContract</code> throws an exception when there is any problem creating the truffle contract object.</p>
 </div>
+<h2 id="working-with-events">Working with Events<a class="headerlink" href="#working-with-events" title="Permanent link">&para;</a></h2>
+<p>All Arc.js wrappers publish events of various types that you can handle, including events from Arc contracts and events that enable you to track transaction as they occur.  Refer here for <a href="../Events">all about events in Arc.js</a>.</p>
                 
                   
                 
