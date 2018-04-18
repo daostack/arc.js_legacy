@@ -38,8 +38,6 @@ beforeEach(async () => {
   global.assert = assert;
   global.accounts = [];
   await etherForEveryone();
-
-  assert(LoggingService.loggers.length === 1);
 });
 
 export async function forgeDao(opts = {}) {
