@@ -80,7 +80,9 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("numOfChoices must be between 1 and 10");
     }
 
-    const txResult = await this.wrapTransactionInvocation("txReceipts.GenesisProtocol.propose",
+    this.logContractFunctionCall("GenesisProtocol.propose", options);
+
+    const txResult = await this.wrapTransactionInvocation("GenesisProtocol.propose",
       options,
       () => {
         return this.contract.propose(
@@ -151,6 +153,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
     }
 
+    this.logContractFunctionCall("GenesisProtocol.stake", options);
+
     tx = await this.contract.stake(
       options.proposalId,
       options.vote,
@@ -185,7 +189,9 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
     this._validateVote(options.vote, options.proposalId);
 
-    return this.wrapTransactionInvocation("txReceipts.GenesisProtocol.vote",
+    this.logContractFunctionCall("GenesisProtocol.vote", options);
+
+    return this.wrapTransactionInvocation("GenesisProtocol.vote",
       options,
       () => {
         return this.contract.vote(
@@ -216,7 +222,9 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("reputation is not defined");
     }
 
-    return this.wrapTransactionInvocation("txReceipts.GenesisProtocol.voteWithSpecifiedAmounts",
+    this.logContractFunctionCall("GenesisProtocol.voteWithSpecifiedAmounts", options);
+
+    return this.wrapTransactionInvocation("GenesisProtocol.voteWithSpecifiedAmounts",
       options,
       () => {
         return this.contract.voteWithSpecifiedAmounts(
@@ -243,7 +251,9 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("beneficiaryAddress is not defined");
     }
 
-    return this.wrapTransactionInvocation("txReceipts.GenesisProtocol.redeem",
+    this.logContractFunctionCall("GenesisProtocol.redeem", options);
+
+    return this.wrapTransactionInvocation("GenesisProtocol.redeem",
       options,
       () => {
         return this.contract.redeem(
@@ -264,11 +274,9 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("proposalId is not defined");
     }
 
-    const shouldBoost = await this.contract.shouldBoost(
-      options.proposalId
-    );
+    this.logContractFunctionCall("GenesisProtocol.shouldBoost", options);
 
-    return shouldBoost;
+    return this.contract.shouldBoost(options.proposalId);
   }
 
   /**
@@ -282,12 +290,10 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("proposalId is not defined");
     }
 
-    const score = await this.contract.score(
-      options.proposalId
-    );
+    this.logContractFunctionCall("GenesisProtocol.score", options);
 
-    // TODO: convert to number?
-    return score;
+    // TODO:  convert to a number?
+    return this.contract.score(options.proposalId);
   }
 
   /**
@@ -306,6 +312,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
     }
+
+    this.logContractFunctionCall("GenesisProtocol.threshold", options);
 
     const threshold = await this.contract.threshold(
       options.proposalId,
@@ -332,12 +340,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("beneficiaryAddress is not defined");
     }
 
-    const redeemAmount = await this.contract.getRedeemableTokensStaker(
+    this.logContractFunctionCall("GenesisProtocol.getRedeemableTokensStaker", options);
+
+    return this.contract.getRedeemableTokensStaker(
       options.proposalId,
       options.beneficiaryAddress
     );
-
-    return redeemAmount;
   }
 
   /**
@@ -353,11 +361,9 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("proposalId is not defined");
     }
 
-    const reputation = await this.contract.getRedeemableReputationProposer(
-      options.proposalId
-    );
+    this.logContractFunctionCall("GenesisProtocol.getRedeemableReputationProposer", options);
 
-    return reputation;
+    return this.contract.getRedeemableReputationProposer(options.proposalId);
   }
 
   /**
@@ -377,12 +383,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("beneficiaryAddress is not defined");
     }
 
-    const amount = await this.contract.getRedeemableTokensVoter(
+    this.logContractFunctionCall("GenesisProtocol.getRedeemableTokensVoter", options);
+
+    return this.contract.getRedeemableTokensVoter(
       options.proposalId,
       options.beneficiaryAddress
     );
-
-    return amount;
   }
 
   /**
@@ -402,12 +408,11 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("beneficiaryAddress is not defined");
     }
 
-    const reputation = await this.contract.getRedeemableReputationVoter(
-      options.proposalId,
-      options.beneficiaryAddress
-    );
+    this.logContractFunctionCall("GenesisProtocol.getRedeemableReputationVoter", options);
 
-    return reputation;
+    return this.contract.getRedeemableReputationVoter(
+      options.proposalId,
+      options.beneficiaryAddress);
   }
 
   /**
@@ -427,12 +432,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("beneficiaryAddress is not defined");
     }
 
-    const reputation = await this.contract.getRedeemableReputationStaker(
+    this.logContractFunctionCall("GenesisProtocol.getRedeemableReputationStaker", options);
+
+    return this.contract.getRedeemableReputationStaker(
       options.proposalId,
       options.beneficiaryAddress
     );
-
-    return reputation;
   }
 
   /**
@@ -447,6 +452,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
     }
+
+    this.logContractFunctionCall("GenesisProtocol.getNumberOfChoices", options);
 
     const numOfChoices = await this.contract.getNumberOfChoices(
       options.proposalId
@@ -471,6 +478,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     if (!options.voter) {
       throw new Error("voter is not defined");
     }
+
+    this.logContractFunctionCall("GenesisProtocol.voteInfo", options);
 
     const result = await this.contract.voteInfo(
       options.proposalId,
@@ -498,15 +507,14 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
     this._validateVote(options.vote, options.proposalId);
 
-    const reputation = await this.contract.voteStatus(
-      options.proposalId,
-      options.vote
-    );
-
+    this.logContractFunctionCall("GenesisProtocol.voteStatus", options);
     /**
      * an array of number counts for each vote choice
      */
-    return reputation;
+    return this.contract.voteStatus(
+      options.proposalId,
+      options.vote
+    );
   }
 
   /**
@@ -522,11 +530,9 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("proposalId is not defined");
     }
 
-    const votable = await this.contract.isVotable(
-      options.proposalId
-    );
+    this.logContractFunctionCall("GenesisProtocol.isVotable", options);
 
-    return votable;
+    return this.contract.isVotable(options.proposalId);
   }
 
   /**
@@ -541,6 +547,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
     }
+
+    this.logContractFunctionCall("GenesisProtocol.proposalStatus", options);
 
     const result = await this.contract.proposalStatus(
       options.proposalId
@@ -567,11 +575,9 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("proposalId is not defined");
     }
 
-    const avatar = await this.contract.proposalAvatar(
-      options.proposalId
-    );
+    this.logContractFunctionCall("GenesisProtocol.proposalAvatar", options);
 
-    return avatar;
+    return this.contract.proposalAvatar(options.proposalId);
   }
 
   /**
@@ -587,9 +593,9 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("avatar is not defined");
     }
 
-    const result = await this.contract.scoreThresholdParams(
-      options.avatar
-    );
+    this.logContractFunctionCall("GenesisProtocol.scoreThresholdParams", options);
+
+    const result = await this.contract.scoreThresholdParams(options.avatar);
 
     return {
       thresholdConstA: result[0],
@@ -613,6 +619,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     if (!options.staker) {
       throw new Error("staker is not defined");
     }
+
+    this.logContractFunctionCall("GenesisProtocol.staker", options);
 
     const result = await this.contract.staker(
       options.proposalId,
@@ -640,12 +648,12 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
     this._validateVote(options.vote, options.proposalId);
 
-    const stake = await this.contract.voteStake(
+    this.logContractFunctionCall("GenesisProtocol.voteStake", options);
+
+    return this.contract.voteStake(
       options.proposalId,
       options.vote
     );
-
-    return stake;
   }
 
   /**
@@ -661,9 +669,9 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("proposalId is not defined");
     }
 
-    const winningVote = await this.contract.winningVote(
-      options.proposalId
-    );
+    this.logContractFunctionCall("GenesisProtocol.winningVote", options);
+
+    const winningVote = await this.contract.winningVote(options.proposalId);
 
     return winningVote.toNumber();
   }
@@ -679,9 +687,9 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("proposalId is not defined");
     }
 
-    const state = await this.contract.state(
-      options.proposalId
-    );
+    this.logContractFunctionCall("GenesisProtocol.state", options);
+
+    const state = await this.contract.state(options.proposalId);
 
     return state.toNumber();
   }
@@ -807,7 +815,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("votersReputationLossRatio must be greater than or equal to  0 and less than or equal to 100");
     }
 
-    return super.setParameters(
+    return super._setParameters(
+      "GenesisProtocol.setParameters",
       [
         preBoostedVoteRequiredPercentage,
         params.preBoostedVotePeriodLimit,

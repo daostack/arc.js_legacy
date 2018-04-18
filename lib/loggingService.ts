@@ -143,4 +143,8 @@ export class LoggingService {
       LoggingService.loggers.splice(ndx, 1);
     }
   }
+
+  public static stringifyObject(obj: any): string {
+    return JSON.stringify(obj);
+  }
 }

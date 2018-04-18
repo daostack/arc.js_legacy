@@ -89,7 +89,9 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
       }
     }
 
-    const txResult = await this.wrapTransactionInvocation("txReceipts.SchemeRegistrar.proposeToAddModifyScheme",
+    this.logContractFunctionCall("SchemeRegistrar.proposeScheme", options);
+
+    const txResult = await this.wrapTransactionInvocation("SchemeRegistrar.proposeToAddModifyScheme",
       options,
       () => {
         return this.contract.proposeScheme(
@@ -115,7 +117,9 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
       throw new Error("schemeAddress address is not defined");
     }
 
-    const txResult = await this.wrapTransactionInvocation("txReceipts.SchemeRegistrar.proposeToRemoveScheme",
+    this.logContractFunctionCall("SchemeRegistrar.proposeToRemoveScheme", options);
+
+    const txResult = await this.wrapTransactionInvocation("SchemeRegistrar.proposeToRemoveScheme",
       options,
       () => {
         return this.contract.proposeToRemoveScheme(
@@ -131,7 +135,8 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
 
     this.validateStandardSchemeParams(params);
 
-    return super.setParameters(
+    return super._setParameters(
+      "SchemeRegistrar.setParameters",
       params.voteParametersHash,
       params.voteRemoveParametersHash ? params.voteRemoveParametersHash : params.voteParametersHash,
       params.votingMachineAddress

@@ -145,6 +145,8 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
     }
 
+    this.logContractFunctionCall("ContributionReward.proposeContributionReward", options);
+
     tx = await this.contract.proposeContributionReward(
       options.avatar,
       Utils.SHA3(options.description),
@@ -183,7 +185,9 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
-    return this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemContributionReward",
+    this.logContractFunctionCall("ContributionReward.redeem", options);
+
+    return this.wrapTransactionInvocation("ContributionReward.redeemContributionReward",
       options,
       () => {
         return this.contract.redeem(
@@ -210,7 +214,9 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
-    return this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemExternalReward",
+    this.logContractFunctionCall("ContributionReward.redeemExternalToken", options);
+
+    return this.wrapTransactionInvocation("ContributionReward.redeemExternalToken",
       options,
       () => {
         return this.contract.redeemExternalToken(
@@ -236,7 +242,9 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
-    return this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemReputation",
+    this.logContractFunctionCall("ContributionReward.redeemReputation", options);
+
+    return this.wrapTransactionInvocation("ContributionReward.redeemReputation",
       options,
       () => {
         return this.contract.redeemReputation(
@@ -262,7 +270,9 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
-    return this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemNativeToken",
+    this.logContractFunctionCall("ContributionReward.redeemNativeToken", options);
+
+    return this.wrapTransactionInvocation("ContributionReward.redeemNativeToken",
       options,
       () => {
         return this.contract.redeemNativeToken(
@@ -288,7 +298,9 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
-    return this.wrapTransactionInvocation("txReceipts.ContributionReward.redeemEther",
+    this.logContractFunctionCall("ContributionReward.redeemEther", options);
+
+    return this.wrapTransactionInvocation("ContributionReward.redeemEther",
       options,
       () => {
         return this.contract.redeemEther(
@@ -402,7 +414,8 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       },
       params);
 
-    return super.setParameters(
+    return super._setParameters(
+      "ContributionReward.setParameters",
       params.orgNativeTokenFee,
       params.voteParametersHash,
       params.votingMachineAddress

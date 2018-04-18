@@ -46,8 +46,10 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
       throw new Error("votingMachineHash is not defined");
     }
 
+    this.logContractFunctionCall("GlobalConstraintRegistrar.proposeGlobalConstraint", options);
+
     const txResult = await this.wrapTransactionInvocation(
-      "txReceipts.GlobalConstraintRegistrar.proposeToAddModifyGlobalConstraint",
+      "GlobalConstraintRegistrar.proposeToAddModifyGlobalConstraint",
       options,
       () => {
         return this.contract.proposeGlobalConstraint(
@@ -73,8 +75,10 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
       throw new Error("avatar globalConstraint is not defined");
     }
 
+    this.logContractFunctionCall("GlobalConstraintRegistrar.proposeToRemoveGC", options);
+
     const txResult = await this.wrapTransactionInvocation(
-      "txReceipts.GlobalConstraintRegistrar.proposeToRemoveGlobalConstraint",
+      "GlobalConstraintRegistrar.proposeToRemoveGlobalConstraint",
       options,
       () => {
         return this.contract.proposeToRemoveGC(
@@ -90,7 +94,8 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
 
     this.validateStandardSchemeParams(params);
 
-    return super.setParameters(
+    return super._setParameters(
+      "GlobalConstraintRegistrar.setParameters",
       params.voteParametersHash,
       params.votingMachineAddress
     );

@@ -49,7 +49,9 @@ export class AbsoluteVoteWrapper extends ContractWrapperBase {
       throw new Error("vote is not valid");
     }
 
-    return this.wrapTransactionInvocation("txReceipts.AbsoluteVote.vote",
+    this.logContractFunctionCall("AbsoluteVote.vote", options);
+
+    return this.wrapTransactionInvocation("AbsoluteVote.vote",
       options,
       () => {
         return this.contract.vote(
@@ -73,7 +75,8 @@ export class AbsoluteVoteWrapper extends ContractWrapperBase {
       throw new Error("reputation must be set");
     }
 
-    return super.setParameters(
+    return super._setParameters(
+      "AbsoluteVote.setParameters",
       params.reputation,
       params.votePerc,
       params.ownerVote

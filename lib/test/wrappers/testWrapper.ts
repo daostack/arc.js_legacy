@@ -27,7 +27,8 @@ export class TestWrapperWrapper extends ContractWrapperBase {
       },
       params);
 
-    return super.setParameters(
+    return super._setParameters(
+      "AbsoluteVote.setParameters",
       params.reputation,
       params.votePerc,
       params.ownerVote

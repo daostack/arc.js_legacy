@@ -71,7 +71,9 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
     const totalGas = computeGasLimit(options.founders.length);
 
-    return this.wrapTransactionInvocation("txReceipts.DaoCreator.forgeOrg",
+    this.logContractFunctionCall("DaoCreator.forgeOrg", options);
+
+    return this.wrapTransactionInvocation("DaoCreator.forgeOrg",
       options,
       () => {
         return this.contract.forgeOrg(
@@ -137,11 +139,11 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       this.setSchemesTransactionsCount(options));
 
     /**
-     * subscribe to all "txReceipts.ContractWrapper.setParameters" and
+     * subscribe to all votingMachine setParameter and scheme "txReceipts" and
      * republish as eventTopic with txReceiptEventPayload
      */
     const eventsSubscription = TransactionService.resendTxEvents(
-      "txReceipts.ContractWrapper.setParameters",
+      ["txReceipts.ContractWrapperBase.setParameters"],
       eventTopic,
       txReceiptEventPayload);
 
@@ -251,6 +253,8 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
         initialSchemesPermissions.push(SchemePermissions.toString(requiredPermissions | additionalPermissions));
       }
 
+      this.logContractFunctionCall("DaoCreator.setSchemes", options);
+
       // register the schemes with the dao
       tx = await this.contract.setSchemes(
         options.avatar,
@@ -259,9 +263,13 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
         initialSchemesPermissions
       );
 
-      TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
     } finally {
+
       eventsSubscription.unsubscribe();
+
+      if (tx) {
+        TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
+      }
     }
 
     return new ArcTransactionResult(tx);

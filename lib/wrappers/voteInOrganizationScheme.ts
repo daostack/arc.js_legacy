@@ -41,7 +41,9 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase impleme
       throw new Error("originalProposalId is not defined");
     }
 
-    const txResult = await this.wrapTransactionInvocation("txReceipts.VoteInOrganizationScheme.proposeVote",
+    this.logContractFunctionCall("VoteInOrganizationScheme.proposeVote", options);
+
+    const txResult = await this.wrapTransactionInvocation("VoteInOrganizationScheme.proposeVote",
       options,
       () => {
         return this.contract.proposeVote(
@@ -58,7 +60,8 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase impleme
 
     this.validateStandardSchemeParams(params);
 
-    return super.setParameters(
+    return super._setParameters(
+      "VoteInOrganizationScheme.setParameters",
       params.voteParametersHash,
       params.votingMachineAddress
     );

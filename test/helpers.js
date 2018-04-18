@@ -12,7 +12,7 @@ export const NULL_ADDRESS = Utils.NULL_ADDRESS;
 export const SOME_HASH = "0x1000000000000000000000000000000000000000000000000000000000000000";
 export const SOME_ADDRESS = "0x1000000000000000000000000000000000000000";
 
-export const DefaultLogLevel = LogLevel.error;
+export const DefaultLogLevel = LogLevel.error | LogLevel.debug;
 
 LoggingService.logLevel = DefaultLogLevel;
 
@@ -38,6 +38,8 @@ beforeEach(async () => {
   global.assert = assert;
   global.accounts = [];
   await etherForEveryone();
+
+  assert(LoggingService.loggers.length === 1);
 });
 
 export async function forgeDao(opts = {}) {
