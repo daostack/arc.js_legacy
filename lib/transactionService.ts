@@ -82,7 +82,7 @@ export class TransactionService extends EventService {
     superPayload: TransactionReceiptsEventInfo): IEventSubscription {
 
     return EventService.subscribe(topics, (topic: string, txEventInfo: TransactionReceiptsEventInfo) => {
-      if (txEventInfo.tx) { // skip kick-off events and the resent events themselves
+      if (txEventInfo.tx) { // skip kick-off events
         TransactionService.publishTxEvent(superTopic, superPayload, txEventInfo.tx);
       }
     });

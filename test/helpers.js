@@ -12,7 +12,7 @@ export const NULL_ADDRESS = Utils.NULL_ADDRESS;
 export const SOME_HASH = "0x1000000000000000000000000000000000000000000000000000000000000000";
 export const SOME_ADDRESS = "0x1000000000000000000000000000000000000000";
 
-export const DefaultLogLevel = LogLevel.error | LogLevel.debug;
+export const DefaultLogLevel = LogLevel.error;
 
 LoggingService.logLevel = DefaultLogLevel;
 

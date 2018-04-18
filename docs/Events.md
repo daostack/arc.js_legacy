@@ -59,7 +59,7 @@ to generate a unique invocationKey.  Every call to `generateInvocationKey` gener
 You specify which event to which you wish to subscribe using a string as an event specifier (or in the code, the event "topic").  The event specifier typically incorporates an Arc contract name which will map to events published by a wrapper class for that contract.  For example, the event specifier "txReceipts.DaoCreator" refers to "txReceipts" events published by [DaoCreatorWrapper](api/classes/DaoCreatorWrapper).
 
 !!! note
-    There is one exception where a specific contract is not involved, namely with `DAO.new`.
+    There are a couple of exceptions when a specific contract is not involved, namely with `DAO.new` and `ContractWrapper.setParameters` (the latter covers all calls to [ContractWrapperBase.setParameters](api/classes/ContractWrapperBase#setParameters) from all of the wrappers).
 
 Event specifiers are hierachical. So for example: 
    
