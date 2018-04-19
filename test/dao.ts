@@ -1,10 +1,11 @@
-import { DAO } from "../test-dist/dao";
+import { DAO } from "../lib/dao";
 import * as helpers from "./helpers";
-import { GlobalConstraintRegistrarFactory, GlobalConstraintRegistrarWrapper } from "../test-dist/wrappers/globalconstraintregistrar";
-import { UpgradeSchemeFactory, UpgradeSchemeWrapper } from "../test-dist/wrappers/upgradescheme";
-import { SchemeRegistrarFactory, SchemeRegistrarWrapper } from "../test-dist/wrappers/schemeregistrar";
-import { SchemePermissions } from "../test-dist/commonTypes";
-import { WrapperService } from "../test-dist/wrapperService";
+import { GlobalConstraintRegistrarFactory, GlobalConstraintRegistrarWrapper } from "../lib/wrappers/globalConstraintRegistrar";
+import { UpgradeSchemeFactory, UpgradeSchemeWrapper } from "../lib/wrappers/upgradeScheme";
+import { SchemeRegistrarFactory, SchemeRegistrarWrapper } from "../lib/wrappers/schemeRegistrar";
+import { SchemePermissions } from "../lib/commonTypes";
+import { WrapperService } from "../lib/wrapperService";
+import { assert } from "chai";
 
 describe("DAO", () => {
   let dao;

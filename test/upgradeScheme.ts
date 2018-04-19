@@ -1,6 +1,7 @@
-import { Utils } from "../test-dist/utils";
-import { UpgradeSchemeFactory } from "../test-dist/wrappers/upgradescheme";
+import { Utils } from "../lib/utils";
+import { UpgradeSchemeFactory } from "../lib/wrappers/upgradeScheme";
 import * as helpers from "./helpers";
+import { assert } from "chai";
 
 describe("UpgradeScheme", () => {
   let avatar;

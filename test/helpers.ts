@@ -1,11 +1,12 @@
-import { Utils } from "../test-dist/utils";
-import { ConfigService } from "../test-dist/configService.js";
+import { Utils } from "../lib/utils";
+import { ConfigService } from "../lib/configService";
 import { assert } from "chai";
-import { DAO } from "../test-dist/dao.js";
-import { WrapperService } from "../test-dist/wrapperService";
-import { SchemeRegistrarFactory } from "../test-dist/wrappers/schemeregistrar";
-import { InitializeArcJs } from "../test-dist/index";
-import { LoggingService, LogLevel } from "../test-dist/loggingService";
+import { DAO, NewDaoConfig } from "../lib/dao";
+import { WrapperService } from "../lib/wrapperService";
+import { SchemeRegistrarFactory } from "../lib/wrappers/schemeRegistrar";
+import { InitializeArcJs, Address } from "../lib/index";
+import { LoggingService, LogLevel } from "../lib/loggingService";
+import { BigNumber } from "bignumber.js";
 
 export const NULL_HASH = Utils.NULL_HASH;
 export const NULL_ADDRESS = Utils.NULL_ADDRESS;
@@ -20,7 +21,6 @@ let testWeb3;
 
 const etherForEveryone = async () => {
   // transfer all web3.eth.accounts some ether from the last account
-  accounts = web3.eth.accounts;
   const count = accounts.length - 1;
   for (let i = 0; i < count; i++) {
     await web3.eth.sendTransaction({
@@ -33,14 +33,13 @@ const etherForEveryone = async () => {
 
 beforeEach(async () => {
   if (!testWeb3) {
-    global.web3 = testWeb3 = await InitializeArcJs();
+    (global as any).web3 = testWeb3 = await InitializeArcJs();
   }
-  global.assert = assert;
-  global.accounts = [];
+  (global as any).accounts = web3.eth.accounts;
   await etherForEveryone();
 });
 
-export async function forgeDao(opts = {}) {
+export async function forgeDao(opts: any = {}) {
   const founders = Array.isArray(opts.founders) ? opts.founders :
     [
       {
@@ -87,7 +86,7 @@ export async function addProposeContributionReward(dao) {
   const votingMachine = await getSchemeVotingMachine(dao, schemeRegistrar);
 
   const schemeParametersHash = (await contributionReward.setParameters({
-    orgNativeTokenFee: 0,
+    orgNativeTokenFee: "0",
     voteParametersHash: votingMachineHash,
     votingMachineAddress: votingMachine.address
   })).result;
@@ -109,7 +108,7 @@ export async function getSchemeVotingMachineParametersHash(dao, scheme) {
   return (await scheme.getSchemeParameters(dao.avatar.address)).voteParametersHash;
 }
 
-export async function getSchemeVotingMachine(dao, scheme, votingMachineName) {
+export async function getSchemeVotingMachine(dao, scheme, votingMachineName?) {
   const votingMachineAddress = (await scheme.getSchemeParameters(dao.avatar.address)).votingMachineAddress;
   votingMachineName = votingMachineName || ConfigService.get("defaultVotingMachine");
   return WrapperService.getContractWrapper(votingMachineName, votingMachineAddress);
@@ -240,11 +239,17 @@ export async function transferTokensToDao(dao, amount, fromAddress, token) {
  * @param {number} amount -- will be converted to Wei
  * @param {string} fromAddress  - optional, default is accounts[0]
  */
-export async function transferEthToDao(dao, amount, fromAddress) {
+export async function transferEthToDao(dao: DAO, amount: number, fromAddress?: Address) {
   fromAddress = fromAddress || accounts[0];
   return web3.eth.sendTransaction({ from: fromAddress, to: dao.avatar.address, value: web3.toWei(amount) });
 }
 
-export async function sleep(milliseconds) {
+export async function sleep(milliseconds: number): Promise<any> {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
+
+export function fromWei(amount: string | number | BigNumber): BigNumber {
+  const result = web3.fromWei(<any>amount);
+  return web3.toBigNumber(result);
+}
+

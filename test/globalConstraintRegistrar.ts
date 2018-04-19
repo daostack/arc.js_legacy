@@ -1,8 +1,9 @@
 import * as helpers from "./helpers";
-import { DefaultSchemePermissions } from "../test-dist/commonTypes";
-import { TokenCapGCFactory } from "../test-dist/wrappers/tokenCapGC";
-import { GlobalConstraintRegistrarFactory } from "../test-dist/wrappers/globalconstraintregistrar";
-import { WrapperService } from "../test-dist";
+import { DefaultSchemePermissions } from "../lib/commonTypes";
+import { TokenCapGCFactory } from "../lib/wrappers/tokenCapGC";
+import { GlobalConstraintRegistrarFactory } from "../lib/wrappers/globalConstraintRegistrar";
+import { WrapperService } from "../lib";
+import { assert } from "chai";
 
 describe("GlobalConstraintRegistrar", () => {
   it("proposeToAddModifyGlobalConstraint javascript wrapper should work", async () => {

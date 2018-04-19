@@ -1,3 +1,4 @@
+import { DecodedLogEntryEvent, FilterObject as FilterObjectWeb3, TransactionReceipt } from "web3";
 import { AvatarService } from "./avatarService";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { ContractWrapperFactory } from "./contractWrapperFactory";
@@ -395,20 +396,6 @@ export type EventCallback<TArgs> =
     log: Array<DecodedLogEntryEvent<TArgs>>
   ) => void;
 
-export interface TransactionReceipt {
-  blockHash: string;
-  blockNumber: number;
-  transactionHash: string;
-  transactionIndex: number;
-  from: string;
-  to: string;
-  status: null | string | 0 | 1;
-  cumulativeGasUsed: number;
-  gasUsed: number;
-  contractAddress: string | null;
-  logs: Array<LogEntry>;
-}
-
 /**
  * The generic type of every handler function that returns an event.  See this
  * web3 documentation article for more information:
@@ -451,40 +438,12 @@ export type LogTopic = null | string | Array<string>;
 /**
  * Options supplied to `EventFetcherFactory` and thence to `get and `watch`.
  */
-export interface FilterObject {
-  fromBlock?: number | string;
-  toBlock?: number | string;
-  address?: string;
-  topics?: Array<LogTopic>;
+export interface FilterObject extends FilterObjectWeb3 {
   /**
    * true to suppress duplicate events (see https://github.com/ethereum/web3.js/issues/398).
    * The default is true.
    */
   suppressDups?: boolean;
-}
-
-export interface LogEntry {
-  logIndex: number | null;
-  transactionIndex: number | null;
-  transactionHash: string;
-  blockHash: string | null;
-  blockNumber: number | null;
-  address: string;
-  data: string;
-  topics: Array<string>;
-}
-
-export interface LogEntryEvent extends LogEntry {
-  removed: boolean;
-}
-
-export interface DecodedLogEntry<TArgs> extends LogEntryEvent {
-  event: string;
-  args: TArgs;
-}
-
-export interface DecodedLogEntryEvent<TArgs> extends DecodedLogEntry<TArgs> {
-  removed: boolean;
 }
 
 /**
@@ -500,3 +459,5 @@ export interface StandardSchemeParams {
    */
   votingMachineAddress: Address;
 }
+
+export { DecodedLogEntryEvent, TransactionReceipt } from "web3";

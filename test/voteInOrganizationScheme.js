@@ -1,6 +1,7 @@
-import { VoteInOrganizationSchemeFactory } from "../test-dist/wrappers/voteInOrganizationScheme";
+import { VoteInOrganizationSchemeFactory } from "../lib/wrappers/voteInOrganizationScheme";
 import * as helpers from "./helpers";
-import { SchemeRegistrarFactory } from "../test-dist/wrappers/schemeregistrar";
+import { SchemeRegistrarFactory } from "../lib/wrappers/schemeRegistrar";
+import { assert } from "chai";
 
 const createProposal = async () => {
 

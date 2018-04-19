@@ -71,10 +71,13 @@
     "path.join": "^1.0.0",
     "pubsub-js": "^1.6.0",
     "truffle-contract": "^3.0.1",
-    "truffle-core-migrate-without-compile": "^4.0.7"
+    "truffle-core-migrate-without-compile": "^4.0.7",
+    "tslib": "^1.9.0"
   },
   "devDependencies": {
     "@daostack/arc": "0.0.0-alpha.38",
+    "@types/chai": "^4.1.2",
+    "@types/mocha": "^5.1.0",
     "@types/pubsub-js": "^1.5.18",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",

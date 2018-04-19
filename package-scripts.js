@@ -22,7 +22,7 @@ const pathDaostackArcRepo = joinPath(pathArcJsRoot, "node_modules/@daostack/arc"
 
 const pathArcTest = joinPath(pathArcJsRoot, "test");
 
-const pathArcTestBuild = joinPath(pathArcJsRoot, "test-dist");
+const pathArcTestBuild = joinPath(pathArcJsRoot, "test-build");
 
 const pathDaostackArcGanacheDb = joinPath(pathArcJsRoot, "ganacheDb");
 const pathDaostackArcGanacheDbZip = joinPath(pathArcJsRoot, "ganacheDb.zip");
@@ -41,30 +41,28 @@ const migrationScriptExists = fs.existsSync(joinPath(pathArcJsRoot, "dist", "mig
 
 module.exports = {
   scripts: {
+    ganache: "nps test.ganache.run",
     lint: {
       default: series(
-        "nps lint.ts",
-        "nps lint.js"
+        "nps lint.code",
+        "nps lint.test"
       ),
-      ts: {
-        default: "tslint lib/**/* custom_typings/system.d.ts",
-        andFix: "nps \"lint.ts --fix\""
+      code: {
+        default: "tslint custom_typings/web3.d.ts custom_typings/system.d.ts lib/**/*",
+        andFix: "nps \"lint.code --fix\""
       },
-      js: {
-        default: "eslint .",
-        andFix: "nps \"lint.js --fix\""
+      test: {
+        default: "tslint custom_typings/web3_global.d.ts custom_typings/system.d.ts test/**/*",
+        andFix: "nps \"lint.test --fix\""
       },
-      andFix: series(
-        "nps lint.ts.andFix",
-        "nps lint.js.andFix"
-      )
+      andFix: "nps \"lint --fix\""
     },
     test: {
       default: series("nps lint", "nps test.automated"),
       automated: {
         default: series(
           "nps test.build",
-          "mocha --require babel-register --require babel-polyfill --require chai --timeout 999999"),
+          "mocha --require chai --timeout 999999 test-build/test"),
         bail: series(
           'nps "test.automated --bail"'
         ),
@@ -97,6 +95,10 @@ module.exports = {
       build: {
         default: series(
           "nps test.build.clean",
+          mkdirp(`${pathArcTestBuild}/config`),
+          copy(`./config/**/* ${pathArcTestBuild}/config`),
+          copy(`./gasLimits.js ${pathArcTestBuild}`),
+          copy(`./migrated_contracts/**/* ${pathArcTestBuild}/migrated_contracts`),
           mkdirp(pathArcTestBuild),
           `node node_modules/typescript/bin/tsc --outDir ${pathArcTestBuild} --project ${pathArcTest}`
         ),

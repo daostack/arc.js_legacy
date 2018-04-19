@@ -289,7 +289,7 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
       throw new Error("periodLength must be an integer greater than zero");
     }
 
-    if (Utils.getWeb3().toBigNumber(options.amountPerPeriod) <= 0) {
+    if (Utils.getWeb3().toBigNumber(options.amountPerPeriod).lte(0)) {
       throw new Error("amountPerPeriod must be greater than zero");
     }
 

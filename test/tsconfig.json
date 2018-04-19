@@ -5,8 +5,8 @@
     "moduleResolution": "node",
     "preserveConstEnums": true,
     "sourceMap": true,
-    "baseUrl": "../lib",
-    "declaration": true,
+    "importHelpers": true,
+    "baseUrl": ".",
     "lib": [
       "es2015",
       "es2017",
@@ -15,8 +15,9 @@
     "downlevelIteration": true
   },
   "include": [
-    "../lib/**/*",
-    "../custom_typings/system.d.ts"
+    "../custom_typings/web3_global.d.ts",
+    "../custom_typings/system.d.ts",
+    "./**/*"
   ],
   "exclude": [
     "../node_modules",

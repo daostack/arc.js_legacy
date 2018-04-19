@@ -1,5 +1,6 @@
-import { TransactionService } from "../test-dist/transactionService";
+import { TransactionService } from "../lib/transactionService";
 import * as helpers from "./helpers";
+import { assert } from "chai";
 
 describe("TransactionService", () => {
 

@@ -9,7 +9,7 @@ ganacheDb.zip
 migrated_contracts/
 *.sublime-project
 yarn.lock
-test-dist/
+test-build/
 site/
 docs/api/
 migrations/founders.kovan.json

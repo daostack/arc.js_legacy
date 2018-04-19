@@ -1,5 +1,6 @@
 import * as helpers from "./helpers";
-import { VestingSchemeFactory } from "../test-dist/wrappers/vestingscheme";
+import { VestingSchemeFactory } from "../lib/wrappers/vestingScheme";
+import { assert } from "chai";
 
 describe("VestingScheme scheme", () => {
   let dao;

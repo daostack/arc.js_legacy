@@ -124,7 +124,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     const web3 = Utils.getWeb3();
     const amount = web3.toBigNumber(options.amount);
 
-    if (amount <= 0) {
+    if (amount.lte(0)) {
       throw new Error("amount must be > 0");
     }
 

@@ -1,6 +1,7 @@
-import { Utils } from "../test-dist/utils";
+import { Utils } from "../lib/utils";
 import * as helpers from "./helpers";
-import { SchemeRegistrarFactory } from "../test-dist/wrappers/schemeregistrar";
+import { SchemeRegistrarFactory } from "../lib/wrappers/schemeRegistrar";
+import { assert } from "chai";
 
 describe("SchemeRegistrar", () => {
   it("can add scheme with voteToRemove parameters ", async () => {
@@ -73,7 +74,7 @@ describe("SchemeRegistrar", () => {
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
     assert.isTrue(
-      await dao.isSchemeRegistered(contributionRewardAddress, dao.avatar.address),
+      await dao.isSchemeRegistered(contributionRewardAddress),
       "scheme is not registered into the controller"
     );
   });

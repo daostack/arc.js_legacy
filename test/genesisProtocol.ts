@@ -1,8 +1,9 @@
-import { Utils } from "../test-dist/utils";
-import { WrapperService } from "../test-dist/wrapperService";
-import { GenesisProtocolFactory } from "../test-dist/wrappers/genesisProtocol";
-import { SchemeRegistrarFactory } from "../test-dist/wrappers/schemeregistrar";
+import { Utils } from "../lib/utils";
+import { WrapperService } from "../lib/wrapperService";
+import { GenesisProtocolFactory } from "../lib/wrappers/genesisProtocol";
+import { SchemeRegistrarFactory } from "../lib/wrappers/schemeRegistrar";
 import * as helpers from "./helpers";
+import { assert } from "chai";
 
 describe("GenesisProtocol", () => {
   let dao, genesisProtocol, executableTest;
@@ -151,7 +152,7 @@ describe("GenesisProtocol", () => {
       avatar: dao.avatar.address,
     });
     assert.isOk(result);
-    assert.equal(web3.fromWei(result.thresholdConstA).toNumber(), 2);
+    assert.equal(helpers.fromWei(result.thresholdConstA).toNumber(), 2);
     assert.equal(result.thresholdConstB, 10);
   });
 
@@ -173,7 +174,7 @@ describe("GenesisProtocol", () => {
       proposalId: proposalId,
       vote: 1
     });
-    assert.equal(web3.fromWei(result), 10);
+    assert.equal(helpers.fromWei(result).toNumber(), 10);
   });
 
   it("can call getVoteStatus", async () => {
@@ -192,7 +193,7 @@ describe("GenesisProtocol", () => {
       vote: 1
     });
 
-    assert.equal(web3.fromWei(result), 1000);
+    assert.equal(helpers.fromWei(result).toNumber(), 1000);
   });
 
   it("can call getProposalStatus", async () => {
@@ -205,7 +206,7 @@ describe("GenesisProtocol", () => {
     });
 
     assert.isOk(result);
-    assert.equal(web3.fromWei(result.totalVotes), 1000);
+    assert.equal(helpers.fromWei(result.totalVotes).toNumber(), 1000);
     assert.equal(result.totalStaked, 0);
     assert.equal(result.totalVoterStakes, 0);
   });
@@ -234,7 +235,7 @@ describe("GenesisProtocol", () => {
 
     assert.isOk(result);
     assert.equal(result.vote, 1);
-    assert.equal(web3.fromWei(result.stake), 10);
+    assert.equal(helpers.fromWei(result.stake).toNumber(), 10);
   });
 
   it("can call getVoterInfo", async () => {
@@ -256,7 +257,7 @@ describe("GenesisProtocol", () => {
 
     assert.isOk(result);
     assert.equal(result.vote, 1);
-    assert.equal(web3.fromWei(result.reputation), 1000);
+    assert.equal(helpers.fromWei(result.reputation).toNumber(), 1000);
 
   });
 
@@ -280,7 +281,7 @@ describe("GenesisProtocol", () => {
 
     assert.isOk(result);
     assert.equal(result.vote, 1);
-    assert.equal(web3.fromWei(result.reputation), 1000);
+    assert.equal(helpers.fromWei(result.reputation).toNumber(), 1000);
 
   });
 
@@ -301,7 +302,7 @@ describe("GenesisProtocol", () => {
 
     assert.isOk(result);
     assert.equal(result.vote, 1);
-    assert.equal(web3.fromWei(result.reputation), 10);
+    assert.equal(helpers.fromWei(result.reputation).toNumber(), 10);
   });
 
   it("can call redeem", async () => {

@@ -1,5 +1,6 @@
-import { DaoCreatorFactory } from "../test-dist/wrappers/daocreator";
+import { DaoCreatorFactory } from "../lib/wrappers/daoCreator";
 import "./helpers";
+import { assert } from "chai";
 
 describe("DaoCreator", () => {
 

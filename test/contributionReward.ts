@@ -1,5 +1,6 @@
 import * as helpers from "./helpers";
-import { ContributionRewardFactory } from "../test-dist/wrappers/contributionreward";
+import { ContributionRewardFactory } from "../lib/wrappers/contributionReward";
+import { assert } from "chai";
 
 describe("ContributionReward scheme", () => {
   let dao, scheme, votingMachine;
@@ -71,7 +72,7 @@ describe("ContributionReward scheme", () => {
     const eventProposalId = result.getValueFromTx("_proposalId", "RedeemNativeToken");
     const amount = result.getValueFromTx("_amount", "RedeemNativeToken");
     assert.equal(eventProposalId, proposalId);
-    assert.equal(web3.fromWei(amount), 10);
+    assert(helpers.fromWei(amount).eq(10));
   });
 
   it("can redeem reputation", async () => {
@@ -98,7 +99,7 @@ describe("ContributionReward scheme", () => {
     const eventProposalId = result.getValueFromTx("_proposalId", "RedeemReputation");
     const amount = result.getValueFromTx("_amount", "RedeemReputation");
     assert.equal(eventProposalId, proposalId);
-    assert.equal(web3.fromWei(amount), 10);
+    assert(helpers.fromWei(amount).eq(10));
   });
 
   it("can redeem ethers", async () => {
@@ -128,7 +129,7 @@ describe("ContributionReward scheme", () => {
     const eventProposalId = result.getValueFromTx("_proposalId", "RedeemEther");
     const amount = result.getValueFromTx("_amount", "RedeemEther");
     assert.equal(eventProposalId, proposalId);
-    assert.equal(web3.fromWei(amount), .005);
+    assert(helpers.fromWei(amount).eq(.005));
   });
 
 
@@ -156,7 +157,7 @@ describe("ContributionReward scheme", () => {
     const eventProposalId = result.getValueFromTx("_proposalId", "RedeemNativeToken");
     const amount = result.getValueFromTx("_amount", "RedeemNativeToken");
     assert.equal(eventProposalId, proposalId);
-    assert.equal(web3.fromWei(amount), 10);
+    assert(helpers.fromWei(amount).eq(10));
   });
 
   it("can redeem external tokens", async () => {
@@ -188,7 +189,7 @@ describe("ContributionReward scheme", () => {
     const eventProposalId = result.getValueFromTx("_proposalId", "RedeemExternalToken");
     const amount = result.getValueFromTx("_amount", "RedeemExternalToken");
     assert.equal(eventProposalId, proposalId);
-    assert.equal(web3.fromWei(amount), 10);
+    assert(helpers.fromWei(amount).eq(10));
   });
 
   it("can get DAO's proposals", async () => {
@@ -243,9 +244,9 @@ describe("ContributionReward scheme", () => {
     let rewards2 = rewards.filter(p => p.proposalId === reputationChangeProposalId);
     assert(rewards2.length, "reputationChange not found");
 
-    assert.equal(web3.fromWei(rewards1[0].nativeTokenRewardUnredeemed).toNumber(), 10, "incorrect remaining nativeToken amount");
+    assert.equal(helpers.fromWei(rewards1[0].nativeTokenRewardUnredeemed).toNumber(), 10, "incorrect remaining nativeToken amount");
     assert.equal(rewards1[0].nativeTokenRewardUnredeemed.toNumber(), proposals[0].nativeTokenReward.toNumber(), "undereemed should equal total to be redeemed");
-    assert.equal(web3.fromWei(rewards2[0].reputationChangeUnredeemed).toNumber(), 10, "incorrect remaining reputationChange amount");
+    assert.equal(helpers.fromWei(rewards2[0].reputationChangeUnredeemed).toNumber(), 10, "incorrect remaining reputationChange amount");
 
     assert.equal(proposals[0].nativeTokenReward.toNumber(), rewards1[0].nativeTokenReward.toNumber(), "total redeemable should equal total redeemable");
 
@@ -268,7 +269,7 @@ describe("ContributionReward scheme", () => {
       proposalId: nativeRewardProposalId,
     });
 
-    assert.equal(web3.fromWei(nativeTokenRewardsAfterVote[0].nativeTokenRewardRedeemable).toNumber(), 10, "native tokens should be redeemable");
+    assert.equal(helpers.fromWei(nativeTokenRewardsAfterVote[0].nativeTokenRewardRedeemable).toNumber(), 10, "native tokens should be redeemable");
 
     // now try to redeem some native tokens
     await scheme.redeemNativeToken({
@@ -300,7 +301,7 @@ describe("ContributionReward scheme", () => {
     assert(rewards2.length, "reputationChange not found");
     rewards2 = rewards2[0];
 
-    assert.equal(web3.fromWei(rewards1.nativeTokenRewardUnredeemed).toNumber(), 0, "incorrect remaining nativeToken amount");
-    assert.equal(web3.fromWei(rewards2.reputationChangeUnredeemed).toNumber(), 10, "incorrect remaining reputationChange amount");
+    assert.equal(helpers.fromWei(rewards1.nativeTokenRewardUnredeemed).toNumber(), 0, "incorrect remaining nativeToken amount");
+    assert.equal(helpers.fromWei(rewards2.reputationChangeUnredeemed).toNumber(), 10, "incorrect remaining reputationChange amount");
   });
 });

@@ -1,4 +1,4 @@
-import Web3 = require("web3");
+import { Web3 } from "web3";
 import { computeGasLimit } from "../../gasLimits.js";
 import { DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
 import { ConfigService } from "../configService";

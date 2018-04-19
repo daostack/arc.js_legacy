@@ -1,14 +1,15 @@
-import { WrapperService } from "../test-dist/wrapperService";
+import { WrapperService } from "../lib/wrapperService";
 import { NULL_ADDRESS, DefaultLogLevel } from "./helpers";
-import { UpgradeSchemeWrapper } from "../test-dist/wrappers/upgradescheme";
-import { GenesisProtocolWrapper } from "../test-dist/wrappers/genesisProtocol";
-import { LoggingService, LogLevel } from "../test-dist/loggingService";
+import { UpgradeSchemeWrapper } from "../lib/wrappers/upgradeScheme";
+import { GenesisProtocolWrapper } from "../lib/wrappers/genesisProtocol";
+import { LoggingService, LogLevel } from "../lib/loggingService";
 import {
   ContractWrappers,
   ContractWrapperFactories,
   ContractWrappersByType,
   ContractWrappersByAddress
-} from "../test-dist/index";
+} from "../lib/index";
+import { assert } from "chai";
 
 describe("WrapperService", () => {
 
