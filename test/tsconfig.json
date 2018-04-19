@@ -10,17 +10,17 @@
     "lib": [
       "es2015",
       "es2017",
-      "dom"
+      "dom",
     ],
     "downlevelIteration": true
   },
   "include": [
     "../custom_typings/web3_global.d.ts",
     "../custom_typings/system.d.ts",
-    "./**/*"
+    "./**/*",
   ],
   "exclude": [
     "../node_modules",
-    "../dist"
+    "../dist",
   ]
 }

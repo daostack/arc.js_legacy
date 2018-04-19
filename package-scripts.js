@@ -48,11 +48,11 @@ module.exports = {
         "nps lint.test"
       ),
       code: {
-        default: "tslint custom_typings/web3.d.ts custom_typings/system.d.ts lib/**/*",
+        default: "tslint custom_typings/web3.d.ts custom_typings/system.d.ts lib/**/*.ts",
         andFix: "nps \"lint.code --fix\""
       },
       test: {
-        default: "tslint custom_typings/web3_global.d.ts custom_typings/system.d.ts test/**/*",
+        default: "tslint custom_typings/web3_global.d.ts custom_typings/system.d.ts test/**/*.ts",
         andFix: "nps \"lint.test --fix\""
       },
       andFix: "nps \"lint --fix\""

@@ -1,7 +1,7 @@
-import { Utils } from "../lib/utils";
-import { UpgradeSchemeFactory } from "../lib/wrappers/upgradeScheme";
-import * as helpers from "./helpers";
 import { assert } from "chai";
+import { Utils } from "../lib/utils";
+import { UpgradeSchemeFactory, UpgradeSchemeWrapper } from "../lib/wrappers/upgradeScheme";
+import * as helpers from "./helpers";
 
 describe("UpgradeScheme", () => {
   let avatar;
@@ -26,7 +26,8 @@ describe("UpgradeScheme", () => {
   it("proposeController javascript wrapper should change controller", async () => {
     const dao = await helpers.forgeDao();
 
-    const upgradeScheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory);
+    const upgradeScheme =
+      await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory) as UpgradeSchemeWrapper;
     const newController = await Controller.new(avatar.address);
 
     assert.equal(
@@ -37,7 +38,7 @@ describe("UpgradeScheme", () => {
 
     const result = await upgradeScheme.proposeController({
       avatar: dao.avatar.address,
-      controller: newController.address
+      controller: newController.address,
     });
 
     // newUpgradeScheme.registerDao(dao.avatar.address);
@@ -60,7 +61,8 @@ describe("UpgradeScheme", () => {
 
     const dao = await helpers.forgeDao();
 
-    const upgradeScheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory);
+    const upgradeScheme =
+      await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory) as UpgradeSchemeWrapper;
 
     // the dao has not been upgraded yet, so newController is the NULL address
     assert.equal(await dao.controller.newControllers(dao.avatar.address), helpers.NULL_ADDRESS);
@@ -70,7 +72,7 @@ describe("UpgradeScheme", () => {
 
     const result = await upgradeScheme.proposeController({
       avatar: dao.avatar.address,
-      controller: newController.address
+      controller: newController.address,
     }
     );
 
@@ -96,7 +98,8 @@ describe("UpgradeScheme", () => {
   it("proposeUpgradingScheme javascript wrapper should change upgrade scheme", async () => {
     const dao = await helpers.forgeDao();
 
-    const upgradeScheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory);
+    const upgradeScheme =
+      await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory) as UpgradeSchemeWrapper;
 
     const newUpgradeScheme = await UpgradeSchemeFactory.new();
 
@@ -112,7 +115,7 @@ describe("UpgradeScheme", () => {
     const result = await upgradeScheme.proposeUpgradingScheme({
       avatar: dao.avatar.address,
       scheme: newUpgradeScheme.address,
-      schemeParametersHash: await dao.controller.getSchemeParameters(upgradeScheme.address, dao.avatar.address)
+      schemeParametersHash: await dao.controller.getSchemeParameters(upgradeScheme.address, dao.avatar.address),
     });
 
     const proposalId = result.proposalId;
@@ -129,7 +132,8 @@ describe("UpgradeScheme", () => {
   it("proposeUpgradingScheme javascript wrapper should modify the modifying scheme", async () => {
     const dao = await helpers.forgeDao();
 
-    const upgradeScheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory);
+    const upgradeScheme =
+      await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory) as UpgradeSchemeWrapper;
 
     assert.isTrue(
       await dao.isSchemeRegistered(upgradeScheme.address),
@@ -139,7 +143,7 @@ describe("UpgradeScheme", () => {
     const result = await upgradeScheme.proposeUpgradingScheme({
       avatar: dao.avatar.address,
       scheme: upgradeScheme.address,
-      schemeParametersHash: helpers.SOME_HASH
+      schemeParametersHash: helpers.SOME_HASH,
     });
 
     const proposalId = result.proposalId;

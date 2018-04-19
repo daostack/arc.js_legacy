@@ -1,20 +1,29 @@
-import { Utils } from "../lib/utils";
-import { WrapperService } from "../lib/wrapperService";
-import { GenesisProtocolFactory } from "../lib/wrappers/genesisProtocol";
-import { SchemeRegistrarFactory } from "../lib/wrappers/schemeRegistrar";
-import * as helpers from "./helpers";
 import { assert } from "chai";
+import { Hash } from "../lib/commonTypes";
+import { ArcTransactionResult } from "../lib/contractWrapperBase";
+import { DAO, DaoSchemeInfo } from "../lib/dao";
+import { Utils } from "../lib/utils";
+import {
+  ExecutedGenesisProposal,
+  GenesisProtocolFactory,
+  GenesisProtocolWrapper
+} from "../lib/wrappers/genesisProtocol";
+import { SchemeRegistrarFactory, SchemeRegistrarWrapper } from "../lib/wrappers/schemeRegistrar";
+import { WrapperService } from "../lib/wrapperService";
+import * as helpers from "./helpers";
 
 describe("GenesisProtocol", () => {
-  let dao, genesisProtocol, executableTest;
+  let dao: DAO;
+  let genesisProtocol: GenesisProtocolWrapper;
+  let executableTest: any;
   let ExecutableTest;
 
-  const createProposal = async () => {
+  const createProposal = async (): Promise<Hash> => {
 
     const result = await genesisProtocol.propose({
       avatar: dao.avatar.address,
+      executable: executableTest.address,
       numOfChoices: 2,
-      executable: executableTest.address
     });
 
     assert.isOk(result);
@@ -23,38 +32,39 @@ describe("GenesisProtocol", () => {
     return result.proposalId;
   };
 
-  const voteProposal = function (proposalId, how) {
+  const voteProposal = (proposalId: Hash, how: number): Promise<ArcTransactionResult> => {
     return genesisProtocol.vote({
-      proposalId: proposalId,
-      vote: how
+      proposalId,
+      vote: how,
     });
   };
 
-  const stakeProposalVote = function (proposalId, how, amount) {
-    return genesisProtocol.stake({
-      proposalId: proposalId,
-      vote: how,
-      amount: web3.toWei(amount)
-    });
-  };
+  const stakeProposalVote =
+    (proposalId: Hash, how: number, amount: number): Promise<ArcTransactionResult> => {
+      return genesisProtocol.stake({
+        amount: web3.toWei(amount),
+        proposalId,
+        vote: how,
+      });
+    };
 
   beforeEach(async () => {
 
     ExecutableTest = await Utils.requireContract("ExecutableTest");
 
     dao = await helpers.forgeDao({
-      schemes: [
-        { name: "GenesisProtocol" }
-      ],
       founders: [{
         address: accounts[0],
         reputation: web3.toWei(1000),
-        tokens: web3.toWei(1000)
-      }
-      ]
+        tokens: web3.toWei(1000),
+      },
+      ],
+      schemes: [
+        { name: "GenesisProtocol" },
+      ],
     });
 
-    const scheme = await dao.getSchemes("GenesisProtocol");
+    const scheme = await dao.getSchemes("GenesisProtocol") as Array<DaoSchemeInfo>;
 
     assert.isOk(scheme);
     assert.equal(scheme.length, 1);
@@ -67,7 +77,6 @@ describe("GenesisProtocol", () => {
     executableTest = await ExecutableTest.deployed();
   });
 
-
   it("can get executed proposals", async () => {
 
     const proposalId1 = await createProposal();
@@ -79,13 +88,16 @@ describe("GenesisProtocol", () => {
     let proposals = await genesisProtocol.getExecutedDaoProposals({ avatar: dao.avatar.address });
 
     assert(proposals.length >= 2, "Should have found at least 2 proposals");
-    assert(proposals.filter(p => p.proposalId === proposalId1).length, "proposalId1 not found");
-    assert(proposals.filter(p => p.proposalId === proposalId2).length, "proposalId2 not found");
+    assert(proposals.filter((p: ExecutedGenesisProposal) => p.proposalId === proposalId1).length,
+      "proposalId1 not found");
+    assert(proposals.filter((p: ExecutedGenesisProposal) => p.proposalId === proposalId2).length,
+      "proposalId2 not found");
 
     proposals = await genesisProtocol.getExecutedDaoProposals({ avatar: dao.avatar.address, proposalId: proposalId2 });
 
     assert.equal(proposals.length, 1, "Should have found 1 proposals");
-    assert(proposals.filter(p => p.proposalId === proposalId2).length, "proposalId2 not found");
+    assert(proposals.filter((p: ExecutedGenesisProposal) => p.proposalId === proposalId2).length,
+      "proposalId2 not found");
     assert.isOk(proposals[0].totalReputation, "totalReputation not set properly on proposal");
     assert.equal(proposals[0].decision, 1, "decision is wrong");
   });
@@ -93,41 +105,45 @@ describe("GenesisProtocol", () => {
   it("scheme can use GenesisProtocol", async () => {
 
     dao = await helpers.forgeDao({
+      founders: [{
+        address: accounts[0],
+        reputation: web3.toWei(1001),
+        tokens: web3.toWei(1000),
+      },
+      {
+        address: accounts[1],
+        reputation: web3.toWei(1000),
+        tokens: web3.toWei(1000),
+      },
+      ],
       schemes: [
         { name: "GenesisProtocol" },
         { name: "ContributionReward" },
         {
           name: "SchemeRegistrar",
           votingMachineParams: {
-            votingMachineName: "GenesisProtocol"
-          }
-        }
+            votingMachineName: "GenesisProtocol",
+          },
+        },
       ],
-      founders: [{
-        address: accounts[0],
-        reputation: web3.toWei(1001),
-        tokens: web3.toWei(1000)
-      },
-      {
-        address: accounts[1],
-        reputation: web3.toWei(1000),
-        tokens: web3.toWei(1000)
-      }
-      ]
     });
 
     const schemeToDelete = (await dao.getSchemes("ContributionReward"))[0].address;
     assert.isOk(schemeToDelete);
 
-    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory);
+    const schemeRegistrar = await helpers.getDaoScheme(
+      dao,
+      "SchemeRegistrar",
+      SchemeRegistrarFactory) as SchemeRegistrarWrapper;
+
     assert.isOk(schemeRegistrar);
     /**
      * propose to remove ContributionReward.  It should get the ownerVote, then requiring just 30 more reps to execute.
-    */
+     */
     const result = await schemeRegistrar.proposeToRemoveScheme(
       {
         avatar: dao.avatar.address,
-        schemeAddress: schemeToDelete
+        schemeAddress: schemeToDelete,
       });
 
     assert.isOk(result.proposalId);
@@ -138,8 +154,11 @@ describe("GenesisProtocol", () => {
     const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar, "GenesisProtocol");
 
     assert.isOk(votingMachine);
-    assert.equal(votingMachine.constructor.name, "GenesisProtocolWrapper", "schemeRegistrar is not using GeneisisProtocol");
-    assert.equal(votingMachine.address, WrapperService.wrappers.GenesisProtocol.address, "voting machine address is not that of GenesisProtocol");
+    assert.equal(votingMachine.constructor.name,
+      "GenesisProtocolWrapper", "schemeRegistrar is not using GeneisisProtocol");
+    assert.equal(votingMachine.address,
+      WrapperService.wrappers.GenesisProtocol.address,
+      "voting machine address is not that of GenesisProtocol");
     assert.isFalse(await helpers.voteWasExecuted(votingMachine, result.proposalId));
 
     await helpers.vote(votingMachine, result.proposalId, 1, accounts[0]);
@@ -159,11 +178,10 @@ describe("GenesisProtocol", () => {
   it("can call shouldBoost", async () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.shouldBoost({
-      proposalId: proposalId
+      proposalId,
     });
     assert.equal(result, false);
   });
-
 
   it("can call getVoteStake", async () => {
     const proposalId = await createProposal();
@@ -171,8 +189,8 @@ describe("GenesisProtocol", () => {
     await stakeProposalVote(proposalId, 1, 10);
 
     const result = await genesisProtocol.getVoteStake({
-      proposalId: proposalId,
-      vote: 1
+      proposalId,
+      vote: 1,
     });
     assert.equal(helpers.fromWei(result).toNumber(), 10);
   });
@@ -181,16 +199,16 @@ describe("GenesisProtocol", () => {
     const proposalId = await createProposal();
 
     let result = await genesisProtocol.getVoteStatus({
-      proposalId: proposalId,
-      vote: 1
+      proposalId,
+      vote: 1,
     });
-    assert.equal(result, 0);
+    assert.equal(result.toNumber(), 0);
 
     await voteProposal(proposalId, 1);
 
     result = await genesisProtocol.getVoteStatus({
-      proposalId: proposalId,
-      vote: 1
+      proposalId,
+      vote: 1,
     });
 
     assert.equal(helpers.fromWei(result).toNumber(), 1000);
@@ -202,20 +220,20 @@ describe("GenesisProtocol", () => {
     await voteProposal(proposalId, 1);
 
     const result = await genesisProtocol.getProposalStatus({
-      proposalId: proposalId
+      proposalId,
     });
 
     assert.isOk(result);
     assert.equal(helpers.fromWei(result.totalVotes).toNumber(), 1000);
-    assert.equal(result.totalStaked, 0);
-    assert.equal(result.totalVoterStakes, 0);
+    assert.equal(result.totalStaked.toNumber(), 0);
+    assert.equal(result.totalVoterStakes.toNumber(), 0);
   });
 
   it("can call getStakerInfo", async () => {
     const proposalId = await createProposal();
     let result = await genesisProtocol.getStakerInfo({
-      proposalId: proposalId,
-      staker: accounts[0]
+      proposalId,
+      staker: accounts[0],
     });
 
     assert.isOk(result);
@@ -223,14 +241,14 @@ describe("GenesisProtocol", () => {
     assert.equal(result.stake.toNumber(), 0);
 
     await genesisProtocol.stake({
-      proposalId: proposalId,
+      amount: web3.toWei(10),
+      proposalId,
       vote: 1,
-      amount: web3.toWei(10)
     });
 
     result = await genesisProtocol.getStakerInfo({
-      proposalId: proposalId,
-      staker: accounts[0]
+      proposalId,
+      staker: accounts[0],
     });
 
     assert.isOk(result);
@@ -241,8 +259,8 @@ describe("GenesisProtocol", () => {
   it("can call getVoterInfo", async () => {
     const proposalId = await createProposal();
     let result = await genesisProtocol.getVoterInfo({
-      proposalId: proposalId,
-      voter: accounts[0]
+      proposalId,
+      voter: accounts[0],
     });
     assert.isOk(result);
     assert.equal(result.vote, 0);
@@ -251,8 +269,8 @@ describe("GenesisProtocol", () => {
     await voteProposal(proposalId, 1);
 
     result = await genesisProtocol.getVoterInfo({
-      proposalId: proposalId,
-      voter: accounts[0]
+      proposalId,
+      voter: accounts[0],
     });
 
     assert.isOk(result);
@@ -270,39 +288,38 @@ describe("GenesisProtocol", () => {
 
   it("can call vote", async () => {
     const proposalId = await createProposal();
-    let result = await voteProposal(proposalId, 1);
+    const result = await voteProposal(proposalId, 1);
     assert.isOk(result);
     assert.isOk(result.tx);
 
-    result = await genesisProtocol.getVoterInfo({
-      proposalId: proposalId,
-      voter: accounts[0]
+    const voteResult = await genesisProtocol.getVoterInfo({
+      proposalId,
+      voter: accounts[0],
     });
 
     assert.isOk(result);
-    assert.equal(result.vote, 1);
-    assert.equal(helpers.fromWei(result.reputation).toNumber(), 1000);
-
+    assert.equal(voteResult.vote, 1);
+    assert.equal(helpers.fromWei(voteResult.reputation).toNumber(), 1000);
   });
 
   it("can call voteWithSpecifiedAmounts", async () => {
     const proposalId = await createProposal();
-    let result = await genesisProtocol.voteWithSpecifiedAmounts({
-      proposalId: proposalId,
+    const result = await genesisProtocol.voteWithSpecifiedAmounts({
+      proposalId,
+      reputation: web3.toWei(10),
       vote: 1,
-      reputation: web3.toWei(10)
     });
     assert.isOk(result);
     assert.isOk(result.tx);
 
-    result = await genesisProtocol.getVoterInfo({
-      proposalId: proposalId,
-      voter: accounts[0]
+    const voteResult = await genesisProtocol.getVoterInfo({
+      proposalId,
+      voter: accounts[0],
     });
 
     assert.isOk(result);
-    assert.equal(result.vote, 1);
-    assert.equal(helpers.fromWei(result.reputation).toNumber(), 10);
+    assert.equal(voteResult.vote, 1);
+    assert.equal(helpers.fromWei(voteResult.reputation).toNumber(), 10);
   });
 
   it("can call redeem", async () => {
@@ -311,8 +328,8 @@ describe("GenesisProtocol", () => {
     await voteProposal(proposalId, 1);
 
     const result = await genesisProtocol.redeem({
-      proposalId: proposalId,
-      beneficiaryAddress: accounts[0]
+      beneficiaryAddress: accounts[0],
+      proposalId,
     });
     assert.isOk(result);
     assert.isOk(result.tx);
@@ -321,7 +338,7 @@ describe("GenesisProtocol", () => {
   it("can call getScore", async () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getScore({
-      proposalId: proposalId
+      proposalId,
     });
     assert(typeof result !== "undefined");
   });
@@ -330,7 +347,7 @@ describe("GenesisProtocol", () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getThreshold({
       avatar: dao.avatar.address,
-      proposalId: proposalId
+      proposalId,
     });
     assert(typeof result !== "undefined");
   });
@@ -338,8 +355,8 @@ describe("GenesisProtocol", () => {
   it("can call getRedeemableTokensStaker", async () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getRedeemableTokensStaker({
-      proposalId: proposalId,
-      beneficiaryAddress: accounts[0]
+      beneficiaryAddress: accounts[0],
+      proposalId,
     });
     assert(typeof result !== "undefined");
   });
@@ -347,7 +364,7 @@ describe("GenesisProtocol", () => {
   it("can call getRedeemableReputationProposer", async () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getRedeemableReputationProposer({
-      proposalId: proposalId
+      proposalId,
     });
     assert(typeof result !== "undefined");
   });
@@ -355,8 +372,8 @@ describe("GenesisProtocol", () => {
   it("can call getRedeemableTokensVoter", async () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getRedeemableTokensVoter({
-      proposalId: proposalId,
-      beneficiaryAddress: accounts[0]
+      beneficiaryAddress: accounts[0],
+      proposalId,
     });
     assert(typeof result !== "undefined");
   });
@@ -364,8 +381,8 @@ describe("GenesisProtocol", () => {
   it("can call getRedeemableReputationVoter", async () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getRedeemableReputationVoter({
-      proposalId: proposalId,
-      beneficiaryAddress: accounts[0]
+      beneficiaryAddress: accounts[0],
+      proposalId,
     });
     assert(typeof result !== "undefined");
   });
@@ -373,8 +390,8 @@ describe("GenesisProtocol", () => {
   it("can call getRedeemableReputationStaker", async () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getRedeemableReputationStaker({
-      proposalId: proposalId,
-      beneficiaryAddress: accounts[0]
+      beneficiaryAddress: accounts[0],
+      proposalId,
     });
     assert(typeof result !== "undefined");
   });
@@ -382,7 +399,7 @@ describe("GenesisProtocol", () => {
   it("can call getNumberOfChoices", async () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getNumberOfChoices({
-      proposalId: proposalId
+      proposalId,
     });
     assert.equal(result, 2);
   });
@@ -390,20 +407,18 @@ describe("GenesisProtocol", () => {
   it("can call isVotable", async () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.isVotable({
-      proposalId: proposalId
+      proposalId,
     });
     assert.equal(result, true);
   });
 
-
   it("can call getProposalAvatar", async () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getProposalAvatar({
-      proposalId: proposalId
+      proposalId,
     });
     assert.equal(result, dao.avatar.address);
   });
-
 
   it("can call getWinningVote", async () => {
     const proposalId = await createProposal();
@@ -411,7 +426,7 @@ describe("GenesisProtocol", () => {
     await voteProposal(proposalId, 1);
 
     const result = await genesisProtocol.getWinningVote({
-      proposalId: proposalId
+      proposalId,
     });
     assert.equal(result, 1);
   });
@@ -419,7 +434,7 @@ describe("GenesisProtocol", () => {
   it("can call getState", async () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getState({
-      proposalId: proposalId
+      proposalId,
     });
     assert.equal(result, 3); // PreBoosted
   });
@@ -428,7 +443,6 @@ describe("GenesisProtocol", () => {
     const scheme = await GenesisProtocolFactory.new(Utils.NULL_ADDRESS);
     assert.isOk(scheme);
   });
-
 
   it("can do deployed", async () => {
     const scheme = await GenesisProtocolFactory.deployed();
@@ -442,7 +456,7 @@ describe("GenesisProtocol", () => {
   it("cannot register new proposal with no params", async () => {
 
     try {
-      await genesisProtocol.propose({});
+      await genesisProtocol.propose();
       assert(false, "Should have thrown validation exception");
     } catch (ex) {
       assert.equal(ex, "Error: avatar is not defined");
@@ -454,8 +468,8 @@ describe("GenesisProtocol", () => {
     try {
       await genesisProtocol.propose({
         avatar: dao.avatar.address,
+        executable: executableTest.address,
         numOfChoices: 13,
-        executable: executableTest.address
       });
       assert(false, "Should have thrown validation exception");
     } catch (ex) {

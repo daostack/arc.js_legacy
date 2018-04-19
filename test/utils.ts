@@ -1,12 +1,12 @@
 "use strict";
-import "./helpers";
+import { assert } from "chai";
 import { DefaultSchemePermissions } from "../lib/commonTypes";
+import { ConfigService } from "../lib/configService";
+import { InitializeArcJs } from "../lib/index";
 import { TestWrapperFactory } from "../lib/test/wrappers/testWrapper";
 import { Utils } from "../lib/utils";
 import { WrapperService } from "../lib/wrapperService";
-import { InitializeArcJs } from "../lib/index";
-import { ConfigService } from "../lib/configService";
-import { assert } from "chai";
+import "./helpers";
 
 describe("InitializeArcJs", () => {
   it("Proper error when no web3", async () => {
@@ -15,14 +15,14 @@ describe("InitializeArcJs", () => {
     const providerUrl = ConfigService.get("providerUrl");
     let exceptionRaised = false;
     try {
-      (<any>Utils).web3 = undefined;
-      (<any>global).web3 = undefined;
+      (Utils as any).web3 = undefined;
+      (global as any).web3 = undefined;
       ConfigService.set("providerUrl", "sdfkjh");
       await InitializeArcJs();
     } catch (ex) {
       exceptionRaised = ex.message.includes("Utils.getWeb3: web3 is not connected to a net");
     }
-    (<any>global).web3 = web3;
+    (global as any).web3 = web3;
     ConfigService.set("providerUrl", providerUrl);
     assert(exceptionRaised, "proper exception was not raised");
   });

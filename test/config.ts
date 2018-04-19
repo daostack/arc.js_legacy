@@ -1,7 +1,7 @@
 "use strict";
+import { assert } from "chai";
 import { ConfigService } from "../lib/configService";
 import "./helpers";
-import { assert } from "chai";
 
 describe("ConfigService", () => {
   it("can get and set configuration values", () => {
@@ -11,7 +11,7 @@ describe("ConfigService", () => {
   });
 
   it("doesn't reload default values when imported again", () => {
-    const ConfigService = require("../lib/configService").ConfigService;
-    assert.equal(ConfigService.get("providerUrl"), "http://localhost");
+    const newConfigService = require("../lib/configService").ConfigService;
+    assert.equal(newConfigService.get("providerUrl"), "http://localhost");
   });
 });

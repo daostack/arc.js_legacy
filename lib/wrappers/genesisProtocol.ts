@@ -1000,10 +1000,10 @@ export interface ProposeVoteConfig {
    */
   avatar: Address;
   /**
-   * address of the agent making the proposal.
+   * Optional address of the agent making the proposal.
    * Default is the current default account.
    */
-  proposer: string;
+  proposer?: string;
   /**
    * number of choices when voting.  Must be between 1 and 10.
    */

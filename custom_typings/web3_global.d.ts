@@ -1,14 +1,14 @@
-declare module 'web3' {
-  import * as BigNumber from 'bignumber.js';
+declare module "web3" {
+  import * as BigNumber from "bignumber.js";
 
-  export type MixedData = string | number | object | any[] | BigNumber.BigNumber;
+  export type MixedData = string | number | object | Array<any> | BigNumber.BigNumber;
 
   export namespace providers {
     class HttpProvider implements Provider {
       constructor(url?: string, timeout?: number, username?: string, password?: string);
       public sendAsync(
         payload: JSONRPCRequestPayload,
-        callback: (err: Error, result: JSONRPCResponsePayload) => void,
+        callback: (err: Error, result: JSONRPCResponsePayload) => void
       ): void;
     }
   }
@@ -43,27 +43,27 @@ declare module 'web3' {
     public sha3(value: string, options?: Sha3Options): string;
   }
 
-  export type ContractAbi = AbiDefinition[];
+  export type ContractAbi = Array<AbiDefinition>;
 
   export type AbiDefinition = FunctionAbi | EventAbi;
 
   export type FunctionAbi = MethodAbi | ConstructorAbi | FallbackAbi;
 
   export enum AbiType {
-    Function = 'function',
-    Constructor = 'constructor',
-    Event = 'event',
-    Fallback = 'fallback',
+    Function = "function",
+    Constructor = "constructor",
+    Event = "event",
+    Fallback = "fallback",
   }
 
-  export type ConstructorStateMutability = 'nonpayable' | 'payable';
-  export type StateMutability = 'pure' | 'view' | ConstructorStateMutability;
+  export type ConstructorStateMutability = "nonpayable" | "payable";
+  export type StateMutability = "pure" | "view" | ConstructorStateMutability;
 
   export interface MethodAbi {
     type: AbiType.Function;
     name: string;
-    inputs: DataItem[];
-    outputs: DataItem[];
+    inputs: Array<DataItem>;
+    outputs: Array<DataItem>;
     constant: boolean;
     stateMutability: StateMutability;
     payable: boolean;
@@ -71,7 +71,7 @@ declare module 'web3' {
 
   export interface ConstructorAbi {
     type: AbiType.Constructor;
-    inputs: DataItem[];
+    inputs: Array<DataItem>;
     payable: boolean;
     stateMutability: ConstructorStateMutability;
   }
@@ -88,14 +88,14 @@ declare module 'web3' {
   export interface EventAbi {
     type: AbiType.Event;
     name: string;
-    inputs: EventParameter[];
+    inputs: Array<EventParameter>;
     anonymous: boolean;
   }
 
   export interface DataItem {
     name: string;
     type: string;
-    components: DataItem[];
+    components: Array<DataItem>;
   }
 
   export interface ContractInstance {
@@ -106,18 +106,18 @@ declare module 'web3' {
 
   export interface Contract<A extends ContractInstance> {
     at(address: string): A;
-    getData(...args: any[]): string;
-    'new'(...args: any[]): A;
+    getData(...args: Array<any>): string;
+    "new"(...args: Array<any>): A;
   }
 
   export interface FilterObject {
     fromBlock?: number | string;
     toBlock?: number | string;
     address?: string;
-    topics?: LogTopic[];
+    topics?: Array<LogTopic>;
   }
 
-  export type LogTopic = null | string | string[];
+  export type LogTopic = null | string | Array<string>;
 
   export interface DecodedLogEntry<A> extends LogEntry {
     event: string;
@@ -139,7 +139,7 @@ declare module 'web3' {
   }
 
   export interface JSONRPCRequestPayload {
-    params?: any[];
+    params?: Array<any>;
     method: string;
     id: number;
     jsonrpc: string;
@@ -158,27 +158,27 @@ declare module 'web3' {
     error: string;
     gas: number;
     gasCost: number;
-    memory: string[];
+    memory: Array<string>;
     op: OpCode;
     pc: number;
-    stack: string[];
+    stack: Array<string>;
     storage: { [location: string]: string };
   }
   export interface TransactionTrace {
     gas: number;
     returnValue: any;
-    structLogs: StructLog[];
+    structLogs: Array<StructLog>;
   }
 
   export interface Provider {
     sendAsync(
       payload: JSONRPCRequestPayload,
-      callback: (err: Error, result: JSONRPCResponsePayload) => void,
+      callback: (err: Error, result: JSONRPCResponsePayload) => void
     ): void;
   }
 
   export interface Sha3Options {
-    encoding: 'hex';
+    encoding: "hex";
   }
 
   export interface EthApi {
@@ -186,7 +186,7 @@ declare module 'web3' {
     mining: boolean;
     hashrate: number;
     gasPrice: BigNumber.BigNumber;
-    accounts: string[];
+    accounts: Array<string>;
     blockNumber: number;
     defaultAccount?: string;
     defaultBlock: BlockParam;
@@ -197,7 +197,7 @@ declare module 'web3' {
     getMining(cd: (err: Error, mining: boolean) => void): void;
     getHashrate(cd: (err: Error, hashrate: number) => void): void;
     getGasPrice(cd: (err: Error, gasPrice: BigNumber.BigNumber) => void): void;
-    getAccounts(cd: (err: Error, accounts: string[]) => void): void;
+    getAccounts(cd: (err: Error, accounts: Array<string>) => void): void;
     getBlockNumber(callback: (err: Error, blockNumber: number) => void): void;
     getSyncing(cd: (err: Error, syncing: SyncingResult) => void): void;
     isSyncing(cb: (err: Error, isSyncing: boolean, syncingState: SyncingState) => void): IsSyncing;
@@ -205,52 +205,52 @@ declare module 'web3' {
     getBlock(hashStringOrBlockNumber: string | BlockParam): BlockWithoutTransactionData;
     getBlock(
       hashStringOrBlockNumber: string | BlockParam,
-      callback: (err: Error, blockObj: BlockWithoutTransactionData) => void,
+      callback: (err: Error, blockObj: BlockWithoutTransactionData) => void
     ): void;
     getBlock(
       hashStringOrBlockNumber: string | BlockParam,
-      returnTransactionObjects: true,
+      returnTransactionObjects: true
     ): BlockWithTransactionData;
     getBlock(
       hashStringOrBlockNumber: string | BlockParam,
       returnTransactionObjects: true,
-      callback: (err: Error, blockObj: BlockWithTransactionData) => void,
+      callback: (err: Error, blockObj: BlockWithTransactionData) => void
     ): void;
 
     getBlockTransactionCount(hashStringOrBlockNumber: string | BlockParam): number;
     getBlockTransactionCount(
       hashStringOrBlockNumber: string | BlockParam,
-      callback: (err: Error, blockTransactionCount: number) => void,
+      callback: (err: Error, blockTransactionCount: number) => void
     ): void;
 
     // TODO returnTransactionObjects
     getUncle(
       hashStringOrBlockNumber: string | BlockParam,
-      uncleNumber: number,
+      uncleNumber: number
     ): BlockWithoutTransactionData;
     getUncle(
       hashStringOrBlockNumber: string | BlockParam,
       uncleNumber: number,
-      callback: (err: Error, uncle: BlockWithoutTransactionData) => void,
+      callback: (err: Error, uncle: BlockWithoutTransactionData) => void
     ): void;
 
     getTransaction(transactionHash: string): Transaction;
     getTransaction(
       transactionHash: string,
-      callback: (err: Error, transaction: Transaction) => void,
+      callback: (err: Error, transaction: Transaction) => void
     ): void;
 
     getTransactionFromBlock(
       hashStringOrBlockNumber: string | BlockParam,
-      indexNumber: number,
+      indexNumber: number
     ): Transaction;
     getTransactionFromBlock(
       hashStringOrBlockNumber: string | BlockParam,
       indexNumber: number,
-      callback: (err: Error, transaction: Transaction) => void,
+      callback: (err: Error, transaction: Transaction) => void
     ): void;
 
-    contract(abi: AbiDefinition[]): Contract<any>;
+    contract(abi: Array<AbiDefinition>): Contract<any>;
 
     // TODO block param
     getBalance(addressHexString: string): BigNumber.BigNumber;
@@ -278,7 +278,7 @@ declare module 'web3' {
     getTransactionReceipt(txHash: string): TransactionReceipt | null;
     getTransactionReceipt(
       txHash: string,
-      callback: (err: Error, receipt: TransactionReceipt | null) => void,
+      callback: (err: Error, receipt: TransactionReceipt | null) => void
     ): void;
 
     // TODO block param
@@ -306,7 +306,7 @@ declare module 'web3' {
   }
 
   export interface PersonalApi {
-    listAccounts: string[] | undefined;
+    listAccounts: Array<string> | undefined;
     newAccount(password?: string): string;
     unlockAccount(address: string, password?: string, duration?: number): boolean;
     lockAccount(address: string): boolean;
@@ -321,24 +321,24 @@ declare module 'web3' {
     getPeerCount(cd: (err: Error, peerCount: number) => void): void;
   }
 
-  export type BlockParam = number | 'earliest' | 'latest' | 'pending';
+  export type BlockParam = number | "earliest" | "latest" | "pending";
 
   export type Unit =
-    | 'kwei'
-    | 'ada'
-    | 'mwei'
-    | 'babbage'
-    | 'gwei'
-    | 'shannon'
-    | 'szabo'
-    | 'finney'
-    | 'ether'
-    | 'kether'
-    | 'grand'
-    | 'einstein'
-    | 'mether'
-    | 'gether'
-    | 'tether';
+    | "kwei"
+    | "ada"
+    | "mwei"
+    | "babbage"
+    | "gwei"
+    | "shannon"
+    | "szabo"
+    | "finney"
+    | "ether"
+    | "kether"
+    | "grand"
+    | "einstein"
+    | "mether"
+    | "gether"
+    | "tether";
 
   export interface SyncingState {
     startingBlock: number;
@@ -369,13 +369,13 @@ declare module 'web3' {
     gasLimit: number;
     gasUsed: number;
     timestamp: number;
-    uncles: string[];
+    uncles: Array<string>;
   }
   export interface BlockWithoutTransactionData extends AbstractBlock {
-    transactions: string[];
+    transactions: Array<string>;
   }
   export interface BlockWithTransactionData extends AbstractBlock {
-    transactions: Transaction[];
+    transactions: Array<Transaction>;
   }
 
   export interface Transaction {
@@ -420,7 +420,7 @@ declare module 'web3' {
     cumulativeGasUsed: number;
     gasUsed: number;
     contractAddress: string | null;
-    logs: LogEntry[];
+    logs: Array<LogEntry>;
   }
 
   export interface LogEntry {
@@ -431,7 +431,7 @@ declare module 'web3' {
     blockNumber: number | null;
     address: string;
     data: string;
-    topics: string[];
+    topics: Array<string>;
   }
 
   global {
