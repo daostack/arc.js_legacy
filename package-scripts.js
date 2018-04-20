@@ -41,7 +41,26 @@ const migrationScriptExists = fs.existsSync(joinPath(pathArcJsRoot, "dist", "mig
 
 module.exports = {
   scripts: {
-    ganache: "nps test.ganache.run",
+    ganache: {
+      default: "nps ganache.run",
+      run: ganacheCommand,
+    },
+    ganacheDb: {
+      default: "nps ganacheDb.run",
+      run: series(
+        mkdirp(pathDaostackArcGanacheDb),
+        ganacheDbCommand,
+      ),
+      clean: rimraf(pathDaostackArcGanacheDb),
+      zip: `node ./package-scripts/archiveGanacheDb.js ${pathDaostackArcGanacheDbZip} ${pathDaostackArcGanacheDb}`,
+      unzip: series(
+        `node ./package-scripts/unArchiveGanacheDb.js  ${pathDaostackArcGanacheDbZip} ${pathArcJsRoot}`
+      ),
+      restoreFromZip: series(
+        "nps ganacheDb.clean",
+        "nps ganacheDb.unzip"
+      )
+    },
     lint: {
       default: series(
         "nps lint.code",
@@ -58,40 +77,17 @@ module.exports = {
       andFix: "nps \"lint --fix\""
     },
     test: {
-      default: series("nps lint", "nps test.automated"),
-      automated: {
-        default: series(
-          "nps test.build",
-          "mocha --require chai --timeout 999999 test-build/test"),
-        bail: series(
-          'nps "test.automated --bail"'
-        ),
-      },
-      watch: series(
-        'nps "test.automated --watch"'
+      default: series(
+        "nps test.build",
+        "nps lint",
+        "nps \"test.run test-build/test\""
       ),
-      bail: (
-        'nps test.automated.bail'
+      bail: series(
+        "nps test.build",
+        "nps lint",
+        "nps \"test.run --bail test-build/test\""
       ),
-      ganache: {
-        run: ganacheCommand,
-      },
-      ganacheDb: {
-        run: series(
-          mkdirp(pathDaostackArcGanacheDb),
-          ganacheDbCommand,
-        ),
-        clean: rimraf(pathDaostackArcGanacheDb),
-        zip: `node ./package-scripts/archiveGanacheDb.js ${pathDaostackArcGanacheDbZip} ${pathDaostackArcGanacheDb}`,
-        unzip: series(
-          "nps test.ganacheDb.clean",
-          `node ./package-scripts/unArchiveGanacheDb.js  ${pathDaostackArcGanacheDbZip} ${pathArcJsRoot}`
-        ),
-        restoreFromZip: series(
-          "nps test.ganacheDb.clean",
-          "nps test.ganacheDb.unzip"
-        )
-      },
+      run: series("mocha --require chai --timeout 999999"),
       build: {
         default: series(
           "nps test.build.clean",

@@ -114,8 +114,7 @@ describe("GenesisProtocol", () => {
         address: accounts[1],
         reputation: web3.toWei(1000),
         tokens: web3.toWei(1000),
-      },
-      ],
+      }],
       schemes: [
         { name: "GenesisProtocol" },
         { name: "ContributionReward" },

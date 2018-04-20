@@ -134,7 +134,7 @@ export function vote(votingMachine: any, proposalId: Hash, theVote: number, vote
    * depending on whether or not the wrapper was passed, do the right thing
    */
   if (votingMachine.contract) {
-    return votingMachine.vote({ proposalId, theVote, onBehalfOf: voter });
+    return votingMachine.vote({ proposalId, vote: theVote, onBehalfOf: voter });
   } else {
     return votingMachine.vote(proposalId, theVote, { from: voter });
   }
@@ -223,9 +223,10 @@ export async function increaseTime(duration: number): Promise<void> {
   });
 }
 
-export async function getDaoScheme(dao: DAO,
-                                   schemeName: string,
-                                   factory: ContractWrapperFactory<any>): Promise<ContractWrapperBase> {
+export async function getDaoScheme(
+  dao: DAO,
+  schemeName: string,
+  factory: ContractWrapperFactory<any>): Promise<ContractWrapperBase> {
   return factory.at((await dao.getSchemes(schemeName))[0].address);
 }
 

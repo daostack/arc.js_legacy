@@ -127,10 +127,10 @@ describe("VestingScheme scheme", () => {
 
     result2 = await vestingScheme.revokeSignToCancel({ agreementId });
 
-    assert.isOk(result);
-    assert.isOk(result.tx);
-    assert.equal(result.tx.logs.length, 1); // no other event
-    assert.equal(result.tx.logs[0].event, "RevokeSignToCancelAgreement");
+    assert.isOk(result2);
+    assert.isOk(result2.tx);
+    assert.equal(result2.tx.logs.length, 1); // no other event
+    assert.equal(result2.tx.logs[0].event, "RevokeSignToCancelAgreement");
   });
 
   it("sign to cancel agreement", async () => {
