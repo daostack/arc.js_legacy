@@ -76,7 +76,6 @@
     "@types/chai": "^4.1.2",
     "@types/mocha": "^5.1.0",
     "@types/pubsub-js": "^1.5.18",
-    "babel-preset-env": "^1.6.1",
     "chai": "^4.1.2",
     "mocha": "^4.0.1",
     "tslint": "^5.9.1",
