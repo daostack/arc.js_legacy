@@ -79,12 +79,10 @@ module.exports = {
     test: {
       default: series(
         "nps test.build",
-        "nps lint",
         "nps \"test.run test-build/test\""
       ),
       bail: series(
         "nps test.build",
-        "nps lint",
         "nps \"test.run --bail test-build/test\""
       ),
       run: series("mocha --require chai --timeout 999999"),
