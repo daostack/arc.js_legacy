@@ -74,7 +74,10 @@ module.exports = {
         default: "tslint custom_typings/web3_global.d.ts custom_typings/system.d.ts test/**/*.ts",
         andFix: "nps \"lint.test --fix\""
       },
-      andFix: "nps \"lint --fix\""
+      andFix: series(
+        "nps lint.code.andFix",
+        "nps lint.test.andFix"
+      ),
     },
     test: {
       default: series(

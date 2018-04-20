@@ -1,4 +1,4 @@
-import { DecodedLogEntryEvent, FilterObject as FilterObjectWeb3, TransactionReceipt } from "web3";
+import { DecodedLogEntryEvent, TransactionReceipt, LogTopic } from "web3";
 import { AvatarService } from "./avatarService";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { ContractWrapperFactory } from "./contractWrapperFactory";
@@ -206,7 +206,7 @@ export abstract class ContractWrapperBase {
      */
     const eventFetcherFactory: EventFetcherFactory<TArgs> = (
       argFilter: any,
-      filterObject: FilterObject,
+      filterObject: EventFetcherFilterObject,
       rootCallback?: EventCallback<TArgs>
     ): EventFetcher<TArgs> => {
 
@@ -415,7 +415,7 @@ export type EventCallback<TArgs> =
 export type EventFetcherFactory<TArgs> =
   (
     argFilter: any,
-    filterObject: FilterObject,
+    filterObject: EventFetcherFilterObject,
     callback?: EventCallback<TArgs>
   ) => EventFetcher<TArgs>;
 
@@ -433,12 +433,19 @@ export interface EventFetcher<TArgs> {
   stopWatching(): void;
 }
 
-export type LogTopic = null | string | Array<string>;
+/**
+ * Haven't figured out how to export EventFetcherFilterObject that extends FilterObject from web3.
+ * Maybe will be easier with web3 v1.0, perhaps using typescript's module augmentation feature.
+ */
 
 /**
  * Options supplied to `EventFetcherFactory` and thence to `get and `watch`.
  */
-export interface FilterObject extends FilterObjectWeb3 {
+export interface EventFetcherFilterObject {
+  fromBlock?: number | string;
+  toBlock?: number | string;
+  address?: string;
+  topics?: Array<LogTopic>;
   /**
    * true to suppress duplicate events (see https://github.com/ethereum/web3.js/issues/398).
    * The default is true.

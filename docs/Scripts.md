@@ -29,6 +29,27 @@ Refer here for instructions on [migrating to Ganache](Home#set-up-a-testnet-with
 
 It can be very handy to run Arc.js tests or your application against a Ganache database that persists the state of the chain across instances of Ganache.  Refer here for [how to use a Ganache database](GanacheDb).
 
+## Run Lint
+
+Run lint on both library and test code like this:
+
+```
+npm start lint
+```
+
+!!! info
+    The above script runs `npm start lint.code` and `npm start lint.test`
+
+To lint and fix:
+
+```
+npm start lint.andFix
+```
+
+!!! info
+    You can also fix code and test separately: `npm start lint.code.andFix` and `npm start lint.test.andFix`
+
+
 ## Run Tests
 
 To run the Arc.js tests, run the following script in the Arc.js root folder, assuming you have already

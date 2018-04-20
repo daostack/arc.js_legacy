@@ -49,6 +49,7 @@ const tsFiles = glob.sync("./lib/**/*", {
 });
 
 tsFiles.unshift("./custom_typings/system.d.ts");
+tsFiles.unshift("./custom_typings/web3.d.ts");
 
 if (tsFiles.length === 0) {
   throw new Error("No source files found.");
