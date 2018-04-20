@@ -21,7 +21,7 @@ install:
   
 script:
   - npm start lint
-  - npm start test.automated
+  - npm start test
 
 notifications:
   slack: daostack:fGuaFPsiQiV5mgmzRcSzbYqw
