@@ -36,7 +36,7 @@ export class DAO {
       daoCreator.forgeOrgTransactionsCount(options) + daoCreator.setSchemesTransactionsCount(options));
 
     /**
-     * subscribe to all "txReceipts..DaoCreator" and republish as eventTopic with txReceiptEventPayload
+     * subscribe to all "txReceipts.DaoCreator" and republish as eventTopic with txReceiptEventPayload
      */
     const eventSubscription = TransactionService.resendTxEvents(
       "txReceipts.DaoCreator",

@@ -69,7 +69,9 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
 
     await this.validateCreateParams(options);
 
-    const txResult = await this.wrapTransactionInvocation("txReceipts.VestingScheme.propose",
+    this.logContractFunctionCall("VestingScheme.proposeVestingAgreement", options);
+
+    const txResult = await this.wrapTransactionInvocation("VestingScheme.propose",
       options,
       () => {
         return this.contract.proposeVestingAgreement(
@@ -126,6 +128,8 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
       TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
     }
 
+    this.logContractFunctionCall("VestingScheme.createVestedAgreement", options);
+
     tx = await this.contract.createVestedAgreement(
       options.token,
       options.beneficiaryAddress,
@@ -156,7 +160,9 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
       throw new Error("agreementId is not defined");
     }
 
-    return this.wrapTransactionInvocation("txReceipts.VestingScheme.signToCancel",
+    this.logContractFunctionCall("VestingScheme.signToCancelAgreement", options);
+
+    return this.wrapTransactionInvocation("VestingScheme.signToCancel",
       options,
       () => {
         return this.contract.signToCancelAgreement(options.agreementId);
@@ -175,7 +181,9 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
       throw new Error("agreementId is not defined");
     }
 
-    return this.wrapTransactionInvocation("txReceipts.VestingScheme.revokeSignToCancel",
+    this.logContractFunctionCall("VestingScheme.revokeSignToCancelAgreement", options);
+
+    return this.wrapTransactionInvocation("VestingScheme.revokeSignToCancel",
       options,
       () => {
         return this.contract.revokeSignToCancelAgreement(options.agreementId);
@@ -194,7 +202,9 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
       throw new Error("agreementId is not defined");
     }
 
-    return this.wrapTransactionInvocation("txReceipts.VestingScheme.revokeSignToCancel",
+    this.logContractFunctionCall("VestingScheme.collect", options);
+
+    return this.wrapTransactionInvocation("VestingScheme.collect",
       options,
       () => {
         return this.contract.collect(options.agreementId);
@@ -246,7 +256,8 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
 
     this.validateStandardSchemeParams(params);
 
-    return super.setParameters(
+    return super._setParameters(
+      "VestingScheme.setParameters",
       params.voteParametersHash,
       params.votingMachineAddress
     );

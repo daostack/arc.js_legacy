@@ -42,7 +42,9 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeW
       throw new Error("controller address is not defined");
     }
 
-    const txResult = await this.wrapTransactionInvocation("txReceipts.UpgradeScheme.proposeController",
+    this.logContractFunctionCall("UpgradeScheme.proposeUpgrade", options);
+
+    const txResult = await this.wrapTransactionInvocation("UpgradeScheme.proposeController",
       options,
       () => {
         return this.contract.proposeUpgrade(
@@ -73,7 +75,9 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeW
       throw new Error("schemeParametersHash is not defined");
     }
 
-    const txResult = await this.wrapTransactionInvocation("txReceipts.UpgradeScheme.proposeUpgradingScheme",
+    this.logContractFunctionCall("UpgradeScheme.proposeUpgradingScheme", options);
+
+    const txResult = await this.wrapTransactionInvocation("UpgradeScheme.proposeUpgradingScheme",
       options,
       () => {
         return this.contract.proposeChangeUpgradingScheme(
@@ -90,7 +94,8 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeW
 
     this.validateStandardSchemeParams(params);
 
-    return super.setParameters(
+    return super._setParameters(
+      "UpgradeScheme.setParameters",
       params.voteParametersHash,
       params.votingMachineAddress
     );

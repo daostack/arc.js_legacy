@@ -58,7 +58,11 @@ export class TransactionService extends EventService {
    * @param tx the transaction.  Don't supply for kick-off event.
    * @returns True if there are any subscribers
    */
-  public static publishTxEvent(topic: string, payload: TransactionReceiptsEventInfo, tx?: TransactionReceiptTruffle): boolean {
+  public static publishTxEvent(
+    topic: string,
+    payload: TransactionReceiptsEventInfo,
+    tx?: TransactionReceiptTruffle): boolean {
+
     if (tx) {
       payload = Object.assign({}, payload, { tx });
     }

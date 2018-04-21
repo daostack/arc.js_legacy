@@ -105,16 +105,7 @@ export abstract class ContractWrapperBase {
    * @param {any} params -- parameters as the contract.setParameters function expects them.
    */
   public async setParameters(...params: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
-
-    const parametersHash: Hash = await this.contract.getParametersHash(...params);
-
-    const txResult = await this.wrapTransactionInvocation("txReceipts.ContractWrapper.setParameters",
-      params,
-      () => {
-        return this.contract.setParameters(...params);
-      });
-
-    return new ArcTransactionDataResult<Hash>(txResult.tx, parametersHash);
+    throw new Error("setParameters has not been not implemented by the contract wrapper");
   }
 
   /**
@@ -150,6 +141,25 @@ export abstract class ContractWrapperBase {
   public async getController(avatarAddress: Address): Promise<any> {
     const avatarService = new AvatarService(avatarAddress);
     return avatarService.getController();
+  }
+
+  protected async _setParameters(functionName: string, ...params: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
+
+    const parametersHash: Hash = await this.contract.getParametersHash(...params);
+    const eventTopic = "txReceipts.ContractWrapperBase.setParameters";
+
+    const txReceiptEventPayload = TransactionService.publishKickoffEvent(eventTopic, params, 1);
+
+    const txResult = await this.wrapTransactionInvocation(functionName,
+      // typically this is supposed to be an object, but here it is an array
+      params,
+      () => {
+        return this.contract.setParameters(...params);
+      });
+
+    TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, txResult.tx);
+
+    return new ArcTransactionDataResult<Hash>(txResult.tx, parametersHash);
   }
 
   /**
@@ -288,22 +298,28 @@ export abstract class ContractWrapperBase {
   /**
    * Wrap code that creates a transaction in the given transaction event. This is a helper
    * just for the common case of generating a single transaction.
-   * @param eventTopic
-   * @param options
-   * @param generateTx
+   * @param functionName Should look like [contractName].[functionName]
+   * @param options Options that will be passed to the contract function being invoked
+   * @param generateTx Callback that will invoke the contract function
    */
   protected async wrapTransactionInvocation(
-    eventTopic: string,
+    functionName: string,
     options: any,
     generateTx: () => Promise<TransactionReceiptTruffle>): Promise<ArcTransactionResult> {
 
-    const txReceiptEventPayload = TransactionService.publishKickoffEvent(eventTopic, options, 1);
+    const topic = `txReceipts.${functionName}`;
+
+    const txReceiptEventPayload = TransactionService.publishKickoffEvent(topic, options, 1);
 
     const tx = await generateTx();
 
-    TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
+    TransactionService.publishTxEvent(topic, txReceiptEventPayload, tx);
 
     return new ArcTransactionResult(tx);
+  }
+
+  protected logContractFunctionCall(functionName: string, params?: any): void {
+    LoggingService.debug(`calling ${functionName}${params ? ` with: ${LoggingService.stringifyObject(params)}` : ""}`);
   }
 }
 
