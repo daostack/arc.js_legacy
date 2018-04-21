@@ -5,8 +5,8 @@ import { ContractWrapperBase, DecodedLogEntryEvent } from "./contractWrapperBase
 import { LoggingService } from "./loggingService";
 import { TransactionService } from "./transactionService";
 import { Utils } from "./utils";
-import { DaoCreatorFactory, DaoCreatorWrapper } from "./wrappers/daocreator";
-import { ForgeOrgConfig, InitialSchemesSetEventResult, SchemesConfig } from "./wrappers/daocreator";
+import { DaoCreatorFactory, DaoCreatorWrapper } from "./wrappers/daoCreator";
+import { ForgeOrgConfig, InitialSchemesSetEventResult, SchemesConfig } from "./wrappers/daoCreator";
 import { WrapperService } from "./wrapperService";
 
 /**

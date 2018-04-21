@@ -16,9 +16,6 @@
     "package-scripts.js",
     "package-scripts/",
     "truffle.js",
-    ".babelrc",
-    ".eslintignore",
-    ".eslintrc",
     "gasLimits.js"
   ],
   "scripts": {
@@ -27,7 +24,7 @@
     "buildtest": "npm start test.build",
     "build": "npm start build",
     "lint": "npm start lint",
-    "ganache": "npm start test.ganache.run",
+    "ganache": "npm start ganache",
     "migrateContracts": "npm start migrateContracts"
   },
   "repository": {
@@ -71,19 +68,19 @@
     "path.join": "^1.0.0",
     "pubsub-js": "^1.6.0",
     "truffle-contract": "^3.0.1",
-    "truffle-core-migrate-without-compile": "^4.0.7"
+    "truffle-core-migrate-without-compile": "^4.0.7",
+    "tslib": "^1.9.0"
   },
   "devDependencies": {
     "@daostack/arc": "0.0.0-alpha.38",
+    "@types/chai": "^4.1.2",
+    "@types/mocha": "^5.1.0",
     "@types/pubsub-js": "^1.5.18",
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
     "chai": "^4.1.2",
-    "eslint": "^4.18.1",
     "mocha": "^4.0.1",
     "tslint": "^5.9.1",
     "typedoc": "^0.11.1",
     "typedoc-plugin-markdown": "^1.0.14",
-    "typescript": "^2.7.2"
+    "typescript": "^2.8.3"
   }
 }

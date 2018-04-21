@@ -1,14 +1,16 @@
-import { WrapperService } from "../test-dist/wrapperService";
-import { NULL_ADDRESS, DefaultLogLevel } from "./helpers";
-import { UpgradeSchemeWrapper } from "../test-dist/wrappers/upgradescheme";
-import { GenesisProtocolWrapper } from "../test-dist/wrappers/genesisProtocol";
-import { LoggingService, LogLevel } from "../test-dist/loggingService";
+import { assert } from "chai";
 import {
-  ContractWrappers,
+  ContractWrapperBase,
   ContractWrapperFactories,
-  ContractWrappersByType,
-  ContractWrappersByAddress
-} from "../test-dist/index";
+  ContractWrappers,
+  ContractWrappersByAddress,
+  ContractWrappersByType
+} from "../lib/index";
+import { LoggingService, LogLevel } from "../lib/loggingService";
+import { GenesisProtocolWrapper } from "../lib/wrappers/genesisProtocol";
+import { UpgradeSchemeWrapper } from "../lib/wrappers/upgradeScheme";
+import { WrapperService } from "../lib/wrapperService";
+import { DefaultLogLevel, NULL_ADDRESS } from "./helpers";
 
 describe("WrapperService", () => {
 
@@ -21,8 +23,8 @@ describe("WrapperService", () => {
     await WrapperService.initialize({
       filter: {
         ContributionReward: true,
-        GenesisProtocol: true
-      }
+        GenesisProtocol: true,
+      },
     });
 
     assert.equal(WrapperService.wrappers.GlobalConstraintRegistrar, null);
@@ -34,17 +36,19 @@ describe("WrapperService", () => {
 
   it("Can enumerate wrappers", () => {
     for (const wrapperName in ContractWrappers) {
-      const wrapper = ContractWrappers[wrapperName];
-      assert.isOk(wrapper);
-      assert(wrapper.name.length > 0);
+      if (ContractWrappers.hasOwnProperty(wrapperName)) {
+        const wrapper = ContractWrappers[wrapperName];
+        assert.isOk(wrapper);
+        assert(wrapper.name.length > 0);
+      }
     }
   });
 
   it("Can enumerate allWrappers", () => {
-    for (const wrapper of ContractWrappersByType.allWrappers) {
+    ContractWrappersByType.allWrappers.forEach((wrapper: ContractWrapperBase) => {
       assert.isOk(wrapper);
       assert(wrapper.name.length > 0);
-    }
+    });
   });
 
   it("can import quick-access types", async () => {

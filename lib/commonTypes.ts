@@ -8,11 +8,11 @@ export interface VoteConfig {
   /**
    * optional address of agent casting the vote.
    */
-  onBehalfOf?: string;
+  onBehalfOf?: Address;
   /**
    * unique hash of proposal index
    */
-  proposalId: string;
+  proposalId: Hash;
   /**
    * the choice of vote. Can be 1 (YES) or 2 (NO).
    */

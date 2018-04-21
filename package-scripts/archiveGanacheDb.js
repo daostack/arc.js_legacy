@@ -11,4 +11,4 @@ const stream = fs.createWriteStream(pathDaostackArcGanacheDbZip);
 
 _archiver.pipe(stream);
 
-_archiver.directory(pathDaostackArcGanacheDb, "GanacheDb").finalize();
+_archiver.directory(pathDaostackArcGanacheDb, "ganacheDb").finalize();

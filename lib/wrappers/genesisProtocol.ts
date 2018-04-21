@@ -124,7 +124,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     const web3 = Utils.getWeb3();
     const amount = web3.toBigNumber(options.amount);
 
-    if (amount <= 0) {
+    if (amount.lte(0)) {
       throw new Error("amount must be > 0");
     }
 
@@ -1000,10 +1000,10 @@ export interface ProposeVoteConfig {
    */
   avatar: Address;
   /**
-   * address of the agent making the proposal.
+   * Optional address of the agent making the proposal.
    * Default is the current default account.
    */
-  proposer: string;
+  proposer?: string;
   /**
    * number of choices when voting.  Must be between 1 and 10.
    */

@@ -15,13 +15,13 @@ before_install:
   
 install:
   - npm install
-  - nohup npm start test.ganache.run &
+  - nohup npm start ganache &
   - npm start migrateContracts.fetchFromArc
   - npm start migrateContracts
   
 script:
   - npm start lint
-  - npm start test.automated
+  - npm start test
 
 notifications:
   slack: daostack:fGuaFPsiQiV5mgmzRcSzbYqw

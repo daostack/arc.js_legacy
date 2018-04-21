@@ -22,7 +22,7 @@ const pathDaostackArcRepo = joinPath(pathArcJsRoot, "node_modules/@daostack/arc"
 
 const pathArcTest = joinPath(pathArcJsRoot, "test");
 
-const pathArcTestBuild = joinPath(pathArcJsRoot, "test-dist");
+const pathArcTestBuild = joinPath(pathArcJsRoot, "test-build");
 
 const pathDaostackArcGanacheDb = joinPath(pathArcJsRoot, "ganacheDb");
 const pathDaostackArcGanacheDbZip = joinPath(pathArcJsRoot, "ganacheDb.zip");
@@ -41,62 +41,61 @@ const migrationScriptExists = fs.existsSync(joinPath(pathArcJsRoot, "dist", "mig
 
 module.exports = {
   scripts: {
-    lint: {
-      default: series(
-        "nps lint.ts",
-        "nps lint.js"
+    ganache: {
+      default: "nps ganache.run",
+      run: ganacheCommand,
+    },
+    ganacheDb: {
+      default: "nps ganacheDb.run",
+      run: series(
+        mkdirp(pathDaostackArcGanacheDb),
+        ganacheDbCommand,
       ),
-      ts: {
-        default: "tslint lib/**/* custom_typings/system.d.ts",
-        andFix: "nps \"lint.ts --fix\""
-      },
-      js: {
-        default: "eslint .",
-        andFix: "nps \"lint.js --fix\""
-      },
-      andFix: series(
-        "nps lint.ts.andFix",
-        "nps lint.js.andFix"
+      clean: rimraf(pathDaostackArcGanacheDb),
+      zip: `node ./package-scripts/archiveGanacheDb.js ${pathDaostackArcGanacheDbZip} ${pathDaostackArcGanacheDb}`,
+      unzip: series(
+        `node ./package-scripts/unArchiveGanacheDb.js  ${pathDaostackArcGanacheDbZip} ${pathArcJsRoot}`
+      ),
+      restoreFromZip: series(
+        "nps ganacheDb.clean",
+        "nps ganacheDb.unzip"
       )
     },
+    lint: {
+      default: series(
+        "nps lint.code",
+        "nps lint.test"
+      ),
+      code: {
+        default: "tslint custom_typings/web3.d.ts custom_typings/system.d.ts lib/**/*.ts",
+        andFix: "nps \"lint.code --fix\""
+      },
+      test: {
+        default: "tslint custom_typings/web3_global.d.ts custom_typings/system.d.ts test/**/*.ts",
+        andFix: "nps \"lint.test --fix\""
+      },
+      andFix: series(
+        "nps lint.code.andFix",
+        "nps lint.test.andFix"
+      ),
+    },
     test: {
-      default: series("nps lint", "nps test.automated"),
-      automated: {
-        default: series(
-          "nps test.build",
-          "mocha --require babel-register --require babel-polyfill --require chai --timeout 999999"),
-        bail: series(
-          'nps "test.automated --bail"'
-        ),
-      },
-      watch: series(
-        'nps "test.automated --watch"'
+      default: series(
+        "nps test.build",
+        "nps \"test.run test-build/test\""
       ),
-      bail: (
-        'nps test.automated.bail'
+      bail: series(
+        "nps test.build",
+        "nps \"test.run --bail test-build/test\""
       ),
-      ganache: {
-        run: ganacheCommand,
-      },
-      ganacheDb: {
-        run: series(
-          mkdirp(pathDaostackArcGanacheDb),
-          ganacheDbCommand,
-        ),
-        clean: rimraf(pathDaostackArcGanacheDb),
-        zip: `node ./package-scripts/archiveGanacheDb.js ${pathDaostackArcGanacheDbZip} ${pathDaostackArcGanacheDb}`,
-        unzip: series(
-          "nps test.ganacheDb.clean",
-          `node ./package-scripts/unArchiveGanacheDb.js  ${pathDaostackArcGanacheDbZip} ${pathArcJsRoot}`
-        ),
-        restoreFromZip: series(
-          "nps test.ganacheDb.clean",
-          "nps test.ganacheDb.unzip"
-        )
-      },
+      run: series("mocha --require chai --timeout 999999"),
       build: {
         default: series(
           "nps test.build.clean",
+          mkdirp(`${pathArcTestBuild}/config`),
+          copy(`./config/**/* ${pathArcTestBuild}/config`),
+          copy(`./gasLimits.js ${pathArcTestBuild}`),
+          copy(`./migrated_contracts/**/* ${pathArcTestBuild}/migrated_contracts`),
           mkdirp(pathArcTestBuild),
           `node node_modules/typescript/bin/tsc --outDir ${pathArcTestBuild} --project ${pathArcTest}`
         ),

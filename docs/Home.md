@@ -41,7 +41,7 @@ To deploy contracts to a Ganache testnet, run the following scripts:
 
 In a separate shell window:
 ```script
-npm explore @daostack/arc.js -- npm start test.ganache.run
+npm explore @daostack/arc.js -- npm start ganache
 ```
 
 If you are running the migration for the first time:

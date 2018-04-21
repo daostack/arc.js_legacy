@@ -1,12 +1,16 @@
 import { promisify } from "es6-promisify";
 import abi = require("ethereumjs-abi");
 import TruffleContract = require("truffle-contract");
-import Web3 = require("web3");
+import { providers as Web3Providers, Web3 } from "web3";
 import { gasLimitsConfig } from "../gasLimits.js";
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "./commonTypes";
 import { ConfigService } from "./configService";
 import { TransactionReceiptTruffle } from "./contractWrapperBase";
 import { LoggingService } from "./loggingService";
+// haven't figured out how to get web3 typings to properly expose the Web3 constructor.
+// v1.0 may improve on this entire Web3 typings experience
+/* tslint:disable-next-line:no-var-requires */
+const webConstructor = require("web3");
 
 export class Utils {
 
@@ -69,7 +73,7 @@ export class Utils {
       // Instead of using the injected Web3.js directly best practice is to use the version of web3.js we have bundled
       /* tslint:disable-next-line:max-line-length */
       // see https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#partly_sunny-web3---ethereum-browser-environment-check
-      preWeb3 = new Web3(globalWeb3.currentProvider);
+      preWeb3 = new webConstructor(globalWeb3.currentProvider);
     } else if (Utils.alreadyTriedAndFailed) {
       // then avoid time-consuming and futile retry
       throw new Error("Utils.getWeb3: already tried and failed");
@@ -78,8 +82,8 @@ export class Utils {
       LoggingService.debug(`Utils.getWeb3: instantiating web3 with configured provider ${ConfigService.get("providerUrl")}:${ConfigService.get("providerPort")}`);
       // No web3 is injected, look for a provider at providerUrl:providerPort (which defaults to localhost)
       // This happens when running tests, or in a browser that is not running MetaMask
-      preWeb3 = new Web3(
-        new Web3.providers.HttpProvider(`${ConfigService.get("providerUrl")}:${ConfigService.get("providerPort")}`)
+      preWeb3 = new webConstructor(
+        new Web3Providers.HttpProvider(`${ConfigService.get("providerUrl")}:${ConfigService.get("providerPort")}`)
       );
     }
 

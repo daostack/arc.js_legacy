@@ -95,26 +95,26 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
     const externalTokenReward = web3.toBigNumber(options.externalTokenReward);
 
     if (
-      (nativeTokenReward < 0) ||
-      (ethReward < 0) ||
-      (externalTokenReward < 0)
+      (nativeTokenReward.lt(0) ||
+        ethReward.lt(0) ||
+        externalTokenReward.lt(0))
     ) {
       throw new Error("rewards must be greater than or equal to zero");
     }
 
     if (
       !(
-        (reputationChange !== 0) ||
-        (nativeTokenReward > 0) ||
-        (reputationChange > 0) ||
-        (ethReward > 0) ||
-        (externalTokenReward > 0)
+        (!reputationChange.eq(0) ||
+          nativeTokenReward.gt(0) ||
+          reputationChange.gt(0) ||
+          ethReward.gt(0) ||
+          externalTokenReward.gt(0))
       )
     ) {
       throw new Error("no reward amount was given");
     }
 
-    if ((externalTokenReward > 0) && !options.externalToken) {
+    if (externalTokenReward.gt(0) && !options.externalToken) {
       throw new Error(
         "external token reward is proposed but externalToken is not defined"
       );

@@ -9,11 +9,11 @@ import {
 import {
   ContributionRewardFactory,
   ContributionRewardWrapper
-} from "./wrappers/contributionreward.js";
+} from "./wrappers/contributionReward.js";
 import {
   DaoCreatorFactory,
   DaoCreatorWrapper
-} from "./wrappers/daocreator.js";
+} from "./wrappers/daoCreator.js";
 import {
   GenesisProtocolFactory,
   GenesisProtocolWrapper
@@ -21,11 +21,11 @@ import {
 import {
   GlobalConstraintRegistrarFactory,
   GlobalConstraintRegistrarWrapper
-} from "./wrappers/globalconstraintregistrar.js";
+} from "./wrappers/globalConstraintRegistrar.js";
 import {
   SchemeRegistrarFactory,
   SchemeRegistrarWrapper
-} from "./wrappers/schemeregistrar.js";
+} from "./wrappers/schemeRegistrar.js";
 import {
   TokenCapGCFactory,
   TokenCapGCWrapper
@@ -33,11 +33,11 @@ import {
 import {
   UpgradeSchemeFactory,
   UpgradeSchemeWrapper
-} from "./wrappers/upgradescheme.js";
+} from "./wrappers/upgradeScheme.js";
 import {
   VestingSchemeFactory,
   VestingSchemeWrapper
-} from "./wrappers/vestingscheme.js";
+} from "./wrappers/vestingScheme.js";
 import {
   VoteInOrganizationSchemeFactory,
   VoteInOrganizationSchemeWrapper
@@ -268,16 +268,16 @@ export class WrapperService {
 }
 
 export interface WrapperFilter {
-  AbsoluteVote: boolean;
-  ContributionReward: boolean;
-  DaoCreator: boolean;
-  GenesisProtocol: boolean;
-  GlobalConstraintRegistrar: boolean;
-  SchemeRegistrar: boolean;
-  TokenCapGC: boolean;
-  UpgradeScheme: boolean;
-  VestingScheme: boolean;
-  VoteInOrganizationScheme: boolean;
+  AbsoluteVote?: boolean;
+  ContributionReward?: boolean;
+  DaoCreator?: boolean;
+  GenesisProtocol?: boolean;
+  GlobalConstraintRegistrar?: boolean;
+  SchemeRegistrar?: boolean;
+  TokenCapGC?: boolean;
+  UpgradeScheme?: boolean;
+  VestingScheme?: boolean;
+  VoteInOrganizationScheme?: boolean;
 }
 
 export interface WrapperServiceInitializeOptions {

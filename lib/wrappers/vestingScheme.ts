@@ -289,7 +289,7 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
       throw new Error("periodLength must be an integer greater than zero");
     }
 
-    if (Utils.getWeb3().toBigNumber(options.amountPerPeriod) <= 0) {
+    if (Utils.getWeb3().toBigNumber(options.amountPerPeriod).lte(0)) {
       throw new Error("amountPerPeriod must be greater than zero");
     }
 
@@ -406,7 +406,7 @@ export interface CommonVestingAgreementConfig {
    * Default is the current block number.
    * Must be greater than or equal to zero.
    */
-  startingBlock: number;
+  startingBlock?: number;
   /**
    * The number of tokens to pay per period.
    * Period is calculated as (number of blocks / periodLength).
@@ -484,9 +484,9 @@ export interface GetAgreementParams {
    */
   avatar: Address;
   /**
-   * the agreementId
+   * Optional agreement Id
    */
-  agreementId: number;
+  agreementId?: number;
 }
 
 export interface Agreement {

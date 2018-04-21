@@ -9,7 +9,7 @@ Note that some of these instructions are very similar to what you see when [_not
 First you want to run Ganache with the appropriate flags that will create a database.
 
 ```script
-   npm explore @daostack/arc.js -- npm start test.ganacheDb.run
+   npm explore @daostack/arc.js -- npm start ganacheDb
 ```
 
 ## Migrate the Arc Contracts
@@ -27,7 +27,7 @@ To let this be your snapshot, manually in your own OS, terminate the Ganache pro
 Now zip the database for later reuse to start from this point in the chain.
 
 ```script
-   npm explore @daostack/arc.js -- npm start test.ganacheDb.zip
+   npm explore @daostack/arc.js -- npm start ganacheDb.zip
 ```
 
 At this point you can restart Ganache as above and it will commence from the point represented in the database. 
@@ -39,7 +39,7 @@ After running against the snapshot you may want to restart it, commencing at the
 First make sure you have [terminated Ganache](#terminate-ganache), then unzip the database:
 
 ```script
-   npm explore @daostack/arc.js -- npm start test.ganacheDb.restoreFromZip
+   npm explore @daostack/arc.js -- npm start ganacheDb.restoreFromZip
 ```
 Now when you restart ganacheDb it will be running against the previously-zipped database.
 
@@ -47,5 +47,5 @@ Now when you restart ganacheDb it will be running against the previously-zipped 
 To start again fully from scratch, an empty database, you can clean out the pre-existing database.  Note this can take a long time as there may be thousands of files to delete:
 
 ```script
-   npm explore @daostack/arc.js -- npm start test.ganacheDb.clean
+   npm explore @daostack/arc.js -- npm start ganacheDb.clean
 ```

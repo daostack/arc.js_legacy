@@ -1,10 +1,14 @@
-import { DAO } from "../test-dist/dao";
+import { assert } from "chai";
+import { SchemePermissions } from "../lib/commonTypes";
+import { DAO } from "../lib/dao";
+import {
+  GlobalConstraintRegistrarFactory,
+  GlobalConstraintRegistrarWrapper
+} from "../lib/wrappers/globalConstraintRegistrar";
+import { SchemeRegistrarFactory, SchemeRegistrarWrapper } from "../lib/wrappers/schemeRegistrar";
+import { UpgradeSchemeFactory, UpgradeSchemeWrapper } from "../lib/wrappers/upgradeScheme";
+import { WrapperService } from "../lib/wrapperService";
 import * as helpers from "./helpers";
-import { GlobalConstraintRegistrarFactory, GlobalConstraintRegistrarWrapper } from "../test-dist/wrappers/globalconstraintregistrar";
-import { UpgradeSchemeFactory, UpgradeSchemeWrapper } from "../test-dist/wrappers/upgradescheme";
-import { SchemeRegistrarFactory, SchemeRegistrarWrapper } from "../test-dist/wrappers/schemeregistrar";
-import { SchemePermissions } from "../test-dist/commonTypes";
-import { WrapperService } from "../test-dist/wrapperService";
 
 describe("DAO", () => {
   let dao;
@@ -13,7 +17,7 @@ describe("DAO", () => {
     await DAO.new({
       name: "Skynet",
       tokenName: "Tokens of skynet",
-      tokenSymbol: "SNT"
+      tokenSymbol: "SNT",
     });
 
     const daos = await DAO.getDaos({});
@@ -23,26 +27,28 @@ describe("DAO", () => {
 
   it("default config for counting the number of transactions", async () => {
     dao = await DAO.new({
-      name: "Skynet",
-      tokenName: "Tokens of skynet",
-      tokenSymbol: "SNT",
       founders: [
         {
           address: accounts[0],
           reputation: web3.toWei(1000),
-          tokens: web3.toWei(40)
-        }
+          tokens: web3.toWei(40),
+        },
       ],
+      name: "Skynet",
       schemes: [
         { name: "SchemeRegistrar" },
         { name: "UpgradeScheme" },
-        { name: "GlobalConstraintRegistrar" }
-      ]
+        { name: "GlobalConstraintRegistrar" },
+      ],
+      tokenName: "Tokens of skynet",
+      tokenSymbol: "SNT",
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
-    const scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory);
-    assert.equal(scheme.getDefaultPermissions(), SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
+    const scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory) as SchemeRegistrarWrapper;
+    assert.equal(scheme.getDefaultPermissions(),
+      SchemePermissions.fromString(
+        await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
   });
 
   it("can create with non-universal controller", async () => {
@@ -50,7 +56,7 @@ describe("DAO", () => {
       name: "Skynet",
       tokenName: "Tokens of skynet",
       tokenSymbol: "SNT",
-      universalController: false
+      universalController: false,
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
@@ -61,7 +67,7 @@ describe("DAO", () => {
     dao = await DAO.new({
       name: "Skynet",
       tokenName: "Tokens of skynet",
-      tokenSymbol: "SNT"
+      tokenSymbol: "SNT",
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
@@ -84,8 +90,10 @@ describe("DAO", () => {
     const upgradeScheme1 = await helpers.getDaoScheme(org1, "UpgradeScheme", UpgradeSchemeFactory);
     const upgradeScheme2 = await helpers.getDaoScheme(org2, "UpgradeScheme", UpgradeSchemeFactory);
     assert.equal(upgradeScheme1.address, upgradeScheme2.address);
-    const globalConstraintRegistrar1 = await helpers.getDaoScheme(org1, "GlobalConstraintRegistrar", GlobalConstraintRegistrarFactory);
-    const globalConstraintRegistrar2 = await helpers.getDaoScheme(org2, "GlobalConstraintRegistrar", GlobalConstraintRegistrarFactory);
+    const globalConstraintRegistrar1 =
+      await helpers.getDaoScheme(org1, "GlobalConstraintRegistrar", GlobalConstraintRegistrarFactory);
+    const globalConstraintRegistrar2 =
+      await helpers.getDaoScheme(org2, "GlobalConstraintRegistrar", GlobalConstraintRegistrarFactory);
     assert.equal(
       globalConstraintRegistrar1.address,
       globalConstraintRegistrar2.address
@@ -94,26 +102,26 @@ describe("DAO", () => {
 
   it("can be created with founders", async () => {
     dao = await DAO.new({
-      name: "Skynet",
-      tokenName: "Tokens of skynet",
-      tokenSymbol: "SNT",
       founders: [
         {
           address: accounts[0],
           reputation: web3.toWei(1000),
-          tokens: web3.toWei(40)
+          tokens: web3.toWei(40),
         },
         {
           address: accounts[1],
           reputation: web3.toWei(1000),
-          tokens: web3.toWei(40)
+          tokens: web3.toWei(40),
         },
         {
           address: accounts[2],
           reputation: web3.toWei(1000),
-          tokens: web3.toWei(40)
-        }
-      ]
+          tokens: web3.toWei(40),
+        },
+      ],
+      name: "Skynet",
+      tokenName: "Tokens of skynet",
+      tokenSymbol: "SNT",
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
@@ -122,39 +130,42 @@ describe("DAO", () => {
   it("can be created with schemes and default votingMachineParams", async () => {
     dao = await DAO.new({
       name: "Skynet",
-      tokenName: "Tokens of skynet",
-      tokenSymbol: "SNT",
       schemes: [
         { name: "SchemeRegistrar" },
         { name: "UpgradeScheme" },
-        { name: "GlobalConstraintRegistrar" }
-      ]
+        { name: "GlobalConstraintRegistrar" },
+      ],
+      tokenName: "Tokens of skynet",
+      tokenSymbol: "SNT",
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
-    const scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory);
-    assert.equal(scheme.getDefaultPermissions(), SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
+    const scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory) as SchemeRegistrarWrapper;
+    assert.equal(scheme.getDefaultPermissions(),
+      SchemePermissions.fromString(
+        await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
   });
 
   it("can be created with schemes and global votingMachineParams", async () => {
     dao = await DAO.new({
       name: "Skynet",
-      tokenName: "Tokens of skynet",
-      tokenSymbol: "SNT",
       schemes: [
         { name: "SchemeRegistrar" },
         { name: "UpgradeScheme" },
-        { name: "GlobalConstraintRegistrar" }
+        { name: "GlobalConstraintRegistrar" },
       ],
+      tokenName: "Tokens of skynet",
+      tokenSymbol: "SNT",
       votingMachineParams: {
+        ownerVote: true,
         votePerc: 45,
-        ownerVote: true
-      }
+      },
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
-    const scheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory);
-    assert.equal(scheme.getDefaultPermissions(), SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
+    const scheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory) as UpgradeSchemeWrapper;
+    assert.equal(scheme.getDefaultPermissions(),
+      SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
 
     const votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, scheme);
     const votingMachine = await helpers.getSchemeVotingMachine(dao, scheme);
@@ -165,38 +176,45 @@ describe("DAO", () => {
   it("can be created with schemes and scheme-specific votingMachineParams", async () => {
     dao = await DAO.new({
       name: "Skynet",
-      tokenName: "Tokens of skynet",
-      tokenSymbol: "SNT",
       schemes: [
         { name: "SchemeRegistrar" },
         { name: "UpgradeScheme" },
         {
           name: "GlobalConstraintRegistrar",
           votingMachineParams: {
+            ownerVote: true,
             votePerc: 30,
-            ownerVote: true
-          }
-        }
+          },
+        },
       ],
+      tokenName: "Tokens of skynet",
+      tokenSymbol: "SNT",
       votingMachineParams: {
+        ownerVote: true,
         votePerc: 45,
-        ownerVote: true
-      }
+      },
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
-    let scheme = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrarFactory);
-    assert.equal(scheme.getDefaultPermissions(), SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
-    let votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, scheme);
-    let votingMachine = await helpers.getSchemeVotingMachine(dao, scheme);
+    const gcscheme = await helpers.getDaoScheme(
+      dao,
+      "GlobalConstraintRegistrar",
+      GlobalConstraintRegistrarFactory) as GlobalConstraintRegistrarWrapper;
+    assert.equal(gcscheme.getDefaultPermissions(),
+      SchemePermissions.fromString(await dao.controller.getSchemePermissions(gcscheme.address, dao.avatar.address)));
+    let votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, gcscheme);
+    let votingMachine = await helpers.getSchemeVotingMachine(dao, gcscheme);
     let votingMachineParams = await helpers.getVotingMachineParameters(votingMachine, votingMachineParamsHash);
     assert.equal(votingMachineParams[1].toNumber(), 30);
 
-    scheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory);
-    assert.equal(scheme.getDefaultPermissions(), SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
+    const upgradeScheme =
+      await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory) as UpgradeSchemeWrapper;
+    assert.equal(upgradeScheme.getDefaultPermissions(),
+      SchemePermissions.fromString(
+        await dao.controller.getSchemePermissions(upgradeScheme.address, dao.avatar.address)));
 
-    votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, scheme);
-    votingMachine = await helpers.getSchemeVotingMachine(dao, scheme);
+    votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, upgradeScheme);
+    votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
     votingMachineParams = await helpers.getVotingMachineParameters(votingMachine, votingMachineParamsHash);
     assert.equal(votingMachineParams[1].toNumber(), 45);
   });
@@ -243,7 +261,6 @@ describe("DAO", () => {
   });
 
   it("has a working getGlobalConstraints() function to access its constraints", async () => {
-    const dao = await helpers.forgeDao();
 
     assert.equal((await dao.getGlobalConstraints()).length, 0);
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address))[1].toNumber(), 0);
@@ -251,11 +268,14 @@ describe("DAO", () => {
     const tokenCapGC = await WrapperService.wrappers.TokenCapGC;
 
     const globalConstraintParametersHash = (await tokenCapGC.setParameters({
+      cap: 3141,
       token: dao.token.address,
-      cap: 3141
     })).result;
 
-    const globalConstraintRegistrar = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrarFactory);
+    const globalConstraintRegistrar = await helpers.getDaoScheme(
+      dao,
+      "GlobalConstraintRegistrar",
+      GlobalConstraintRegistrarFactory) as GlobalConstraintRegistrarWrapper;
 
     const votingMachineHash = await helpers.getSchemeVotingMachineParametersHash(dao, globalConstraintRegistrar);
     const votingMachine = await helpers.getSchemeVotingMachine(dao, globalConstraintRegistrar);
@@ -263,8 +283,8 @@ describe("DAO", () => {
     let result = await globalConstraintRegistrar.proposeToAddModifyGlobalConstraint({
       avatar: dao.avatar.address,
       globalConstraint: tokenCapGC.address,
-      globalConstraintParametersHash: globalConstraintParametersHash,
-      votingMachineHash: votingMachineHash
+      globalConstraintParametersHash,
+      votingMachineHash,
     });
 
     let proposalId = result.proposalId;
@@ -278,7 +298,7 @@ describe("DAO", () => {
 
     result = await globalConstraintRegistrar.proposeToRemoveGlobalConstraint({
       avatar: dao.avatar.address,
-      globalConstraint: tokenCapGC.address
+      globalConstraint: tokenCapGC.address,
     });
 
     proposalId = result.proposalId;

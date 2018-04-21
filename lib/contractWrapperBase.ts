@@ -1,3 +1,4 @@
+import { DecodedLogEntryEvent, TransactionReceipt, LogTopic } from "web3";
 import { AvatarService } from "./avatarService";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { ContractWrapperFactory } from "./contractWrapperFactory";
@@ -205,7 +206,7 @@ export abstract class ContractWrapperBase {
      */
     const eventFetcherFactory: EventFetcherFactory<TArgs> = (
       argFilter: any,
-      filterObject: FilterObject,
+      filterObject: EventFetcherFilterObject,
       rootCallback?: EventCallback<TArgs>
     ): EventFetcher<TArgs> => {
 
@@ -395,20 +396,6 @@ export type EventCallback<TArgs> =
     log: Array<DecodedLogEntryEvent<TArgs>>
   ) => void;
 
-export interface TransactionReceipt {
-  blockHash: string;
-  blockNumber: number;
-  transactionHash: string;
-  transactionIndex: number;
-  from: string;
-  to: string;
-  status: null | string | 0 | 1;
-  cumulativeGasUsed: number;
-  gasUsed: number;
-  contractAddress: string | null;
-  logs: Array<LogEntry>;
-}
-
 /**
  * The generic type of every handler function that returns an event.  See this
  * web3 documentation article for more information:
@@ -428,7 +415,7 @@ export interface TransactionReceipt {
 export type EventFetcherFactory<TArgs> =
   (
     argFilter: any,
-    filterObject: FilterObject,
+    filterObject: EventFetcherFilterObject,
     callback?: EventCallback<TArgs>
   ) => EventFetcher<TArgs>;
 
@@ -446,12 +433,15 @@ export interface EventFetcher<TArgs> {
   stopWatching(): void;
 }
 
-export type LogTopic = null | string | Array<string>;
+/**
+ * Haven't figured out how to export EventFetcherFilterObject that extends FilterObject from web3.
+ * Maybe will be easier with web3 v1.0, perhaps using typescript's module augmentation feature.
+ */
 
 /**
  * Options supplied to `EventFetcherFactory` and thence to `get and `watch`.
  */
-export interface FilterObject {
+export interface EventFetcherFilterObject {
   fromBlock?: number | string;
   toBlock?: number | string;
   address?: string;
@@ -461,30 +451,6 @@ export interface FilterObject {
    * The default is true.
    */
   suppressDups?: boolean;
-}
-
-export interface LogEntry {
-  logIndex: number | null;
-  transactionIndex: number | null;
-  transactionHash: string;
-  blockHash: string | null;
-  blockNumber: number | null;
-  address: string;
-  data: string;
-  topics: Array<string>;
-}
-
-export interface LogEntryEvent extends LogEntry {
-  removed: boolean;
-}
-
-export interface DecodedLogEntry<TArgs> extends LogEntryEvent {
-  event: string;
-  args: TArgs;
-}
-
-export interface DecodedLogEntryEvent<TArgs> extends DecodedLogEntry<TArgs> {
-  removed: boolean;
 }
 
 /**
@@ -500,3 +466,5 @@ export interface StandardSchemeParams {
    */
   votingMachineAddress: Address;
 }
+
+export { DecodedLogEntryEvent, TransactionReceipt } from "web3";

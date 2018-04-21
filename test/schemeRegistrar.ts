@@ -1,6 +1,7 @@
-import { Utils } from "../test-dist/utils";
+import { assert } from "chai";
+import { Utils } from "../lib/utils";
+import { SchemeRegistrarFactory, SchemeRegistrarWrapper } from "../lib/wrappers/schemeRegistrar";
 import * as helpers from "./helpers";
-import { SchemeRegistrarFactory } from "../test-dist/wrappers/schemeregistrar";
 
 describe("SchemeRegistrar", () => {
   it("can add scheme with voteToRemove parameters ", async () => {
@@ -13,14 +14,15 @@ describe("SchemeRegistrar", () => {
 
     const dao = await helpers.forgeDao({
       schemes: [{
-        name: "SchemeRegistrar",
         additionalParams: {
-          voteRemoveParametersHash: voteParamsHash
-        }
-      }]
+          voteRemoveParametersHash: voteParamsHash,
+        },
+        name: "SchemeRegistrar",
+      }],
     });
 
-    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory);
+    const schemeRegistrar =
+      await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory) as SchemeRegistrarWrapper;
     assert.isOk(schemeRegistrar);
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar);
@@ -48,7 +50,8 @@ describe("SchemeRegistrar", () => {
 
     const wrappers = helpers.contractsForTest();
 
-    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory);
+    const schemeRegistrar =
+      await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory) as SchemeRegistrarWrapper;
     const contributionReward = await dao.getSchemes("ContributionReward");
     assert.equal(contributionReward.length, 0, "scheme is already present");
 
@@ -64,7 +67,7 @@ describe("SchemeRegistrar", () => {
       avatar: dao.avatar.address,
       schemeAddress: contributionRewardAddress,
       schemeName: "ContributionReward",
-      schemeParametersHash: Utils.NULL_HASH
+      schemeParametersHash: Utils.NULL_HASH,
     });
 
     const proposalId = result.proposalId;
@@ -73,7 +76,7 @@ describe("SchemeRegistrar", () => {
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
     assert.isTrue(
-      await dao.isSchemeRegistered(contributionRewardAddress, dao.avatar.address),
+      await dao.isSchemeRegistered(contributionRewardAddress),
       "scheme is not registered into the controller"
     );
   });
@@ -81,7 +84,8 @@ describe("SchemeRegistrar", () => {
   it("proposeToAddModifyScheme javascript wrapper should modify existing scheme", async () => {
     const dao = await helpers.forgeDao();
 
-    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory);
+    const schemeRegistrar =
+      await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory) as SchemeRegistrarWrapper;
     const upgradeScheme = await dao.getSchemes("SchemeRegistrar");
     assert.equal(upgradeScheme.length, 1, "scheme is not present");
 
@@ -91,7 +95,7 @@ describe("SchemeRegistrar", () => {
       avatar: dao.avatar.address,
       schemeAddress: modifiedSchemeAddress,
       schemeName: "SchemeRegistrar",
-      schemeParametersHash: Utils.NULL_HASH
+      schemeParametersHash: Utils.NULL_HASH,
     });
 
     const proposalId = result.proposalId;
@@ -112,13 +116,14 @@ describe("SchemeRegistrar", () => {
   it("proposeToRemoveScheme javascript wrapper should remove scheme", async () => {
     const dao = await helpers.forgeDao();
 
-    const schemeRegistrar = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory);
+    const schemeRegistrar =
+      await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory) as SchemeRegistrarWrapper;
     // schemeRegistrar can't remove a scheme with greater permissions that it has
     const removedScheme = schemeRegistrar;
 
     const result = await schemeRegistrar.proposeToRemoveScheme({
       avatar: dao.avatar.address,
-      schemeAddress: removedScheme.address
+      schemeAddress: removedScheme.address,
     });
 
     const proposalId = result.proposalId;
