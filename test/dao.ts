@@ -59,9 +59,9 @@ describe("DAO", () => {
     });
 
     let count = 0;
-    const perDaoCallback: PerDaoCallback = (avatarAddress: Address): boolean => {
+    const perDaoCallback: PerDaoCallback = (avatarAddress: Address): Promise<boolean> => {
       ++count;
-      return true;
+      return Promise.resolve(true);
     };
 
     const daos = await DAO.getDaos({ perDaoCallback });

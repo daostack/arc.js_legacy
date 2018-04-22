@@ -140,8 +140,12 @@ export class DAO {
               LoggingService.debug(`getDaos: loaded dao: ${avatarAddress}`);
               daos.push(avatarAddress);
               if (options.perDaoCallback) {
-                if (options.perDaoCallback(avatarAddress)) {
-                  break;
+                const promiseOfStopSign = options.perDaoCallback(avatarAddress)
+                if (promiseOfStopSign) {
+                  const stop = await promiseOfStopSign;
+                  if (stop) {
+                    break;
+                  }
                 }
               }
             }
@@ -417,13 +421,13 @@ export interface ControllerRegisterSchemeEventLogEntry {
   _scheme: Address;
 }
 
-export type PerDaoCallback = (avatarAddress: Address) => void | boolean;
+export type PerDaoCallback = (avatarAddress: Address) => void | Promise<boolean>;
 
 export interface GetDaosOptions {
   daoCreatorAddress?: Address;
   /**
    * Optional callback invoked after obtaining each avatar address.
-   * Return nothing or a promise of when true to stop finding Daos at this point.
+   * Return nothing or a promise of whether to stop finding Daos at this point.
    */
   perDaoCallback?: PerDaoCallback;
 }
