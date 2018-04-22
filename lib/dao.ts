@@ -139,6 +139,11 @@ export class DAO {
               const avatarAddress = event.args._avatar;
               LoggingService.debug(`getDaos: loaded dao: ${avatarAddress}`);
               daos.push(avatarAddress);
+              if (options.perDaoCallback) {
+                if (options.perDaoCallback(avatarAddress)) {
+                  break;
+                }
+              }
             }
             LoggingService.debug("Finished loading daos");
             resolve(daos);
@@ -412,6 +417,13 @@ export interface ControllerRegisterSchemeEventLogEntry {
   _scheme: Address;
 }
 
+export type PerDaoCallback = (avatarAddress: Address) => void | boolean;
+
 export interface GetDaosOptions {
   daoCreatorAddress?: Address;
+  /**
+   * Optional callback invoked after obtaining each avatar address.
+   * Return nothing or a promise of when true to stop finding Daos at this point.
+   */
+  perDaoCallback?: PerDaoCallback;
 }

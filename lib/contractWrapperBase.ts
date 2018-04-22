@@ -1,4 +1,4 @@
-import { DecodedLogEntryEvent, TransactionReceipt, LogTopic } from "web3";
+import { DecodedLogEntryEvent, LogTopic, TransactionReceipt } from "web3";
 import { AvatarService } from "./avatarService";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { ContractWrapperFactory } from "./contractWrapperFactory";
