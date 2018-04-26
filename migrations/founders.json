@@ -1,82 +1,65 @@
 {
   "founders": {
-    "ganache": [
-      {
-        "address": "0xb0c908140fe6fd6fbd4990a5c2e35ca6dc12bfb2",
-        "tokens": 1000,
-        "reputation": 1000
-      },
-      {
-        "address": "0x9c7f9f45a22ad3d667a5439f72b563df3aa70aae",
-        "tokens": 1000,
-        "reputation": 1000
-      },
-      {
-        "address": "0xa2a064b3b22fc892dfb71923a6d844b953aa247c",
-        "tokens": 1000,
-        "reputation": 1000
-      },
-      {
-        "address": "0xdeeaa92e025ca7fe34679b0b92cd4ffa162c8de8",
-        "tokens": 1000,
-        "reputation": 1000
-      },
-      {
-        "address": "0x81cfdaf70273745a291a7cf9af801a4cffa87a95",
-        "tokens": 1000,
-        "reputation": 1000
-      },
-      {
-        "address": "0x8ec400484deb5330bcd0bc005c13a557c5247727",
-        "tokens": 1000,
-        "reputation": 1000
-      }
-    ],
     "kovan": [
       {
         "address": "0x5A4E13fa32A8e60CB7b1865259DCeA118C8BfF9d",
-        "tokens": 1000,
-        "reputation": 1000
+        "reputation": 54.54545455,
+        "tokens": 8333.333333
+      },
+      {
+        "address": "0xB38698D1Cf896AD6d3bbeF3E6eE6b90a78837a1f",
+        "reputation": 400,
+        "tokens": 8333.333333
       },
       {
         "address": "0xF16294a979a027F297DAcE2F618Cb57bc4Bf5d16",
-        "tokens": 1000,
-        "reputation": 1000
+        "reputation": 54.54545455,
+        "tokens": 8333.333333
       },
       {
         "address": "0xfa887B44e3E6fc28E89d5953FE4588D86b4e832E",
-        "tokens": 1000,
-        "reputation": 1000
+        "reputation": 54.54545455,
+        "tokens": 8333.333333
       },
       {
         "address": "0x9e90F4E98B0bF0b4012b73dCed91b8B9567e6c4e",
-        "tokens": 1000,
-        "reputation": 1000
+        "reputation": 54.54545455,
+        "tokens": 8333.333333
       },
       {
         "address": "0x22f8B3ab4d4557D70516Fdcebbbf91a686cBAbb7",
-        "tokens": 1000,
-        "reputation": 1000
+        "reputation": 54.54545455,
+        "tokens": 8333.333333
       },
       {
         "address": "0x00037C512DA59Fb367967BE25b8E5df754BB190E",
-        "tokens": 1000,
-        "reputation": 1000
+        "reputation": 54.54545455,
+        "tokens": 8333.333333
       },
       {
         "address": "0x0084FB1d84F2359Cafd00f92B901C121521d6809",
-        "tokens": 1000,
-        "reputation": 1000
+        "reputation": 54.54545455,
+        "tokens": 8333.333333
       },
       {
         "address": "0x6279a7c6b5255c56edf89d3560ebd4d031fcb182",
-        "tokens": 1000,
-        "reputation": 1000
+        "reputation": 54.54545455,
+        "tokens": 8333.333333
       },
       {
         "address": "0x645Ce718617Ad7800358BD5EC7F0815A02c8115e",
-        "tokens": 1000,
-        "reputation": 1000
+        "reputation": 54.54545455,
+        "tokens": 8333.333333
+      },
+      {
+        "address": "0xC4d9d1a93068d311Ab18E988244123430eB4F1CD",
+        "reputation": 54.54545455,
+        "tokens": 8333.333333
+      },
+      {
+        "address": "0x64F8cFB78681D661a231ac62b0676A26f2d1AF5c",
+        "reputation": 54.54545455,
+        "tokens": 8333.333333
       }
     ]
   }
