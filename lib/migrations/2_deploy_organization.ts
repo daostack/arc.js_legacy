@@ -71,7 +71,7 @@ export const arcJsDeployer = async (web3: Web3, artifacts: any, deployer: any): 
   /**
    *  Genesis DAO parameters,  FOR TESTING PURPOSES ONLY
    */
-  const orgName = "Genesis";
+  const orgName = "Genesis Alpha";
   const tokenName = "Gen";
   const tokenSymbol = "GEN";
   const orgNativeTokenFee = 0;
