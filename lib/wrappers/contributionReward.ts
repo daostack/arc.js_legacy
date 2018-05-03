@@ -88,7 +88,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
     /**
      * will thrown Error if not valid numbers
      */
-    const web3 = Utils.getWeb3();
+    const web3 = await Utils.getWeb3();
     const reputationChange = web3.toBigNumber(options.reputationChange);
     const nativeTokenReward = web3.toBigNumber(options.nativeTokenReward);
     const ethReward = web3.toBigNumber(options.ethReward);

@@ -140,7 +140,7 @@ export class DAO {
               LoggingService.debug(`getDaos: loaded dao: ${avatarAddress}`);
               daos.push(avatarAddress);
               if (options.perDaoCallback) {
-                const promiseOfStopSign = options.perDaoCallback(avatarAddress)
+                const promiseOfStopSign = options.perDaoCallback(avatarAddress);
                 if (promiseOfStopSign) {
                   const stop = await promiseOfStopSign;
                   if (stop) {
@@ -227,7 +227,8 @@ export class DAO {
    * @return {Promise<string>}
    */
   public async getName(): Promise<string> {
-    return Utils.getWeb3().toUtf8(await this.avatar.orgName());
+    const web3 = await Utils.getWeb3();
+    return web3.toUtf8(await this.avatar.orgName());
   }
 
   /**

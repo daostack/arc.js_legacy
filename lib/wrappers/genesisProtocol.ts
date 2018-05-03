@@ -121,7 +121,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
     this._validateVote(options.vote, options.proposalId);
 
-    const web3 = Utils.getWeb3();
+    const web3 = await Utils.getWeb3();
     const amount = web3.toBigNumber(options.amount);
 
     if (amount.lte(0)) {
@@ -743,11 +743,11 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
   public async setParameters(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>> {
 
     params = Object.assign({},
-      GetDefaultGenesisProtocolParameters(),
+      await GetDefaultGenesisProtocolParameters(),
       params);
 
     // in Wei
-    const web3 = Utils.getWeb3();
+    const web3 = await Utils.getWeb3();
     const maxEthValue = web3.toBigNumber(10).pow(26);
 
     const proposingRepRewardConstA = web3.toBigNumber(params.proposingRepRewardConstA);
@@ -1315,8 +1315,8 @@ export enum ProposalState {
   QuietEndingPeriod,
 }
 
-export const GetDefaultGenesisProtocolParameters = (): GenesisProtocolParams => {
-  const web3 = Utils.getWeb3();
+export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProtocolParams> => {
+  const web3 = await Utils.getWeb3();
   return {
     boostedVotePeriodLimit: 604800, // 1 week
     minimumStakingFee: 0,

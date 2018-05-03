@@ -35,7 +35,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
   public async forgeOrg(options: ForgeOrgConfig = {} as ForgeOrgConfig)
     : Promise<ArcTransactionResult> {
 
-    const web3 = Utils.getWeb3();
+    const web3 = await Utils.getWeb3();
 
     /**
      * See these properties in ForgeOrgConfig

@@ -28,7 +28,7 @@ export class Utils {
     try {
       const artifact = require(`../migrated_contracts/${contractName}.json`);
       const contract = new TruffleContract(artifact);
-      const myWeb3 = Utils.getWeb3();
+      const myWeb3 = await Utils.getWeb3();
 
       contract.setProvider(myWeb3.currentProvider);
       contract.defaults({
@@ -48,7 +48,7 @@ export class Utils {
    * When called for the first time, web3 is initialized from the Arc.js configuration.
    * Throws an exception when web3 cannot be initialized.
    */
-  public static getWeb3(): Web3 {
+  public static async getWeb3(): Promise<Web3> {
     if (Utils.web3) {
       return Utils.web3;
     }
@@ -87,7 +87,11 @@ export class Utils {
       );
     }
 
-    if (!preWeb3.isConnected()) {
+    const connected = await promisify(preWeb3.net.getListening)().then((isListening: boolean) => {
+      return isListening;
+    });
+
+    if (!connected) {
       Utils.alreadyTriedAndFailed = true;
       throw new Error("Utils.getWeb3: web3 is not connected to a net");
     }
@@ -175,7 +179,7 @@ export class Utils {
    * Throws an exception on failure.
    */
   public static async getDefaultAccount(): Promise<string> {
-    const localWeb3 = Utils.getWeb3();
+    const localWeb3 = await Utils.getWeb3();
 
     return promisify(localWeb3.eth.getAccounts)().then((accounts: Array<any>) => {
       const defaultAccount = localWeb3.eth.defaultAccount = accounts[0];

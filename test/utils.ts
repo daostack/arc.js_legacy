@@ -11,7 +11,7 @@ import "./helpers";
 describe("InitializeArcJs", () => {
   it("Proper error when no web3", async () => {
 
-    const web3 = Utils.getWeb3();
+    const web3 = await Utils.getWeb3();
     const providerUrl = ConfigService.get("providerUrl");
     let exceptionRaised = false;
     try {

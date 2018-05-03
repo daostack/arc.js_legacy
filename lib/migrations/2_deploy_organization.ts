@@ -24,7 +24,7 @@ interface FounderSpec {
 /**
  * Migration callback
  */
-export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void => {
+export const arcJsDeployer = async (web3: Web3, artifacts: any, deployer: any): Promise<void> => {
 
   const network = ConfigService.get("network") || "ganache";
 
@@ -75,7 +75,7 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
   const tokenName = "Gen";
   const tokenSymbol = "GEN";
   const orgNativeTokenFee = 0;
-  const defaultVotingMachineParams = GetDefaultGenesisProtocolParameters();
+  const defaultVotingMachineParams = await GetDefaultGenesisProtocolParameters();
   const schemeRegistrarPermissions = SchemePermissions.toString(DefaultSchemePermissions.SchemeRegistrar);
   const globalConstraintRegistrarPermissions = SchemePermissions.toString(DefaultSchemePermissions.GlobalConstraintRegistrar);
   const upgradeSchemePermissions = SchemePermissions.toString(DefaultSchemePermissions.UpgradeScheme);
