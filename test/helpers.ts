@@ -68,10 +68,10 @@ export async function forgeDao(opts: any = {}): Promise<DAO> {
 
   return DAO.new({
     founders,
-    name: opts.name || "Skynet",
+    name: opts.name || "ArcJsTestDao",
     schemes,
-    tokenName: opts.tokenName || "Tokens of skynet",
-    tokenSymbol: opts.tokenSymbol || "SNT",
+    tokenName: opts.tokenName || "Tokens of ArcJsTestDao",
+    tokenSymbol: opts.tokenSymbol || "ATD",
   });
 }
 
