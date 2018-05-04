@@ -5,9 +5,9 @@ const arcJsDeployer = require("../dist/migrations/2_deploy_organization").arcJsD
 /**
  * Migration callback
  */
-module.exports = async (deployer) => {
+module.exports = (deployer) => {
   try {
-    await arcJsDeployer(web3, artifacts, deployer);
+    arcJsDeployer(web3, artifacts, deployer);
   } catch (ex) {
     console.log(ex);
   }

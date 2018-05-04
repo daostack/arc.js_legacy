@@ -59,7 +59,7 @@ export async function InitializeArcJs(options?: InitializeArcOptions): Promise<W
       ConfigService.set("providerUrl", `http://${networkDefaults.host}`);
     }
 
-    const web3 = Utils.getWeb3();
+    const web3 = await Utils.getWeb3();
     await WrapperService.initialize(options);
     return web3;
   } catch (ex) {

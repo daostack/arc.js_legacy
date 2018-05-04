@@ -1,5 +1,6 @@
 "use strict";
 import * as BigNumber from "bignumber.js";
+import { promisify } from "es6-promisify";
 import { Address, DefaultSchemePermissions, fnVoid, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
 import { ConfigService } from "../configService";
 import {
@@ -71,14 +72,16 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
 
     this.logContractFunctionCall("VestingScheme.proposeVestingAgreement", options);
 
+    const web3 = await Utils.getWeb3();
+
     const txResult = await this.wrapTransactionInvocation("VestingScheme.propose",
       options,
-      () => {
+      async () => {
         return this.contract.proposeVestingAgreement(
           options.beneficiaryAddress,
           options.returnOnCancelAddress,
           options.startingBlock,
-          Utils.getWeb3().toBigNumber(options.amountPerPeriod),
+          web3.toBigNumber(options.amountPerPeriod),
           options.periodLength,
           options.numOfAgreedPeriods,
           options.cliffInPeriods,
@@ -109,7 +112,9 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
       throw new Error("token is not defined");
     }
 
-    const amountPerPeriod = Utils.getWeb3().toBigNumber(options.amountPerPeriod);
+    const web3 = await Utils.getWeb3();
+
+    const amountPerPeriod = web3.toBigNumber(options.amountPerPeriod);
     const autoApproveTransfer = ConfigService.get("autoApproveTokenTransfers");
     const eventTopic = "txReceipts.VestingScheme.create";
 
@@ -289,7 +294,9 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
       throw new Error("periodLength must be an integer greater than zero");
     }
 
-    if (Utils.getWeb3().toBigNumber(options.amountPerPeriod).lte(0)) {
+    const web3 = await Utils.getWeb3();
+
+    if (await web3.toBigNumber(options.amountPerPeriod).lte(0)) {
       throw new Error("amountPerPeriod must be greater than zero");
     }
 
@@ -301,10 +308,8 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
       throw new Error("cliffInPeriods must be greater than or equal to zero");
     }
 
-    const web3 = Utils.getWeb3();
-
     if ((typeof options.startingBlock === "undefined") || (options.startingBlock === null)) {
-      options.startingBlock = await web3.eth.blockNumber;
+      options.startingBlock = await promisify(web3.eth.getBlockNumber)().then((bn: number) => bn);
     }
 
     if (!Number.isInteger(options.startingBlock) || (options.startingBlock < 0)) {

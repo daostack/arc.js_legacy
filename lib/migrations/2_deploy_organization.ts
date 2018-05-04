@@ -68,25 +68,26 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
   const VoteInOrganizationScheme = artifacts.require("VoteInOrganizationScheme.sol");
   const GenesisProtocol = artifacts.require("GenesisProtocol.sol");
   const ControllerCreator = artifacts.require("ControllerCreator.sol");
-  /**
-   *  Genesis DAO parameters,  FOR TESTING PURPOSES ONLY
-   */
-  const orgName = "Genesis";
-  const tokenName = "Gen";
-  const tokenSymbol = "GEN";
-  const orgNativeTokenFee = 0;
-  const defaultVotingMachineParams = GetDefaultGenesisProtocolParameters();
-  const schemeRegistrarPermissions = SchemePermissions.toString(DefaultSchemePermissions.SchemeRegistrar);
-  const globalConstraintRegistrarPermissions = SchemePermissions.toString(DefaultSchemePermissions.GlobalConstraintRegistrar);
-  const upgradeSchemePermissions = SchemePermissions.toString(DefaultSchemePermissions.UpgradeScheme);
-  const contributionRewardPermissions = SchemePermissions.toString(DefaultSchemePermissions.ContributionReward);
-  const genesisProtocolPermissions = SchemePermissions.toString(DefaultSchemePermissions.GenesisProtocol);
 
   /**
    * Apparently we must wrap the first deploy call in a `then` to avoid
    * what seems to be race conditions during deployment.
    */
   deployer.deploy(ControllerCreator).then(async () => {
+    /**
+     *  Genesis DAO parameters,  FOR TESTING PURPOSES ONLY
+     */
+    const orgName = "Genesis Alpha";
+    const tokenName = "Gen";
+    const tokenSymbol = "GEN";
+    const orgNativeTokenFee = 0;
+    const defaultVotingMachineParams = await GetDefaultGenesisProtocolParameters();
+    const schemeRegistrarPermissions = SchemePermissions.toString(DefaultSchemePermissions.SchemeRegistrar);
+    const globalConstraintRegistrarPermissions = SchemePermissions.toString(DefaultSchemePermissions.GlobalConstraintRegistrar);
+    const upgradeSchemePermissions = SchemePermissions.toString(DefaultSchemePermissions.UpgradeScheme);
+    const contributionRewardPermissions = SchemePermissions.toString(DefaultSchemePermissions.ContributionReward);
+    const genesisProtocolPermissions = SchemePermissions.toString(DefaultSchemePermissions.GenesisProtocol);
+
     const controllerCreator = await ControllerCreator.deployed();
     await deployer.deploy(DaoCreator, controllerCreator.address);
     const daoCreatorInst = await DaoCreator.deployed(controllerCreator.address);
