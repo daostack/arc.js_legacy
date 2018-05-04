@@ -87,9 +87,13 @@ export class Utils {
       );
     }
 
-    const connected = await promisify(preWeb3.net.getListening)().then((isListening: boolean) => {
-      return isListening;
-    });
+    const connected = await promisify(preWeb3.net.getListening)()
+      .then((isListening: boolean) => {
+        return isListening;
+      })
+      .catch((error: Error) => {
+        return false;
+      });
 
     if (!connected) {
       Utils.alreadyTriedAndFailed = true;
