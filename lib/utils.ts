@@ -255,3 +255,5 @@ export class Utils {
   private static web3: Web3 = undefined;
   private static alreadyTriedAndFailed: boolean = false;
 }
+
+export { Web3 } from "web3";

@@ -1,12 +1,13 @@
 {
   "name": "@daostack/arc.js",
-  "version": "0.0.0-alpha.50",
+  "version": "0.0.0-alpha.51",
   "description": "A JavaScript library for interacting with @daostack/arc ethereum smart contracts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "lib/",
     "dist/",
+    "custom_typings/",
     "docs/",
     "test/",
     "migrations/*.js",
