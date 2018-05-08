@@ -1,3 +1,4 @@
+/// <reference path="../custom_typings/web3.d.ts" />
 export * from "./commonTypes";
 export * from "./configService";
 export {
