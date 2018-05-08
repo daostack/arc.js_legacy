@@ -1,3 +1,4 @@
+/* tslint:disable-next-line:no-reference */
 /// <reference path="../custom_typings/web3.d.ts" />
 export * from "./commonTypes";
 export * from "./configService";
