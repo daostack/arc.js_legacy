@@ -301,9 +301,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
    * The computation depends on the current number of boosted proposals in the DAO
    * as well as the GenesisProtocol parameters thresholdConstA and thresholdConstB.
    * @param {GetThresholdConfig} options
-   * @returns Promise<number>
    */
-  public async getThreshold(options: GetThresholdConfig = {} as GetThresholdConfig): Promise<number> {
+  public getThreshold(options: GetThresholdConfig = {} as GetThresholdConfig): Promise<BigNumber.BigNumber> {
 
     if (!options.avatar) {
       throw new Error("avatar is not defined");
@@ -315,12 +314,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
     this.logContractFunctionCall("GenesisProtocol.threshold", options);
 
-    const threshold = await this.contract.threshold(
-      options.proposalId,
-      options.avatar
-    );
-
-    return threshold.toNumber();
+    return this.contract.threshold(options.proposalId, options.avatar);
   }
 
   /**
