@@ -1087,32 +1087,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../DecodedLogEntry/" title="DecodedLogEntry" class="md-nav__link">
-      DecodedLogEntry
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../DecodedLogEntryEvent/" title="DecodedLogEntryEvent" class="md-nav__link">
-      DecodedLogEntryEvent
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../EventFetcher/" title="EventFetcher" class="md-nav__link">
       EventFetcher
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../EventFetcherFilterObject/" title="EventFetcherFilterObject" class="md-nav__link">
+      EventFetcherFilterObject
     </a>
   </li>
 
@@ -1149,18 +1137,6 @@
   <li class="md-nav__item">
     <a href="../ExecuteProposalEventResult/" title="ExecuteProposalEventResult" class="md-nav__link">
       ExecuteProposalEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../FilterObject/" title="FilterObject" class="md-nav__link">
-      FilterObject
     </a>
   </li>
 
@@ -1581,30 +1557,6 @@
   <li class="md-nav__item">
     <a href="../IsVotableConfig/" title="IsVotableConfig" class="md-nav__link">
       IsVotableConfig
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../LogEntry/" title="LogEntry" class="md-nav__link">
-      LogEntry
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../LogEntryEvent/" title="LogEntryEvent" class="md-nav__link">
-      LogEntryEvent
     </a>
   </li>
 
@@ -2129,18 +2081,6 @@
           
           
 
-
-  <li class="md-nav__item">
-    <a href="../TransactionReceipt/" title="TransactionReceipt" class="md-nav__link">
-      TransactionReceipt
-    </a>
-  </li>
-
-        
-          
-          
-          
-
   
 
 
@@ -2409,26 +2349,26 @@
 <p><a id="invocationKey"></a></p>
 <h3 id="invocationkey">invocationKey<a class="headerlink" href="#invocationkey" title="Permanent link">&para;</a></h3>
 <p><strong>●  invocationKey</strong>:  <em><code>symbol</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/e4518652/lib/transactionService.ts#L96">transactionService.ts:96</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/642ef94/lib/transactionService.ts#L100">transactionService.ts:100</a></em></p>
 <p>A value that is unique to the invocation of the function that is publishing the event. This is useful for grouping events by a single function invocation.</p>
 <hr />
 <p><a id="options"></a></p>
 <h3 id="optional-options">«Optional» options<a class="headerlink" href="#optional-options" title="Permanent link">&para;</a></h3>
 <p><strong>●  options</strong>:  <em><code>any</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/e4518652/lib/transactionService.ts#L101">transactionService.ts:101</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/642ef94/lib/transactionService.ts#L105">transactionService.ts:105</a></em></p>
 <p>The options that were passed to the function that is publishing the event, if any. This will have default values filled in.</p>
 <hr />
 <p><a id="tx"></a></p>
 <h3 id="tx">tx<a class="headerlink" href="#tx" title="Permanent link">&para;</a></h3>
 <p><strong>●  tx</strong>:  <em><a href="../TransactionReceiptTruffle/">TransactionReceiptTruffle</a>⎮<code>null</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/e4518652/lib/transactionService.ts#L110">transactionService.ts:110</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/642ef94/lib/transactionService.ts#L114">transactionService.ts:114</a></em></p>
 <p>The receipt for the transaction that has completed. Note that the tx may not necessarily have completed successfully in the case of errors or rejection.</p>
 <p>If null then this is a "kick-off" event that announces to the subscriber that more events are to follow for the given invocationKey. Every function will publish a kick-off event before firing events with a tx.</p>
 <hr />
 <p><a id="txCount"></a></p>
 <h3 id="txcount">txCount<a class="headerlink" href="#txcount" title="Permanent link">&para;</a></h3>
 <p><strong>●  txCount</strong>:  <em><code>number</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/e4518652/lib/transactionService.ts#L114">transactionService.ts:114</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/642ef94/lib/transactionService.ts#L118">transactionService.ts:118</a></em></p>
 <p>The total expected number of transactions.</p>
 <hr />
                 
@@ -2449,7 +2389,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../TransactionReceipt/" title="TransactionReceipt" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../TokenCapGcParams/" title="TokenCapGcParams" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -2458,7 +2398,7 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                TransactionReceipt
+                TokenCapGcParams
               </span>
             </div>
           </a>

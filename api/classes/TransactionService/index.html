@@ -1214,32 +1214,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../../interfaces/DecodedLogEntry/" title="DecodedLogEntry" class="md-nav__link">
-      DecodedLogEntry
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/DecodedLogEntryEvent/" title="DecodedLogEntryEvent" class="md-nav__link">
-      DecodedLogEntryEvent
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../../interfaces/EventFetcher/" title="EventFetcher" class="md-nav__link">
       EventFetcher
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/EventFetcherFilterObject/" title="EventFetcherFilterObject" class="md-nav__link">
+      EventFetcherFilterObject
     </a>
   </li>
 
@@ -1276,18 +1264,6 @@
   <li class="md-nav__item">
     <a href="../../interfaces/ExecuteProposalEventResult/" title="ExecuteProposalEventResult" class="md-nav__link">
       ExecuteProposalEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/FilterObject/" title="FilterObject" class="md-nav__link">
-      FilterObject
     </a>
   </li>
 
@@ -1708,30 +1684,6 @@
   <li class="md-nav__item">
     <a href="../../interfaces/IsVotableConfig/" title="IsVotableConfig" class="md-nav__link">
       IsVotableConfig
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/LogEntry/" title="LogEntry" class="md-nav__link">
-      LogEntry
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/LogEntryEvent/" title="LogEntryEvent" class="md-nav__link">
-      LogEntryEvent
     </a>
   </li>
 
@@ -2258,18 +2210,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../../interfaces/TransactionReceipt/" title="TransactionReceipt" class="md-nav__link">
-      TransactionReceipt
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../../interfaces/TransactionReceiptsEventInfo/" title="TransactionReceiptsEventInfo" class="md-nav__link">
       TransactionReceiptsEventInfo
     </a>
@@ -2536,14 +2476,14 @@
 <h3 id="static-clearallsubscriptions">«Static» clearAllSubscriptions<a class="headerlink" href="#static-clearallsubscriptions" title="Permanent link">&para;</a></h3>
 <p>► <strong>clearAllSubscriptions</strong>(): <code>void</code></p>
 <p><em>Inherited from <a href="../EventService/">EventService</a>.<a href="../EventService/#clearAllSubscriptions">clearAllSubscriptions</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/e4518652/lib/eventService.ts#L32">eventService.ts:32</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/642ef94/lib/eventService.ts#L32">eventService.ts:32</a></em></p>
 <p>Remove all subscriptions</p>
 <p><strong>Returns:</strong> <code>void</code></p>
 <hr />
 <p><a id="generateInvocationKey"></a></p>
 <h3 id="static-generateinvocationkey">«Static» generateInvocationKey<a class="headerlink" href="#static-generateinvocationkey" title="Permanent link">&para;</a></h3>
 <p>► <strong>generateInvocationKey</strong>(topic: <em><code>string</code></em>): <code>symbol</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/e4518652/lib/transactionService.ts#L16">transactionService.ts:16</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/642ef94/lib/transactionService.ts#L16">transactionService.ts:16</a></em></p>
 <p>Generate a new invocation key for the given topic and function. Topic should look like "[classname][functionname]".</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2568,7 +2508,7 @@
 <h3 id="static-publish">«Static» publish<a class="headerlink" href="#static-publish" title="Permanent link">&para;</a></h3>
 <p>► <strong>publish</strong>(topic: <em><code>string</code></em>, payload: <em><code>any</code></em>): <code>boolean</code></p>
 <p><em>Inherited from <a href="../EventService/">EventService</a>.<a href="../EventService/#publish">publish</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/e4518652/lib/eventService.ts#L12">eventService.ts:12</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/642ef94/lib/eventService.ts#L12">eventService.ts:12</a></em></p>
 <p>Send the given payload to subscribers of the given topic.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2598,7 +2538,7 @@ True if there are any subscribers</p>
 <p><a id="publishKickoffEvent"></a></p>
 <h3 id="static-publishkickoffevent">«Static» publishKickoffEvent<a class="headerlink" href="#static-publishkickoffevent" title="Permanent link">&para;</a></h3>
 <p>► <strong>publishKickoffEvent</strong>(topic: <em><code>string</code></em>, options: <em><code>any</code></em>, txCount: <em><code>number</code></em>, suppressKickOff?: <em><code>boolean</code></em>): <a href="../../interfaces/TransactionReceiptsEventInfo/">TransactionReceiptsEventInfo</a></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/e4518652/lib/transactionService.ts#L30">transactionService.ts:30</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/642ef94/lib/transactionService.ts#L30">transactionService.ts:30</a></em></p>
 <p>Publish the kick-off event and return the payload that should be used for the ensuing events that will carry an actual tx in the payload for the invoked function. <code>invocationKey</code> is a unique key for the returned payload that can be used for scoping the events.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2642,7 +2582,7 @@ True if there are any subscribers</p>
 <p><a id="publishTxEvent"></a></p>
 <h3 id="static-publishtxevent">«Static» publishTxEvent<a class="headerlink" href="#static-publishtxevent" title="Permanent link">&para;</a></h3>
 <p>► <strong>publishTxEvent</strong>(topic: <em><code>string</code></em>, payload: <em><a href="../../interfaces/TransactionReceiptsEventInfo/">TransactionReceiptsEventInfo</a></em>, tx?: <em><a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a></em>): <code>boolean</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/e4518652/lib/transactionService.ts#L61">transactionService.ts:61</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/642ef94/lib/transactionService.ts#L61">transactionService.ts:61</a></em></p>
 <p>Send the given payload to subscribers of the given topic.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2677,7 +2617,7 @@ True if there are any subscribers</p>
 <p><a id="resendTxEvents"></a></p>
 <h3 id="static-resendtxevents">«Static» resendTxEvents<a class="headerlink" href="#static-resendtxevents" title="Permanent link">&para;</a></h3>
 <p>► <strong>resendTxEvents</strong>(topics: <em><code>Array</code>.&lt;<code>string</code>&gt;⎮<code>string</code></em>, superTopic: <em><code>string</code></em>, superPayload: <em><a href="../../interfaces/TransactionReceiptsEventInfo/">TransactionReceiptsEventInfo</a></em>): <a href="../../interfaces/IEventSubscription/">IEventSubscription</a></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/e4518652/lib/transactionService.ts#L75">transactionService.ts:75</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/642ef94/lib/transactionService.ts#L79">transactionService.ts:79</a></em></p>
 <p>Subscribe to all given topics and resend as the given supertopic with superPayload.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2713,7 +2653,7 @@ An interface with <code>.unsubscribe()</code>.  Be sure to call it!</p>
 <h3 id="static-subscribe">«Static» subscribe<a class="headerlink" href="#static-subscribe" title="Permanent link">&para;</a></h3>
 <p>► <strong>subscribe</strong>(topics: <em><code>string</code>⎮<code>Array</code>.&lt;<code>string</code>&gt;</em>, callback: <em><a href="../../#EventSubscriptionCallback">EventSubscriptionCallback</a></em>): <a href="../../interfaces/IEventSubscription/">IEventSubscription</a></p>
 <p><em>Inherited from <a href="../EventService/">EventService</a>.<a href="../EventService/#subscribe">subscribe</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/e4518652/lib/eventService.ts#L23">eventService.ts:23</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/642ef94/lib/eventService.ts#L23">eventService.ts:23</a></em></p>
 <p>Subscribe to the given topic or array of topics.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2744,7 +2684,7 @@ An interface with <code>.unsubscribe()</code>.  Be sure to call it!</p>
 <h3 id="static-unsubscribe">«Static» unsubscribe<a class="headerlink" href="#static-unsubscribe" title="Permanent link">&para;</a></h3>
 <p>► <strong>unsubscribe</strong>(key: <em><a href="../../#EventSubscriptionKey">EventSubscriptionKey</a></em>): <code>void</code></p>
 <p><em>Inherited from <a href="../EventService/">EventService</a>.<a href="../EventService/#unsubscribe">unsubscribe</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/e4518652/lib/eventService.ts#L44">eventService.ts:44</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/642ef94/lib/eventService.ts#L44">eventService.ts:44</a></em></p>
 <p>Removes a subscription. When passed a token, removes a specific subscription, when passed a callback, removes all subscriptions for that callback, when passed a topic, removes all subscriptions for the topic hierarchy.</p>
 <p><strong>Parameters:</strong></p>
 <table>

@@ -1283,32 +1283,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../../interfaces/DecodedLogEntry/" title="DecodedLogEntry" class="md-nav__link">
-      DecodedLogEntry
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/DecodedLogEntryEvent/" title="DecodedLogEntryEvent" class="md-nav__link">
-      DecodedLogEntryEvent
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../../interfaces/EventFetcher/" title="EventFetcher" class="md-nav__link">
       EventFetcher
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/EventFetcherFilterObject/" title="EventFetcherFilterObject" class="md-nav__link">
+      EventFetcherFilterObject
     </a>
   </li>
 
@@ -1345,18 +1333,6 @@
   <li class="md-nav__item">
     <a href="../../interfaces/ExecuteProposalEventResult/" title="ExecuteProposalEventResult" class="md-nav__link">
       ExecuteProposalEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/FilterObject/" title="FilterObject" class="md-nav__link">
-      FilterObject
     </a>
   </li>
 
@@ -1777,30 +1753,6 @@
   <li class="md-nav__item">
     <a href="../../interfaces/IsVotableConfig/" title="IsVotableConfig" class="md-nav__link">
       IsVotableConfig
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/LogEntry/" title="LogEntry" class="md-nav__link">
-      LogEntry
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/LogEntryEvent/" title="LogEntryEvent" class="md-nav__link">
-      LogEntryEvent
     </a>
   </li>
 
@@ -2327,18 +2279,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../../interfaces/TransactionReceipt/" title="TransactionReceipt" class="md-nav__link">
-      TransactionReceipt
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../../interfaces/TransactionReceiptsEventInfo/" title="TransactionReceiptsEventInfo" class="md-nav__link">
       TransactionReceiptsEventInfo
     </a>
@@ -2681,38 +2621,38 @@
 <p><a id="avatar"></a></p>
 <h3 id="avatar">avatar<a class="headerlink" href="#avatar" title="Permanent link">&para;</a></h3>
 <p><strong>●  avatar</strong>:  <em><code>any</code></em> </p>
-<p><em>Defined in dao.ts:156</em></p>
+<p><em>Defined in dao.ts:165</em></p>
 <p>TruffleContract for the DAO's Avatar</p>
 <hr />
 <p><a id="controller"></a></p>
 <h3 id="controller">controller<a class="headerlink" href="#controller" title="Permanent link">&para;</a></h3>
 <p><strong>●  controller</strong>:  <em><code>any</code></em> </p>
-<p><em>Defined in dao.ts:160</em></p>
+<p><em>Defined in dao.ts:169</em></p>
 <p>TruffleContract for the DAO's controller (Controller or UController by default, see DAO.hasUController)</p>
 <hr />
 <p><a id="hasUController"></a></p>
 <h3 id="hasucontroller">hasUController<a class="headerlink" href="#hasucontroller" title="Permanent link">&para;</a></h3>
 <p><strong>●  hasUController</strong>:  <em><code>boolean</code></em> </p>
-<p><em>Defined in dao.ts:164</em></p>
+<p><em>Defined in dao.ts:173</em></p>
 <p><code>true</code> if the DAO is using Arc's universal controller</p>
 <hr />
 <p><a id="reputation"></a></p>
 <h3 id="reputation">reputation<a class="headerlink" href="#reputation" title="Permanent link">&para;</a></h3>
 <p><strong>●  reputation</strong>:  <em><code>any</code></em> </p>
-<p><em>Defined in dao.ts:172</em></p>
+<p><em>Defined in dao.ts:181</em></p>
 <p>TruffleContract for the DAO's native reputation (Reputation)</p>
 <hr />
 <p><a id="token"></a></p>
 <h3 id="token">token<a class="headerlink" href="#token" title="Permanent link">&para;</a></h3>
 <p><strong>●  token</strong>:  <em><code>any</code></em> </p>
-<p><em>Defined in dao.ts:168</em></p>
+<p><em>Defined in dao.ts:177</em></p>
 <p>TruffleContract for the DAO's native token (DAOToken by default)</p>
 <hr />
 <h2 id="methods_1">Methods<a class="headerlink" href="#methods_1" title="Permanent link">&para;</a></h2>
 <p><a id="getGlobalConstraints"></a></p>
 <h3 id="getglobalconstraints">getGlobalConstraints<a class="headerlink" href="#getglobalconstraints" title="Permanent link">&para;</a></h3>
 <p>► <strong>getGlobalConstraints</strong>(name?: <em><code>string</code></em>): <code>Promise</code>.&lt;<code>Array</code>.&lt;<a href="../../interfaces/DaoGlobalConstraintInfo/">DaoGlobalConstraintInfo</a>&gt;&gt;</p>
-<p><em>Defined in dao.ts:191</em></p>
+<p><em>Defined in dao.ts:200</em></p>
 <p>Returns the promise of all os the global constraints currently registered into this DAO, as Array<daoglobalconstraintinfo></daoglobalconstraintinfo></p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2736,14 +2676,14 @@
 <p><a id="getName"></a></p>
 <h3 id="getname">getName<a class="headerlink" href="#getname" title="Permanent link">&para;</a></h3>
 <p>► <strong>getName</strong>(): <code>Promise</code>.&lt;<code>string</code>&gt;</p>
-<p><em>Defined in dao.ts:220</em></p>
+<p><em>Defined in dao.ts:229</em></p>
 <p>Returns the promise of the name of the DAO as stored in the Avatar</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>string</code>&gt;</p>
 <hr />
 <p><a id="getSchemes"></a></p>
 <h3 id="getschemes">getSchemes<a class="headerlink" href="#getschemes" title="Permanent link">&para;</a></h3>
 <p>► <strong>getSchemes</strong>(name?: <em><code>string</code></em>): <code>Promise</code>.&lt;<code>Array</code>.&lt;<a href="../../interfaces/DaoSchemeInfo/">DaoSchemeInfo</a>&gt;&gt;</p>
-<p><em>Defined in dao.ts:178</em></p>
+<p><em>Defined in dao.ts:187</em></p>
 <p>Returns the promise of all of the schemes registered into this DAO, as Array<daoschemeinfo></daoschemeinfo></p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2767,21 +2707,21 @@
 <p><a id="getTokenName"></a></p>
 <h3 id="gettokenname">getTokenName<a class="headerlink" href="#gettokenname" title="Permanent link">&para;</a></h3>
 <p>► <strong>getTokenName</strong>(): <code>Promise</code>.&lt;<code>string</code>&gt;</p>
-<p><em>Defined in dao.ts:228</em></p>
+<p><em>Defined in dao.ts:238</em></p>
 <p>Returns the promise of the token name for the DAO as stored in the native token</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>string</code>&gt;</p>
 <hr />
 <p><a id="getTokenSymbol"></a></p>
 <h3 id="gettokensymbol">getTokenSymbol<a class="headerlink" href="#gettokensymbol" title="Permanent link">&para;</a></h3>
 <p>► <strong>getTokenSymbol</strong>(): <code>Promise</code>.&lt;<code>string</code>&gt;</p>
-<p><em>Defined in dao.ts:236</em></p>
+<p><em>Defined in dao.ts:246</em></p>
 <p>Returns the promise of the token symbol for the DAO as stored in the native token</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>string</code>&gt;</p>
 <hr />
 <p><a id="isGlobalConstraintRegistered"></a></p>
 <h3 id="isglobalconstraintregistered">isGlobalConstraintRegistered<a class="headerlink" href="#isglobalconstraintregistered" title="Permanent link">&para;</a></h3>
 <p>► <strong>isGlobalConstraintRegistered</strong>(gc: <em><a href="../../#Address">Address</a></em>): <code>Promise</code>.&lt;<code>boolean</code>&gt;</p>
-<p><em>Defined in dao.ts:212</em></p>
+<p><em>Defined in dao.ts:221</em></p>
 <p>Returns whether the global constraint with the given address is registered to this DAO's controller</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2805,7 +2745,7 @@
 <p><a id="isSchemeRegistered"></a></p>
 <h3 id="isschemeregistered">isSchemeRegistered<a class="headerlink" href="#isschemeregistered" title="Permanent link">&para;</a></h3>
 <p>► <strong>isSchemeRegistered</strong>(schemeAddress: <em><a href="../../#Address">Address</a></em>): <code>Promise</code>.&lt;<code>boolean</code>&gt;</p>
-<p><em>Defined in dao.ts:205</em></p>
+<p><em>Defined in dao.ts:214</em></p>
 <p>Returns whether the scheme with the given address is registered to this DAO's controller</p>
 <p><strong>Parameters:</strong></p>
 <table>
