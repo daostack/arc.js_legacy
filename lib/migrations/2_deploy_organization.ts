@@ -78,8 +78,8 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
      *  Genesis DAO parameters,  FOR TESTING PURPOSES ONLY
      */
     const orgName = "Genesis Alpha";
-    const tokenName = "Gdt";
-    const tokenSymbol = "Genesis Alpha";
+    const tokenName = "Genesis Alpha";
+    const tokenSymbol = "GDT";
     const orgNativeTokenFee = 0;
     const defaultVotingMachineParams = await GetDefaultGenesisProtocolParameters();
     const schemeRegistrarPermissions = SchemePermissions.toString(DefaultSchemePermissions.SchemeRegistrar);
