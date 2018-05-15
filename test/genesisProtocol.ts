@@ -1,3 +1,4 @@
+import { BigNumber } from "bignumber.js";
 import { assert } from "chai";
 import { Hash } from "../lib/commonTypes";
 import { ArcTransactionResult } from "../lib/contractWrapperBase";
@@ -6,7 +7,8 @@ import { Utils } from "../lib/utils";
 import {
   ExecutedGenesisProposal,
   GenesisProtocolFactory,
-  GenesisProtocolWrapper
+  GenesisProtocolWrapper,
+  GetDefaultGenesisProtocolParameters
 } from "../lib/wrappers/genesisProtocol";
 import { SchemeRegistrarFactory, SchemeRegistrarWrapper } from "../lib/wrappers/schemeRegistrar";
 import { WrapperService } from "../lib/wrapperService";
@@ -154,7 +156,7 @@ describe("GenesisProtocol", () => {
 
     assert.isOk(votingMachine);
     assert.equal(votingMachine.constructor.name,
-      "GenesisProtocolWrapper", "schemeRegistrar is not using GeneisisProtocol");
+      "GenesisProtocolWrapper", "schemeRegistrar is not using GenesisProtocol");
     assert.equal(votingMachine.address,
       WrapperService.wrappers.GenesisProtocol.address,
       "voting machine address is not that of GenesisProtocol");
@@ -170,8 +172,9 @@ describe("GenesisProtocol", () => {
       avatar: dao.avatar.address,
     });
     assert.isOk(result);
-    assert.equal(helpers.fromWei(result.thresholdConstA).toNumber(), 2);
-    assert.equal(result.thresholdConstB, 10);
+    assert.equal(helpers.fromWei(result.thresholdConstA).toNumber(),
+      helpers.fromWei((await GetDefaultGenesisProtocolParameters()).thresholdConstA).toNumber());
+    assert.equal(result.thresholdConstB, (await GetDefaultGenesisProtocolParameters()).thresholdConstB);
   });
 
   it("can call shouldBoost", async () => {
