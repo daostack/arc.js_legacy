@@ -911,61 +911,61 @@ export interface RedeemEventResult {
 
 export interface GenesisProtocolParams {
   /**
-   * The percentage of the absolute vote that must be exceeded to result in a win.
-   * Must be between 0 and 100.
-   * Default is 50.
-   */
-  preBoostedVoteRequiredPercentage: number;
-  /**
-   * The time limit in seconds for a proposal to be in an absolute voting mode.
-   * Default is 5184000 (two months).
-   */
-  preBoostedVotePeriodLimit: number;
-  /**
    * The time limit in seconds for a proposal to be in an relative voting mode.
-   * Default is 604800 (one week).
+   * Default is 259200 (three days).
    */
   boostedVotePeriodLimit: number;
-  /**
-   * Constant A in the threshold calculation,in Wei. See [[GenesisProtocolWrapper.getThreshold]].
-   * Default is 2, converted to Wei
-   */
-  thresholdConstA: BigNumber.BigNumber | string;
-  /**
-   * Constant B in the threshold calculation. See [[GenesisProtocolWrapper.getThreshold]].
-   * Default is 10
-   */
-  thresholdConstB: number;
   /**
    * A floor on the staking fee which is normally computed using [[GenesisProtocolParams.stakerFeeRatioForVoters]].
    * Default is 0
    */
   minimumStakingFee: number;
   /**
-   * The duration of the quietEndingPeriod, in seconds.
-   * Default is 7200 (two hours)
+   * The time limit in seconds for a proposal to be in an absolute voting mode.
+   * Default is 1814400 (three weeks).
    */
-  quietEndingPeriod: number;
+  preBoostedVotePeriodLimit: number;
+  /**
+   * The percentage of the absolute vote that must be exceeded to result in a win.
+   * Must be between 0 and 100.
+   * Default is 50.
+   */
+  preBoostedVoteRequiredPercentage: number;
   /**
    * Constant A in the calculation of the proposer's reward, in Wei
    * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
-   * Default is 5, converted to Wei.
+   * Default is 50, converted to Wei.
    */
   proposingRepRewardConstA: BigNumber.BigNumber | string;
   /**
    * Constant B in the calculation of the proposer's reward.
    * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
    * Must be between 0 and 100.
-   * Default is 1.
+   * Default is 50.
    */
   proposingRepRewardConstB: number;
+  /**
+   * The duration of the quietEndingPeriod, in seconds.
+   * Default is 86400 (one day)
+   */
+  quietEndingPeriod: number;
   /**
    * The percentage of a stake that is given to all voters.
    * Voters (pre and during boosting period) share this amount in proportion to their reputation.
    * Must be between 0 and 100.
-   * Default is 1.
+   * Default is 50.
    */
   stakerFeeRatioForVoters: number;
+  /**
+   * Constant A in the threshold calculation,in Wei. See [[GenesisProtocolWrapper.getThreshold]].
+   * Default is 7, converted to Wei
+   */
+  thresholdConstA: BigNumber.BigNumber | string;
+  /**
+   * Constant B in the threshold calculation. See [[GenesisProtocolWrapper.getThreshold]].
+   * Default is 3
+   */
+  thresholdConstB: number;
   /**
    * The percentage of lost reputation, in proportion to voters' reputation.
    * Must be between 0 and 100.
@@ -1312,16 +1312,16 @@ export enum ProposalState {
 export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProtocolParams> => {
   const web3 = await Utils.getWeb3();
   return {
-    boostedVotePeriodLimit: 604800, // 1 week
+    boostedVotePeriodLimit: 259200,
     minimumStakingFee: 0,
-    preBoostedVotePeriodLimit: 5184000, // 2 months
+    preBoostedVotePeriodLimit: 1814400,
     preBoostedVoteRequiredPercentage: 50,
-    proposingRepRewardConstA: web3.toWei(5),
-    proposingRepRewardConstB: 1,
-    quietEndingPeriod: 7200, // Two hours
-    stakerFeeRatioForVoters: 1,
-    thresholdConstA: web3.toWei(2),
-    thresholdConstB: 10,
+    proposingRepRewardConstA: web3.toWei(50),
+    proposingRepRewardConstB: 0,
+    quietEndingPeriod: 86400,
+    stakerFeeRatioForVoters: 50,
+    thresholdConstA: web3.toWei(7),
+    thresholdConstB: 3,
     votersGainRepRatioFromLostRep: 80,
     votersReputationLossRatio: 1,
   };
