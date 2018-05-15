@@ -110,12 +110,25 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
 
     const AvatarInst = await Avatar.at(tx.logs[0].args._avatar);
     const nativeTokenAddress = await AvatarInst.nativeToken();
+    let genTokenAddress;
+
+    if (network !== "live") {
+      // create a global GEN token
+      // await deployer.deploy(DaoToken, tokenName, tokenSymbol, 0);
+      // genTokenAddress = (await DaoToken.deployed()).address;
+      genTokenAddress = nativeTokenAddress;
+      console.log(`using global GEN token for network != "live" at: ${genTokenAddress}`);
+    } else {
+      // the "real" live ETH GEN token
+      genTokenAddress = "0x543Ff227F64Aa17eA132Bf9886cAb5DB55DCAddf";
+      console.log(`!! using global GEN token for network == "live" at: ${genTokenAddress}`);
+    }
     /**
      * The voting machine.  GenesisProtocol must be deployed as a scheme if it is
      * to be used by schemes as a voting machine, which is what all of the
      * Genesis schemes do.
      */
-    await deployer.deploy(GenesisProtocol, nativeTokenAddress);
+    await deployer.deploy(GenesisProtocol, genTokenAddress);
     const genesisProtocolInst = await GenesisProtocol.deployed();
     /**
      * The rest of the Genesis DAO's schemes
