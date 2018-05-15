@@ -78,8 +78,8 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
      *  Genesis DAO parameters,  FOR TESTING PURPOSES ONLY
      */
     const orgName = "Genesis Alpha";
-    const tokenName = "Gen";
-    const tokenSymbol = "GEN";
+    const tokenName = "Gdt";
+    const tokenSymbol = "Genesis Alpha";
     const orgNativeTokenFee = 0;
     const defaultVotingMachineParams = await GetDefaultGenesisProtocolParameters();
     const schemeRegistrarPermissions = SchemePermissions.toString(DefaultSchemePermissions.SchemeRegistrar);
@@ -117,11 +117,11 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
       // await deployer.deploy(DaoToken, tokenName, tokenSymbol, 0);
       // genTokenAddress = (await DaoToken.deployed()).address;
       genTokenAddress = nativeTokenAddress;
-      console.log(`using global GEN token for network != "live" at: ${genTokenAddress}`);
+      console.log(`using native token for staking on network != "live" at: ${genTokenAddress}`);
     } else {
       // the "real" live ETH GEN token
       genTokenAddress = "0x543Ff227F64Aa17eA132Bf9886cAb5DB55DCAddf";
-      console.log(`!! using global GEN token for network == "live" at: ${genTokenAddress}`);
+      console.log(`!! using global GEN token staking on network == "live" at: ${genTokenAddress}`);
     }
     /**
      * The voting machine.  GenesisProtocol must be deployed as a scheme if it is
