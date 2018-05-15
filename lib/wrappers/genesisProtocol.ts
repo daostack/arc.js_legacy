@@ -912,7 +912,7 @@ export interface RedeemEventResult {
 export interface GenesisProtocolParams {
   /**
    * The time limit in seconds for a proposal to be in an relative voting mode.
-   * Default is 604800 (three days).
+   * Default is 259200 (three days).
    */
   boostedVotePeriodLimit: number;
   /**
@@ -1312,7 +1312,7 @@ export enum ProposalState {
 export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProtocolParams> => {
   const web3 = await Utils.getWeb3();
   return {
-    boostedVotePeriodLimit: 604800,
+    boostedVotePeriodLimit: 259200,
     minimumStakingFee: 0,
     preBoostedVotePeriodLimit: 1814400,
     preBoostedVoteRequiredPercentage: 50,
