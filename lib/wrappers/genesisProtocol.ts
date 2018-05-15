@@ -1317,7 +1317,7 @@ export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProt
     preBoostedVotePeriodLimit: 1814400,
     preBoostedVoteRequiredPercentage: 50,
     proposingRepRewardConstA: web3.toWei(50),
-    proposingRepRewardConstB: 50,
+    proposingRepRewardConstB: 0,
     quietEndingPeriod: 86400,
     stakerFeeRatioForVoters: 50,
     thresholdConstA: web3.toWei(7),
