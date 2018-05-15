@@ -112,7 +112,7 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
     let genTokenAddress;
 
     if (network !== "live") {
-      genTokenAddress = await AvatarInst.nativeToken();;
+      genTokenAddress = await AvatarInst.nativeToken();
       console.log(`using native token for staking on network != "live" at: ${genTokenAddress}`);
     } else {
       // the "real" live ETH GEN token
