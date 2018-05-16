@@ -1,4 +1,8 @@
-const arcJsDeployer = require("../dist/migrations/2_deploy_organization").arcJsDeployer;
+
+const migrationScript  = "../dist/migrations/2_deploy_organization";
+//for alchemy needed contracts set migrationScript with "../dist/migrations/2_deploy_alchemy"
+const arcJsDeployer = require(migrationScript).arcJsDeployer;
+
 
 /* eslint-disable no-console */
 
