@@ -2479,17 +2479,12 @@
 <p>All of the script examples assume you are running the scripts in the root folder of your application.  If you happen to be running the scripts in the context of a cloned Arc.js repository, omit the prefix <code>npm explore @daostack/arc.js --</code>. See <a href="#work-with-arc-contracts">Working with Arc Contracts</a>.</p>
 </div>
 <h2 id="set-up-a-testnet-with-arc-contracts">Set up a Testnet with Arc Contracts<a class="headerlink" href="#set-up-a-testnet-with-arc-contracts" title="Permanent link">&para;</a></h2>
-<p>Arc.js runs against an Ethereum network where it assumes that the Arc contracts have been migrated.  Out of the box, Arc.js can find contracts migrated to the mainnet. But for testing, you will need to tell it to migrate the Arc contracts to a testnet of your choice.  You can do this by running a few Arc.js scripts.</p>
+<p>Arc.js runs against an Ethereum network where it assumes that the Arc contracts have been migrated.  Out of the box, Arc.js can find contracts migrated to the mainnet and to kovan. But for any other testnet, or to redeploy, you will need to tell it to migrate the Arc contracts to a testnet of your choice.  You can do this by running a few Arc.js scripts from the context of your application.</p>
 <p>To deploy contracts to a Ganache testnet, run the following scripts:</p>
 <p>In a separate shell window:
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm explore @daostack/arc.js -- npm start ganache
 </pre></div>
 </td></tr></table></p>
-<p>If you are running the migration for the first time:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm explore @daostack/arc.js -- npm start migrateContracts.fetchFromArc
-</pre></div>
-</td></tr></table>
-
 <p>Now migrate the Arc contracts to Ganache:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm explore @daostack/arc.js -- npm start migrateContracts
 </pre></div>
