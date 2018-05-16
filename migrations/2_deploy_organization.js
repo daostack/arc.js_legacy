@@ -1,4 +1,4 @@
-const arcJsDeployer = require("../dist/migrations/2_deploy_organization").arcJsDeployer;
+const arcJsDeployer = require("../dist/migrations/2_deploy_alchemy").arcJsDeployer;
 
 /* eslint-disable no-console */
 

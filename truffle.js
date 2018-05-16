@@ -1,10 +1,16 @@
+
+var secrets = require("./config/secrets");
+var HDWalletProvider = require("truffle-hdwallet-provider");
+
 module.exports = {
   networks: {
     live: {
-      host: "127.0.0.1",
-      port: 8546,
-      network_id: "1",
-      gas: 4543760
+      provider: function() {
+        return new HDWalletProvider(secrets.mnemonic, secrets.providerUrl)
+      },
+      gas: 6000000,
+      gasPrice : 15000000000,
+      network_id: 1
     },
     ganache: {
       host: "127.0.0.1",
