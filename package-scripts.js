@@ -18,7 +18,11 @@ const pathArcJsRoot = env.pathArcJsRoot || cwd;
 
 const pathArcJsContracts = joinPath(pathArcJsRoot, "migrated_contracts");
 
-const pathDaostackArcRepo = joinPath(pathArcJsRoot, "node_modules/@daostack/arc");
+const arcIsInternal = fs.existsSync(joinPath(pathArcJsRoot, "node_modules", "@daostack", "arc"));
+const pathDaostackArcRepo = arcIsInternal ?
+  joinPath(pathArcJsRoot, "node_modules", "@daostack", "arc") :
+  joinPath(pathArcJsRoot, "../../../", "node_modules", "@daostack", "arc")
+  ;
 
 const pathArcTest = joinPath(pathArcJsRoot, "test");
 
@@ -125,7 +129,7 @@ module.exports = {
        *
        * Run migrateContracts.fetchFromArc first if you want to start with fresh unmigrated contracts from @daostack/arc.
        *
-       * --reset is for ganacheDb to not crash on re-migration
+       * --reset is for ganacheDb as it tends to crash on re-migration.
        */
       default: series(
         migrationScriptExists ? `` : `nps build`,
@@ -162,6 +166,8 @@ module.exports = {
        * Fetch the unmigrated contract json files from DAOstack Arc.
        * Run this ONLY when you want to start with fresh UNMIGRATED contracts from DAOstack Arc.
        * Best to run "migrateContracts.clean" first.
+       * If run from the context of an application, then the application must have installed
+       * the proper version of Arc sibling to the Arc.js package.
        */
       fetchFromArc: copy(`${joinPath(pathDaostackArcRepo, "build", "contracts", "*")}  ${pathArcJsContracts}`)
     },
