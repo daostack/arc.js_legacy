@@ -73,7 +73,7 @@
     "tslib": "^1.9.0"
   },
   "devDependencies": {
-    "@daostack/arc": "0.0.0-alpha.38",
+    "@daostack/arc": "0.0.0-alpha.41",
     "@types/chai": "^4.1.2",
     "@types/mocha": "^5.1.0",
     "@types/pubsub-js": "^1.5.18",

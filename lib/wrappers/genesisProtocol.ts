@@ -744,14 +744,10 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     const web3 = await Utils.getWeb3();
     const maxEthValue = web3.toBigNumber(10).pow(26);
 
-    const proposingRepRewardConstA = web3.toBigNumber(params.proposingRepRewardConstA);
+    const proposingRepRewardConstA = params.proposingRepRewardConstA || 0;
 
-    if (proposingRepRewardConstA.lt(0)) {
-      throw new Error("proposingRepRewardConstA must be greater than or equal to 0");
-    }
-
-    if (proposingRepRewardConstA.gt(maxEthValue)) {
-      throw new Error(`proposingRepRewardConstA must be less than ${maxEthValue}`);
+    if ((proposingRepRewardConstA < 0) || (proposingRepRewardConstA > 100)) {
+      throw new Error("proposingRepRewardConstA must be greater than or equal to 0 and less than or equal to 100");
     }
 
     const proposingRepRewardConstB = params.proposingRepRewardConstB || 0;
@@ -936,7 +932,7 @@ export interface GenesisProtocolParams {
    * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
    * Default is 50, converted to Wei.
    */
-  proposingRepRewardConstA: BigNumber.BigNumber | string;
+  proposingRepRewardConstA: number;
   /**
    * Constant B in the calculation of the proposer's reward.
    * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
@@ -1316,8 +1312,8 @@ export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProt
     minimumStakingFee: 0,
     preBoostedVotePeriodLimit: 1814400,
     preBoostedVoteRequiredPercentage: 50,
-    proposingRepRewardConstA: web3.toWei(50),
-    proposingRepRewardConstB: 0,
+    proposingRepRewardConstA: 50,
+    proposingRepRewardConstB: 50,
     quietEndingPeriod: 86400,
     stakerFeeRatioForVoters: 50,
     thresholdConstA: web3.toWei(7),

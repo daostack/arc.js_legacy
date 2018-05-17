@@ -1,6 +1,6 @@
 import { assert } from "chai";
 import { Address, SchemePermissions } from "../lib/commonTypes";
-import { DAO, PerDaoCallback } from "../lib/dao";
+import { DAO, PerDaoCallback, NewDaoConfig } from "../lib/dao";
 import {
   GlobalConstraintRegistrarFactory,
   GlobalConstraintRegistrarWrapper
@@ -12,12 +12,24 @@ import * as helpers from "./helpers";
 
 describe("DAO", () => {
 
-  it("can call getDaos", async () => {
-    await DAO.new({
+
+  const getNewDao = function (options: Partial<NewDaoConfig> = {}) {
+    return DAO.new(Object.assign({
+      founders: [
+        {
+          address: accounts[0],
+          reputation: web3.toWei(1000),
+          tokens: web3.toWei(100),
+        },
+      ],
       name: "ArcJsTestDao",
       tokenName: "Tokens of ArcJsTestDao",
       tokenSymbol: "ATD",
-    });
+    }, options));
+  }
+
+  it("can call getDaos", async () => {
+    await getNewDao();
 
     const daos = await DAO.getDaos({});
     assert.isOk(daos, "daos is not set");
@@ -25,16 +37,8 @@ describe("DAO", () => {
   });
 
   it("can call getDaos with callback", async () => {
-    await DAO.new({
-      name: "ArcJsTestDao",
-      tokenName: "Tokens of ArcJsTestDao",
-      tokenSymbol: "ATD",
-    });
-    await DAO.new({
-      name: "ArcJsTestDao2",
-      tokenName: "Tokens of ArcJsTestDao",
-      tokenSymbol: "ATD",
-    });
+    await getNewDao();
+    await getNewDao({ name: "ArcJsTestDao2" });
 
     let count = 0;
     const perDaoCallback = (avatarAddress: Address): void => {
@@ -47,16 +51,8 @@ describe("DAO", () => {
   });
 
   it("can interrupt getDaos with callback", async () => {
-    await DAO.new({
-      name: "ArcJsTestDao",
-      tokenName: "Tokens of ArcJsTestDao",
-      tokenSymbol: "ATD",
-    });
-    await DAO.new({
-      name: "ArcJsTestDao2",
-      tokenName: "Tokens of ArcJsTestDao",
-      tokenSymbol: "ATD",
-    });
+    await getNewDao();
+    await getNewDao({ name: "ArcJsTestDao2" });
 
     let count = 0;
     const perDaoCallback: PerDaoCallback = (avatarAddress: Address): Promise<boolean> => {
@@ -71,7 +67,7 @@ describe("DAO", () => {
   });
 
   it("default config for counting the number of transactions", async () => {
-    const dao = await DAO.new({
+    const dao = await getNewDao({
       founders: [
         {
           address: accounts[0],
@@ -79,14 +75,11 @@ describe("DAO", () => {
           tokens: web3.toWei(40),
         },
       ],
-      name: "ArcJsTestDao",
       schemes: [
         { name: "SchemeRegistrar" },
         { name: "UpgradeScheme" },
         { name: "GlobalConstraintRegistrar" },
       ],
-      tokenName: "Tokens of ArcJsTestDao",
-      tokenSymbol: "ATD",
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
@@ -97,10 +90,7 @@ describe("DAO", () => {
   });
 
   it("can create with non-universal controller", async () => {
-    const dao = await DAO.new({
-      name: "ArcJsTestDao",
-      tokenName: "Tokens of ArcJsTestDao",
-      tokenSymbol: "ATD",
+    const dao = await getNewDao({
       universalController: false,
     });
     // the dao has an avatar
@@ -109,11 +99,7 @@ describe("DAO", () => {
   });
 
   it("can be created with 'new' using default settings", async () => {
-    const dao = await DAO.new({
-      name: "ArcJsTestDao",
-      tokenName: "Tokens of ArcJsTestDao",
-      tokenSymbol: "ATD",
-    });
+    const dao = await getNewDao();
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
     assert.equal(dao.hasUController, true);
@@ -146,7 +132,7 @@ describe("DAO", () => {
   });
 
   it("can be created with founders", async () => {
-    const dao = await DAO.new({
+    const dao = await getNewDao({
       founders: [
         {
           address: accounts[0],
@@ -164,24 +150,18 @@ describe("DAO", () => {
           tokens: web3.toWei(40),
         },
       ],
-      name: "ArcJsTestDao",
-      tokenName: "Tokens of ArcJsTestDao",
-      tokenSymbol: "ATD",
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
   });
 
   it("can be created with schemes and default votingMachineParams", async () => {
-    const dao = await DAO.new({
-      name: "ArcJsTestDao",
+    const dao = await getNewDao({
       schemes: [
         { name: "SchemeRegistrar" },
         { name: "UpgradeScheme" },
         { name: "GlobalConstraintRegistrar" },
       ],
-      tokenName: "Tokens of ArcJsTestDao",
-      tokenSymbol: "ATD",
     });
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
@@ -192,15 +172,12 @@ describe("DAO", () => {
   });
 
   it("can be created with schemes and global votingMachineParams", async () => {
-    const dao = await DAO.new({
-      name: "ArcJsTestDao",
+    const dao = await getNewDao({
       schemes: [
         { name: "SchemeRegistrar" },
         { name: "UpgradeScheme" },
         { name: "GlobalConstraintRegistrar" },
       ],
-      tokenName: "Tokens of ArcJsTestDao",
-      tokenSymbol: "ATD",
       votingMachineParams: {
         ownerVote: true,
         votePerc: 45,
@@ -219,8 +196,7 @@ describe("DAO", () => {
   });
 
   it("can be created with schemes and scheme-specific votingMachineParams", async () => {
-    const dao = await DAO.new({
-      name: "ArcJsTestDao",
+    const dao = await getNewDao({
       schemes: [
         { name: "SchemeRegistrar" },
         { name: "UpgradeScheme" },
@@ -232,8 +208,6 @@ describe("DAO", () => {
           },
         },
       ],
-      tokenName: "Tokens of ArcJsTestDao",
-      tokenSymbol: "ATD",
       votingMachineParams: {
         ownerVote: true,
         votePerc: 45,
