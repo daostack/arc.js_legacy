@@ -81,7 +81,7 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
     const tokenName = "Genesis Alpha";
     const tokenSymbol = "GDT";
     const orgNativeTokenFee = 0;
-    const defaultVotingMachineParams = await GetDefaultGenesisProtocolParameters();
+    const defaultVotingMachineParams = await GetDefaultGenesisProtocolParameters(web3);
     const schemeRegistrarPermissions = SchemePermissions.toString(DefaultSchemePermissions.SchemeRegistrar);
     const globalConstraintRegistrarPermissions = SchemePermissions.toString(DefaultSchemePermissions.GlobalConstraintRegistrar);
     const upgradeSchemePermissions = SchemePermissions.toString(DefaultSchemePermissions.UpgradeScheme);
@@ -158,6 +158,8 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
         defaultVotingMachineParams.stakerFeeRatioForVoters,
         defaultVotingMachineParams.votersReputationLossRatio,
         defaultVotingMachineParams.votersGainRepRatioFromLostRep,
+        defaultVotingMachineParams.daoBountyConst,
+        defaultVotingMachineParams.daoBountyLimit,
       ]
     );
 
@@ -175,6 +177,8 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
         defaultVotingMachineParams.stakerFeeRatioForVoters,
         defaultVotingMachineParams.votersReputationLossRatio,
         defaultVotingMachineParams.votersGainRepRatioFromLostRep,
+        defaultVotingMachineParams.daoBountyConst,
+        defaultVotingMachineParams.daoBountyLimit,
       ]
     );
     /**

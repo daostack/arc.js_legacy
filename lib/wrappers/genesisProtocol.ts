@@ -22,7 +22,7 @@ import {
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { TransactionService } from "../transactionService";
-import { Utils } from "../utils";
+import { Utils, Web3 } from "../utils";
 import {
   ExecuteProposalEventResult,
   NewProposalEventResult,
@@ -798,6 +798,18 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("votersReputationLossRatio must be greater than or equal to  0 and less than or equal to 100");
     }
 
+    const daoBountyConst = params.votersReputationLossRatio || 0;
+
+    if ((daoBountyConst < 0) || (daoBountyConst > 100)) {
+      throw new Error("daoBountyConst must be greater than or equal to  0 and less than or equal to 100");
+    }
+
+    const daoBountyLimit = params.daoBountyLimit || 0;
+
+    if ((daoBountyLimit < 0) || (daoBountyLimit > 100)) {
+      throw new Error("daoBountyLimit must be greater than or equal to  0 and less than or equal to 100");
+    }
+
     return super._setParameters(
       "GenesisProtocol.setParameters",
       [
@@ -813,6 +825,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
         stakerFeeRatioForVoters,
         votersReputationLossRatio,
         votersGainRepRatioFromLostRep,
+        params.daoBountyConst,
+        params.daoBountyLimit,
       ]
     );
   }
@@ -834,6 +848,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     const params = await this.getParametersArray(paramsHash);
     return {
       boostedVotePeriodLimit: params[2].toNumber(),
+      daoBountyConst: params[12].toNumber(),
+      daoBountyLimit: params[13],
       minimumStakingFee: params[5].toNumber(),
       preBoostedVotePeriodLimit: params[1].toNumber(),
       preBoostedVoteRequiredPercentage: params[0].toNumber(),
@@ -904,6 +920,14 @@ export interface GenesisProtocolParams {
    * Default is 259200 (three days).
    */
   boostedVotePeriodLimit: number;
+  /**
+   * Multiple of a winning stake to be rewarded as bounty
+   */
+  daoBountyConst: number;
+  /**
+   * Upper bound on the total amount of bounties on a proposal.
+   */
+  daoBountyLimit: BigNumber.BigNumber | string;
   /**
    * A floor on the staking fee which is normally computed using [[GenesisProtocolParams.stakerFeeRatioForVoters]].
    * Default is 0
@@ -1298,10 +1322,12 @@ export enum ProposalState {
   QuietEndingPeriod,
 }
 
-export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProtocolParams> => {
-  const web3 = await Utils.getWeb3();
+export const GetDefaultGenesisProtocolParameters = async (web3?: Web3): Promise<GenesisProtocolParams> => {
+  web3 = web3 || await Utils.getWeb3();
   return {
     boostedVotePeriodLimit: 259200,
+    daoBountyConst: 75,
+    daoBountyLimit: web3.toWei(1000),
     minimumStakingFee: 0,
     preBoostedVotePeriodLimit: 1814400,
     preBoostedVoteRequiredPercentage: 50,
