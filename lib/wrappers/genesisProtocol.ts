@@ -746,14 +746,16 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
     const proposingRepRewardConstA = params.proposingRepRewardConstA || 0;
 
-    if ((proposingRepRewardConstA < 0) || (proposingRepRewardConstA > 100)) {
-      throw new Error("proposingRepRewardConstA must be greater than or equal to 0 and less than or equal to 100");
+    if ((proposingRepRewardConstA < 0) || (proposingRepRewardConstA > 100000000)) {
+      throw new Error(
+        "proposingRepRewardConstA must be greater than or equal to 0 and less than or equal to 100000000");
     }
 
     const proposingRepRewardConstB = params.proposingRepRewardConstB || 0;
 
-    if ((proposingRepRewardConstB < 0) || (proposingRepRewardConstB > 100)) {
-      throw new Error("proposingRepRewardConstB must be greater than or equal to 0 and less than or equal to 100");
+    if ((proposingRepRewardConstB < 0) || (proposingRepRewardConstB > 100000000)) {
+      throw new Error(
+        "proposingRepRewardConstB must be greater than or equal to 0 and less than or equal to 100000000");
     }
 
     const thresholdConstA = web3.toBigNumber(params.thresholdConstA);
@@ -766,19 +768,10 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error(`thresholdConstA must be less than ${maxEthValue}`);
     }
 
-    const thresholdConstB = web3.toBigNumber(params.thresholdConstB);
+    const thresholdConstB = params.thresholdConstB || 0;
 
-    if (thresholdConstB.lte(0)) {
-      throw new Error("thresholdConstB must be greater than 0");
-    }
-
-    /**
-     * thresholdConstB is a number, and is not supposed to be in Wei (unlike the other
-     * params checked above), but we check this condition anyways as not everyone
-     * may be using the type checking of TypeScript, and it is a condition in the Solidity code.
-     */
-    if (thresholdConstB.gt(maxEthValue)) {
-      throw new Error(`thresholdConstB must be less than ${maxEthValue}`);
+    if ((thresholdConstB <= 0) || (thresholdConstB > 100000000)) {
+      throw new Error("thresholdConstB must be greater than 0 and less than or equal to 100000000");
     }
 
     const preBoostedVoteRequiredPercentage = params.preBoostedVoteRequiredPercentage || 0;
@@ -844,8 +837,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       minimumStakingFee: params[5].toNumber(),
       preBoostedVotePeriodLimit: params[1].toNumber(),
       preBoostedVoteRequiredPercentage: params[0].toNumber(),
-      proposingRepRewardConstA: params[7],
-      proposingRepRewardConstB: params[8],
+      proposingRepRewardConstA: params[7].toNumber(),
+      proposingRepRewardConstB: params[8].toNumber(),
       quietEndingPeriod: params[6].toNumber(),
       stakerFeeRatioForVoters: params[9].toNumber(),
       thresholdConstA: params[3],
