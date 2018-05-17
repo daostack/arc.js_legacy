@@ -1,6 +1,6 @@
 import { assert } from "chai";
 import { Address, SchemePermissions } from "../lib/commonTypes";
-import { DAO, PerDaoCallback, NewDaoConfig } from "../lib/dao";
+import { DAO, NewDaoConfig, PerDaoCallback } from "../lib/dao";
 import {
   GlobalConstraintRegistrarFactory,
   GlobalConstraintRegistrarWrapper
@@ -12,8 +12,7 @@ import * as helpers from "./helpers";
 
 describe("DAO", () => {
 
-
-  const getNewDao = function (options: Partial<NewDaoConfig> = {}) {
+  const getNewDao = (options: Partial<NewDaoConfig> = {}): Promise<DAO> => {
     return DAO.new(Object.assign({
       founders: [
         {
@@ -26,7 +25,7 @@ describe("DAO", () => {
       tokenName: "Tokens of ArcJsTestDao",
       tokenSymbol: "ATD",
     }, options));
-  }
+  };
 
   it("can call getDaos", async () => {
     await getNewDao();
