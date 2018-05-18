@@ -336,6 +336,19 @@ describe("GenesisProtocol", () => {
     assert.isOk(result.tx);
   });
 
+  it("can call redeemDaoBounty", async () => {
+    const proposalId = await createProposal();
+
+    await voteProposal(proposalId, 1);
+
+    const result = await genesisProtocol.redeemDaoBounty({
+      beneficiaryAddress: accounts[0],
+      proposalId,
+    });
+    assert.isOk(result);
+    assert.isOk(result.tx);
+  });
+
   it("can call getScore", async () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getScore({
@@ -356,6 +369,15 @@ describe("GenesisProtocol", () => {
   it("can call getRedeemableTokensStaker", async () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getRedeemableTokensStaker({
+      beneficiaryAddress: accounts[0],
+      proposalId,
+    });
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getRedeemableTokensStakerBounty", async () => {
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getRedeemableTokensStakerBounty({
       beneficiaryAddress: accounts[0],
       proposalId,
     });
