@@ -111,8 +111,7 @@ export class AvatarService {
   public async getNativeToken(): Promise<any> {
     if (!this.nativeToken) {
       const tokenAddress = await this.getNativeTokenAddress();
-      const DAOToken = await Utils.requireContract("DAOToken");
-      this.nativeToken = await DAOToken.at(tokenAddress);
+      this.nativeToken = await (await Utils.requireContract("StandardToken")).at(tokenAddress) as any;
     }
     return this.nativeToken;
   }

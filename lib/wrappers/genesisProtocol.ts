@@ -1,5 +1,6 @@
 "use strict";
 import * as BigNumber from "bignumber.js";
+import { AvatarService } from "../avatarService";
 import {
   Address,
   BinaryVoteResult,
@@ -499,6 +500,40 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       options.proposalId,
       options.beneficiaryAddress
     );
+  }
+
+  /**
+   * Return the current balances on this GenesisProtocol's staking and the given avatar's native tokens.
+   * This can be useful, for example, if you want to know in advance whether the avatar has enough funds
+   * at the moment to payout rewards to stakers and voters.
+   * It also returns the respective tokens' truffle contracts.
+   * @param options
+   */
+  public async getTokenBalances(
+    options: GetTokenBalancesOptions = {} as GetTokenBalancesOptions)
+    : Promise<GenesisProtocolDaoTokenBalances> {
+
+    if (!options.avatarAddress) {
+      throw new Error("avatarAddress is not defined");
+    }
+
+    const stakingTokenAddress = await this.contract.stakingToken();
+    const stakingToken = await (await Utils.requireContract("StandardToken")).at(stakingTokenAddress) as any;
+
+    const stakingTokenBalance = await stakingToken.balanceOf(options.avatarAddress);
+
+    const avatarService = new AvatarService(options.avatarAddress);
+
+    const nativeToken = await avatarService.getNativeToken();
+
+    const nativeTokenBalance = await nativeToken.balanceOf(options.avatarAddress);
+
+    return {
+      nativeToken,
+      nativeTokenBalance,
+      stakingToken,
+      stakingTokenBalance,
+    };
   }
 
   /**
@@ -1376,6 +1411,29 @@ export enum ProposalState {
   PreBoosted,
   Boosted,
   QuietEndingPeriod,
+}
+
+export interface GetTokenBalancesOptions {
+  avatarAddress: Address;
+}
+
+export interface GenesisProtocolDaoTokenBalances {
+  /**
+   * The native token's truffle contract
+   */
+  nativeToken: any;
+  /**
+   * The avatar's balance off native tokens, in Wei
+   */
+  nativeTokenBalance: BigNumber.BigNumber;
+  /**
+   * The standard token's truffle contract
+   */
+  stakingToken: any;
+  /**
+   * The avatar's balance of staking tokens, in Wei
+   */
+  stakingTokenBalance: BigNumber.BigNumber;
 }
 
 export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProtocolParams> => {
