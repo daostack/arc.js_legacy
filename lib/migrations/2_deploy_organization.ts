@@ -1,8 +1,9 @@
 import { Web3 } from "web3";
 import { computeGasLimit } from "../../gasLimits.js";
 import { DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
-import { ConfigService } from "../configService";
 import { GetDefaultGenesisProtocolParameters } from "../wrappers/genesisProtocol";
+/* tslint:disable:no-var-requires */
+const env = require("env-variable")();
 
 /* tslint:disable:no-console */
 /* tslint:disable:max-line-length */
@@ -29,12 +30,12 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
   // so Utils.getWeb3 can find it
   (global as any).web3 = web3;
 
-  const network = ConfigService.get("network") || "ganache";
+  const network = env.arcjs_network || "ganache";
 
   const internalFoundersConfigLocation = "../../migrations/founders.json";
   const foundersConfig = require(internalFoundersConfigLocation).founders;
 
-  const customFoundersConfigLocation = ConfigService.get("foundersConfigurationLocation");
+  const customFoundersConfigLocation = env.arcjs_foundersConfigurationLocation || internalFoundersConfigLocation;
 
   if (internalFoundersConfigLocation !== customFoundersConfigLocation) {
     console.log(`merging custom founders from ${customFoundersConfigLocation}`);
