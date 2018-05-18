@@ -44,12 +44,6 @@ In a separate shell window:
 npm explore @daostack/arc.js -- npm start ganache
 ```
 
-If you are running the migration for the first time:
-
-```script
-npm explore @daostack/arc.js -- npm start migrateContracts.fetchFromArc
-```
-
 Now migrate the Arc contracts to Ganache:
 
 ```script
