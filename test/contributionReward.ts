@@ -1,5 +1,11 @@
 import { assert } from "chai";
-import { AbsoluteVoteWrapper, ArcTransactionProposalResult, DAO, DecodedLogEntryEvent, RedeemEventResult } from "../lib";
+import {
+  AbsoluteVoteWrapper,
+  ArcTransactionProposalResult,
+  DAO,
+  DecodedLogEntryEvent,
+  RedeemEventResult
+} from "../lib";
 import {
   ContributionProposal,
   ContributionRewardFactory,
