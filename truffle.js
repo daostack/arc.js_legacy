@@ -41,10 +41,11 @@ module.exports = {
       gas: 4543760
     },
     ropsten: {
-      host: "127.0.0.1",
-      port: 8548,
-      network_id: 3,
-      gas: 4543760
+      provider: function () {
+        return provider;
+      },
+      gas: 4543760,
+      network_id: 3
     },
     kovan: {
       provider: function () {
