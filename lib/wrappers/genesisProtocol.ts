@@ -798,16 +798,17 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("votersReputationLossRatio must be greater than or equal to  0 and less than or equal to 100");
     }
 
-    const daoBountyConst = params.votersReputationLossRatio || 0;
+    const daoBountyConst = params.daoBountyConst || 0;
 
-    if ((daoBountyConst < 0) || (daoBountyConst > 100)) {
-      throw new Error("daoBountyConst must be greater than or equal to  0 and less than or equal to 100");
+    if ((daoBountyConst <= stakerFeeRatioForVoters) || (daoBountyConst >= stakerFeeRatioForVoters * 2)) {
+      throw new Error(
+        "daoBountyConst must be greater than stakerFeeRatioForVoters and less than 2*stakerFeeRatioForVoters");
     }
 
-    const daoBountyLimit = params.daoBountyLimit || 0;
+    const daoBountyLimit = web3.toBigNumber(params.daoBountyLimit);
 
-    if ((daoBountyLimit < 0) || (daoBountyLimit > 100)) {
-      throw new Error("daoBountyLimit must be greater than or equal to  0 and less than or equal to 100");
+    if (daoBountyLimit.lt(0)) {
+      throw new Error("daoBountyLimit must be greater than or equal to 0");
     }
 
     return super._setParameters(
@@ -825,8 +826,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
         stakerFeeRatioForVoters,
         votersReputationLossRatio,
         votersGainRepRatioFromLostRep,
-        params.daoBountyConst,
-        params.daoBountyLimit,
+        daoBountyConst,
+        daoBountyLimit,
       ]
     );
   }
