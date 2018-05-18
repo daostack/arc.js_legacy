@@ -11,7 +11,7 @@ const gasLimitsConfig =
     /**
      * The gas limit used by Arc to create a DAO
      */
-    "gasLimit_arc": 5300000,
+    "gasLimit_arc": 5600000,
     /**
      * The amount of gas needed for each founder when creating a DAO
      */

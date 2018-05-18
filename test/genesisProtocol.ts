@@ -172,8 +172,7 @@ describe("GenesisProtocol", () => {
       avatar: dao.avatar.address,
     });
     assert.isOk(result);
-    assert.equal(helpers.fromWei(result.thresholdConstA).toNumber(),
-      helpers.fromWei((await GetDefaultGenesisProtocolParameters()).thresholdConstA).toNumber());
+    assert(result.thresholdConstA.eq((await GetDefaultGenesisProtocolParameters()).thresholdConstA));
     assert.equal(result.thresholdConstB, (await GetDefaultGenesisProtocolParameters()).thresholdConstB);
   });
 

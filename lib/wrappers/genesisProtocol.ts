@@ -744,20 +744,18 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     const web3 = await Utils.getWeb3();
     const maxEthValue = web3.toBigNumber(10).pow(26);
 
-    const proposingRepRewardConstA = web3.toBigNumber(params.proposingRepRewardConstA);
+    const proposingRepRewardConstA = params.proposingRepRewardConstA || 0;
 
-    if (proposingRepRewardConstA.lt(0)) {
-      throw new Error("proposingRepRewardConstA must be greater than or equal to 0");
-    }
-
-    if (proposingRepRewardConstA.gt(maxEthValue)) {
-      throw new Error(`proposingRepRewardConstA must be less than ${maxEthValue}`);
+    if ((proposingRepRewardConstA < 0) || (proposingRepRewardConstA > 100000000)) {
+      throw new Error(
+        "proposingRepRewardConstA must be greater than or equal to 0 and less than or equal to 100000000");
     }
 
     const proposingRepRewardConstB = params.proposingRepRewardConstB || 0;
 
-    if ((proposingRepRewardConstB < 0) || (proposingRepRewardConstB > 100)) {
-      throw new Error("proposingRepRewardConstB must be greater than or equal to 0 and less than or equal to 100");
+    if ((proposingRepRewardConstB < 0) || (proposingRepRewardConstB > 100000000)) {
+      throw new Error(
+        "proposingRepRewardConstB must be greater than or equal to 0 and less than or equal to 100000000");
     }
 
     const thresholdConstA = web3.toBigNumber(params.thresholdConstA);
@@ -770,19 +768,10 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error(`thresholdConstA must be less than ${maxEthValue}`);
     }
 
-    const thresholdConstB = web3.toBigNumber(params.thresholdConstB);
+    const thresholdConstB = params.thresholdConstB || 0;
 
-    if (thresholdConstB.lte(0)) {
-      throw new Error("thresholdConstB must be greater than 0");
-    }
-
-    /**
-     * thresholdConstB is a number, and is not supposed to be in Wei (unlike the other
-     * params checked above), but we check this condition anyways as not everyone
-     * may be using the type checking of TypeScript, and it is a condition in the Solidity code.
-     */
-    if (thresholdConstB.gt(maxEthValue)) {
-      throw new Error(`thresholdConstB must be less than ${maxEthValue}`);
+    if ((thresholdConstB <= 0) || (thresholdConstB > 100000000)) {
+      throw new Error("thresholdConstB must be greater than 0 and less than or equal to 100000000");
     }
 
     const preBoostedVoteRequiredPercentage = params.preBoostedVoteRequiredPercentage || 0;
@@ -809,6 +798,19 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("votersReputationLossRatio must be greater than or equal to  0 and less than or equal to 100");
     }
 
+    const daoBountyConst = params.daoBountyConst || 0;
+
+    if ((daoBountyConst <= stakerFeeRatioForVoters) || (daoBountyConst >= stakerFeeRatioForVoters * 2)) {
+      throw new Error(
+        "daoBountyConst must be greater than stakerFeeRatioForVoters and less than 2*stakerFeeRatioForVoters");
+    }
+
+    const daoBountyLimit = web3.toBigNumber(params.daoBountyLimit);
+
+    if (daoBountyLimit.lt(0)) {
+      throw new Error("daoBountyLimit must be greater than or equal to 0");
+    }
+
     return super._setParameters(
       "GenesisProtocol.setParameters",
       [
@@ -824,6 +826,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
         stakerFeeRatioForVoters,
         votersReputationLossRatio,
         votersGainRepRatioFromLostRep,
+        daoBountyConst,
+        daoBountyLimit,
       ]
     );
   }
@@ -845,11 +849,13 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     const params = await this.getParametersArray(paramsHash);
     return {
       boostedVotePeriodLimit: params[2].toNumber(),
+      daoBountyConst: params[12].toNumber(),
+      daoBountyLimit: params[13],
       minimumStakingFee: params[5].toNumber(),
       preBoostedVotePeriodLimit: params[1].toNumber(),
       preBoostedVoteRequiredPercentage: params[0].toNumber(),
-      proposingRepRewardConstA: params[7],
-      proposingRepRewardConstB: params[8],
+      proposingRepRewardConstA: params[7].toNumber(),
+      proposingRepRewardConstB: params[8].toNumber(),
       quietEndingPeriod: params[6].toNumber(),
       stakerFeeRatioForVoters: params[9].toNumber(),
       thresholdConstA: params[3],
@@ -916,6 +922,14 @@ export interface GenesisProtocolParams {
    */
   boostedVotePeriodLimit: number;
   /**
+   * Multiple of a winning stake to be rewarded as bounty
+   */
+  daoBountyConst: number;
+  /**
+   * Upper bound on the total amount of bounties on a proposal.
+   */
+  daoBountyLimit: BigNumber.BigNumber | string;
+  /**
    * A floor on the staking fee which is normally computed using [[GenesisProtocolParams.stakerFeeRatioForVoters]].
    * Default is 0
    */
@@ -936,7 +950,7 @@ export interface GenesisProtocolParams {
    * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
    * Default is 50, converted to Wei.
    */
-  proposingRepRewardConstA: BigNumber.BigNumber | string;
+  proposingRepRewardConstA: number;
   /**
    * Constant B in the calculation of the proposer's reward.
    * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
@@ -1311,13 +1325,16 @@ export enum ProposalState {
 
 export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProtocolParams> => {
   const web3 = await Utils.getWeb3();
+
   return {
     boostedVotePeriodLimit: 259200,
+    daoBountyConst: 75,
+    daoBountyLimit: web3.toWei(100),
     minimumStakingFee: 0,
     preBoostedVotePeriodLimit: 1814400,
     preBoostedVoteRequiredPercentage: 50,
-    proposingRepRewardConstA: web3.toWei(50),
-    proposingRepRewardConstB: 0,
+    proposingRepRewardConstA: 5,
+    proposingRepRewardConstB: 5,
     quietEndingPeriod: 86400,
     stakerFeeRatioForVoters: 50,
     thresholdConstA: web3.toWei(7),
