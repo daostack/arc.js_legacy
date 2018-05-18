@@ -16,7 +16,7 @@ To deploy contracts to a specified network, follow these steps:
     }
     ```
 
-    An account generated from the mnemonic will be locked for signing and accepting the transactions that are generated during the migration.
+    An account generated from the mnemonic will be unlocked for signing and accepting the transactions that are generated during the migration.
 
 !!! warning
     The mnemonic won't work unless it confirms to [BIP39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).  You can generate a conformant mnemonic [here](https://iancoleman.io/bip39/).
