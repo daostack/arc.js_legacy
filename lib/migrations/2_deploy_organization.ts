@@ -26,6 +26,9 @@ interface FounderSpec {
  */
 export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void => {
 
+  // so Utils.getWeb3 can find it
+  (global as any).web3 = web3;
+
   const network = ConfigService.get("network") || "ganache";
 
   const internalFoundersConfigLocation = "../../migrations/founders.json";
@@ -81,7 +84,7 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
     const tokenName = "Genesis Alpha";
     const tokenSymbol = "GDT";
     const orgNativeTokenFee = 0;
-    const defaultVotingMachineParams = await GetDefaultGenesisProtocolParameters(web3);
+    const defaultVotingMachineParams = await GetDefaultGenesisProtocolParameters();
     const schemeRegistrarPermissions = SchemePermissions.toString(DefaultSchemePermissions.SchemeRegistrar);
     const globalConstraintRegistrarPermissions = SchemePermissions.toString(DefaultSchemePermissions.GlobalConstraintRegistrar);
     const upgradeSchemePermissions = SchemePermissions.toString(DefaultSchemePermissions.UpgradeScheme);
@@ -236,6 +239,8 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
     await deployer.deploy(TokenCapGC);
     await deployer.deploy(VestingScheme);
     await deployer.deploy(VoteInOrganizationScheme);
-    await deployer.deploy(ExecutableTest);
+    if (network !== "live") {
+      await deployer.deploy(ExecutableTest);
+    }
   });
 };

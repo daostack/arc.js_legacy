@@ -22,7 +22,7 @@ import {
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { TransactionService } from "../transactionService";
-import { Utils, Web3 } from "../utils";
+import { Utils } from "../utils";
 import {
   ExecuteProposalEventResult,
   NewProposalEventResult,
@@ -1322,17 +1322,18 @@ export enum ProposalState {
   QuietEndingPeriod,
 }
 
-export const GetDefaultGenesisProtocolParameters = async (web3?: Web3): Promise<GenesisProtocolParams> => {
-  web3 = web3 || await Utils.getWeb3();
+export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProtocolParams> => {
+  const web3 = await Utils.getWeb3();
+
   return {
     boostedVotePeriodLimit: 259200,
     daoBountyConst: 75,
-    daoBountyLimit: web3.toWei(1000),
+    daoBountyLimit: web3.toWei(100),
     minimumStakingFee: 0,
     preBoostedVotePeriodLimit: 1814400,
     preBoostedVoteRequiredPercentage: 50,
-    proposingRepRewardConstA: 50,
-    proposingRepRewardConstB: 50,
+    proposingRepRewardConstA: 5,
+    proposingRepRewardConstB: 5,
     quietEndingPeriod: 86400,
     stakerFeeRatioForVoters: 50,
     thresholdConstA: web3.toWei(7),

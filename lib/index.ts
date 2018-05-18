@@ -37,7 +37,7 @@ import { WrapperService, WrapperServiceInitializeOptions } from "./wrapperServic
 /* tslint:disable-next-line:no-empty-interface */
 export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
   /**
-   * Name of the network for which to use the defaults found in Arc.js.truffle.js.
+   * Name of the network for which to use the defaults found in Arc.js/truffle.js.
    * Overwrites config settings network, providerUrl and providerPort.
    */
   useNetworkDefaultsFor?: string;
