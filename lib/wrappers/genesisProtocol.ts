@@ -1316,15 +1316,13 @@ export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProt
     minimumStakingFee: 0,
     preBoostedVotePeriodLimit: 1814400,
     preBoostedVoteRequiredPercentage: 50,
-    proposingRepRewardConstA: 5,
-    proposingRepRewardConstB: 5,
+    proposingRepRewardConstA: web3.toWei(50),
+    proposingRepRewardConstB: 0,
     quietEndingPeriod: 86400,
     stakerFeeRatioForVoters: 50,
     thresholdConstA: web3.toWei(7),
     thresholdConstB: 3,
     votersGainRepRatioFromLostRep: 80,
     votersReputationLossRatio: 1,
-    daoBountyConst: 75,
-    daoBountyLimit: web3.toWei(100)
   };
 };
