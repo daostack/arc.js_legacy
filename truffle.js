@@ -17,7 +17,6 @@ if (env.arcjs_providerConfig) {
 
   if (providerConfig) {
     const HDWalletProvider = require("truffle-hdwallet-provider");
-    // const HDWalletProvider = require("./dist/migrations/truffle-hdwallet-provider").HDWalletProvider;
     console.log(`Provider: '${providerConfig.providerUrl}'`);
     console.log(`Account: '${providerConfig.mnemonic}'`);
     provider = new HDWalletProvider(providerConfig.mnemonic, providerConfig.providerUrl);
