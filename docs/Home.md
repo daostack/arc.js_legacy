@@ -96,7 +96,7 @@ await InitializeArcJs({
   });
 ```
 
-You can use the Arc.js [ConfigService](Configuration) to set the provider host and port that web3 uses to connect your applicaton to the net when not using MetaMask.  But you can also tell `InitializeArcJs` to use the settings stored in the Arc.js `truffle.js` file for mainnet (live), kovan, ropsten and ganache.  Here is an example of telling Arc.js to use its default settings for Kovan:
+You can use the Arc.js [ConfigService](Configuration) to set the provider host and port that web3 uses to connect your applicaton to the net when not using MetaMask.  But you can also tell `InitializeArcJs` to use default Arc.js settings for mainnet (live), kovan, ropsten and ganache.  Here is an example of telling Arc.js to use its default settings for Kovan:
 
 ```javascript
 await InitializeArcJs({
@@ -105,7 +105,7 @@ await InitializeArcJs({
 ```
 
 !!! info
-    For safety, truffle.js specifies a different HTTP port for each network.  You will need to make sure that the testnet you are using is listening on that port.  The port values are:
+    For safety, Arc.js specifies a different HTTP port for each network.  You will need to make sure that the testnet you are using is listening on that port.  The port values are:
 
     <table style="margin-left:2.5rem">
     <tr style="text-align:left"><th>Network</th><th>Port</th></tr>
