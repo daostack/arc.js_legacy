@@ -28,6 +28,7 @@ describe("InitializeArcJs", () => {
   });
   it("initializes default network params", async () => {
     await InitializeArcJs({ useNetworkDefaultsFor: "kovan" });
+    assert.equal(ConfigService.get("network"), "kovan");
     assert.equal(ConfigService.get("providerUrl"), "http://127.0.0.1");
     assert.equal(ConfigService.get("providerPort"), 8547);
   });
