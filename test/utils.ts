@@ -26,6 +26,11 @@ describe("InitializeArcJs", () => {
     ConfigService.set("providerUrl", providerUrl);
     assert(exceptionRaised, "proper exception was not raised");
   });
+  it("initializes default network params", async () => {
+    await InitializeArcJs({ useNetworkDefaultsFor: "kovan" });
+    assert.equal(ConfigService.get("providerUrl"), "http://127.0.0.1");
+    assert.equal(ConfigService.get("providerPort"), 8547);
+  });
 });
 
 describe("ContractWrapperBase", () => {

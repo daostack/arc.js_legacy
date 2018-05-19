@@ -4,5 +4,23 @@
   "logLevel": 9,
   "network": "ganache",
   "providerPort": 8545,
-  "providerUrl": "http://127.0.0.1"
+  "providerUrl": "http://127.0.0.1",
+  "networkDefaults": {
+    "live": {
+      "host": "127.0.0.1",
+      "port": 8546
+    },
+    "ganache": {
+      "host": "127.0.0.1",
+      "port": 8545
+    },
+    "ropsten": {
+      "host": "127.0.0.1",
+      "port": 8548
+    },
+    "kovan": {
+      "host": "127.0.0.1",
+      "port": 8547
+    }
+  }
 }
