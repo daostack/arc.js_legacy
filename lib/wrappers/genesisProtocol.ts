@@ -1,5 +1,6 @@
 "use strict";
 import * as BigNumber from "bignumber.js";
+import { AvatarService } from "../avatarService";
 import {
   Address,
   BinaryVoteResult,
@@ -26,7 +27,7 @@ import { Utils } from "../utils";
 import {
   ExecuteProposalEventResult,
   NewProposalEventResult,
-  RedeemReputationEventResult,
+  RedeemEventResult,
   VoteProposalEventResult,
 } from "./commonEventInterfaces";
 
@@ -45,7 +46,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
   public VoteProposal: EventFetcherFactory<VoteProposalEventResult> = this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal");
   public Stake: EventFetcherFactory<StakeEventResult> = this.createEventFetcherFactory<StakeEventResult>("Stake");
   public Redeem: EventFetcherFactory<RedeemEventResult> = this.createEventFetcherFactory<RedeemEventResult>("Redeem");
-  public RedeemReputation: EventFetcherFactory<RedeemReputationEventResult> = this.createEventFetcherFactory<RedeemReputationEventResult>("RedeemReputation");
+  public RedeemDaoBounty: EventFetcherFactory<RedeemEventResult> = this.createEventFetcherFactory<RedeemEventResult>("RedeemDaoBounty");
+  public RedeemReputation: EventFetcherFactory<RedeemEventResult> = this.createEventFetcherFactory<RedeemEventResult>("RedeemReputation");
   /* tslint:enable:max-line-length */
 
   /**
@@ -237,7 +239,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
   }
 
   /**
-   * Redeem any tokens and reputation that are due the beneficiary from the outcome of the proposal.
+   * Redeem any tokens and reputation, excluding bounty, that are due the beneficiary from the outcome of the proposal.
    * @param {RedeemConfig} options
    * @returns Promise<ArcTransactionResult>
    */
@@ -251,12 +253,53 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       throw new Error("beneficiaryAddress is not defined");
     }
 
+    const proposalState = await this.getState({ proposalId: options.proposalId });
+
+    if ((proposalState !== ProposalState.Executed) &&
+      (proposalState !== ProposalState.Closed)) {
+      throw new Error("cannot redeem unless proposal state is either executed or closed");
+    }
+
     this.logContractFunctionCall("GenesisProtocol.redeem", options);
 
     return this.wrapTransactionInvocation("GenesisProtocol.redeem",
       options,
       () => {
         return this.contract.redeem(
+          options.proposalId,
+          options.beneficiaryAddress
+        );
+      });
+  }
+
+  /**
+   * Redeem any token bounty that are due the beneficiary from the outcome of the proposal.
+   * @param {RedeemConfig} options
+   * @returns Promise<ArcTransactionResult>
+   */
+  public async redeemDaoBounty(options: RedeemConfig = {} as RedeemConfig): Promise<ArcTransactionResult> {
+
+    if (!options.proposalId) {
+      throw new Error("proposalId is not defined");
+    }
+
+    if (!options.beneficiaryAddress) {
+      throw new Error("beneficiaryAddress is not defined");
+    }
+
+    this.logContractFunctionCall("GenesisProtocol.redeemDaoBounty", options);
+
+    const proposalState = await this.getState({ proposalId: options.proposalId });
+
+    if ((proposalState !== ProposalState.Executed) &&
+      (proposalState !== ProposalState.Closed)) {
+      throw new Error("cannot redeem bounty unless proposal state is either executed or closed");
+    }
+
+    return this.wrapTransactionInvocation("GenesisProtocol.redeemDaoBounty",
+      options,
+      () => {
+        return this.contract.redeemDaoBounty(
           options.proposalId,
           options.beneficiaryAddress
         );
@@ -315,31 +358,6 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     this.logContractFunctionCall("GenesisProtocol.threshold", options);
 
     return this.contract.threshold(options.proposalId, options.avatar);
-  }
-
-  /**
-   * Return the token amount to which the given staker is entitled in the event that the proposal is approved.
-   * @param {GetRedeemableTokensStakerConfig} opts
-   * @returns Promise<BigNumber.BigNumber>
-   */
-  public async getRedeemableTokensStaker(
-    options: GetRedeemableTokensStakerConfig = {} as GetRedeemableTokensStakerConfig)
-    : Promise<BigNumber.BigNumber> {
-
-    if (!options.proposalId) {
-      throw new Error("proposalId is not defined");
-    }
-
-    if (!options.beneficiaryAddress) {
-      throw new Error("beneficiaryAddress is not defined");
-    }
-
-    this.logContractFunctionCall("GenesisProtocol.getRedeemableTokensStaker", options);
-
-    return this.contract.getRedeemableTokensStaker(
-      options.proposalId,
-      options.beneficiaryAddress
-    );
   }
 
   /**
@@ -410,6 +428,56 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
   }
 
   /**
+   * Return the token amount to which the given staker is entitled in the event that the proposal is approved.
+   * @param {GetRedeemableRewardsStakerConfig} opts
+   * @returns Promise<BigNumber.BigNumber>
+   */
+  public async getRedeemableTokensStaker(
+    options: GetRedeemableRewardsStakerConfig = {} as GetRedeemableRewardsStakerConfig)
+    : Promise<BigNumber.BigNumber> {
+
+    if (!options.proposalId) {
+      throw new Error("proposalId is not defined");
+    }
+
+    if (!options.beneficiaryAddress) {
+      throw new Error("beneficiaryAddress is not defined");
+    }
+
+    this.logContractFunctionCall("GenesisProtocol.getRedeemableTokensStaker", options);
+
+    return this.contract.getRedeemableTokensStaker(
+      options.proposalId,
+      options.beneficiaryAddress
+    );
+  }
+
+  /**
+   * Return the token amount of bounty to which the given staker is entitled in the event that the proposal is approved.
+   * @param {GetRedeemableRewardsStakerConfig} opts
+   * @returns Promise<BigNumber.BigNumber>
+   */
+  public async getRedeemableTokensStakerBounty(
+    options: GetRedeemableRewardsStakerConfig = {} as GetRedeemableRewardsStakerConfig)
+    : Promise<BigNumber.BigNumber> {
+
+    if (!options.proposalId) {
+      throw new Error("proposalId is not defined");
+    }
+
+    if (!options.beneficiaryAddress) {
+      throw new Error("beneficiaryAddress is not defined");
+    }
+
+    this.logContractFunctionCall("GenesisProtocol.getRedeemableTokensStakerBounty", options);
+
+    return this.contract.getRedeemableTokensStakerBounty(
+      options.proposalId,
+      options.beneficiaryAddress
+    );
+  }
+
+  /**
    * Return the reputation amount to which the staker is entitled in the event that the proposal is approved.
    * @param {GetRedeemableReputationStakerConfig} options
    * @returns Promise<BigNumber.BigNumber>
@@ -432,6 +500,40 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
       options.proposalId,
       options.beneficiaryAddress
     );
+  }
+
+  /**
+   * Return the current balances on this GenesisProtocol's staking and the given avatar's native tokens.
+   * This can be useful, for example, if you want to know in advance whether the avatar has enough funds
+   * at the moment to payout rewards to stakers and voters.
+   * It also returns the respective tokens' truffle contracts.
+   * @param options
+   */
+  public async getTokenBalances(
+    options: GetTokenBalancesOptions = {} as GetTokenBalancesOptions)
+    : Promise<GenesisProtocolDaoTokenBalances> {
+
+    if (!options.avatarAddress) {
+      throw new Error("avatarAddress is not defined");
+    }
+
+    const stakingTokenAddress = await this.contract.stakingToken();
+    const stakingToken = await (await Utils.requireContract("StandardToken")).at(stakingTokenAddress) as any;
+
+    const stakingTokenBalance = await stakingToken.balanceOf(options.avatarAddress);
+
+    const avatarService = new AvatarService(options.avatarAddress);
+
+    const nativeToken = await avatarService.getNativeToken();
+
+    const nativeTokenBalance = await nativeToken.balanceOf(options.avatarAddress);
+
+    return {
+      nativeToken,
+      nativeTokenBalance,
+      stakingToken,
+      stakingTokenBalance,
+    };
   }
 
   /**
@@ -903,18 +1005,6 @@ export interface StakeEventResult {
   _voter: Address;
 }
 
-export interface RedeemEventResult {
-  _amount: BigNumber.BigNumber;
-  /**
-   * indexed
-   */
-  _beneficiary: Address;
-  /**
-   * indexed
-   */
-  _proposalId: Hash;
-}
-
 export interface GenesisProtocolParams {
   /**
    * The time limit in seconds for a proposal to be in an relative voting mode.
@@ -1127,9 +1217,9 @@ export interface GetThresholdConfig {
 }
 
 /**
- * return the amount of tokens to which the staker will be entitled as an outcome of the proposal
+ * return the amount of bounty or staked tokens to which the staker will be entitled as an outcome of the proposal
  */
-export interface GetRedeemableTokensStakerConfig {
+export interface GetRedeemableRewardsStakerConfig {
   /**
    * unique hash of proposal index
    */
@@ -1321,6 +1411,29 @@ export enum ProposalState {
   PreBoosted,
   Boosted,
   QuietEndingPeriod,
+}
+
+export interface GetTokenBalancesOptions {
+  avatarAddress: Address;
+}
+
+export interface GenesisProtocolDaoTokenBalances {
+  /**
+   * The native token's truffle contract
+   */
+  nativeToken: any;
+  /**
+   * The avatar's balance off native tokens, in Wei
+   */
+  nativeTokenBalance: BigNumber.BigNumber;
+  /**
+   * The standard token's truffle contract
+   */
+  stakingToken: any;
+  /**
+   * The avatar's balance of staking tokens, in Wei
+   */
+  stakingTokenBalance: BigNumber.BigNumber;
 }
 
 export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProtocolParams> => {

@@ -39,22 +39,6 @@ export interface VoteProposalEventResult {
   _voter: Address;
 }
 
-export interface RedeemReputationEventResult {
-  _amount: BigNumber.BigNumber;
-  /**
-   * indexed
-   */
-  _avatar: Address;
-  /**
-   * indexed
-   */
-  _beneficiary: Address;
-  /**
-   * indexed
-   */
-  _proposalId: Hash;
-}
-
 export interface ProposalDeletedEventResult {
   /**
    * indexed
@@ -75,6 +59,26 @@ export interface ProposalExecutedEventResult {
    */
   _avatar: Address;
   _param: number;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+}
+
+export interface RedeemEventResult {
+  /**
+   * the amount redeemed
+   */
+  _amount: BigNumber.BigNumber;
+  /**
+   * avatar address
+   * indexed
+   */
+  _avatar: Address;
+  /**
+   * indexed
+   */
+  _beneficiary: Address;
   /**
    * indexed
    */

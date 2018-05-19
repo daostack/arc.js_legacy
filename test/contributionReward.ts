@@ -1,11 +1,16 @@
 import { assert } from "chai";
-import { AbsoluteVoteWrapper, ArcTransactionProposalResult, DAO, DecodedLogEntryEvent } from "../lib";
+import {
+  AbsoluteVoteWrapper,
+  ArcTransactionProposalResult,
+  DAO,
+  DecodedLogEntryEvent,
+  RedeemEventResult
+} from "../lib";
 import {
   ContributionProposal,
   ContributionRewardFactory,
   ContributionRewardWrapper,
-  ProposalRewards,
-  RedeemNativeTokenEventResult
+  ProposalRewards
 } from "../lib/wrappers/contributionReward";
 import * as helpers from "./helpers";
 
@@ -302,7 +307,7 @@ describe("ContributionReward scheme", () => {
       const event = scheme.RedeemNativeToken(
         { _avatar: dao.avatar.address, _proposalId: nativeRewardProposalId }, { fromBlock: 0 });
 
-      event.get((err: Error, events: Array<DecodedLogEntryEvent<RedeemNativeTokenEventResult>>) => {
+      event.get((err: Error, events: Array<DecodedLogEntryEvent<RedeemEventResult>>) => {
         resolve(events.length === 1);
       });
     }));

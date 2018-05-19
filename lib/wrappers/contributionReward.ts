@@ -26,7 +26,7 @@ import { Utils } from "../utils";
 import {
   ProposalDeletedEventResult,
   ProposalExecutedEventResult,
-  RedeemReputationEventResult,
+  RedeemEventResult,
 } from "./commonEventInterfaces";
 
 export class ContributionRewardWrapper extends ContractWrapperBase {
@@ -42,10 +42,10 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
   public NewContributionProposal: EventFetcherFactory<NewContributionProposalEventResult> = this.createEventFetcherFactory<NewContributionProposalEventResult>("NewContributionProposal");
   public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult> = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
   public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult> = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
-  public RedeemReputation: EventFetcherFactory<RedeemReputationEventResult> = this.createEventFetcherFactory<RedeemReputationEventResult>("RedeemReputation");
-  public RedeemEther: EventFetcherFactory<RedeemEtherEventResult> = this.createEventFetcherFactory<RedeemEtherEventResult>("RedeemEther");
-  public RedeemNativeToken: EventFetcherFactory<RedeemNativeTokenEventResult> = this.createEventFetcherFactory<RedeemNativeTokenEventResult>("RedeemNativeToken");
-  public RedeemExternalToken: EventFetcherFactory<RedeemExternalTokenEventResult> = this.createEventFetcherFactory<RedeemExternalTokenEventResult>("RedeemExternalToken");
+  public RedeemReputation: EventFetcherFactory<RedeemEventResult> = this.createEventFetcherFactory<RedeemEventResult>("RedeemReputation");
+  public RedeemEther: EventFetcherFactory<RedeemEventResult> = this.createEventFetcherFactory<RedeemEventResult>("RedeemEther");
+  public RedeemNativeToken: EventFetcherFactory<RedeemEventResult> = this.createEventFetcherFactory<RedeemEventResult>("RedeemNativeToken");
+  public RedeemExternalToken: EventFetcherFactory<RedeemEventResult> = this.createEventFetcherFactory<RedeemEventResult>("RedeemExternalToken");
   /* tslint:enable:max-line-length */
 
   /**
@@ -506,54 +506,6 @@ export interface NewContributionProposalEventResult {
   _proposalId: Hash;
   _reputationChange: BigNumber.BigNumber;
   _rewards: Array<BigNumber.BigNumber>;
-}
-
-export interface RedeemEtherEventResult {
-  _amount: BigNumber.BigNumber;
-  /**
-   * indexed
-   */
-  _avatar: Address;
-  /**
-   * indexed
-   */
-  _beneficiary: Address;
-  /**
-   * indexed
-   */
-  _proposalId: Hash;
-}
-
-export interface RedeemNativeTokenEventResult {
-  _amount: BigNumber.BigNumber;
-  /**
-   * indexed
-   */
-  _avatar: Address;
-  /**
-   * indexed
-   */
-  _beneficiary: Address;
-  /**
-   * indexed
-   */
-  _proposalId: Hash;
-}
-
-export interface RedeemExternalTokenEventResult {
-  _amount: BigNumber.BigNumber;
-  /**
-   * indexed
-   */
-  _avatar: Address;
-  /**
-   * indexed
-   */
-  _beneficiary: Address;
-  /**
-   * indexed
-   */
-  _proposalId: Hash;
 }
 
 export interface ContributionProposal {
