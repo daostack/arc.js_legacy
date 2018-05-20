@@ -50,8 +50,7 @@ export async function InitializeArcJs(options?: InitializeArcOptions): Promise<W
   try {
 
     if (options && options.useNetworkDefaultsFor) {
-      const truffleDefaults = require("../truffle");
-      const networkDefaults = truffleDefaults.networks[options.useNetworkDefaultsFor];
+      const networkDefaults = ConfigService.get("networkDefaults")[options.useNetworkDefaultsFor];
       if (!networkDefaults) {
         throw new Error(`truffle network defaults not found: ${options.useNetworkDefaultsFor}`);
       }

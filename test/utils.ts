@@ -6,9 +6,24 @@ import { InitializeArcJs } from "../lib/index";
 import { TestWrapperFactory } from "../lib/test/wrappers/testWrapper";
 import { Utils } from "../lib/utils";
 import { WrapperService } from "../lib/wrapperService";
-import "./helpers";
+import * as helpers from "./helpers";
 
 describe("InitializeArcJs", () => {
+  it("initializes subset of schemes and can create a DAO", async () => {
+    await InitializeArcJs({
+      filter: {
+        AbsoluteVote: true,
+        DaoCreator: true,
+      },
+    });
+    await helpers.forgeDao({
+      name: "ArcJsTestDao",
+      schemes: [],
+      tokenName: "Tokens of ArcJsTestDao",
+      tokenSymbol: "ATD",
+    });
+  });
+
   it("Proper error when no web3", async () => {
 
     const web3 = await Utils.getWeb3();
@@ -25,6 +40,12 @@ describe("InitializeArcJs", () => {
     (global as any).web3 = web3;
     ConfigService.set("providerUrl", providerUrl);
     assert(exceptionRaised, "proper exception was not raised");
+  });
+  it("initializes default network params", async () => {
+    await InitializeArcJs({ useNetworkDefaultsFor: "kovan" });
+    assert.equal(ConfigService.get("network"), "kovan");
+    assert.equal(ConfigService.get("providerUrl"), "http://127.0.0.1");
+    assert.equal(ConfigService.get("providerPort"), 8547);
   });
 });
 
