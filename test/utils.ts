@@ -6,9 +6,24 @@ import { InitializeArcJs } from "../lib/index";
 import { TestWrapperFactory } from "../lib/test/wrappers/testWrapper";
 import { Utils } from "../lib/utils";
 import { WrapperService } from "../lib/wrapperService";
-import "./helpers";
+import * as helpers from "./helpers";
 
 describe("InitializeArcJs", () => {
+  it("initializes subset of schemes and can create a DAO", async () => {
+    await InitializeArcJs({
+      filter: {
+        AbsoluteVote: true,
+        DaoCreator: true,
+      },
+    });
+    await helpers.forgeDao({
+      name: "ArcJsTestDao",
+      schemes: [],
+      tokenName: "Tokens of ArcJsTestDao",
+      tokenSymbol: "ATD",
+    });
+  });
+
   it("Proper error when no web3", async () => {
 
     const web3 = await Utils.getWeb3();
