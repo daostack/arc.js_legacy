@@ -1171,6 +1171,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../GenesisProtocolDaoTokenBalances/" title="GenesisProtocolDaoTokenBalances" class="md-nav__link">
+      GenesisProtocolDaoTokenBalances
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../GenesisProtocolExecuteProposalEventResult/" title="GenesisProtocolExecuteProposalEventResult" class="md-nav__link">
       GenesisProtocolExecuteProposalEventResult
     </a>
@@ -1327,8 +1339,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../GetRedeemableTokensStakerConfig/" title="GetRedeemableTokensStakerConfig" class="md-nav__link">
-      GetRedeemableTokensStakerConfig
+    <a href="../GetRedeemableRewardsStakerConfig/" title="GetRedeemableRewardsStakerConfig" class="md-nav__link">
+      GetRedeemableRewardsStakerConfig
     </a>
   </li>
 
@@ -1425,6 +1437,18 @@
   <li class="md-nav__item">
     <a href="../GetThresholdConfig/" title="GetThresholdConfig" class="md-nav__link">
       GetThresholdConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../GetTokenBalancesOptions/" title="GetTokenBalancesOptions" class="md-nav__link">
+      GetTokenBalancesOptions
     </a>
   </li>
 
@@ -1831,56 +1855,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../RedeemEtherEventResult/" title="RedeemEtherEventResult" class="md-nav__link">
-      RedeemEtherEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../RedeemEventResult/" title="RedeemEventResult" class="md-nav__link">
       RedeemEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../RedeemExternalTokenEventResult/" title="RedeemExternalTokenEventResult" class="md-nav__link">
-      RedeemExternalTokenEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../RedeemNativeTokenEventResult/" title="RedeemNativeTokenEventResult" class="md-nav__link">
-      RedeemNativeTokenEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../RedeemReputationEventResult/" title="RedeemReputationEventResult" class="md-nav__link">
-      RedeemReputationEventResult
     </a>
   </li>
 
@@ -2349,26 +2325,26 @@
 <p><a id="invocationKey"></a></p>
 <h3 id="invocationkey">invocationKey<a class="headerlink" href="#invocationkey" title="Permanent link">&para;</a></h3>
 <p><strong>●  invocationKey</strong>:  <em><code>symbol</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/53d6900/lib/transactionService.ts#L100">transactionService.ts:100</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/3b4e56e/lib/transactionService.ts#L100">transactionService.ts:100</a></em></p>
 <p>A value that is unique to the invocation of the function that is publishing the event. This is useful for grouping events by a single function invocation.</p>
 <hr />
 <p><a id="options"></a></p>
 <h3 id="optional-options">«Optional» options<a class="headerlink" href="#optional-options" title="Permanent link">&para;</a></h3>
 <p><strong>●  options</strong>:  <em><code>any</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/53d6900/lib/transactionService.ts#L105">transactionService.ts:105</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/3b4e56e/lib/transactionService.ts#L105">transactionService.ts:105</a></em></p>
 <p>The options that were passed to the function that is publishing the event, if any. This will have default values filled in.</p>
 <hr />
 <p><a id="tx"></a></p>
 <h3 id="tx">tx<a class="headerlink" href="#tx" title="Permanent link">&para;</a></h3>
 <p><strong>●  tx</strong>:  <em><a href="../TransactionReceiptTruffle/">TransactionReceiptTruffle</a>⎮<code>null</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/53d6900/lib/transactionService.ts#L114">transactionService.ts:114</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/3b4e56e/lib/transactionService.ts#L114">transactionService.ts:114</a></em></p>
 <p>The receipt for the transaction that has completed. Note that the tx may not necessarily have completed successfully in the case of errors or rejection.</p>
 <p>If null then this is a "kick-off" event that announces to the subscriber that more events are to follow for the given invocationKey. Every function will publish a kick-off event before firing events with a tx.</p>
 <hr />
 <p><a id="txCount"></a></p>
 <h3 id="txcount">txCount<a class="headerlink" href="#txcount" title="Permanent link">&para;</a></h3>
 <p><strong>●  txCount</strong>:  <em><code>number</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/53d6900/lib/transactionService.ts#L118">transactionService.ts:118</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/3b4e56e/lib/transactionService.ts#L118">transactionService.ts:118</a></em></p>
 <p>The total expected number of transactions.</p>
 <hr />
                 

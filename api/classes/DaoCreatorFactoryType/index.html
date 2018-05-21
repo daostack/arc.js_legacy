@@ -1290,6 +1290,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../interfaces/GenesisProtocolDaoTokenBalances/" title="GenesisProtocolDaoTokenBalances" class="md-nav__link">
+      GenesisProtocolDaoTokenBalances
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../interfaces/GenesisProtocolExecuteProposalEventResult/" title="GenesisProtocolExecuteProposalEventResult" class="md-nav__link">
       GenesisProtocolExecuteProposalEventResult
     </a>
@@ -1446,8 +1458,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../interfaces/GetRedeemableTokensStakerConfig/" title="GetRedeemableTokensStakerConfig" class="md-nav__link">
-      GetRedeemableTokensStakerConfig
+    <a href="../../interfaces/GetRedeemableRewardsStakerConfig/" title="GetRedeemableRewardsStakerConfig" class="md-nav__link">
+      GetRedeemableRewardsStakerConfig
     </a>
   </li>
 
@@ -1544,6 +1556,18 @@
   <li class="md-nav__item">
     <a href="../../interfaces/GetThresholdConfig/" title="GetThresholdConfig" class="md-nav__link">
       GetThresholdConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../interfaces/GetTokenBalancesOptions/" title="GetTokenBalancesOptions" class="md-nav__link">
+      GetTokenBalancesOptions
     </a>
   </li>
 
@@ -1950,56 +1974,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../interfaces/RedeemEtherEventResult/" title="RedeemEtherEventResult" class="md-nav__link">
-      RedeemEtherEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../../interfaces/RedeemEventResult/" title="RedeemEventResult" class="md-nav__link">
       RedeemEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/RedeemExternalTokenEventResult/" title="RedeemExternalTokenEventResult" class="md-nav__link">
-      RedeemExternalTokenEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/RedeemNativeTokenEventResult/" title="RedeemNativeTokenEventResult" class="md-nav__link">
-      RedeemNativeTokenEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/RedeemReputationEventResult/" title="RedeemReputationEventResult" class="md-nav__link">
-      RedeemReputationEventResult
     </a>
   </li>
 
@@ -2458,7 +2434,7 @@
 <p><a id="constructor"></a></p>
 <h3 id="new-daocreatorfactorytypesoliditycontractname-string-wrapper-object-daocreatorfactorytype">⊕ <strong>new DaoCreatorFactoryType</strong>(solidityContractName: <em><code>string</code></em>, wrapper: <em><code>object</code></em>): <a href="./">DaoCreatorFactoryType</a><a class="headerlink" href="#new-daocreatorfactorytypesoliditycontractname-string-wrapper-object-daocreatorfactorytype" title="Permanent link">&para;</a></h3>
 <p><em>Inherited from <a href="../ContractWrapperFactory/">ContractWrapperFactory</a>.<a href="../ContractWrapperFactory/#constructor">constructor</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/53d6900/lib/contractWrapperFactory.ts#L9">contractWrapperFactory.ts:9</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/3b4e56e/lib/contractWrapperFactory.ts#L9">contractWrapperFactory.ts:9</a></em></p>
 <p>Connstructor to create a contract wrapper factory for the given Arc contract name and wrapper class.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2489,7 +2465,7 @@
 <h3 id="at">at<a class="headerlink" href="#at" title="Permanent link">&para;</a></h3>
 <p>► <strong>at</strong>(address: <em><code>string</code></em>): <code>Promise</code>.&lt;<a href="../DaoCreatorWrapper/">DaoCreatorWrapper</a>&gt;</p>
 <p><em>Inherited from <a href="../ContractWrapperFactory/">ContractWrapperFactory</a>.<a href="../ContractWrapperFactory/#at">at</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/53d6900/lib/contractWrapperFactory.ts#L35">contractWrapperFactory.ts:35</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/3b4e56e/lib/contractWrapperFactory.ts#L35">contractWrapperFactory.ts:35</a></em></p>
 <p>Return a wrapper around the contract, hydrated from the given address. Throws an exception if the contract is not found at the given address.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2514,7 +2490,7 @@
 <h3 id="deployed">deployed<a class="headerlink" href="#deployed" title="Permanent link">&para;</a></h3>
 <p>► <strong>deployed</strong>(): <code>Promise</code>.&lt;<a href="../DaoCreatorWrapper/">DaoCreatorWrapper</a>&gt;</p>
 <p><em>Inherited from <a href="../ContractWrapperFactory/">ContractWrapperFactory</a>.<a href="../ContractWrapperFactory/#deployed">deployed</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/53d6900/lib/contractWrapperFactory.ts#L45">contractWrapperFactory.ts:45</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/3b4e56e/lib/contractWrapperFactory.ts#L45">contractWrapperFactory.ts:45</a></em></p>
 <p>Return a wrapper around the contract as deployed by the current version of Arc.js. Note this is usually not needed as the WrapperService provides these wrappers already hydrated.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<a href="../DaoCreatorWrapper/">DaoCreatorWrapper</a>&gt;</p>
 <hr />
@@ -2522,7 +2498,7 @@
 <h3 id="new">new<a class="headerlink" href="#new" title="Permanent link">&para;</a></h3>
 <p>► <strong>new</strong>(controllerCreatorAddress?: <em><a href="../../#Address">Address</a></em>): <code>Promise</code>.&lt;<a href="../DaoCreatorWrapper/">DaoCreatorWrapper</a>&gt;</p>
 <p><em>Overrides <a href="../ContractWrapperFactory/">ContractWrapperFactory</a>.<a href="../ContractWrapperFactory/#new">new</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/53d6900/lib/wrappers/daoCreator.ts#L305">wrappers/daoCreator.ts:305</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/3b4e56e/lib/wrappers/daoCreator.ts#L305">wrappers/daoCreator.ts:305</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>

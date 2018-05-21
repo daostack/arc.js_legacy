@@ -1297,6 +1297,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/interfaces/GenesisProtocolDaoTokenBalances/" title="GenesisProtocolDaoTokenBalances" class="md-nav__link">
+      GenesisProtocolDaoTokenBalances
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/interfaces/GenesisProtocolExecuteProposalEventResult/" title="GenesisProtocolExecuteProposalEventResult" class="md-nav__link">
       GenesisProtocolExecuteProposalEventResult
     </a>
@@ -1453,8 +1465,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../api/interfaces/GetRedeemableTokensStakerConfig/" title="GetRedeemableTokensStakerConfig" class="md-nav__link">
-      GetRedeemableTokensStakerConfig
+    <a href="../api/interfaces/GetRedeemableRewardsStakerConfig/" title="GetRedeemableRewardsStakerConfig" class="md-nav__link">
+      GetRedeemableRewardsStakerConfig
     </a>
   </li>
 
@@ -1551,6 +1563,18 @@
   <li class="md-nav__item">
     <a href="../api/interfaces/GetThresholdConfig/" title="GetThresholdConfig" class="md-nav__link">
       GetThresholdConfig
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/interfaces/GetTokenBalancesOptions/" title="GetTokenBalancesOptions" class="md-nav__link">
+      GetTokenBalancesOptions
     </a>
   </li>
 
@@ -1957,56 +1981,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../api/interfaces/RedeemEtherEventResult/" title="RedeemEtherEventResult" class="md-nav__link">
-      RedeemEtherEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../api/interfaces/RedeemEventResult/" title="RedeemEventResult" class="md-nav__link">
       RedeemEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/interfaces/RedeemExternalTokenEventResult/" title="RedeemExternalTokenEventResult" class="md-nav__link">
-      RedeemExternalTokenEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/interfaces/RedeemNativeTokenEventResult/" title="RedeemNativeTokenEventResult" class="md-nav__link">
-      RedeemNativeTokenEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/interfaces/RedeemReputationEventResult/" title="RedeemReputationEventResult" class="md-nav__link">
-      RedeemReputationEventResult
     </a>
   </li>
 
@@ -2479,7 +2455,7 @@
 <p>All of the script examples assume you are running the scripts in the root folder of your application.  If you happen to be running the scripts in the context of a cloned Arc.js repository, omit the prefix <code>npm explore @daostack/arc.js --</code>. See <a href="#work-with-arc-contracts">Working with Arc Contracts</a>.</p>
 </div>
 <h2 id="set-up-a-testnet-with-arc-contracts">Set up a Testnet with Arc Contracts<a class="headerlink" href="#set-up-a-testnet-with-arc-contracts" title="Permanent link">&para;</a></h2>
-<p>Arc.js runs against an Ethereum network where it assumes that the Arc contracts have been migrated.  Out of the box, Arc.js can find contracts migrated to the mainnet and to kovan. But for any other testnet, or to redeploy, you will need to tell it to migrate the Arc contracts to a testnet of your choice.  You can do this by running a few Arc.js scripts from the context of your application.</p>
+<p>Arc.js runs against an Ethereum network where it assumes that the Arc contracts have been migrated.  Out of the box, Arc.js can find contracts migrated to the mainnet. But for testing, you will need to tell it to migrate the Arc contracts to a testnet of your choice.  You can do this by running a few Arc.js scripts.</p>
 <p>To deploy contracts to a Ganache testnet, run the following scripts:</p>
 <p>In a separate shell window:
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm explore @daostack/arc.js -- npm start ganache
@@ -2535,7 +2511,7 @@
 </pre></div>
 </td></tr></table>
 
-<p>You can use the Arc.js <a href="../Configuration">ConfigService</a> to set the provider host and port that web3 uses to connect your applicaton to the net when not using MetaMask.  But you can also tell <code>InitializeArcJs</code> to use the settings stored in the Arc.js <code>truffle.js</code> file for mainnet (live), kovan, ropsten and ganache.  Here is an example of telling Arc.js to use its default settings for Kovan:</p>
+<p>You can use the Arc.js <a href="../Configuration">ConfigService</a> to set the provider host and port that web3 uses to connect your applicaton to the net when not using MetaMask.  But you can also tell <code>InitializeArcJs</code> to use default Arc.js settings for mainnet (live), kovan, ropsten and ganache.  Here is an example of telling Arc.js to use its default settings for Kovan:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">await</span> <span class="nx">InitializeArcJs</span><span class="p">({</span>
@@ -2546,7 +2522,7 @@
 
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>For safety, truffle.js specifies a different HTTP port for each network.  You will need to make sure that the testnet you are using is listening on that port.  The port values are:</p>
+<p>For safety, Arc.js specifies a different HTTP port for each network.  You will need to make sure that the testnet you are using is listening on that port.  The port values are:</p>
 <p><table style="margin-left:2.5rem">
 <tr style="text-align:left"><th>Network</th><th>Port</th></tr>
 <tr><td>Ganache</td><td>8545</td></tr>
