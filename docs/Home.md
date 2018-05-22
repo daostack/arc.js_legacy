@@ -35,7 +35,7 @@ The following sections describe the basic steps for setting up Arc.js in your ap
 
 ## Set up a Testnet with Arc Contracts
 
-Arc.js runs against an Ethereum network where it assumes that the Arc contracts have been migrated.  Out of the box, Arc.js can find contracts migrated to the mainnet. But for testing, you will need to tell it to migrate the Arc contracts to a testnet of your choice.  You can do this by running a few Arc.js scripts.
+Arc.js runs against an Ethereum network where it assumes that the Arc contracts have been migrated.  Out of the box, Arc.js can find contracts migrated to the mainnet and to kovan. But for any other testnet, or to redeploy, you will need to tell it to migrate the Arc contracts to a testnet of your choice.  You can do this by running a few Arc.js scripts from the context of your application.
 
 To deploy contracts to a Ganache testnet, run the following scripts:
 
