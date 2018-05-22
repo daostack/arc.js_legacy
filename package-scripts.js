@@ -21,8 +21,7 @@ const pathArcJsContracts = joinPath(pathArcJsRoot, "migrated_contracts");
 const arcIsInternal = fs.existsSync(joinPath(pathArcJsRoot, "node_modules", "@daostack", "arc"));
 const pathDaostackArcRepo = arcIsInternal ?
   joinPath(pathArcJsRoot, "node_modules", "@daostack", "arc") :
-  joinPath(pathArcJsRoot, "../../../", "node_modules", "@daostack", "arc")
-  ;
+  joinPath(pathArcJsRoot, "..", "arc");
 
 const pathArcTest = joinPath(pathArcJsRoot, "test");
 
