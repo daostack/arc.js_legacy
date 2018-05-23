@@ -2535,7 +2535,7 @@
 </td></tr></table>
 
 <h4 id="minimize-contract-loading">Minimize contract loading<a class="headerlink" href="#minimize-contract-loading" title="Permanent link">&para;</a></h4>
-<p><code>InitializeArcJs</code> will load all of the wrapped Arc contracts as deployed by the running version of Arc.js.  As this operation can be time-consuming, you may want to tell <code>InitializeArcJs</code> to only load the contracts that you expect to use.  The following is enough to create a new DAO with no schemes:</p>
+<p>By default, <code>InitializeArcJs</code> will load all of the wrapped Arc contracts as deployed by the running version of Arc.js.  As this operation can be time-consuming, you may want to tell <code>InitializeArcJs</code> to only load the contracts that you expect to use.  The following is enough to create a new DAO with no schemes:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -2567,7 +2567,7 @@
 </pre></div>
 </td></tr></table>
 
-<p>If are not creating DAOs and only want to use some schemes, then reference the schemes as well as whichever voting machine(s) the schemes are using:</p>
+<p>If you are not creating DAOs and only want to use some schemes, then reference the schemes as well as whichever voting machine(s) the schemes are using:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -2583,7 +2583,7 @@
 </td></tr></table>
 
 <h4 id="use-default-network-settings">Use default network settings<a class="headerlink" href="#use-default-network-settings" title="Permanent link">&para;</a></h4>
-<p>You can use the Arc.js <a href="../Configuration">ConfigService</a> to set the provider host and port that web3 uses to connect your applicaton to the net when not using MetaMask.  But you can also tell <code>InitializeArcJs</code> to use default Arc.js settings for mainnet (live), kovan, ropsten and ganache.  Here is an example of telling Arc.js to use its default settings for Kovan:</p>
+<p>You can use the Arc.js <a href="../Configuration">ConfigService</a> to set the provider host and port that web3 uses to connect your applicaton to the net when not using MetaMask.  You can also tell <code>InitializeArcJs</code> to just use default Arc.js settings for mainnet (live), kovan, ropsten and ganache.  Here is an example of telling Arc.js to use its default settings for Kovan:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">await</span> <span class="nx">InitializeArcJs</span><span class="p">({</span>
