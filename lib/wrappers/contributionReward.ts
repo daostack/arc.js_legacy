@@ -55,16 +55,12 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
   public async proposeContributionReward(
     options: ProposeContributionRewardParams = {} as ProposeContributionRewardParams)
     : Promise<ArcTransactionProposalResult> {
-    /**
-     * Note that explicitly supplying any property with a value of undefined will prevent the property
-     * from taking on its default value (weird behavior of default-options)
-     */
     const defaults = {
-      ethReward: 0,
-      externalToken: null,
-      externalTokenReward: 0,
-      nativeTokenReward: 0,
-      reputationChange: 0,
+      ethReward: "0",
+      externalToken: "", // must have a value for solidity
+      externalTokenReward: "0",
+      nativeTokenReward: "0",
+      reputationChange: "0",
     };
 
     options = Object.assign({}, defaults, options) as ProposeContributionRewardParams;

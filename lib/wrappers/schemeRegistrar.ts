@@ -39,11 +39,6 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
   public async proposeToAddModifyScheme(
     options: ProposeToAddModifySchemeParams = {} as ProposeToAddModifySchemeParams)
     : Promise<ArcTransactionProposalResult> {
-    /**
-     * Note that explicitly supplying any property with a value of undefined will prevent the property
-     * from taking on its default value (weird behavior of default-options).
-     *
-     */
     const defaults = {
       permissions: null,
       schemeName: null,
@@ -177,7 +172,7 @@ export interface NewSchemeProposalEventResult {
    * indexed
    */
   _intVoteInterface: Address;
-  _isRegistering: boolean;
+  _permissions: string;
   _parametersHash: Hash;
   /**
    * indexed
