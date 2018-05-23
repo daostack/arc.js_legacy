@@ -84,17 +84,43 @@ import { InitializeArcJs } from "@daostack/arc.js";
 await InitializeArcJs();
 ```
 
-`InitializeArcJs` will load all of the wrapped Arc contracts as deployed by the running version of Arc.js.  As this operation can be time-consuming, you may want to tell `InitializeArcJs` to only load the contracts that you expect to use:
+#### Minimize contract loading
+
+`InitializeArcJs` will load all of the wrapped Arc contracts as deployed by the running version of Arc.js.  As this operation can be time-consuming, you may want to tell `InitializeArcJs` to only load the contracts that you expect to use.  The following is enough to create a new DAO with no schemes:
 
 ```javascript
 await InitializeArcJs({
     filter: {
-      "ContributionReward": true,
+      "AbsoluteVote": true,
       "DaoCreator": true,
-      "GenesisProtocol": true,
     }
   });
 ```
+   
+If you want to add schemes to your DAO, you would include each scheme in the filter:
+
+```javascript
+await InitializeArcJs({
+    filter: {
+      "AbsoluteVote": true,
+      "DaoCreator": true,
+      "SchemeRegistrar": true,
+    }
+  });
+```
+
+If are not creating DAOs and only want to use some schemes, then reference the schemes as well as whichever voting machine(s) the schemes are using:
+
+```javascript
+await InitializeArcJs({
+    filter: {
+      "GenesisProtocol": true,
+      "ContributionReward": true,
+    }
+  });
+```
+
+#### Use default network settings
 
 You can use the Arc.js [ConfigService](Configuration) to set the provider host and port that web3 uses to connect your applicaton to the net when not using MetaMask.  But you can also tell `InitializeArcJs` to use default Arc.js settings for mainnet (live), kovan, ropsten and ganache.  Here is an example of telling Arc.js to use its default settings for Kovan:
 
@@ -105,7 +131,7 @@ await InitializeArcJs({
 ```
 
 !!! info
-    For safety, Arc.js specifies a different HTTP port for each network.  You will need to make sure that the testnet you are using is listening on that port.  The port values are:
+    For safety, Arc.js specifies a different default HTTP port for each network.  You will need to make sure that the testnet you are using is listening on that port.  The port values are:
 
     <table style="margin-left:2.5rem">
     <tr style="text-align:left"><th>Network</th><th>Port</th></tr>
