@@ -333,6 +333,26 @@
     Initialize Arc.js at Runtime
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#minimize-contract-loading" title="Minimize contract loading" class="md-nav__link">
+    Minimize contract loading
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-default-network-settings" title="Use default network settings" class="md-nav__link">
+    Use default network settings
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -2381,6 +2401,26 @@
     Initialize Arc.js at Runtime
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#minimize-contract-loading" title="Minimize contract loading" class="md-nav__link">
+    Minimize contract loading
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-default-network-settings" title="Use default network settings" class="md-nav__link">
+    Use default network settings
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -2455,7 +2495,7 @@
 <p>All of the script examples assume you are running the scripts in the root folder of your application.  If you happen to be running the scripts in the context of a cloned Arc.js repository, omit the prefix <code>npm explore @daostack/arc.js --</code>. See <a href="#work-with-arc-contracts">Working with Arc Contracts</a>.</p>
 </div>
 <h2 id="set-up-a-testnet-with-arc-contracts">Set up a Testnet with Arc Contracts<a class="headerlink" href="#set-up-a-testnet-with-arc-contracts" title="Permanent link">&para;</a></h2>
-<p>Arc.js runs against an Ethereum network where it assumes that the Arc contracts have been migrated.  Out of the box, Arc.js can find contracts migrated to the mainnet. But for testing, you will need to tell it to migrate the Arc contracts to a testnet of your choice.  You can do this by running a few Arc.js scripts.</p>
+<p>Arc.js runs against an Ethereum network where it assumes that the Arc contracts have been migrated.  Out of the box, Arc.js can find contracts migrated to the mainnet and to kovan. But for any other testnet, or to redeploy, you will need to tell it to migrate the Arc contracts to a testnet of your choice.  You can do this by running a few Arc.js scripts from the context of your application.</p>
 <p>To deploy contracts to a Ganache testnet, run the following scripts:</p>
 <p>In a separate shell window:
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm explore @daostack/arc.js -- npm start ganache
@@ -2494,7 +2534,23 @@
 </pre></div>
 </td></tr></table>
 
-<p><code>InitializeArcJs</code> will load all of the wrapped Arc contracts as deployed by the running version of Arc.js.  As this operation can be time-consuming, you may want to tell <code>InitializeArcJs</code> to only load the contracts that you expect to use:</p>
+<h4 id="minimize-contract-loading">Minimize contract loading<a class="headerlink" href="#minimize-contract-loading" title="Permanent link">&para;</a></h4>
+<p><code>InitializeArcJs</code> will load all of the wrapped Arc contracts as deployed by the running version of Arc.js.  As this operation can be time-consuming, you may want to tell <code>InitializeArcJs</code> to only load the contracts that you expect to use.  The following is enough to create a new DAO with no schemes:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">await</span> <span class="nx">InitializeArcJs</span><span class="p">({</span>
+    <span class="nx">filter</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;AbsoluteVote&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">&quot;DaoCreator&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+</pre></div>
+</td></tr></table>
+
+<p>If you want to add schemes to your DAO, you would include each scheme in the filter:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -2503,14 +2559,30 @@
 6
 7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">await</span> <span class="nx">InitializeArcJs</span><span class="p">({</span>
     <span class="nx">filter</span><span class="o">:</span> <span class="p">{</span>
-      <span class="s2">&quot;ContributionReward&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">&quot;AbsoluteVote&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
       <span class="s2">&quot;DaoCreator&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="s2">&quot;GenesisProtocol&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">&quot;SchemeRegistrar&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
     <span class="p">}</span>
   <span class="p">});</span>
 </pre></div>
 </td></tr></table>
 
+<p>If are not creating DAOs and only want to use some schemes, then reference the schemes as well as whichever voting machine(s) the schemes are using:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">await</span> <span class="nx">InitializeArcJs</span><span class="p">({</span>
+    <span class="nx">filter</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;GenesisProtocol&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">&quot;ContributionReward&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+</pre></div>
+</td></tr></table>
+
+<h4 id="use-default-network-settings">Use default network settings<a class="headerlink" href="#use-default-network-settings" title="Permanent link">&para;</a></h4>
 <p>You can use the Arc.js <a href="../Configuration">ConfigService</a> to set the provider host and port that web3 uses to connect your applicaton to the net when not using MetaMask.  But you can also tell <code>InitializeArcJs</code> to use default Arc.js settings for mainnet (live), kovan, ropsten and ganache.  Here is an example of telling Arc.js to use its default settings for Kovan:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -2522,7 +2594,7 @@
 
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>For safety, Arc.js specifies a different HTTP port for each network.  You will need to make sure that the testnet you are using is listening on that port.  The port values are:</p>
+<p>For safety, Arc.js specifies a different default HTTP port for each network.  You will need to make sure that the testnet you are using is listening on that port.  The port values are:</p>
 <p><table style="margin-left:2.5rem">
 <tr style="text-align:left"><th>Network</th><th>Port</th></tr>
 <tr><td>Ganache</td><td>8545</td></tr>
