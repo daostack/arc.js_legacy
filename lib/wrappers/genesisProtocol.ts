@@ -846,6 +846,16 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     const web3 = await Utils.getWeb3();
     const maxEthValue = web3.toBigNumber(10).pow(26);
 
+    const minimumStakingFee = web3.toBigNumber(params.minimumStakingFee);
+
+    if (minimumStakingFee.lt(0)) {
+      throw new Error("minimumStakingFee must be greater than or equal to 0");
+    }
+
+    if (minimumStakingFee.gt(maxEthValue)) {
+      throw new Error(`minimumStakingFee must be less than ${maxEthValue}`);
+    }
+
     const proposingRepRewardConstA = params.proposingRepRewardConstA || 0;
 
     if ((proposingRepRewardConstA < 0) || (proposingRepRewardConstA > 100000000)) {
@@ -921,7 +931,7 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
         params.boostedVotePeriodLimit,
         thresholdConstA,
         thresholdConstB,
-        params.minimumStakingFee,
+        minimumStakingFee,
         params.quietEndingPeriod,
         proposingRepRewardConstA,
         proposingRepRewardConstB,
@@ -1011,7 +1021,8 @@ export interface GenesisProtocolParams {
    */
   boostedVotePeriodLimit: number;
   /**
-   * Multiple of a winning stake to be rewarded as bounty
+   * Multiple of a winning stake to be rewarded as bounty.
+   * Must be greater than stakerFeeRatioForVoters and less than 2*stakerFeeRatioForVoters.
    */
   daoBountyConst: number;
   /**
@@ -1019,10 +1030,11 @@ export interface GenesisProtocolParams {
    */
   daoBountyLimit: BigNumber.BigNumber | string;
   /**
-   * A floor on the staking fee which is normally computed using [[GenesisProtocolParams.stakerFeeRatioForVoters]].
-   * Default is 0
+   * A floor on the staking fee which is normally computed using
+   * [[GenesisProtocolParams.stakerFeeRatioForVoters]], in Wei.
+   * Default is 0.
    */
-  minimumStakingFee: number;
+  minimumStakingFee: BigNumber.BigNumber | string;
   /**
    * The time limit in seconds for a proposal to be in absolute voting mode.
    * Default is 1814400 (three weeks).
@@ -1073,13 +1085,14 @@ export interface GenesisProtocolParams {
    */
   thresholdConstB: number;
   /**
-   * The percentage of lost reputation, in proportion to voters' reputation.
+   * The percentage of losing pre-boosted voters' lost reputation (see votersReputationLossRatio)
+   * rewarded to winning pre-boosted voters.
    * Must be between 0 and 100.
    * Default is 80.
    */
   votersGainRepRatioFromLostRep: number;
   /**
-   * The percentage of reputation that is lost by pre-boosted voters.
+   * The percentage of reputation deducted from losing pre-boosted voters.
    * Must be between 0 and 100.
    * Default is 1.
    */
@@ -1445,7 +1458,7 @@ export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProt
     boostedVotePeriodLimit: 259200,
     daoBountyConst: 75,
     daoBountyLimit: web3.toWei(100),
-    minimumStakingFee: 0,
+    minimumStakingFee: web3.toWei(0),
     preBoostedVotePeriodLimit: 1814400,
     preBoostedVoteRequiredPercentage: 50,
     proposingRepRewardConstA: 5,
