@@ -1050,7 +1050,7 @@ export interface GenesisProtocolParams {
   proposingRepRewardConstB: number;
   /**
    * The duration of the quietEndingPeriod, in seconds.
-   * Default is 86400 (one day)
+   * Default is 86400 (one day).
    */
   quietEndingPeriod: number;
   /**
@@ -1063,19 +1063,19 @@ export interface GenesisProtocolParams {
   /**
    * Constant A in the threshold calculation,in Wei. See [[GenesisProtocolWrapper.getThreshold]].
    * Must be between 0 and 100000000 (converted to Wei).
-   * Default is 7, converted to Wei
+   * Default is 7, converted to Wei.
    */
   thresholdConstA: BigNumber.BigNumber | string;
   /**
    * Constant B in the threshold calculation. See [[GenesisProtocolWrapper.getThreshold]].
    * Must be greater than zero and less than or equal to 100000000.
-   * Default is 3
+   * Default is 3.
    */
   thresholdConstB: number;
   /**
    * The percentage of lost reputation, in proportion to voters' reputation.
    * Must be between 0 and 100.
-   * Default is 80
+   * Default is 80.
    */
   votersGainRepRatioFromLostRep: number;
   /**
