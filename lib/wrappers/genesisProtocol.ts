@@ -1062,11 +1062,13 @@ export interface GenesisProtocolParams {
   stakerFeeRatioForVoters: number;
   /**
    * Constant A in the threshold calculation,in Wei. See [[GenesisProtocolWrapper.getThreshold]].
+   * Must be between 0 and 100000000 (converted to Wei).
    * Default is 7, converted to Wei
    */
   thresholdConstA: BigNumber.BigNumber | string;
   /**
    * Constant B in the threshold calculation. See [[GenesisProtocolWrapper.getThreshold]].
+   * Must be greater than zero and less than or equal to 100000000 (converted to Wei).
    * Default is 3
    */
   thresholdConstB: number;
