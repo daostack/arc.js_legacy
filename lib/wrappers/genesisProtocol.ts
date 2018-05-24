@@ -1006,7 +1006,7 @@ export interface StakeEventResult {
 
 export interface GenesisProtocolParams {
   /**
-   * The time limit in seconds for a proposal to be in an relative voting mode.
+   * The time limit in seconds for a proposal to be in relative voting mode.
    * Default is 259200 (three days).
    */
   boostedVotePeriodLimit: number;
@@ -1024,7 +1024,7 @@ export interface GenesisProtocolParams {
    */
   minimumStakingFee: number;
   /**
-   * The time limit in seconds for a proposal to be in an absolute voting mode.
+   * The time limit in seconds for a proposal to be in absolute voting mode.
    * Default is 1814400 (three weeks).
    */
   preBoostedVotePeriodLimit: number;
@@ -1035,16 +1035,17 @@ export interface GenesisProtocolParams {
    */
   preBoostedVoteRequiredPercentage: number;
   /**
-   * Constant A in the calculation of the proposer's reward, in Wei
+   * Constant A in the calculation of the proposer's reward.
    * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
-   * Default is 50, converted to Wei.
+   * Must be between 0 and 100000000.
+   * Default is 5.
    */
   proposingRepRewardConstA: number;
   /**
    * Constant B in the calculation of the proposer's reward.
    * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
-   * Must be between 0 and 100.
-   * Default is 50.
+   * Must be between 0 and 100000000.
+   * Default is 5.
    */
   proposingRepRewardConstB: number;
   /**
