@@ -86,7 +86,7 @@ await InitializeArcJs();
 
 #### Minimize contract loading
 
-`InitializeArcJs` will load all of the wrapped Arc contracts as deployed by the running version of Arc.js.  As this operation can be time-consuming, you may want to tell `InitializeArcJs` to only load the contracts that you expect to use.  The following is enough to create a new DAO with no schemes:
+By default, `InitializeArcJs` will load all of the wrapped Arc contracts as deployed by the running version of Arc.js.  As this operation can be time-consuming, you may want to tell `InitializeArcJs` to only load the contracts that you expect to use.  The following is enough to create a new DAO with no schemes:
 
 ```javascript
 await InitializeArcJs({
@@ -109,7 +109,7 @@ await InitializeArcJs({
   });
 ```
 
-If are not creating DAOs and only want to use some schemes, then reference the schemes as well as whichever voting machine(s) the schemes are using:
+If you are not creating DAOs and only want to use some schemes, then reference the schemes as well as whichever voting machine(s) the schemes are using:
 
 ```javascript
 await InitializeArcJs({
@@ -122,7 +122,7 @@ await InitializeArcJs({
 
 #### Use default network settings
 
-You can use the Arc.js [ConfigService](Configuration) to set the provider host and port that web3 uses to connect your applicaton to the net when not using MetaMask.  But you can also tell `InitializeArcJs` to use default Arc.js settings for mainnet (live), kovan, ropsten and ganache.  Here is an example of telling Arc.js to use its default settings for Kovan:
+You can use the Arc.js [ConfigService](Configuration) to set the provider host and port that web3 uses to connect your applicaton to the net when not using MetaMask.  You can also tell `InitializeArcJs` to just use default Arc.js settings for mainnet (live), kovan, ropsten and ganache.  Here is an example of telling Arc.js to use its default settings for Kovan:
 
 ```javascript
 await InitializeArcJs({

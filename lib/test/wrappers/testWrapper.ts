@@ -1,5 +1,5 @@
 "use strict";
-import { DefaultSchemePermissions, Hash, SchemePermissions } from "../../commonTypes";
+import { DefaultSchemePermissions, Hash } from "../../commonTypes";
 import { ArcTransactionDataResult, ContractWrapperBase } from "../../contractWrapperBase";
 import { ContractWrapperFactory } from "../../contractWrapperFactory";
 import { AbsoluteVoteParams } from "../../wrappers/absoluteVote";
@@ -35,9 +35,8 @@ export class TestWrapperWrapper extends ContractWrapperBase {
     );
   }
 
-  public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
-    // return overrideValue || Utils.numberToPermissionsString(DefaultSchemePermissions.MinimumPermissions);
-    return (overrideValue || DefaultSchemePermissions.MinimumPermissions) as SchemePermissions;
+  public getDefaultPermissions(): DefaultSchemePermissions {
+    return DefaultSchemePermissions.MinimumPermissions;
   }
 }
 
