@@ -1068,7 +1068,7 @@ export interface GenesisProtocolParams {
   thresholdConstA: BigNumber.BigNumber | string;
   /**
    * Constant B in the threshold calculation. See [[GenesisProtocolWrapper.getThreshold]].
-   * Must be greater than zero and less than or equal to 100000000 (converted to Wei).
+   * Must be greater than zero and less than or equal to 100000000.
    * Default is 3
    */
   thresholdConstB: number;
