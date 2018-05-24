@@ -67,9 +67,8 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase impleme
     );
   }
 
-  public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
-    // return overrideValue || Utils.numberToPermissionsString(DefaultSchemePermissions.VoteInOrganizationScheme);
-    return (overrideValue || DefaultSchemePermissions.VoteInOrganizationScheme) as SchemePermissions;
+  public getDefaultPermissions(): DefaultSchemePermissions {
+    return DefaultSchemePermissions.VoteInOrganizationScheme;
   }
 
   public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {

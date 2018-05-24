@@ -138,9 +138,8 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
     );
   }
 
-  public getDefaultPermissions(overrideValue?: SchemePermissions | DefaultSchemePermissions): SchemePermissions {
-    // return overrideValue || Utils.numberToPermissionsString(DefaultSchemePermissions.SchemeRegistrar);
-    return (overrideValue || DefaultSchemePermissions.SchemeRegistrar) as SchemePermissions;
+  public getDefaultPermissions(): DefaultSchemePermissions {
+    return DefaultSchemePermissions.SchemeRegistrar;
   }
 
   public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
