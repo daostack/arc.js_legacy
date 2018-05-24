@@ -1026,7 +1026,7 @@ export interface GenesisProtocolParams {
    */
   daoBountyConst: number;
   /**
-   * Upper bound on the total amount of bounties on a proposal.
+   * Upper bound on the total bounty amount on a proposal.
    */
   daoBountyLimit: BigNumber.BigNumber | string;
   /**
