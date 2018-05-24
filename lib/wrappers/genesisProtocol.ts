@@ -1081,7 +1081,7 @@ export interface GenesisProtocolParams {
   /**
    * The percentage of reputation that is lost by pre-booster voters.
    * Must be between 0 and 100.
-   * Default is 1
+   * Default is 1.
    */
   votersReputationLossRatio: number;
 }
