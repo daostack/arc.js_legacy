@@ -90,6 +90,10 @@ export interface ArcWrappersByType {
    */
   schemes: Array<ContractWrapperBase>;
   /**
+   * All wrapped schemes that can generate proposals
+   */
+  proposalGeneratingSchemes: Array<ContractWrapperBase>;
+  /**
    * All wrapped voting machines
    */
   votingMachines: Array<ContractWrapperBase>;
@@ -174,6 +178,14 @@ export class WrapperService {
     WrapperService.wrappersByType.schemes = [
       WrapperService.wrappers.ContributionReward,
       WrapperService.wrappers.GenesisProtocol,
+      WrapperService.wrappers.GlobalConstraintRegistrar,
+      WrapperService.wrappers.SchemeRegistrar,
+      WrapperService.wrappers.UpgradeScheme,
+      WrapperService.wrappers.VestingScheme,
+      WrapperService.wrappers.VoteInOrganizationScheme,
+    ];
+    WrapperService.wrappersByType.proposalGeneratingSchemes = [
+      WrapperService.wrappers.ContributionReward,
       WrapperService.wrappers.GlobalConstraintRegistrar,
       WrapperService.wrappers.SchemeRegistrar,
       WrapperService.wrappers.UpgradeScheme,
