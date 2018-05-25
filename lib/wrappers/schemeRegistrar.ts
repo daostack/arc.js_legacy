@@ -61,13 +61,13 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
     /**
      * throws an Error if not valid, yields 0 if null or undefined
      */
-    let permissions: SchemePermissions | DefaultSchemePermissions;
+    let permissions: SchemePermissions;
 
     if (options.schemeName) {
       /**
        * then we are adding/removing an Arc scheme and can get and check its permissions.
        */
-      permissions = options.permissions || DefaultSchemePermissions[options.schemeName];
+      permissions = options.permissions || <number>DefaultSchemePermissions[options.schemeName];
 
       if (permissions > this.getDefaultPermissions()) {
         throw new Error(
@@ -138,8 +138,8 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
     );
   }
 
-  public getDefaultPermissions(): DefaultSchemePermissions {
-    return DefaultSchemePermissions.SchemeRegistrar;
+  public getDefaultPermissions(): SchemePermissions {
+    return <number>DefaultSchemePermissions.SchemeRegistrar;
   }
 
   public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
@@ -224,7 +224,7 @@ export interface ProposeToAddModifySchemeParams {
    * For Arc schemes the default is taken from DefaultSchemePermissions
    * for the scheme given by schemeName.
    */
-  permissions?: SchemePermissions | DefaultSchemePermissions | null;
+  permissions?: SchemePermissions | null;
 }
 
 export interface ProposeToRemoveSchemeParams {

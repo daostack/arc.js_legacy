@@ -89,6 +89,6 @@ export namespace SchemePermissions {
 export interface SchemeWrapper {
   setParameters(params: any): Promise<ArcTransactionDataResult<Hash>>;
   getSchemeParameters(avatarAddress: Address): Promise<any>;
-  getDefaultPermissions(): DefaultSchemePermissions;
+  getDefaultPermissions(): SchemePermissions;
   getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
 }

@@ -83,7 +83,7 @@ describe("DAO", () => {
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
     const scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory) as SchemeRegistrarWrapper;
-    assert.equal(scheme.getDefaultPermissions() as number,
+    assert.equal(scheme.getDefaultPermissions(),
       SchemePermissions.fromString(
         await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
   });
@@ -165,7 +165,7 @@ describe("DAO", () => {
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
     const scheme = await helpers.getDaoScheme(dao, "SchemeRegistrar", SchemeRegistrarFactory) as SchemeRegistrarWrapper;
-    assert.equal(scheme.getDefaultPermissions() as number,
+    assert.equal(scheme.getDefaultPermissions(),
       SchemePermissions.fromString(
         await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
   });
@@ -185,7 +185,7 @@ describe("DAO", () => {
     // the dao has an avatar
     assert.ok(dao.avatar, "DAO must have an avatar defined");
     const scheme = await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory) as UpgradeSchemeWrapper;
-    assert.equal(scheme.getDefaultPermissions() as number,
+    assert.equal(scheme.getDefaultPermissions(),
       SchemePermissions.fromString(await dao.controller.getSchemePermissions(scheme.address, dao.avatar.address)));
 
     const votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, scheme);
@@ -218,7 +218,7 @@ describe("DAO", () => {
       dao,
       "GlobalConstraintRegistrar",
       GlobalConstraintRegistrarFactory) as GlobalConstraintRegistrarWrapper;
-    assert.equal(gcscheme.getDefaultPermissions() as number,
+    assert.equal(gcscheme.getDefaultPermissions(),
       SchemePermissions.fromString(await dao.controller.getSchemePermissions(gcscheme.address, dao.avatar.address)));
     let votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, gcscheme);
     let votingMachine = await helpers.getSchemeVotingMachine(dao, gcscheme);
@@ -227,7 +227,7 @@ describe("DAO", () => {
 
     const upgradeScheme =
       await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory) as UpgradeSchemeWrapper;
-    assert.equal(upgradeScheme.getDefaultPermissions() as number,
+    assert.equal(upgradeScheme.getDefaultPermissions(),
       SchemePermissions.fromString(
         await dao.controller.getSchemePermissions(upgradeScheme.address, dao.avatar.address)));
 

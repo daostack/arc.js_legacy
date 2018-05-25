@@ -945,8 +945,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     );
   }
 
-  public getDefaultPermissions(): DefaultSchemePermissions {
-    return DefaultSchemePermissions.GenesisProtocol;
+  public getDefaultPermissions(): SchemePermissions {
+    return <number>DefaultSchemePermissions.GenesisProtocol;
   }
 
   public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
