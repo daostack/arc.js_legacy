@@ -102,7 +102,7 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeW
   }
 
   public getDefaultPermissions(): SchemePermissions {
-    return <number>DefaultSchemePermissions.UpgradeScheme;
+    return DefaultSchemePermissions.UpgradeScheme as number;
   }
 
   public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {

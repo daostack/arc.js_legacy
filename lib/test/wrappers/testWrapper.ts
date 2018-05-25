@@ -36,7 +36,7 @@ export class TestWrapperWrapper extends ContractWrapperBase {
   }
 
   public getDefaultPermissions(): SchemePermissions {
-    return <number>DefaultSchemePermissions.MinimumPermissions;
+    return DefaultSchemePermissions.MinimumPermissions as number;
   }
 }
 

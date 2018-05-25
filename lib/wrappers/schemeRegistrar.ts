@@ -67,7 +67,7 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
       /**
        * then we are adding/removing an Arc scheme and can get and check its permissions.
        */
-      permissions = options.permissions || <number>DefaultSchemePermissions[options.schemeName];
+      permissions = options.permissions || DefaultSchemePermissions[options.schemeName] as number;
 
       if (permissions > this.getDefaultPermissions()) {
         throw new Error(
@@ -139,7 +139,7 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
   }
 
   public getDefaultPermissions(): SchemePermissions {
-    return <number>DefaultSchemePermissions.SchemeRegistrar;
+    return DefaultSchemePermissions.SchemeRegistrar as number;
   }
 
   public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {

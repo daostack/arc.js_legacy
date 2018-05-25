@@ -102,7 +102,7 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
   }
 
   public getDefaultPermissions(): SchemePermissions {
-    return <number>DefaultSchemePermissions.GlobalConstraintRegistrar;
+    return DefaultSchemePermissions.GlobalConstraintRegistrar as number;
   }
 
   public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {

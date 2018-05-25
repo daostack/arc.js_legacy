@@ -419,7 +419,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
   }
 
   public getDefaultPermissions(): SchemePermissions {
-    return <number>DefaultSchemePermissions.ContributionReward;
+    return DefaultSchemePermissions.ContributionReward as number;
   }
 
   public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
