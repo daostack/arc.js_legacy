@@ -68,7 +68,7 @@ describe("ContractWrapperBase", () => {
       (await scheme.setParameters({})).result,
       "0xfc844154428d1b1c6806ceacdd3ed0974cc02c30983036bc5db6b5aed2fa394b"
     );
-    assert.equal(scheme.getDefaultPermissions(), DefaultSchemePermissions.MinimumPermissions);
+    assert.equal(scheme.getDefaultPermissions(), DefaultSchemePermissions.MinimumPermissions as number);
 
     scheme = await TestWrapperFactory.at(WrapperService.wrappers.AbsoluteVote.address);
     assert.equal(scheme.foo(), "bar");

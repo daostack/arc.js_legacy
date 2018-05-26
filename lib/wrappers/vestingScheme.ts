@@ -268,8 +268,8 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
     );
   }
 
-  public getDefaultPermissions(): DefaultSchemePermissions {
-    return DefaultSchemePermissions.VestingScheme;
+  public getDefaultPermissions(): SchemePermissions {
+    return DefaultSchemePermissions.VestingScheme as number;
   }
 
   public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {

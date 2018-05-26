@@ -101,8 +101,8 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
     );
   }
 
-  public getDefaultPermissions(): DefaultSchemePermissions {
-    return DefaultSchemePermissions.GlobalConstraintRegistrar;
+  public getDefaultPermissions(): SchemePermissions {
+    return DefaultSchemePermissions.GlobalConstraintRegistrar as number;
   }
 
   public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {

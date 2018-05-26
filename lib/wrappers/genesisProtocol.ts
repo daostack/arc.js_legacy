@@ -257,7 +257,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
 
     if ((proposalState !== ProposalState.Executed) &&
       (proposalState !== ProposalState.Closed)) {
-      throw new Error("cannot redeem unless proposal state is either executed or closed");
+      /* tslint:disable-next-line:max-line-length */
+      throw new Error(`cannot redeem unless proposal state is either executed or closed. Current state: ${ProposalState[proposalState]}`);
     }
 
     this.logContractFunctionCall("GenesisProtocol.redeem", options);
@@ -944,8 +945,8 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     );
   }
 
-  public getDefaultPermissions(): DefaultSchemePermissions {
-    return DefaultSchemePermissions.GenesisProtocol;
+  public getDefaultPermissions(): SchemePermissions {
+    return DefaultSchemePermissions.GenesisProtocol as number;
   }
 
   public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {

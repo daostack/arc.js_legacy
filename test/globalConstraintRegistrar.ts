@@ -1,6 +1,6 @@
 import { assert } from "chai";
 import { WrapperService } from "../lib";
-import { DefaultSchemePermissions } from "../lib/commonTypes";
+import { DefaultSchemePermissions, SchemePermissions } from "../lib/commonTypes";
 import {
   GlobalConstraintRegistrarFactory,
   GlobalConstraintRegistrarWrapper
@@ -9,6 +9,20 @@ import { TokenCapGCFactory } from "../lib/wrappers/tokenCapGC";
 import * as helpers from "./helpers";
 
 describe("GlobalConstraintRegistrar", () => {
+  it("returns the right permission", async () => {
+
+    const dao = await helpers.forgeDao();
+
+    const gcr = await helpers.getDaoScheme(
+      dao,
+      "GlobalConstraintRegistrar",
+      GlobalConstraintRegistrarFactory) as GlobalConstraintRegistrarWrapper;
+
+    const perms = await gcr.getSchemePermissions(dao.avatar.address);
+
+    assert.equal(perms, DefaultSchemePermissions.GlobalConstraintRegistrar as any);
+  });
+
   it("proposeToAddModifyGlobalConstraint javascript wrapper should work", async () => {
     const dao = await helpers.forgeDao();
 

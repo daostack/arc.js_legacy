@@ -168,7 +168,7 @@ export abstract class ContractWrapperBase {
    * @param avatarAddress
    */
   protected async _getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
-    const permissions = (await this.getController(avatarAddress))
+    const permissions = await (await this.getController(avatarAddress))
       .getSchemePermissions(this.address, avatarAddress) as string;
 
     return SchemePermissions.fromString(permissions);
