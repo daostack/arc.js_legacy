@@ -2,13 +2,22 @@
 import { assert } from "chai";
 import { DefaultSchemePermissions } from "../lib/commonTypes";
 import { ConfigService } from "../lib/configService";
-import { InitializeArcJs } from "../lib/index";
+import { InitializeArcJs, LoggingService } from "../lib/index";
 import { TestWrapperFactory } from "../lib/test/wrappers/testWrapper";
 import { Utils } from "../lib/utils";
 import { WrapperService } from "../lib/wrapperService";
 import * as helpers from "./helpers";
 
 describe("InitializeArcJs", () => {
+  it("LoggingService can stringify circular object", async () => {
+    const objA: any = {};
+    const objB: any = { objA };
+    objA.objB = objB; // objB ends up referencing itself via objA
+
+    // should not throw exception
+    LoggingService.stringifyObject(objA);
+  });
+
   it("initializes subset of schemes and can create a DAO", async () => {
     await InitializeArcJs({
       filter: {
