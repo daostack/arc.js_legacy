@@ -1,5 +1,5 @@
+import * as JSON from "circular-json";
 import { ConfigService } from "./configService";
-import * as JSON from 'circular-json';
 
 export enum LogLevel {
   none = 0,
