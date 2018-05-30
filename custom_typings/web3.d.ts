@@ -253,8 +253,10 @@ declare module "web3" {
     contract(abi: Array<AbiDefinition>): Contract<any>;
 
     // TODO block param
-    getBalance(addressHexString: string): BigNumber.BigNumber;
-    getBalance(addressHexString: string, callback: (err: Error, result: BigNumber.BigNumber) => void): void;
+    getBalance(addressHexString: string, blockNumber?: number | string): BigNumber.BigNumber;
+    getBalance(addressHexString: string,
+               blockNumber?: number | string,
+               callback?: (err: Error, result: BigNumber.BigNumber) => void): void;
 
     // TODO block param
     getStorageAt(address: string, position: number): string;

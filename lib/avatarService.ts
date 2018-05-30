@@ -1,3 +1,5 @@
+import { BigNumber } from "bignumber.js";
+import { promisify } from "es6-promisify";
 import { Address } from "./commonTypes";
 import { Utils } from "./utils";
 
@@ -115,5 +117,32 @@ export class AvatarService {
       this.nativeToken = await (await Utils.requireContract("DAOToken")).at(tokenAddress) as any;
     }
     return this.nativeToken;
+  }
+
+  /**
+   * Return a current token balance for this avatar, in Wei.
+   * If tokenAddress is not supplied, then uses native token.
+   */
+  public async getTokenBalance(tokenAddress?: Address): Promise<BigNumber> {
+    let token;
+
+    if (!tokenAddress) {
+      token = await this.getNativeToken();
+    } else {
+      token = await (await Utils.requireContract("StandardToken")).at(tokenAddress) as any;
+    }
+    return token.balanceOf(this.avatarAddress);
+  }
+
+  /**
+   * Return the current ETH balance for this avatar, in Wei.
+   */
+  public async getEthBalance(): Promise<BigNumber> {
+    const web3 = await Utils.getWeb3();
+
+    return promisify((callback: any) => web3.eth.getBalance(this.avatarAddress, web3.eth.defaultBlock, callback))()
+      .then((balance: BigNumber) => {
+        return balance;
+      });
   }
 }

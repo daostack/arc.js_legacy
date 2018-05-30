@@ -350,8 +350,10 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
   /**
    * Return a list of `ProposalRewards` for executed (passed by vote) proposals
    * that have rewards waiting to be redeemed by the given beneficiary.
-   * `ProposalRewards` includes both the total amount redeemable and the amount
-   * yet-to-be redeemed.
+   * `ProposalRewards` includes the total amount redeemable, the amount
+   * yet-to-be redeemed and where applicable, the amount that the Dao has available
+   * to pay out.  The latter is useful for anticipating whether an attempt
+   * to redeem would succeed.
    * @param {GetBeneficiaryRewardsParams} options
    */
   public async getBeneficiaryRewards(
@@ -375,6 +377,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
     const proposals = await this.getDaoProposals(options);
 
     const rewardsArray = new Array<ProposalRewards>();
+    const avatarService = new AvatarService(options.avatar);
 
     for (const proposal of proposals) {
 
@@ -385,8 +388,16 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       await this.computeRemainingReward(proposalRewards,
         proposal, "ethReward", options.avatar, RewardType.Eth);
 
+      if (proposal.ethReward.gt("0")) {
+        proposalRewards.ethAvailableToReward = await avatarService.getEthBalance();
+      }
+
       await this.computeRemainingReward(proposalRewards,
         proposal, "externalTokenReward", options.avatar, RewardType.ExternalToken);
+
+      if (proposal.externalTokenReward.gt("0")) {
+        proposalRewards.externalTokensAvailableToReward = await avatarService.getTokenBalance(proposal.externalToken);
+      }
 
       await this.computeRemainingReward(proposalRewards,
         proposal, "nativeTokenReward", options.avatar, RewardType.NativeToken);
@@ -440,7 +451,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
   }
 
   private async computeRemainingReward(
-    proposalRewards: ProposalRewards,
+    proposalRewards: Partial<ProposalRewards>,
     proposal: ContributionProposal,
     rewardName: string,
     avatarAddress: Address,
@@ -519,6 +530,10 @@ export interface ContributionProposal {
 
 export interface ProposalRewards {
   /**
+   * The amount of ETH the DAO currently has on hand to reward.
+   */
+  ethAvailableToReward: BigNumber.BigNumber;
+  /**
    * The total ETH reward
    */
   ethReward: BigNumber.BigNumber;
@@ -530,6 +545,10 @@ export interface ProposalRewards {
    * The currently-redeemable external token reward
    */
   ethRewardRedeemable: BigNumber.BigNumber;
+  /**
+   * The amount of external tokens the DAO currently has on hand to reward.
+   */
+  externalTokensAvailableToReward: BigNumber.BigNumber;
   /**
    * The total external token reward
    */
