@@ -137,6 +137,16 @@ describe("ContributionReward scheme", () => {
     // give the avatar some eth to pay out
     await helpers.transferEthToDao(dao, .005);
 
+    const rewards = await scheme.getBeneficiaryRewards({
+      avatar: dao.avatar.address,
+      beneficiaryAddress: accounts[1],
+      proposalId,
+    });
+
+    assert.equal(rewards.length, 1);
+    assert(rewards[0].ethAvailableToReward.eq(web3.toWei(".005")),
+      `${rewards[0].ethAvailableToReward} should equal ${web3.toWei(".005")}`);
+
     // now try to redeem some native tokens
     const result = await scheme.redeemEther({
       avatar: dao.avatar.address,
@@ -147,6 +157,9 @@ describe("ContributionReward scheme", () => {
 
     const eventProposalId = result.getValueFromTx("_proposalId", "RedeemEther");
     const amount = result.getValueFromTx("_amount", "RedeemEther");
+    const beneficiary = result.getValueFromTx("_beneficiary", "RedeemEther");
+
+    assert.equal(beneficiary, accounts[1]);
     assert.equal(eventProposalId, proposalId);
     assert(helpers.fromWei(amount).eq(.005));
   });
@@ -195,6 +208,16 @@ describe("ContributionReward scheme", () => {
     await helpers.increaseTime(1);
 
     await helpers.transferTokensToDao(dao, 10, undefined, externalToken);
+
+    const rewards = await scheme.getBeneficiaryRewards({
+      avatar: dao.avatar.address,
+      beneficiaryAddress: accounts[1],
+      proposalId,
+    });
+
+    assert.equal(rewards.length, 1);
+    assert(rewards[0].externalTokensAvailableToReward.eq(web3.toWei("10")),
+      `${rewards[0].externalTokensAvailableToReward} should equal ${web3.toWei("10")}`);
 
     // now try to redeem some native tokens
     const result = await scheme.redeemExternalToken({

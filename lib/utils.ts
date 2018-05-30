@@ -1,3 +1,4 @@
+import { BigNumber } from "bignumber.js";
 import { promisify } from "es6-promisify";
 import abi = require("ethereumjs-abi");
 import TruffleContract = require("truffle-contract");
@@ -194,6 +195,42 @@ export class Utils {
 
       return defaultAccount;
     });
+  }
+
+  /**
+   * Return the current token balance for the given token and agent.
+   */
+  public static async getTokenBalance(agentAddress: Address, tokenAddress: Address)
+    : Promise<BigNumber> {
+
+    if (!tokenAddress) {
+      throw new Error("Utils.getTokenBalance: tokenAddress is not defined");
+    }
+
+    if (!agentAddress) {
+      throw new Error("Utils.getTokenBalance: agentAddress is not defined");
+    }
+
+    const token = await (await Utils.requireContract("StandardToken")).at(tokenAddress) as any;
+
+    return token.balanceOf(agentAddress);
+  }
+
+  /**
+   * Return the current ETH balance for the given agent.
+   */
+  public static async getEthBalance(agentAddress: Address)
+    : Promise<BigNumber> {
+
+    if (!agentAddress) {
+      throw new Error("Utils.getEthBalance: agentAddress is not defined");
+    }
+
+    const web3 = await Utils.getWeb3();
+    return promisify((callback: any) => web3.eth.getBalance(agentAddress, web3.eth.defaultBlock, callback))()
+      .then((balance: BigNumber) => {
+        return balance;
+      });
   }
 
   /**
