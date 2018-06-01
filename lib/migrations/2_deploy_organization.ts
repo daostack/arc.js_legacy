@@ -115,13 +115,13 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
     const AvatarInst = await Avatar.at(tx.logs[0].args._avatar);
     let genTokenAddress;
 
-    if (network !== "live") {
+    if ((network !== "live") && (network !== "kovan")) {
       genTokenAddress = await AvatarInst.nativeToken();
-      console.log(`using native token for staking on network != "live" at: ${genTokenAddress}`);
+      console.log(`using native token for staking on network ${network} at: ${genTokenAddress}`);
     } else {
-      // the "real" live ETH GEN token
+      // the global GEN token
       genTokenAddress = "0x543Ff227F64Aa17eA132Bf9886cAb5DB55DCAddf";
-      console.log(`!! using global GEN token staking on network == "live" at: ${genTokenAddress}`);
+      console.log(`!! using global GEN token for staking on network ${network} at: ${genTokenAddress}`);
     }
     /**
      * The voting machine.  GenesisProtocol must be deployed as a scheme if it is

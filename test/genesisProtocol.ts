@@ -79,6 +79,34 @@ describe("GenesisProtocol", () => {
     executableTest = await ExecutableTest.deployed();
   });
 
+  it("can set boostedVotePeriodLimit in dao.new", async () => {
+    dao = await helpers.forgeDao({
+      founders: [{
+        address: accounts[0],
+        reputation: web3.toWei(1000),
+        tokens: web3.toWei(1000),
+      },
+      ],
+      schemes: [
+        {
+          additionalParams: {
+            boostedVotePeriodLimit: 180,
+            quietEndingPeriod: 60,
+          },
+          name: "GenesisProtocol",
+        },
+      ],
+    });
+
+    const scheme =
+      (await helpers.getDaoScheme(dao, "GenesisProtocol", GenesisProtocolFactory)) as GenesisProtocolWrapper;
+
+    const params = await scheme.getSchemeParameters(dao.avatar.address);
+
+    assert.equal(params.boostedVotePeriodLimit, 180);
+    assert.equal(params.quietEndingPeriod, 60);
+  });
+
   it("can call getTokenBalances", async () => {
     const genesisDao = await DAO.at(await DAO.getGenesisDao());
 
