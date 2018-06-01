@@ -209,11 +209,11 @@ declare module "web3" {
     ): void;
     getBlock(
       hashStringOrBlockNumber: string | BlockParam,
-      returnTransactionObjects: true
+      returnTransactionObjects: boolean
     ): BlockWithTransactionData;
     getBlock(
       hashStringOrBlockNumber: string | BlockParam,
-      returnTransactionObjects: true,
+      returnTransactionObjects: boolean,
       callback: (err: Error, blockObj: BlockWithTransactionData) => void
     ): void;
 
