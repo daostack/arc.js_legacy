@@ -79,13 +79,16 @@ export class Utils {
       // then avoid time-consuming and futile retry
       throw new Error("Utils.getWeb3: already tried and failed");
     } else {
+      let url = ConfigService.get("providerUrl");
+      const port = ConfigService.get("providerPort");
+      if (port) {
+        url = `${url}:${port}`;
+      }
       /* tslint:disable-next-line:max-line-length */
-      LoggingService.debug(`Utils.getWeb3: instantiating web3 with configured provider ${ConfigService.get("providerUrl")}:${ConfigService.get("providerPort")}`);
+      LoggingService.debug(`Utils.getWeb3: instantiating web3 with configured provider at ${url}`);
       // No web3 is injected, look for a provider at providerUrl:providerPort (which defaults to localhost)
       // This happens when running tests, or in a browser that is not running MetaMask
-      preWeb3 = new webConstructor(
-        new Web3Providers.HttpProvider(`${ConfigService.get("providerUrl")}:${ConfigService.get("providerPort")}`)
-      );
+      preWeb3 = new webConstructor(new Web3Providers.HttpProvider(url));
     }
 
     const connected = await promisify(preWeb3.net.getListening)()

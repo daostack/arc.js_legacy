@@ -128,11 +128,11 @@ module.exports = {
        *
        * Run migrateContracts.fetchFromArc first if you want to start with fresh unmigrated contracts from @daostack/arc.
        *
-       * --reset is for ganacheDb as it tends to crash on re-migration.
+       * use --reset for ganacheDb if it is crashing on re-migration.
        */
       default: series(
         migrationScriptExists ? `` : `nps build`,
-        `${truffleCommand} migrate --reset --contracts_build_directory ${pathArcJsContracts} --without-compile --network ${network}`
+        `${truffleCommand} migrate --contracts_build_directory ${pathArcJsContracts} --without-compile --network ${network}`
       ),
       /**
        * Clean the output contract json files, optionally andMigrate.
