@@ -9,14 +9,14 @@ import { WrapperService } from "../lib/wrapperService";
 import * as helpers from "./helpers";
 
 describe("Misc", () => {
-  it("can check GEN balance", async () => {
-    const balance =
-      await Utils.getTokenBalance(
-        "0x0017cd246be69d243657400685B3C17c545bfd0F",
-        "0x543Ff227F64Aa17eA132Bf9886cAb5DB55DCAddf");
-    assert.isOk(balance);
-    LoggingService.info(`balance: ${balance}`);
-  });
+  // it("can check GEN balance", async () => {
+  //   const balance =
+  //     await Utils.getTokenBalance(
+  //       "0x0017cd246be69d243657400685B3C17c545bfd0F",
+  //       "0x543Ff227F64Aa17eA132Bf9886cAb5DB55DCAddf");
+  //   assert.isOk(balance);
+  //   LoggingService.info(`balance: ${balance}`);
+  // });
 
   it("LoggingService can stringify circular object", async () => {
     const objA: any = {};
