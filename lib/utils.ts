@@ -4,7 +4,7 @@ import abi = require("ethereumjs-abi");
 import TruffleContract = require("truffle-contract");
 import { providers as Web3Providers, Web3 } from "web3";
 import { gasLimitsConfig } from "../gasLimits.js";
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "./commonTypes";
+import { Address, DefaultSchemePermissions, fnVoid, Hash, SchemePermissions } from "./commonTypes";
 import { ConfigService } from "./configService";
 import { TransactionReceiptTruffle } from "./contractWrapperBase";
 import { LoggingService } from "./loggingService";
@@ -79,13 +79,16 @@ export class Utils {
       // then avoid time-consuming and futile retry
       throw new Error("Utils.getWeb3: already tried and failed");
     } else {
+      let url = ConfigService.get("providerUrl");
+      const port = ConfigService.get("providerPort");
+      if (port) {
+        url = `${url}:${port}`;
+      }
       /* tslint:disable-next-line:max-line-length */
-      LoggingService.debug(`Utils.getWeb3: instantiating web3 with configured provider ${ConfigService.get("providerUrl")}:${ConfigService.get("providerPort")}`);
+      LoggingService.debug(`Utils.getWeb3: instantiating web3 with configured provider at ${url}`);
       // No web3 is injected, look for a provider at providerUrl:providerPort (which defaults to localhost)
       // This happens when running tests, or in a browser that is not running MetaMask
-      preWeb3 = new webConstructor(
-        new Web3Providers.HttpProvider(`${ConfigService.get("providerUrl")}:${ConfigService.get("providerPort")}`)
-      );
+      preWeb3 = new webConstructor(new Web3Providers.HttpProvider(url));
     }
 
     const connected = await promisify(preWeb3.net.getListening)()
@@ -287,6 +290,10 @@ export class Utils {
     if (!permissions) { permissions = SchemePermissions.None; }
 
     return `0x${("00000000" + (permissions as number).toString(16)).substr(-8)}`;
+  }
+
+  public static sleep(milliseconds: number): Promise<any> {
+    return new Promise((resolve: fnVoid): any => setTimeout(resolve, milliseconds));
   }
 
   private static web3: Web3 = undefined;

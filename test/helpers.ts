@@ -254,8 +254,8 @@ export function transferEthToDao(dao: DAO, amount: number, fromAddress?: Address
   return web3.eth.sendTransaction({ from: fromAddress, to: dao.avatar.address, value: web3.toWei(amount) });
 }
 
-export async function sleep(milliseconds: number): Promise<any> {
-  return new Promise((resolve: fnVoid): any => setTimeout(resolve, milliseconds));
+export function sleep(milliseconds: number): Promise<any> {
+  return Utils.sleep(milliseconds);
 }
 
 export function fromWei(amount: string | number | BigNumber): BigNumber {

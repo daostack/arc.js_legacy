@@ -28,6 +28,7 @@ export * from "./eventService";
 export * from "./loggingService";
 export * from "./transactionService";
 export * from "./utils";
+export { computeGasLimit } from "../gasLimits.js";
 
 import { Web3 } from "web3";
 import { ConfigService } from "./configService";
