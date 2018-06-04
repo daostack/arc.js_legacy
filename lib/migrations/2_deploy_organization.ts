@@ -91,7 +91,7 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
     const genesisProtocolPermissions = SchemePermissions.toString(DefaultSchemePermissions.GenesisProtocol);
 
     let gasAmount = (await promisify((callback: any) => web3.eth.getBlock("latest", false, callback))()).gasLimit;
-    gasAmount -= Math.ceil(gasAmount / 1024);
+    gasAmount -= 500000;
 
     console.log(`Deploying to ${network}, gasLimit: ${gasAmount}, ${founders.length} founders`);
 
