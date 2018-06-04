@@ -1,8 +1,8 @@
 import { promisify } from "es6-promisify";
 import { Web3 } from "web3";
 import { DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
+import { Utils } from "../utils";
 import { GetDefaultGenesisProtocolParameters } from "../wrappers/genesisProtocol";
-import { Utils } from '../utils';
 /* tslint:disable:no-var-requires */
 const env = require("env-variable")();
 
@@ -70,7 +70,6 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
   const VoteInOrganizationScheme = artifacts.require("VoteInOrganizationScheme.sol");
   const GenesisProtocol = artifacts.require("GenesisProtocol.sol");
   const ControllerCreator = artifacts.require("ControllerCreator.sol");
-
 
   /**
    * Pattern for using async/await found here:
