@@ -2,6 +2,7 @@ import { promisify } from "es6-promisify";
 import { Web3 } from "web3";
 import { DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
 import { GetDefaultGenesisProtocolParameters } from "../wrappers/genesisProtocol";
+import { Utils } from '../utils';
 /* tslint:disable:no-var-requires */
 const env = require("env-variable")();
 
@@ -115,6 +116,11 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
       universalControllerInst.address,
       web3.toWei(100000000), // token cap of one hundred million GEN, in Wei
       { gas: gasAmount });
+
+    // maximize chances that Avatar.at will succeed
+    if (network === "live") {
+      await Utils.sleep(60000);
+    }
 
     const AvatarInst = await Avatar.at(tx.logs[0].args._avatar);
     let genTokenAddress;

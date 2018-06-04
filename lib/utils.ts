@@ -4,7 +4,7 @@ import abi = require("ethereumjs-abi");
 import TruffleContract = require("truffle-contract");
 import { providers as Web3Providers, Web3 } from "web3";
 import { gasLimitsConfig } from "../gasLimits.js";
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "./commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions, fnVoid } from "./commonTypes";
 import { ConfigService } from "./configService";
 import { TransactionReceiptTruffle } from "./contractWrapperBase";
 import { LoggingService } from "./loggingService";
@@ -290,6 +290,10 @@ export class Utils {
     if (!permissions) { permissions = SchemePermissions.None; }
 
     return `0x${("00000000" + (permissions as number).toString(16)).substr(-8)}`;
+  }
+
+  public static sleep(milliseconds: number): Promise<any> {
+    return new Promise((resolve: fnVoid): any => setTimeout(resolve, milliseconds));
   }
 
   private static web3: Web3 = undefined;

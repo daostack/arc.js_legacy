@@ -30,7 +30,7 @@ module.exports = {
         return provider;
       },
       gas: 6000000,
-      gasPrice: 15000000000,
+      gasPrice: 60000000000,
       network_id: 1
     },
     ganache: {
