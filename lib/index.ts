@@ -29,7 +29,7 @@ export * from "./loggingService";
 export * from "./transactionService";
 export * from "./utils";
 /* tslint:disable-next-line:no-var-requires */
-export const computeGasLimit: any = require("gasLimits.js").computeGasLimit;
+export const computeGasLimit: any = require("../gasLimits.js").computeGasLimit;
 
 import { Web3 } from "web3";
 import { ConfigService } from "./configService";
