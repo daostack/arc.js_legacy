@@ -1,7 +1,10 @@
 import { promisify } from "es6-promisify";
 import { Web3 } from "web3";
 import { DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
+<<<<<<< master:lib/migrations/2_deploy_organization.ts
 import { UtilsInternal } from "../utilsInternal";
+=======
+>>>>>>> split migration scripts:lib/migrations/3_deploy_organization.ts
 import { GetDefaultGenesisProtocolParameters } from "../wrappers/genesisProtocol";
 /* tslint:disable:no-var-requires */
 const env = require("env-variable")();
@@ -54,20 +57,13 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
   /**
    * Truffle Solidity artifact wrappers
    */
-  const AbsoluteVote = artifacts.require("AbsoluteVote.sol");
   const Avatar = artifacts.require("Avatar.sol");
   const ContributionReward = artifacts.require("ContributionReward.sol");
   const DaoCreator = artifacts.require("DaoCreator.sol");
-  // ExecutableTest is used only by tests
-  const ExecutableTest = artifacts.require("ExecutableTest.sol");
   const GlobalConstraintRegistrar = artifacts.require("GlobalConstraintRegistrar.sol");
   const SchemeRegistrar = artifacts.require("SchemeRegistrar.sol");
-  const SimpleICO = artifacts.require("SimpleICO.sol");
-  const TokenCapGC = artifacts.require("TokenCapGC.sol");
   const UController = artifacts.require("UController.sol");
   const UpgradeScheme = artifacts.require("UpgradeScheme.sol");
-  const VestingScheme = artifacts.require("VestingScheme.sol");
-  const VoteInOrganizationScheme = artifacts.require("VoteInOrganizationScheme.sol");
   const GenesisProtocol = artifacts.require("GenesisProtocol.sol");
   const ControllerCreator = artifacts.require("ControllerCreator.sol");
 
@@ -93,7 +89,7 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
     let gasAmount = (await promisify((callback: any) => web3.eth.getBlock("latest", false, callback))() as any).gasLimit;
     gasAmount -= 50000;
 
-    console.log(`Deploying to ${network}, gasLimit: ${gasAmount}, ${founders.length} founders`);
+    console.log(`Deploying ${orgName} to ${network}, gasLimit: ${gasAmount}`);
 
     await deployer.deploy(ControllerCreator, { gas: gasAmount });
     const controllerCreator = await ControllerCreator.deployed();
@@ -102,10 +98,13 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
 
     await deployer.deploy(UController, { gas: gasAmount });
     const universalControllerInst = await UController.deployed();
+
+    console.log(`Forging ${orgName} with ${founders.length} founders...`);
+
     /**
      * Create the Genesis DAO
      */
-    const tx = await daoCreatorInst.forgeOrg(
+    const txForgeOrg = await daoCreatorInst.forgeOrg(
       orgName,
       tokenName,
       tokenSymbol,
@@ -116,6 +115,7 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
       web3.toWei(100000000), // token cap of one hundred million GEN, in Wei
       { gas: gasAmount });
 
+<<<<<<< master:lib/migrations/2_deploy_organization.ts
     // maximize chances that Avatar.at will succeed
     if (network === "live") {
       await UtilsInternal.sleep(60000);
@@ -138,20 +138,12 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
      * Genesis schemes do.
      */
     await deployer.deploy(GenesisProtocol, genTokenAddress, { gas: gasAmount });
+=======
+>>>>>>> split migration scripts:lib/migrations/3_deploy_organization.ts
     const genesisProtocolInst = await GenesisProtocol.deployed();
-    /**
-     * The rest of the Genesis DAO's schemes
-     */
-    await deployer.deploy(SchemeRegistrar, { gas: gasAmount });
     const schemeRegistrarInst = await SchemeRegistrar.deployed();
-
-    await deployer.deploy(UpgradeScheme, { gas: gasAmount });
     const upgradeSchemeInst = await UpgradeScheme.deployed();
-
-    await deployer.deploy(GlobalConstraintRegistrar, { gas: gasAmount });
     const globalConstraintRegistrarInst = await GlobalConstraintRegistrar.deployed();
-
-    await deployer.deploy(ContributionReward, { gas: gasAmount });
     const contributionRewardInst = await ContributionReward.deployed();
     /**
      * Set/get the GenesisProtocol voting parameters that will be used as defaults
@@ -235,22 +227,14 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
       genesisProtocolPermissions,
     ];
 
+    const AvatarInst = await Avatar.at(txForgeOrg.logs[0].args._avatar);
+
+    console.log(`Setting schemes on ${orgName}...`);
+
     await daoCreatorInst.setSchemes(
       AvatarInst.address,
       schemesArray,
       paramsArray,
       permissionArray);
-
-    /**
-     * Deploy the other universal schemes, voting machines and global constraints
-     */
-    await deployer.deploy(AbsoluteVote, { gas: gasAmount });
-    await deployer.deploy(SimpleICO, { gas: gasAmount });
-    await deployer.deploy(TokenCapGC, { gas: gasAmount });
-    await deployer.deploy(VestingScheme, { gas: gasAmount });
-    await deployer.deploy(VoteInOrganizationScheme, { gas: gasAmount });
-    if (network !== "live") {
-      await deployer.deploy(ExecutableTest, { gas: gasAmount });
-    }
   });
 };
