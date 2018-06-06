@@ -1,6 +1,7 @@
 import { BigNumber } from "bignumber.js";
 import { promisify } from "es6-promisify";
 import { Address } from "./commonTypes";
+import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
 
 /**
@@ -28,14 +29,21 @@ export class AvatarService {
   }
 
   /**
-   * Returns promise of the Avatar TruffleContract
+   * Returns promise of the Avatar TruffleContract.
+   * Returns undefined if not found.
    */
   public async getAvatar(): Promise<any> {
     if (!this.avatar) {
       const Avatar = await Utils.requireContract("Avatar");
-      this.avatar = await Avatar.at(this.avatarAddress);
+      return Avatar.at(this.avatarAddress)
+        .then((avatar: any) => avatar) // only way to get to catch
+
+        /* have to handle the catch or promise rejection goes unhandled */
+        .catch((ex: Error) => {
+          LoggingService.error(`AvatarService: unable to load avatar at ${this.avatarAddress}: ${ex.message}`);
+          return undefined;
+        });
     }
-    return this.avatar;
   }
 
   /**
@@ -44,7 +52,9 @@ export class AvatarService {
   public async getControllerAddress(): Promise<string> {
     if (!this.controllerAddress) {
       const avatar = await this.getAvatar();
-      this.controllerAddress = await avatar.owner();
+      if (avatar) {
+        this.controllerAddress = await avatar.owner();
+      }
     }
     return this.controllerAddress;
   }
@@ -58,17 +68,19 @@ export class AvatarService {
 
     if (!this.controller) {
       const controllerAddress = await this.getControllerAddress();
-      /**
-       * TODO:  check for previous and future versions of UController here
-       */
-      const UControllerContract = await Utils.requireContract("UController");
-      const ControllerContract = await Utils.requireContract("Controller");
-      const uControllerAddress = (await UControllerContract.deployed()).address;
+      if (controllerAddress) {
+        /**
+         * TODO:  check for previous and future versions of UController here
+         */
+        const UControllerContract = await Utils.requireContract("UController");
+        const ControllerContract = await Utils.requireContract("Controller");
+        const uControllerAddress = (await UControllerContract.deployed()).address;
 
-      this.isUController = uControllerAddress === controllerAddress;
-      this.controller = this.isUController ?
-        await UControllerContract.at(controllerAddress) :
-        await ControllerContract.at(controllerAddress);
+        this.isUController = uControllerAddress === controllerAddress;
+        this.controller = this.isUController ?
+          await UControllerContract.at(controllerAddress) :
+          await ControllerContract.at(controllerAddress);
+      }
     }
     return this.controller;
   }
@@ -79,7 +91,9 @@ export class AvatarService {
   public async getNativeReputationAddress(): Promise<string> {
     if (!this.nativeReputationAddress) {
       const avatar = await this.getAvatar();
-      this.nativeReputationAddress = await avatar.nativeReputation();
+      if (avatar) {
+        this.nativeReputationAddress = await avatar.nativeReputation();
+      }
     }
     return this.nativeReputationAddress;
   }
@@ -90,8 +104,10 @@ export class AvatarService {
   public async getNativeReputation(): Promise<any> {
     if (!this.nativeReputation) {
       const reputationAddress = await this.getNativeReputationAddress();
-      const Reputation = await Utils.requireContract("Reputation");
-      this.nativeReputation = await Reputation.at(reputationAddress);
+      if (reputationAddress) {
+        const Reputation = await Utils.requireContract("Reputation");
+        this.nativeReputation = await Reputation.at(reputationAddress);
+      }
     }
     return this.nativeReputation;
   }
@@ -102,7 +118,9 @@ export class AvatarService {
   public async getNativeTokenAddress(): Promise<string> {
     if (!this.nativeTokenAddress) {
       const avatar = await this.getAvatar();
-      this.nativeTokenAddress = await avatar.nativeToken();
+      if (avatar) {
+        this.nativeTokenAddress = await avatar.nativeToken();
+      }
     }
     return this.nativeTokenAddress;
   }
@@ -114,7 +132,9 @@ export class AvatarService {
   public async getNativeToken(): Promise<any> {
     if (!this.nativeToken) {
       const tokenAddress = await this.getNativeTokenAddress();
-      this.nativeToken = await (await Utils.requireContract("DAOToken")).at(tokenAddress) as any;
+      if (tokenAddress) {
+        this.nativeToken = await (await Utils.requireContract("DAOToken")).at(tokenAddress) as any;
+      }
     }
     return this.nativeToken;
   }
@@ -129,9 +149,14 @@ export class AvatarService {
     if (!tokenAddress) {
       token = await this.getNativeToken();
     } else {
-      token = await (await Utils.requireContract("StandardToken")).at(tokenAddress) as any;
+      token = await (await Utils.requireContract("StandardToken")).at(tokenAddress)
+        .then((theToken: any) => theToken) // only way to get to catch
+        .catch((ex: Error) => {
+          LoggingService.error(`AvatarService:  unable to load token at ${tokenAddress}: ${ex}`);
+          return undefined;
+        });
     }
-    return token.balanceOf(this.avatarAddress);
+    return token ? token.balanceOf(this.avatarAddress) : Promise.resolve(undefined);
   }
 
   /**
