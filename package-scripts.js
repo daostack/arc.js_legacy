@@ -16,7 +16,7 @@ const runningInRepo = fs.existsSync(".git");
 /**
  * environment variables you can use to configure stuff like migrateContracts
  */
-const pathArcJsRoot = env.pathArcJsRoot || cwd;
+const pathArcJsRoot = cwd;
 
 const pathNodeModules = runningInRepo ? joinPath(".", "node_modules") : joinPath("..", "..", "node_modules");
 
