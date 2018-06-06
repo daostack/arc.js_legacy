@@ -28,19 +28,18 @@ interface FounderSpec {
 export const arcJsDeployer = (
   web3: Web3,
   artifacts: any,
-  deployer: any,
-  production: boolean): void => {
+  deployer: any): void => {
 
   // so Utils.getWeb3 can find it
   (global as any).web3 = web3;
 
   const network = env.arcjs_network || "ganache";
-
+  const live = network === "live";
   /**
    * Genesis DAO parameters, FOR TESTING PURPOSES ONLY
    */
-  const orgName = production ? "Genesis" : "Genesis Alpha";
-  const tokenName = production ? "Genesis" : "Genesis Alpha";
+  const orgName = live ? "Genesis" : "Genesis Alpha";
+  const tokenName = live ? "Genesis" : "Genesis Alpha";
   const tokenSymbol = "GDT";
 
   /**
@@ -107,7 +106,7 @@ export const arcJsDeployer = (
     /**
      * save info for later steps
      */
-    if (network === "live") {
+    if (live) {
       Utils.sleep(10000); // maximize chances this is ready
     }
 

@@ -7,7 +7,7 @@ const arcJsDeployer = require("../dist/migrations/2_deploy_forgeOrg").arcJsDeplo
  */
 module.exports = (deployer) => {
   try {
-    arcJsDeployer(web3, artifacts, deployer, false);
+    arcJsDeployer(web3, artifacts, deployer);
   } catch (ex) {
     console.log(ex);
   }
