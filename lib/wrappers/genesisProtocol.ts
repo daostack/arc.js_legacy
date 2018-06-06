@@ -977,6 +977,15 @@ export class GenesisProtocolWrapper extends ContractWrapperBase implements Schem
     };
   }
 
+  /**
+   * Return the staking token address.
+   * @returns Promise<Address>
+   */
+  public async getStakingToken(): Promise<any> {
+    const tokenAddress = await this.contract.stakingToken();
+    return (await Utils.requireContract("StandardToken")).at(tokenAddress);
+  }
+
   private async _validateVote(vote: number, proposalId: Hash): Promise<void> {
     const numChoices = await this.getNumberOfChoices({ proposalId });
     if (!Number.isInteger(vote) || (vote < 0) || (vote > numChoices)) {

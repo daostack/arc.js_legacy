@@ -1,4 +1,4 @@
-const arcJsDeployer = require("../dist/migrations/3_deploy_organization").arcJsDeployer;
+const arcJsDeployer = require("../dist/migrations/2_deploy_forgeOrg").arcJsDeployer;
 
 /* eslint-disable no-console */
 
@@ -7,7 +7,7 @@ const arcJsDeployer = require("../dist/migrations/3_deploy_organization").arcJsD
  */
 module.exports = (deployer) => {
   try {
-    arcJsDeployer(web3, artifacts, deployer);
+    arcJsDeployer(web3, artifacts, deployer, false);
   } catch (ex) {
     console.log(ex);
   }

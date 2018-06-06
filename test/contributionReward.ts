@@ -207,7 +207,7 @@ describe("ContributionReward scheme", () => {
     // this will mine a block, allowing the award to be redeemed
     await helpers.increaseTime(1);
 
-    await helpers.transferTokensToDao(dao, 10, undefined, externalToken);
+    await helpers.transferTokensToDao(dao, 10, accounts[0], externalToken);
 
     const rewards = await scheme.getBeneficiaryRewards({
       avatar: dao.avatar.address,

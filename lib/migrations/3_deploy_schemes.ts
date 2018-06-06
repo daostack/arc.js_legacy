@@ -1,26 +1,29 @@
-import { promisify } from "es6-promisify";
 import { Web3 } from "web3";
-/* tslint:disable:no-var-requires */
-const env = require("env-variable")();
+import { MigrationState } from "./migrationTypes";
 
 /* tslint:disable:no-console */
+/* tslint:disable:max-line-length */
 
 /**
  * Migration callback
  */
-export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void => {
+export const arcJsDeployer = (
+  web3: Web3,
+  artifacts: any,
+  deployer: any,
+  migrationState: MigrationState): void => {
 
   // so Utils.getWeb3 can find it
   (global as any).web3 = web3;
 
-  const network = env.arcjs_network || "ganache";
+  const network = migrationState.network;
+  const gasLimit = migrationState.gasLimit;
 
   /**
    * Truffle Solidity artifact wrappers
    */
   const AbsoluteVote = artifacts.require("AbsoluteVote.sol");
   const ContributionReward = artifacts.require("ContributionReward.sol");
-  const DAOToken = artifacts.require("DAOToken.sol");
   // ExecutableTest is used only by tests
   const ExecutableTest = artifacts.require("ExecutableTest.sol");
   const GlobalConstraintRegistrar = artifacts.require("GlobalConstraintRegistrar.sol");
@@ -37,34 +40,31 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
    *  https://github.com/trufflesuite/truffle/issues/501#issuecomment-332589663
    */
   deployer.then(async () => {
-    let gasAmount =
-      (await promisify((callback: any) => web3.eth.getBlock("latest", false, callback))() as any).gasLimit;
-    gasAmount -= 50000;
 
-    console.log(`Deploying schemes to ${network}, gasLimit: ${gasAmount}`);
+    console.log(`Deploying schemes to ${network}, gasLimit: ${gasLimit}`);
 
     let genTokenAddress;
 
     if ((network !== "live") && (network !== "kovan")) {
-      genTokenAddress = (await DAOToken.new("GENISIS", "GEN", 0)).address;
-      console.log(`Using new GEN token for staking on network ${network} at: ${genTokenAddress}`);
+      genTokenAddress = migrationState.nativeTokenAddress;
+      console.log(`Using Genesis native token from ${migrationState.orgName} for staking on network ${network} at: ${genTokenAddress}`);
     } else {
       // the global GEN token
       genTokenAddress = "0x543Ff227F64Aa17eA132Bf9886cAb5DB55DCAddf";
       console.log(`Using global GEN token for staking on network ${network} at: ${genTokenAddress}`);
     }
-    await deployer.deploy(GenesisProtocol, genTokenAddress, { gas: gasAmount });
-    await deployer.deploy(SchemeRegistrar, { gas: gasAmount });
-    await deployer.deploy(UpgradeScheme, { gas: gasAmount });
-    await deployer.deploy(GlobalConstraintRegistrar, { gas: gasAmount });
-    await deployer.deploy(ContributionReward, { gas: gasAmount });
-    await deployer.deploy(AbsoluteVote, { gas: gasAmount });
-    await deployer.deploy(SimpleICO, { gas: gasAmount });
-    await deployer.deploy(TokenCapGC, { gas: gasAmount });
-    await deployer.deploy(VestingScheme, { gas: gasAmount });
-    await deployer.deploy(VoteInOrganizationScheme, { gas: gasAmount });
+    await deployer.deploy(GenesisProtocol, genTokenAddress, { gas: gasLimit });
+    await deployer.deploy(SchemeRegistrar, { gas: gasLimit });
+    await deployer.deploy(UpgradeScheme, { gas: gasLimit });
+    await deployer.deploy(GlobalConstraintRegistrar, { gas: gasLimit });
+    await deployer.deploy(ContributionReward, { gas: gasLimit });
+    await deployer.deploy(AbsoluteVote, { gas: gasLimit });
+    await deployer.deploy(SimpleICO, { gas: gasLimit });
+    await deployer.deploy(TokenCapGC, { gas: gasLimit });
+    await deployer.deploy(VestingScheme, { gas: gasLimit });
+    await deployer.deploy(VoteInOrganizationScheme, { gas: gasLimit });
     if (network !== "live") {
-      await deployer.deploy(ExecutableTest, { gas: gasAmount });
+      await deployer.deploy(ExecutableTest, { gas: gasLimit });
     }
   });
 };

@@ -235,11 +235,10 @@ export async function getDaoScheme(
  * Transfer tokens
  * @param {DAO} dao
  * @param {number} amount - will be converted to Wei
- * @param {string} fromAddress - optional, default is accounts[0]
+ * @param {string} fromAddress - transfer from this account
  * @param {string} token - token contract.  optional, default is dao.token
  */
 export function transferTokensToDao(dao: DAO, amount: number, fromAddress: Address, token: any): Promise<any> {
-  fromAddress = fromAddress || accounts[0];
   token = token ? token : dao.token;
   return token.transfer(dao.avatar.address, web3.toWei(amount), { from: fromAddress });
 }
