@@ -13,9 +13,6 @@ const config = require("./config/default.json");
 const computeGasLimit = require("./gasLimits.js").computeGasLimit;
 
 const runningInRepo = fs.existsSync(".git");
-/**
- * environment variables you can use to configure stuff like migrateContracts
- */
 const pathArcJsRoot = cwd;
 
 const pathNodeModules = runningInRepo ? joinPath(".", "node_modules") : joinPath("..", "..", "node_modules");
