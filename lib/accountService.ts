@@ -18,17 +18,6 @@ export class AccountService {
    *
    * `AccountService.subscribeToAccountChanges((account: Address) => { [reload appropriately] });`
    *
-   * When the account changes your callback should refresh your entire web application, or at minimum
-   * refresh the Wrapperservice.
-   *
-   * You could refresh your web application like this:
-   *
-   * `window.location.reload();`
-   *
-   * Or just refresh the WrapperService like this:
-   *
-   * `await WrapperService.initialize(options);`
-   *
    * @param web3
    */
   public static async initiateAccountWatch(): Promise<void> {
