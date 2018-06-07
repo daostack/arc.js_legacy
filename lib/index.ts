@@ -1,5 +1,6 @@
 /* tslint:disable-next-line:no-reference */
 /// <reference path="../custom_typings/web3.d.ts" />
+export * from "./accountService";
 export * from "./avatarService";
 export * from "./commonTypes";
 export * from "./configService";
@@ -36,6 +37,7 @@ import { ConfigService } from "./configService";
 import { LoggingService, LogLevel } from "./loggingService";
 import { Utils } from "./utils";
 import { WrapperService, WrapperServiceInitializeOptions } from "./wrapperService";
+import { AccountService } from './accountService';
 
 /* tslint:disable-next-line:no-empty-interface */
 export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
@@ -44,6 +46,11 @@ export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
    * Overwrites config settings network, providerUrl and providerPort.
    */
   useNetworkDefaultsFor?: string;
+  /**
+   * Set to true to watch for changes in the current user account.
+   * Default is false.  See [AccountService.AccountChangedEventTopic](api/classes/AccountService#initiateAccountWatch).
+   */
+  watchForAccountChanges?: boolean;
 }
 /**
  * initialize() must be called before doing anything with Arc.js.
@@ -65,6 +72,11 @@ export async function InitializeArcJs(options?: InitializeArcOptions): Promise<W
 
     const web3 = await Utils.getWeb3();
     await WrapperService.initialize(options);
+
+    if (options.watchForAccountChanges) {
+      await AccountService.initiateAccountWatch();
+    }
+
     return web3;
   } catch (ex) {
     /* tslint:disable-next-line:no-bitwise */
