@@ -2,8 +2,8 @@
 import { assert } from "chai";
 import { DefaultSchemePermissions } from "../lib/commonTypes";
 import { ConfigService } from "../lib/configService";
-import { LoggingService } from "../lib/loggingService";
 import { InitializeArcJs } from "../lib/index";
+import { LoggingService } from "../lib/loggingService";
 import { TestWrapperFactory } from "../lib/test/wrappers/testWrapper";
 import { Utils } from "../lib/utils";
 import { WrapperService } from "../lib/wrapperService";

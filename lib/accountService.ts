@@ -1,7 +1,7 @@
 import { Address } from "./commonTypes";
 import { EventService, IEventSubscription } from "./eventService";
+import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
-import { LoggingService } from './loggingService';
 
 export class AccountService {
 

@@ -33,11 +33,11 @@ export * from "./utils";
 export const computeGasLimit: any = require("../gasLimits.js").computeGasLimit;
 
 import { Web3 } from "web3";
+import { AccountService } from "./accountService";
 import { ConfigService } from "./configService";
 import { LoggingService, LogLevel } from "./loggingService";
 import { Utils } from "./utils";
 import { WrapperService, WrapperServiceInitializeOptions } from "./wrapperService";
-import { AccountService } from './accountService';
 
 /* tslint:disable-next-line:no-empty-interface */
 export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
