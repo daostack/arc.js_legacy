@@ -73,7 +73,7 @@ export async function InitializeArcJs(options?: InitializeArcOptions): Promise<W
     const web3 = await Utils.getWeb3();
     await WrapperService.initialize(options);
 
-    if (options.watchForAccountChanges) {
+    if (options && options.watchForAccountChanges) {
       await AccountService.initiateAccountWatch();
     }
 

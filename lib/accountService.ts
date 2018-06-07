@@ -1,10 +1,11 @@
 import { Address } from "./commonTypes";
 import { EventService, IEventSubscription } from "./eventService";
 import { Utils } from "./utils";
+import { LoggingService } from './loggingService';
 
 export class AccountService {
 
-  public static AccountChangedEventTopic: string = "account.changed";
+  public static AccountChangedEventTopic: string = "AccountService.account.changed";
 
   /**
    * Publish the `AccountService.AccountChangedEventTopic` event whenever the
@@ -36,6 +37,8 @@ export class AccountService {
       return;
     }
 
+    LoggingService.info("Initiating account watch");
+
     if (!AccountService.currentAccount) {
       try {
         AccountService.currentAccount = await Utils.getDefaultAccount();
@@ -44,7 +47,7 @@ export class AccountService {
       }
     }
 
-    AccountService.accountChangedTimerId = setTimeout(async () => {
+    AccountService.accountChangedTimerId = setInterval(async () => {
 
       if (AccountService.accountChangedLock) {
         return; // prevent reentrance
@@ -60,10 +63,21 @@ export class AccountService {
       }
       if (currentAccount !== AccountService.currentAccount) {
         AccountService.currentAccount = currentAccount;
+        LoggingService.info(`Account watch: account changed: ${currentAccount}`);
         EventService.publish(AccountService.AccountChangedEventTopic, currentAccount);
       }
       AccountService.accountChangedLock = false;
     }, 1000);
+  }
+
+  /**
+   * stop watching for account changes
+   */
+  public static endAccountWatch(): void {
+    if (AccountService.accountChangedTimerId) {
+      clearInterval(AccountService.accountChangedTimerId);
+      AccountService.accountChangedTimerId = undefined;
+    }
   }
 
   public static subscribeToAccountChanges(callback: (address: Address) => void): IEventSubscription {
