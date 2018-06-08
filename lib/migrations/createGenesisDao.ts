@@ -29,7 +29,7 @@ interface FounderSpec {
   reputation: string | number;
 }
 
-export interface DaoCreationState {
+export interface ForgedDaoInfo {
   avatarAddress: Address;
   orgName: string;
   daoCreatorInst: any;
@@ -48,7 +48,7 @@ export class GenesisDaoCreator {
   /**
    * Forge the Genesis DAO.  Note this does not set the schemes.
    */
-  public async forge(foundersConfigurationLocation: string): Promise<DaoCreationState> {
+  public async forge(foundersConfigurationLocation: string): Promise<ForgedDaoInfo> {
 
     const live = this.network === "live";
     /**
@@ -119,12 +119,12 @@ export class GenesisDaoCreator {
     /** for use by setSchemes */
     return {
       avatarAddress: avatarInst.address,
+      daoCreatorInst,
       orgName,
-      daoCreatorInst
-    } as DaoCreationState;
+    } as ForgedDaoInfo;
   }
 
-  public async setSchemes(daoCreationState: DaoCreationState): Promise<void> {
+  public async setSchemes(forgedDaoInfo: ForgedDaoInfo): Promise<void> {
 
     /**
      * Truffle Solidity artifact wrappers
@@ -146,7 +146,7 @@ export class GenesisDaoCreator {
     const contributionRewardPermissions = SchemePermissions.toString(DefaultSchemePermissions.ContributionReward);
     const genesisProtocolPermissions = SchemePermissions.toString(DefaultSchemePermissions.GenesisProtocol);
 
-    console.log(`Setting schemes for ${daoCreationState.orgName} on ${this.network}...`);
+    console.log(`Setting schemes for ${forgedDaoInfo.orgName} on ${this.network}...`);
 
     const genesisProtocolInst = await GenesisProtocol.deployed();
     const schemeRegistrarInst = await SchemeRegistrar.deployed();
@@ -236,10 +236,10 @@ export class GenesisDaoCreator {
       genesisProtocolPermissions,
     ];
 
-    const daoCreatorInst = daoCreationState.daoCreatorInst;
+    const daoCreatorInst = forgedDaoInfo.daoCreatorInst;
 
     return daoCreatorInst.setSchemes(
-      daoCreationState.avatarAddress,
+      forgedDaoInfo.avatarAddress,
       schemesArray,
       paramsArray,
       permissionArray);
