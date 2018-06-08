@@ -1,8 +1,8 @@
 import { Web3 } from "web3";
 import { DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
+import { Address } from "../commonTypes";
 import { Utils } from "../utils";
 import { GetDefaultGenesisProtocolParameters } from "../wrappers/genesisProtocol";
-import { Address } from "../commonTypes";
 
 /* tslint:disable-next-line:no-var-requires */
 const gasLimits: any = require("../../gasLimits.js");
