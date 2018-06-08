@@ -1,6 +1,6 @@
 "use strict";
 import * as BigNumber from "bignumber.js";
-import { computeGasLimit } from "../../gasLimits.js";
+import { computeForgeOrgGasLimit } from "../../gasLimits.js";
 import { AvatarService } from "../avatarService";
 import { Address, DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
 import { ConfigService } from "../configService";
@@ -69,7 +69,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       controllerAddress = 0;
     }
 
-    const totalGas = computeGasLimit(options.founders.length);
+    const totalGas = computeForgeOrgGasLimit(options.founders.length);
 
     this.logContractFunctionCall("DaoCreator.forgeOrg", options);
 

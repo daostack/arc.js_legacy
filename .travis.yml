@@ -17,7 +17,7 @@ install:
   - npm install
   - nohup npm start ganache &
   - npm start migrateContracts.fetchFromArc
-  - npm start migrateContracts
+  - npm start migrateContracts.andCreateGenesisDao
   
 script:
   - npm start lint

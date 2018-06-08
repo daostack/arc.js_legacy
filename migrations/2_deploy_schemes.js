@@ -1,4 +1,4 @@
-const arcJsDeployer = require("../dist/migrations/2_deploy_forgeOrg").arcJsDeployer;
+const arcJsDeployer = require("../dist/migrations/2_deploy_schemes").arcJsDeployer;
 
 /* eslint-disable no-console */
 
