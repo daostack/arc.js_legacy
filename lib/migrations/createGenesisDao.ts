@@ -32,6 +32,7 @@ interface FounderSpec {
 export interface DaoCreationState {
   avatarAddress: Address;
   orgName: string;
+  daoCreatorInst: any;
 }
 
 /**
@@ -119,6 +120,7 @@ export class GenesisDaoCreator {
     return {
       avatarAddress: avatarInst.address,
       orgName,
+      daoCreatorInst
     } as DaoCreationState;
   }
 
@@ -132,7 +134,6 @@ export class GenesisDaoCreator {
     const SchemeRegistrar = await Utils.requireContract("SchemeRegistrar");
     const UpgradeScheme = await Utils.requireContract("UpgradeScheme");
     const GenesisProtocol = await Utils.requireContract("GenesisProtocol");
-    const DaoCreator = await Utils.requireContract("DaoCreator");
 
     /**
      *  Genesis DAO parameters
@@ -235,7 +236,7 @@ export class GenesisDaoCreator {
       genesisProtocolPermissions,
     ];
 
-    const daoCreatorInst = await DaoCreator.deployed();
+    const daoCreatorInst = daoCreationState.daoCreatorInst;
 
     return daoCreatorInst.setSchemes(
       daoCreationState.avatarAddress,
