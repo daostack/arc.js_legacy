@@ -135,7 +135,7 @@ export class GenesisDaoCreator {
     const DaoCreator = await Utils.requireContract("DaoCreator");
 
     /**
-     *  Genesis DAO parameters,  FOR TESTING PURPOSES ONLY
+     *  Genesis DAO parameters
      */
     const orgNativeTokenFee = 0;
     const defaultVotingMachineParams = await GetDefaultGenesisProtocolParameters();
