@@ -8,15 +8,14 @@ export class AccountService {
   public static AccountChangedEventTopic: string = "AccountService.account.changed";
 
   /**
-   * Publish the `AccountService.AccountChangedEventTopic` event whenever the
-   * current default account changes.
+   * Initializes the system that watches for default account changes.
    *
-   * This method is called automatically by Arc.js when you pass `true` for `watchForAccountChanges`
-   * to `InitializeArcJs`.  You may also call it manually yourself.
+   * `initiateAccountWatch` is called automatically by Arc.js when you pass `true`
+   * for `watchForAccountChanges` to `InitializeArcJs`.  You may also call it manually yourself.
    *
-   * You may subscribe to the `AccountService.AccountChangedEventTopic` event as follows:
+   * Then you may request to be notified whenever the current account changes by calling
+   * [AccountService.subscribeToAccountChanges](/api/classes/AccountService#subscribeToAccountChanges)
    *
-   * `AccountService.subscribeToAccountChanges((account: Address) => { [reload appropriately] });`
    *
    * @param web3
    */
@@ -60,7 +59,7 @@ export class AccountService {
   }
 
   /**
-   * stop watching for account changes
+   * Turn off the system that watches for default account changes.
    */
   public static endAccountWatch(): void {
     if (AccountService.accountChangedTimerId) {
@@ -69,6 +68,14 @@ export class AccountService {
     }
   }
 
+  /**
+   * Subscribe to be notified whenever the current account changes, like this:
+   * ```typescript
+   * AccountService.subscribeToAccountChanges((account: Address) => { ... });`
+   * ```
+   * @param callback
+   * @returns A subscription to the event.  Unsubscribe by calling `[theSubscription].unsubscribe()`.
+   */
   public static subscribeToAccountChanges(callback: (address: Address) => void): IEventSubscription {
     return EventService.subscribe(AccountService.AccountChangedEventTopic,
       (topic: string, address: Address): any => callback(address));

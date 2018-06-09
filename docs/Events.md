@@ -9,8 +9,15 @@ All of the Arc.js contract wrapper classes expose the contract's events that loo
 
 ## Arc.js Pub/Sub Events
 
-Arc.js has a pub/sub event system accessible using the [EventService](api/classes/EventService).  You can use a subclass of [EventService](api/classes/EventService) called [TransactionService](api/classes/TransactionService) to track transactions as they complete.
+Arc.js has a pub/sub event system implemented by [EventService](api/classes/EventService).
 
+Uses of pub/sub events:
+
+* Track transactions as they complete  (see [Tracking Transactions](#tracktxs)).
+
+* Be notified whenever the current account changes (see [Account Changes](#accountchanges)).
+
+<a name="tracktxs"></a>
 ### Tracking Transactions
 
 Many Arc.js functions cause transactions to occur in the chain.  Each transaction requires manual attention from the application user, and depending on the speed of the net, there may be substantial delays between each transaction and before all of the transactions in a given function have completed. So you may wish to give the user a visual sense of progress as a function proceeds towards completion.
@@ -54,6 +61,10 @@ to generate a unique invocationKey.  Every call to `generateInvocationKey` gener
 
 !!! note
     `txEventInfo.options` will usually contain the options you passed in, with default values added.  But in the case of `DAO.new`, it will not contain the default values.  If you need the default values then instead of subscribing to "txReceipts.DAO.new" you can subscribe to "txReceipts.DaoCreator" and receive events published by  [DaoCreatorWrapper.forgeOrg](api/classes/DaoCreatorWrapper#forgeOrg) and [DaoCreatorWrapper.setSchemes](api/classes/DaoCreatorWrapper#setSchemes).  Currently this would otherwise be the same as subscribing to "txReceipts.DAO.new", though it cannot be guaranteed it will always be the case in future versions of Arc.js.
+
+<a name="accountchanges"></a>
+### Account Changes
+You can subscribe to an event that is published whenever the current account changes. See [InitializeArcOptions.watchForAccountChanges](/api/interfaces/InitializeArcOptions#watchForAccountChanges).
 
 ### Specifying Events
 You specify which event to which you wish to subscribe using a string as an event specifier (or in the code, the event "topic").  The event specifier typically incorporates an Arc contract name which will map to events published by a wrapper class for that contract.  For example, the event specifier "txReceipts.DaoCreator" refers to "txReceipts" events published by [DaoCreatorWrapper](api/classes/DaoCreatorWrapper).

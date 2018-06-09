@@ -39,7 +39,9 @@ import { LoggingService, LogLevel } from "./loggingService";
 import { Utils } from "./utils";
 import { WrapperService, WrapperServiceInitializeOptions } from "./wrapperService";
 
-/* tslint:disable-next-line:no-empty-interface */
+/**
+ * Options for [InitializeArcJs](/api/README/#initializearcjs)
+ */
 export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
   /**
    * Name of the network for which to use the defaults found in Arc.js/truffle.js.
@@ -48,12 +50,14 @@ export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
   useNetworkDefaultsFor?: string;
   /**
    * Set to true to watch for changes in the current user account.
-   * Default is false.  See [AccountService.AccountChangedEventTopic](api/classes/AccountService#initiateAccountWatch).
+   * Default is false.  See [AccountService.initiateAccountWatch](/api/classes/AccountService#initiateAccountWatch).
    */
   watchForAccountChanges?: boolean;
 }
 /**
- * initialize() must be called before doing anything with Arc.js.
+ * You must call `InitializeArcJs` before doing anything else with Arc.js.
+ * Call it again whenever the current chain changes.
+ * @returns Promise of the `Web3` object for the current chain.
  */
 export async function InitializeArcJs(options?: InitializeArcOptions): Promise<Web3> {
   LoggingService.info("Initializing Arc.js");
