@@ -64,7 +64,7 @@ to generate a unique invocationKey.  Every call to `generateInvocationKey` gener
 
 <a name="accountchanges"></a>
 ### Account Changes
-You can subscribe to an event that is published whenever the current account changes. See [InitializeArcOptions.watchForAccountChanges](/api/interfaces/InitializeArcOptions#watchForAccountChanges).
+You can be notified whenever the current account changes by setting [InitializeArcOptions.watchForAccountChanges](/api/interfaces/InitializeArcOptions#watchForAccountChanges) to `true` when you call [InitializeArcJs](/api/README/#initializearcjs), and then by calling [subscribeToAccountChanges](/api/classes/accountService#subscribeToAccountChanges). For more information, see [AccountService](/api/classes/accountService).
 
 ### Specifying Events
 You specify which event to which you wish to subscribe using a string as an event specifier (or in the code, the event "topic").  The event specifier typically incorporates an Arc contract name which will map to events published by a wrapper class for that contract.  For example, the event specifier "txReceipts.DaoCreator" refers to "txReceipts" events published by [DaoCreatorWrapper](api/classes/DaoCreatorWrapper).
