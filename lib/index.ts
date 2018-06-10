@@ -1,5 +1,6 @@
 /* tslint:disable-next-line:no-reference */
 /// <reference path="../custom_typings/web3.d.ts" />
+export * from "./accountService";
 export * from "./avatarService";
 export * from "./commonTypes";
 export * from "./configService";
@@ -32,21 +33,31 @@ export * from "./utils";
 export const computeGasLimit: any = require("../gasLimits.js").computeGasLimit;
 
 import { Web3 } from "web3";
+import { AccountService } from "./accountService";
 import { ConfigService } from "./configService";
 import { LoggingService, LogLevel } from "./loggingService";
 import { Utils } from "./utils";
 import { WrapperService, WrapperServiceInitializeOptions } from "./wrapperService";
 
-/* tslint:disable-next-line:no-empty-interface */
+/**
+ * Options for [InitializeArcJs](/api/README/#initializearcjs)
+ */
 export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
   /**
    * Name of the network for which to use the defaults found in Arc.js/truffle.js.
    * Overwrites config settings network, providerUrl and providerPort.
    */
   useNetworkDefaultsFor?: string;
+  /**
+   * Set to true to watch for changes in the current user account.
+   * Default is false.  See [AccountService.initiateAccountWatch](/api/classes/AccountService#initiateAccountWatch).
+   */
+  watchForAccountChanges?: boolean;
 }
 /**
- * initialize() must be called before doing anything with Arc.js.
+ * You must call `InitializeArcJs` before doing anything else with Arc.js.
+ * Call it again whenever the current chain changes.
+ * @returns Promise of the `Web3` object for the current chain.
  */
 export async function InitializeArcJs(options?: InitializeArcOptions): Promise<Web3> {
   LoggingService.info("Initializing Arc.js");
@@ -65,6 +76,11 @@ export async function InitializeArcJs(options?: InitializeArcOptions): Promise<W
 
     const web3 = await Utils.getWeb3();
     await WrapperService.initialize(options);
+
+    if (options && options.watchForAccountChanges) {
+      await AccountService.initiateAccountWatch();
+    }
+
     return web3;
   } catch (ex) {
     /* tslint:disable-next-line:no-bitwise */

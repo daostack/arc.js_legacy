@@ -1,7 +1,7 @@
 import { promisify } from "es6-promisify";
 import { Web3 } from "web3";
 import { DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
-import { Utils } from "../utils";
+import { UtilsInternal } from "../utilsInternal";
 import { GetDefaultGenesisProtocolParameters } from "../wrappers/genesisProtocol";
 /* tslint:disable:no-var-requires */
 const env = require("env-variable")();
@@ -118,7 +118,7 @@ export const arcJsDeployer = (web3: Web3, artifacts: any, deployer: any): void =
 
     // maximize chances that Avatar.at will succeed
     if (network === "live") {
-      await Utils.sleep(60000);
+      await UtilsInternal.sleep(60000);
     }
 
     const AvatarInst = await Avatar.at(tx.logs[0].args._avatar);

@@ -6,6 +6,7 @@ import { DAO, NewDaoConfig } from "../lib/dao";
 import { ContractWrapperBase, ContractWrapperFactory, ContributionRewardWrapper, InitializeArcJs } from "../lib/index";
 import { LoggingService, LogLevel } from "../lib/loggingService";
 import { Utils } from "../lib/utils";
+import { UtilsInternal } from "../lib/utilsInternal";
 import { SchemeRegistrarFactory, SchemeRegistrarWrapper } from "../lib/wrappers/schemeRegistrar";
 import { ArcWrappers, WrapperService } from "../lib/wrapperService";
 
@@ -255,7 +256,7 @@ export function transferEthToDao(dao: DAO, amount: number, fromAddress?: Address
 }
 
 export function sleep(milliseconds: number): Promise<any> {
-  return Utils.sleep(milliseconds);
+  return UtilsInternal.sleep(milliseconds);
 }
 
 export function fromWei(amount: string | number | BigNumber): BigNumber {

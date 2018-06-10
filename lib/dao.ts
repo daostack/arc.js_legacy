@@ -63,20 +63,25 @@ export class DAO {
   }
 
   /**
-   * Returns the promise of a DAO at the given address.  Throws an exception if not found.
-   * @param avatarAddress The DAO's address
+   * Returns the promise of a DAO at the given address.  Returns undefined if not found.
+   * @param avatarAddress The DAO avatar's address
    */
   public static async at(avatarAddress: Address): Promise<DAO> {
-    const dao = new DAO();
-
+    let dao;
     const avatarService = new AvatarService(avatarAddress);
-    dao.avatar = await avatarService.getAvatar();
-    dao.controller = await avatarService.getController();
-    dao.hasUController = avatarService.isUController;
-    dao.token = await avatarService.getNativeToken();
-    dao.reputation = await avatarService.getNativeReputation();
+    const avatar = await avatarService.getAvatar();
 
-    return dao;
+    if (avatar) {
+      dao = new DAO();
+
+      dao.avatar = await avatarService.getAvatar();
+      dao.controller = await avatarService.getController();
+      dao.hasUController = avatarService.isUController;
+      dao.token = await avatarService.getNativeToken();
+      dao.reputation = await avatarService.getNativeReputation();
+
+      return dao;
+    }
   }
 
   /**
