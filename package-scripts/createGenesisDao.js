@@ -9,6 +9,15 @@ Utils.getWeb3()
 
     return createGenesisDao.forge(env.arcjs_foundersConfigurationLocation)
       .then((daoCreationState) => {
-        return createGenesisDao.setSchemes(daoCreationState);
+        return createGenesisDao.setSchemes(daoCreationState).then(() => {
+          console.log(`Successfully created ${daoCreationState.orgName}`);
+        })
+          .catch((ex) => {
+            console.log(`Error setting schemes: ${daoCreationState.orgName}: ${ex}`);
+          });
+      })
+      .catch((ex) => {
+        console.log(`Error forging org: ${ex}`);
       });
+    ;
   });

@@ -17,7 +17,7 @@ First you want to run Ganache with the appropriate flags that will create a data
 Then migrate the Arc contracts [review the full documentation on migrating contracts](Home.md#setting-up-a-testnet-with-arc-contracts):
 
 ```script
-   npm explore @daostack/arc.js -- npm start migrateContracts
+   npm explore @daostack/arc.js -- npm start ganacheDb.migrateContracts
 ```
 
 ## Terminate Ganache
