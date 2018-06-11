@@ -2,6 +2,7 @@ import { Web3 } from "web3";
 import { DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
 import { Address } from "../commonTypes";
 import { Utils } from "../utils";
+import { UtilsInternal } from "../utilsInternal";
 import { GetDefaultGenesisProtocolParameters } from "../wrappers/genesisProtocol";
 
 /* tslint:disable-next-line:no-var-requires */
@@ -111,7 +112,7 @@ export class GenesisDaoCreator {
      * save info for later steps
      */
     if (live) {
-      Utils.sleep(10000); // maximize chances this is ready
+      UtilsInternal.sleep(10000); // maximize chances this is ready
     }
 
     const avatarInst = await Avatar.at(txForgeOrg.logs[0].args._avatar);
