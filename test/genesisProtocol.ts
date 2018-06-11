@@ -108,7 +108,6 @@ describe("GenesisProtocol", () => {
   });
 
   it("can call getTokenBalances", async () => {
-    const genesisDao = await DAO.at(await DAO.getGenesisDao());
     const stakingToken = await genesisProtocol.getStakingToken();
 
     await helpers.transferTokensToDao(dao, 15, accounts[0], dao.token);

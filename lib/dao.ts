@@ -85,35 +85,6 @@ export class DAO {
   }
 
   /**
-   * Returns the promise of the DAOstack Genesis avatar address, or undefined if not found
-   */
-  public static async getGenesisDao(daoCreatorAddress?: Address): Promise<string> {
-    return new Promise<string>(
-      async (resolve: (address: Address) => void, reject: (ex: any) => void): Promise<void> => {
-        try {
-          const daoCreator =
-            daoCreatorAddress ?
-              await WrapperService.factories.DaoCreator.at(daoCreatorAddress) : WrapperService.wrappers.DaoCreator;
-          let avatarAddress;
-          const event = daoCreator.InitialSchemesSet({}, { fromBlock: 0 });
-          /**
-           * this first DAO returned will be DAOstack
-           */
-          event.get((err: any, log: Array<DecodedLogEntryEvent<InitialSchemesSetEventResult>>) => {
-            if (err) {
-              LoggingService.error(`getGenesisDao: Error obtaining Genesis Dao: ${err}`);
-              reject(err);
-            }
-            avatarAddress = log[0].args._avatar;
-            resolve(avatarAddress);
-          });
-        } catch (ex) {
-          reject(ex);
-        }
-      });
-  }
-
-  /**
    * Return a promise of an array of avatar addresses for all of the DAOs created by the optionally-given
    * DaoCreator contract.  The default DaoCreator is the one deployed by
    * the running version of Arc.js.

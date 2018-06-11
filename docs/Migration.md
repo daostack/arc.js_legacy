@@ -32,8 +32,10 @@ To deploy contracts to a specified network, follow these steps:
 
 5. run `npm start migrateContracts`, or from your application: `npm explore @daostack/arc.js -- npm start migrateContracts`.
 
-6. If you want to create the Genesis DAO then run `npm start migrateContracts.createGenesisDao`, or from your application: `npm explore @daostack/arc.js -- npm start migrateContracts.createGenesisDao`.
+6. Optional: If you want to create the Genesis DAO then run `npm start createGenesisDao`, or from your application: `npm explore @daostack/arc.js -- npm start createGenesisDao`.
 
+    !!!tip
+        If you want to migrate contracts and create the Genesis DAO all in a single script, you can run the script `migrateContracts.createGenesisDao`.
 
 ## Configuring Founders
 

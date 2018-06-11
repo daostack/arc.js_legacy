@@ -255,14 +255,6 @@ if (upgradeSchemeInfo.wrapper) {
 }
 ```
 
-### Get the DAOstack Genesis DAO
-
-The DAOstack DAO is named "Genesis".  Use [DAO.getGenesisDao](api/classes/DAO#getGenesisDao) to obtain its address like this:
-
-```javascript
-const genesisDaoAddress = await DAO.getGenesisDao();
-```
-
 ### Get all the DAOs
 
 You can obtain all of the DAOs that have been created by the DaoCreator that was deployed by the currently-running version of Arc.js:

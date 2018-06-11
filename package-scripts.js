@@ -47,8 +47,7 @@ module.exports = {
   scripts: {
     ganache: {
       default: "nps ganache.run",
-      run: ganacheCommand,
-      migrate: `nps migrateContracts.andCreateGenesisDao`
+      run: ganacheCommand
     },
     ganacheDb: {
       default: "nps ganacheDb.run",
@@ -64,8 +63,7 @@ module.exports = {
       restoreFromZip: series(
         "nps ganacheDb.clean",
         "nps ganacheDb.unzip"
-      ),
-      migrate: `nps migrateContracts.andCreateGenesisDao`
+      )
     },
     lint: {
       default: series(

@@ -19,5 +19,4 @@ Utils.getWeb3()
       .catch((ex) => {
         console.log(`Error forging org: ${ex}`);
       });
-    ;
   });
