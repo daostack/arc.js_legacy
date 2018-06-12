@@ -391,6 +391,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../classes/AccountService/" title="AccountService" class="md-nav__link">
+      AccountService
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../classes/ArcTransactionAgreementResult/" title="ArcTransactionAgreementResult" class="md-nav__link">
       ArcTransactionAgreementResult
     </a>
@@ -669,6 +681,18 @@
   <li class="md-nav__item">
     <a href="../../classes/Utils/" title="Utils" class="md-nav__link">
       Utils
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../classes/UtilsInternal/" title="UtilsInternal" class="md-nav__link">
+      UtilsInternal
     </a>
   </li>
 
@@ -1610,6 +1634,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#optional-watchforaccountchanges" title="«Optional» watchForAccountChanges" class="md-nav__link">
+    «Optional» watchForAccountChanges
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2280,6 +2311,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#optional-watchforaccountchanges" title="«Optional» watchForAccountChanges" class="md-nav__link">
+    «Optional» watchForAccountChanges
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2306,6 +2344,7 @@
                 
                 <p><a href="../../README/">API Reference</a> &gt; <a href="./">InitializeArcOptions</a></p>
 <h1 id="interface-initializearcoptions">Interface: InitializeArcOptions<a class="headerlink" href="#interface-initializearcoptions" title="Permanent link">&para;</a></h1>
+<p>Options for <a href="../../../api/README/#initializearcjs">InitializeArcJs</a></p>
 <h2 id="hierarchy">Hierarchy<a class="headerlink" href="#hierarchy" title="Permanent link">&para;</a></h2>
 <p><a href="../WrapperServiceInitializeOptions/">WrapperServiceInitializeOptions</a></p>
 <p><strong>↳ InitializeArcOptions</strong></p>
@@ -2314,14 +2353,20 @@
 <h3 id="optional-filter">«Optional» filter<a class="headerlink" href="#optional-filter" title="Permanent link">&para;</a></h3>
 <p><strong>●  filter</strong>:  <em><a href="../WrapperFilter/">WrapperFilter</a></em> </p>
 <p><em>Inherited from <a href="../WrapperServiceInitializeOptions/">WrapperServiceInitializeOptions</a>.<a href="../WrapperServiceInitializeOptions/#filter">filter</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/77005d4/lib/wrapperService.ts#L303">wrapperService.ts:303</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/wrapperService.ts#L303">wrapperService.ts:303</a></em></p>
 <p>Option filter to only initialize the contracts whose name is set to true. Any that are omitted or set to false here will appear as <code>null</code> in WrapperService.wrappers and WrapperService.wrappersByType, and will not be available in WrapperService.wrappersByAddress. But their factories will still be available in WrapperService.factories.</p>
 <hr />
 <p><a id="useNetworkDefaultsFor"></a></p>
 <h3 id="optional-usenetworkdefaultsfor">«Optional» useNetworkDefaultsFor<a class="headerlink" href="#optional-usenetworkdefaultsfor" title="Permanent link">&para;</a></h3>
 <p><strong>●  useNetworkDefaultsFor</strong>:  <em><code>string</code></em> </p>
-<p><em>Defined in index.ts:44</em></p>
+<p><em>Defined in index.ts:50</em></p>
 <p>Name of the network for which to use the defaults found in Arc.js/truffle.js. Overwrites config settings network, providerUrl and providerPort.</p>
+<hr />
+<p><a id="watchForAccountChanges"></a></p>
+<h3 id="optional-watchforaccountchanges">«Optional» watchForAccountChanges<a class="headerlink" href="#optional-watchforaccountchanges" title="Permanent link">&para;</a></h3>
+<p><strong>●  watchForAccountChanges</strong>:  <em><code>boolean</code></em> </p>
+<p><em>Defined in index.ts:55</em></p>
+<p>Set to true to watch for changes in the current user account. Default is false. See <a href="../../../api/classes/AccountService#initiateAccountWatch">AccountService.initiateAccountWatch</a>.</p>
 <hr />
                 
                   

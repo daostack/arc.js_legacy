@@ -391,6 +391,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../AccountService/" title="AccountService" class="md-nav__link">
+      AccountService
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../ArcTransactionAgreementResult/" title="ArcTransactionAgreementResult" class="md-nav__link">
       ArcTransactionAgreementResult
     </a>
@@ -770,6 +782,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#static-getethbalance" title="«Static» getEthBalance" class="md-nav__link">
+    «Static» getEthBalance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-gettokenbalance" title="«Static» getTokenBalance" class="md-nav__link">
+    «Static» getTokenBalance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#static-getvaluefromlogs" title="«Static» getValueFromLogs" class="md-nav__link">
     «Static» getValueFromLogs
   </a>
@@ -824,6 +850,18 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../UtilsInternal/" title="UtilsInternal" class="md-nav__link">
+      UtilsInternal
+    </a>
   </li>
 
         
@@ -2417,6 +2455,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#static-getethbalance" title="«Static» getEthBalance" class="md-nav__link">
+    «Static» getEthBalance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-gettokenbalance" title="«Static» getTokenBalance" class="md-nav__link">
+    «Static» getTokenBalance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#static-getvaluefromlogs" title="«Static» getValueFromLogs" class="md-nav__link">
     «Static» getValueFromLogs
   </a>
@@ -2494,6 +2546,8 @@
 <ul>
 <li><a href="./#SHA3">SHA3</a></li>
 <li><a href="./#getDefaultAccount">getDefaultAccount</a></li>
+<li><a href="./#getEthBalance">getEthBalance</a></li>
+<li><a href="./#getTokenBalance">getTokenBalance</a></li>
 <li><a href="./#getValueFromLogs">getValueFromLogs</a></li>
 <li><a href="./#getWeb3">getWeb3</a></li>
 <li><a href="./#keccak256">keccak256</a></li>
@@ -2506,20 +2560,20 @@
 <p><a id="NULL_ADDRESS"></a></p>
 <h3 id="static-null_address">«Static» NULL_ADDRESS<a class="headerlink" href="#static-null_address" title="Permanent link">&para;</a></h3>
 <p>getNULL_ADDRESS(): <a href="../../#Address">Address</a></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/77005d4/lib/utils.ts#L17">utils.ts:17</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/utils.ts#L18">utils.ts:18</a></em></p>
 <p><strong>Returns:</strong> <a href="../../#Address">Address</a></p>
 <hr />
 <p><a id="NULL_HASH"></a></p>
 <h3 id="static-null_hash">«Static» NULL_HASH<a class="headerlink" href="#static-null_hash" title="Permanent link">&para;</a></h3>
 <p>getNULL_HASH(): <a href="../../#Hash">Hash</a></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/77005d4/lib/utils.ts#L18">utils.ts:18</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/utils.ts#L19">utils.ts:19</a></em></p>
 <p><strong>Returns:</strong> <a href="../../#Hash">Hash</a></p>
 <hr />
 <h2 id="methods_1">Methods<a class="headerlink" href="#methods_1" title="Permanent link">&para;</a></h2>
 <p><a id="SHA3"></a></p>
 <h3 id="static-sha3">«Static» SHA3<a class="headerlink" href="#static-sha3" title="Permanent link">&para;</a></h3>
 <p>► <strong>SHA3</strong>(str: <em><code>string</code></em>): <code>string</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/77005d4/lib/utils.ts#L204">utils.ts:204</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/utils.ts#L244">utils.ts:244</a></em></p>
 <p>Return the hash of a string the same way solidity would, and to a format that will be properly translated into a bytes32 that solidity expects</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2543,16 +2597,69 @@
 <p><a id="getDefaultAccount"></a></p>
 <h3 id="static-getdefaultaccount">«Static» getDefaultAccount<a class="headerlink" href="#static-getdefaultaccount" title="Permanent link">&para;</a></h3>
 <p>► <strong>getDefaultAccount</strong>(): <code>Promise</code>.&lt;<code>string</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/77005d4/lib/utils.ts#L185">utils.ts:185</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/utils.ts#L189">utils.ts:189</a></em></p>
 <p>Returns the address of the default user account.</p>
 <p>Has the side-effect of setting web3.eth.defaultAccount.</p>
 <p>Throws an exception on failure.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>string</code>&gt;</p>
 <hr />
+<p><a id="getEthBalance"></a></p>
+<h3 id="static-getethbalance">«Static» getEthBalance<a class="headerlink" href="#static-getethbalance" title="Permanent link">&para;</a></h3>
+<p>► <strong>getEthBalance</strong>(agentAddress: <em><a href="../../#Address">Address</a></em>): <code>Promise</code>.&lt;<code>BigNumber</code>&gt;</p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/utils.ts#L225">utils.ts:225</a></em></p>
+<p>Return the current ETH balance for the given agent.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>agentAddress</td>
+<td><a href="../../#Address">Address</a></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>BigNumber</code>&gt;</p>
+<hr />
+<p><a id="getTokenBalance"></a></p>
+<h3 id="static-gettokenbalance">«Static» getTokenBalance<a class="headerlink" href="#static-gettokenbalance" title="Permanent link">&para;</a></h3>
+<p>► <strong>getTokenBalance</strong>(agentAddress: <em><a href="../../#Address">Address</a></em>, tokenAddress: <em><a href="../../#Address">Address</a></em>): <code>Promise</code>.&lt;<code>BigNumber</code>&gt;</p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/utils.ts#L206">utils.ts:206</a></em></p>
+<p>Return the current token balance for the given token and agent.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>agentAddress</td>
+<td><a href="../../#Address">Address</a></td>
+<td>-</td>
+</tr>
+<tr>
+<td>tokenAddress</td>
+<td><a href="../../#Address">Address</a></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>BigNumber</code>&gt;</p>
+<hr />
 <p><a id="getValueFromLogs"></a></p>
 <h3 id="static-getvaluefromlogs">«Static» getValueFromLogs<a class="headerlink" href="#static-getvaluefromlogs" title="Permanent link">&para;</a></h3>
 <p>► <strong>getValueFromLogs</strong>(tx: <em><a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a></em>, arg: <em><code>string</code></em>, eventName?: <em><code>string</code></em>, index?: <em><code>number</code></em>): <code>any</code>⎮<code>undefined</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/77005d4/lib/utils.ts#L121">utils.ts:121</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/utils.ts#L125">utils.ts:125</a></em></p>
 <p>Returns a value from the given transaction log. Undefined if not found for any reason.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2596,14 +2703,14 @@
 <p><a id="getWeb3"></a></p>
 <h3 id="static-getweb3">«Static» getWeb3<a class="headerlink" href="#static-getweb3" title="Permanent link">&para;</a></h3>
 <p>► <strong>getWeb3</strong>(): <code>Promise</code>.&lt;<code>Web3</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/77005d4/lib/utils.ts#L51">utils.ts:51</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/utils.ts#L52">utils.ts:52</a></em></p>
 <p>Returns the web3 object. When called for the first time, web3 is initialized from the Arc.js configuration. Throws an exception when web3 cannot be initialized.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>Web3</code>&gt;</p>
 <hr />
 <p><a id="keccak256"></a></p>
 <h3 id="static-keccak256">«Static» keccak256<a class="headerlink" href="#static-keccak256" title="Permanent link">&para;</a></h3>
 <p>► <strong>keccak256</strong>(types: <em><code>Array</code>.&lt;<code>string</code>&gt;</em>, values: <em><code>Array</code>.&lt;<code>any</code>&gt;</em>): <code>string</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/77005d4/lib/utils.ts#L230">utils.ts:230</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/utils.ts#L270">utils.ts:270</a></em></p>
 <p>Return the tightly-packed hash of any arbitrary array of objects just as Solidity's <code>keccak256</code> function would do.</p>
 <p>Items in the <code>types</code> array must appear in the same order in which the values would be passed to Solidity's <code>keccak256</code> function.</p>
 <p>Type names can be: "bytes[N]' - fails if (N &lt; 1 || N &gt; 32) "string' "bool' "address' "uint[N]' - fails if ((N % 8) || (N &lt; 8) || (N &gt; 256)) "int[N]' - fails if ((N % 8) || (N &lt; 8) || (N &gt; 256))</p>
@@ -2636,8 +2743,8 @@
 <p><a id="numberToPermissionsString"></a></p>
 <h3 id="static-numbertopermissionsstring">«Static» numberToPermissionsString<a class="headerlink" href="#static-numbertopermissionsstring" title="Permanent link">&para;</a></h3>
 <p>► <strong>numberToPermissionsString</strong>(permissions: <em><a href="../../enums/SchemePermissions/">SchemePermissions</a>⎮<a href="../../enums/DefaultSchemePermissions/">DefaultSchemePermissions</a></em>): <code>string</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/77005d4/lib/utils.ts#L247">utils.ts:247</a></em></p>
-<p>Convert number to a scheme permissions string</p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/utils.ts#L287">utils.ts:287</a></em></p>
+<p>Convert SchemePermissions | DefaultSchemePermissions to a scheme permissions string</p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2660,7 +2767,7 @@
 <p><a id="permissionsStringToNumber"></a></p>
 <h3 id="static-permissionsstringtonumber">«Static» permissionsStringToNumber<a class="headerlink" href="#static-permissionsstringtonumber" title="Permanent link">&para;</a></h3>
 <p>► <strong>permissionsStringToNumber</strong>(permissions: <em><code>string</code></em>): <a href="../../enums/SchemePermissions/">SchemePermissions</a></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/77005d4/lib/utils.ts#L238">utils.ts:238</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/utils.ts#L278">utils.ts:278</a></em></p>
 <p>Convert scheme permissions string to a number</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2684,7 +2791,7 @@
 <p><a id="requireContract"></a></p>
 <h3 id="static-requirecontract">«Static» requireContract<a class="headerlink" href="#static-requirecontract" title="Permanent link">&para;</a></h3>
 <p>► <strong>requireContract</strong>(contractName: <em><code>string</code></em>): <code>Promise</code>.&lt;<code>any</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/77005d4/lib/utils.ts#L27">utils.ts:27</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/utils.ts#L28">utils.ts:28</a></em></p>
 <p>Returns TruffleContract given the name of the contract (like "SchemeRegistrar"). Optimized for synchronicity issues encountered with MetaMask. Throws an exception if it can't load the contract. Uses the asynchronous web.eth.getAccounts to obtain the default account (good with MetaMask).</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2738,13 +2845,13 @@
           </a>
         
         
-          <a href="../VestingSchemeWrapper/" title="VestingSchemeWrapper" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../UtilsInternal/" title="UtilsInternal" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                VestingSchemeWrapper
+                UtilsInternal
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

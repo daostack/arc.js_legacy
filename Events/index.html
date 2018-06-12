@@ -347,6 +347,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#account-changes" title="Account Changes" class="md-nav__link">
+    Account Changes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#specifying-events" title="Specifying Events" class="md-nav__link">
     Specifying Events
   </a>
@@ -444,6 +451,18 @@
   <li class="md-nav__item">
     <a href="../api/classes/AbsoluteVoteWrapper/" title="AbsoluteVoteWrapper" class="md-nav__link">
       AbsoluteVoteWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/classes/AccountService/" title="AccountService" class="md-nav__link">
+      AccountService
     </a>
   </li>
 
@@ -732,6 +751,18 @@
   <li class="md-nav__item">
     <a href="../api/classes/Utils/" title="Utils" class="md-nav__link">
       Utils
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/classes/UtilsInternal/" title="UtilsInternal" class="md-nav__link">
+      UtilsInternal
     </a>
   </li>
 
@@ -2272,6 +2303,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#account-changes" title="Account Changes" class="md-nav__link">
+    Account Changes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#specifying-events" title="Specifying Events" class="md-nav__link">
     Specifying Events
   </a>
@@ -2310,7 +2348,17 @@
 <li>With Truffle, the callback to <code>get</code> or <code>watch</code> may or may not receive an array of events.  Sometimes it can be a single event.  The Arc.js wrapper always gives you an array.  Arc.js also eliminates duplicate events that can occur while the chain settles down (a feature that can be suppressed if desired).</li>
 </ol>
 <h2 id="arcjs-pubsub-events">Arc.js Pub/Sub Events<a class="headerlink" href="#arcjs-pubsub-events" title="Permanent link">&para;</a></h2>
-<p>Arc.js has a pub/sub event system accessible using the <a href="../api/classes/EventService">EventService</a>.  You can use a subclass of <a href="../api/classes/EventService">EventService</a> called <a href="../api/classes/TransactionService">TransactionService</a> to track transactions as they complete.</p>
+<p>Arc.js has a pub/sub event system implemented by <a href="../api/classes/EventService">EventService</a>.</p>
+<p>Uses of pub/sub events:</p>
+<ul>
+<li>
+<p>Track transactions as they complete  (see <a href="#tracktxs">Tracking Transactions</a>).</p>
+</li>
+<li>
+<p>Be notified whenever the current account changes (see <a href="#accountchanges">Account Changes</a>).</p>
+</li>
+</ul>
+<p><a name="tracktxs"></a></p>
 <h3 id="tracking-transactions">Tracking Transactions<a class="headerlink" href="#tracking-transactions" title="Permanent link">&para;</a></h3>
 <p>Many Arc.js functions cause transactions to occur in the chain.  Each transaction requires manual attention from the application user, and depending on the speed of the net, there may be substantial delays between each transaction and before all of the transactions in a given function have completed. So you may wish to give the user a visual sense of progress as a function proceeds towards completion.</p>
 <p>Using <a href="../api/classes/TransactionService">TransactionService</a>, you can track when transactions are about to start happening, how many transactions there will be, and when each transaction has completed.</p>
@@ -2363,6 +2411,9 @@
 <p class="admonition-title">Note</p>
 <p><code>txEventInfo.options</code> will usually contain the options you passed in, with default values added.  But in the case of <code>DAO.new</code>, it will not contain the default values.  If you need the default values then instead of subscribing to "txReceipts.DAO.new" you can subscribe to "txReceipts.DaoCreator" and receive events published by  <a href="../api/classes/DaoCreatorWrapper#forgeOrg">DaoCreatorWrapper.forgeOrg</a> and <a href="../api/classes/DaoCreatorWrapper#setSchemes">DaoCreatorWrapper.setSchemes</a>.  Currently this would otherwise be the same as subscribing to "txReceipts.DAO.new", though it cannot be guaranteed it will always be the case in future versions of Arc.js.</p>
 </div>
+<p><a name="accountchanges"></a></p>
+<h3 id="account-changes">Account Changes<a class="headerlink" href="#account-changes" title="Permanent link">&para;</a></h3>
+<p>You can be notified whenever the current account changes by setting <a href="../api/interfaces/InitializeArcOptions#watchForAccountChanges">InitializeArcOptions.watchForAccountChanges</a> to <code>true</code> when you call <a href="../api/README/#initializearcjs">InitializeArcJs</a>, and then by calling <a href="../api/classes/accountService#subscribeToAccountChanges">subscribeToAccountChanges</a>. For more information, see <a href="../api/classes/accountService">AccountService</a>.</p>
 <h3 id="specifying-events">Specifying Events<a class="headerlink" href="#specifying-events" title="Permanent link">&para;</a></h3>
 <p>You specify which event to which you wish to subscribe using a string as an event specifier (or in the code, the event "topic").  The event specifier typically incorporates an Arc contract name which will map to events published by a wrapper class for that contract.  For example, the event specifier "txReceipts.DaoCreator" refers to "txReceipts" events published by <a href="../api/classes/DaoCreatorWrapper">DaoCreatorWrapper</a>.</p>
 <div class="admonition note">

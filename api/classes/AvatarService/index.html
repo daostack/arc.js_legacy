@@ -391,6 +391,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../AccountService/" title="AccountService" class="md-nav__link">
+      AccountService
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../ArcTransactionAgreementResult/" title="ArcTransactionAgreementResult" class="md-nav__link">
       ArcTransactionAgreementResult
     </a>
@@ -569,6 +581,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#getethbalance" title="getEthBalance" class="md-nav__link">
+    getEthBalance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#getnativereputation" title="getNativeReputation" class="md-nav__link">
     getNativeReputation
   </a>
@@ -592,6 +611,13 @@
           <li class="md-nav__item">
   <a href="#getnativetokenaddress" title="getNativeTokenAddress" class="md-nav__link">
     getNativeTokenAddress
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gettokenbalance" title="getTokenBalance" class="md-nav__link">
+    getTokenBalance
   </a>
   
 </li>
@@ -836,6 +862,18 @@
   <li class="md-nav__item">
     <a href="../Utils/" title="Utils" class="md-nav__link">
       Utils
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../UtilsInternal/" title="UtilsInternal" class="md-nav__link">
+      UtilsInternal
     </a>
   </li>
 
@@ -2457,6 +2495,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#getethbalance" title="getEthBalance" class="md-nav__link">
+    getEthBalance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#getnativereputation" title="getNativeReputation" class="md-nav__link">
     getNativeReputation
   </a>
@@ -2480,6 +2525,13 @@
           <li class="md-nav__item">
   <a href="#getnativetokenaddress" title="getNativeTokenAddress" class="md-nav__link">
     getNativeTokenAddress
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gettokenbalance" title="getTokenBalance" class="md-nav__link">
+    getTokenBalance
   </a>
   
 </li>
@@ -2526,16 +2578,18 @@
 <li><a href="./#getAvatar">getAvatar</a></li>
 <li><a href="./#getController">getController</a></li>
 <li><a href="./#getControllerAddress">getControllerAddress</a></li>
+<li><a href="./#getEthBalance">getEthBalance</a></li>
 <li><a href="./#getNativeReputation">getNativeReputation</a></li>
 <li><a href="./#getNativeReputationAddress">getNativeReputationAddress</a></li>
 <li><a href="./#getNativeToken">getNativeToken</a></li>
 <li><a href="./#getNativeTokenAddress">getNativeTokenAddress</a></li>
+<li><a href="./#getTokenBalance">getTokenBalance</a></li>
 </ul>
 <hr />
 <h2 id="constructors_1">Constructors<a class="headerlink" href="#constructors_1" title="Permanent link">&para;</a></h2>
 <p><a id="constructor"></a></p>
 <h3 id="new-avatarserviceavataraddress-address-avatarservice">⊕ <strong>new AvatarService</strong>(avatarAddress: <em><a href="../../#Address">Address</a></em>): <a href="./">AvatarService</a><a class="headerlink" href="#new-avatarserviceavataraddress-address-avatarservice" title="Permanent link">&para;</a></h3>
-<p><em>Defined in avatarService.ts:21</em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/avatarService.ts#L24">avatarService.ts:24</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2559,57 +2613,88 @@
 <p><a id="isUController"></a></p>
 <h3 id="isucontroller">isUController<a class="headerlink" href="#isucontroller" title="Permanent link">&para;</a></h3>
 <p><strong>●  isUController</strong>:  <em><code>boolean</code></em> </p>
-<p><em>Defined in avatarService.ts:13</em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/avatarService.ts#L16">avatarService.ts:16</a></em></p>
 <hr />
 <h2 id="methods_1">Methods<a class="headerlink" href="#methods_1" title="Permanent link">&para;</a></h2>
 <p><a id="getAvatar"></a></p>
 <h3 id="getavatar">getAvatar<a class="headerlink" href="#getavatar" title="Permanent link">&para;</a></h3>
 <p>► <strong>getAvatar</strong>(): <code>Promise</code>.&lt;<code>any</code>&gt;</p>
-<p><em>Defined in avatarService.ts:31</em></p>
-<p>Returns promise of the Avatar TruffleContract</p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/avatarService.ts#L35">avatarService.ts:35</a></em></p>
+<p>Returns promise of the Avatar TruffleContract. Returns undefined if not found.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>any</code>&gt;</p>
 <hr />
 <p><a id="getController"></a></p>
 <h3 id="getcontroller">getController<a class="headerlink" href="#getcontroller" title="Permanent link">&para;</a></h3>
 <p>► <strong>getController</strong>(): <code>Promise</code>.&lt;<code>any</code>&gt;</p>
-<p><em>Defined in avatarService.ts:55</em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/avatarService.ts#L67">avatarService.ts:67</a></em></p>
 <p>Returns promise of a TruffleContract for the controller. Could be either UController or Controller. You can know which one by checking the AvatarService instance property <code>isUController</code>.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>any</code>&gt;</p>
 <hr />
 <p><a id="getControllerAddress"></a></p>
 <h3 id="getcontrolleraddress">getControllerAddress<a class="headerlink" href="#getcontrolleraddress" title="Permanent link">&para;</a></h3>
 <p>► <strong>getControllerAddress</strong>(): <code>Promise</code>.&lt;<code>string</code>&gt;</p>
-<p><em>Defined in avatarService.ts:42</em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/avatarService.ts#L52">avatarService.ts:52</a></em></p>
 <p>Returns promise of the address of the controller</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>string</code>&gt;</p>
+<hr />
+<p><a id="getEthBalance"></a></p>
+<h3 id="getethbalance">getEthBalance<a class="headerlink" href="#getethbalance" title="Permanent link">&para;</a></h3>
+<p>► <strong>getEthBalance</strong>(): <code>Promise</code>.&lt;<code>BigNumber</code>&gt;</p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/avatarService.ts#L165">avatarService.ts:165</a></em></p>
+<p>Return the current ETH balance for this avatar, in Wei.</p>
+<p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>BigNumber</code>&gt;</p>
 <hr />
 <p><a id="getNativeReputation"></a></p>
 <h3 id="getnativereputation">getNativeReputation<a class="headerlink" href="#getnativereputation" title="Permanent link">&para;</a></h3>
 <p>► <strong>getNativeReputation</strong>(): <code>Promise</code>.&lt;<code>any</code>&gt;</p>
-<p><em>Defined in avatarService.ts:88</em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/avatarService.ts#L104">avatarService.ts:104</a></em></p>
 <p>Returns promise of the avatar's native reputation TruffleContract.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>any</code>&gt;</p>
 <hr />
 <p><a id="getNativeReputationAddress"></a></p>
 <h3 id="getnativereputationaddress">getNativeReputationAddress<a class="headerlink" href="#getnativereputationaddress" title="Permanent link">&para;</a></h3>
 <p>► <strong>getNativeReputationAddress</strong>(): <code>Promise</code>.&lt;<code>string</code>&gt;</p>
-<p><em>Defined in avatarService.ts:77</em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/avatarService.ts#L91">avatarService.ts:91</a></em></p>
 <p>Returns promise of the address of the avatar's native reputation.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>string</code>&gt;</p>
 <hr />
 <p><a id="getNativeToken"></a></p>
 <h3 id="getnativetoken">getNativeToken<a class="headerlink" href="#getnativetoken" title="Permanent link">&para;</a></h3>
 <p>► <strong>getNativeToken</strong>(): <code>Promise</code>.&lt;<code>any</code>&gt;</p>
-<p><em>Defined in avatarService.ts:112</em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/avatarService.ts#L132">avatarService.ts:132</a></em></p>
 <p>Returns promise of the avatar's native token TruffleContract. Assumes the token is a <code>DAOToken</code>.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>any</code>&gt;</p>
 <hr />
 <p><a id="getNativeTokenAddress"></a></p>
 <h3 id="getnativetokenaddress">getNativeTokenAddress<a class="headerlink" href="#getnativetokenaddress" title="Permanent link">&para;</a></h3>
 <p>► <strong>getNativeTokenAddress</strong>(): <code>Promise</code>.&lt;<code>string</code>&gt;</p>
-<p><em>Defined in avatarService.ts:100</em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/avatarService.ts#L118">avatarService.ts:118</a></em></p>
 <p>Returns promise of the address of the avatar's native token.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>string</code>&gt;</p>
+<hr />
+<p><a id="getTokenBalance"></a></p>
+<h3 id="gettokenbalance">getTokenBalance<a class="headerlink" href="#gettokenbalance" title="Permanent link">&para;</a></h3>
+<p>► <strong>getTokenBalance</strong>(tokenAddress?: <em><a href="../../#Address">Address</a></em>): <code>Promise</code>.&lt;<code>BigNumber</code>&gt;</p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/0549500/lib/avatarService.ts#L146">avatarService.ts:146</a></em></p>
+<p>Return a current token balance for this avatar, in Wei. If tokenAddress is not supplied, then uses native token.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tokenAddress</td>
+<td><a href="../../#Address">Address</a></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>BigNumber</code>&gt;</p>
 <hr />
                 
                   
