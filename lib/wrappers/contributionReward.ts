@@ -471,7 +471,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
   private orgProposalToContributionProposal(orgProposal: Array<any>, proposalId: Hash): ContributionProposal {
     return {
       beneficiaryAddress: orgProposal[6],
-      contributionDescriptionHash: orgProposal[9],
+      contributionDescriptionHash: orgProposal[0],
       ethReward: orgProposal[3],
       executionTime: orgProposal[9],
       externalToken: orgProposal[4],
