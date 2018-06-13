@@ -108,14 +108,16 @@ export class GenesisDaoCreator {
       this.web3.toWei(100000000), // token cap of one hundred million GEN, in Wei
       { gas: gasLimit });
 
+    let avatarInst;
+
     /**
      * save info for later steps
      */
-    if (live) {
-      UtilsInternal.sleep(10000); // maximize chances this is ready
+    while (!avatarInst) {
+      avatarInst = await Avatar.at(txForgeOrg.logs[0].args._avatar);
+      console.log("sleeping until Avatar is mined...");
+      UtilsInternal.sleep(10000); // sleep and retry until avatarInst is ready
     }
-
-    const avatarInst = await Avatar.at(txForgeOrg.logs[0].args._avatar);
 
     /** for use by setSchemes */
     return {

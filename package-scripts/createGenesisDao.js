@@ -1,4 +1,4 @@
-const GenesisDaoCreator = require("../dist/migrations/createGenesisDao.js").GenesisDaoCreator;
+const GenesisDaoCreator = require("../dist/scripts/createGenesisDao.js").GenesisDaoCreator;
 const Utils = require("../dist/utils.js").Utils;
 const env = require("env-variable")();
 

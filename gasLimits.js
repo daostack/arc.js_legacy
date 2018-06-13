@@ -7,25 +7,25 @@ const promisify = require("es6-promisify").promisify;
  * putting this at the root level and writing it in straight low-common-denominator ES5 javascript.
  */
 const gasLimitsConfig =
-  {
-    /**
-     * The gas limit used by Arc to forge a DAO with foundersInGasLimitArc founders
-     */
-    "gasLimit_arc": 5600000,
-    /**
-     * The amount of gas needed for each founder when creating a DAO
-     */
-    "gasLimit_perFounder": 50000,
-    /**
-     * How many founders are already accounted-for in the gaslimit from Arc
-     */
-    "foundersInGasLimitArc": 3,
-    /**
-     * Gas limit sufficient (though not necessarily optimal) for all other transactions
-     * besides creating DAOs
-     */
-    "gasLimit_runtime": 4543760,
-  };
+{
+  /**
+   * The gas limit used by Arc to forge a DAO with foundersInGasLimitArc founders
+   */
+  "gasLimit_arc": 5600000,
+  /**
+   * The amount of gas needed for each founder when creating a DAO
+   */
+  "gasLimit_perFounder": 50000,
+  /**
+   * How many founders are already accounted-for in the gaslimit from Arc
+   */
+  "foundersInGasLimitArc": 3,
+  /**
+   * Gas limit sufficient (though not necessarily optimal) for all other transactions
+   * besides creating DAOs
+   */
+  "gasLimit_runtime": 4543760,
+};
 
 /**
  * Compute a reasonable gasLimit for forging a DAO with the given number of founders.
@@ -44,7 +44,7 @@ const computeForgeOrgGasLimit = function (numberFounders) {
 const computeMaxGasLimit = function (web3) {
   return promisify((callback) => web3.eth.getBlock("latest", false, callback))()
     .then((block) => {
-      return block.gasLimit - 50000;
+      return block.gasLimit - 100000;
     });
 }
 
