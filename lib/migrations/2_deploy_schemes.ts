@@ -67,6 +67,7 @@ export const arcJsDeployer = (
         const getAccounts = promisify(web3.eth.getAccounts);
         const accounts = await getAccounts();
         accounts.forEach((account: Address) => {
+          // 1000 is an arbitrary number we've always given to founders for tests
           genToken.mint(account, web3.toWei(1000));
         });
       } else {

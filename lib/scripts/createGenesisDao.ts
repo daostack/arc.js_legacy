@@ -116,7 +116,12 @@ export class GenesisDaoCreator {
     while (!avatarInst) {
       avatarInst = await Avatar.at(txForgeOrg.logs[0].args._avatar);
       console.log("sleeping until Avatar is mined...");
-      UtilsInternal.sleep(10000); // sleep and retry until avatarInst is ready
+      /**
+       * Sleep and retry until avatarInst is ready.
+       * This is an unfortunate hack until we better understand
+       * why it has been needed when deploying to mainnet.
+       */
+      UtilsInternal.sleep(1000);
     }
 
     /** for use by setSchemes */
