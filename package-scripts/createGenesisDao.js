@@ -17,7 +17,7 @@ const web3 = global.web3 = new webConstructor(provider);
 
 const createGenesisDao = new GenesisDaoCreator(web3, env.arcjs_network || "ganache");
 
-await createGenesisDao.forge(env.arcjs_foundersConfigurationLocation)
+return createGenesisDao.forge(env.arcjs_foundersConfigurationLocation)
   .then((daoCreationState) => {
     return createGenesisDao.setSchemes(daoCreationState).then(() => {
       console.log(`Successfully created ${daoCreationState.orgName}`);

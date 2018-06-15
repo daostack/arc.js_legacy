@@ -30,11 +30,7 @@ export const arcJsDeployer = (
     /**
      * Truffle Solidity artifact wrappers
      */
-    // const ContributionReward = artifacts.require("ContributionReward.sol");
     const GenesisProtocol = artifacts.require("GenesisProtocol.sol");
-    // const ControllerCreator = artifacts.require("ControllerCreator.sol");
-    // const DaoCreator = artifacts.require("DaoCreator.sol");
-    // const UController = artifacts.require("UController.sol");
 
     console.log(`Deploying schemes to ${network}`);
 
@@ -45,16 +41,11 @@ export const arcJsDeployer = (
     // then we will create a new token to use for staking
     const genToken = await DAOToken.new("GEN", "GEN", web3.toWei(100000000));
     genTokenAddress = genToken.address;
-    genToken.mint("0xB38698D1Cf896AD6d3bbeF3E6eE6b90a78837a1f", web3.toWei(100000));
+    await genToken.mint("0xB38698D1Cf896AD6d3bbeF3E6eE6b90a78837a1f", web3.toWei(100000));
 
     console.log(`Using global GEN token for staking on ${network} at: ${genTokenAddress}`);
     console.log(`Deploying schemes on ${network}, gasLimit: ${gasLimit}`);
 
-    // await deployer.deploy(ControllerCreator, { gas: gasLimit });
-    // const controllerCreator = await ControllerCreator.deployed();
-    // await deployer.deploy(DaoCreator, controllerCreator.address, { gas: gasLimit });
-    // await deployer.deploy(UController, { gas: gasLimit });
-    // await deployer.deploy(ContributionReward, { gas: gasLimit });
     await deployer.deploy(GenesisProtocol, genTokenAddress, { gas: gasLimit });
   });
 };
