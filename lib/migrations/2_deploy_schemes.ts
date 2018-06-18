@@ -1,6 +1,4 @@
-import { promisify } from "es6-promisify";
 import { Web3 } from "web3";
-import { Address } from "../commonTypes";
 import { Utils } from "../utils";
 /* tslint:disable-next-line:no-var-requires */
 const computeMaxGasLimit: any = require("../../gasLimits.js").computeMaxGasLimit;
@@ -56,20 +54,34 @@ export const arcJsDeployer = (
 
     await DAOToken.at("0x543Ff227F64Aa17eA132Bf9886cAb5DB55DCAddf")
       .then((token: any): void => genTokenAddress = token.address)
-      .catch(() => { console.log(`global GEN token does not exist`); });
+      .catch(() => { console.log(`global GEN token does not exist at standard address`); });
 
     if (!genTokenAddress) {
       if (network === "ganache") {
-        // then we will create a new token to use for staking
-        const genToken = await DAOToken.new("GEN", "GEN", web3.toWei(100000000));
-        genTokenAddress = genToken.address;
-        // and mint GEN to all of the accounts
-        const getAccounts = promisify(web3.eth.getAccounts);
-        const accounts = await getAccounts();
-        accounts.forEach((account: Address) => {
-          // 1000 is an arbitrary number we've always given to founders for tests
-          genToken.mint(account, web3.toWei(1000));
-        });
+
+        await DAOToken.at("0xdcf22b53f327b4f7f3ac42d957834bd962637555")
+          .then((token: any): void => genTokenAddress = token.address)
+          .catch(() => { console.log(`global GEN token does not exist in ganache`); });
+
+        if (!genTokenAddress) {
+          /**
+           * Then we will create the token to use for staking.
+           * See https://ethereum.stackexchange.com/a/13459/21913
+           * This is fragile in that in order to result in a consistent token address
+           * the nonce and account address must always be the same when the token is created.
+           * Thus we need this to be the first transaction that account[0] attempts after
+           * ganache has been fired-up.
+           */
+          console.log(`Creating global GEN token for ganache`);
+
+          const genToken = await DAOToken.new(
+            "DAOstack",
+            "GEN",
+            web3.toWei(100000000),
+            { from: "0xb0c908140fe6fd6fbd4990a5c2e35ca6dc12bfb2" });
+
+          genTokenAddress = genToken.address;
+        }
       } else {
         throw new Error(`The GEN token must exist for staking on ${network}`);
       }

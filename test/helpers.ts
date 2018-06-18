@@ -1,5 +1,6 @@
 import { BigNumber } from "bignumber.js";
 import { assert } from "chai";
+import { promisify } from "es6-promisify";
 import { Address, fnVoid, Hash, SchemeWrapper } from "../lib/commonTypes";
 import { ConfigService } from "../lib/configService";
 import { DAO, NewDaoConfig } from "../lib/dao";
@@ -22,7 +23,6 @@ LoggingService.logLevel = DefaultLogLevel;
 let testWeb3;
 
 const etherForEveryone = async (): Promise<void> => {
-  // transfer all web3.eth.accounts some ether from the last account
   const count = accounts.length - 1;
   for (let i = 0; i < count; i++) {
     await web3.eth.sendTransaction({
@@ -33,12 +33,23 @@ const etherForEveryone = async (): Promise<void> => {
   }
 };
 
+const genTokensForEveryone = async (): Promise<void> => {
+  const address = await Utils.getGenTokenAddress();
+  const genToken = await (await Utils.requireContract("DAOToken")).at(address) as any;
+  accounts.forEach((account: Address) => {
+    // 1000 is an arbitrary number we've always given to founders for tests
+    genToken.mint(account, web3.toWei(1000));
+  });
+
+};
+
 beforeEach(async () => {
   if (!testWeb3) {
     (global as any).web3 = testWeb3 = await InitializeArcJs();
   }
   (global as any).accounts = web3.eth.accounts;
   await etherForEveryone();
+  await genTokensForEveryone();
 });
 
 export async function forgeDao(opts: any = {}): Promise<DAO> {
