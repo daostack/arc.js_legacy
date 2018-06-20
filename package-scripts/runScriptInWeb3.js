@@ -17,16 +17,16 @@ provider = new HDWalletProvider(providerConfig.mnemonic, providerConfig.provider
 
 const web3 = global.web3 = new webConstructor(provider);
 
-const mintTokens = async () => {
-  const DAOToken = await Utils.requireContract("DAOToken");
-  // then we will create a new token to use for staking
-  const token = await DAOToken.at("0x240481418e44558cf9c4b87cd0497a34771749e7");
-  console.log(`got token`);
+// const mintTokens = async () => {
+//   const DAOToken = await Utils.requireContract("DAOToken");
+//   // then we will create a new token to use for staking
+//   const token = await DAOToken.at("0x240481418e44558cf9c4b87cd0497a34771749e7");
+//   console.log(`got token`);
 
-  console.log(`minting...`);
-  await token.mint("0x78434fdaf6d44254b95634e2be9d7ca3433d8853", web3.toWei(100));
-  console.log(`done`);
-};
+//   console.log(`minting...`);
+//   await token.mint("0x78434fdaf6d44254b95634e2be9d7ca3433d8853", web3.toWei(100));
+//   console.log(`done`);
+// };
 
 
 // const getGpProposals = async () => {
@@ -35,13 +35,27 @@ const mintTokens = async () => {
 //   const eventFetcher = gp.NewProposal(
 //     {},
 //     { fromBlock: 0 });
-
-//   await eventFetcher.get((err, log) => {
-//     for (const event of log) {
-//       console.log(event);
-//     }
-//   });
+//
+// await promisify((callback) => eventFetcher.get(callback))().then((log) => {
+//   for (const event of log) {
+//     console.log(event);
+//   }
+// });
 // }
+
+const getGpProposals = async () => {
+
+  const av = await (await Utils.requireContract("AbsoluteVote")).at("0x60572035bb4c0666b9439e451c4c34df4daa1de4");
+  const eventFetcher = av.NewProposal(
+    {},
+    { fromBlock: 0 });
+
+  await promisify((callback) => eventFetcher.get(callback))().then((log) => {
+    for (const event of log) {
+      console.log(event);
+    }
+  });
+}
 
 const payPilotParticipants = async () => {
 
@@ -163,4 +177,4 @@ const payPilotParticipants = async () => {
   process.exit(0);
 }
 
-mintTokens().then(() => { process.exit(0) });
+getGpProposals().then(() => { process.exit(0) });
