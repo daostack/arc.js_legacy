@@ -3,33 +3,32 @@ import { AvatarService } from "../avatarService";
 import {
   Address,
   DefaultSchemePermissions,
-  fnVoid,
-  GetDaoProposalsConfig,
   Hash,
-  SchemePermissions
+  SchemePermissions,
+  SchemeWrapper
 } from "../commonTypes";
 import { ConfigService } from "../configService";
 
-import * as BigNumber from "bignumber.js";
+import { BigNumber } from "bignumber.js";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   ArcTransactionResult,
-  ContractWrapperBase,
   DecodedLogEntryEvent,
-  EventFetcherFactory,
   StandardSchemeParams,
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
+import { ProposalGeneratorBase } from "../proposalGeneratorBase";
 import { TransactionService } from "../transactionService";
 import { Utils } from "../utils";
+import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
   ProposalDeletedEventResult,
-  ProposalExecutedEventResult,
   RedeemEventResult,
+  SchemeProposalExecutedEventResult
 } from "./commonEventInterfaces";
 
-export class ContributionRewardWrapper extends ContractWrapperBase {
+export class ContributionRewardWrapper extends ProposalGeneratorBase implements SchemeWrapper {
 
   public name: string = "ContributionReward";
   public friendlyName: string = "Contribution Reward";
@@ -39,22 +38,23 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
    */
 
   /* tslint:disable:max-line-length */
-  public NewContributionProposal: EventFetcherFactory<NewContributionProposalEventResult> = this.createEventFetcherFactory<NewContributionProposalEventResult>("NewContributionProposal");
-  public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult> = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
-  public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult> = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
-  public RedeemReputation: EventFetcherFactory<RedeemEventResult> = this.createEventFetcherFactory<RedeemEventResult>("RedeemReputation");
-  public RedeemEther: EventFetcherFactory<RedeemEventResult> = this.createEventFetcherFactory<RedeemEventResult>("RedeemEther");
-  public RedeemNativeToken: EventFetcherFactory<RedeemEventResult> = this.createEventFetcherFactory<RedeemEventResult>("RedeemNativeToken");
-  public RedeemExternalToken: EventFetcherFactory<RedeemEventResult> = this.createEventFetcherFactory<RedeemEventResult>("RedeemExternalToken");
+  public NewContributionProposal: EventFetcherFactory<NewContributionProposalEventResult>;
+  public ProposalExecuted: EventFetcherFactory<SchemeProposalExecutedEventResult>;
+  public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
+  public RedeemReputation: EventFetcherFactory<RedeemEventResult>;
+  public RedeemEther: EventFetcherFactory<RedeemEventResult>;
+  public RedeemNativeToken: EventFetcherFactory<RedeemEventResult>;
+  public RedeemExternalToken: EventFetcherFactory<RedeemEventResult>;
   /* tslint:enable:max-line-length */
 
   /**
-   * Submit a proposal for a reward for a contribution
+   * Submit a proposal to reward a beneficiary for contributions to the DAO
    * @param {ProposeContributionRewardParams} options
    */
   public async proposeContributionReward(
     options: ProposeContributionRewardParams = {} as ProposeContributionRewardParams)
     : Promise<ArcTransactionProposalResult> {
+
     const defaults = {
       ethReward: "0",
       externalToken: "", // must have a value for solidity
@@ -154,7 +154,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
 
     TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
 
-    return new ArcTransactionProposalResult(tx);
+    return new ArcTransactionProposalResult(tx, await this.getVotingMachine(options.avatar));
   }
 
   /**
@@ -307,44 +307,46 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
   }
 
   /**
-   * Return all ContributionReward proposals ever created under the given avatar.
-   * Filter by the optional proposalId.
+   * EntityFetcherFactory for votable ContributionProposals.
+   * @param avatarAddress
    */
-  public async getDaoProposals(
-    options: GetDaoProposalsConfig = {} as GetDaoProposalsConfig): Promise<Array<ContributionProposal>> {
+  public async getVotableProposals(avatarAddress: Address):
+    Promise<EntityFetcherFactory<ContributionProposal, NewContributionProposalEventResult>> {
 
-    const defaults = {
-      proposalId: null,
-    };
-
-    options = Object.assign({}, defaults, options);
-
-    if (!options.avatar) {
-      throw new Error("avatar address is not defined");
+    if (!avatarAddress) {
+      throw new Error("avatarAddress is not set");
     }
 
-    const proposals = new Array<ContributionProposal>();
-
-    if (options.proposalId) {
-      const orgProposal = await this.contract.organizationsProposals(options.avatar, options.proposalId);
-      const proposal = this.orgProposalToContributionProposal(orgProposal, options.proposalId);
-      proposals.push(proposal);
-    } else {
-      const eventFetcher = this.NewContributionProposal({ _avatar: options.avatar }, { fromBlock: 0 });
-      await new Promise((resolve: fnVoid): void => {
-        eventFetcher.get(async (err: any, log: Array<DecodedLogEntryEvent<NewContributionProposalEventResult>>) => {
-          for (const event of log) {
-            const proposalId = event.args._proposalId;
-            const orgProposal = await this.contract.organizationsProposals(options.avatar, proposalId);
-            const proposal = this.orgProposalToContributionProposal(orgProposal, proposalId);
-            proposals.push(proposal);
-          }
-          resolve();
-        });
+    return this.proposalService.getProposalEvents(
+      {
+        baseArgFilter: { _avatar: avatarAddress },
+        proposalsEventFetcher: this.NewContributionProposal,
+        transformEventCallback:
+          async (args: NewContributionProposalEventResult): Promise<ContributionProposal> => {
+            return this.getVotableProposal(args._avatar, args._proposalId);
+          },
+        votableOnly: true,
+        votingMachine: await this.getVotingMachine(avatarAddress),
       });
-    }
+  }
 
-    return proposals;
+  /**
+   * EntityFetcherFactory for executed ContributionProposals.
+   * The Arc ContributionProposals contract retains the original proposal struct after execution.
+   * @param avatarAddress
+   */
+  public getExecutedProposals(avatarAddress: Address):
+    EntityFetcherFactory<ContributionProposal, SchemeProposalExecutedEventResult> {
+
+    return this.proposalService.getProposalEvents(
+      {
+        baseArgFilter: { _avatar: avatarAddress },
+        proposalsEventFetcher: this.ProposalExecuted,
+        transformEventCallback:
+          (event: SchemeProposalExecutedEventResult): Promise<ContributionProposal> => {
+            return this.getVotableProposal(avatarAddress, event._proposalId);
+          },
+      });
   }
 
   /**
@@ -360,12 +362,6 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
     options: GetBeneficiaryRewardsParams = {} as GetBeneficiaryRewardsParams)
     : Promise<Array<ProposalRewards>> {
 
-    const defaults = {
-      proposalId: null,
-    };
-
-    options = Object.assign({}, defaults, options);
-
     if (!options.avatar) {
       throw new Error("avatar address is not defined");
     }
@@ -373,15 +369,41 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
     if (!options.beneficiaryAddress) {
       throw new Error("beneficiaryAddress is not defined");
     }
-
-    const proposals = await this.getDaoProposals(options);
+    /**
+     * Fetch from block 0 for the given avatar
+     */
+    const proposalsFetcher = this.ProposalExecuted(
+      Object.assign({ _avatar: options.avatar }, options.proposalId ? { _proposalId: options.proposalId } : {}),
+      { fromBlock: 0 });
+    /**
+     * get the proposals for the given beneficiary.
+     * We don't use getExecutedProposals because we want to be able to work
+     * across avatars.
+     */
+    const proposals = new Array<ContributionProposal>();
+    await new Promise<Array<void>>(
+      async (resolve: () => void, reject: (error: Error) => void): Promise<void> => {
+        proposalsFetcher.get(
+          async (error: Error, log: Array<DecodedLogEntryEvent<SchemeProposalExecutedEventResult>>) => {
+            if (error) {
+              return reject(error);
+            }
+            for (const event of log) {
+              const proposal = await this.getVotableProposal(options.avatar, event.args._proposalId);
+              if (proposal.beneficiaryAddress === options.beneficiaryAddress) {
+                proposals.push(proposal);
+              }
+            }
+            resolve();
+          });
+      });
 
     const rewardsArray = new Array<ProposalRewards>();
     const avatarService = new AvatarService(options.avatar);
 
     for (const proposal of proposals) {
 
-      const proposalRewards = {} as ProposalRewards;
+      const proposalRewards: Partial<ProposalRewards> = {};
 
       proposalRewards.proposalId = proposal.proposalId;
 
@@ -405,7 +427,7 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
       await this.computeRemainingReward(proposalRewards,
         proposal, "reputationChange", options.avatar, RewardType.Reputation);
 
-      rewardsArray.push(proposalRewards);
+      rewardsArray.push(proposalRewards as ProposalRewards);
     }
 
     return rewardsArray;
@@ -429,6 +451,11 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
     );
   }
 
+  public async getVotableProposal(avatarAddress: Address, proposalId: Hash): Promise<ContributionProposal> {
+    const proposalParams = await this.contract.organizationsProposals(avatarAddress, proposalId);
+    return this.convertProposalPropsArrayToObject(proposalParams, proposalId);
+  }
+
   public getDefaultPermissions(): SchemePermissions {
     return DefaultSchemePermissions.ContributionReward as number;
   }
@@ -450,6 +477,17 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
     };
   }
 
+  protected hydrated(): void {
+    /* tslint:disable:max-line-length */
+    this.NewContributionProposal = this.createEventFetcherFactory<NewContributionProposalEventResult>(this.contract.NewContributionProposal);
+    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.ProposalExecuted);
+    this.RedeemReputation = this.createEventFetcherFactory<RedeemEventResult>(this.contract.RedeemReputation);
+    this.RedeemEther = this.createEventFetcherFactory<RedeemEventResult>(this.contract.RedeemEther);
+    this.RedeemNativeToken = this.createEventFetcherFactory<RedeemEventResult>(this.contract.RedeemNativeToken);
+    this.RedeemExternalToken = this.createEventFetcherFactory<RedeemEventResult>(this.contract.RedeemExternalToken);
+    /* tslint:enable:max-line-length */
+  }
+
   private async computeRemainingReward(
     proposalRewards: Partial<ProposalRewards>,
     proposal: ContributionProposal,
@@ -468,19 +506,19 @@ export class ContributionRewardWrapper extends ContractWrapperBase {
     proposalRewards[`${rewardName}Redeemable`] = amountRedeemable;
   }
 
-  private orgProposalToContributionProposal(orgProposal: Array<any>, proposalId: Hash): ContributionProposal {
+  private convertProposalPropsArrayToObject(propsArray: Array<any>, proposalId: Hash): ContributionProposal {
     return {
-      beneficiaryAddress: orgProposal[6],
-      contributionDescriptionHash: orgProposal[0],
-      ethReward: orgProposal[3],
-      executionTime: orgProposal[9],
-      externalToken: orgProposal[4],
-      externalTokenReward: orgProposal[5],
-      nativeTokenReward: orgProposal[1],
-      numberOfPeriods: orgProposal[8],
-      periodLength: orgProposal[7],
+      beneficiaryAddress: propsArray[6],
+      contributionDescriptionHash: propsArray[0],
+      ethReward: propsArray[3],
+      executionTime: propsArray[9],
+      externalToken: propsArray[4],
+      externalTokenReward: propsArray[5],
+      nativeTokenReward: propsArray[1],
+      numberOfPeriods: propsArray[8],
+      periodLength: propsArray[7],
       proposalId,
-      reputationChange: orgProposal[2],
+      reputationChange: propsArray[2],
     };
   }
 }
@@ -492,7 +530,8 @@ export enum RewardType {
   ExternalToken = 3,
 }
 
-export const ContributionRewardFactory = new ContractWrapperFactory("ContributionReward", ContributionRewardWrapper);
+export const ContributionRewardFactory =
+  new ContractWrapperFactory("ContributionReward", ContributionRewardWrapper, new Web3EventService());
 
 export interface NewContributionProposalEventResult {
   /**
@@ -510,69 +549,68 @@ export interface NewContributionProposalEventResult {
    * indexed
    */
   _proposalId: Hash;
-  _reputationChange: BigNumber.BigNumber;
-  _rewards: Array<BigNumber.BigNumber>;
+  _reputationChange: BigNumber;
 }
 
 export interface ContributionProposal {
   proposalId: Hash;
   beneficiaryAddress: Address;
   contributionDescriptionHash: Hash;
-  ethReward: BigNumber.BigNumber;
+  ethReward: BigNumber;
   executionTime: number;
   externalToken: Address;
-  externalTokenReward: BigNumber.BigNumber;
-  nativeTokenReward: BigNumber.BigNumber;
+  externalTokenReward: BigNumber;
+  nativeTokenReward: BigNumber;
   numberOfPeriods: number;
   periodLength: number;
-  reputationChange: BigNumber.BigNumber;
+  reputationChange: BigNumber;
 }
 
 export interface ProposalRewards {
   /**
    * The amount of ETH the DAO currently has on hand to reward.
    */
-  ethAvailableToReward: BigNumber.BigNumber;
+  ethAvailableToReward: BigNumber;
   /**
    * The total ETH reward
    */
-  ethReward: BigNumber.BigNumber;
+  ethReward: BigNumber;
   /**
    * The total unredeemed amount of ETH
    */
-  ethRewardUnredeemed: BigNumber.BigNumber;
+  ethRewardUnredeemed: BigNumber;
   /**
    * The currently-redeemable external token reward
    */
-  ethRewardRedeemable: BigNumber.BigNumber;
+  ethRewardRedeemable: BigNumber;
   /**
    * The amount of external tokens the DAO currently has on hand to reward.
    */
-  externalTokensAvailableToReward: BigNumber.BigNumber;
+  externalTokensAvailableToReward: BigNumber;
   /**
    * The total external token reward
    */
-  externalTokenReward: BigNumber.BigNumber;
+  externalTokenReward: BigNumber;
   /**
    * The total unredeemed number of external tokens
    */
-  externalTokenRewardUnredeemed: BigNumber.BigNumber;
+  externalTokenRewardUnredeemed: BigNumber;
   /**
    * The currently-redeemable external token reward
    */
-  externalTokenRewardRedeemable: BigNumber.BigNumber;
+  externalTokenRewardRedeemable: BigNumber;
   /**
    * The total native token reward
    */
-  nativeTokenReward: BigNumber.BigNumber;
+  nativeTokenReward: BigNumber;
   /**
    * The total unredeemed number of native tokens
    */
-  nativeTokenRewardUnredeemed: BigNumber.BigNumber;
+  nativeTokenRewardUnredeemed: BigNumber;
   /**
    * The currently-redeemable native token reward
    */
-  nativeTokenRewardRedeemable: BigNumber.BigNumber;
+  nativeTokenRewardRedeemable: BigNumber;
   /**
    * The proposal Id
    */
@@ -580,23 +618,23 @@ export interface ProposalRewards {
   /**
    * The total reputation reward
    */
-  reputationChange: BigNumber.BigNumber;
+  reputationChange: BigNumber;
   /**
    * The total unredeemed amount of reputation
    */
-  reputationChangeUnredeemed: BigNumber.BigNumber;
+  reputationChangeUnredeemed: BigNumber;
   /**
    * The currently-redeemable reputation reward
    */
-  reputationChangeRedeemable: BigNumber.BigNumber;
+  reputationChangeRedeemable: BigNumber;
 }
 
 export interface ContributionRewardParams extends StandardSchemeParams {
-  orgNativeTokenFee: BigNumber.BigNumber | string;
+  orgNativeTokenFee: BigNumber | string;
 }
 
 export interface ContributionRewardParamsReturn extends StandardSchemeParams {
-  orgNativeTokenFee: BigNumber.BigNumber;
+  orgNativeTokenFee: BigNumber;
 }
 
 export interface ContributionRewardSpecifiedRedemptionParams {
@@ -638,25 +676,25 @@ export interface ProposeContributionRewardParams {
    * Amount of reputation change requested, per period.
    * Can be negative.  In Wei. Default is 0;
    */
-  reputationChange?: BigNumber.BigNumber | string;
+  reputationChange?: BigNumber | string;
   /**
    * Reward in tokens per period, in the DAO's native token.
    * Must be >= 0.
    * In Wei. Default is 0;
    */
-  nativeTokenReward?: BigNumber.BigNumber | string;
+  nativeTokenReward?: BigNumber | string;
   /**
    * Reward per period, in ethers.
    * Must be >= 0.
    * In Wei. Default is 0;
    */
-  ethReward?: BigNumber.BigNumber | string;
+  ethReward?: BigNumber | string;
   /**
    * Reward per period in the given external token.
    * Must be >= 0.
    * In Wei. Default is 0;
    */
-  externalTokenReward?: BigNumber.BigNumber | string;
+  externalTokenReward?: BigNumber | string;
   /**
    * The number of blocks in a period.
    * Must be > 0.

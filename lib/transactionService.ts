@@ -1,12 +1,14 @@
 import { TransactionReceiptTruffle } from "./contractWrapperBase";
-import { EventService, IEventSubscription } from "./eventService";
+import { LoggingService } from "./loggingService";
+import { PubSubEventService } from "./pubSubEventService";
+import { UtilsInternal } from "./utilsInternal";
 
 /**
  * Enables you to track the completion of transactions triggered by Arc.js functions.
  * You can subscribe to events that tell you how many transactions are anticipated when
- * the transactions have completed.  For more information, see [subscribe](TransactionService#subscribe).
+ * the transactions have completed.  For more information, see [Tracking Transactions](/Transactions).
  */
-export class TransactionService extends EventService {
+export class TransactionService extends PubSubEventService {
 
   /**
    * Generate a new invocation key for the given topic and function.
@@ -25,27 +27,17 @@ export class TransactionService extends EventService {
    * @param topic
    * @param options
    * @param txCount
-   * @param suppressKickOff
    */
   public static publishKickoffEvent(
     topic: string,
     options: any,
-    txCount: number,
-    suppressKickOff: boolean = false): TransactionReceiptsEventInfo {
+    txCount: number): TransactionReceiptsEventInfo {
 
-    const payload = {
-      invocationKey: TransactionService.generateInvocationKey(topic),
-      options,
-      tx: null,
-      txCount,
-    };
-
-    if (!suppressKickOff) {
-      /**
-       * publish the "kick-off" event
-       */
-      TransactionService.publishTxEvent(topic, payload);
-    }
+    const payload = TransactionService.createPayload(topic, options, txCount);
+    /**
+     * publish the "kick-off" event
+     */
+    TransactionService.publishTxEvent(topic, payload);
 
     return payload;
   }
@@ -53,7 +45,7 @@ export class TransactionService extends EventService {
   /**
    * Send the given payload to subscribers of the given topic.
    *
-   * @param topic See [subscribe](EventService#subscribe)
+   * @param topic See [subscribe](PubSubEventService#subscribe)
    * @param payload Sent in the subscription callback.
    * @param tx the transaction.  Don't supply for kick-off event.
    * @returns True if there are any subscribers
@@ -66,26 +58,77 @@ export class TransactionService extends EventService {
     if (tx) {
       payload = Object.assign({}, payload, { tx });
     }
-    return EventService.publish(topic, payload);
+    const result = PubSubEventService.publish(topic, payload);
+
+    /**
+     * Trigger the context topic as appropriate in every context on the stack.  Note recursion, as each
+     * triggered topic must itself be checked for further triggering.
+     */
+    if (tx) {
+      for (let i = TransactionService.contextStack.length - 1; i >= 0; --i) {
+        const currentContext = TransactionService.contextStack[i];
+        if (PubSubEventService.isTopicSpecifiedBy(currentContext.topicTriggerFilter, topic, false)) {
+          payload = Object.assign({}, currentContext.payload, { tx });
+          TransactionService.publishTxEvent(currentContext.payload.topic, payload, tx);
+        }
+      }
+    } // don't resend kick-off events
+
+    return result;
   }
 
   /**
-   * Subscribe to all given topics and resend as the given supertopic with superPayload.
-   * @param topics topics or topic
-   * @param superTopic topic to resend as
-   * @param superPayload payload to send
-   * @returns An interface with `.unsubscribe()`.  Be sure to call it!
+   * Push an event triggering context.  The presence of this context sets a scope within which events matching the
+   * filter will trigger the event topic given in the payload.  Contexts may be nested within one another.  Thus
+   * topic A may trigger topic B which may trigger topic C.  Thus the contexts are represented as a stack.
+   * @param topicTriggerFilter topic(s) that should be trigger the publishing of the topic given in the payload.
+   * @param payload The topic payload for the triggered topic.  The payload contains the topic string itself.
    */
-  public static resendTxEvents(
-    topics: Array<string> | string,
-    superTopic: string,
-    superPayload: TransactionReceiptsEventInfo): IEventSubscription {
+  public static pushContext(
+    topicTriggerFilter: Array<string> | string,
+    payload: TransactionReceiptsEventInfo): EventContext {
 
-    return EventService.subscribe(topics, (topic: string, txEventInfo: TransactionReceiptsEventInfo) => {
-      if (txEventInfo.tx) { // skip kick-off events
-        TransactionService.publishTxEvent(superTopic, superPayload, txEventInfo.tx);
-      }
-    });
+    const eventContext = {
+      payload,
+      topicTriggerFilter: UtilsInternal.ensureArray(topicTriggerFilter),
+    };
+    TransactionService.contextStack.push(eventContext);
+    LoggingService.debug(`TransactionService.pushContext: length: ${TransactionService.contextStack.length}`);
+
+    return eventContext;
+  }
+
+  /**
+   * Pop the current context off the stack.  Logs a warning when the stack is already empty.
+   */
+  public static popContext(): void {
+    if (TransactionService.contextStack.length === 0) {
+      LoggingService.warn(`popContext: TransactionService.eventContext is already empty`);
+    }
+    // give queued events a chance to go out before popping the context
+    setTimeout(() => {
+      TransactionService.contextStack.pop();
+      LoggingService.debug(`TransactionService.popContext: length: ${TransactionService.contextStack.length}`);
+    }, 0);
+  }
+
+  private static contextStack: Array<EventContext> = new Array<EventContext>();
+
+  private static createPayload(
+    topic: string,
+    options: any,
+    txCount: number
+  ): TransactionReceiptsEventInfo {
+
+    const payload = {
+      invocationKey: TransactionService.generateInvocationKey(topic),
+      options,
+      topic,
+      tx: null,
+      txCount,
+    };
+
+    return payload;
   }
 }
 
@@ -104,6 +147,10 @@ export interface TransactionReceiptsEventInfo {
    */
   options?: any;
   /**
+   * The topic to which we're publishing
+   */
+  topic: string;
+  /**
    * The receipt for the transaction that has completed.  Note that the tx may not necessarily have
    * completed successfully in the case of errors or rejection.
    *
@@ -116,4 +163,9 @@ export interface TransactionReceiptsEventInfo {
    * The total expected number of transactions.
    */
   txCount: number;
+}
+
+export interface EventContext {
+  payload: TransactionReceiptsEventInfo;
+  topicTriggerFilter: Array<string>;
 }

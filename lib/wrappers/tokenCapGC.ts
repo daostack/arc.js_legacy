@@ -6,6 +6,7 @@ import {
 } from "../contractWrapperBase";
 
 import { ContractWrapperFactory } from "../contractWrapperFactory";
+import { Web3EventService } from "../web3EventService";
 
 export class TokenCapGCWrapper extends ContractWrapperBase {
   public name: string = "TokenCapGC";
@@ -28,7 +29,8 @@ export class TokenCapGCWrapper extends ContractWrapperBase {
   }
 }
 
-export const TokenCapGCFactory = new ContractWrapperFactory("TokenCapGC", TokenCapGCWrapper);
+export const TokenCapGCFactory =
+  new ContractWrapperFactory("TokenCapGC", TokenCapGCWrapper, new Web3EventService());
 
 export interface TokenCapGcParams {
   cap: number | string;

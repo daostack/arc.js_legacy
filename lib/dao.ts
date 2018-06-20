@@ -1,8 +1,8 @@
 "use strict";
+import { EntityFetcherFactory, Web3EventService } from ".";
 import { AvatarService } from "./avatarService";
 import { Address, fnVoid, Hash } from "./commonTypes";
 import { ContractWrapperBase, DecodedLogEntryEvent } from "./contractWrapperBase";
-import { LoggingService } from "./loggingService";
 import { TransactionService } from "./transactionService";
 import { Utils } from "./utils";
 import { DaoCreatorFactory, DaoCreatorWrapper } from "./wrappers/daoCreator";
@@ -28,24 +28,20 @@ export class DAO {
       daoCreator = WrapperService.wrappers.DaoCreator;
     }
 
-    const eventTopic = "txReceipts.DAO.new";
-
-    const txReceiptEventPayload = TransactionService.publishKickoffEvent(
-      eventTopic,
+    const payload = TransactionService.publishKickoffEvent(
+      "txReceipts.DAO.new",
       options,
-      daoCreator.forgeOrgTransactionsCount(options) + daoCreator.setSchemesTransactionsCount(options));
+      daoCreator.forgeOrgTransactionsCount(options) + daoCreator.setSchemesTransactionsCount(options)
+    );
 
     /**
-     * subscribe to all "txReceipts.DaoCreator" and republish as eventTopic with txReceiptEventPayload
+     * resend sub-events as txReceipts.DAO.new
      */
-    const eventSubscription = TransactionService.resendTxEvents(
-      "txReceipts.DaoCreator",
-      eventTopic,
-      txReceiptEventPayload);
-
-    let avatarAddress;
+    TransactionService.pushContext("txReceipts.DaoCreator", payload);
 
     try {
+      let avatarAddress;
+
       const result = await daoCreator.forgeOrg(options);
 
       avatarAddress = result.getValueFromTx("_avatar", "NewOrg");
@@ -55,11 +51,11 @@ export class DAO {
       }
 
       await daoCreator.setSchemes(Object.assign({ avatar: avatarAddress }, options));
-    } finally {
-      eventSubscription.unsubscribe();
-    }
 
-    return DAO.at(avatarAddress);
+      return DAO.at(avatarAddress);
+    } finally {
+      TransactionService.popContext();
+    }
   }
 
   /**
@@ -93,45 +89,32 @@ export class DAO {
    * Arc DaoCreater.
    * @param options
    */
-  public static async getDaos(options: GetDaosOptions): Promise<Array<Address>> {
-    return new Promise<Array<Address>>(
-      async (resolve: (daos: Array<Address>) => void, reject: (error: Error) => void): Promise<void> => {
-        try {
-          const daos = new Array<Address>();
+  public static async getDaos(options: GetDaosOptions = {}): Promise<Array<Address>> {
+    const daoEventFetcherFactory = await DAO.getDaoCreationEvents(options);
+    return daoEventFetcherFactory({}, { fromBlock: 0 }).get();
+  }
 
-          const daoCreator =
-            options.daoCreatorAddress ?
-              await WrapperService.factories.DaoCreator
-                .at(options.daoCreatorAddress) : WrapperService.wrappers.DaoCreator;
+  /**
+   * Return a promise of an EntityFetcherFactory to get/watch avatar addresses
+   * for all of the DAOs created by the optionally-given DaoCreator contract.
+   * The default DaoCreator is the one deployed by the running version of Arc.js.
+   *
+   * An alternative DaoCreator must implement an InitialSchemesSet event just like the Arc DaoCreater.
+   * @param options Optional, default is `{}`.
+   */
+  public static async getDaoCreationEvents(options: GetDaosOptions = {}):
+    Promise<EntityFetcherFactory<Address, InitialSchemesSetEventResult>> {
 
-          const initSchemesEvent = daoCreator.InitialSchemesSet({}, { fromBlock: 0 });
+    const web3EventService = new Web3EventService();
+    const daoCreator =
+      options.daoCreatorAddress ?
+        await WrapperService.factories.DaoCreator
+          .at(options.daoCreatorAddress) : WrapperService.wrappers.DaoCreator;
 
-          initSchemesEvent.get(async (err: any, log: Array<DecodedLogEntryEvent<InitialSchemesSetEventResult>>) => {
-            if (err) {
-              LoggingService.error(`getDaos: Error obtaining DAOs: ${err}`);
-              reject(err);
-            }
-            for (const event of log) {
-              const avatarAddress = event.args._avatar;
-              LoggingService.debug(`getDaos: loaded dao: ${avatarAddress}`);
-              daos.push(avatarAddress);
-              if (options.perDaoCallback) {
-                const promiseOfStopSign = options.perDaoCallback(avatarAddress);
-                if (promiseOfStopSign) {
-                  const stop = await promiseOfStopSign;
-                  if (stop) {
-                    break;
-                  }
-                }
-              }
-            }
-            LoggingService.debug("Finished loading daos");
-            resolve(daos);
-          });
-        } catch (ex) {
-          LoggingService.error(`getDaos: Error obtaining DAOs: ${ex}`);
-          reject(ex);
-        }
+    return web3EventService.createEntityFetcherFactory(
+      daoCreator.InitialSchemesSet,
+      async (args: InitialSchemesSetEventResult): Promise<Address> => {
+        return Promise.resolve(args._avatar);
       });
   }
 
@@ -236,16 +219,19 @@ export class DAO {
       { fromBlock: 0, toBlock: "latest" }
     );
 
-    await new Promise((resolve: fnVoid): void => {
+    await new Promise((resolve: fnVoid, reject: (error: Error) => void): void => {
       registerSchemeEvent.get((
-        err: any,
+        err: Error,
         log: DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry> |
-          Array<DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry>>) =>
-
+          Array<DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry>>) => {
+        if (err) {
+          return reject(err);
+        }
         this._handleSchemeEvent(log, foundSchemes)
           .then((): void => {
             resolve();
-          })
+          });
+      }
       );
     });
 
@@ -298,16 +284,18 @@ export class DAO {
       { fromBlock: 0, toBlock: "latest" }
     );
 
-    await new Promise((resolve: fnVoid): void => {
+    await new Promise((resolve: fnVoid, reject: (error: Error) => void): void => {
       event.get((
         err: any,
         log: DecodedLogEntryEvent<ControllerAddGlobalConstraintsEventLogEntry> |
-          Array<DecodedLogEntryEvent<ControllerAddGlobalConstraintsEventLogEntry>>) =>
-
+          Array<DecodedLogEntryEvent<ControllerAddGlobalConstraintsEventLogEntry>>) => {
+        if (err) {
+          return reject(err);
+        }
         this._handleConstraintEvent(log, foundConstraints).then(() => {
           resolve();
-        })
-      );
+        });
+      });
     });
 
     const registeredConstraints = [];
@@ -402,9 +390,4 @@ export type PerDaoCallback = (avatarAddress: Address) => void | Promise<boolean>
 
 export interface GetDaosOptions {
   daoCreatorAddress?: Address;
-  /**
-   * Optional callback invoked after obtaining each avatar address.
-   * Return nothing or a promise of whether to stop finding Daos at this point.
-   */
-  perDaoCallback?: PerDaoCallback;
 }

@@ -21,20 +21,9 @@ export interface VoteConfig {
 }
 
 export enum BinaryVoteResult {
-  None = 0,
+  Abstain = 0,
   Yes = 1,
   No = 2,
-}
-
-export interface GetDaoProposalsConfig {
-  /**
-   * The avatar under which the proposals were created
-   */
-  avatar: Address;
-  /**
-   * Optionally filter on the given proposalId
-   */
-  proposalId?: Hash;
 }
 
 export enum SchemePermissions {
@@ -58,26 +47,26 @@ export enum SchemePermissions {
  * Note that '1' is always assigned to a scheme by the Controller when the
  * scheme is registered with the controller.
  */
-export enum DefaultSchemePermissions {
-  NoPermissions = SchemePermissions.None,
-  MinimumPermissions = SchemePermissions.IsRegistered,
-  AllPermissions = SchemePermissions.All,
-  ContributionReward = SchemePermissions.IsRegistered,
-  GenesisProtocol = SchemePermissions.IsRegistered,
-  GlobalConstraintRegistrar = SchemePermissions.IsRegistered | SchemePermissions.CanAddRemoveGlobalConstraints,
+export class DefaultSchemePermissions {
+  public static NoPermissions: SchemePermissions = SchemePermissions.None;
+  public static MinimumPermissions: SchemePermissions = SchemePermissions.IsRegistered;
+  public static AllPermissions: SchemePermissions = SchemePermissions.All;
+  public static ContributionReward: SchemePermissions = SchemePermissions.IsRegistered;
+  public static GenesisProtocol: SchemePermissions = SchemePermissions.IsRegistered;
+  public static GlobalConstraintRegistrar: SchemePermissions = SchemePermissions.IsRegistered | SchemePermissions.CanAddRemoveGlobalConstraints;
   /**
    * Has all permissions so that it can register/unregister all schemes
    */
-  SchemeRegistrar = SchemePermissions.All,
-  UpgradeScheme = SchemePermissions.IsRegistered | SchemePermissions.CanRegisterSchemes | SchemePermissions.CanUpgradeController,
-  VestingScheme = SchemePermissions.IsRegistered,
-  VoteInOrganizationScheme = SchemePermissions.IsRegistered | SchemePermissions.CanCallDelegateCall,
+  public static SchemeRegistrar: SchemePermissions = SchemePermissions.All;
+  public static UpgradeScheme: SchemePermissions = SchemePermissions.IsRegistered | SchemePermissions.CanRegisterSchemes | SchemePermissions.CanUpgradeController;
+  public static VestingScheme: SchemePermissions = SchemePermissions.IsRegistered;
+  public static VoteInOrganizationScheme: SchemePermissions = SchemePermissions.IsRegistered | SchemePermissions.CanCallDelegateCall;
 }
 /* tslint:enable:no-bitwise */
 /* tslint:enable:max-line-length */
 /* tslint:disable:no-namespace */
 export namespace SchemePermissions {
-  export function toString(perms: SchemePermissions | DefaultSchemePermissions): string {
+  export function toString(perms: SchemePermissions): string {
     return Utils.numberToPermissionsString(perms);
   }
   export function fromString(perms: string): SchemePermissions {
@@ -91,4 +80,8 @@ export interface SchemeWrapper {
   getSchemeParameters(avatarAddress: Address): Promise<any>;
   getDefaultPermissions(): SchemePermissions;
   getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
+}
+
+export interface HasContract {
+  contract: any;
 }

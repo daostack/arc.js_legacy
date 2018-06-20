@@ -1,16 +1,21 @@
 import * as PubSub from "pubsub-js";
 import { LoggingService } from "./loggingService";
+import { UtilsInternal } from "./utilsInternal";
 
-export class EventService {
+/**
+ * A Pub/Sub event system that enables you to subscribe to various events published by Arc.js.
+ * See [Events](/Events).
+ */
+export class PubSubEventService {
 
   /**
    * Send the given payload to subscribers of the given topic.
-   * @param topic See [subscribe](EventService#subscribe)
+   * @param topic See [subscribe](PubSubEventService#subscribe)
    * @param payload Sent in the subscription callback.
    * @returns True if there are any subscribers
    */
   public static publish(topic: string, payload: any): boolean {
-    LoggingService.debug(`EventService: publishing ${topic}`);
+    LoggingService.debug(`PubSubEventService: publishing ${topic}`);
     return PubSub.publish(topic, payload);
   }
 
@@ -22,7 +27,7 @@ export class EventService {
    */
   public static subscribe(topics: string | Array<string>, callback: EventSubscriptionCallback): IEventSubscription {
     return Array.isArray(topics) ?
-      EventService.aggregate(topics, callback) :
+      PubSubEventService.aggregate(topics, callback) :
       new EventSubscription(PubSub.subscribe(topics, callback));
   }
 
@@ -43,6 +48,55 @@ export class EventService {
    */
   public static unsubscribe(key: EventSubscriptionKey): void {
     PubSub.unsubscribe(key);
+  }
+
+  /**
+   * Return whether topic2 is specified by topics1.
+   *
+   * Examples:
+   *
+   * topic11: ["foo"]
+   * topic2: "foo.bar"
+   * result: true
+   *
+   * topics1: ["foo.bar"]
+   * topic2: "foo"
+   * result: false
+   *
+   * Or a wildcard:
+   *
+   * topics1: "*"
+   * topic2: "foo"
+   * result: true
+   *
+   * @param topics1
+   * @param topic2
+   * @param countEqualAsSpecifiedBy Optional, true to count equal topics as specified-by.  Default is true.
+   */
+  public static isTopicSpecifiedBy(
+    topics1: Array<string> | string,
+    topic2: string,
+    countEqualAsSpecifiedBy: boolean = true): boolean {
+
+    if (!topic2) { return false; }
+    if (!topics1) { return false; }
+
+    topics1 = UtilsInternal.ensureArray(topics1);
+
+    if (topics1[0] === "*") { return true; }
+
+    for (const topic1 of topics1) {
+
+      if (!topic1) { continue; }
+      if (topic1 === topic2) { return true; }
+      if (topic1.length > topic2.length) { continue; }
+      if (topic2.indexOf(topic1) !== 0) { continue; }
+      if (topic2[topic1.length] !== ".") { continue; }
+
+      return true;
+    }
+
+    return false;
   }
 
   /**
@@ -84,7 +138,7 @@ export class SubscriptionCollection implements IEventSubscription {
    */
   public subscribe(topics: string | Array<string>, callback: EventSubscriptionCallback): void {
 
-    if (!Array.isArray(topics)) { topics = [topics]; }
+    topics = UtilsInternal.ensureArray(topics);
 
     topics.forEach((topic: string) => {
       const subscriptionKey = PubSub.subscribe(topic, callback);

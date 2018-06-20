@@ -5,43 +5,43 @@ import { LoggingService } from "./loggingService";
 import {
   AbsoluteVoteFactory,
   AbsoluteVoteWrapper
-} from "./wrappers/absoluteVote.js";
+} from "./wrappers/absoluteVote";
 import {
   ContributionRewardFactory,
   ContributionRewardWrapper
-} from "./wrappers/contributionReward.js";
+} from "./wrappers/contributionReward";
 import {
   DaoCreatorFactory,
   DaoCreatorWrapper
-} from "./wrappers/daoCreator.js";
+} from "./wrappers/daoCreator";
 import {
   GenesisProtocolFactory,
   GenesisProtocolWrapper
-} from "./wrappers/genesisProtocol.js";
+} from "./wrappers/genesisProtocol";
 import {
   GlobalConstraintRegistrarFactory,
   GlobalConstraintRegistrarWrapper
-} from "./wrappers/globalConstraintRegistrar.js";
+} from "./wrappers/globalConstraintRegistrar";
 import {
   SchemeRegistrarFactory,
   SchemeRegistrarWrapper
-} from "./wrappers/schemeRegistrar.js";
+} from "./wrappers/schemeRegistrar";
 import {
   TokenCapGCFactory,
   TokenCapGCWrapper
-} from "./wrappers/tokenCapGC.js";
+} from "./wrappers/tokenCapGC";
 import {
   UpgradeSchemeFactory,
   UpgradeSchemeWrapper
-} from "./wrappers/upgradeScheme.js";
+} from "./wrappers/upgradeScheme";
 import {
   VestingSchemeFactory,
   VestingSchemeWrapper
-} from "./wrappers/vestingScheme.js";
+} from "./wrappers/vestingScheme";
 import {
   VoteInOrganizationSchemeFactory,
   VoteInOrganizationSchemeWrapper
-} from "./wrappers/voteInOrganizationScheme.js";
+} from "./wrappers/voteInOrganizationScheme";
 
 /**
  * An object with property names being a contract key and property value as the

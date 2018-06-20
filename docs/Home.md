@@ -131,7 +131,7 @@ await InitializeArcJs({
 ```
 
 !!! info
-    For safety, Arc.js specifies a different default HTTP port for each network.  You will need to make sure that the testnet you are using is listening on that port.  The port values are:
+    For safety, by default Arc.js specifies a different HTTP port for each network.  You will need to make sure that the testnet your application is using is listening on that port.  The port values are:
 
     <table style="margin-left:2.5rem">
     <tr style="text-align:left"><th>Network</th><th>Port</th></tr>
@@ -158,4 +158,6 @@ Arc.js provides a few "service" classes that can be helpful, including:
 
 - [ConfigService](api/classes/ConfigService) - for working with Arc.js configuration settings. [Read more here](Configuration.md).
 - [LoggingService](api/classes/LoggingService) - for logging.  See also the [`logLevel` configuration setting](Configuration.md).
+- [AvatarService](api/classes/AvatarService) - handy functions for getting information about an avatar (DAO).
+- [AccountService](api/classes/AccountService) - for working with accounts, such as being notified when the default account changes (see [Account Changes](Events#accountchanges))
 - [Utils](api/classes/Utils) - miscellaneous API for working with web3, truffle contracts and transactions.

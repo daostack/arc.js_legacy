@@ -1,16 +1,20 @@
 "use strict";
-import { Address, Hash, VoteConfig } from "../commonTypes";
+import { Address, Hash } from "../commonTypes";
 
 import {
-  ArcTransactionDataResult,
-  ArcTransactionResult,
-  ContractWrapperBase,
-  EventFetcherFactory
+  ArcTransactionDataResult
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
-import { ExecuteProposalEventResult, NewProposalEventResult, VoteProposalEventResult } from "./commonEventInterfaces";
+import { ProposalService, VotableProposal } from "../proposalService";
+import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
+import {
+  NewProposalEventResult,
+  VoteProposalEventResult,
+  VotingMachineExecuteProposalEventResult
+} from "./commonEventInterfaces";
+import { IntVoteInterfaceWrapper } from "./intVoteInterface";
 
-export class AbsoluteVoteWrapper extends ContractWrapperBase {
+export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper {
 
   public name: string = "AbsoluteVote";
   public friendlyName: string = "Absolute Vote";
@@ -20,46 +24,35 @@ export class AbsoluteVoteWrapper extends ContractWrapperBase {
    * Events
    */
 
-  /* tslint:disable:max-line-length */
-  public NewProposal: EventFetcherFactory<NewProposalEventResult> = this.createEventFetcherFactory<NewProposalEventResult>("NewProposal");
-  public CancelProposal: EventFetcherFactory<CancelProposalEventResult> = this.createEventFetcherFactory<CancelProposalEventResult>("CancelProposal");
-  public ExecuteProposal: EventFetcherFactory<ExecuteProposalEventResult> = this.createEventFetcherFactory<ExecuteProposalEventResult>("ExecuteProposal");
-  public VoteProposal: EventFetcherFactory<VoteProposalEventResult> = this.createEventFetcherFactory<VoteProposalEventResult>("VoteProposal");
-  public CancelVoting: EventFetcherFactory<CancelVotingEventResult> = this.createEventFetcherFactory<CancelVotingEventResult>("CancelVoting");
-  /* tslint:enable:max-line-length */
+  public NewProposal: EventFetcherFactory<NewProposalEventResult>;
+  public CancelProposal: EventFetcherFactory<CancelProposalEventResult>;
+  public ExecuteProposal: EventFetcherFactory<VotingMachineExecuteProposalEventResult>;
+  public VoteProposal: EventFetcherFactory<VoteProposalEventResult>;
+  public CancelVoting: EventFetcherFactory<CancelVotingEventResult>;
 
   /**
-   * Vote on a proposal
-   * @param {VoteConfig} options
-   * @returns Promise<ArcTransactionResult>
+   * EntityFetcherFactory for votable proposals.
+   * @param avatarAddress
    */
-  public async vote(options: VoteConfig = {} as VoteConfig): Promise<ArcTransactionResult> {
+  public get VotableAbsoluteVoteProposals():
+    EntityFetcherFactory<VotableProposal, NewProposalEventResult> {
 
-    const defaults = {
-      onBehalfOf: null,
-    };
+    const proposalService = new ProposalService(this.web3EventService);
 
-    options = Object.assign({}, defaults, options) as VoteConfig;
-
-    if (!options.proposalId) {
-      throw new Error("proposalId is not defined");
-    }
-
-    if (!Number.isInteger(options.vote) || (options.vote < 0) || (options.vote > 2)) {
-      throw new Error("vote is not valid");
-    }
-
-    this.logContractFunctionCall("AbsoluteVote.vote", options);
-
-    return this.wrapTransactionInvocation("AbsoluteVote.vote",
-      options,
-      () => {
-        return this.contract.vote(
-          options.proposalId,
-          options.vote,
-          options.onBehalfOf ? { from: options.onBehalfOf } : undefined
-        );
-      });
+    return proposalService.getProposalEvents({
+      proposalsEventFetcher: this.NewProposal,
+      transformEventCallback: async (args: NewProposalEventResult): Promise<VotableProposal> => {
+        return {
+          avatarAddress: args._avatar,
+          numOfChoices: args._numOfChoices.toNumber(),
+          paramsHash: args._paramsHash,
+          proposalId: args._proposalId,
+          proposerAddress: args._proposer,
+        };
+      },
+      votableOnly: true,
+      votingMachine: this,
+    });
   }
 
   public async setParameters(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>> {
@@ -91,9 +84,20 @@ export class AbsoluteVoteWrapper extends ContractWrapperBase {
       votePerc: params[1].toNumber(),
     };
   }
+
+  protected hydrated(): void {
+    /* tslint:disable:max-line-length */
+    this.NewProposal = this.createEventFetcherFactory<NewProposalEventResult>(this.contract.NewProposal);
+    this.CancelProposal = this.createEventFetcherFactory<CancelProposalEventResult>(this.contract.CancelProposal);
+    this.ExecuteProposal = this.createEventFetcherFactory<VotingMachineExecuteProposalEventResult>(this.contract.ExecuteProposal);
+    this.VoteProposal = this.createEventFetcherFactory<VoteProposalEventResult>(this.contract.VoteProposal);
+    this.CancelVoting = this.createEventFetcherFactory<CancelVotingEventResult>(this.contract.CancelVoting);
+    /* tslint:enable:max-line-length */
+  }
 }
 
-export const AbsoluteVoteFactory = new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper);
+export const AbsoluteVoteFactory =
+  new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper, new Web3EventService());
 
 export interface CancelProposalEventResult {
   /**

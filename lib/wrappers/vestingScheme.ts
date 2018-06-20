@@ -1,24 +1,23 @@
 "use strict";
 import * as BigNumber from "bignumber.js";
 import { promisify } from "es6-promisify";
-import { Address, DefaultSchemePermissions, fnVoid, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
 import { ConfigService } from "../configService";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   ArcTransactionResult,
-  ContractWrapperBase,
-  DecodedLogEntryEvent,
-  EventFetcherFactory,
   StandardSchemeParams,
   TransactionReceiptTruffle,
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
+import { ProposalGeneratorBase } from "../proposalGeneratorBase";
 import { TransactionService } from "../transactionService";
 import { Utils } from "../utils";
-import { ProposalExecutedEventResult } from "./commonEventInterfaces";
+import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
+import { SchemeProposalExecuted, SchemeProposalExecutedEventResult } from "./commonEventInterfaces";
 
-export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeWrapper {
+export class VestingSchemeWrapper extends ProposalGeneratorBase implements SchemeWrapper {
 
   public name: string = "VestingScheme";
   public friendlyName: string = "Vesting Scheme";
@@ -27,36 +26,26 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
    * Events
    */
 
-  /* tslint:disable:max-line-length */
-  public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult> = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
-  public AgreementProposal: EventFetcherFactory<AgreementProposalEventResult> = this.createEventFetcherFactory<AgreementProposalEventResult>("AgreementProposal");
-  public NewVestedAgreement: EventFetcherFactory<NewVestedAgreementEventResult> = this.createEventFetcherFactory<NewVestedAgreementEventResult>("NewVestedAgreement");
-  public SignToCancelAgreement: EventFetcherFactory<SignToCancelAgreementEventResult> = this.createEventFetcherFactory<SignToCancelAgreementEventResult>("SignToCancelAgreement");
-  public RevokeSignToCancelAgreement: EventFetcherFactory<RevokeSignToCancelAgreementEventResult> = this.createEventFetcherFactory<RevokeSignToCancelAgreementEventResult>("RevokeSignToCancelAgreement");
-  public AgreementCancel: EventFetcherFactory<AgreementCancelEventResult> = this.createEventFetcherFactory<AgreementCancelEventResult>("AgreementCancel");
-  public Collect: EventFetcherFactory<CollectEventResult> = this.createEventFetcherFactory<CollectEventResult>("Collect");
-  /* tslint:enable:max-line-length */
+  public ProposalExecuted: EventFetcherFactory<SchemeProposalExecutedEventResult>;
+  public AgreementProposal: EventFetcherFactory<AgreementProposalEventResult>;
+  public NewVestedAgreement: EventFetcherFactory<NewVestedAgreementEventResult>;
+  public SignToCancelAgreement: EventFetcherFactory<SignToCancelAgreementEventResult>;
+  public RevokeSignToCancelAgreement: EventFetcherFactory<RevokeSignToCancelAgreementEventResult>;
+  public AgreementCancel: EventFetcherFactory<AgreementCancelEventResult>;
+  public Collect: EventFetcherFactory<CollectEventResult>;
 
   /**
    * see CreateVestingAgreementConfig
    */
-  private defaultCreateOptions: CommonVestingAgreementConfig = {
-    amountPerPeriod: undefined,
-    beneficiaryAddress: undefined,
-    cliffInPeriods: undefined,
-    numOfAgreedPeriods: undefined,
-    periodLength: undefined,
-    returnOnCancelAddress: undefined,
-    signaturesReqToCancel: undefined,
-    signers: undefined,
+  private defaultCreateOptions: Partial<CommonVestingAgreementConfig> = {
     startingBlock: null,
   };
 
   /**
-   * Propose a new vesting agreement
+   * Submit a proposal to create a vesting agreement.
    * @param {ProposeVestingAgreementConfig} options
    */
-  public async propose(
+  public async proposeVestingAgreement(
     options: ProposeVestingAgreementConfig = {} as ProposeVestingAgreementConfig)
     : Promise<ArcTransactionProposalResult> {
     /**
@@ -91,7 +80,7 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
         );
       });
 
-    return new ArcTransactionProposalResult(txResult.tx);
+    return new ArcTransactionProposalResult(txResult.tx, await this.getVotingMachine(options.avatar));
   }
 
   /**
@@ -217,44 +206,60 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
   }
 
   /**
-   * Return all agreements ever created by this scheme
-   * Filter by the optional agreementId.
+   * EntityFetcherFactory for votable Agreement.
+   * @param avatarAddress
    */
-  public async getAgreements(
-    options: GetAgreementParams = {} as GetAgreementParams): Promise<Array<Agreement>> {
+  public async getVotableProposals(avatarAddress: Address):
+    Promise<EntityFetcherFactory<AgreementProposal, SchemeProposalExecutedEventResult>> {
 
-    const defaults = {
-      agreementId: null,
-    };
-
-    options = Object.assign({}, defaults, options);
-
-    if (!options.avatar) {
-      throw new Error("avatar address is not defined");
-    }
-
-    const agreements = new Array<Agreement>();
-
-    if (options.agreementId) {
-      const agreement = this.schemeAgreementToAgreement(
-        await this.contract.agreements(options.agreementId), options.agreementId);
-      agreements.push(agreement);
-    } else {
-      const eventFetcher = this.NewVestedAgreement({}, { fromBlock: 0 });
-      await new Promise((resolve: fnVoid): void => {
-        eventFetcher.get(async (err: any, log: Array<DecodedLogEntryEvent<NewVestedAgreementEventResult>>) => {
-          for (const event of log) {
-            const agreementId = event.args._agreementId.toNumber();
-            const agreement = this.schemeAgreementToAgreement(
-              await this.contract.agreements(agreementId), agreementId);
-            agreements.push(agreement);
-          }
-          resolve();
-        });
+    return this.proposalService.getProposalEvents(
+      {
+        baseArgFilter: { _avatar: avatarAddress },
+        proposalsEventFetcher: this.AgreementProposal,
+        transformEventCallback:
+          async (args: SchemeProposalExecutedEventResult): Promise<AgreementProposal> => {
+            return this.getVotableProposal(args._avatar, args._proposalId);
+          },
+        votableOnly: true,
+        votingMachine: await this.getVotingMachine(avatarAddress),
       });
-    }
+  }
 
-    return agreements;
+  // TODO: Return Agreement here when it is possible to obtain the agreementId from Arc.
+  /**
+   * EntityFetcherFactory for executed proposals.
+   * @param avatarAddress
+   */
+  public getExecutedProposals(avatarAddress: Address):
+    EntityFetcherFactory<SchemeProposalExecuted, SchemeProposalExecutedEventResult> {
+
+    return this.proposalService.getProposalEvents(
+      {
+        baseArgFilter: { _avatar: avatarAddress },
+        proposalsEventFetcher: this.ProposalExecuted,
+        transformEventCallback:
+          (event: SchemeProposalExecutedEventResult): Promise<SchemeProposalExecuted> => {
+            return Promise.resolve({
+              avatarAddress: event._avatar,
+              proposalId: event._proposalId,
+              winningVote: event._param,
+            });
+          },
+      });
+  }
+
+  public async getVotableProposal(avatarAddress: Address, proposalId: Hash): Promise<AgreementProposal> {
+    const proposalParams = await this.contract.organizationsProposals(avatarAddress, proposalId);
+    const agreement = this.convertProposalPropsArrayToObject(proposalParams) as AgreementProposal;
+    agreement.proposalId = proposalId;
+    return agreement;
+  }
+
+  public async getAgreement(agreementId: number): Promise<Agreement> {
+    const agreementParams = await this.contract.agreements(agreementId);
+    const agreement = this.convertProposalPropsArrayToObject(agreementParams) as Agreement;
+    agreement.agreementId = agreementId;
+    return agreement;
   }
 
   public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
@@ -288,9 +293,46 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
     };
   }
 
+  protected hydrated(): void {
+    /* tslint:disable:max-line-length */
+    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.ProposalExecuted);
+    this.AgreementProposal = this.createEventFetcherFactory<AgreementProposalEventResult>(this.contract.AgreementProposal);
+    this.NewVestedAgreement = this.createEventFetcherFactory<NewVestedAgreementEventResult>(this.contract.NewVestedAgreement);
+    this.SignToCancelAgreement = this.createEventFetcherFactory<SignToCancelAgreementEventResult>(this.contract.SignToCancelAgreement);
+    this.RevokeSignToCancelAgreement = this.createEventFetcherFactory<RevokeSignToCancelAgreementEventResult>(this.contract.RevokeSignToCancelAgreement);
+    this.AgreementCancel = this.createEventFetcherFactory<AgreementCancelEventResult>(this.contract.AgreementCancel);
+    this.Collect = this.createEventFetcherFactory<CollectEventResult>(this.contract.Collect);
+    /* tslint:enable:max-line-length */
+  }
+
   private async validateCreateParams(options: CommonVestingAgreementConfig): Promise<void> {
+
+    if (!options.beneficiaryAddress) {
+      throw new Error("beneficiary address is not set");
+    }
+
+    if (!options.returnOnCancelAddress) {
+      throw new Error("returnOnCancelAddress is not set");
+    }
+
+    if (!Number.isInteger(options.signaturesReqToCancel) || (options.signaturesReqToCancel <= 0)) {
+      throw new Error("signaturesReqToCancel must be greater than zero");
+    }
+
+    if (!Array.isArray(options.signers)) {
+      throw new Error("signers is not set");
+    }
+
+    if (options.signers.length < 1) {
+      throw new Error("the number of signers must be greater than 0");
+    }
+
+    if (options.signaturesReqToCancel > options.signers.length) {
+      throw new Error("the number of signatures required to cancel cannpt be greater than the number of signers");
+    }
+
     if (!Number.isInteger(options.periodLength) || (options.periodLength <= 0)) {
-      throw new Error("periodLength must be an integer greater than zero");
+      throw new Error("periodLength must be greater than zero");
     }
 
     const web3 = await Utils.getWeb3();
@@ -316,19 +358,18 @@ export class VestingSchemeWrapper extends ContractWrapperBase implements SchemeW
     }
   }
 
-  private schemeAgreementToAgreement(schemeAgreement: Array<any>, agreementId: number): Agreement {
+  private convertProposalPropsArrayToObject(propsArray: Array<any>): AgreementBase {
     return {
-      agreementId,
-      amountPerPeriod: schemeAgreement[4],
-      beneficiaryAddress: schemeAgreement[1],
-      cliffInPeriods: schemeAgreement[7],
-      collectedPeriods: schemeAgreement[9],
-      numOfAgreedPeriods: schemeAgreement[6],
-      periodLength: schemeAgreement[5],
-      returnOnCancelAddress: schemeAgreement[2],
-      signaturesReqToCancel: schemeAgreement[8],
-      startingBlock: schemeAgreement[3],
-      tokenAddress: schemeAgreement[0],
+      amountPerPeriod: propsArray[4],
+      beneficiaryAddress: propsArray[1],
+      cliffInPeriods: propsArray[7],
+      collectedPeriods: propsArray[9],
+      numOfAgreedPeriods: propsArray[6],
+      periodLength: propsArray[5],
+      returnOnCancelAddress: propsArray[2],
+      signaturesReqToCancel: propsArray[8],
+      startingBlock: propsArray[3],
+      tokenAddress: propsArray[0],
     };
   }
 }
@@ -343,7 +384,8 @@ export class ArcTransactionAgreementResult extends ArcTransactionResult {
   }
 }
 
-export const VestingSchemeFactory = new ContractWrapperFactory("VestingScheme", VestingSchemeWrapper);
+export const VestingSchemeFactory =
+  new ContractWrapperFactory("VestingScheme", VestingSchemeWrapper, new Web3EventService());
 
 export interface AgreementProposalEventResult {
   /**
@@ -404,7 +446,7 @@ export interface CommonVestingAgreementConfig {
   /**
    * Where to send the tokens in case of cancellation
    */
-  returnOnCancelAddress: string;
+  returnOnCancelAddress: Address;
   /**
    * Optional ethereum block number at which the agreement starts.
    * Default is the current block number.
@@ -443,7 +485,7 @@ export interface CommonVestingAgreementConfig {
    * An array of addresses of those who will be allowed to sign to cancel an agreement.
    * The length of this array must be greater than or equal to signaturesReqToCancel.
    */
-  signers: Array<string>;
+  signers: Array<Address>;
 }
 
 export interface CreateVestingAgreementConfig extends CommonVestingAgreementConfig {
@@ -493,8 +535,15 @@ export interface GetAgreementParams {
   agreementId?: number;
 }
 
-export interface Agreement {
+export interface AgreementProposal extends AgreementBase {
+  proposalId: Hash;
+}
+
+export interface Agreement extends AgreementBase {
   agreementId: number;
+}
+
+export interface AgreementBase {
   amountPerPeriod: BigNumber.BigNumber;
   beneficiaryAddress: Address;
   cliffInPeriods: BigNumber.BigNumber;

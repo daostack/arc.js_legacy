@@ -28,41 +28,64 @@ describe("DAO", () => {
   };
 
   it("can call getDaos", async () => {
-    await getNewDao();
 
-    const daos = await DAO.getDaos({});
-    assert.isOk(daos, "daos is not set");
-    assert(daos.length > 0, "no daos found");
+    let daos = await DAO.getDaos();
+    assert.isOk(daos, "daos array not returned");
+    const originaCountOfDaos = daos.length;
+    await getNewDao();
+    await getNewDao({ name: "ArcJsTestDao2" });
+    daos = await DAO.getDaos();
+    assert.isOk(daos, "daos array not returned");
+    assert.equal(daos.length, originaCountOfDaos + 2, `Should have found ${originaCountOfDaos + 2} daos`);
   });
 
-  it("can call getDaos with callback", async () => {
+  it("can call getDaoCreationEvents", async () => {
+
+    const daoEventFetcherFactory = await DAO.getDaoCreationEvents();
+    assert.isOk(daoEventFetcherFactory, "daoEventFetcherFactory is not set");
+    let daos = await daoEventFetcherFactory({}, { fromBlock: 0 }).get();
+    assert.isOk(daos, "daos array not returned");
+    const originaCountOfDaos = daos.length;
+
     await getNewDao();
     await getNewDao({ name: "ArcJsTestDao2" });
 
-    let count = 0;
-    const perDaoCallback = (avatarAddress: Address): void => {
-      ++count;
-    };
+    daos = await daoEventFetcherFactory({}, { fromBlock: 0 }).get();
 
-    const daos = await DAO.getDaos({ perDaoCallback });
-    assert.isOk(daos, "daos is not set");
-    assert.equal(daos.length, count, "callback not invoked");
+    assert.equal(daos.length, originaCountOfDaos + 2, `Should have found ${originaCountOfDaos + 2} daos`);
   });
 
-  it("can interrupt getDaos with callback", async () => {
+  it("can watch getDaos", async () => {
+
+    const daoEventFetcherFactory = await DAO.getDaoCreationEvents();
+    assert.isOk(daoEventFetcherFactory, "daoEventFetcherFactory is not set");
+
+    const daos = await daoEventFetcherFactory({}, { fromBlock: 0 }).get();
+    assert.isOk(daos, "daos array not returned");
+    const originalCountOfDaos = daos.length;
+    let countWatch = 0;
+    let countSubscribe = 0;
+
+    const watcher = daoEventFetcherFactory({}, { fromBlock: 0 });
+
+    watcher.watch(
+      (error: Error, daoAddress: Address): void => {
+        ++countWatch;
+      });
+
+    const subscription = watcher.subscribe("getDaos",
+      (eventName: string, daoAddress: Address): void => {
+        assert.equal(eventName, "getDaos");
+        ++countSubscribe;
+      });
+
     await getNewDao();
-    await getNewDao({ name: "ArcJsTestDao2" });
 
-    let count = 0;
-    const perDaoCallback: PerDaoCallback = (avatarAddress: Address): Promise<boolean> => {
-      ++count;
-      return Promise.resolve(true);
-    };
-
-    const daos = await DAO.getDaos({ perDaoCallback });
-    assert.isOk(daos, "daos is not set");
-    assert(daos.length === 1, "wrong number of daos found");
-    assert(count === 1, "wrong number of callbacks");
+    await helpers.sleep(1000);
+    watcher.stopWatching();
+    subscription.unsubscribe();
+    assert.equal(countWatch, originalCountOfDaos + 1, `Should have watched one new dao`);
+    assert.equal(countSubscribe, originalCountOfDaos + 1, `Should have subscribed to one new dao`);
   });
 
   it("default config for counting the number of transactions", async () => {
@@ -191,7 +214,7 @@ describe("DAO", () => {
     const votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, scheme);
     const votingMachine = await helpers.getSchemeVotingMachine(dao, scheme);
     const votingMachineParams = await helpers.getVotingMachineParameters(votingMachine, votingMachineParamsHash);
-    assert.equal(votingMachineParams[1].toNumber(), 45);
+    assert.equal(votingMachineParams.votePerc, 45);
   });
 
   it("can be created with schemes and scheme-specific votingMachineParams", async () => {
@@ -223,7 +246,7 @@ describe("DAO", () => {
     let votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, gcscheme);
     let votingMachine = await helpers.getSchemeVotingMachine(dao, gcscheme);
     let votingMachineParams = await helpers.getVotingMachineParameters(votingMachine, votingMachineParamsHash);
-    assert.equal(votingMachineParams[1].toNumber(), 30);
+    assert.equal(votingMachineParams.votePerc, 30);
 
     const upgradeScheme =
       await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory) as UpgradeSchemeWrapper;
@@ -234,12 +257,12 @@ describe("DAO", () => {
     votingMachineParamsHash = await helpers.getSchemeVotingMachineParametersHash(dao, upgradeScheme);
     votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
     votingMachineParams = await helpers.getVotingMachineParameters(votingMachine, votingMachineParamsHash);
-    assert.equal(votingMachineParams[1].toNumber(), 45);
+    assert.equal(votingMachineParams.votePerc, 45);
   });
 
   it("has a working getSchemes() function to access its schemes", async () => {
     const dao = await helpers.forgeDao();
-    const wrappers = helpers.contractsForTest();
+    const wrappers = WrapperService.wrappers;
     // a new dao comes with three known schemes
     assert.equal((await dao.getSchemes()).length, 3);
     let scheme = await helpers.getDaoScheme(dao, "GlobalConstraintRegistrar", GlobalConstraintRegistrarFactory);
@@ -318,7 +341,7 @@ describe("DAO", () => {
 
     result = await globalConstraintRegistrar.proposeToRemoveGlobalConstraint({
       avatar: dao.avatar.address,
-      globalConstraint: tokenCapGC.address,
+      globalConstraintAddress: tokenCapGC.address,
     });
 
     proposalId = result.proposalId;

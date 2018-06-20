@@ -57,6 +57,12 @@ class ConsoleLogger implements ILogger {
   /* tslint:enable:max-line-length */
 }
 
+/**
+ * Provides logging support, logging by default to the JavaScript console.  You can provide
+ * alternate or additional loggers by using `LoggingService.addLogger` and `LoggingService.removeLogger`.
+ * You can set the `LogLevel` by setting `LoggingService.logLevel` with flags from [LogLevel](/api/enums/LogLevel/).
+ * Logically, LogLevels are simply or'd together, there is no hierarchy to them.
+ */
 export class LoggingService {
 
   public static loggers: Array<ILogger> = [new ConsoleLogger()];

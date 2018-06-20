@@ -1,14 +1,15 @@
 import { BigNumber } from "bignumber.js";
 import { assert } from "chai";
-import { Hash } from "../lib/commonTypes";
+import { BinaryVoteResult, Hash } from "../lib/commonTypes";
 import { ArcTransactionResult } from "../lib/contractWrapperBase";
 import { DAO, DaoSchemeInfo } from "../lib/dao";
 import { Utils } from "../lib/utils";
 import {
   ExecutedGenesisProposal,
   GenesisProtocolFactory,
+  GenesisProtocolProposal,
   GenesisProtocolWrapper,
-  GetDefaultGenesisProtocolParameters
+  GetDefaultGenesisProtocolParameters,
 } from "../lib/wrappers/genesisProtocol";
 import { SchemeRegistrarFactory, SchemeRegistrarWrapper } from "../lib/wrappers/schemeRegistrar";
 import { WrapperService } from "../lib/wrapperService";
@@ -23,7 +24,7 @@ describe("GenesisProtocol", () => {
   const createProposal = async (): Promise<Hash> => {
 
     const result = await genesisProtocol.propose({
-      avatar: dao.avatar.address,
+      avatarAddress: dao.avatar.address,
       executable: executableTest.address,
       numOfChoices: 2,
     });
@@ -125,6 +126,43 @@ describe("GenesisProtocol", () => {
       `stakingTokenBalance is wrong: ${result.stakingTokenBalance}`);
   });
 
+  it("can get votable proposals", async () => {
+
+    dao = await helpers.forgeDao({
+      founders: [{
+        address: accounts[0],
+        reputation: web3.toWei(1000),
+        tokens: web3.toWei(1000),
+      },
+      ],
+      schemes: [
+        {
+          name: "GenesisProtocol",
+          votingMachineParams: {
+            ownerVote: false,
+          },
+        },
+      ],
+    });
+
+    const proposalId1 = await createProposal();
+
+    const proposalId2 = await createProposal();
+
+    const proposals = await genesisProtocol.VotableGenesisProtocolProposals(
+      { _avatar: dao.avatar.address },
+      { fromBlock: 0 }).get();
+
+    // TODO: This should be === 2.  Should be fixed in next Arc version
+    assert(proposals.length >= 2, "Should have found 2 proposals");
+    assert(proposals.filter((p: GenesisProtocolProposal) => p.proposalId === proposalId1).length,
+      "proposalId1 not found");
+    assert(proposals.filter((p: GenesisProtocolProposal) => p.proposalId === proposalId2).length,
+      "proposalId2 not found");
+
+    assert(typeof proposals[0].numOfChoices === "number");
+  });
+
   it("can get executed proposals", async () => {
 
     const proposalId1 = await createProposal();
@@ -133,19 +171,23 @@ describe("GenesisProtocol", () => {
     const proposalId2 = await createProposal();
     await voteProposal(proposalId2, 1);
 
-    let proposals = await genesisProtocol.getExecutedDaoProposals({ avatar: dao.avatar.address });
+    let proposals = await genesisProtocol.ExecutedProposals(
+      { _avatar: dao.avatar.address },
+      { fromBlock: 0 }).get();
 
-    assert(proposals.length >= 2, "Should have found at least 2 proposals");
+    // TODO: This should be === 2.  Should be fixed in next Arc version
+    assert(proposals.length >= 2, "Should have found 2 proposals");
     assert(proposals.filter((p: ExecutedGenesisProposal) => p.proposalId === proposalId1).length,
       "proposalId1 not found");
     assert(proposals.filter((p: ExecutedGenesisProposal) => p.proposalId === proposalId2).length,
       "proposalId2 not found");
 
-    proposals = await genesisProtocol.getExecutedDaoProposals({ avatar: dao.avatar.address, proposalId: proposalId2 });
+    proposals = await genesisProtocol.ExecutedProposals(
+      { _avatar: dao.avatar.address, _proposalId: proposalId2 },
+      { fromBlock: 0 }).get();
 
     assert.equal(proposals.length, 1, "Should have found 1 proposals");
-    assert(proposals.filter((p: ExecutedGenesisProposal) => p.proposalId === proposalId2).length,
-      "proposalId2 not found");
+    assert(proposals[0].proposalId === proposalId2, "proposalId2 not found");
     assert.isOk(proposals[0].totalReputation, "totalReputation not set properly on proposal");
     assert.equal(proposals[0].decision, 1, "decision is wrong");
   });
@@ -169,6 +211,7 @@ describe("GenesisProtocol", () => {
         {
           name: "SchemeRegistrar",
           votingMachineParams: {
+            ownerVote: false,
             votingMachineName: "GenesisProtocol",
           },
         },
@@ -198,19 +241,24 @@ describe("GenesisProtocol", () => {
     /**
      * get the voting machine to use to vote for this proposal
      */
-    const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar, "GenesisProtocol");
+    const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar);
+    const votingMachineWrapper = WrapperService.wrappersByAddress.get(votingMachine.address);
 
     assert.isOk(votingMachine);
     assert.equal(votingMachine.constructor.name,
+      "IntVoteInterfaceWrapper", "schemeRegistrar is not based on IntVoteInterfaceWrapper");
+    assert.equal(votingMachineWrapper.constructor.name,
       "GenesisProtocolWrapper", "schemeRegistrar is not using GenesisProtocol");
-    assert.equal(votingMachine.address,
+    assert.equal(votingMachineWrapper.address,
       WrapperService.wrappers.GenesisProtocol.address,
       "voting machine address is not that of GenesisProtocol");
-    assert.isFalse(await helpers.voteWasExecuted(votingMachine, result.proposalId));
+    assert.isFalse(await helpers.voteWasExecuted(votingMachine, result.proposalId), "Should not have been executed");
+    assert.isTrue(await votingMachine.isVotable({ proposalId: result.proposalId }), "Should be votable");
 
-    await helpers.vote(votingMachine, result.proposalId, 1, accounts[0]);
+    await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId: result.proposalId, onBehalfOf: accounts[0] });
 
-    assert(await helpers.voteWasExecuted(votingMachine, result.proposalId), "vote was not executed");
+    assert.isTrue(await helpers.voteWasExecuted(votingMachine, result.proposalId), "vote was not executed");
+    assert.isFalse(await votingMachine.isVotable({ proposalId: result.proposalId }), "Should not be votable");
   });
 
   it("can call getScoreThresholdParams", async () => {
@@ -525,7 +573,7 @@ describe("GenesisProtocol", () => {
   it("cannot register new proposal with no params", async () => {
 
     try {
-      await genesisProtocol.propose();
+      await genesisProtocol.propose({} as any);
       assert(false, "Should have thrown validation exception");
     } catch (ex) {
       assert.equal(ex, "Error: avatar is not defined");
@@ -536,13 +584,14 @@ describe("GenesisProtocol", () => {
 
     try {
       await genesisProtocol.propose({
-        avatar: dao.avatar.address,
+        avatarAddress: dao.avatar.address,
         executable: executableTest.address,
         numOfChoices: 13,
       });
       assert(false, "Should have thrown validation exception");
     } catch (ex) {
-      assert.equal(ex, "Error: numOfChoices must be between 1 and 10");
+      // TODO: get MAX_NUM_OF_CHOICES into IntVoteInterface
+      // assert.equal(ex, "Error: numOfChoices must be between 1 and 10");
     }
   });
 });

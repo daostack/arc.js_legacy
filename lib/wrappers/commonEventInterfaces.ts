@@ -1,37 +1,46 @@
-import * as BigNumber from "bignumber.js";
+import { BigNumber } from "bignumber.js";
 import { Address, Hash } from "../commonTypes";
 
 export interface NewProposalEventResult {
-  _numOfChoices: number;
+  _numOfChoices: BigNumber;
   _paramsHash: Hash;
   /**
    * indexed
    */
   _proposalId: Hash;
   _proposer: Address;
+  _avatar: Address;
 }
 
+// TODO: include _avatar?
 /**
  * fired by voting machines
  */
-export interface ExecuteProposalEventResult {
-  _decision: BigNumber.BigNumber;
+export interface VotingMachineExecuteProposalEventResult {
+  /**
+   * the vote choice that won.
+   */
+  _decision: BigNumber;
   /**
    * indexed
    */
   _proposalId: Hash;
   /**
-   * total reputation in the DAO at the time the proposal is created in the voting machine
+   * The total reputation in the DAO at the time the proposal was executed
    */
-  _totalReputation: BigNumber.BigNumber;
+  _totalReputation: BigNumber;
 }
 
+// TODO: include _avatar?
 export interface VoteProposalEventResult {
   /**
    * indexed
    */
   _proposalId: Hash;
-  _reputation: BigNumber.BigNumber;
+  _reputation: BigNumber;
+  /**
+   * The choice of vote
+   */
   _vote: number;
   /**
    * indexed
@@ -69,7 +78,7 @@ export interface RedeemEventResult {
   /**
    * the amount redeemed
    */
-  _amount: BigNumber.BigNumber;
+  _amount: BigNumber;
   /**
    * avatar address
    * indexed
@@ -79,6 +88,30 @@ export interface RedeemEventResult {
    * indexed
    */
   _beneficiary: Address;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+}
+
+/**
+ * fired by schemes
+ */
+export interface SchemeProposalExecuted {
+  avatarAddress: Address;
+  winningVote: number;
+  proposalId: Hash;
+}
+
+/**
+ * fired by schemes
+ */
+export interface SchemeProposalExecutedEventResult {
+  /**
+   * indexed
+   */
+  _avatar: Address;
+  _param: number;
   /**
    * indexed
    */

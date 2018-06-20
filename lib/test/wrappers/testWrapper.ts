@@ -2,6 +2,7 @@
 import { DefaultSchemePermissions, Hash, SchemePermissions } from "../../commonTypes";
 import { ArcTransactionDataResult, ContractWrapperBase } from "../../contractWrapperBase";
 import { ContractWrapperFactory } from "../../contractWrapperFactory";
+import { Web3EventService } from "../../web3EventService";
 import { AbsoluteVoteParams } from "../../wrappers/absoluteVote";
 
 export class TestWrapperWrapper extends ContractWrapperBase {
@@ -40,4 +41,5 @@ export class TestWrapperWrapper extends ContractWrapperBase {
   }
 }
 
-export const TestWrapperFactory = new ContractWrapperFactory("AbsoluteVote", TestWrapperWrapper);
+export const TestWrapperFactory =
+  new ContractWrapperFactory("AbsoluteVote", TestWrapperWrapper, new Web3EventService());

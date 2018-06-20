@@ -2,16 +2,16 @@
 import * as BigNumber from "bignumber.js";
 import { computeForgeOrgGasLimit } from "../../gasLimits.js";
 import { AvatarService } from "../avatarService";
-import { Address, DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
+import { Address, SchemePermissions } from "../commonTypes";
 import { ConfigService } from "../configService";
 import {
   ArcTransactionResult,
   ContractWrapperBase,
-  EventFetcherFactory,
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { TransactionService } from "../transactionService";
 import { Utils } from "../utils";
+import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { WrapperService } from "../wrapperService";
 
 export class DaoCreatorWrapper extends ContractWrapperBase {
@@ -23,10 +23,8 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
    * Events
    */
 
-  /* tslint:disable:max-line-length */
-  public NewOrg: EventFetcherFactory<NewOrgEventResult> = this.createEventFetcherFactory<NewOrgEventResult>("NewOrg");
-  public InitialSchemesSet: EventFetcherFactory<InitialSchemesSetEventResult> = this.createEventFetcherFactory<InitialSchemesSetEventResult>("InitialSchemesSet");
-  /* tslint:enable:max-line-length */
+  public NewOrg: EventFetcherFactory<NewOrgEventResult>;
+  public InitialSchemesSet: EventFetcherFactory<InitialSchemesSetEventResult>;
 
   /**
    * Create a new DAO
@@ -71,7 +69,19 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
     const totalGas = computeForgeOrgGasLimit(options.founders.length);
 
-    this.logContractFunctionCall("DaoCreator.forgeOrg", options);
+    this.logContractFunctionCall("DaoCreator.forgeOrg (options)", options);
+
+    this.logContractFunctionCall("DaoCreator.forgeOrg", {
+      controllerAddress,
+      founderAddresses: options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.address)),
+      founderReputation: options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.reputation)),
+      founderTokens: options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.tokens)),
+      gas: { gas: totalGas },
+      name: options.name,
+      tokenCap: options.tokenCap,
+      tokenName: options.tokenName,
+      tokenSymbol: options.tokenSymbol,
+    });
 
     return this.wrapTransactionInvocation("DaoCreator.forgeOrg",
       options,
@@ -136,15 +146,14 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     const txReceiptEventPayload = TransactionService.publishKickoffEvent(
       eventTopic,
       options,
-      this.setSchemesTransactionsCount(options));
+      this.setSchemesTransactionsCount(options)
+    );
 
     /**
-     * subscribe to all votingMachine setParameter and scheme "txReceipts" and
-     * republish as eventTopic with txReceiptEventPayload
+     * resend sub-events as txReceipts.DaoCreator.setSchemes
      */
-    const eventsSubscription = TransactionService.resendTxEvents(
-      ["txReceipts.ContractWrapperBase.setParameters"],
-      eventTopic,
+    TransactionService.pushContext(
+      ["txReceipts.ContractWrapperBase", "txReceipts.IntVoteInterfaceWrapper"],
       txReceiptEventPayload);
 
     let tx;
@@ -253,7 +262,15 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
         initialSchemesPermissions.push(SchemePermissions.toString(requiredPermissions | additionalPermissions));
       }
 
-      this.logContractFunctionCall("DaoCreator.setSchemes", options);
+      this.logContractFunctionCall("DaoCreator.setSchemes (options)", options);
+
+      this.logContractFunctionCall("DaoCreator.setSchemes",
+        {
+          avatar: options.avatar,
+          initialSchemesParams,
+          initialSchemesPermissions,
+          initialSchemesSchemes,
+        });
 
       // register the schemes with the dao
       tx = await this.contract.setSchemes(
@@ -265,11 +282,11 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
     } finally {
 
-      eventsSubscription.unsubscribe();
-
       if (tx) {
         TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
       }
+
+      TransactionService.popContext();
     }
 
     return new ArcTransactionResult(tx);
@@ -290,6 +307,12 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     return 2 + numSchemes + numSchemesWithDefaultParams;
   }
 
+  protected hydrated(): void {
+    /* tslint:disable:max-line-length */
+    this.NewOrg = this.createEventFetcherFactory<NewOrgEventResult>(this.contract.NewOrg);
+    this.InitialSchemesSet = this.createEventFetcherFactory<InitialSchemesSetEventResult>(this.contract.InitialSchemesSet);
+    /* tslint:enable:max-line-length */
+  }
 }
 
 /**
@@ -311,7 +334,7 @@ export class DaoCreatorFactoryType extends ContractWrapperFactory<DaoCreatorWrap
 }
 
 export const DaoCreatorFactory =
-  new DaoCreatorFactoryType("DaoCreator", DaoCreatorWrapper) as DaoCreatorFactoryType;
+  new DaoCreatorFactoryType("DaoCreator", DaoCreatorWrapper, new Web3EventService()) as DaoCreatorFactoryType;
 
 export interface NewOrgEventResult {
   _avatar: Address;
@@ -409,7 +432,7 @@ export interface SchemeConfig {
    * See ContractWrapperBase.getDefaultPermissions for what this string
    * should look like.
    */
-  permissions?: SchemePermissions | DefaultSchemePermissions;
+  permissions?: SchemePermissions;
   /**
    * Optional votingMachine parameters if you have not supplied them in ForgeOrgConfig or want to override them.
    * Note it costs more gas to add them here.

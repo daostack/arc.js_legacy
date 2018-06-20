@@ -3,14 +3,18 @@ import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapp
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
-  ContractWrapperBase,
-  EventFetcherFactory,
   StandardSchemeParams,
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
-import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
+import { ProposalGeneratorBase } from "../proposalGeneratorBase";
+import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
+import {
+  ProposalDeletedEventResult,
+  SchemeProposalExecuted,
+  SchemeProposalExecutedEventResult
+} from "./commonEventInterfaces";
 
-export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implements SchemeWrapper {
+export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase implements SchemeWrapper {
 
   public name: string = "GlobalConstraintRegistrar";
   public friendlyName: string = "Global Constraint Registrar";
@@ -19,13 +23,15 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
    * Events
    */
 
-  /* tslint:disable:max-line-length */
-  public NewGlobalConstraintsProposal: EventFetcherFactory<NewGlobalConstraintsProposalEventResult> = this.createEventFetcherFactory<NewGlobalConstraintsProposalEventResult>("NewGlobalConstraintsProposal");
-  public RemoveGlobalConstraintsProposal: EventFetcherFactory<RemoveGlobalConstraintsProposalEventResult> = this.createEventFetcherFactory<RemoveGlobalConstraintsProposalEventResult>("RemoveGlobalConstraintsProposal");
-  public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult> = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
-  public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult> = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
-  /* tslint:enable:max-line-length */
+  public NewGlobalConstraintsProposal: EventFetcherFactory<NewGlobalConstraintsProposalEventResult>;
+  public RemoveGlobalConstraintsProposal: EventFetcherFactory<RemoveGlobalConstraintsProposalEventResult>;
+  public ProposalExecuted: EventFetcherFactory<SchemeProposalExecutedEventResult>;
+  public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
 
+  /**
+   * Submit a proposal to add or modify a given global constraint.
+   * @param options
+   */
   public async proposeToAddModifyGlobalConstraint(
     options: ProposeToAddModifyGlobalConstraintParams = {} as ProposeToAddModifyGlobalConstraintParams)
     : Promise<ArcTransactionProposalResult> {
@@ -60,9 +66,13 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
         );
       });
 
-    return new ArcTransactionProposalResult(txResult.tx);
+    return new ArcTransactionProposalResult(txResult.tx, await this.getVotingMachine(options.avatar));
   }
 
+  /**
+   * Submit a proposal to remove a global constraint.
+   * @param options
+   */
   public async proposeToRemoveGlobalConstraint(
     options: ProposeToRemoveGlobalConstraintParams = {} as ProposeToRemoveGlobalConstraintParams)
     : Promise<ArcTransactionProposalResult> {
@@ -71,7 +81,7 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
       throw new Error("avatar address is not defined");
     }
 
-    if (!options.globalConstraint) {
+    if (!options.globalConstraintAddress) {
       throw new Error("avatar globalConstraint is not defined");
     }
 
@@ -83,11 +93,78 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
       () => {
         return this.contract.proposeToRemoveGC(
           options.avatar,
-          options.globalConstraint
+          options.globalConstraintAddress
         );
       });
 
-    return new ArcTransactionProposalResult(txResult.tx);
+    return new ArcTransactionProposalResult(txResult.tx, await this.getVotingMachine(options.avatar));
+  }
+
+  /**
+   * EntityFetcherFactory for votable GlobalConstraintProposal.
+   * @param avatarAddress
+   */
+  public async getVotableAddGcProposals(avatarAddress: Address):
+    Promise<EntityFetcherFactory<VotableGlobalConstraintProposal, NewGlobalConstraintsProposalEventResult>> {
+
+    return this.proposalService.getProposalEvents(
+      {
+        baseArgFilter: { _avatar: avatarAddress },
+        proposalsEventFetcher: this.NewGlobalConstraintsProposal,
+        transformEventCallback:
+          async (args: NewGlobalConstraintsProposalEventResult): Promise<VotableGlobalConstraintProposal> => {
+            return this.getVotableProposal(args._avatar, args._proposalId);
+          },
+        votableOnly: true,
+        votingMachine: await this.getVotingMachine(avatarAddress),
+      });
+  }
+
+  /**
+   * EntityFetcherFactory for votable GlobalConstraintProposal.
+   * @param avatarAddress
+   */
+  public async getVotableRemoveGcProposals(avatarAddress: Address):
+    Promise<EntityFetcherFactory<VotableGlobalConstraintProposal, RemoveGlobalConstraintsProposalEventResult>> {
+
+    return this.proposalService.getProposalEvents(
+      {
+        baseArgFilter: { _avatar: avatarAddress },
+        proposalsEventFetcher: this.RemoveGlobalConstraintsProposal,
+        transformEventCallback:
+          async (args: RemoveGlobalConstraintsProposalEventResult): Promise<VotableGlobalConstraintProposal> => {
+            return this.getVotableProposal(args._avatar, args._proposalId);
+          },
+        votableOnly: true,
+        votingMachine: await this.getVotingMachine(avatarAddress),
+      });
+  }
+
+  /**
+   * EntityFetcherFactory for executed proposals.
+   * @param avatarAddress
+   */
+  public getExecutedProposals(avatarAddress: Address):
+    EntityFetcherFactory<SchemeProposalExecuted, SchemeProposalExecutedEventResult> {
+
+    return this.proposalService.getProposalEvents(
+      {
+        baseArgFilter: { _avatar: avatarAddress },
+        proposalsEventFetcher: this.ProposalExecuted,
+        transformEventCallback:
+          (event: SchemeProposalExecutedEventResult): Promise<SchemeProposalExecuted> => {
+            return Promise.resolve({
+              avatarAddress: event._avatar,
+              proposalId: event._proposalId,
+              winningVote: event._param,
+            });
+          },
+      });
+  }
+
+  public async getVotableProposal(avatarAddress: Address, proposalId: Hash): Promise<VotableGlobalConstraintProposal> {
+    const proposalParams = await this.contract.organizationsProposals(avatarAddress, proposalId);
+    return this.convertProposalPropsArrayToObject(proposalParams, proposalId);
   }
 
   public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
@@ -120,10 +197,29 @@ export class GlobalConstraintRegistrarWrapper extends ContractWrapperBase implem
       votingMachineAddress: params[1],
     };
   }
+
+  protected hydrated(): void {
+    /* tslint:disable:max-line-length */
+    this.NewGlobalConstraintsProposal = this.createEventFetcherFactory<NewGlobalConstraintsProposalEventResult>(this.contract.NewGlobalConstraintsProposal);
+    this.RemoveGlobalConstraintsProposal = this.createEventFetcherFactory<RemoveGlobalConstraintsProposalEventResult>(this.contract.RemoveGlobalConstraintsProposal);
+    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.ProposalExecuted);
+    this.ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>(this.contract.ProposalDeleted);
+    /* tslint:enable:max-line-length */
+
+  }
+  private convertProposalPropsArrayToObject(propsArray: Array<any>, proposalId: Hash): VotableGlobalConstraintProposal {
+    return {
+      constraintAddress: propsArray[0],
+      paramsHash: propsArray[1],
+      proposalId,
+      proposalType: propsArray[2].toNumber(),
+      voteToRemoveParamsHash: propsArray[3],
+    };
+  }
 }
 
 export const GlobalConstraintRegistrarFactory = new ContractWrapperFactory(
-  "GlobalConstraintRegistrar", GlobalConstraintRegistrarWrapper);
+  "GlobalConstraintRegistrar", GlobalConstraintRegistrarWrapper, new Web3EventService());
 
 export interface NewGlobalConstraintsProposalEventResult {
   /**
@@ -186,5 +282,33 @@ export interface ProposeToRemoveGlobalConstraintParams {
   /**
    *  the address of the global constraint to remove
    */
-  globalConstraint: string;
+  globalConstraintAddress: Address;
+}
+
+export enum GlobalConstraintProposalType {
+  Add = 1,
+  Remove = 2,
+}
+
+export interface VotableGlobalConstraintProposal {
+  /**
+   * Address of the global constraint
+   */
+  constraintAddress: Address;
+  /**
+   * The global constraint's parameters
+   */
+  paramsHash: Hash;
+  /**
+   * Hash of the proposalId
+   */
+  proposalId: Hash;
+  /**
+   * Add or Remove
+   */
+  proposalType: GlobalConstraintProposalType;
+  /**
+   * Hash of voting machine parameters to use when removing a global constraint
+   */
+  voteToRemoveParamsHash: Hash;
 }

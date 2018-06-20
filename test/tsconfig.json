@@ -6,7 +6,6 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "importHelpers": true,
-    "baseUrl": ".",
     "lib": [
       "es2015",
       "es2017",
