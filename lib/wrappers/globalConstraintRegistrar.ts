@@ -58,7 +58,7 @@ export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase impl
       "GlobalConstraintRegistrar.proposeToAddModifyGlobalConstraint",
       options,
       () => {
-        return this.contract.proposeGlobalConstraint(
+        return this.contract.proposeGlobalConstraint.sendTransaction(
           options.avatar,
           options.globalConstraint,
           options.globalConstraintParametersHash,
@@ -66,7 +66,7 @@ export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase impl
         );
       });
 
-    return new ArcTransactionProposalResult(txResult.tx, await this.getVotingMachine(options.avatar));
+    return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
 
   /**
@@ -91,13 +91,13 @@ export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase impl
       "GlobalConstraintRegistrar.proposeToRemoveGlobalConstraint",
       options,
       () => {
-        return this.contract.proposeToRemoveGC(
+        return this.contract.proposeToRemoveGC.sendTransaction(
           options.avatar,
           options.globalConstraintAddress
         );
       });
 
-    return new ArcTransactionProposalResult(txResult.tx, await this.getVotingMachine(options.avatar));
+    return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
 
   /**

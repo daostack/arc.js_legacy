@@ -30,9 +30,9 @@ describe("GenesisProtocol", () => {
     });
 
     assert.isOk(result);
-    assert.isOk(result.proposalId);
+    assert.isOk(await result.getProposalIdFromMinedTx());
 
-    return result.proposalId;
+    return await result.getProposalIdFromMinedTx();
   };
 
   const voteProposal = (proposalId: Hash, how: number): Promise<ArcTransactionResult> => {
@@ -236,7 +236,7 @@ describe("GenesisProtocol", () => {
         schemeAddress: schemeToDelete,
       });
 
-    assert.isOk(result.proposalId);
+    assert.isOk(await result.getProposalIdFromMinedTx());
 
     /**
      * get the voting machine to use to vote for this proposal
@@ -252,13 +252,16 @@ describe("GenesisProtocol", () => {
     assert.equal(votingMachineWrapper.address,
       WrapperService.wrappers.GenesisProtocol.address,
       "voting machine address is not that of GenesisProtocol");
-    assert.isFalse(await helpers.voteWasExecuted(votingMachine, result.proposalId), "Should not have been executed");
-    assert.isTrue(await votingMachine.isVotable({ proposalId: result.proposalId }), "Should be votable");
 
-    await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId: result.proposalId, onBehalfOf: accounts[0] });
+    const proposalId = await result.getProposalIdFromMinedTx();
 
-    assert.isTrue(await helpers.voteWasExecuted(votingMachine, result.proposalId), "vote was not executed");
-    assert.isFalse(await votingMachine.isVotable({ proposalId: result.proposalId }), "Should not be votable");
+    assert.isFalse(await helpers.voteWasExecuted(votingMachine, proposalId), "Should not have been executed");
+    assert.isTrue(await votingMachine.isVotable({ proposalId }), "Should be votable");
+
+    await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[0] });
+
+    assert.isTrue(await helpers.voteWasExecuted(votingMachine, proposalId), "vote was not executed");
+    assert.isFalse(await votingMachine.isVotable({ proposalId }), "Should not be votable");
   });
 
   it("can call getScoreThresholdParams", async () => {

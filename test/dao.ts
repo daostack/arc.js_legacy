@@ -330,7 +330,7 @@ describe("DAO", () => {
       votingMachineHash,
     });
 
-    let proposalId = result.proposalId;
+    let proposalId = await result.getProposalIdFromMinedTx();
 
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
@@ -344,7 +344,7 @@ describe("DAO", () => {
       globalConstraintAddress: tokenCapGC.address,
     });
 
-    proposalId = result.proposalId;
+    proposalId = await result.getProposalIdFromMinedTx();
     await helpers.vote(votingMachine, proposalId, 1, accounts[2]);
 
     assert.equal((await dao.getGlobalConstraints()).length, 0);

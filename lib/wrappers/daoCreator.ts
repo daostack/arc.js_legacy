@@ -39,7 +39,6 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
      * See these properties in ForgeOrgConfig
      */
     const defaults = {
-      founders: [],
       tokenCap: web3.toBigNumber(0),
       universalController: true,
     };
@@ -56,6 +55,10 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
     if (!options.tokenSymbol) {
       throw new Error("DAO token symbol is not defined");
+    }
+
+    if (!options.founders) {
+      throw new Error("DAO must have at least one founder");
     }
 
     let controllerAddress;
@@ -86,7 +89,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     return this.wrapTransactionInvocation("DaoCreator.forgeOrg",
       options,
       () => {
-        return this.contract.forgeOrg(
+        return this.contract.forgeOrg.sendTransaction(
           options.name,
           options.tokenName,
           options.tokenSymbol,
@@ -141,20 +144,18 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     // in case it wasn't supplied in order to get the default
     defaultVotingMachineParams.votingMachineAddress = defaultVotingMachine.address;
 
-    const eventTopic = "txReceipts.DaoCreator.setSchemes";
+    const functionName = "DaoCreator.setSchemes";
 
     const txReceiptEventPayload = TransactionService.publishKickoffEvent(
-      eventTopic,
+      functionName,
       options,
       this.setSchemesTransactionsCount(options)
     );
 
     /**
-     * resend sub-events as txReceipts.DaoCreator.setSchemes
+     * resend sub-events as DaoCreator.setSchemes
      */
-    TransactionService.pushContext(
-      ["txReceipts.ContractWrapperBase", "txReceipts.IntVoteInterfaceWrapper"],
-      txReceiptEventPayload);
+    TransactionService.pushContext("*", txReceiptEventPayload);
 
     let tx;
 
@@ -273,7 +274,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
         });
 
       // register the schemes with the dao
-      tx = await this.contract.setSchemes(
+      tx = await this.contract.setSchemes.sendTransaction(
         options.avatar,
         initialSchemesSchemes,
         initialSchemesParams,
@@ -283,13 +284,11 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     } finally {
 
       if (tx) {
-        TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
+        TransactionService.publishTxLifecycleEvents(functionName, txReceiptEventPayload, tx, this.contract, true);
       }
-
-      TransactionService.popContext();
     }
 
-    return new ArcTransactionResult(tx);
+    return new ArcTransactionResult(tx, this.contract);
   }
 
   public forgeOrgTransactionsCount(options: ForgeOrgConfig): number {

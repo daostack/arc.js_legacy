@@ -51,48 +51,62 @@ export class PubSubEventService {
   }
 
   /**
-   * Return whether topic2 is specified by topics1.
+   * Return whether topic is specified by matchTemplates.
    *
    * Examples:
    *
-   * topic11: ["foo"]
-   * topic2: "foo.bar"
+   * matchTemplates: ["foo"]
+   * topic: "foo.bar"
    * result: true
    *
-   * topics1: ["foo.bar"]
-   * topic2: "foo"
+   * matchTemplates: ["foo.bar"]
+   * topic: "foo"
    * result: false
    *
    * Or a wildcard:
    *
-   * topics1: "*"
-   * topic2: "foo"
+   * matchTemplates: "*"
+   * topic: "foo"
    * result: true
    *
-   * @param topics1
-   * @param topic2
-   * @param countEqualAsSpecifiedBy Optional, true to count equal topics as specified-by.  Default is true.
+   * @param matchTemplates
+   * @param topic
    */
   public static isTopicSpecifiedBy(
-    topics1: Array<string> | string,
-    topic2: string,
-    countEqualAsSpecifiedBy: boolean = true): boolean {
+    matchTemplates: Array<string> | string,
+    topic: string): boolean {
 
-    if (!topic2) { return false; }
-    if (!topics1) { return false; }
+    if (!topic) { return false; }
+    if (!matchTemplates) { return false; }
 
-    topics1 = UtilsInternal.ensureArray(topics1);
+    if ((typeof matchTemplates === "string") && (matchTemplates === "*")) { return true; }
 
-    if (topics1[0] === "*") { return true; }
+    matchTemplates = UtilsInternal.ensureArray(matchTemplates);
 
-    for (const topic1 of topics1) {
+    const topicWords = topic.split(".");
 
-      if (!topic1) { continue; }
-      if (topic1 === topic2) { return true; }
-      if (topic1.length > topic2.length) { continue; }
-      if (topic2.indexOf(topic1) !== 0) { continue; }
-      if (topic2[topic1.length] !== ".") { continue; }
+    for (const template of matchTemplates) {
 
+      if (!template) { continue; }
+      if (template === topic) { return true; }
+      if (template.length > topic.length) { continue; }
+      if (template[0] === ".") { continue; }
+
+      const templateWords = template.split(".");
+
+      if (templateWords.length > topicWords.length) { continue; }
+
+      let matches = false;
+
+      for (let i = 0; i < templateWords.length; ++i) {
+        const templateWord = templateWords[i];
+        const topicWord = topicWords[i];
+        if ((templateWord === "*") || (templateWord === topicWord)) { matches = true; } else { matches = false; break; }
+      }
+
+      if (!matches) { continue; }
+
+      // else matches
       return true;
     }
 
@@ -150,13 +164,10 @@ export class SubscriptionCollection implements IEventSubscription {
    * Unsubscribe from all of the events
    */
   public unsubscribe(): void {
-    // timeout to allow lingering events to be handled before unsubscribing
-    setTimeout(() => {
-      this.subscriptions.forEach((s: EventSubscription) => {
-        s.unsubscribe();
-      });
-      this.subscriptions.clear();
-    }, 0);
+    this.subscriptions.forEach((s: EventSubscription) => {
+      s.unsubscribe();
+    });
+    this.subscriptions.clear();
   }
 }
 
@@ -171,6 +182,7 @@ export class EventSubscription implements IEventSubscription {
   public constructor(private key: EventSubscriptionKey) {
   }
   public unsubscribe(): void {
-    PubSub.unsubscribe(this.key);
+    // timeout to allow lingering events to be handled before unsubscribing
+    setTimeout(() => { PubSub.unsubscribe(this.key); }, 0);
   }
 }

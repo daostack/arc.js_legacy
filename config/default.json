@@ -2,7 +2,11 @@
   "autoApproveTokenTransfers": true,
   "defaultVotingMachine": "AbsoluteVote",
   "logLevel": 9,
-  "network": "ganache",
+  "txDepthRequiredForConfirmation": {
+    "default": 7,
+    "ganache": 0,
+    "live": 20
+  },
   "providerPort": 8545,
   "providerUrl": "http://127.0.0.1",
   "globalGenTokenAddresses": {

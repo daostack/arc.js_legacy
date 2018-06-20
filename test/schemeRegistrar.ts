@@ -28,7 +28,7 @@ describe("SchemeRegistrar", () => {
       schemeAddress: removedScheme.address,
     });
 
-    const proposalId = result.proposalId;
+    const proposalId = await result.getProposalIdFromMinedTx();
 
     await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[1] });
 
@@ -110,7 +110,7 @@ describe("SchemeRegistrar", () => {
       schemeParametersHash: Utils.NULL_HASH,
     });
 
-    const proposalId = result.proposalId;
+    const proposalId = await result.getProposalIdFromMinedTx();
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar);
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
@@ -138,7 +138,7 @@ describe("SchemeRegistrar", () => {
       schemeParametersHash: Utils.NULL_HASH,
     });
 
-    const proposalId = result.proposalId;
+    const proposalId = await result.getProposalIdFromMinedTx();
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar);
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
@@ -166,7 +166,7 @@ describe("SchemeRegistrar", () => {
       schemeAddress: removedScheme.address,
     });
 
-    const proposalId = result.proposalId;
+    const proposalId = await result.getProposalIdFromMinedTx();
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, schemeRegistrar);
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
@@ -194,7 +194,7 @@ describe("SchemeRegistrar", () => {
       schemeAddress: removedScheme.address,
     });
 
-    const proposalToRemoveId = result.proposalId;
+    const proposalToRemoveId = await result.getProposalIdFromMinedTx();
 
     const contributionReward = await dao.getSchemes("ContributionReward");
     assert.equal(contributionReward.length, 0, "scheme is already present");
@@ -215,7 +215,7 @@ describe("SchemeRegistrar", () => {
       schemeParametersHash: Utils.NULL_HASH,
     });
 
-    const proposalToAddId = result.proposalId;
+    const proposalToAddId = await result.getProposalIdFromMinedTx();
 
     const proposalsNew = await (
       await schemeRegistrar.getVotableAddSchemeProposals(dao.avatar.address))(

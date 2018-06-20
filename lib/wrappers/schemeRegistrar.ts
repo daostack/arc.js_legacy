@@ -86,7 +86,7 @@ export class SchemeRegistrarWrapper extends ProposalGeneratorBase implements Sch
     const txResult = await this.wrapTransactionInvocation("SchemeRegistrar.proposeToAddModifyScheme",
       options,
       () => {
-        return this.contract.proposeScheme(
+        return this.contract.proposeScheme.sendTransaction(
           options.avatar,
           options.schemeAddress,
           options.schemeParametersHash,
@@ -94,7 +94,7 @@ export class SchemeRegistrarWrapper extends ProposalGeneratorBase implements Sch
         );
       });
 
-    return new ArcTransactionProposalResult(txResult.tx, await this.getVotingMachine(options.avatar));
+    return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
 
   /**
@@ -118,13 +118,13 @@ export class SchemeRegistrarWrapper extends ProposalGeneratorBase implements Sch
     const txResult = await this.wrapTransactionInvocation("SchemeRegistrar.proposeToRemoveScheme",
       options,
       () => {
-        return this.contract.proposeToRemoveScheme(
+        return this.contract.proposeToRemoveScheme.sendTransaction(
           options.avatar,
           options.schemeAddress
         );
       });
 
-    return new ArcTransactionProposalResult(txResult.tx, await this.getVotingMachine(options.avatar));
+    return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
 
   public async setParameters(params: SchemeRegistrarParams): Promise<ArcTransactionDataResult<Hash>> {

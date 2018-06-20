@@ -50,13 +50,13 @@ export class UpgradeSchemeWrapper extends ProposalGeneratorBase implements Schem
     const txResult = await this.wrapTransactionInvocation("UpgradeScheme.proposeController",
       options,
       () => {
-        return this.contract.proposeUpgrade(
+        return this.contract.proposeUpgrade.sendTransaction(
           options.avatar,
           options.controller
         );
       });
 
-    return new ArcTransactionProposalResult(txResult.tx, await this.getVotingMachine(options.avatar));
+    return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
 
   /**
@@ -84,14 +84,14 @@ export class UpgradeSchemeWrapper extends ProposalGeneratorBase implements Schem
     const txResult = await this.wrapTransactionInvocation("UpgradeScheme.proposeUpgradingScheme",
       options,
       () => {
-        return this.contract.proposeChangeUpgradingScheme(
+        return this.contract.proposeChangeUpgradingScheme.sendTransaction(
           options.avatar,
           options.scheme,
           options.schemeParametersHash
         );
       });
 
-    return new ArcTransactionProposalResult(txResult.tx, await this.getVotingMachine(options.avatar));
+    return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
 
   public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {

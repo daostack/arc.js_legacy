@@ -29,30 +29,29 @@ export class DAO {
     }
 
     const payload = TransactionService.publishKickoffEvent(
-      "txReceipts.DAO.new",
+      "DAO.new",
       options,
       daoCreator.forgeOrgTransactionsCount(options) + daoCreator.setSchemesTransactionsCount(options)
     );
 
     /**
-     * resend sub-events as txReceipts.DAO.new
+     * resend sub-events as DAO.new
      */
-    TransactionService.pushContext("txReceipts.DaoCreator", payload);
+    TransactionService.pushContext("DaoCreator", payload);
 
     try {
-      let avatarAddress;
+      const result = await (await daoCreator.forgeOrg(options)).watchForTxMined();
 
-      const result = await daoCreator.forgeOrg(options);
-
-      avatarAddress = result.getValueFromTx("_avatar", "NewOrg");
+      const avatarAddress = Utils.getValueFromLogs(result, "_avatar", "NewOrg");
 
       if (!avatarAddress) {
         throw new Error("avatar address is not defined");
       }
 
-      await daoCreator.setSchemes(Object.assign({ avatar: avatarAddress }, options));
+      await (await daoCreator.setSchemes(Object.assign({ avatar: avatarAddress }, options))).watchForTxMined();
 
       return DAO.at(avatarAddress);
+
     } finally {
       TransactionService.popContext();
     }

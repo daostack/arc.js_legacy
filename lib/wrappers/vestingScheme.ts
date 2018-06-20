@@ -1,6 +1,6 @@
 "use strict";
 import * as BigNumber from "bignumber.js";
-import { promisify } from "es6-promisify";
+import TruffleContract = require("truffle-contract");
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
 import { ConfigService } from "../configService";
 import {
@@ -8,12 +8,12 @@ import {
   ArcTransactionProposalResult,
   ArcTransactionResult,
   StandardSchemeParams,
-  TransactionReceiptTruffle,
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";
 import { TransactionService } from "../transactionService";
 import { Utils } from "../utils";
+import { UtilsInternal } from "../utilsInternal";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { SchemeProposalExecuted, SchemeProposalExecutedEventResult } from "./commonEventInterfaces";
 
@@ -66,7 +66,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
     const txResult = await this.wrapTransactionInvocation("VestingScheme.propose",
       options,
       async () => {
-        return this.contract.proposeVestingAgreement(
+        return this.contract.proposeVestingAgreement.sendTransaction(
           options.beneficiaryAddress,
           options.returnOnCancelAddress,
           options.startingBlock,
@@ -80,7 +80,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
         );
       });
 
-    return new ArcTransactionProposalResult(txResult.tx, await this.getVotingMachine(options.avatar));
+    return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
 
   /**
@@ -105,26 +105,27 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
 
     const amountPerPeriod = web3.toBigNumber(options.amountPerPeriod);
     const autoApproveTransfer = ConfigService.get("autoApproveTokenTransfers");
-    const eventTopic = "txReceipts.VestingScheme.create";
+    const functionName = "VestingScheme.create";
 
     const txReceiptEventPayload = TransactionService.publishKickoffEvent(
-      eventTopic,
+      functionName,
       options,
       1 + (autoApproveTransfer ? 1 : 0));
 
-    let tx;
+    let tx: Hash;
     /**
      * approve immediate transfer of the given tokens from currentAccount to the VestingScheme
      */
     if (autoApproveTransfer) {
       const token = await (await Utils.requireContract("StandardToken")).at(options.token) as any;
-      tx = await token.approve(this.address, amountPerPeriod.mul(options.numOfAgreedPeriods));
-      TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
+      tx = await token.approve.sendTransaction(this.address, amountPerPeriod.mul(options.numOfAgreedPeriods));
+      TransactionService.publishTxLifecycleEvents(functionName, txReceiptEventPayload, tx, this.contract);
+      await TransactionService.watchForMinedTransaction(tx);
     }
 
     this.logContractFunctionCall("VestingScheme.createVestedAgreement", options);
 
-    tx = await this.contract.createVestedAgreement(
+    tx = await this.contract.createVestedAgreement.sendTransaction(
       options.token,
       options.beneficiaryAddress,
       options.returnOnCancelAddress,
@@ -137,9 +138,9 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
       options.signers
     );
 
-    TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
+    TransactionService.publishTxLifecycleEvents(functionName, txReceiptEventPayload, tx, this.contract);
 
-    return new ArcTransactionAgreementResult(tx);
+    return new ArcTransactionAgreementResult(tx, this.contract);
   }
 
   /**
@@ -159,7 +160,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
     return this.wrapTransactionInvocation("VestingScheme.signToCancel",
       options,
       () => {
-        return this.contract.signToCancelAgreement(options.agreementId);
+        return this.contract.signToCancelAgreement.sendTransaction(options.agreementId);
       });
   }
 
@@ -180,7 +181,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
     return this.wrapTransactionInvocation("VestingScheme.revokeSignToCancel",
       options,
       () => {
-        return this.contract.revokeSignToCancelAgreement(options.agreementId);
+        return this.contract.revokeSignToCancelAgreement.sendTransaction(options.agreementId);
       });
   }
 
@@ -201,7 +202,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
     return this.wrapTransactionInvocation("VestingScheme.collect",
       options,
       () => {
-        return this.contract.collect(options.agreementId);
+        return this.contract.collect.sendTransaction(options.agreementId);
       });
   }
 
@@ -350,7 +351,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
     }
 
     if ((typeof options.startingBlock === "undefined") || (options.startingBlock === null)) {
-      options.startingBlock = await promisify(web3.eth.getBlockNumber)().then((bn: number) => bn);
+      options.startingBlock = await UtilsInternal.lastBlock();
     }
 
     if (!Number.isInteger(options.startingBlock) || (options.startingBlock < 0)) {
@@ -376,11 +377,17 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
 
 export class ArcTransactionAgreementResult extends ArcTransactionResult {
 
-  public agreementId: number;
-
-  constructor(tx: TransactionReceiptTruffle) {
-    super(tx);
-    this.agreementId = this.getValueFromTx("_agreementId").toNumber();
+  constructor(
+    tx: Hash,
+    contract: TruffleContract) {
+    super(tx, contract);
+  }
+  /**
+   * Returns promise of the agreement id from the logs of the mined transaction. Will watch for the mined tx,
+   * so could take a while to return.
+   */
+  public async getAgreementIdFromMinedTx(): Promise<number> {
+    return this.getValueFromMinedTx("_agreementId");
   }
 }
 

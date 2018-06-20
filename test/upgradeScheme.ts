@@ -46,7 +46,7 @@ describe("UpgradeScheme", () => {
       schemeParametersHash: await dao.controller.getSchemeParameters(upgradeScheme.address, dao.avatar.address),
     });
 
-    const proposalId = result.proposalId;
+    const proposalId = await result.getProposalIdFromMinedTx();
 
     await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[1] });
 
@@ -86,7 +86,7 @@ describe("UpgradeScheme", () => {
       schemeParametersHash: await dao.controller.getSchemeParameters(upgradeScheme.address, dao.avatar.address),
     });
 
-    const proposalId = result.proposalId;
+    const proposalId = await result.getProposalIdFromMinedTx();
 
     const proposals = await (
       await upgradeScheme.getVotableUpgradeUpgradeSchemeProposals(dao.avatar.address))(
@@ -130,7 +130,7 @@ describe("UpgradeScheme", () => {
       controller: newController.address,
     });
 
-    const proposalId = result.proposalId;
+    const proposalId = await result.getProposalIdFromMinedTx();
 
     const proposals = await (
       await upgradeScheme.getVotableUpgradeControllerProposals(dao.avatar.address))(
@@ -164,7 +164,7 @@ describe("UpgradeScheme", () => {
 
     // newUpgradeScheme.registerDao(dao.avatar.address);
 
-    const proposalId = result.proposalId;
+    const proposalId = await result.getProposalIdFromMinedTx();
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
@@ -197,7 +197,7 @@ describe("UpgradeScheme", () => {
     }
     );
 
-    const proposalId = result.proposalId;
+    const proposalId = await result.getProposalIdFromMinedTx();
     // now vote with the majority for the proposal
     const votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
@@ -239,7 +239,7 @@ describe("UpgradeScheme", () => {
       schemeParametersHash: await dao.controller.getSchemeParameters(upgradeScheme.address, dao.avatar.address),
     });
 
-    const proposalId = result.proposalId;
+    const proposalId = await result.getProposalIdFromMinedTx();
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
@@ -267,7 +267,7 @@ describe("UpgradeScheme", () => {
       schemeParametersHash: helpers.SOME_HASH,
     });
 
-    const proposalId = result.proposalId;
+    const proposalId = await result.getProposalIdFromMinedTx();
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);

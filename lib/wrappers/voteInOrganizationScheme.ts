@@ -54,14 +54,14 @@ export class VoteInOrganizationSchemeWrapper extends ProposalGeneratorBase imple
     const txResult = await this.wrapTransactionInvocation("VoteInOrganizationScheme.proposeVote",
       options,
       () => {
-        return this.contract.proposeVote(
+        return this.contract.proposeVote.sendTransaction(
           options.avatar,
           options.originalVotingMachineAddress,
           options.originalProposalId
         );
       });
 
-    return new ArcTransactionProposalResult(txResult.tx, await this.getVotingMachine(options.avatar));
+    return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
 
   /**

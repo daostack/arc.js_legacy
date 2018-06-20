@@ -1,3 +1,4 @@
+import TruffleContract = require("truffle-contract");
 import { TransactionReceipt } from "web3";
 import { IntVoteInterfaceWrapper } from ".";
 import { AvatarService } from "./avatarService";
@@ -168,20 +169,15 @@ export abstract class ContractWrapperBase implements HasContract {
   protected async _setParameters(functionName: string, ...params: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
 
     const parametersHash: Hash = await this.contract.getParametersHash(...params);
-    const eventTopic = "txReceipts.ContractWrapperBase.setParameters";
-
-    const txReceiptEventPayload = TransactionService.publishKickoffEvent(eventTopic, params, 1);
 
     const txResult = await this.wrapTransactionInvocation(functionName,
       // typically this is supposed to be an object, but here it is an array
       params,
       () => {
-        return this.contract.setParameters(...params);
+        return this.contract.setParameters.sendTransaction(...params);
       });
 
-    TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, txResult.tx);
-
-    return new ArcTransactionDataResult<Hash>(txResult.tx, parametersHash);
+    return new ArcTransactionDataResult<Hash>(txResult.tx, this.contract, parametersHash);
   }
 
   /**
@@ -229,21 +225,27 @@ export abstract class ContractWrapperBase implements HasContract {
   protected async wrapTransactionInvocation(
     functionName: string,
     options: any,
-    generateTx: () => Promise<TransactionReceiptTruffle>): Promise<ArcTransactionResult> {
+    generateTx: () => Promise<Hash>): Promise<ArcTransactionResult> {
 
-    const topic = `txReceipts.${functionName}`;
-
-    const txReceiptEventPayload = TransactionService.publishKickoffEvent(topic, options, 1);
+    const txReceiptEventPayload = TransactionService.publishKickoffEvent(functionName, options, 1);
 
     const tx = await generateTx();
 
-    TransactionService.publishTxEvent(topic, txReceiptEventPayload, tx);
+    TransactionService.publishTxLifecycleEvents(functionName, txReceiptEventPayload, tx, this.contract);
 
-    return new ArcTransactionResult(tx);
+    return new ArcTransactionResult(tx, this.contract);
   }
 
   protected logContractFunctionCall(functionName: string, params?: any): void {
     LoggingService.debug(`${functionName}: ${params ? `${LoggingService.stringifyObject(params)}` : "no parameters"}`);
+  }
+
+  protected async sendTransaction(
+    fn: { sendTransaction: (...rest: Array<any>) => Promise<Hash> },
+    ...args: Array<any>): Promise<ArcTransactionResult> {
+
+    const txHash = await fn.sendTransaction(...args);
+    return new ArcTransactionResult(txHash, this.contract);
   }
 }
 
@@ -258,51 +260,71 @@ export interface TransactionReceiptTruffle {
   /**
    * address of the transaction
    */
-  tx: Address;
+  // tx: Address;
 }
 
 export class ArcTransactionResult {
 
-  /**
-   * the transaction result to be returned
-   */
-  public tx: TransactionReceiptTruffle;
-
-  constructor(tx: TransactionReceiptTruffle) {
-    this.tx = tx;
+  constructor(
+    public tx: Hash,
+    private contract: TruffleContract) {
   }
 
   /**
-   * Returns a value from the transaction logs.
+   * Returns promise of a mined transaction if it already exists,
+   * converted to a TransactionReceiptTruffle, or null if it doesn't exist.
+   */
+  public async getTxMined(): Promise<TransactionReceiptTruffle | null> {
+    const tx = await TransactionService.getMinedTransaction(this.tx);
+    return TransactionService.toTxTruffle(tx, this.contract);
+  }
+
+  /**
+   * Returns promise of a mined transaction, converted to a TransactionReceiptTruffle
+   */
+  public async watchForTxMined(): Promise<TransactionReceiptTruffle> {
+    const tx = await TransactionService.watchForMinedTransaction(this.tx);
+    return TransactionService.toTxTruffle(tx, this.contract);
+  }
+
+  /**
+   * Returns promise of a value from the logs of the mined transaction. Will watch for the mined tx,
+   * so could take a while to return.
    * @param valueName - The name of the property whose value we wish to return
    * @param eventName - Name of the event in whose log we are to look for the value
    * @param index - Index of the log in which to look for the value, when eventName is not given.
    * Default is the index of the last log in the transaction.
    */
-  public getValueFromTx(valueName: string, eventName: string = null, index: number = 0): any | undefined {
-    return Utils.getValueFromLogs(this.tx, valueName, eventName, index);
+  public async getValueFromMinedTx(
+    valueName: string,
+    eventName: string = null, index: number = 0): Promise<any | undefined> {
+    const txMined = await this.watchForTxMined();
+    return Utils.getValueFromLogs(txMined, valueName, eventName, index);
   }
 }
 /**
  * Base or actual type returned by all contract wrapper methods that generate a transaction and initiate a proposal.
  */
 export class ArcTransactionProposalResult extends ArcTransactionResult {
-
-  /**
-   * A unique hash identifying the proposal.
-   */
-  public proposalId: Hash;
   /**
    * The proposal's voting machine, as IntVoteInterfaceWrapper
    */
   public votingMachine: IntVoteInterfaceWrapper;
 
   constructor(
-    tx: TransactionReceiptTruffle,
+    tx: Hash,
+    contract: TruffleContract,
     votingMachine: IntVoteInterfaceWrapper) {
-    super(tx);
-    this.proposalId = Utils.getValueFromLogs(tx, "_proposalId");
+    super(tx, contract);
     this.votingMachine = votingMachine;
+  }
+
+  /**
+   * Returns promise of the proposal id from the logs of the mined transaction. Will watch for the mined tx;
+   * if it hasn't yet been mined, could take a while to return.
+   */
+  public async getProposalIdFromMinedTx(): Promise<Hash> {
+    return this.getValueFromMinedTx("_proposalId");
   }
 }
 
@@ -315,8 +337,11 @@ export class ArcTransactionDataResult<TData> extends ArcTransactionResult {
    */
   public result: TData;
 
-  constructor(tx: TransactionReceiptTruffle, result: TData) {
-    super(tx);
+  constructor(
+    tx: Hash,
+    contract: TruffleContract,
+    result: TData) {
+    super(tx, contract);
     this.result = result;
   }
 }

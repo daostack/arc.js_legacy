@@ -2,7 +2,7 @@ import { BigNumber } from "bignumber.js";
 import { promisify } from "es6-promisify";
 import abi = require("ethereumjs-abi");
 import TruffleContract = require("truffle-contract");
-import { providers as Web3Providers, Web3 } from "web3";
+import { ContractAbi, providers as Web3Providers, TransactionReceipt, Web3 } from "web3";
 import { gasLimitsConfig } from "../gasLimits.js";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { ConfigService } from "./configService";
@@ -17,7 +17,6 @@ export class Utils {
 
   static get NULL_ADDRESS(): Address { return "0x0000000000000000000000000000000000000000"; }
   static get NULL_HASH(): Hash { return "0x0000000000000000000000000000000000000000000000000000000000000000"; }
-
   /**
    * Returns TruffleContract given the name of the contract (like "SchemeRegistrar").
    * Optimized for synchronicity issues encountered with MetaMask.
@@ -123,7 +122,7 @@ export class Utils {
    * @param index Identifies which log when eventName is not given
    */
   public static getValueFromLogs(
-    tx: TransactionReceiptTruffle,
+    tx: TransactionReceiptTruffle | TransactionReceipt,
     arg: string,
     eventName: string = null,
     index: number = 0): any | undefined {
@@ -292,6 +291,9 @@ export class Utils {
     return `0x${("00000000" + (permissions as number).toString(16)).substr(-8)}`;
   }
 
+  /**
+   * Returns the name of the current network.
+   */
   public static async getNetworkName(): Promise<string> {
     const web3 = await Utils.getWeb3();
 
@@ -333,6 +335,14 @@ export class Utils {
   public static async getGenToken(): Promise<TruffleContract> {
     const address = await Utils.getGenTokenAddress();
     return (await Utils.requireContract("DAOToken")).at(address);
+  }
+
+  /**
+   * Returns the ABI for the given contract
+   * @param contractName
+   */
+  public static getAbiForContract(contractName: string): ContractAbi {
+    return require(`../migrated_contracts/${contractName}.json`).abi;
   }
 
   private static web3: Web3 = undefined;

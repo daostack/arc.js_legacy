@@ -85,6 +85,10 @@ Uses of pub/sub events:
 
 <a name="tracktxs"></a>
 ### Tracking Transactions
+
+You can be notified about the phases in the lifecycle of Transactions. For more information, see [Tracking Transactions](Transactions).
+
+
 <a name="almostrawevents"></a>
 ### Enhanced Web3 Events
 Every Arc contract wrapper in Arc.js exposes all of the events fired by the wrapped contract,  events look just like those exposed by [Web3](https://github.com/ethereum/wiki/wiki/JavaScript-API#contract-events), so you can get, watch and filter these events in the same way you would using Web3 or Truffle.

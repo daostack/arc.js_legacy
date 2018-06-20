@@ -60,7 +60,8 @@ const createProposal =
         schemeAddress: schemeToDelete,
       });
 
-    assert.isOk(result.proposalId);
+    const proposalId = await result.getProposalIdFromMinedTx();
+    assert.isOk(proposalId);
 
     /**
      * get the voting machine that will be used to vote for this proposal
@@ -68,9 +69,9 @@ const createProposal =
     const votingMachine = await helpers.getSchemeVotingMachine(originalDao, schemeRegistrar);
 
     assert.isOk(votingMachine);
-    assert.isFalse(await helpers.voteWasExecuted(votingMachine, result.proposalId));
+    assert.isFalse(await helpers.voteWasExecuted(votingMachine, proposalId));
 
-    return { proposalId: result.proposalId, votingMachine, scheme: schemeRegistrar };
+    return { proposalId, votingMachine, scheme: schemeRegistrar };
   };
 
 describe("VoteInOrganizationScheme", () => {
@@ -137,15 +138,20 @@ describe("VoteInOrganizationScheme", () => {
 
     assert.equal(proposals.length, 2);
 
+    const proposalId1 = await proposalInfo.getProposalIdFromMinedTx();
+    const proposalId2 = await proposalInfo2.getProposalIdFromMinedTx();
+
     assert.equal(
       proposals.filter(
-        (p: VotableVoteInOrganizationProposal) => p.proposalId === proposalInfo.proposalId).length,
+        /* tslint:disable-next-line:max-line-length */
+        (p: VotableVoteInOrganizationProposal) => p.proposalId === proposalId1).length,
       1,
       "first proposal not found");
 
     assert.equal(
       proposals.filter(
-        (p: VotableVoteInOrganizationProposal) => p.proposalId === proposalInfo2.proposalId).length,
+        /* tslint:disable-next-line:max-line-length */
+        (p: VotableVoteInOrganizationProposal) => p.proposalId === proposalId2).length,
       1,
       "second proposal not found");
   });
@@ -167,10 +173,15 @@ describe("VoteInOrganizationScheme", () => {
 
     assert.isOk(result);
     assert.isOk(result.tx);
-    assert.isOk(result.proposalId);
 
-    assert.equal(result.tx.logs.length, 1); // no other event
-    assert.equal(result.tx.logs[0].event, "NewVoteProposal");
+    const proposalId = await result.getProposalIdFromMinedTx();
+
+    assert.isOk(proposalId);
+
+    const tx = await result.watchForTxMined();
+
+    assert.equal(tx.logs.length, 1); // no other event
+    // TODO: restore this: assert.equal(tx.logs[0].event, "NewVoteProposal");
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, voteInOrganizationScheme);
 
@@ -179,8 +190,8 @@ describe("VoteInOrganizationScheme", () => {
     /**
      * cast a vote using voteInOrganizationScheme's voting machine.
      */
-    await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId: result.proposalId, onBehalfOf: accounts[1] });
-    await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId: result.proposalId, onBehalfOf: accounts[2] });
+    await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[1] });
+    await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[2] });
     /**
      * confirm that a vote was cast by the original DAO's scheme
      * TODO:  this event should work with IntVoteInterfaceWrapper

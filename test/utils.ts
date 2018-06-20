@@ -62,6 +62,58 @@ describe("PubSub events", () => {
   });
 });
 
+describe("PubSub events", () => {
+  it("isTopicSpecifiedBy works", async () => {
+    let testId = 0;
+
+    /* tslint:disable:max-line-length */
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy("*", "foo"), `test failed: ${++testId}`);
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy(["*"], "foo"), `test failed: ${++testId}`);
+
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy(["*.foo"], "foo"), `test failed: ${++testId}`);
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy(["foo.*"], "foo.bar"), `test failed: ${++testId}`);
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy(["foo.*"], "foo.bar.flank"), `test failed: ${++testId}`);
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy(["foo.*.flank"], "foo.bar.flank"), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy(["foo.*.flank"], "far.bar.flarg"), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy(["*.foo"], "foo.bar"), `test failed: ${++testId}`);
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy(["*.foo"], "bar.foo"), `test failed: ${++testId}`);
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy(["*.foo"], "bar.foo.flank"), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy(["foo.bar.*"], "foo.bar"), `test failed: ${++testId}`);
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy(["foo.bar.*"], "foo.bar.flank"), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy(["foo.flank.*"], "foo.bar.flank"), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy(["far.bar.*"], "foo.bar.flank"), `test failed: ${++testId}`);
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy(["far.bar.*", "foo.*"], "foo.bar.flank"), `test failed: ${++testId}`);
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy(["foo.*", "far.bar.*"], "foo.bar.flank"), `test failed: ${++testId}`);
+
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy([], ""), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy(["."], "foo"), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy(["...."], "foo"), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy([".foo"], "foo"), `test failed: ${++testId}`);
+
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy([""], ""), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy("", ""), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy("", "foo"), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy("foobar", "foo"), `test failed: ${++testId}`);
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy("foo", "foo"), `test failed: ${++testId}`);
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy("foo.bar", "foo.bar"), `test failed: ${++testId}`);
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy("foo", "foo.bar"), `test failed: ${++testId}`);
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy("foo", "foo.bar.test"), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy("foo", "foobar.test"), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy("foobar", "foo.bar"), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy("foo.bar", "foo"), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy("foo.bar.test", "foo"), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy("foo.bar.", "foo"), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy("foo.bar.", "foo."), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy("foo.bar", "foo."), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy(["flank", "foo"], "bar"), `test failed: ${++testId}`);
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy(["foo", "bar"], "bar"), `test failed: ${++testId}`);
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy(["bar", "foo"], "bar"), `test failed: ${++testId}`);
+    assert.isFalse(PubSubEventService.isTopicSpecifiedBy(["barn", "foo.bar", "flank"], "bar"), `test failed: ${++testId}`);
+    assert.isTrue(PubSubEventService.isTopicSpecifiedBy(["barn", "foo", "flank"], "foo.bar"), `test failed: ${++testId}`);
+    /* tslint:enable:max-line-length */
+  });
+});
+
 describe("InitializeArcJs", () => {
   it("initializes subset of schemes and can create a DAO", async () => {
     await InitializeArcJs({
@@ -98,7 +150,6 @@ describe("InitializeArcJs", () => {
 
   it("initializes default network params", async () => {
     await InitializeArcJs({ useNetworkDefaultsFor: "kovan" });
-    assert.equal(ConfigService.get("network"), "kovan");
     assert.equal(ConfigService.get("providerUrl"), "http://127.0.0.1");
     assert.equal(ConfigService.get("providerPort"), 8547);
   });

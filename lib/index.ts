@@ -73,7 +73,6 @@ export async function InitializeArcJs(options?: InitializeArcOptions): Promise<W
         throw new Error(`truffle network defaults not found: ${options.useNetworkDefaultsFor}`);
       }
 
-      ConfigService.set("network", options.useNetworkDefaultsFor);
       ConfigService.set("providerPort", networkDefaults.port);
       ConfigService.set("providerUrl", `http://${networkDefaults.host}`);
     }

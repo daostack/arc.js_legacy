@@ -123,27 +123,31 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
     const orgNativeTokenFee = (await this.getSchemeParameters(options.avatar)).orgNativeTokenFee;
     const autoApproveTransfer = ConfigService.get("autoApproveTokenTransfers") && (orgNativeTokenFee.toNumber() > 0);
 
-    const eventTopic = "txReceipts.ContributionReward.proposeContributionReward";
+    const functionName = "ContributionReward.proposeContributionReward";
 
     const txReceiptEventPayload = TransactionService.publishKickoffEvent(
-      eventTopic,
+      functionName,
       options,
       1 + (autoApproveTransfer ? 1 : 0));
 
-    let tx;
+    let tx: Hash;
     if (autoApproveTransfer) {
       /**
        * approve immediate transfer of native tokens from msg.sender to the avatar
        */
       const avatarService = new AvatarService(options.avatar);
       const token = await avatarService.getNativeToken();
-      tx = await token.approve(this.address, orgNativeTokenFee, { from: await Utils.getDefaultAccount() });
-      TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
+      tx = await token.approve.sendTransaction(
+        this.address,
+        orgNativeTokenFee,
+        { from: await Utils.getDefaultAccount() });
+      TransactionService.publishTxLifecycleEvents(functionName, txReceiptEventPayload, tx, this.contract);
+      await TransactionService.watchForMinedTransaction(tx);
     }
 
     this.logContractFunctionCall("ContributionReward.proposeContributionReward", options);
 
-    tx = await this.contract.proposeContributionReward(
+    tx = await this.contract.proposeContributionReward.sendTransaction(
       options.avatar,
       Utils.SHA3(options.description),
       reputationChange,
@@ -152,9 +156,9 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
       options.beneficiaryAddress
     );
 
-    TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
+    TransactionService.publishTxLifecycleEvents(functionName, txReceiptEventPayload, tx, this.contract);
 
-    return new ArcTransactionProposalResult(tx, await this.getVotingMachine(options.avatar));
+    return new ArcTransactionProposalResult(tx, this.contract, await this.getVotingMachine(options.avatar));
   }
 
   /**
@@ -186,7 +190,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
     return this.wrapTransactionInvocation("ContributionReward.redeemContributionReward",
       options,
       () => {
-        return this.contract.redeem(
+        return this.contract.redeem.sendTransaction(
           options.proposalId,
           options.avatar,
           [options.reputation, options.nativeTokens, options.ethers, options.externalTokens]
@@ -215,7 +219,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
     return this.wrapTransactionInvocation("ContributionReward.redeemExternalToken",
       options,
       () => {
-        return this.contract.redeemExternalToken(
+        return this.contract.redeemExternalToken.sendTransaction(
           options.proposalId,
           options.avatar
         );
@@ -243,7 +247,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
     return this.wrapTransactionInvocation("ContributionReward.redeemReputation",
       options,
       () => {
-        return this.contract.redeemReputation(
+        return this.contract.redeemReputation.sendTransaction(
           options.proposalId,
           options.avatar
         );
@@ -271,7 +275,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
     return this.wrapTransactionInvocation("ContributionReward.redeemNativeToken",
       options,
       () => {
-        return this.contract.redeemNativeToken(
+        return this.contract.redeemNativeToken.sendTransaction(
           options.proposalId,
           options.avatar
         );
@@ -299,7 +303,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
     return this.wrapTransactionInvocation("ContributionReward.redeemEther",
       options,
       () => {
-        return this.contract.redeemEther(
+        return this.contract.redeemEther.sendTransaction(
           options.proposalId,
           options.avatar
         );

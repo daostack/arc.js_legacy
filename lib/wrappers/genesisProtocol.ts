@@ -79,10 +79,10 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     const autoApproveTransfer = ConfigService.get("autoApproveTokenTransfers");
 
-    const eventTopic = "txReceipts.GenesisProtocol.stake";
+    const functionName = "GenesisProtocol.stake";
 
     const txReceiptEventPayload = TransactionService.publishKickoffEvent(
-      eventTopic,
+      functionName,
       options,
       1 + (autoApproveTransfer ? 1 : 0));
 
@@ -95,16 +95,17 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       const token = await
         (await Utils.requireContract("StandardToken")).at(await this.contract.stakingToken()) as any;
 
-      tx = await token.approve(this.address,
+      tx = await token.approve.sendTransaction(this.address,
         amount,
         { from: options.onBehalfOf ? options.onBehalfOf : await Utils.getDefaultAccount() });
 
-      TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
+      TransactionService.publishTxLifecycleEvents(functionName, txReceiptEventPayload, tx, this.contract);
+      await TransactionService.watchForMinedTransaction(tx);
     }
 
     this.logContractFunctionCall("GenesisProtocol.stake", options);
 
-    tx = await this.contract.stake(
+    tx = await this.contract.stake.sendTransaction(
       options.proposalId,
       options.vote,
       amount,
@@ -114,13 +115,13 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       } : undefined
     );
 
-    TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, tx);
+    TransactionService.publishTxLifecycleEvents(functionName, txReceiptEventPayload, tx, this.contract);
 
-    return new ArcTransactionResult(tx);
+    return new ArcTransactionResult(tx, this.contract);
   }
 
   /**
-   * Redeem any tokens and reputation that are due the beneficiary from the outcome of the proposal.
+   * Redeem any tokens and reputation, excluding bounty, that are due the beneficiary from the outcome of the proposal.
    * @param {RedeemConfig} options
    * @returns Promise<ArcTransactionResult>
    */
@@ -147,7 +148,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     return this.wrapTransactionInvocation("GenesisProtocol.redeem",
       options,
       () => {
-        return this.contract.redeem(
+        return this.contract.redeem.sendTransaction(
           options.proposalId,
           options.beneficiaryAddress
         );
@@ -181,7 +182,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     return this.wrapTransactionInvocation("GenesisProtocol.redeemDaoBounty",
       options,
       () => {
-        return this.contract.redeemDaoBounty(
+        return this.contract.redeemDaoBounty.sendTransaction(
           options.proposalId,
           options.beneficiaryAddress
         );

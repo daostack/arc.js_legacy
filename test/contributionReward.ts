@@ -41,7 +41,7 @@ describe("ContributionReward scheme", () => {
       periodLength: 1,
     }, rewardsSpec));
 
-    assert.isOk(result.proposalId);
+    assert.isOk(await result.getProposalIdFromMinedTx());
     assert.isOk(result.votingMachine);
 
     return result;
@@ -74,7 +74,7 @@ describe("ContributionReward scheme", () => {
       nativeTokenReward: web3.toWei(10),
     });
 
-    const proposalId = proposalResult.proposalId;
+    const proposalId = await proposalResult.getProposalIdFromMinedTx();
 
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
@@ -90,8 +90,8 @@ describe("ContributionReward scheme", () => {
 
     assert.isOk(result);
 
-    const eventProposalId = result.getValueFromTx("_proposalId", "RedeemNativeToken");
-    const amount = result.getValueFromTx("_amount", "RedeemNativeToken");
+    const eventProposalId = await result.getValueFromMinedTx("_proposalId", "RedeemNativeToken");
+    const amount = await result.getValueFromMinedTx("_amount", "RedeemNativeToken");
     assert.equal(eventProposalId, proposalId);
     assert(helpers.fromWei(amount).eq(10));
   });
@@ -102,7 +102,7 @@ describe("ContributionReward scheme", () => {
       reputationChange: web3.toWei(10),
     });
 
-    const proposalId = proposalResult.proposalId;
+    const proposalId = await proposalResult.getProposalIdFromMinedTx();
 
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
@@ -117,8 +117,8 @@ describe("ContributionReward scheme", () => {
 
     assert.isOk(result);
 
-    const eventProposalId = result.getValueFromTx("_proposalId", "RedeemReputation");
-    const amount = result.getValueFromTx("_amount", "RedeemReputation");
+    const eventProposalId = await result.getValueFromMinedTx("_proposalId", "RedeemReputation");
+    const amount = await result.getValueFromMinedTx("_amount", "RedeemReputation");
     assert.equal(eventProposalId, proposalId);
     assert(helpers.fromWei(amount).eq(10));
   });
@@ -129,7 +129,7 @@ describe("ContributionReward scheme", () => {
       ethReward: web3.toWei(.005),
     });
 
-    const proposalId = proposalResult.proposalId;
+    const proposalId = await proposalResult.getProposalIdFromMinedTx();
 
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
@@ -157,9 +157,9 @@ describe("ContributionReward scheme", () => {
 
     assert.isOk(result);
 
-    const eventProposalId = result.getValueFromTx("_proposalId", "RedeemEther");
-    const amount = result.getValueFromTx("_amount", "RedeemEther");
-    const beneficiary = result.getValueFromTx("_beneficiary", "RedeemEther");
+    const eventProposalId = await result.getValueFromMinedTx("_proposalId", "RedeemEther");
+    const amount = await result.getValueFromMinedTx("_amount", "RedeemEther");
+    const beneficiary = await result.getValueFromMinedTx("_beneficiary", "RedeemEther");
 
     assert.equal(beneficiary, accounts[1]);
     assert.equal(eventProposalId, proposalId);
@@ -172,7 +172,7 @@ describe("ContributionReward scheme", () => {
       nativeTokenReward: web3.toWei(10),
     });
 
-    const proposalId = proposalResult.proposalId;
+    const proposalId = await proposalResult.getProposalIdFromMinedTx();
 
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
@@ -187,8 +187,8 @@ describe("ContributionReward scheme", () => {
 
     assert.isOk(result);
 
-    const eventProposalId = result.getValueFromTx("_proposalId", "RedeemNativeToken");
-    const amount = result.getValueFromTx("_amount", "RedeemNativeToken");
+    const eventProposalId = await result.getValueFromMinedTx("_proposalId", "RedeemNativeToken");
+    const amount = await result.getValueFromMinedTx("_amount", "RedeemNativeToken");
     assert.equal(eventProposalId, proposalId);
     assert(helpers.fromWei(amount).eq(10));
   });
@@ -202,7 +202,7 @@ describe("ContributionReward scheme", () => {
       externalTokenReward: web3.toWei(10),
     });
 
-    const proposalId = proposalResult.proposalId;
+    const proposalId = await proposalResult.getProposalIdFromMinedTx();
 
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
@@ -229,8 +229,8 @@ describe("ContributionReward scheme", () => {
 
     assert.isOk(result);
 
-    const eventProposalId = result.getValueFromTx("_proposalId", "RedeemExternalToken");
-    const amount = result.getValueFromTx("_amount", "RedeemExternalToken");
+    const eventProposalId = await result.getValueFromMinedTx("_proposalId", "RedeemExternalToken");
+    const amount = await result.getValueFromMinedTx("_amount", "RedeemExternalToken");
     assert.equal(eventProposalId, proposalId);
     assert(helpers.fromWei(amount).eq(10));
   });
@@ -250,11 +250,11 @@ describe("ContributionReward scheme", () => {
 
     let result = await proposeReward({ nativeTokenReward: web3.toWei(10) });
 
-    const proposalId1 = result.proposalId;
+    const proposalId1 = await result.getProposalIdFromMinedTx();
 
     result = await proposeReward({ reputationChange: web3.toWei(10) });
 
-    const proposalId2 = result.proposalId;
+    const proposalId2 = await result.getProposalIdFromMinedTx();
 
     let proposals = await (await scheme.getVotableProposals(dao.avatar.address))({}, { fromBlock: 0 }).get();
 
@@ -298,11 +298,11 @@ describe("ContributionReward scheme", () => {
 
     let result = await proposeReward({ nativeTokenReward: web3.toWei(10) });
 
-    const nativeRewardProposalId = result.proposalId;
+    const nativeRewardProposalId = await result.getProposalIdFromMinedTx();
 
     result = await proposeReward({ reputationChange: web3.toWei(10) });
 
-    const reputationChangeProposalId = result.proposalId;
+    const reputationChangeProposalId = await result.getProposalIdFromMinedTx();
 
     const proposals = await (await scheme.getVotableProposals(dao.avatar.address))({}, { fromBlock: 0 }).get();
 

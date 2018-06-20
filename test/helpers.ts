@@ -119,7 +119,7 @@ export async function addProposeContributionReward(dao: DAO): Promise<Contributi
     schemeParametersHash,
   });
 
-  const proposalId = result.proposalId;
+  const proposalId = await result.getProposalIdFromMinedTx();
 
   await vote(votingMachine, proposalId, 1, accounts[1]);
   return contributionReward;

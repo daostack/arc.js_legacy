@@ -103,17 +103,17 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
 
     this.logContractFunctionCall("IntVoteInterface.propose", options);
 
-    const tx = await this.wrapTransactionInvocation("IntVoteInterfaceWrapper.propose",
+    const txResult = await this.wrapTransactionInvocation("IntVoteInterfaceWrapper.propose",
       options,
       () => {
-        return this.contract.propose(
+        return this.contract.propose.sendTransaction(
           options.numOfChoices,
           options.proposalParameters,
           options.avatarAddress,
           options.executable,
           options.proposerAddress);
       });
-    return new ArcTransactionProposalResult(tx.tx, this);
+    return new ArcTransactionProposalResult(txResult.tx, this.contract, this);
   }
 
   /**
@@ -130,7 +130,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
     return this.wrapTransactionInvocation("IntVoteInterfaceWrapper.cancelProposal",
       options,
       () => {
-        return this.contract.cancelProposal(options.proposalId);
+        return this.contract.cancelProposal.sendTransaction(options.proposalId);
       });
   }
 
@@ -152,7 +152,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
     return this.wrapTransactionInvocation("IntVoteInterfaceWrapper.ownerVote",
       options,
       () => {
-        return this.contract.ownerVote(
+        return this.contract.ownerVote.sendTransaction(
           options.proposalId,
           options.vote,
           options.voterAddress);
@@ -174,7 +174,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
     return this.wrapTransactionInvocation("IntVoteInterfaceWrapper.vote",
       options,
       () => {
-        return this.contract.vote(
+        return this.contract.vote.sendTransaction(
           options.proposalId,
           options.vote,
           options.onBehalfOf ? { from: options.onBehalfOf } : undefined);
@@ -200,7 +200,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
       options,
       () => {
         // tokens, the last parameter, is ignored
-        return this.contract.voteWithSpecifiedAmounts(
+        return this.contract.voteWithSpecifiedAmounts.sendTransaction(
           options.proposalId,
           options.vote,
           options.reputation, new BigNumber(0));
@@ -221,7 +221,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
     return this.wrapTransactionInvocation("IntVoteInterfaceWrapper.cancelVote",
       options,
       () => {
-        return this.contract.cancelVote(options.proposalId);
+        return this.contract.cancelVote.sendTransaction(options.proposalId);
       });
   }
 
@@ -295,7 +295,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
     return this.wrapTransactionInvocation("IntVoteInterfaceWrapper.execute",
       options,
       () => {
-        return this.contract.execute(options.proposalId);
+        return this.contract.execute.sendTransaction(options.proposalId);
       });
   }
 

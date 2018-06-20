@@ -47,8 +47,8 @@ describe("GlobalConstraintRegistrar", () => {
     return {
       gcAddress: tokenCapGC.address,
       globalConstraintRegistrar,
-      proposalId: result.proposalId,
-      tx: result.tx,
+      proposalId: await result.getProposalIdFromMinedTx(),
+      tx: await result.watchForTxMined(),
     };
   };
 
@@ -117,7 +117,7 @@ describe("GlobalConstraintRegistrar", () => {
       globalConstraintAddress: result.gcAddress,
     });
 
-    const proposalId = removeResult.proposalId;
+    const proposalId = await removeResult.getProposalIdFromMinedTx();
 
     const proposals = await globalConstraintRegistrar.RemoveGlobalConstraintsProposal(
       { _gc: result.gcAddress, _proposalId: proposalId }, { fromBlock: 0 }).get();
@@ -144,7 +144,7 @@ describe("GlobalConstraintRegistrar", () => {
       globalConstraintAddress: result.gcAddress,
     });
 
-    await helpers.vote(votingMachine, removeResult.proposalId, 1, accounts[1]);
+    await helpers.vote(votingMachine, await removeResult.getProposalIdFromMinedTx(), 1, accounts[1]);
 
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address))[1].toNumber(), 0);
   });
@@ -197,7 +197,7 @@ describe("GlobalConstraintRegistrar", () => {
     });
 
     // check if the proposal is known on the GlobalConstraintRegistrar
-    const proposalId = result.proposalId;
+    const proposalId = await result.getProposalIdFromMinedTx();
     // TODO: read the proposal in the contract:
     // const proposal = await gcr.proposals(proposalId);
     // // the proposal looks like gc-address, params, proposaltype, removeParams
