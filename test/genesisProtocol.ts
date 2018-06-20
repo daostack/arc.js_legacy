@@ -108,17 +108,17 @@ describe("GenesisProtocol", () => {
   });
 
   it("can call getTokenBalances", async () => {
-    const genesisDao = await DAO.at(await DAO.getGenesisDao());
+    const stakingToken = await genesisProtocol.getStakingToken();
 
     await helpers.transferTokensToDao(dao, 15, accounts[0], dao.token);
-    await helpers.transferTokensToDao(dao, 25, accounts[0], genesisDao.token);
+    await helpers.transferTokensToDao(dao, 25, accounts[0], stakingToken);
 
     const result = await genesisProtocol.getTokenBalances({
       avatarAddress: dao.avatar.address,
     });
 
     assert.equal(result.nativeToken.address, dao.token.address, "wrong nativeToken");
-    assert.equal(result.stakingToken.address, genesisDao.token.address, "wrong stakingToken");
+    assert.equal(result.stakingToken.address, stakingToken.address, "wrong stakingToken");
     assert(result.nativeTokenBalance.eq(web3.toWei(15)),
       `nativeTokenBalance is wrong: ${result.nativeTokenBalance}`);
     assert(result.stakingTokenBalance.eq(web3.toWei(25)),

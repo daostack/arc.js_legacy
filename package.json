@@ -1,6 +1,6 @@
 {
   "name": "@daostack/arc.js",
-  "version": "0.0.0-alpha.59",
+  "version": "0.0.0-alpha.60",
   "description": "A JavaScript library for interacting with @daostack/arc ethereum smart contracts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,7 +26,8 @@
     "build": "npm start build",
     "lint": "npm start lint",
     "ganache": "npm start ganache",
-    "migrateContracts": "npm start migrateContracts"
+    "migrateContracts": "npm start migrateContracts",
+    "createGenesisDao": "npm start createGenesisDao"
   },
   "repository": {
     "type": "git",

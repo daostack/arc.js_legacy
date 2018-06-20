@@ -10,43 +10,44 @@ const env = require("env-variable")();
 const joinPath = require("path.join");
 const cwd = require("cwd")();
 const config = require("./config/default.json");
-const computeGasLimit = require("./gasLimits.js").computeGasLimit;
-/**
- * environment variables you can use to configure stuff like migrateContracts
- */
-const pathArcJsRoot = env.pathArcJsRoot || cwd;
 
-const pathArcJsContracts = joinPath(pathArcJsRoot, "migrated_contracts");
+const runningInRepo = fs.existsSync(".git");
+const pathArcJsRoot = cwd;
 
-const arcIsInternal = fs.existsSync(joinPath(pathArcJsRoot, "node_modules", "@daostack", "arc"));
-const pathDaostackArcRepo = arcIsInternal ?
-  joinPath(pathArcJsRoot, "node_modules", "@daostack", "arc") :
-  joinPath(pathArcJsRoot, "..", "arc");
+const pathNodeModules = runningInRepo ? joinPath(".", "node_modules") : joinPath("..", "..", "node_modules");
 
-const pathArcTest = joinPath(pathArcJsRoot, "test");
+const pathDaostackArcRepo = runningInRepo ?
+  joinPath(pathNodeModules, "@daostack", "arc") :
+  joinPath("..", "arc");
 
-const pathArcTestBuild = joinPath(pathArcJsRoot, "test-build");
-
-const pathDaostackArcGanacheDb = joinPath(pathArcJsRoot, "ganacheDb");
-const pathDaostackArcGanacheDbZip = joinPath(pathArcJsRoot, "ganacheDb.zip");
+const pathArcJsContracts = joinPath(".", "migrated_contracts");
+const pathArcTest = joinPath(".", "test");
+const pathArcTestBuild = joinPath(".", "test-build");
+const pathArcDist = joinPath(".", "dist");
+const pathDaostackArcGanacheDb = joinPath(".", "ganacheDb");
+const pathDaostackArcGanacheDbZip = joinPath(".", "ganacheDb.zip");
+const pathTypeScript = joinPath(pathNodeModules, "typescript/bin/tsc");
 
 const network = env.arcjs_network || config.network || "ganache";
 
+let truffleCommand;
+if (runningInRepo) {
+  truffleCommand = "truffle"; // use global version of truffle.
+} else { // assume we are running in application context
+  truffleCommand = `node ${joinPath("..", "..", "truffle-core-migrate-without-compile", "cli")}`;
+}
 
-// this is needed to force travis to use our modified version of truffle
-const truffleIsInternal = fs.existsSync(joinPath(pathArcJsRoot, "node_modules", "truffle-core-migrate-without-compile"));
-const truffleCommand = `node ${joinPath(pathArcJsRoot, truffleIsInternal ? "node_modules" : "../../", "truffle-core-migrate-without-compile", "cli")}`;
+const gasLimit = 8000000; // something reasonably close to live
+const ganacheCommand = `ganache-cli -l ${gasLimit}  --networkId 1512051714758 --account="0x8d4408014d165ec69d8cc9f091d8f4578ac5564f376f21887e98a6d33a6e3549,9999999999999999999999999999999999999999999" --account="0x2215f0a41dd3bb93f03049514949aaafcf136e6965f4a066d6bf42cc9f75a106,9999999999999999999999999999999999999999999" --account="0x6695c8ef58fecfc7410bf8b80c17319eaaca8b9481cc9c682fd5da116f20ef05,9999999999999999999999999999999999999999999" --account="0xb9a8635b40a60ad5b78706d4ede244ddf934dc873262449b473076de0c1e2959,9999999999999999999999999999999999999999999" --account="0x55887c2c6107237ac3b50fb17d9ff7313cad67757e44d1be5eb7bbf9fc9ca2ea,9999999999999999999999999999999999999999999" --account="0xb16a587ad59c2b3a3f47679ed2df348d6828a3bb5c6bb3797a1d5a567ce823cb,9999999999999999999999999999999999999999999"`;
+const ganacheDbCommand = `ganache-cli --db ${pathDaostackArcGanacheDb} -l ${gasLimit} --networkId 1512051714758 --mnemonic "behave pipe turkey animal voyage dial relief menu blush match jeans general"`;
 
-const ganacheCommand = `ganache-cli -l ${computeGasLimit(6)} --account="0x8d4408014d165ec69d8cc9f091d8f4578ac5564f376f21887e98a6d33a6e3549,9999999999999999999999999999999999999999999" --account="0x2215f0a41dd3bb93f03049514949aaafcf136e6965f4a066d6bf42cc9f75a106,9999999999999999999999999999999999999999999" --account="0x6695c8ef58fecfc7410bf8b80c17319eaaca8b9481cc9c682fd5da116f20ef05,9999999999999999999999999999999999999999999" --account="0xb9a8635b40a60ad5b78706d4ede244ddf934dc873262449b473076de0c1e2959,9999999999999999999999999999999999999999999" --account="0x55887c2c6107237ac3b50fb17d9ff7313cad67757e44d1be5eb7bbf9fc9ca2ea,9999999999999999999999999999999999999999999" --account="0xb16a587ad59c2b3a3f47679ed2df348d6828a3bb5c6bb3797a1d5a567ce823cb,9999999999999999999999999999999999999999999"`;
-const ganacheDbCommand = `ganache-cli --db ${pathDaostackArcGanacheDb} -l ${computeGasLimit(6)} --networkId 1512051714758 --mnemonic "behave pipe turkey animal voyage dial relief menu blush match jeans general"`;
-
-const migrationScriptExists = fs.existsSync(joinPath(pathArcJsRoot, "dist", "migrations", "2_deploy_organization.js"));
+const migrationScriptExists = fs.existsSync(joinPath(".", "dist", "migrations", "2_deploy_schemes.js"));
 
 module.exports = {
   scripts: {
     ganache: {
       default: "nps ganache.run",
-      run: ganacheCommand,
+      run: ganacheCommand
     },
     ganacheDb: {
       default: "nps ganacheDb.run",
@@ -70,12 +71,12 @@ module.exports = {
         "nps lint.test"
       ),
       code: {
-        default: "tslint custom_typings/web3.d.ts custom_typings/system.d.ts lib/**/*.ts",
-        andFix: "nps \"lint.code --fix\""
+        default: `tslint ${joinPath("custom_typings", "web3.d.ts")} ${joinPath("custom_typings", "system.d.ts")} ${joinPath("lib", "**", "*.ts")}`,
+        andFix: `nps "lint.code --fix"`
       },
       test: {
-        default: "tslint custom_typings/web3_global.d.ts custom_typings/system.d.ts test/**/*.ts",
-        andFix: "nps \"lint.test --fix\""
+        default: `tslint ${joinPath("custom_typings", "web3_global.d.ts")} ${joinPath("custom_typings", "system.d.ts")} ${joinPath("test", "**", "*.ts")}`,
+        andFix: `nps "lint.test --fix"`
       },
       andFix: series(
         "nps lint.code.andFix",
@@ -84,23 +85,25 @@ module.exports = {
     },
     test: {
       default: series(
-        "nps test.build",
-        "nps \"test.run test-build/test\""
+        `nps test.build`,
+        `nps test.runAll`
       ),
       bail: series(
-        "nps test.build",
-        "nps \"test.run --bail test-build/test\""
+        `nps test.build`,
+        `nps "test.runAll --bail"`
       ),
-      run: series("mocha --require chai --timeout 999999"),
+      // coming: the ability to more easily run a single test (awaiting a forthcoming release of nps).
+      run: `mocha --require chai --timeout 999999`,
+      runAll: `mocha --require chai --timeout 999999  ${joinPath(pathArcTestBuild, "test")}`,
       build: {
         default: series(
           "nps test.build.clean",
-          mkdirp(`${pathArcTestBuild}/config`),
-          copy(`./config/**/* ${pathArcTestBuild}/config`),
-          copy(`./gasLimits.js ${pathArcTestBuild}`),
-          copy(`./migrated_contracts/**/* ${pathArcTestBuild}/migrated_contracts`),
+          mkdirp(joinPath(pathArcTestBuild, "config")),
+          copy(`${joinPath(".", "config", "**", "*")} ${joinPath(pathArcTestBuild, "config")}`),
+          copy(`${joinPath(".", "gasLimits.js")} ${pathArcTestBuild}`),
+          copy(`${joinPath(pathArcJsContracts, "**", "*")} ${joinPath(pathArcTestBuild, "migrated_contracts")}`),
           mkdirp(pathArcTestBuild),
-          `node node_modules/typescript/bin/tsc --outDir ${pathArcTestBuild} --project ${pathArcTest}`
+          `node ${pathTypeScript} --outDir ${pathArcTestBuild} --project ${pathArcTest}`
         ),
         clean: rimraf(joinPath(pathArcTestBuild, "*"))
       },
@@ -108,14 +111,17 @@ module.exports = {
     build: {
       default: series(
         "nps build.clean",
-        mkdirp(joinPath(pathArcJsRoot, "dist")),
-        `node node_modules/typescript/bin/tsc --outDir ${joinPath(pathArcJsRoot, "dist")}`
+        mkdirp(pathArcDist),
+        `node ${pathTypeScript} --outDir ${pathArcDist}`
       ),
-      clean: rimraf(joinPath(pathArcJsRoot, "dist"))
+      clean: rimraf(pathArcDist)
     },
     deploy: {
       pack: series("nps build", "npm pack"),
       publish: series("nps build", "npm publish")
+    },
+    createGenesisDao: {
+      default: `node  ${joinPath(".", "package-scripts", "createGenesisDao.js")}`
     },
     /**
      * See README.md for how to use these scripts in a workflow to migrate contracts
@@ -133,6 +139,10 @@ module.exports = {
       default: series(
         migrationScriptExists ? `` : `nps build`,
         `${truffleCommand} migrate --reset --contracts_build_directory ${pathArcJsContracts} --without-compile --network ${network}`
+      ),
+      andCreateGenesisDao: series(
+        `nps migrateContracts`,
+        `nps createGenesisDao`
       ),
       /**
        * Clean the output contract json files, optionally andMigrate.
@@ -172,7 +182,7 @@ module.exports = {
     },
     docs: {
       api: {
-        build: "node ./package-scripts/typedoc.js",
+        build: `node ${joinPath(".", "package-scripts", "typedoc.js")}`,
         /**
          * This is to create a list of all the API files for inclusion in mkdocs.yml
          * Whenever the set of API objects changes, you must copy the output of this
@@ -181,7 +191,7 @@ module.exports = {
          *
          * Easy Powershell command:  nps -s docs.api.createPagesList | ac .\mkdocs.yml
          */
-        createPagesList: `node ./package-scripts/createApiPagesList.js ./docs api/*/**`
+        createPagesList: `node ${joinPath(".", "package-scripts", "createApiPagesList.js")} ./docs api/*/**`
       },
       website: {
         build: "mkdocs build",
@@ -197,8 +207,8 @@ module.exports = {
         andPublish: series("nps docs.build", "nps docs.website.publish")
       },
       clean: series(
-        rimraf(joinPath(pathArcJsRoot, "docs", "api")),
-        rimraf(joinPath(pathArcJsRoot, "site"))
+        rimraf(joinPath(".", "docs", "api")),
+        rimraf(joinPath(".", "site"))
       )
     }
   }

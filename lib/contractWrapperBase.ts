@@ -59,6 +59,8 @@ export abstract class ContractWrapperBase {
    */
   public async hydrateFromNew(...rest: Array<any>): Promise<any> {
     try {
+      // Note that because we are using `.then`, we are returning a true promise
+      // rather than the incomplete one returned by truffle.
       this.contract = await this.solidityContract.new(...rest)
         .then((contract: any) => contract, (error: any) => { throw error; });
     } catch (ex) {
@@ -75,6 +77,8 @@ export abstract class ContractWrapperBase {
    */
   public async hydrateFromAt(address: string): Promise<any> {
     try {
+      // Note that because we are using `.then`, we are returning a true promise
+      // rather than the incomplete one returned by truffle.
       this.contract = await this.solidityContract.at(address)
         .then((contract: any) => contract, (error: any) => { throw error; });
     } catch (ex) {
@@ -90,6 +94,8 @@ export abstract class ContractWrapperBase {
    */
   public async hydrateFromDeployed(): Promise<any> {
     try {
+      // Note that because we are using `.then`, we are returning a true promise
+      // rather than the incomplete one returned by truffle.
       this.contract = await this.solidityContract.deployed()
         .then((contract: any) => contract, (error: any) => { throw error; });
     } catch (ex) {

@@ -18,11 +18,11 @@ To deploy contracts to a specified network, follow these steps:
 
     An account generated from the mnemonic will be unlocked for signing and accepting the transactions that are generated during the migration.
 
-!!! warning
-    The mnemonic won't work unless it confirms to [BIP39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).  You can generate a conformant mnemonic [here](https://iancoleman.io/bip39/).
+    !!! warning
+        The mnemonic won't work unless it confirms to [BIP39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).  You can generate a conformant mnemonic [here](https://iancoleman.io/bip39/).
 
-!!! info
-    The migration script will use the gas settings defined in the Arc.js file `arc.js/gasLimits.js`.  The gas limit when migrating/creating Daos is computed dynamically as a function of the number of founders.
+    !!! info
+        The migration script will use the gas settings defined in the Arc.js file `arc.js/gasLimits.js`.  The gas limit when migrating/creating Daos is computed dynamically as a function of the number of founders.
 
 3. Provide a list of Genesis DAO founders as described in [configuring founders](#configuring-founders).
 
@@ -30,7 +30,12 @@ To deploy contracts to a specified network, follow these steps:
 
     Otherwise, make sure your node is all sync'd-up and listening at the providerUrl you supplied in step 2.
 
-5. run `npm start migrateContracts`, or from your application: `npm explore @daostack/arc.js -- npm start migrateContracts`
+5. run `npm start migrateContracts`, or from your application: `npm explore @daostack/arc.js -- npm start migrateContracts`.
+
+6. Optional: If you want to create the Genesis DAO then run `npm start createGenesisDao`, or from your application: `npm explore @daostack/arc.js -- npm start createGenesisDao`.
+
+    !!!tip
+        If you want to migrate contracts and create the Genesis DAO all in a single script, you can run the script `migrateContracts.createGenesisDao`.
 
 ## Configuring Founders
 

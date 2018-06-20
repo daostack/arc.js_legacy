@@ -292,6 +292,49 @@ export class Utils {
     return `0x${("00000000" + (permissions as number).toString(16)).substr(-8)}`;
   }
 
+  public static async getNetworkName(): Promise<string> {
+    const web3 = await Utils.getWeb3();
+
+    const id = await promisify(web3.version.getNetwork)();
+
+    switch (id) {
+      case "1":
+        return "Live";
+      case "2":
+        return "Morden";
+      case "3":
+        return "Ropsten";
+      case "4":
+        return "Rinkeby";
+      case "42":
+        return "Kovan";
+      // the id that arc.js hardwires for ganache
+      case "1512051714758":
+        return "Ganache";
+      default:
+        return "Unknown";
+    }
+  }
+
+  /**
+   * Returns promise of the address of the global GEN token.
+   */
+  public static async getGenTokenAddress(): Promise<string> {
+    const networkName = (await Utils.getNetworkName()).toLowerCase();
+    const addresses = ConfigService.get("globalGenTokenAddresses");
+
+    const address = addresses[networkName];
+    return address ? address : addresses.default;
+  }
+
+  /**
+   * Returns promise of a TruffleContract for the global GEN token.
+   */
+  public static async getGenToken(): Promise<TruffleContract> {
+    const address = await Utils.getGenTokenAddress();
+    return (await Utils.requireContract("DAOToken")).at(address);
+  }
+
   private static web3: Web3 = undefined;
   private static alreadyTriedAndFailed: boolean = false;
 }

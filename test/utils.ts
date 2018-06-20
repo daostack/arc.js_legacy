@@ -10,14 +10,15 @@ import { WrapperService } from "../lib/wrapperService";
 import * as helpers from "./helpers";
 
 describe("Misc", () => {
-  // it("can check GEN balance", async () => {
-  //   const balance =
-  //     await Utils.getTokenBalance(
-  //       "0x0017cd246be69d243657400685B3C17c545bfd0F",
-  //       "0x543Ff227F64Aa17eA132Bf9886cAb5DB55DCAddf");
-  //   assert.isOk(balance);
-  //   LoggingService.info(`balance: ${balance}`);
-  // });
+  it("can get global GEN token", async () => {
+    const token = await Utils.getGenToken();
+    const address = token.address;
+    // assumes running in ganache and that ganache was started by arc.js (with the correct network id)
+    assert.equal(address, "0xdcf22b53f327b4f7f3ac42d957834bd962637555");
+    assert.isOk(token);
+    assert.equal(await token.name(), "DAOstack");
+    assert.equal(await token.symbol(), "GEN");
+  });
 
   it("LoggingService can stringify circular object", async () => {
     const objA: any = {};
@@ -27,7 +28,6 @@ describe("Misc", () => {
     // should not throw exception
     LoggingService.stringifyObject(objA);
   });
-
 });
 
 describe("InitializeArcJs", () => {
