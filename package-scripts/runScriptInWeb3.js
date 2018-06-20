@@ -17,17 +17,16 @@ provider = new HDWalletProvider(providerConfig.mnemonic, providerConfig.provider
 
 const web3 = global.web3 = new webConstructor(provider);
 
-// const mintTokens = async () => {
-//   const DAOToken = await Utils.requireContract("DAOToken");
-//   console.log(`got daotoken`);
-//   // then we will create a new token to use for staking
-//   const genToken = await DAOToken.at("0x240481418e44558cf9c4b87cd0497a34771749e7");
-//   console.log(`got GEN token`);
+const mintTokens = async () => {
+  const DAOToken = await Utils.requireContract("DAOToken");
+  // then we will create a new token to use for staking
+  const token = await DAOToken.at("0x240481418e44558cf9c4b87cd0497a34771749e7");
+  console.log(`got token`);
 
-//   console.log(`minting...`);
-//   await genToken.mint("0xB38698D1Cf896AD6d3bbeF3E6eE6b90a78837a1f", web3.toWei(100000));
-//   console.log(`done`);
-// };
+  console.log(`minting...`);
+  await token.mint("0x78434fdaf6d44254b95634e2be9d7ca3433d8853", web3.toWei(100));
+  console.log(`done`);
+};
 
 
 // const getGpProposals = async () => {
@@ -164,4 +163,4 @@ const payPilotParticipants = async () => {
   process.exit(0);
 }
 
-payPilotParticipants().then(() => { process.exit(0) });
+mintTokens().then(() => { process.exit(0) });
