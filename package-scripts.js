@@ -181,7 +181,8 @@ module.exports = {
        */
       fetchFromArc: series(
         copy(`${joinPath(pathDaostackArcRepo, "build", "contracts", "*")}  ${pathArcJsContracts}`),
-        copy(`${joinPath(pathDaostackArcRepo, "test", "constants.js")}  "."  --rename=arcConstants.js`)
+        // write Arc's gasLimit into a file where we can grab it when needed
+        `node ${joinPath(".", "package-scripts", "importArcGasLimit.js")}`
       ),
     },
     docs: {

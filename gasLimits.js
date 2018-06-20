@@ -1,5 +1,5 @@
 const promisify = require("es6-promisify").promisify;
-const arcForgeOrgGasLimit = require("./arcConstants.js").GENESIS_SCHEME_GAS_LIMIT;
+const arcForgeOrgGasLimit = require("./arcConstants.js").ARC_GAS_LIMIT;
 /**
  * Defines some useful gas limit constants, provides some useful gasLimit-related utilities.
  *
