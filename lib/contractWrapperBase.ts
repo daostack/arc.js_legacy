@@ -276,19 +276,16 @@ export class ArcTransactionResult {
 
   /**
    * Returns promise of a mined transaction if it already exists,
-   * converted to a TransactionReceiptTruffle, or null if it doesn't exist.
-   *
-   * @param requiredDepth Optional minimum block depth required to resolve the promise.
-   * Default is 0.
+   * converted to a TransactionReceiptTruffle (with readable logs), or null if it doesn't exist.
    */
-  public async getTxMined(requiredDepth: number = 0): Promise<TransactionReceiptTruffle | null> {
-    const tx = await TransactionService.getMinedTransaction(this.tx, requiredDepth);
+  public async getTxMined(): Promise<TransactionReceiptTruffle | null> {
+    const tx = await TransactionService.getMinedTransaction(this.tx);
     return TransactionService.toTxTruffle(tx, this.contract);
   }
 
   /**
    * Returns promise of a confirmed transaction if it already exists,
-   * converted to a TransactionReceiptTruffle, or null if it doesn't exist
+   * converted to a TransactionReceiptTruffle (with readable logs), or null if it doesn't exist
    * at the optionally-required depth.
    *
    * @param requiredDepth Optional minimum block depth required to resolve the promise.
@@ -300,7 +297,8 @@ export class ArcTransactionResult {
   }
 
   /**
-   * Returns promise of a mined transaction.
+   * Returns promise of a mined transaction once it has been mined,
+   * converted to a TransactionReceiptTruffle (with readable logs).
    */
   public async watchForTxMined(): Promise<TransactionReceiptTruffle> {
     const tx = await TransactionService.watchForMinedTransaction(this.tx);
@@ -309,7 +307,11 @@ export class ArcTransactionResult {
 
   /**
    * Returns a promise of a TransactionReceipt once the given transaction has been confirmed,
+   * converted to a TransactionReceiptTruffle (with readable logs),
    * according to the optional `requiredDepth`.
+   * 
+   * @param requiredDepth Optional minimum block depth required to resolve the promise.
+   * Default comes from the `ConfigurationService`.
    */
   public async watchForTxConfirmed(requiredDepth?: number): Promise<TransactionReceiptTruffle> {
     const tx = await TransactionService.watchForConfirmedTransaction(this.tx, requiredDepth);
