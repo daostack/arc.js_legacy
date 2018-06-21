@@ -1,3 +1,4 @@
+/* tslint:disable:no-var-requires */
 /* tslint:disable-next-line:no-reference */
 /// <reference path="../custom_typings/web3.d.ts" />
 export * from "./accountService";
@@ -33,7 +34,6 @@ export * from "./proposalGeneratorBase";
 export * from "./loggingService";
 export * from "./transactionService";
 export * from "./utils";
-/* tslint:disable-next-line:no-var-requires */
 export const computeForgeOrgGasLimit: any = require("../gasLimits.js").computeForgeOrgGasLimit;
 
 import { Web3 } from "web3";

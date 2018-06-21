@@ -1,6 +1,4 @@
-import TruffleContract = require("truffle-contract");
 import { TransactionReceipt } from "web3";
-import { IntVoteInterfaceWrapper } from ".";
 import { AvatarService } from "./avatarService";
 import { Address, HasContract, Hash, SchemePermissions } from "./commonTypes";
 import { IContractWrapperFactory } from "./contractWrapperFactory";
@@ -8,6 +6,7 @@ import { LoggingService } from "./loggingService";
 import { TransactionService, TxEventStack, TxGeneratingFunctionOptions } from "./transactionService";
 import { Utils } from "./utils";
 import { EventFetcherFactory, Web3EventService } from "./web3EventService";
+import { IntVoteInterfaceWrapper } from "./wrappers/intVoteInterface";
 /**
  * Abstract base class for all Arc contract wrapper classes
  *
@@ -270,8 +269,14 @@ export interface TransactionReceiptTruffle {
 export class ArcTransactionResult {
 
   constructor(
+    /**
+     * The transaction hash
+     */
     public tx: Hash,
-    private contract: TruffleContract) {
+    /**
+     *  the Truffle contract wrapper
+     */
+    private contract: any) {
   }
 
   /**
@@ -344,7 +349,7 @@ export class ArcTransactionProposalResult extends ArcTransactionResult {
 
   constructor(
     tx: Hash,
-    contract: TruffleContract,
+    contract: any,
     votingMachine: IntVoteInterfaceWrapper) {
     super(tx, contract);
     this.votingMachine = votingMachine;
@@ -370,7 +375,7 @@ export class ArcTransactionDataResult<TData> extends ArcTransactionResult {
 
   constructor(
     tx: Hash,
-    contract: TruffleContract,
+    contract: any,
     result: TData) {
     super(tx, contract);
     this.result = result;

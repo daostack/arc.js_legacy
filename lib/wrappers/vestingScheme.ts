@@ -1,6 +1,5 @@
 "use strict";
 import * as BigNumber from "bignumber.js";
-import TruffleContract = require("truffle-contract");
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
 import { ConfigService } from "../configService";
 import {
@@ -384,7 +383,7 @@ export class ArcTransactionAgreementResult extends ArcTransactionResult {
 
   constructor(
     tx: Hash,
-    contract: TruffleContract) {
+    contract: any) {
     super(tx, contract);
   }
   /**

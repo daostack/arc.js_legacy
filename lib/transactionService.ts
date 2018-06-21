@@ -1,5 +1,4 @@
 import { promisify } from "es6-promisify";
-import TruffleContract = require("truffle-contract");
 import { DecodedLogEntry, LogEntry, TransactionReceipt } from "web3";
 import { Hash } from "./commonTypes";
 import { ConfigService } from "./configService";
@@ -57,12 +56,12 @@ export class TransactionService extends PubSubEventService {
    * @hidden - for internal use only
    * @param eventStack array of TxEventSpec
    * @param tx the transaction id.
-   * @param contract TruffleContract for the contract that is generating the transaction.
+   * @param contract Truffle contract wrapper for the contract that is generating the transaction.
    */
   public static publishTxLifecycleEvents(
     eventStack: TxEventStack,
     tx: Hash,
-    contract: TruffleContract
+    contract: any
   ): void {
 
     TransactionService._publishTxEvent(eventStack, tx, null, TransactionStage.sent);
@@ -266,7 +265,7 @@ export class TransactionService extends PubSubEventService {
    * @param txReceipt The mined tx
    * @param contract The truffle contract that generated the tx
    */
-  public static toTxTruffle(txReceipt: TransactionReceipt, contract: TruffleContract): TransactionReceiptTruffle {
+  public static toTxTruffle(txReceipt: TransactionReceipt, contract: any): TransactionReceiptTruffle {
     const events = contract.constructor.events;
 
     if ((txReceipt as any).receipt) {

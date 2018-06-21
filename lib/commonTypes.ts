@@ -85,3 +85,25 @@ export interface SchemeWrapper {
 export interface HasContract {
   contract: any;
 }
+
+export interface TruffleContract {
+  /**
+   * Migrate a new instance of the contract.  Returns promise of being
+   * migrated.
+   * Note that the so-called promise returned by Truffle only supplies a 'then'
+   * function,  You have to call 'then' to get the real promise.
+   */
+  new: (...rest: Array<any>) => Promise<any>;
+  /**
+   * Returns a promise of an existing instance of the contract.
+   * Note that the so-called promise returned by Truffle only supplies a 'then'
+   * function,  You have to call 'then' to get the real promise.
+   */
+  at: (address: string) => Promise<any>;
+  /**
+   * Returns a promise of the deployed instance of the contract.
+   * Note that the so-called promise returned by Truffle only supplies a 'then'
+   * function,  You have to call 'then' to get the real promise.
+   */
+  deployed: () => Promise<any>;
+}

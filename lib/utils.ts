@@ -1,7 +1,7 @@
 import { BigNumber } from "bignumber.js";
 import { promisify } from "es6-promisify";
 import abi = require("ethereumjs-abi");
-import TruffleContract = require("truffle-contract");
+import Contract = require("truffle-contract");
 import { ContractAbi, providers as Web3Providers, TransactionReceipt, Web3 } from "web3";
 import { gasLimitsConfig } from "../gasLimits.js";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
@@ -18,7 +18,7 @@ export class Utils {
   static get NULL_ADDRESS(): Address { return "0x0000000000000000000000000000000000000000"; }
   static get NULL_HASH(): Hash { return "0x0000000000000000000000000000000000000000000000000000000000000000"; }
   /**
-   * Returns TruffleContract given the name of the contract (like "SchemeRegistrar").
+   * Returns Truffle contract wrapper given the name of the contract (like "SchemeRegistrar").
    * Optimized for synchronicity issues encountered with MetaMask.
    * Throws an exception if it can't load the contract.
    * Uses the asynchronous web.eth.getAccounts to obtain the default account (good with MetaMask).
@@ -27,7 +27,7 @@ export class Utils {
   public static async requireContract(contractName: string): Promise<any> {
     try {
       const artifact = require(`../migrated_contracts/${contractName}.json`);
-      const contract = new TruffleContract(artifact);
+      const contract = new Contract(artifact);
       const myWeb3 = await Utils.getWeb3();
 
       contract.setProvider(myWeb3.currentProvider);
@@ -330,9 +330,9 @@ export class Utils {
   }
 
   /**
-   * Returns promise of a TruffleContract for the global GEN token.
+   * Returns promise of a Truffle contract wrapper for the global GEN token.
    */
-  public static async getGenToken(): Promise<TruffleContract> {
+  public static async getGenToken(): Promise<any> {
     const address = await Utils.getGenTokenAddress();
     return (await Utils.requireContract("DAOToken")).at(address);
   }

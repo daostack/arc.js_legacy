@@ -118,11 +118,11 @@ export class DAO {
   }
 
   /**
-   * TruffleContract for the DAO's Avatar
+   * Truffle contract wrapper for the DAO's Avatar
    */
   public avatar: any;
   /**
-   * TruffleContract for the DAO's controller (Controller or UController by default, see DAO.hasUController)
+   * Truffle contract wrapper for the DAO's controller (Controller or UController by default, see DAO.hasUController)
    */
   public controller: any;
   /**
@@ -130,11 +130,11 @@ export class DAO {
    */
   public hasUController: boolean;
   /**
-   * TruffleContract for the DAO's native token (DAOToken by default)
+   * Truffle contract wrapper for the DAO's native token (DAOToken by default)
    */
   public token: any;
   /**
-   * TruffleContract for the DAO's native reputation (Reputation)
+   * Truffle contract wrapper for the DAO's native reputation (Reputation)
    */
   public reputation: any;
 
