@@ -309,7 +309,7 @@ export class ArcTransactionResult {
    * Returns a promise of a TransactionReceipt once the given transaction has been confirmed,
    * converted to a TransactionReceiptTruffle (with readable logs),
    * according to the optional `requiredDepth`.
-   * 
+   *
    * @param requiredDepth Optional minimum block depth required to resolve the promise.
    * Default comes from the `ConfigurationService`.
    */
