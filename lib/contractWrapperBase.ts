@@ -284,10 +284,19 @@ export class ArcTransactionResult {
   }
 
   /**
-   * Returns promise of a mined transaction, converted to a TransactionReceiptTruffle
+   * Returns promise of a mined transaction.
    */
   public async watchForTxMined(): Promise<TransactionReceiptTruffle> {
     const tx = await TransactionService.watchForMinedTransaction(this.tx);
+    return TransactionService.toTxTruffle(tx, this.contract);
+  }
+
+  /**
+   * Returns a promise of a TransactionReceipt once the given transaction has been confirmed,
+   * according to the optional `requiredDepth`.
+   */
+  public async watchForTxConfirmed(requiredDepth?: number): Promise<TransactionReceiptTruffle> {
+    const tx = await TransactionService.watchForConfirmedTransaction(this.tx, requiredDepth);
     return TransactionService.toTxTruffle(tx, this.contract);
   }
 

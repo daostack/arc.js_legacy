@@ -47,6 +47,17 @@ describe("ContributionReward scheme", () => {
     return result;
   };
 
+  it("can get NewContributionProposal event", async () => {
+
+    const proposalResult = await proposeReward({
+      nativeTokenReward: web3.toWei(10),
+    });
+
+    const event = scheme.NewContributionProposal({ _proposalId: await proposalResult.getProposalIdFromMinedTx() });
+    const events = await event.get();
+    assert.equal(events.length);
+  });
+
   it("can create and propose with orgNativeTokenFee", async () => {
 
     dao = await helpers.forgeDao({

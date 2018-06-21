@@ -123,11 +123,13 @@ export class TransactionService extends PubSubEventService {
    * Returns a promise of a TransactionReceipt once the given transaction has been mined.  Before watching,
    * checks to see whether the transaction has already been mined.
    *
-   * Note you can use `TransactionService.getMinedTransaction` to try to obtain
-   * a TransactionReceipt without watching for it when it hasn't yet been mined.
+   * Note you can use `TransactionService.getMinedTransaction` to try to obtain the
+   * TransactionReceipt without watching for it when it hasn't yet been mined.
+   *
+   * See also [getTransactionDepth](/api/classes/TransactionService#getTransactionDepth).
    *
    * @param txHash the transaction hash
-   * @param requiredDepth optional minimum block depth required to resolve the promise.  Default is 0.
+   * @param requiredDepth Optional minimum block depth required to resolve the promise.  Default is 0.
    */
   public static async watchForMinedTransaction(txHash: Hash, requiredDepth: number = 0): Promise<TransactionReceipt> {
 
@@ -145,17 +147,9 @@ export class TransactionService extends PubSubEventService {
       /**
        * see if we already have it
        */
-      let receipt = await TransactionService.getMinedTransaction(txHash);
+      let receipt = await TransactionService.getMinedTransaction(txHash, requiredDepth);
       if (receipt) {
-        if (requiredDepth) {
-          const depth = await TransactionService.getTransactionDepth(receipt);
-          if (depth < requiredDepth) {
-            receipt = null;
-          }
-        }
-        if (receipt) {
-          return resolve(receipt);
-        }
+        return resolve(receipt);
       }
 
       /**
@@ -166,18 +160,10 @@ export class TransactionService extends PubSubEventService {
       filter.watch(
         async (error: Error): Promise<void> => {
           if (!error) {
-            receipt = await TransactionService.getMinedTransaction(txHash);
+            receipt = await TransactionService.getMinedTransaction(txHash, requiredDepth);
             if (receipt) {
-              if (requiredDepth) {
-                const depth = await TransactionService.getTransactionDepth(receipt);
-                if (depth < requiredDepth) {
-                  receipt = null;
-                }
-              }
-              if (receipt) {
-                filter.stopWatching();
-                resolve(receipt);
-              }
+              filter.stopWatching();
+              resolve(receipt);
             }
           } else {
             LoggingService.error(`TransactionService.watchForMinedTransaction: an error occurred: ${error.message}`);
@@ -188,39 +174,21 @@ export class TransactionService extends PubSubEventService {
   }
 
   /**
-   * Returns a promise of a mined TransactionReceipt or null if it hasn't yet been mined.
-   * @param txHash
-   */
-  public static async getMinedTransaction(txHash: Hash): Promise<TransactionReceipt | null> {
-    const web3 = await Utils.getWeb3();
-    return promisify((innerCallback: any) => {
-      web3.eth.getTransactionReceipt(txHash, innerCallback);
-    })()
-      .then((tx: TransactionReceipt | null) => {
-        // blockNumber should always be set, but just in case...
-        if (tx && !tx.blockNumber) { return null; } else { return tx; }
-      }) as Promise<TransactionReceipt | null>;
-  }
-
-  /**
-   * Returns a promise of a TransactionReceipt once the given transaction has been confirmed,
+   * Returns a promise of a TransactionReceipt once the given transaction has been confirmed
    * according to the optional `requiredDepth`.
+   *
+   * Note you can use `TransactionService.getConfirmedTransaction` to try to obtain the
+   * TransactionReceipt without watching for it when it hasn't yet been confirmed.
    *
    * See also [getTransactionDepth](/api/classes/TransactionService#getTransactionDepth).
    *
    * @param txHash The transaction hash to watch
-   * @param requiredDepth Optional minimum block depth required to resolve the promise.  Default is 0.
+   * @param requiredDepth Optional minimum block depth required to resolve the promise.
+   * Default comes from the `ConfigurationService`.
    */
   public static async watchForConfirmedTransaction(txHash: Hash, requiredDepth?: number): Promise<TransactionReceipt> {
 
-    if (typeof requiredDepth === "undefined") {
-      const requiredDepths = ConfigService.get("txDepthRequiredForConfirmation");
-      const networkName = await Utils.getNetworkName();
-      requiredDepth = requiredDepths[networkName.toLowerCase()];
-      if (typeof requiredDepth === "undefined") {
-        requiredDepth = requiredDepths.default;
-      }
-    }
+    requiredDepth = await TransactionService.getDefaultDepth(requiredDepth);
 
     return TransactionService.watchForMinedTransaction(txHash, requiredDepth);
   }
@@ -255,6 +223,38 @@ export class TransactionService extends PubSubEventService {
     } else {
       return Promise.resolve(-1);
     }
+  }
+
+  /**
+   * Returns a promise of a mined TransactionReceipt or null if it hasn't yet been mined.
+   * @param txHash
+   * @param requiredDepth Optional minimum block depth required to resolve the promise.  Default is 0.
+   */
+  public static async getMinedTransaction(txHash: Hash, requiredDepth: number = 0): Promise<TransactionReceipt | null> {
+
+    const web3 = await Utils.getWeb3();
+    return promisify((innerCallback: any) => {
+      web3.eth.getTransactionReceipt(txHash, innerCallback);
+    })()
+      .then(async (receipt: TransactionReceipt | null) => {
+        const depth = await TransactionService.getTransactionDepth(receipt);
+        // blockNumber should always be set, but just in case...
+        if ((receipt && !receipt.blockNumber) || (depth < requiredDepth)) { return null; } else { return receipt; }
+      }) as Promise<TransactionReceipt | null>;
+  }
+
+  /**
+   * Returns a promise of a confirmed TransactionReceipt or null if it hasn't yet been confirmed
+   * according to the optional `requiredDepth`.
+   * @param txHash
+   * @param requiredDepth Optional minimum block depth required to resolve the promise.
+   * Default comes from the `ConfigurationService`.
+   */
+  public static async getConfirmedTransaction(
+    txHash: Hash, requiredDepth?: number): Promise<TransactionReceipt | null> {
+
+    requiredDepth = await TransactionService.getDefaultDepth(requiredDepth);
+    return TransactionService.getMinedTransaction(txHash, requiredDepth);
   }
 
   /**
@@ -386,6 +386,19 @@ export class TransactionService extends PubSubEventService {
 
   private static topicBaseFromFunctionName(functionName: string): string {
     return `TxTracking.${functionName}`;
+  }
+
+  private static async getDefaultDepth(requiredDepth?: number): Promise<number> {
+
+    if (typeof requiredDepth === "undefined") {
+      const requiredDepths = ConfigService.get("txDepthRequiredForConfirmation");
+      const networkName = await Utils.getNetworkName();
+      requiredDepth = requiredDepths[networkName.toLowerCase()];
+      if (typeof requiredDepth === "undefined") {
+        requiredDepth = requiredDepths.default;
+      }
+    }
+    return requiredDepth;
   }
 }
 
