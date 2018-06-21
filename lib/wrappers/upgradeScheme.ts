@@ -8,6 +8,7 @@ import {
 
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";
+import { TxGeneratingFunctionOptions } from "../transactionService";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
   ProposalDeletedEventResult,
@@ -34,7 +35,7 @@ export class UpgradeSchemeWrapper extends ProposalGeneratorBase implements Schem
    * @param options
    */
   public async proposeController(
-    options: ProposeControllerParams = {} as ProposeControllerParams)
+    options: ProposeControllerParams = {} as ProposeControllerParams & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionProposalResult> {
 
     if (!options.avatar) {
@@ -64,7 +65,7 @@ export class UpgradeSchemeWrapper extends ProposalGeneratorBase implements Schem
    * @param options
    */
   public async proposeUpgradingScheme(
-    options: ProposeUpgradingSchemeParams = {} as ProposeUpgradingSchemeParams)
+    options: ProposeUpgradingSchemeParams = {} as ProposeUpgradingSchemeParams & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionProposalResult> {
 
     if (!options.avatar) {
@@ -100,6 +101,7 @@ export class UpgradeSchemeWrapper extends ProposalGeneratorBase implements Schem
 
     return super._setParameters(
       "UpgradeScheme.setParameters",
+      params.txEventStack,
       params.voteParametersHash,
       params.votingMachineAddress
     );

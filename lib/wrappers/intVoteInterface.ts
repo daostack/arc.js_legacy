@@ -8,6 +8,7 @@ import {
   TransactionReceiptTruffle
 } from "../contractWrapperBase";
 import { ContractWrapperFactory, IContractWrapperFactory } from "../contractWrapperFactory";
+import { TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";
 import { EventFetcherFactory, Web3EventFetcher, Web3EventService } from "../web3EventService";
 import { CancelProposalEventResult, CancelVotingEventResult } from "../wrappers/absoluteVote";
@@ -72,7 +73,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
    * incremented counter and the address of the voting machine.
    * @param options
    */
-  public async propose(options: ProposeOptions): Promise<ArcTransactionProposalResult> {
+  public async propose(options: ProposeOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionProposalResult> {
 
     if (!options.avatarAddress) {
       throw new Error(`avatar is not defined`);
@@ -120,7 +121,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
    * Cancel the given proposal
    * @param options
    */
-  public async cancelProposal(options: ProposalIdOption): Promise<ArcTransactionResult> {
+  public async cancelProposal(options: ProposalIdOption & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
     if (!options.proposalId) {
       throw new Error(`proposalId is not defined`);
     }
@@ -138,7 +139,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
    * Vote on behalf of the owner of the proposal, ie the agent that created it.
    * @param options
    */
-  public async ownerVote(options: OwnerVoteOptions): Promise<ArcTransactionResult> {
+  public async ownerVote(options: OwnerVoteOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
     if (!options.proposalId) {
       throw new Error(`proposalId is not defined`);
     }
@@ -163,7 +164,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
    * Vote on behalf of msgSender (current account or onBehalfOf).
    * @param options
    */
-  public async vote(options: VoteOptions): Promise<ArcTransactionResult> {
+  public async vote(options: VoteOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
     if (!options.proposalId) {
       throw new Error(`proposalId is not defined`);
     }
@@ -186,7 +187,8 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
    * @param options
    */
 
-  public async voteWithSpecifiedAmounts(options: VoteWithSpecifiedAmountsOptions): Promise<ArcTransactionResult> {
+  public async voteWithSpecifiedAmounts(
+    options: VoteWithSpecifiedAmountsOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
 
     if (!options.proposalId) {
       throw new Error(`proposalId is not defined`);
@@ -211,7 +213,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
    * Cancel voting on the proposal.
    * @param options
    */
-  public async cancelVote(options: ProposalIdOption): Promise<ArcTransactionResult> {
+  public async cancelVote(options: ProposalIdOption & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
     if (!options.proposalId) {
       throw new Error(`proposalId is not defined`);
     }
@@ -285,7 +287,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
    * @param proposalId
    */
 
-  public async execute(options: ProposalIdOption): Promise<ArcTransactionResult> {
+  public async execute(options: ProposalIdOption & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
     if (!options.proposalId) {
       throw new Error(`proposalId is not defined`);
     }

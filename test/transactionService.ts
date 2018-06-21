@@ -8,63 +8,63 @@ import * as helpers from "./helpers";
 
 describe("TransactionService", () => {
 
-  // it("can decode and read logs", async () => {
+  it("can decode and read logs", async () => {
 
-  //   const contract = await WrapperService.wrappers.DaoCreator;
-  //   const txReceipt = await (await contract.forgeOrg({
-  //     founders: [{ address: helpers.SOME_ADDRESS, reputation: "100", tokens: "100" }],
-  //     name: "ArcJsTextDao",
-  //     tokenName: "TestToken",
-  //     tokenSymbol: "TT",
-  //   })).watchForTxMined();
+    const contract = await WrapperService.wrappers.DaoCreator;
+    const txReceipt = await (await contract.forgeOrg({
+      founders: [{ address: helpers.SOME_ADDRESS, reputation: "100", tokens: "100" }],
+      name: "ArcJsTextDao",
+      tokenName: "TestToken",
+      tokenSymbol: "TT",
+    })).watchForTxMined();
 
-  //   assert.isOk(txReceipt.logs);
-  //   assert.isOk(txReceipt.logs[0].args);
-  //   assert.isOk(txReceipt.logs[0].args._avatar);
-  // });
+    assert.isOk(txReceipt.logs);
+    assert.isOk(txReceipt.logs[0].args);
+    assert.isOk(txReceipt.logs[0].args._avatar);
+  });
 
-  // it("can track the mining of a tx", async () => {
+  it("can track the mining of a tx", async () => {
 
-  //   const txHash = web3.eth.sendTransaction({
-  //     from: accounts[0],
-  //     to: accounts[5],
-  //     value: web3.toWei(0.00001, "ether"),
-  //   });
+    const txHash = web3.eth.sendTransaction({
+      from: accounts[0],
+      to: accounts[5],
+      value: web3.toWei(0.00001, "ether"),
+    });
 
-  //   const txReceipt = await TransactionService.watchForMinedTransaction(txHash);
+    const txReceipt = await TransactionService.watchForMinedTransaction(txHash);
 
-  //   assert(txReceipt, "didn't find mined tx");
-  //   assert.equal(txReceipt.transactionHash, txHash, "hashes don't match");
-  // });
+    assert(txReceipt, "didn't find mined tx");
+    assert.equal(txReceipt.transactionHash, txHash, "hashes don't match");
+  });
 
-  // it("can get the depth of a tx", async () => {
+  it("can get the depth of a tx", async () => {
 
-  //   const txHash = web3.eth.sendTransaction({
-  //     from: accounts[0],
-  //     to: accounts[5],
-  //     value: web3.toWei(0.00001, "ether"),
-  //   });
+    const txHash = web3.eth.sendTransaction({
+      from: accounts[0],
+      to: accounts[5],
+      value: web3.toWei(0.00001, "ether"),
+    });
 
-  //   let depth: number;
-  //   let depth2: number;
+    let depth: number;
+    let depth2: number;
 
-  //   await TransactionService.watchForMinedTransaction(txHash)
-  //     .then(async (): Promise<void> => { depth = await TransactionService.getTransactionDepth(txHash); });
+    await TransactionService.watchForMinedTransaction(txHash)
+      .then(async (): Promise<void> => { depth = await TransactionService.getTransactionDepth(txHash); });
 
-  //   const txHash2 = web3.eth.sendTransaction({
-  //     from: accounts[0],
-  //     to: accounts[5],
-  //     value: web3.toWei(0.00001, "ether"),
-  //   });
+    const txHash2 = web3.eth.sendTransaction({
+      from: accounts[0],
+      to: accounts[5],
+      value: web3.toWei(0.00001, "ether"),
+    });
 
-  //   await TransactionService.watchForMinedTransaction(txHash)
-  //     .then(async (): Promise<void> => { depth2 = await TransactionService.getTransactionDepth(txHash); });
+    await TransactionService.watchForMinedTransaction(txHash)
+      .then(async (): Promise<void> => { depth2 = await TransactionService.getTransactionDepth(txHash); });
 
-  //   /**
-  //    * ganache seems to create at least one new block for every transaction
-  //    */
-  //   assert(depth2 > depth, `${depth2} should be greater than ${depth}`);
-  // });
+    /**
+     * ganache seems to create at least one new block for every transaction
+     */
+    assert(depth2 > depth, `${depth2} should be greater than ${depth}`);
+  });
 
   it("can get tx events from DAO.new", async () => {
 
@@ -76,9 +76,6 @@ describe("TransactionService", () => {
         if (!invocationKey) {
           invocationKey = txEventInfo.invocationKey;
         }
-
-        console.log(`received: ${topic}: ${txEventInfo.tx}`);
-
         assert.equal(invocationKey, txEventInfo.invocationKey, "invocationKey doesn't match");
         assert(topic.startsWith("TxTracking.DAO.new"));
         assert.isOk(txEventInfo.options);

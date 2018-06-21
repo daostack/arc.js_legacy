@@ -5,7 +5,7 @@ import { AvatarService } from "./avatarService";
 import { Address, HasContract, Hash, SchemePermissions } from "./commonTypes";
 import { IContractWrapperFactory } from "./contractWrapperFactory";
 import { LoggingService } from "./loggingService";
-import { TransactionService } from "./transactionService";
+import { TransactionService, TxEventStack, TxGeneratingFunctionOptions } from "./transactionService";
 import { Utils } from "./utils";
 import { EventFetcherFactory, Web3EventService } from "./web3EventService";
 /**
@@ -166,13 +166,15 @@ export abstract class ContractWrapperBase implements HasContract {
   /* tslint:disable-next-line:no-empty */
   protected hydrated(): void { }
 
-  protected async _setParameters(functionName: string, ...params: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
+  protected async _setParameters(
+    functionName: string,
+    txEventStack: TxEventStack,
+    ...params: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
 
     const parametersHash: Hash = await this.contract.getParametersHash(...params);
 
     const txResult = await this.wrapTransactionInvocation(functionName,
-      // typically this is supposed to be an object, but here it is an array
-      params,
+      Object.assign(params, { txEventStack }),
       () => {
         return this.contract.setParameters.sendTransaction(...params);
       });
@@ -224,14 +226,16 @@ export abstract class ContractWrapperBase implements HasContract {
    */
   protected async wrapTransactionInvocation(
     functionName: string,
-    options: any,
+    options: Partial<TxGeneratingFunctionOptions> & any,
     generateTx: () => Promise<Hash>): Promise<ArcTransactionResult> {
 
-    const txReceiptEventPayload = TransactionService.publishKickoffEvent(functionName, options, 1);
+    const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
 
     const tx = await generateTx();
 
-    TransactionService.publishTxLifecycleEvents(functionName, txReceiptEventPayload, tx, this.contract);
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
+
+    TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
 
     return new ArcTransactionResult(tx, this.contract);
   }
@@ -349,7 +353,7 @@ export class ArcTransactionDataResult<TData> extends ArcTransactionResult {
 /**
  * Common scheme parameters for schemes that are able to create proposals.
  */
-export interface StandardSchemeParams {
+export interface StandardSchemeParams extends TxGeneratingFunctionOptions {
   /**
    * Hash of the voting machine parameters to use when voting on a proposal.
    */

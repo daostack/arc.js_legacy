@@ -11,7 +11,7 @@ import {
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";
-import { TransactionService } from "../transactionService";
+import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";
 import { UtilsInternal } from "../utilsInternal";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
@@ -46,7 +46,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
    * @param {ProposeVestingAgreementConfig} options
    */
   public async proposeVestingAgreement(
-    options: ProposeVestingAgreementConfig = {} as ProposeVestingAgreementConfig)
+    options: ProposeVestingAgreementConfig = {} as ProposeVestingAgreementConfig & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionProposalResult> {
     /**
      * see ProposeVestingAgreementConfig
@@ -88,7 +88,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
    * @param {CreateVestingAgreementConfig} options
    */
   public async create(
-    options: CreateVestingAgreementConfig = {} as CreateVestingAgreementConfig)
+    options: CreateVestingAgreementConfig = {} as CreateVestingAgreementConfig & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionAgreementResult> {
     /**
      * See these properties in CreateVestingAgreementConfig
@@ -107,10 +107,12 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
     const autoApproveTransfer = ConfigService.get("autoApproveTokenTransfers");
     const functionName = "VestingScheme.create";
 
-    const txReceiptEventPayload = TransactionService.publishKickoffEvent(
+    const payload = TransactionService.publishKickoffEvent(
       functionName,
       options,
       1 + (autoApproveTransfer ? 1 : 0));
+
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
 
     let tx: Hash;
     /**
@@ -119,7 +121,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
     if (autoApproveTransfer) {
       const token = await (await Utils.requireContract("StandardToken")).at(options.token) as any;
       tx = await token.approve.sendTransaction(this.address, amountPerPeriod.mul(options.numOfAgreedPeriods));
-      TransactionService.publishTxLifecycleEvents(functionName, txReceiptEventPayload, tx, this.contract);
+      TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
       await TransactionService.watchForMinedTransaction(tx);
     }
 
@@ -138,7 +140,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
       options.signers
     );
 
-    TransactionService.publishTxLifecycleEvents(functionName, txReceiptEventPayload, tx, this.contract);
+    TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
 
     return new ArcTransactionAgreementResult(tx, this.contract);
   }
@@ -148,7 +150,8 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
    * @param {SignToCancelVestingAgreementConfig} options
    */
   public async signToCancel(
-    options: SignToCancelVestingAgreementConfig = {} as SignToCancelVestingAgreementConfig)
+    options: SignToCancelVestingAgreementConfig =
+      {} as SignToCancelVestingAgreementConfig & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
 
     if (options.agreementId === null) {
@@ -169,7 +172,8 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
    * @param {RevokeSignToCancelVestingAgreementConfig} options
    */
   public async revokeSignToCancel(
-    options: RevokeSignToCancelVestingAgreementConfig = {} as RevokeSignToCancelVestingAgreementConfig)
+    options: RevokeSignToCancelVestingAgreementConfig =
+      {} as RevokeSignToCancelVestingAgreementConfig & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
 
     if (options.agreementId === null) {
@@ -190,7 +194,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
    * @param {CollectVestingAgreementConfig} options
    */
   public async collect(
-    options: CollectVestingAgreementConfig = {} as CollectVestingAgreementConfig)
+    options: CollectVestingAgreementConfig = {} as CollectVestingAgreementConfig & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
 
     if (options.agreementId === null) {
@@ -269,6 +273,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
 
     return super._setParameters(
       "VestingScheme.setParameters",
+      params.txEventStack,
       params.voteParametersHash,
       params.votingMachineAddress
     );

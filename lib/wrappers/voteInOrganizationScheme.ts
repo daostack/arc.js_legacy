@@ -8,6 +8,7 @@ import {
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";
+import { TxGeneratingFunctionOptions } from "../transactionService";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
   ProposalDeletedEventResult,
@@ -34,7 +35,8 @@ export class VoteInOrganizationSchemeWrapper extends ProposalGeneratorBase imple
    * @param options
    */
   public async proposeVoteInOrganization(
-    options: VoteInOrganizationProposeVoteConfig = {} as VoteInOrganizationProposeVoteConfig)
+    options: VoteInOrganizationProposeVoteConfig =
+      {} as VoteInOrganizationProposeVoteConfig & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionProposalResult> {
 
     if (!options.avatar) {
@@ -120,6 +122,7 @@ export class VoteInOrganizationSchemeWrapper extends ProposalGeneratorBase imple
 
     return super._setParameters(
       "VoteInOrganizationScheme.setParameters",
+      params.txEventStack,
       params.voteParametersHash,
       params.votingMachineAddress
     );

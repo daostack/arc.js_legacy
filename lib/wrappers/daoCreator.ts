@@ -9,7 +9,7 @@ import {
   ContractWrapperBase,
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
-import { TransactionService } from "../transactionService";
+import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { WrapperService } from "../wrapperService";
@@ -30,7 +30,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
    * Create a new DAO
    * @param {ForgeOrgConfig} options
    */
-  public async forgeOrg(options: ForgeOrgConfig = {} as ForgeOrgConfig)
+  public async forgeOrg(options: ForgeOrgConfig = {} as ForgeOrgConfig & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
 
     const web3 = await Utils.getWeb3();
@@ -128,12 +128,26 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       throw new Error("avatar address is not defined");
     }
 
+    const functionName = "DaoCreator.setSchemes";
+
+    const payload = TransactionService.publishKickoffEvent(
+      functionName,
+      options,
+      this.setSchemesTransactionsCount(options)
+    );
+
+    /**
+     * resend sub-events as DaoCreator.setSchemes
+     */
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
+
     const avatarService = new AvatarService(options.avatar);
     const reputationAddress = await avatarService.getNativeReputationAddress();
     const configuredVotingMachineName = ConfigService.get("defaultVotingMachine");
     const defaultVotingMachineParams = Object.assign({
       // voting machines can't supply reputation as a default -- they don't know what it is
       reputation: reputationAddress,
+      txEventStack: eventContext,
       votingMachineName: configuredVotingMachineName,
     }, options.votingMachineParams || {});
 
@@ -144,148 +158,134 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     // in case it wasn't supplied in order to get the default
     defaultVotingMachineParams.votingMachineAddress = defaultVotingMachine.address;
 
-    const functionName = "DaoCreator.setSchemes";
-
-    const txReceiptEventPayload = TransactionService.publishKickoffEvent(
-      functionName,
-      options,
-      this.setSchemesTransactionsCount(options)
-    );
-
-    /**
-     * resend sub-events as DaoCreator.setSchemes
-     */
-    TransactionService.pushContext("*", txReceiptEventPayload);
-
     let tx;
 
-    try {
+    /**
+     * each voting machine applies its own default values in setParameters
+     */
+    let txResult = await defaultVotingMachine.setParameters(defaultVotingMachineParams);
+
+    const defaultVoteParametersHash = txResult.result;
+
+    const initialSchemesSchemes = [];
+    const initialSchemesParams = [];
+    const initialSchemesPermissions = [];
+
+    for (const schemeOptions of options.schemes) {
+
+      if (!schemeOptions.name) {
+        throw new Error("options.schemes[n].name is not defined");
+      }
+
+      const wrapperFactory = WrapperService.factories[schemeOptions.name];
+
+      if (!wrapperFactory) {
+        /* tslint:disable-next-line:max-line-length */
+        throw new Error("Non-arc schemes are not currently supported here.  You can add them later in your workflow.");
+      }
+
       /**
-       * each voting machine applies its own default values in setParameters
+       * scheme will be a contract wrapper
        */
-      let txResult = await defaultVotingMachine.setParameters(defaultVotingMachineParams);
-      const defaultVoteParametersHash = txResult.result;
+      const scheme = schemeOptions.address ?
+        await wrapperFactory.at(schemeOptions.address) : WrapperService.wrappers[schemeOptions.name];
 
-      const initialSchemesSchemes = [];
-      const initialSchemesParams = [];
-      const initialSchemesPermissions = [];
+      let schemeVotingMachineParams = schemeOptions.votingMachineParams;
+      let schemeVoteParametersHash;
+      let schemeVotingMachine;
 
-      for (const schemeOptions of options.schemes) {
-
-        if (!schemeOptions.name) {
-          throw new Error("options.schemes[n].name is not defined");
-        }
-
-        const wrapperFactory = WrapperService.factories[schemeOptions.name];
-
-        if (!wrapperFactory) {
-          /* tslint:disable-next-line:max-line-length */
-          throw new Error("Non-arc schemes are not currently supported here.  You can add them later in your workflow.");
-        }
-
+      if (schemeVotingMachineParams) {
+        Object.assign(schemeOptions.votingMachineParams, { txEventStack: eventContext });
+        const schemeVotingMachineName = schemeVotingMachineParams.votingMachineName;
+        const schemeVotingMachineAddress = schemeVotingMachineParams.votingMachineAddress;
         /**
-         * scheme will be a contract wrapper
+         * get the voting machine contract
          */
-        const scheme = schemeOptions.address ?
-          await wrapperFactory.at(schemeOptions.address) : WrapperService.wrappers[schemeOptions.name];
-
-        let schemeVotingMachineParams = schemeOptions.votingMachineParams;
-        let schemeVoteParametersHash;
-        let schemeVotingMachine;
-
-        if (schemeVotingMachineParams) {
-          const schemeVotingMachineName = schemeVotingMachineParams.votingMachineName;
-          const schemeVotingMachineAddress = schemeVotingMachineParams.votingMachineAddress;
+        if (!schemeVotingMachineAddress &&
+          (!schemeVotingMachineName ||
+            (schemeVotingMachineName === defaultVotingMachineParams.votingMachineName))) {
           /**
-           * get the voting machine contract
+           *  scheme is using the default voting machine
            */
-          if (!schemeVotingMachineAddress &&
-            (!schemeVotingMachineName ||
-              (schemeVotingMachineName === defaultVotingMachineParams.votingMachineName))) {
-            /**
-             *  scheme is using the default voting machine
-             */
-            schemeVotingMachine = defaultVotingMachine;
-          } else {
-            /**
-             * scheme has its own voting machine. Go get it.
-             */
-            if (!schemeVotingMachineName) {
-              schemeVotingMachineParams.votingMachineName = defaultVotingMachineParams.votingMachineName;
-            }
-            /**
-             * Note we are not supporting non-Arc voting machines here, and it must have a wrapper class.
-             */
-            schemeVotingMachine = await WrapperService.getContractWrapper(
-              schemeVotingMachineParams.votingMachineName,
-              schemeVotingMachineParams.votingMachineAddress);
-
-            // in case it wasn't supplied in order to get the default
-            schemeVotingMachineParams.votingMachineAddress = schemeVotingMachine.address;
-          }
-
-          schemeVotingMachineParams = Object.assign(defaultVotingMachineParams, schemeVotingMachineParams);
-          /**
-           * get the voting machine parameters
-           */
-          txResult = await schemeVotingMachine.setParameters(schemeVotingMachineParams);
-          schemeVoteParametersHash = txResult.result;
+          schemeVotingMachine = defaultVotingMachine;
         } else {
-          // using the defaults
-          schemeVotingMachineParams = defaultVotingMachineParams;
-          schemeVoteParametersHash = defaultVoteParametersHash;
+          /**
+           * scheme has its own voting machine. Go get it.
+           */
+          if (!schemeVotingMachineName) {
+            schemeVotingMachineParams.votingMachineName = defaultVotingMachineParams.votingMachineName;
+          }
+          /**
+           * Note we are not supporting non-Arc voting machines here, and it must have a wrapper class.
+           */
+          schemeVotingMachine = await WrapperService.getContractWrapper(
+            schemeVotingMachineParams.votingMachineName,
+            schemeVotingMachineParams.votingMachineAddress);
+
+          // in case it wasn't supplied in order to get the default
+          schemeVotingMachineParams.votingMachineAddress = schemeVotingMachine.address;
         }
 
+        schemeVotingMachineParams = Object.assign(defaultVotingMachineParams, schemeVotingMachineParams);
         /**
-         * This is the set of all possible parameters from which the current scheme
-         * will choose just the ones it requires
+         * get the voting machine parameters
          */
-        txResult = await scheme.setParameters(
-          Object.assign(
-            {
-              voteParametersHash: schemeVoteParametersHash,
-              votingMachineAddress: schemeVotingMachineParams.votingMachineAddress,
-            },
-            schemeOptions.additionalParams || {}
-          ));
-
-        const schemeParamsHash = txResult.result;
-
-        initialSchemesSchemes.push(scheme.address);
-        initialSchemesParams.push(schemeParamsHash);
-        /**
-         * Make sure the scheme has at least its required permissions, regardless of what the caller
-         * passes in.
-         */
-        const requiredPermissions = scheme.getDefaultPermissions();
-        const additionalPermissions = schemeOptions.permissions;
-        /* tslint:disable-next-line:no-bitwise */
-        initialSchemesPermissions.push(SchemePermissions.toString(requiredPermissions | additionalPermissions));
+        txResult = await schemeVotingMachine.setParameters(schemeVotingMachineParams);
+        schemeVoteParametersHash = txResult.result;
+      } else {
+        // using the defaults
+        schemeVotingMachineParams = defaultVotingMachineParams;
+        schemeVoteParametersHash = defaultVoteParametersHash;
       }
 
-      this.logContractFunctionCall("DaoCreator.setSchemes (options)", options);
+      /**
+       * This is the set of all possible parameters from which the current scheme
+       * will choose just the ones it requires
+       */
+      txResult = await scheme.setParameters(
+        Object.assign(
+          {
+            txEventStack: eventContext,
+            voteParametersHash: schemeVoteParametersHash,
+            votingMachineAddress: schemeVotingMachineParams.votingMachineAddress,
+          },
+          schemeOptions.additionalParams || {}
+        ));
 
-      this.logContractFunctionCall("DaoCreator.setSchemes",
-        {
-          avatar: options.avatar,
-          initialSchemesParams,
-          initialSchemesPermissions,
-          initialSchemesSchemes,
-        });
+      const schemeParamsHash = txResult.result;
 
-      // register the schemes with the dao
-      tx = await this.contract.setSchemes.sendTransaction(
-        options.avatar,
-        initialSchemesSchemes,
+      initialSchemesSchemes.push(scheme.address);
+      initialSchemesParams.push(schemeParamsHash);
+      /**
+       * Make sure the scheme has at least its required permissions, regardless of what the caller
+       * passes in.
+       */
+      const requiredPermissions = scheme.getDefaultPermissions();
+      const additionalPermissions = schemeOptions.permissions;
+      /* tslint:disable-next-line:no-bitwise */
+      initialSchemesPermissions.push(SchemePermissions.toString(requiredPermissions | additionalPermissions));
+    }
+
+    this.logContractFunctionCall("DaoCreator.setSchemes (options)", options);
+
+    this.logContractFunctionCall("DaoCreator.setSchemes",
+      {
+        avatar: options.avatar,
         initialSchemesParams,
-        initialSchemesPermissions
-      );
+        initialSchemesPermissions,
+        initialSchemesSchemes,
+      });
 
-    } finally {
+    // register the schemes with the dao
+    tx = await this.contract.setSchemes.sendTransaction(
+      options.avatar,
+      initialSchemesSchemes,
+      initialSchemesParams,
+      initialSchemesPermissions
+    );
 
-      if (tx) {
-        TransactionService.publishTxLifecycleEvents(functionName, txReceiptEventPayload, tx, this.contract, true);
-      }
+    if (tx) {
+      TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
     }
 
     return new ArcTransactionResult(tx, this.contract);
@@ -384,7 +384,7 @@ export interface NewDaoVotingMachineConfig {
 /**
  * options for DaoCreator.forgeOrg
  */
-export interface ForgeOrgConfig {
+export interface ForgeOrgConfig extends TxGeneratingFunctionOptions {
   /**
    * The name of the new DAO.
    */
@@ -477,7 +477,7 @@ export interface SchemesConfig {
   schemes?: Array<SchemeConfig>;
 }
 
-export interface SetSchemesConfig extends SchemesConfig {
+export interface SetSchemesConfig extends SchemesConfig, TxGeneratingFunctionOptions {
   /**
    * avatar address
    */

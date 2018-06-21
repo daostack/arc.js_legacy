@@ -16,7 +16,7 @@ import {
 } from "../contractWrapperBase";
 import { ContractWrapperFactory, IContractWrapperFactory } from "../contractWrapperFactory";
 import { ProposalService } from "../proposalService";
-import { TransactionService } from "../transactionService";
+import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
@@ -56,7 +56,8 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
    * @param {StakeConfig} options
    * @returns Promise<ArcTransactionResult>
    */
-  public async stake(options: StakeConfig = {} as StakeConfig): Promise<ArcTransactionResult> {
+  public async stake(options: StakeConfig =
+    {} as StakeConfig & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
 
     const defaults = {
       onBehalfOf: null,
@@ -81,10 +82,12 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     const functionName = "GenesisProtocol.stake";
 
-    const txReceiptEventPayload = TransactionService.publishKickoffEvent(
+    const payload = TransactionService.publishKickoffEvent(
       functionName,
       options,
       1 + (autoApproveTransfer ? 1 : 0));
+
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
 
     let tx;
     /**
@@ -99,7 +102,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
         amount,
         { from: options.onBehalfOf ? options.onBehalfOf : await Utils.getDefaultAccount() });
 
-      TransactionService.publishTxLifecycleEvents(functionName, txReceiptEventPayload, tx, this.contract);
+      TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
       await TransactionService.watchForMinedTransaction(tx);
     }
 
@@ -115,7 +118,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       } : undefined
     );
 
-    TransactionService.publishTxLifecycleEvents(functionName, txReceiptEventPayload, tx, this.contract);
+    TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
 
     return new ArcTransactionResult(tx, this.contract);
   }
@@ -125,7 +128,8 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
    * @param {RedeemConfig} options
    * @returns Promise<ArcTransactionResult>
    */
-  public async redeem(options: RedeemConfig = {} as RedeemConfig): Promise<ArcTransactionResult> {
+  public async redeem(options: RedeemConfig =
+    {} as RedeemConfig & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -160,7 +164,8 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
    * @param {RedeemConfig} options
    * @returns Promise<ArcTransactionResult>
    */
-  public async redeemDaoBounty(options: RedeemConfig = {} as RedeemConfig): Promise<ArcTransactionResult> {
+  public async redeemDaoBounty(options: RedeemConfig =
+    {} as RedeemConfig & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -810,6 +815,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     return super._setParameters(
       "GenesisProtocol.setParameters",
+      params.txEventStack,
       [
         preBoostedVoteRequiredPercentage,
         params.preBoostedVotePeriodLimit,
@@ -934,7 +940,7 @@ export interface StakeEventResult {
   _voter: Address;
 }
 
-export interface GenesisProtocolParams {
+export interface GenesisProtocolParams extends TxGeneratingFunctionOptions {
   /**
    * The time limit in seconds for a proposal to be in relative voting mode.
    * Default is 259200 (three days).

@@ -19,7 +19,7 @@ import {
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";
-import { TransactionService } from "../transactionService";
+import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
@@ -52,7 +52,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
    * @param {ProposeContributionRewardParams} options
    */
   public async proposeContributionReward(
-    options: ProposeContributionRewardParams = {} as ProposeContributionRewardParams)
+    options: ProposeContributionRewardParams = {} as ProposeContributionRewardParams & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionProposalResult> {
 
     const defaults = {
@@ -125,10 +125,12 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
 
     const functionName = "ContributionReward.proposeContributionReward";
 
-    const txReceiptEventPayload = TransactionService.publishKickoffEvent(
+    const payload = TransactionService.publishKickoffEvent(
       functionName,
       options,
       1 + (autoApproveTransfer ? 1 : 0));
+
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
 
     let tx: Hash;
     if (autoApproveTransfer) {
@@ -141,7 +143,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
         this.address,
         orgNativeTokenFee,
         { from: await Utils.getDefaultAccount() });
-      TransactionService.publishTxLifecycleEvents(functionName, txReceiptEventPayload, tx, this.contract);
+      TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
       await TransactionService.watchForMinedTransaction(tx);
     }
 
@@ -156,7 +158,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
       options.beneficiaryAddress
     );
 
-    TransactionService.publishTxLifecycleEvents(functionName, txReceiptEventPayload, tx, this.contract);
+    TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
 
     return new ArcTransactionProposalResult(tx, this.contract, await this.getVotingMachine(options.avatar));
   }
@@ -166,7 +168,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
    * @param {ContributionRewardRedeemParams} opts
    */
   public async redeemContributionReward(
-    options: ContributionRewardRedeemParams = {} as ContributionRewardRedeemParams)
+    options: ContributionRewardRedeemParams = {} as ContributionRewardRedeemParams & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
     const defaults = {
       ethers: false,
@@ -203,7 +205,8 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
    * @param {ContributionRewardSpecifiedRedemptionParams} options
    */
   public async redeemExternalToken(
-    options: ContributionRewardSpecifiedRedemptionParams = {} as ContributionRewardSpecifiedRedemptionParams)
+    options: ContributionRewardSpecifiedRedemptionParams =
+      {} as ContributionRewardSpecifiedRedemptionParams & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
 
     if (!options.proposalId) {
@@ -231,7 +234,8 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
    * @param {ContributionRewardSpecifiedRedemptionParams} options
    */
   public async redeemReputation(
-    options: ContributionRewardSpecifiedRedemptionParams = {} as ContributionRewardSpecifiedRedemptionParams)
+    options: ContributionRewardSpecifiedRedemptionParams =
+      {} as ContributionRewardSpecifiedRedemptionParams & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
 
     if (!options.proposalId) {
@@ -259,7 +263,8 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
    * @param {ContributionRewardSpecifiedRedemptionParams} options
    */
   public async redeemNativeToken(
-    options: ContributionRewardSpecifiedRedemptionParams = {} as ContributionRewardSpecifiedRedemptionParams)
+    options: ContributionRewardSpecifiedRedemptionParams =
+      {} as ContributionRewardSpecifiedRedemptionParams & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
 
     if (!options.proposalId) {
@@ -287,7 +292,8 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
    * @param {ContributionRewardSpecifiedRedemptionParams} options
    */
   public async redeemEther(
-    options: ContributionRewardSpecifiedRedemptionParams = {} as ContributionRewardSpecifiedRedemptionParams)
+    options: ContributionRewardSpecifiedRedemptionParams =
+      {} as ContributionRewardSpecifiedRedemptionParams & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
 
     if (!options.proposalId) {
@@ -449,6 +455,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
 
     return super._setParameters(
       "ContributionReward.setParameters",
+      params.txEventStack,
       params.orgNativeTokenFee,
       params.voteParametersHash,
       params.votingMachineAddress

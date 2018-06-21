@@ -35,26 +35,26 @@ export class DAO {
     );
 
     /**
-     * resend sub-events as DAO.new
+     * resend sub-events as Dao.new
      */
-    TransactionService.pushContext("DaoCreator", payload);
+    const eventContext = TransactionService.newTxEventContext("DAO.new", payload, options);
 
-    try {
-      const result = await (await daoCreator.forgeOrg(options)).watchForTxMined();
+    options.txEventStack = eventContext;
 
-      const avatarAddress = Utils.getValueFromLogs(result, "_avatar", "NewOrg");
+    const result = await (await daoCreator.forgeOrg(options)).watchForTxMined();
 
-      if (!avatarAddress) {
-        throw new Error("avatar address is not defined");
-      }
+    const avatarAddress = Utils.getValueFromLogs(result, "_avatar", "NewOrg");
 
-      await (await daoCreator.setSchemes(Object.assign({ avatar: avatarAddress }, options))).watchForTxMined();
-
-      return DAO.at(avatarAddress);
-
-    } finally {
-      TransactionService.popContext();
+    if (!avatarAddress) {
+      throw new Error("avatar address is not defined");
     }
+
+    // In case forgeOrg ever may decide to alter options.txEventStack, reset it here
+    options.txEventStack = eventContext;
+
+    await (await daoCreator.setSchemes(Object.assign({ avatar: avatarAddress }, options))).watchForTxMined();
+
+    return DAO.at(avatarAddress);
   }
 
   /**

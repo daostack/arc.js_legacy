@@ -30,6 +30,7 @@ export class TestWrapperWrapper extends ContractWrapperBase {
 
     return super._setParameters(
       "AbsoluteVote.setParameters",
+      params.txEventStack,
       params.reputation,
       params.votePerc,
       params.ownerVote

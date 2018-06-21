@@ -7,6 +7,7 @@ import {
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";
+import { TxGeneratingFunctionOptions } from "../transactionService";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
   ProposalDeletedEventResult,
@@ -33,7 +34,7 @@ export class SchemeRegistrarWrapper extends ProposalGeneratorBase implements Sch
    * @param options
    */
   public async proposeToAddModifyScheme(
-    options: ProposeToAddModifySchemeParams = {} as ProposeToAddModifySchemeParams)
+    options: ProposeToAddModifySchemeParams = {} as ProposeToAddModifySchemeParams & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionProposalResult> {
 
     const defaults = {
@@ -102,7 +103,7 @@ export class SchemeRegistrarWrapper extends ProposalGeneratorBase implements Sch
    * @param options
    */
   public async proposeToRemoveScheme(
-    options: ProposeToRemoveSchemeParams = {} as ProposeToRemoveSchemeParams)
+    options: ProposeToRemoveSchemeParams = {} as ProposeToRemoveSchemeParams & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionProposalResult> {
 
     if (!options.avatar) {
@@ -133,6 +134,7 @@ export class SchemeRegistrarWrapper extends ProposalGeneratorBase implements Sch
 
     return super._setParameters(
       "SchemeRegistrar.setParameters",
+      params.txEventStack,
       params.voteParametersHash,
       params.voteRemoveParametersHash ? params.voteRemoveParametersHash : params.voteParametersHash,
       params.votingMachineAddress

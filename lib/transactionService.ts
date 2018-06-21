@@ -46,7 +46,7 @@ export class TransactionService extends PubSubEventService {
     /**
      * publish the `kickoff` event
      */
-    TransactionService._publishTxEvent(functionName, payload, TransactionStage.kickoff);
+    TransactionService._publishTxEvent([{ functionName, payload }], null, null, TransactionStage.kickoff);
 
     return payload;
   }
@@ -55,24 +55,17 @@ export class TransactionService extends PubSubEventService {
    * Send the given payload to subscribers of the given topic on `sent`, `mined` and `confirmed`.
    *
    * @hidden - for internal use only
-   * @param functionName Looks like [classname].[functionname]
-   * @param payload Sent in the subscription callback.
+   * @param eventStack array of TxEventSpec
    * @param tx the transaction id.
    * @param contract TruffleContract for the contract that is generating the transaction.
-   * @param popContextOnConfirmed Optional, true to pop the context when transaction is confirmed.
-   * (TODO: consider eliminating popContextOnConfirmed)
-   * @returns True if there are any subscribers
    */
   public static publishTxLifecycleEvents(
-    functionName: string,
-    payload: TransactionReceiptsEventInfo,
+    eventStack: TxEventStack,
     tx: Hash,
-    contract: TruffleContract,
-    popContextOnConfirmed: boolean = false
+    contract: TruffleContract
   ): void {
 
-    payload.tx = tx;
-    TransactionService._publishTxEvent(functionName, payload, TransactionStage.sent);
+    TransactionService._publishTxEvent(eventStack, tx, null, TransactionStage.sent);
 
     /**
      * We are at the base context and should start watching for the mined and confirmed transaction stages.
@@ -80,60 +73,50 @@ export class TransactionService extends PubSubEventService {
     TransactionService.watchForMinedTransaction(tx)
       .then((txReceiptMined: TransactionReceipt): void => {
 
-        payload.txReceipt = TransactionService.toTxTruffle(txReceiptMined, contract);
+        let txReceipt = TransactionService.toTxTruffle(txReceiptMined, contract);
 
-        TransactionService._publishTxEvent(functionName, payload, TransactionStage.mined);
+        TransactionService._publishTxEvent(eventStack, tx, txReceipt, TransactionStage.mined);
         /**
          * now start watching for confirmation
          */
         TransactionService.watchForConfirmedTransaction(tx)
           .then((txReceiptConfirmed: TransactionReceipt): void => {
 
-            payload.txReceipt = TransactionService.toTxTruffle(txReceiptConfirmed, contract);
+            txReceipt = TransactionService.toTxTruffle(txReceiptConfirmed, contract);
 
-            TransactionService._publishTxEvent(functionName, payload, TransactionStage.confirmed);
-            if (popContextOnConfirmed) {
-              TransactionService.popContext();
-            }
+            TransactionService._publishTxEvent(eventStack, tx, txReceipt, TransactionStage.confirmed);
           });
       });
   }
 
   /**
-   * Push an event triggering context.  The presence of this context sets a scope within which events matching the
-   * filter will trigger the event topic given in the payload.  Contexts may be nested within one another.  Thus
-   * topic A may trigger topic B which may trigger topic C.  Thus the contexts are represented as a stack.
+   * Return a new event stack with the given one pushed onto it.
+   * Will take obj.txEventStack, else create a new one.
    *
    * @hidden - for internal use only
-   * @param topicTriggerFilter topic(s) that should be trigger the publishing of the topic given in the payload.
-   * @param payload The topic payload for the triggered topic.  The payload contains the topic string itself.
+   * @param obj
+   * @param eventSpec
+   * @param addToObject True to clone obj and add the new txEventContext to it
    */
-  public static pushContext(
-    topicTriggerFilter: Array<string> | string,
-    payload: TransactionReceiptsEventInfo): EventContext {
+  public static newTxEventContext(
+    functionName: string,
+    payload: TransactionReceiptsEventInfo,
+    obj: Partial<TxGeneratingFunctionOptions> & any
+  ): TxEventStack {
 
-    const eventContext = {
-      payload,
-      topicTriggerFilter: UtilsInternal.ensureArray(topicTriggerFilter)
-        .map((t: string) => TransactionService.topicBaseFromFunctionName(t)),
-    };
-    TransactionService.contextStack.push(eventContext);
-    LoggingService.debug(`TransactionService.pushContext: length: ${TransactionService.contextStack.length}`);
+    const eventSpec: TxEventSpec = { functionName, payload };
+    let eventStack: TxEventStack | undefined = obj.txEventStack;
 
-    return eventContext;
-  }
-
-  /**
-   * Pop the current context off the stack.  Logs a warning when the stack is already empty.
-   *
-   * @hidden - for internal use only
-   */
-  public static popContext(): void {
-    if (TransactionService.contextStack.length === 0) {
-      LoggingService.warn(`popContext: TransactionService.eventContext is already empty`);
+    if (!eventStack) {
+      eventStack = new Array<TxEventSpec>();
     }
-    TransactionService.contextStack.pop();
-    LoggingService.debug(`TransactionService.popContext: length: ${TransactionService.contextStack.length}`);
+
+    // clone to avoid problems with re-entrancy
+    eventStack = [...eventStack];
+
+    eventStack.push(eventSpec);
+
+    return eventStack;
   }
 
   /**
@@ -358,8 +341,6 @@ export class TransactionService extends PubSubEventService {
     };
   }
 
-  private static contextStack: Array<EventContext> = new Array<EventContext>();
-
   private static createPayload(
     functionName: string,
     options: any,
@@ -380,44 +361,27 @@ export class TransactionService extends PubSubEventService {
   }
 
   private static _publishTxEvent(
-    functionName: string,
-    payload: TransactionReceiptsEventInfo,
+    eventStack: TxEventStack,
+    tx: Hash,
+    txReceipt: TransactionReceiptTruffle = null,
     txStage: TransactionStage
   ): void {
 
-    let baseTopic = TransactionService.topicBaseFromFunctionName(functionName);
+    for (let i = eventStack.length - 1; i >= 0; --i) {
 
-    payload.txStage = txStage;
+      const eventSpec: TxEventSpec = eventStack[i];
 
-    PubSubEventService.publish(`${baseTopic}.${TransactionStage[txStage]}`, payload);
+      const payload = eventSpec.payload;
+      const functionName = eventSpec.functionName;
 
-    if (payload.tx) {
-      /**
-       * Trigger the context topic as appropriate in every context on the stack.  Note recursion, as each
-       * triggered topic must itself be checked for further triggering.
-       */
-      for (let i = TransactionService.contextStack.length - 1; i >= 0; --i) {
+      const baseTopic = TransactionService.topicBaseFromFunctionName(functionName);
 
-        const currentContext = TransactionService.contextStack[i];
+      payload.tx = tx;
+      payload.txReceipt = txReceipt;
+      payload.txStage = txStage;
 
-        if (functionName === currentContext.payload.functionName) {
-          continue; // skip the caller's own context, if it has one.
-        }
-
-        if (PubSubEventService.isTopicSpecifiedBy(currentContext.topicTriggerFilter, baseTopic)) {
-          /**
-           * Pass the tx info up to the new context. clone currentContext.payload because it can be
-           * shared by multiple transactions in progress in the same context.
-           */
-          payload = Object.assign(
-            {},
-            currentContext.payload,
-            { tx: payload.tx, txReceipt: payload.txReceipt, txStage });
-          baseTopic = TransactionService.topicBaseFromFunctionName(currentContext.payload.functionName);
-          PubSubEventService.publish(`${baseTopic}.${TransactionStage[txStage]}`, payload);
-        }
-      }
-    } // don't resend `kickoff` events
+      PubSubEventService.publish(`${baseTopic}.${TransactionStage[txStage]}`, payload);
+    }
   }
 
   private static topicBaseFromFunctionName(functionName: string): string {
@@ -471,7 +435,22 @@ export interface TransactionReceiptsEventInfo {
   txStage: TransactionStage;
 }
 
-export interface EventContext {
+/**
+ * @hidden - for internal use only
+ */
+export type TxEventStack = Array<TxEventSpec>;
+
+/**
+ * @hidden - for internal use only
+ */
+export interface TxEventSpec {
+  functionName: string;
   payload: TransactionReceiptsEventInfo;
-  topicTriggerFilter: Array<string>;
+}
+
+/**
+ * @hidden - for internal use only
+ */
+export interface TxGeneratingFunctionOptions {
+  txEventStack?: TxEventStack;
 }

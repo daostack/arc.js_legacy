@@ -6,6 +6,7 @@ import {
 } from "../contractWrapperBase";
 
 import { ContractWrapperFactory } from "../contractWrapperFactory";
+import { TxGeneratingFunctionOptions } from "../transactionService";
 import { Web3EventService } from "../web3EventService";
 
 export class TokenCapGCWrapper extends ContractWrapperBase {
@@ -25,14 +26,18 @@ export class TokenCapGCWrapper extends ContractWrapperBase {
       throw new Error("cap must be set and represent a number");
     }
 
-    return super._setParameters("TokenCapGC.setParameters", params.token, params.cap);
+    return super._setParameters(
+      "TokenCapGC.setParameters",
+      params.txEventStack,
+      params.token,
+      params.cap);
   }
 }
 
 export const TokenCapGCFactory =
   new ContractWrapperFactory("TokenCapGC", TokenCapGCWrapper, new Web3EventService());
 
-export interface TokenCapGcParams {
+export interface TokenCapGcParams extends TxGeneratingFunctionOptions {
   cap: number | string;
   token: Address;
 }

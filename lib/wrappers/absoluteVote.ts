@@ -6,6 +6,7 @@ import {
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ProposalService, VotableProposal } from "../proposalService";
+import { TxGeneratingFunctionOptions } from "../transactionService";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
   NewProposalEventResult,
@@ -70,6 +71,7 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper {
 
     return super._setParameters(
       "AbsoluteVote.setParameters",
+      params.txEventStack,
       params.reputation,
       params.votePerc,
       params.ownerVote
@@ -114,7 +116,7 @@ export interface CancelVotingEventResult {
   _voter: Address;
 }
 
-export interface AbsoluteVoteParams {
+export interface AbsoluteVoteParams extends TxGeneratingFunctionOptions {
   ownerVote?: boolean;
   reputation: string;
   votePerc?: number;
