@@ -2,6 +2,7 @@ import { assert } from "chai";
 import { BinaryVoteResult, IntVoteInterfaceWrapper, RedeemEventResult } from "../lib";
 import { ArcTransactionProposalResult, DecodedLogEntryEvent } from "../lib/contractWrapperBase";
 import { DAO } from "../lib/dao";
+import { UtilsInternal } from "../lib/utilsInternal";
 import { AbsoluteVoteWrapper } from "../lib/wrappers/absoluteVote";
 import {
   ContributionProposal,
@@ -47,15 +48,22 @@ describe("ContributionReward scheme", () => {
     return result;
   };
 
-  it("can get NewContributionProposal event", async () => {
+  it("can get NewContributionProposal event with rewards", async () => {
 
-    const proposalResult = await proposeReward({
+    const result = await proposeReward({
       nativeTokenReward: web3.toWei(10),
     });
 
-    const event = scheme.NewContributionProposal({ _proposalId: await proposalResult.getProposalIdFromMinedTx() });
-    const events = await event.get();
-    assert.equal(events.length);
+    // const proposal = await result.getTxConfirmed();
+
+    const eventFactory = scheme.NewContributionProposal(
+      { _proposalId: await result.getProposalIdFromMinedTx() });
+
+    const events = await eventFactory.get();
+    assert(events.length === 1);
+    const event = events[0];
+    assert.equal(event.transactionHash, result.tx);
+    assert(Array.isArray(event.args._rewards));
   });
 
   it("can create and propose with orgNativeTokenFee", async () => {

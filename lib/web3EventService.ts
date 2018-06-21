@@ -42,8 +42,8 @@ export class Web3EventService {
      * callback
      */
     return (
-      argFilter: any,
-      filterObject: EventFetcherFilterObject,
+      argFilter: any = {},
+      filterObject: EventFetcherFilterObject = {},
       immediateWatchCallback?: EventWatchCallback<TEventArgs>
     ): EventFetcher<TEventArgs> => {
 
@@ -151,8 +151,8 @@ export class Web3EventService {
     }
 
     return (
-      argFilter: any,
-      filterObject: EventFetcherFilterObject,
+      argFilter: any = {},
+      filterObject: EventFetcherFilterObject = {},
       immediateWatchCallback?: EntityWatchCallback<TEntity>
     ): EntityFetcher<TEntity, TEventArgs> => {
 

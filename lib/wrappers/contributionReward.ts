@@ -561,6 +561,7 @@ export interface NewContributionProposalEventResult {
    */
   _proposalId: Hash;
   _reputationChange: BigNumber;
+  _rewards: Array<BigNumber>;
 }
 
 export interface ContributionProposal {

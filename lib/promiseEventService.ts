@@ -5,7 +5,7 @@ import { UtilsInternal } from "./utilsInternal";
 export class PromiseEventService {
   /**
    * Publish to the given topics the result of the given promise.
-   * The payload of the event will beof type TResult.
+   * The payload of the event will be of type TResult.
    * @param topics
    * @param promise
    */
