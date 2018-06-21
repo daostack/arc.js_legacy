@@ -260,10 +260,6 @@ export interface TransactionReceiptTruffle {
   logs: Array<any>;
   receipt: TransactionReceipt;
   transactionHash: Hash;
-  /**
-   * address of the transaction
-   */
-  // tx: Address;
 }
 
 export class ArcTransactionResult {
