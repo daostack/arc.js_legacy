@@ -119,13 +119,10 @@ export class TransactionService extends PubSubEventService {
   }
 
   /**
-   * Returns a promise of a TransactionReceipt once the given transaction has been mined.  Before watching,
-   * checks to see whether the transaction has already been mined.
+   * Returns a promise of a TransactionReceipt once the given transaction has been mined.
    *
-   * Note you can use `TransactionService.getMinedTransaction` to try to obtain the
-   * TransactionReceipt without watching for it when it hasn't yet been mined.
-   *
-   * See also [getTransactionDepth](/api/classes/TransactionService#getTransactionDepth).
+   * See also [getMinedTransaction](/api/classes/TransactionService#getMinedTransaction) and
+   * [getTransactionDepth](/api/classes/TransactionService#getTransactionDepth).
    *
    * @param txHash the transaction hash
    * @param requiredDepth Optional minimum block depth required to resolve the promise.  Default is 0.
@@ -176,10 +173,8 @@ export class TransactionService extends PubSubEventService {
    * Returns a promise of a TransactionReceipt once the given transaction has been confirmed
    * according to the optional `requiredDepth`.
    *
-   * Note you can use `TransactionService.getConfirmedTransaction` to try to obtain the
-   * TransactionReceipt without watching for it when it hasn't yet been confirmed.
-   *
-   * See also [getTransactionDepth](/api/classes/TransactionService#getTransactionDepth).
+   * See also [getConfirmedTransaction](/api/classes/TransactionService#getConfirmedTransaction) and
+   * [getTransactionDepth](/api/classes/TransactionService#getTransactionDepth).
    *
    * @param txHash The transaction hash to watch
    * @param requiredDepth Optional minimum block depth required to resolve the promise.
@@ -197,7 +192,8 @@ export class TransactionService extends PubSubEventService {
    * the given transaction appeared. Use this to decide whether a transaction is
    * sufficiently secure (confirmed).
    *
-   * See also [watchForConfirmedTransaction](/api/classes/TransactionService#watchForConfirmedTransaction).
+   * See also [getConfirmedTransaction](/api/classes/TransactionService#getConfirmedTransaction)
+   * and [watchForConfirmedTransaction](/api/classes/TransactionService#watchForConfirmedTransaction).
    * @param tx txHash or TransactionReceipt
    * @returns Promise of the depth or -1 if the transaction cannot be found
    */
@@ -225,7 +221,7 @@ export class TransactionService extends PubSubEventService {
   }
 
   /**
-   * Returns a promise of a mined TransactionReceipt or null if it hasn't yet been mined.
+   * Returns a promise of a TransactionReceipt for a mined transaction, or null if it hasn't yet been mined.
    * @param txHash
    * @param requiredDepth Optional minimum block depth required to resolve the promise.  Default is 0.
    */
@@ -243,8 +239,8 @@ export class TransactionService extends PubSubEventService {
   }
 
   /**
-   * Returns a promise of a confirmed TransactionReceipt or null if it hasn't yet been confirmed
-   * according to the optional `requiredDepth`.
+   * Returns a promise of a TransactionReceipt for a confirmed transaction, or null if it hasn't yet been confirmed
+   * according to the requiredDepth.
    * @param txHash
    * @param requiredDepth Optional minimum block depth required to resolve the promise.
    * Default comes from the `ConfigurationService`.

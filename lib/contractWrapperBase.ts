@@ -276,8 +276,10 @@ export class ArcTransactionResult {
   }
 
   /**
-   * Returns promise of a mined transaction if it already exists,
-   * converted to a TransactionReceiptTruffle (with readable logs), or null if it doesn't exist.
+   * Returns a promise of the transaction if it is mined,
+   * converted to a TransactionReceiptTruffle (with readable logs).
+   *
+   * Returns null if the transaciton is not yet mined.
    */
   public async getTxMined(): Promise<TransactionReceiptTruffle | null> {
     const tx = await TransactionService.getMinedTransaction(this.tx);
@@ -285,9 +287,10 @@ export class ArcTransactionResult {
   }
 
   /**
-   * Returns promise of a confirmed transaction if it already exists,
-   * converted to a TransactionReceiptTruffle (with readable logs), or null if it doesn't exist
-   * at the optionally-required depth.
+   * Returns a promise of the transaction if it is confirmed,
+   * converted to a TransactionReceiptTruffle (with readable logs).
+   *
+   * Returns null if the transaction is not yet found at the required depth.
    *
    * @param requiredDepth Optional minimum block depth required to resolve the promise.
    * Default comes from the `ConfigurationService`.
