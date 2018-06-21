@@ -1,5 +1,5 @@
 import { LoggingService } from "./loggingService";
-import { PubSubEventService } from "./PubSubEventService";
+import { PubSubEventService } from "./pubSubEventService";
 import { UtilsInternal } from "./utilsInternal";
 
 export class PromiseEventService {
