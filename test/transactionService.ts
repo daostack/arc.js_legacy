@@ -162,10 +162,10 @@ describe("TransactionService", () => {
           assert.isOk(txEventInfo.tx);
         }
         if (topic.endsWith(".mined")) {
-          assert(txEventInfo.txStage === TransactionStage.mined);
+          assert.equal(txEventInfo.txStage, TransactionStage.mined);
         }
         if (topic.endsWith(".confirmed")) {
-          assert(txEventInfo.txStage === TransactionStage.confirmed);
+          assert.equal(txEventInfo.txStage, TransactionStage.confirmed);
         }
         if (topic.endsWith(".mined") || topic.endsWith(".confirmed")) {
           assert.isOk(txEventInfo.txReceipt);
@@ -190,6 +190,7 @@ describe("TransactionService", () => {
       });
     } finally {
       // have to wait for txs to get fully confirmed
+      await helpers.sleep(1000); // allow time to confirm
       subscription.unsubscribe();
     }
     assert.equal(txCount, 19);
