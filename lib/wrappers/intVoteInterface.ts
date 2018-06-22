@@ -104,7 +104,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
 
     this.logContractFunctionCall("IntVoteInterface.propose", options);
 
-    const txResult = await this.wrapTransactionInvocation("IntVoteInterfaceWrapper.propose",
+    const txResult = await this.wrapTransactionInvocation("IntVoteInterface.propose",
       options,
       () => {
         return this.contract.propose.sendTransaction(
@@ -128,7 +128,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
 
     this.logContractFunctionCall("IntVoteInterface.cancelProposal", options);
 
-    return this.wrapTransactionInvocation("IntVoteInterfaceWrapper.cancelProposal",
+    return this.wrapTransactionInvocation("IntVoteInterface.cancelProposal",
       options,
       () => {
         return this.contract.cancelProposal.sendTransaction(options.proposalId);
@@ -150,7 +150,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
 
     this.logContractFunctionCall("IntVoteInterface.ownerVote", options);
 
-    return this.wrapTransactionInvocation("IntVoteInterfaceWrapper.ownerVote",
+    return this.wrapTransactionInvocation("IntVoteInterface.ownerVote",
       options,
       () => {
         return this.contract.ownerVote.sendTransaction(
@@ -172,7 +172,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
 
     this.logContractFunctionCall("IntVoteInterface.vote", options);
 
-    return this.wrapTransactionInvocation("IntVoteInterfaceWrapper.vote",
+    return this.wrapTransactionInvocation("IntVoteInterface.vote",
       options,
       () => {
         return this.contract.vote.sendTransaction(
@@ -198,7 +198,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
 
     this.logContractFunctionCall("IntVoteInterface.voteWithSpecifiedAmounts", options);
 
-    return this.wrapTransactionInvocation("IntVoteInterfaceWrapper.voteWithSpecifiedAmounts",
+    return this.wrapTransactionInvocation("IntVoteInterface.voteWithSpecifiedAmounts",
       options,
       () => {
         // tokens, the last parameter, is ignored
@@ -220,7 +220,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
 
     this.logContractFunctionCall("IntVoteInterface.cancelVote", options);
 
-    return this.wrapTransactionInvocation("IntVoteInterfaceWrapper.cancelVote",
+    return this.wrapTransactionInvocation("IntVoteInterface.cancelVote",
       options,
       () => {
         return this.contract.cancelVote.sendTransaction(options.proposalId);
@@ -294,7 +294,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase {
 
     this.logContractFunctionCall("IntVoteInterface.execute", options);
 
-    return this.wrapTransactionInvocation("IntVoteInterfaceWrapper.execute",
+    return this.wrapTransactionInvocation("IntVoteInterface.execute",
       options,
       () => {
         return this.contract.execute.sendTransaction(options.proposalId);
@@ -379,9 +379,9 @@ export interface IntVoteInterface {
   CancelVoting: Web3EventFetcher;
 
   propose(numOfChoices: number,
-          proposalParameters: Hash,
-          avatar: Address,
-          execute: Address): Promise<TransactionReceiptTruffle>;
+    proposalParameters: Hash,
+    avatar: Address,
+    execute: Address): Promise<TransactionReceiptTruffle>;
   cancelProposal(proposalId: Hash): Promise<TransactionReceiptTruffle>;
   ownerVote(proposalId: Hash, vote: number, voter: Address): Promise<TransactionReceiptTruffle>;
   // options is not part of Arc, rather is part of truffle. Declared here for onBehalfOf
