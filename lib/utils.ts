@@ -293,11 +293,11 @@ export class Utils {
   }
 
   /**
-   * Returns the ABI for the given contract
+   * Returns the truffle artifact json for the given contract
    * @param contractName
    */
-  public static getAbiForContract(contractName: string): ContractAbi {
-    return require(`../migrated_contracts/${contractName}.json`).abi;
+  public static getTruffleArtifactForContract(contractName: string): any {
+    return require(`../migrated_contracts/${contractName}.json`);
   }
 
   private static web3: Web3 = undefined;

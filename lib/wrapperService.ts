@@ -1,6 +1,8 @@
+import { promisify } from "es6-promisify";
 import { Address } from "./commonTypes";
 import { IContractWrapperBase, IContractWrapperFactory } from "./iContractWrapperBase";
 import { LoggingService } from "./loggingService";
+import { Utils } from "./utils";
 import {
   AbsoluteVoteFactory,
   AbsoluteVoteWrapper
@@ -252,6 +254,30 @@ export class WrapperService {
     }
   }
 
+  /**
+   * Confirm the given contract wrapper is the same contract as one named as deployed
+   * in the running version of Arc.js.
+   *
+   * This will reject wrappers of different versions of contracts with the same name in Arc.
+   * @param contractNameWant
+   * @param contractWrapperFound
+   */
+  public static async confirmContractType(contractWrapperFound: any): Promise<boolean> {
+
+    const contractNameWant = contractWrapperFound.name;
+
+    const web3 = await Utils.getWeb3();
+
+    const deployedWrapperWant = WrapperService.wrappers[contractNameWant];
+
+    const byteCodeWant = await promisify(
+      (callback: any): void => web3.eth.getCode(deployedWrapperWant.address, callback))();
+    const byteCodeFound = await promisify(
+      (callback: any): void => web3.eth.getCode(contractWrapperFound.address, callback))();
+
+    return byteCodeWant === byteCodeFound;
+  }
+
   private static allWrappersFilter: WrapperFilter = {
     AbsoluteVote: true,
     ContributionReward: true,
@@ -277,7 +303,6 @@ export class WrapperService {
     VestingScheme: false,
     VoteInOrganizationScheme: false,
   };
-
 }
 
 export interface WrapperFilter {
