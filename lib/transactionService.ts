@@ -366,11 +366,18 @@ export class TransactionService extends PubSubEventService {
 
       const eventSpec: TxEventSpec = eventStack[i];
 
-      const payload = eventSpec.payload;
       const functionName = eventSpec.functionName;
 
       const baseTopic = TransactionService.topicBaseFromFunctionName(functionName);
 
+      /**
+       * Clone to handle re-entrancy and ensure that recipients of the event can
+       * rely on receiving a distinct payload for each event. This can be particularly
+       * needed with fast networks like ganache, but also if the consumer is
+       * saving these payloads on each stage of the lifecycle and expecting them
+       * to be distinct.
+       */
+      const payload = Object.assign({}, eventSpec.payload);
       payload.tx = tx;
       payload.txReceipt = txReceipt;
       payload.txStage = txStage;
