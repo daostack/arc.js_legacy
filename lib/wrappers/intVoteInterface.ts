@@ -379,9 +379,9 @@ export interface IntVoteInterface {
   CancelVoting: Web3EventFetcher;
 
   propose(numOfChoices: number,
-    proposalParameters: Hash,
-    avatar: Address,
-    execute: Address): Promise<TransactionReceiptTruffle>;
+          proposalParameters: Hash,
+          avatar: Address,
+          execute: Address): Promise<TransactionReceiptTruffle>;
   cancelProposal(proposalId: Hash): Promise<TransactionReceiptTruffle>;
   ownerVote(proposalId: Hash, vote: number, voter: Address): Promise<TransactionReceiptTruffle>;
   // options is not part of Arc, rather is part of truffle. Declared here for onBehalfOf

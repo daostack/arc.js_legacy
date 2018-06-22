@@ -1,12 +1,74 @@
 import { assert } from "chai";
 import { promisify } from "util";
 import { TransactionReceipt } from "web3";
-import { WrapperService } from "../lib";
-import { fnVoid } from "../lib/commonTypes";
+import {
+  AbsoluteVoteWrapper,
+  GlobalConstraintRegistrarFactory,
+  GlobalConstraintRegistrarWrapper,
+  WrapperService
+} from "../lib";
+import { BinaryVoteResult, fnVoid } from "../lib/commonTypes";
 import { TransactionReceiptsEventInfo, TransactionService, TransactionStage } from "../lib/transactionService";
 import * as helpers from "./helpers";
 
 describe("TransactionService", () => {
+
+  it("can publish from subclasses", async () => {
+
+    const eventsReceived = new Array<TransactionReceiptsEventInfo>();
+
+    const subscription = TransactionService.subscribe(
+      ["TxTracking.AbsoluteVote.vote.confirmed", "TxTracking.IntVoteInterface.vote.confirmed"],
+      (topic: string, txEventInfo: TransactionReceiptsEventInfo) => {
+        eventsReceived.push(txEventInfo);
+      });
+
+    try {
+      const dao = await helpers.forgeDao({
+        schemes: [
+          {
+            name: "GlobalConstraintRegistrar",
+            votingMachineParams: {
+              ownerVote: false,
+            },
+          },
+        ],
+      });
+      const tokenCapGC = WrapperService.wrappers.TokenCapGC;
+
+      const globalConstraintParametersHash =
+        (await tokenCapGC.setParameters({ token: dao.token.address, cap: 3141 })).result;
+
+      const globalConstraintRegistrar = await helpers.getDaoScheme(
+        dao,
+        "GlobalConstraintRegistrar",
+        GlobalConstraintRegistrarFactory) as GlobalConstraintRegistrarWrapper;
+
+      const votingMachineHash = await helpers.getSchemeVotingMachineParametersHash(dao, globalConstraintRegistrar);
+
+      const proposalId = await (await globalConstraintRegistrar.proposeToAddModifyGlobalConstraint({
+        avatar: dao.avatar.address,
+        globalConstraint: tokenCapGC.address,
+        globalConstraintParametersHash,
+        votingMachineHash,
+      })).getProposalIdFromMinedTx();
+
+      const votingMachineAddress = await globalConstraintRegistrar.getVotingMachineAddress(dao.avatar.address);
+
+      const votingMachine =
+        (await WrapperService.factories.AbsoluteVote.at(votingMachineAddress)) as AbsoluteVoteWrapper;
+
+      await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId });
+
+    } finally {
+      await helpers.sleep(1000); // allow time to confirm
+      subscription.unsubscribe();
+    }
+
+    assert.equal(eventsReceived.length, 2);
+    assert.equal(eventsReceived[0].functionName, "IntVoteInterface.vote");
+    assert.equal(eventsReceived[1].functionName, "AbsoluteVote.vote");
+  });
 
   it("can decode and read logs", async () => {
 

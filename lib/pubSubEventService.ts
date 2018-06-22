@@ -47,7 +47,8 @@ export class PubSubEventService {
    * @param key - A token, function or topic to unsubscribe.
    */
   public static unsubscribe(key: EventSubscriptionKey): void {
-    PubSub.unsubscribe(key);
+    // timeout to allow lingering events to be handled before unsubscribing
+    setTimeout(() => { PubSub.unsubscribe(key); }, 0);
   }
 
   /**

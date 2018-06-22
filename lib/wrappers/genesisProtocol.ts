@@ -12,6 +12,7 @@ import {
 import { ConfigService } from "../configService";
 import {
   ArcTransactionDataResult,
+  ArcTransactionProposalResult,
   ArcTransactionResult
 } from "../contractWrapperBase";
 import { ContractWrapperFactory, IContractWrapperFactory } from "../contractWrapperFactory";
@@ -25,7 +26,14 @@ import {
   VoteProposalEventResult,
   VotingMachineExecuteProposalEventResult,
 } from "./commonEventInterfaces";
-import { IntVoteInterfaceWrapper, OwnerVoteOptions, ProposalIdOption } from "./intVoteInterface";
+import {
+  IntVoteInterfaceWrapper,
+  OwnerVoteOptions,
+  ProposalIdOption,
+  ProposeOptions,
+  VoteOptions,
+  VoteWithSpecifiedAmountsOptions
+} from "./intVoteInterface";
 
 export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements SchemeWrapper {
 
@@ -874,6 +882,34 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   public async getStakingToken(): Promise<any> {
     const tokenAddress = await this.contract.stakingToken();
     return (await Utils.requireContract("StandardToken")).at(tokenAddress);
+  }
+
+  public async propose(options: ProposeOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionProposalResult> {
+    const functionName = "GenesisProtocol.propose";
+    const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
+    return super.propose(Object.assign(options, { txEventStack: eventContext }));
+  }
+
+  public async vote(options: VoteOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+    const functionName = "GenesisProtocol.vote";
+    const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
+    return super.vote(Object.assign(options, { txEventStack: eventContext }));
+  }
+
+  public async voteWithSpecifiedAmounts(
+    options: VoteWithSpecifiedAmountsOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+    const functionName = "GenesisProtocol.voteWithSpecifiedAmounts";
+    const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
+    return super.voteWithSpecifiedAmounts(Object.assign(options, { txEventStack: eventContext }));
+  }
+  public async execute(options: ProposalIdOption & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+    const functionName = "GenesisProtocol.execute";
+    const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
+    return super.execute(Object.assign(options, { txEventStack: eventContext }));
   }
 
   protected hydrated(): void {

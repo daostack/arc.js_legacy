@@ -2,18 +2,25 @@
 import { Address, Hash } from "../commonTypes";
 
 import {
-  ArcTransactionDataResult
+  ArcTransactionDataResult, ArcTransactionProposalResult, ArcTransactionResult
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ProposalService, VotableProposal } from "../proposalService";
-import { TxGeneratingFunctionOptions } from "../transactionService";
+import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
   NewProposalEventResult,
   VoteProposalEventResult,
   VotingMachineExecuteProposalEventResult
 } from "./commonEventInterfaces";
-import { IntVoteInterfaceWrapper } from "./intVoteInterface";
+import {
+  IntVoteInterfaceWrapper,
+  OwnerVoteOptions,
+  ProposalIdOption,
+  ProposeOptions,
+  VoteOptions,
+  VoteWithSpecifiedAmountsOptions
+} from "./intVoteInterface";
 
 export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper {
 
@@ -85,6 +92,52 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper {
       reputation: params[0],
       votePerc: params[1].toNumber(),
     };
+  }
+
+  public async propose(options: ProposeOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionProposalResult> {
+    const functionName = "AbsoluteVote.propose";
+    const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
+    return super.propose(Object.assign(options, { txEventStack: eventContext }));
+  }
+
+  public async vote(options: VoteOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+    const functionName = "AbsoluteVote.vote";
+    const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
+    return super.vote(Object.assign(options, { txEventStack: eventContext }));
+  }
+
+  public async voteWithSpecifiedAmounts(
+    options: VoteWithSpecifiedAmountsOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+    const functionName = "AbsoluteVote.voteWithSpecifiedAmounts";
+    const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
+    return super.voteWithSpecifiedAmounts(Object.assign(options, { txEventStack: eventContext }));
+  }
+  public async execute(options: ProposalIdOption & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+    const functionName = "AbsoluteVote.execute";
+    const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
+    return super.execute(Object.assign(options, { txEventStack: eventContext }));
+  }
+  public async cancelProposal(options: ProposalIdOption & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+    const functionName = "AbsoluteVote.execute";
+    const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
+    return super.cancelProposal(Object.assign(options, { txEventStack: eventContext }));
+  }
+  public async ownerVote(options: OwnerVoteOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+    const functionName = "AbsoluteVote.execute";
+    const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
+    return super.ownerVote(Object.assign(options, { txEventStack: eventContext }));
+  }
+  public async cancelVote(options: ProposalIdOption & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+    const functionName = "AbsoluteVote.execute";
+    const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
+    return super.cancelVote(Object.assign(options, { txEventStack: eventContext }));
   }
 
   protected hydrated(): void {
