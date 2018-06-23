@@ -7,6 +7,7 @@ import { ConfigService } from "../configService";
 import {
   ArcTransactionResult,
   ContractWrapperBase,
+  IContractWrapperFactory,
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
@@ -18,7 +19,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
   public name: string = "DaoCreator";
   public friendlyName: string = "Dao Creator";
-  public factory: ContractWrapperFactory<DaoCreatorWrapper> = DaoCreatorFactory;
+  public factory: IContractWrapperFactory<DaoCreatorWrapper> = DaoCreatorFactory;
   /**
    * Events
    */

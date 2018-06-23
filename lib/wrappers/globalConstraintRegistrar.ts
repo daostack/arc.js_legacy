@@ -1,8 +1,10 @@
 "use strict";
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
+  IContractWrapperFactory,
+  SchemeWrapper,
   StandardSchemeParams,
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
@@ -18,7 +20,7 @@ export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase impl
 
   public name: string = "GlobalConstraintRegistrar";
   public friendlyName: string = "Global Constraint Registrar";
-  public factory: ContractWrapperFactory<GlobalConstraintRegistrarWrapper> = GlobalConstraintRegistrarFactory;
+  public factory: IContractWrapperFactory<GlobalConstraintRegistrarWrapper> = GlobalConstraintRegistrarFactory;
   /**
    * Events
    */

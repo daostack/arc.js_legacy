@@ -1,11 +1,13 @@
 "use strict";
 import * as BigNumber from "bignumber.js";
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
 import { ConfigService } from "../configService";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   ArcTransactionResult,
+  IContractWrapperFactory,
+  SchemeWrapper,
   StandardSchemeParams,
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
@@ -20,7 +22,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
 
   public name: string = "VestingScheme";
   public friendlyName: string = "Vesting Scheme";
-  public factory: ContractWrapperFactory<VestingSchemeWrapper> = VestingSchemeFactory;
+  public factory: IContractWrapperFactory<VestingSchemeWrapper> = VestingSchemeFactory;
   /**
    * Events
    */

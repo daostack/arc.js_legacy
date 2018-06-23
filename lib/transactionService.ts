@@ -2,12 +2,10 @@ import { promisify } from "es6-promisify";
 import { DecodedLogEntry, LogEntry, TransactionReceipt } from "web3";
 import { Hash } from "./commonTypes";
 import { ConfigService } from "./configService";
-import { TransactionReceiptTruffle } from "./contractWrapperBase";
 import { LoggingService } from "./loggingService";
 import { PubSubEventService } from "./pubSubEventService";
 import { Utils } from "./utils";
 import { UtilsInternal } from "./utilsInternal";
-import { WrapperService } from "./wrapperService";
 /* tslint:disable-next-line:no-var-requires */
 const ethJSABI = require("ethjs-abi");
 
@@ -282,16 +280,16 @@ export class TransactionService extends PubSubEventService {
    * @param txReceipt The mined tx
    * @param contract The truffle contract that generated the tx
    */
-  public static toTxTruffle(txReceipt: TransactionReceipt, contract: string | object): TransactionReceiptTruffle {
+  public static async toTxTruffle(txReceipt: TransactionReceipt, contract: string | object): Promise<TransactionReceiptTruffle> {
 
     let contractInstance: any;
 
     if (typeof contract === "string") {
-      const wrapper = WrapperService.wrappers[contract];
-      if (!wrapper) {
+      // Can't use WrapperService here without causing circular dependencies.
+      contractInstance = await (await Utils.requireContract(contract)).deployed();
+      if (!contractInstance) {
         throw new Error(`TransactionService.toTxTruffle: can't find contract ${contract}`);
       }
-      contractInstance = wrapper.contract;
     } else {
       contractInstance = contract;
     }
@@ -367,6 +365,74 @@ export class TransactionService extends PubSubEventService {
       receipt: txReceipt,
       transactionHash: txReceipt.transactionHash,
     };
+  }
+
+  /**
+     * Returns a value from the given transaction log.
+     * Undefined if not found for any reason.
+     *
+     * @param tx The transaction
+     * @param arg The name of the property whose value we wish to return from the args object:
+     *  tx.logs[index].args[argName]
+     * @param eventName Overrides index, identifies which log,
+     *  where tx.logs[n].event === eventName
+     * @param index Identifies which log when eventName is not given
+     */
+  public static getValueFromLogs(
+    tx: TransactionReceiptTruffle | TransactionReceipt,
+    arg: string,
+    eventName: string = null,
+    index: number = 0): any | undefined {
+    /**
+     *
+     * tx is an object with the following values:
+     *
+     * tx.tx      => transaction hash, string
+     * tx.logs    => array of decoded events that were triggered within this transaction
+     * tx.receipt => transaction receipt object, which includes gas used
+     *
+     * tx.logs look like this:
+     *
+     * [ { logIndex: 13,
+     *     transactionIndex: 0,
+     *     transactionHash: "0x999e51b4124371412924d73b60a0ae1008462eb367db45f8452b134e5a8d56c8",
+     *     blockHash: "0xe35f7c374475a6933a500f48d4dfe5dce5b3072ad316f64fbf830728c6fe6fc9",
+     *     blockNumber: 294,
+     *     address: "0xd6a2a42b97ba20ee8655a80a842c2a723d7d488d",
+     *     type: "mined",
+     *     event: "NewOrg",
+     *     args: { _avatar: "0xcc05f0cde8c3e4b6c41c9b963031829496107bbb" } } ]
+     */
+    if (!tx.logs || !tx.logs.length) {
+      // TODO: log "getValueFromLogs: Transaction has no logs");
+      return undefined;
+    }
+
+    if (eventName && (eventName.length)) {
+      for (let i = 0; i < tx.logs.length; i++) {
+        if (tx.logs[i].event === eventName) {
+          index = i;
+          break;
+        }
+      }
+      if (typeof index === "undefined") {
+        // TODO: log  `getValueFromLogs: There is no event logged with eventName ${eventName}`
+        return undefined;
+      }
+    } else if (typeof index === "undefined") {
+      index = tx.logs.length - 1;
+    }
+    if (tx.logs[index].type !== "mined") {
+      // TODO: log  `getValueFromLogs: transaction has not been mined: ${tx.logs[index].event}`
+      return undefined;
+    }
+    const result = tx.logs[index].args[arg];
+
+    if (!result) {
+      // TODO: log  `getValueFromLogs: This log does not seem to have a field "${arg}": ${tx.logs[index].args}`
+      return undefined;
+    }
+    return result;
   }
 
   private static createPayload(
@@ -501,4 +567,15 @@ export interface TxEventSpec {
  */
 export interface TxGeneratingFunctionOptions {
   txEventStack?: TxEventStack;
+}
+
+
+/**
+ * The bundle of logs, TransactionReceipt and other information as returned by Truffle after invoking
+ * a contract function that causes a transaction.
+ */
+export interface TransactionReceiptTruffle {
+  logs: Array<any>;
+  receipt: TransactionReceipt;
+  transactionHash: Hash;
 }

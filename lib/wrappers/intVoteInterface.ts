@@ -5,25 +5,35 @@ import {
   ArcTransactionResult,
   ContractWrapperBase,
   DecodedLogEntryEvent,
-  TransactionReceiptTruffle
+  IContractWrapperFactory
 } from "../contractWrapperBase";
-import { ContractWrapperFactory, IContractWrapperFactory } from "../contractWrapperFactory";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";
-import { EventFetcherFactory, Web3EventFetcher, Web3EventService } from "../web3EventService";
-import { CancelProposalEventResult, CancelVotingEventResult } from "../wrappers/absoluteVote";
+import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
+  CancelProposalEventResult,
+  CancelVotingEventResult,
+  IIntVoteInterface,
   NewProposalEventResult,
+  OwnerVoteOptions,
+  ProposalIdOption,
+  ProposeOptions,
+  VoteOptions,
   VoteProposalEventResult,
+  VoteStatusOptions,
+  VoteWithSpecifiedAmountsOptions,
   VotingMachineExecuteProposalEventResult
-} from "../wrappers/commonEventInterfaces";
+} from "./iIntVoteInterface";
 
 /**
  * Provides the services of any voting machine that implements the `IntVoteInterface`
  * Arc contract interface.  Also serves as the base class for all the specific
  * voting machine contract wrapper classes.
  */
-export class IntVoteInterfaceWrapper extends ContractWrapperBase {
+export class IntVoteInterfaceWrapper
+  extends ContractWrapperBase
+  implements IIntVoteInterface {
 
   public factory: IContractWrapperFactory<any> = IntVoteInterfaceFactory;
   public name: string = "IntVoteInterface";
@@ -367,68 +377,3 @@ export const IntVoteInterfaceFactory =
     "IntVoteInterface",
     IntVoteInterfaceWrapper,
     new Web3EventService()) as IntVoteInterfaceFactoryType;
-
-/**
- * The Arc contract `IntVoteInterface`.
- */
-export interface IntVoteInterface {
-  NewProposal: Web3EventFetcher;
-  CancelProposal: Web3EventFetcher;
-  ExecuteProposal: Web3EventFetcher;
-  VoteProposal: Web3EventFetcher;
-  CancelVoting: Web3EventFetcher;
-
-  propose(numOfChoices: number,
-          proposalParameters: Hash,
-          avatar: Address,
-          execute: Address): Promise<TransactionReceiptTruffle>;
-  cancelProposal(proposalId: Hash): Promise<TransactionReceiptTruffle>;
-  ownerVote(proposalId: Hash, vote: number, voter: Address): Promise<TransactionReceiptTruffle>;
-  // options is not part of Arc, rather is part of truffle. Declared here for onBehalfOf
-  vote(proposalId: Hash, vote: number, options?: { from: Address }): Promise<TransactionReceiptTruffle>;
-  voteWithSpecifiedAmounts(
-    proposalId: Hash,
-    vote: number,
-    rep: BigNumber,
-    token: BigNumber): Promise<TransactionReceiptTruffle>;
-  cancelVote(proposalId: Hash): Promise<TransactionReceiptTruffle>;
-  getNumberOfChoices(proposalId: Hash): Promise<BigNumber>;
-  isVotable(proposalId: Hash): boolean;
-  voteStatus(proposalId: Hash, choice: number): Promise<BigNumber>;
-  isAbstainAllow(): Promise<boolean>;
-  execute(proposalId: Hash): Promise<TransactionReceiptTruffle>;
-}
-
-export interface ProposeOptions {
-  avatarAddress: Address;
-  executable: Address;
-  numOfChoices: number;
-  proposerAddress?: Address;
-  proposalParameters?: Hash;
-}
-
-export interface OwnerVoteOptions extends ProposalIdOption {
-  vote: number;
-  voterAddress: Address;
-}
-
-export interface VoteOptions extends ProposalIdOption {
-  vote: number;
-  /**
-   * Optional agent on whose behalf to vote.
-   */
-  onBehalfOf?: Address;
-}
-
-export interface VoteWithSpecifiedAmountsOptions extends ProposalIdOption {
-  reputation: BigNumber | string;
-  vote: number;
-}
-
-export interface VoteStatusOptions extends ProposalIdOption {
-  vote: number;
-}
-
-export interface ProposalIdOption {
-  proposalId: Hash;
-}

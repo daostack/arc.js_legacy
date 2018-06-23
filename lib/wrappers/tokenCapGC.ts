@@ -3,6 +3,7 @@ import { Address, Hash } from "../commonTypes";
 import {
   ArcTransactionDataResult,
   ContractWrapperBase,
+  IContractWrapperFactory,
 } from "../contractWrapperBase";
 
 import { ContractWrapperFactory } from "../contractWrapperFactory";
@@ -12,7 +13,7 @@ import { Web3EventService } from "../web3EventService";
 export class TokenCapGCWrapper extends ContractWrapperBase {
   public name: string = "TokenCapGC";
   public friendlyName: string = "Token Cap Global Constraint";
-  public factory: ContractWrapperFactory<TokenCapGCWrapper> = TokenCapGCFactory;
+  public factory: IContractWrapperFactory<TokenCapGCWrapper> = TokenCapGCFactory;
 
   public async setParameters(params: TokenCapGcParams): Promise<ArcTransactionDataResult<Hash>> {
 

@@ -1,9 +1,11 @@
 "use strict";
 import { BigNumber } from "bignumber.js";
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
+  IContractWrapperFactory,
+  SchemeWrapper,
   StandardSchemeParams,
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
@@ -20,7 +22,7 @@ export class VoteInOrganizationSchemeWrapper extends ProposalGeneratorBase imple
 
   public name: string = "VoteInOrganizationScheme";
   public friendlyName: string = "Vote In Organization Scheme";
-  public factory: ContractWrapperFactory<VoteInOrganizationSchemeWrapper> = VoteInOrganizationSchemeFactory;
+  public factory: IContractWrapperFactory<VoteInOrganizationSchemeWrapper> = VoteInOrganizationSchemeFactory;
   /**
    * Events
    */

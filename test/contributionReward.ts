@@ -2,8 +2,6 @@ import { assert } from "chai";
 import { BinaryVoteResult, IntVoteInterfaceWrapper, RedeemEventResult } from "../lib";
 import { ArcTransactionProposalResult, DecodedLogEntryEvent } from "../lib/contractWrapperBase";
 import { DAO } from "../lib/dao";
-import { UtilsInternal } from "../lib/utilsInternal";
-import { AbsoluteVoteWrapper } from "../lib/wrappers/absoluteVote";
 import {
   ContributionProposal,
   ContributionRewardFactory,

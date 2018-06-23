@@ -1,5 +1,5 @@
 import { BigNumber } from "bignumber.js";
-import { Address, Hash, SchemeWrapper } from "../lib/commonTypes";
+import { Address, Hash } from "../lib/commonTypes";
 import { DAO, NewDaoConfig } from "../lib/dao";
 import {
   ArcTransactionResult,
@@ -10,7 +10,8 @@ import {
   InitializeArcJs,
   IntVoteInterfaceWrapper,
   ProposalGeneratorBase,
-  VotingMachineExecuteProposalEventResult
+  VotingMachineExecuteProposalEventResult,
+  SchemeWrapper
 } from "../lib/index";
 import { LoggingService, LogLevel } from "../lib/loggingService";
 import { Utils } from "../lib/utils";

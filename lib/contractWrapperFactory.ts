@@ -1,4 +1,4 @@
-import { ContractWrapperBase } from "./contractWrapperBase";
+import { ContractWrapperBase, IContractWrapperFactory } from "./contractWrapperBase";
 import { Utils } from "./utils";
 import { Web3EventService } from "./web3EventService";
 
@@ -56,10 +56,4 @@ export class ContractWrapperFactory<TWrapper extends ContractWrapperBase>
       this.solidityContract = await Utils.requireContract(this.solidityContractName);
     }
   }
-}
-
-export interface IContractWrapperFactory<TWrapper extends ContractWrapperBase> {
-  new: (...rest: Array<any>) => Promise<TWrapper>;
-  at: (address: string) => Promise<TWrapper>;
-  deployed: () => Promise<TWrapper>;
 }

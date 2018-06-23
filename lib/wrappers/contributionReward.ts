@@ -4,8 +4,7 @@ import {
   Address,
   DefaultSchemePermissions,
   Hash,
-  SchemePermissions,
-  SchemeWrapper
+  SchemePermissions
 } from "../commonTypes";
 import { ConfigService } from "../configService";
 
@@ -15,6 +14,8 @@ import {
   ArcTransactionProposalResult,
   ArcTransactionResult,
   DecodedLogEntryEvent,
+  IContractWrapperFactory,
+  SchemeWrapper,
   StandardSchemeParams,
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
@@ -32,7 +33,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
 
   public name: string = "ContributionReward";
   public friendlyName: string = "Contribution Reward";
-  public factory: ContractWrapperFactory<ContributionRewardWrapper> = ContributionRewardFactory;
+  public factory: IContractWrapperFactory<ContributionRewardWrapper> = ContributionRewardFactory;
   /**
    * Events
    */

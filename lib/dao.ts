@@ -43,7 +43,7 @@ export class DAO {
 
     const result = await (await daoCreator.forgeOrg(options)).watchForTxMined();
 
-    const avatarAddress = Utils.getValueFromLogs(result, "_avatar", "NewOrg");
+    const avatarAddress = TransactionService.getValueFromLogs(result, "_avatar", "NewOrg");
 
     if (!avatarAddress) {
       throw new Error("avatar address is not defined");

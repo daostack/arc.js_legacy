@@ -6,9 +6,14 @@ import {
   TransformEventCallback,
   Web3EventService
 } from "./web3EventService";
-import { NewProposalEventResult, VotingMachineExecuteProposalEventResult } from "./wrappers/commonEventInterfaces";
-import { IntVoteInterfaceWrapper } from "./wrappers/intVoteInterface";
+import {
+  IntVoteInterfaceWrapper,
+} from "./wrappers/intVoteInterface";
 
+import {
+  NewProposalEventResult,
+  VotingMachineExecuteProposalEventResult
+} from "./wrappers/iIntVoteInterface";
 /**
  * A single instance of ProposalService provides services relating to a single
  * type of proposal (TProposal), for example a proposal to contribute rewards to a beneficiary.

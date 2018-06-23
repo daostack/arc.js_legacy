@@ -1,6 +1,6 @@
 import { Address } from "./commonTypes";
 import { ContractWrapperBase } from "./contractWrapperBase";
-import { ContractWrapperFactory } from "./contractWrapperFactory.js";
+import { ContractWrapperFactory } from "./contractWrapperFactory";
 import { LoggingService } from "./loggingService";
 import {
   AbsoluteVoteFactory,

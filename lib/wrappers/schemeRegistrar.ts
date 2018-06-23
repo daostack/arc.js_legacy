@@ -1,8 +1,10 @@
 "use strict";
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
+  IContractWrapperFactory,
+  SchemeWrapper,
   StandardSchemeParams,
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
@@ -19,7 +21,7 @@ export class SchemeRegistrarWrapper extends ProposalGeneratorBase implements Sch
 
   public name: string = "SchemeRegistrar";
   public friendlyName: string = "Scheme Registrar";
-  public factory: ContractWrapperFactory<SchemeRegistrarWrapper> = SchemeRegistrarFactory;
+  public factory: IContractWrapperFactory<SchemeRegistrarWrapper> = SchemeRegistrarFactory;
   /**
    * Events
    */

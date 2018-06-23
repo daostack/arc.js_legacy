@@ -6,34 +6,34 @@ import {
   BinaryVoteResult,
   DefaultSchemePermissions,
   Hash,
-  SchemePermissions,
-  SchemeWrapper,
+  SchemePermissions
 } from "../commonTypes";
 import { ConfigService } from "../configService";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
-  ArcTransactionResult
+  ArcTransactionResult,
+  IContractWrapperFactory,
+  SchemeWrapper
 } from "../contractWrapperBase";
-import { ContractWrapperFactory, IContractWrapperFactory } from "../contractWrapperFactory";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ProposalService } from "../proposalService";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
+import { RedeemEventResult } from "./commonEventInterfaces";
 import {
   NewProposalEventResult,
-  RedeemEventResult,
-  VoteProposalEventResult,
-  VotingMachineExecuteProposalEventResult,
-} from "./commonEventInterfaces";
-import {
-  IntVoteInterfaceWrapper,
   OwnerVoteOptions,
   ProposalIdOption,
   ProposeOptions,
   VoteOptions,
-  VoteWithSpecifiedAmountsOptions
-} from "./intVoteInterface";
+  VoteProposalEventResult,
+  VoteWithSpecifiedAmountsOptions,
+  VotingMachineExecuteProposalEventResult,
+} from "./iIntVoteInterface";
+
+import { IntVoteInterfaceWrapper } from "./intVoteInterface";
 
 export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements SchemeWrapper {
 

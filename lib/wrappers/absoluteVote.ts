@@ -1,32 +1,36 @@
 "use strict";
-import { Address, Hash } from "../commonTypes";
+import { Hash } from "../commonTypes";
 
 import {
-  ArcTransactionDataResult, ArcTransactionProposalResult, ArcTransactionResult
+  ArcTransactionDataResult,
+  ArcTransactionProposalResult,
+  ArcTransactionResult,
+  IContractWrapperFactory
 } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ProposalService, VotableProposal } from "../proposalService";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
+  CancelProposalEventResult,
+  CancelVotingEventResult,
   NewProposalEventResult,
-  VoteProposalEventResult,
-  VotingMachineExecuteProposalEventResult
-} from "./commonEventInterfaces";
-import {
-  IntVoteInterfaceWrapper,
   OwnerVoteOptions,
   ProposalIdOption,
   ProposeOptions,
   VoteOptions,
-  VoteWithSpecifiedAmountsOptions
-} from "./intVoteInterface";
+  VoteProposalEventResult,
+  VoteWithSpecifiedAmountsOptions,
+  VotingMachineExecuteProposalEventResult
+} from "./iIntVoteInterface";
+
+import { IntVoteInterfaceWrapper } from "./intVoteInterface";
 
 export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper {
 
   public name: string = "AbsoluteVote";
   public friendlyName: string = "Absolute Vote";
-  public factory: ContractWrapperFactory<AbsoluteVoteWrapper> = AbsoluteVoteFactory;
+  public factory: IContractWrapperFactory<AbsoluteVoteWrapper> = AbsoluteVoteFactory;
 
   /**
    * Events
@@ -153,21 +157,6 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper {
 
 export const AbsoluteVoteFactory =
   new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper, new Web3EventService());
-
-export interface CancelProposalEventResult {
-  /**
-   * indexed
-   */
-  _proposalId: Hash;
-}
-
-export interface CancelVotingEventResult {
-  /**
-   * indexed
-   */
-  _proposalId: Hash;
-  _voter: Address;
-}
 
 export interface AbsoluteVoteParams extends TxGeneratingFunctionOptions {
   ownerVote?: boolean;

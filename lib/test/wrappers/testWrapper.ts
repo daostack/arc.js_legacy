@@ -1,6 +1,6 @@
 "use strict";
 import { DefaultSchemePermissions, Hash, SchemePermissions } from "../../commonTypes";
-import { ArcTransactionDataResult, ContractWrapperBase } from "../../contractWrapperBase";
+import { ArcTransactionDataResult, ContractWrapperBase, IContractWrapperFactory } from "../../contractWrapperBase";
 import { ContractWrapperFactory } from "../../contractWrapperFactory";
 import { Web3EventService } from "../../web3EventService";
 import { AbsoluteVoteParams } from "../../wrappers/absoluteVote";
@@ -9,7 +9,7 @@ export class TestWrapperWrapper extends ContractWrapperBase {
 
   public name: string = "AbsoluteVote";
   public friendlyName: string = "Test Wrapper";
-  public factory: ContractWrapperFactory<TestWrapperWrapper> = TestWrapperFactory;
+  public factory: IContractWrapperFactory<TestWrapperWrapper> = TestWrapperFactory;
 
   public foo(): string {
     return "bar";

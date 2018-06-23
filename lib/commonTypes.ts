@@ -1,4 +1,3 @@
-import { ArcTransactionDataResult } from "./contractWrapperBase";
 import { Utils } from "./utils";
 
 export type fnVoid = () => void;
@@ -74,13 +73,6 @@ export namespace SchemePermissions {
   }
 }
 /*tslint:enable:no-namespace */
-
-export interface SchemeWrapper {
-  setParameters(params: any): Promise<ArcTransactionDataResult<Hash>>;
-  getSchemeParameters(avatarAddress: Address): Promise<any>;
-  getDefaultPermissions(): SchemePermissions;
-  getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
-}
 
 export interface HasContract {
   contract: any;

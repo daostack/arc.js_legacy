@@ -10,6 +10,7 @@ import {
   VestingSchemeWrapper
 } from "../lib/wrappers/vestingScheme";
 import * as helpers from "./helpers";
+import { TransactionService } from '../lib/transactionService';
 
 describe("VestingScheme scheme", () => {
   let dao: DAO;
@@ -215,10 +216,10 @@ describe("VestingScheme scheme", () => {
     // TODO: Why is it executing???  It doesn't execute in virtually the same Arc test.
     assert.equal(tx.logs.length, 1);
     // TODO restore this: assert.equal(tx.logs[0].event, "AgreementProposal");
-    const avatarAddress = Utils.getValueFromLogs(tx, "_avatar", "AgreementProposal", 1);
+    const avatarAddress = TransactionService.getValueFromLogs(tx, "_avatar", "AgreementProposal", 1);
     assert.equal(avatarAddress, dao.avatar.address);
 
-    const proposalId = Utils.getValueFromLogs(tx, "_proposalId", "AgreementProposal", 1);
+    const proposalId = TransactionService.getValueFromLogs(tx, "_proposalId", "AgreementProposal", 1);
     const organizationProposal = await vestingScheme.contract.organizationsProposals(dao.avatar.address, proposalId);
     assert.equal(organizationProposal[0], dao.token.address);
     assert.equal(organizationProposal[1], accounts[0]); // beneficiary

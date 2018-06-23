@@ -1,12 +1,14 @@
-import { TransactionReceipt } from "web3";
 import { AvatarService } from "./avatarService";
 import { Address, HasContract, Hash, SchemePermissions } from "./commonTypes";
-import { IContractWrapperFactory } from "./contractWrapperFactory";
 import { LoggingService } from "./loggingService";
-import { TransactionService, TxEventStack, TxGeneratingFunctionOptions } from "./transactionService";
-import { Utils } from "./utils";
+import {
+  TransactionService,
+  TxEventStack,
+  TxGeneratingFunctionOptions,
+  TransactionReceiptTruffle
+} from "./transactionService";
 import { EventFetcherFactory, Web3EventService } from "./web3EventService";
-import { IntVoteInterfaceWrapper } from "./wrappers/intVoteInterface";
+import { IIntVoteInterface } from "./wrappers/iIntVoteInterface";
 /**
  * Abstract base class for all Arc contract wrapper classes
  *
@@ -252,16 +254,6 @@ export abstract class ContractWrapperBase implements HasContract {
   }
 }
 
-/**
- * The bundle of logs, TransactionReceipt and other information as returned by Truffle after invoking
- * a contract function that causes a transaction.
- */
-export interface TransactionReceiptTruffle {
-  logs: Array<any>;
-  receipt: TransactionReceipt;
-  transactionHash: Hash;
-}
-
 export class ArcTransactionResult {
 
   constructor(
@@ -339,22 +331,21 @@ export class ArcTransactionResult {
     valueName: string,
     eventName: string = null, index: number = 0): Promise<any | undefined> {
     const txMined = await this.watchForTxMined();
-    return Utils.getValueFromLogs(txMined, valueName, eventName, index);
+    return TransactionService.getValueFromLogs(txMined, valueName, eventName, index);
   }
 }
 /**
  * Base or actual type returned by all contract wrapper methods that generate a transaction and initiate a proposal.
  */
 export class ArcTransactionProposalResult extends ArcTransactionResult {
-  /**
-   * The proposal's voting machine, as IntVoteInterfaceWrapper
-   */
-  public votingMachine: IntVoteInterfaceWrapper;
 
   constructor(
     tx: Hash,
     contract: any,
-    votingMachine: IntVoteInterfaceWrapper) {
+    /**
+     * The proposal's voting machine, as IntVoteInterface
+     */
+    public votingMachine: IIntVoteInterface) {
     super(tx, contract);
     this.votingMachine = votingMachine;
   }
@@ -400,4 +391,17 @@ export interface StandardSchemeParams extends TxGeneratingFunctionOptions {
   votingMachineAddress: Address;
 }
 
+export interface SchemeWrapper {
+  setParameters(params: any): Promise<ArcTransactionDataResult<Hash>>;
+  getSchemeParameters(avatarAddress: Address): Promise<any>;
+  getDefaultPermissions(): SchemePermissions;
+  getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
+}
+
 export { DecodedLogEntryEvent, TransactionReceipt } from "web3";
+
+export interface IContractWrapperFactory<TWrapper extends ContractWrapperBase> {
+  new: (...rest: Array<any>) => Promise<TWrapper>;
+  at: (address: string) => Promise<TWrapper>;
+  deployed: () => Promise<TWrapper>;
+}
