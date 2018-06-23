@@ -47,7 +47,7 @@ options.myInvocationkey = TransactionService.generateInvocationKey("DAO.new");
 ```
 
 !!! Note
-    Note that every call to `generateInvocationKey` generates a unique `Symbol`, regardless of the input. In any case, this is just a convenience method, you can use whatever means you want to generate a key.  
+    Note that every call to `generateInvocationKey` generates a unique value, regardless of the input. In any case, this is just a convenience method, you can use whatever means you want to generate a key.  
 
 `txEventInfo.options` will usually contain the options you passed in, with default values added.  But in the case of `DAO.new`, it will not contain the default values.  If you need to see the default values for `DAO.new` then instead of subscribing to "TxTracking.DAO.new" you can subscribe to "TxTracking.DaoCreator" and receive events published by  [DaoCreatorWrapper.forgeOrg](api/classes/DaoCreatorWrapper#forgeOrg) and [DaoCreatorWrapper.setSchemes](api/classes/DaoCreatorWrapper#setSchemes).  This would otherwise be the same as subscribing to "TxTracking.DAO.new".
 

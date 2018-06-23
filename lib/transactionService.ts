@@ -19,12 +19,10 @@ const ethJSABI = require("ethjs-abi");
 export class TransactionService extends PubSubEventService {
 
   /**
-   * Generate a new invocation key for the given string which typically looks
-   * like: "[classname][functionname]".
-   * @param functionName
+   * Generate a new invocation key.
    */
-  public static generateInvocationKey(functionName: string): symbol {
-    return Symbol(functionName);
+  public static generateInvocationKey(): number {
+    return Math.random();
   }
 
   /**
@@ -379,7 +377,7 @@ export class TransactionService extends PubSubEventService {
 
     const payload = {
       functionName,
-      invocationKey: TransactionService.generateInvocationKey(functionName),
+      invocationKey: TransactionService.generateInvocationKey(),
       options,
       tx: null,
       txCount,
@@ -454,7 +452,7 @@ export interface TransactionReceiptsEventInfo {
    * A value that is unique to the invocation of the function that is generating
    * the transaction. It is useful for grouping events by a single function invocation.
    */
-  invocationKey: symbol;
+  invocationKey: number;
   /**
    * The options that were passed to the function that is generating the transaction, if any.
    * In most cases this will have default values filled in.

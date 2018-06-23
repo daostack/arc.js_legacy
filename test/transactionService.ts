@@ -150,7 +150,7 @@ describe("TransactionService", () => {
   it("can get tx events from DAO.new", async () => {
 
     let txCount = 0;
-    let invocationKey: symbol;
+    let invocationKey: number;
 
     const subscription = TransactionService.subscribe("TxTracking.DAO.new",
       (topic: string, txEventInfo: TransactionReceiptsEventInfo) => {
