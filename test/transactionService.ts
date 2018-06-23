@@ -70,6 +70,25 @@ describe("TransactionService", () => {
     assert.equal(eventsReceived[1].functionName, "AbsoluteVote.vote");
   });
 
+  it("can use toTxTruffle with contract name", async () => {
+
+    const contract = await WrapperService.wrappers.DaoCreator;
+    const result = await (await contract.forgeOrg({
+      founders: [{ address: helpers.SOME_ADDRESS, reputation: "100", tokens: "100" }],
+      name: "ArcJsTextDao",
+      tokenName: "TestToken",
+      tokenSymbol: "TT",
+    }));
+
+    const txReceiptMined = (await TransactionService.watchForMinedTransaction(result.tx)) as TransactionReceipt;
+
+    const txReceipt = await TransactionService.toTxTruffle(txReceiptMined, "DaoCreator");
+
+    assert.isOk(txReceipt.logs);
+    assert.isOk(txReceipt.logs[0].args);
+    assert.isOk(txReceipt.logs[0].args._avatar);
+  });
+
   it("can decode and read logs", async () => {
 
     const contract = await WrapperService.wrappers.DaoCreator;

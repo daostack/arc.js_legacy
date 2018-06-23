@@ -272,7 +272,7 @@ export class ArcTransactionResult {
     /**
      *  the Truffle contract wrapper
      */
-    private contract: any) {
+    private contract: string | object) {
   }
 
   /**
@@ -282,8 +282,9 @@ export class ArcTransactionResult {
    * Returns null if the transaciton is not yet mined.
    */
   public async getTxMined(): Promise<TransactionReceiptTruffle | null> {
-    const tx = await TransactionService.getMinedTransaction(this.tx);
-    return TransactionService.toTxTruffle(tx, this.contract);
+    return TransactionService.getMinedTransaction(
+      this.tx,
+      this.contract) as Promise<TransactionReceiptTruffle | null>;
   }
 
   /**
@@ -296,8 +297,10 @@ export class ArcTransactionResult {
    * Default comes from the `ConfigurationService`.
    */
   public async getTxConfirmed(requiredDepth?: number): Promise<TransactionReceiptTruffle | null> {
-    const tx = await TransactionService.getConfirmedTransaction(this.tx, requiredDepth);
-    return TransactionService.toTxTruffle(tx, this.contract);
+    return TransactionService.getConfirmedTransaction(
+      this.tx,
+      this.contract,
+      requiredDepth) as Promise<TransactionReceiptTruffle | null>;
   }
 
   /**
@@ -305,8 +308,9 @@ export class ArcTransactionResult {
    * converted to a TransactionReceiptTruffle (with readable logs).
    */
   public async watchForTxMined(): Promise<TransactionReceiptTruffle> {
-    const tx = await TransactionService.watchForMinedTransaction(this.tx);
-    return TransactionService.toTxTruffle(tx, this.contract);
+    return TransactionService.watchForMinedTransaction(
+      this.tx,
+      this.contract) as Promise<TransactionReceiptTruffle | null>;
   }
 
   /**
@@ -318,8 +322,9 @@ export class ArcTransactionResult {
    * Default comes from the `ConfigurationService`.
    */
   public async watchForTxConfirmed(requiredDepth?: number): Promise<TransactionReceiptTruffle> {
-    const tx = await TransactionService.watchForConfirmedTransaction(this.tx, requiredDepth);
-    return TransactionService.toTxTruffle(tx, this.contract);
+    return TransactionService.watchForConfirmedTransaction(this.tx,
+      this.contract,
+      requiredDepth) as Promise<TransactionReceiptTruffle | null>;
   }
 
   /**

@@ -7,6 +7,7 @@ import { LoggingService } from "./loggingService";
 import { PubSubEventService } from "./pubSubEventService";
 import { Utils } from "./utils";
 import { UtilsInternal } from "./utilsInternal";
+import { WrapperService } from "./wrapperService";
 /* tslint:disable-next-line:no-var-requires */
 const ethJSABI = require("ethjs-abi");
 
@@ -69,21 +70,17 @@ export class TransactionService extends PubSubEventService {
     /**
      * We are at the base context and should start watching for the mined and confirmed transaction stages.
      */
-    TransactionService.watchForMinedTransaction(tx)
-      .then((txReceiptMined: TransactionReceipt): void => {
+    TransactionService.watchForMinedTransaction(tx, contract)
+      .then((txReceiptMined: TransactionReceiptTruffle): void => {
 
-        let txReceipt = TransactionService.toTxTruffle(txReceiptMined, contract);
-
-        TransactionService._publishTxEvent(eventStack, tx, txReceipt, TransactionStage.mined);
+        TransactionService._publishTxEvent(eventStack, tx, txReceiptMined, TransactionStage.mined);
         /**
          * now start watching for confirmation
          */
-        TransactionService.watchForConfirmedTransaction(tx)
-          .then((txReceiptConfirmed: TransactionReceipt): void => {
+        TransactionService.watchForConfirmedTransaction(tx, contract)
+          .then((txReceiptConfirmed: TransactionReceiptTruffle): void => {
 
-            txReceipt = TransactionService.toTxTruffle(txReceiptConfirmed, contract);
-
-            TransactionService._publishTxEvent(eventStack, tx, txReceipt, TransactionStage.confirmed);
+            TransactionService._publishTxEvent(eventStack, tx, txReceiptConfirmed, TransactionStage.confirmed);
           });
       });
   }
@@ -125,9 +122,15 @@ export class TransactionService extends PubSubEventService {
    * [getTransactionDepth](/api/classes/TransactionService#getTransactionDepth).
    *
    * @param txHash the transaction hash
+   * @param contract Optional contract instance or contract name of the contract that generated the transaction.
+   * Supply this if you want decoded events (or else call `TransactionService.toTxTruffle` manually yourself)
    * @param requiredDepth Optional minimum block depth required to resolve the promise.  Default is 0.
    */
-  public static async watchForMinedTransaction(txHash: Hash, requiredDepth: number = 0): Promise<TransactionReceipt> {
+  public static async watchForMinedTransaction(
+    txHash: Hash,
+    contract: string | object = null,
+    requiredDepth: number = 0
+  ): Promise<TransactionReceipt | TransactionReceiptTruffle> {
 
     if (requiredDepth < 0) {
       throw Error(
@@ -135,7 +138,7 @@ export class TransactionService extends PubSubEventService {
     }
 
     return new Promise(async (
-      resolve: (tx: TransactionReceipt) => void,
+      resolve: (tx: TransactionReceipt | TransactionReceiptTruffle) => void,
       reject: (error: Error) => void): Promise<void> => {
 
       const web3 = await Utils.getWeb3();
@@ -143,7 +146,7 @@ export class TransactionService extends PubSubEventService {
       /**
        * see if we already have it
        */
-      let receipt = await TransactionService.getMinedTransaction(txHash, requiredDepth);
+      let receipt = await TransactionService.getMinedTransaction(txHash, contract, requiredDepth);
       if (receipt) {
         return resolve(receipt);
       }
@@ -156,7 +159,7 @@ export class TransactionService extends PubSubEventService {
       filter.watch(
         async (error: Error): Promise<void> => {
           if (!error) {
-            receipt = await TransactionService.getMinedTransaction(txHash, requiredDepth);
+            receipt = await TransactionService.getMinedTransaction(txHash, contract, requiredDepth);
             if (receipt) {
               filter.stopWatching();
               resolve(receipt);
@@ -177,14 +180,19 @@ export class TransactionService extends PubSubEventService {
    * [getTransactionDepth](/api/classes/TransactionService#getTransactionDepth).
    *
    * @param txHash The transaction hash to watch
+   * @param contract Optional contract instance or contract name of the contract that generated the transaction.
+   * Supply this if you want decoded events (or else call `TransactionService.toTxTruffle` manually yourself)
    * @param requiredDepth Optional minimum block depth required to resolve the promise.
    * Default comes from the `ConfigurationService`.
    */
-  public static async watchForConfirmedTransaction(txHash: Hash, requiredDepth?: number): Promise<TransactionReceipt> {
+  public static async watchForConfirmedTransaction(
+    txHash: Hash,
+    contract: string | object = null,
+    requiredDepth?: number): Promise<TransactionReceipt | TransactionReceiptTruffle> {
 
     requiredDepth = await TransactionService.getDefaultDepth(requiredDepth);
 
-    return TransactionService.watchForMinedTransaction(txHash, requiredDepth);
+    return TransactionService.watchForMinedTransaction(txHash, contract, requiredDepth);
   }
 
   /**
@@ -224,8 +232,13 @@ export class TransactionService extends PubSubEventService {
    * Returns a promise of a TransactionReceipt for a mined transaction, or null if it hasn't yet been mined.
    * @param txHash
    * @param requiredDepth Optional minimum block depth required to resolve the promise.  Default is 0.
+   * @param contract Optional contract instance or contract name of the contract that generated the transaction.
+   * Supply this if you want decoded events (or else call `TransactionService.toTxTruffle` manually yourself)
    */
-  public static async getMinedTransaction(txHash: Hash, requiredDepth: number = 0): Promise<TransactionReceipt | null> {
+  public static async getMinedTransaction(
+    txHash: Hash,
+    contract: string | object = null,
+    requiredDepth: number = 0): Promise<TransactionReceipt | TransactionReceiptTruffle | null> {
 
     const web3 = await Utils.getWeb3();
     return promisify((innerCallback: any) => {
@@ -234,7 +247,13 @@ export class TransactionService extends PubSubEventService {
       .then(async (receipt: TransactionReceipt | null) => {
         const depth = await TransactionService.getTransactionDepth(receipt);
         // blockNumber should always be set, but just in case...
-        if ((receipt && !receipt.blockNumber) || (depth < requiredDepth)) { return null; } else { return receipt; }
+        if ((receipt && !receipt.blockNumber) || (depth < requiredDepth)) { return null; } else {
+          if (contract) {
+            return TransactionService.toTxTruffle(receipt, contract);
+          } else {
+            return receipt;
+          }
+        }
       }) as Promise<TransactionReceipt | null>;
   }
 
@@ -244,12 +263,16 @@ export class TransactionService extends PubSubEventService {
    * @param txHash
    * @param requiredDepth Optional minimum block depth required to resolve the promise.
    * Default comes from the `ConfigurationService`.
+   * @param contract Optional contract instance or contract name of the contract that generated the transaction.
+   * Supply this if you want decoded events (or else call `TransactionService.toTxTruffle` manually yourself)
    */
   public static async getConfirmedTransaction(
-    txHash: Hash, requiredDepth?: number): Promise<TransactionReceipt | null> {
+    txHash: Hash,
+    contract: string | object = null,
+    requiredDepth?: number): Promise<TransactionReceipt | TransactionReceiptTruffle | null> {
 
     requiredDepth = await TransactionService.getDefaultDepth(requiredDepth);
-    return TransactionService.getMinedTransaction(txHash, requiredDepth);
+    return TransactionService.getMinedTransaction(txHash, contract, requiredDepth);
   }
 
   /**
@@ -261,8 +284,20 @@ export class TransactionService extends PubSubEventService {
    * @param txReceipt The mined tx
    * @param contract The truffle contract that generated the tx
    */
-  public static toTxTruffle(txReceipt: TransactionReceipt, contract: any): TransactionReceiptTruffle {
-    const events = contract.constructor.events;
+  public static toTxTruffle(txReceipt: TransactionReceipt, contract: string | object): TransactionReceiptTruffle {
+
+    let contractInstance: any;
+
+    if (typeof contract === "string") {
+      const wrapper = WrapperService.wrappers[contract];
+      if (!wrapper) {
+        throw new Error(`TransactionService.toTxTruffle: can't find contract ${contract}`);
+      }
+      contractInstance = wrapper.contract;
+    } else {
+      contractInstance = contract;
+    }
+    const events = contractInstance.constructor.events;
 
     if ((txReceipt as any).receipt) {
       // then already done
@@ -317,7 +352,7 @@ export class TransactionService extends PubSubEventService {
 
         // We have BN. Convert it to BigNumber
         if (val.constructor.isBN) {
-          copy.args[key] = contract.constructor.web3.toBigNumber("0x" + val.toString(16));
+          copy.args[key] = contractInstance.constructor.web3.toBigNumber("0x" + val.toString(16));
         }
       });
 
