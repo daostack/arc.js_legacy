@@ -245,7 +245,7 @@ export class TransactionService extends PubSubEventService {
         // blockNumber should always be set, but just in case...
         if ((receipt && !receipt.blockNumber) || (depth < requiredDepth)) { return null; } else {
           if (contract) {
-            return TransactionService.toTxTruffle(receipt, contract);
+            return await TransactionService.toTxTruffle(receipt, contract);
           } else {
             return receipt;
           }
@@ -280,7 +280,9 @@ export class TransactionService extends PubSubEventService {
    * @param txReceipt The mined tx
    * @param contract The truffle contract that generated the tx
    */
-  public static async toTxTruffle(txReceipt: TransactionReceipt, contract: string | object): Promise<TransactionReceiptTruffle> {
+  public static async toTxTruffle(
+    txReceipt: TransactionReceipt,
+    contract: string | object): Promise<TransactionReceiptTruffle> {
 
     let contractInstance: any;
 
@@ -368,16 +370,16 @@ export class TransactionService extends PubSubEventService {
   }
 
   /**
-     * Returns a value from the given transaction log.
-     * Undefined if not found for any reason.
-     *
-     * @param tx The transaction
-     * @param arg The name of the property whose value we wish to return from the args object:
-     *  tx.logs[index].args[argName]
-     * @param eventName Overrides index, identifies which log,
-     *  where tx.logs[n].event === eventName
-     * @param index Identifies which log when eventName is not given
-     */
+   * Returns a value from the given transaction log.
+   * Undefined if not found for any reason.
+   *
+   * @param tx The transaction
+   * @param arg The name of the property whose value we wish to return from the args object:
+   *  tx.logs[index].args[argName]
+   * @param eventName Overrides index, identifies which log,
+   *  where tx.logs[n].event === eventName
+   * @param index Identifies which log when eventName is not given
+   */
   public static getValueFromLogs(
     tx: TransactionReceiptTruffle | TransactionReceipt,
     arg: string,
@@ -568,7 +570,6 @@ export interface TxEventSpec {
 export interface TxGeneratingFunctionOptions {
   txEventStack?: TxEventStack;
 }
-
 
 /**
  * The bundle of logs, TransactionReceipt and other information as returned by Truffle after invoking

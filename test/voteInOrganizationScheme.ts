@@ -7,8 +7,8 @@ import {
 } from "../lib/commonTypes";
 import { DecodedLogEntryEvent } from "../lib/contractWrapperBase";
 import { AbsoluteVoteWrapper } from "../lib/wrappers/absoluteVote";
-import { IntVoteInterfaceWrapper } from "../lib/wrappers/intVoteInterface";
 import { VoteProposalEventResult } from "../lib/wrappers/iIntVoteInterface";
+import { IntVoteInterfaceWrapper } from "../lib/wrappers/intVoteInterface";
 import { SchemeRegistrarFactory, SchemeRegistrarWrapper } from "../lib/wrappers/schemeRegistrar";
 import {
   VotableVoteInOrganizationProposal,

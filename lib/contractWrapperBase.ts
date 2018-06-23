@@ -2,10 +2,10 @@ import { AvatarService } from "./avatarService";
 import { Address, HasContract, Hash, SchemePermissions } from "./commonTypes";
 import { LoggingService } from "./loggingService";
 import {
+  TransactionReceiptTruffle,
   TransactionService,
   TxEventStack,
-  TxGeneratingFunctionOptions,
-  TransactionReceiptTruffle
+  TxGeneratingFunctionOptions
 } from "./transactionService";
 import { EventFetcherFactory, Web3EventService } from "./web3EventService";
 import { IIntVoteInterface } from "./wrappers/iIntVoteInterface";

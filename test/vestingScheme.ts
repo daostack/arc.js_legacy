@@ -1,5 +1,6 @@
 import { assert } from "chai";
 import { DAO } from "../lib/dao";
+import { TransactionService } from "../lib/transactionService";
 import { Utils } from "../lib/utils";
 import {
   Agreement,
@@ -10,7 +11,6 @@ import {
   VestingSchemeWrapper
 } from "../lib/wrappers/vestingScheme";
 import * as helpers from "./helpers";
-import { TransactionService } from '../lib/transactionService';
 
 describe("VestingScheme scheme", () => {
   let dao: DAO;

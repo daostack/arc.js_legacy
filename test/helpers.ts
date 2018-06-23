@@ -10,8 +10,8 @@ import {
   InitializeArcJs,
   IntVoteInterfaceWrapper,
   ProposalGeneratorBase,
-  VotingMachineExecuteProposalEventResult,
-  SchemeWrapper
+  SchemeWrapper,
+  VotingMachineExecuteProposalEventResult
 } from "../lib/index";
 import { LoggingService, LogLevel } from "../lib/loggingService";
 import { Utils } from "../lib/utils";
