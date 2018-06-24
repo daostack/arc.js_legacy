@@ -145,7 +145,7 @@ export class DAO {
   public async getSchemes(name?: string): Promise<Array<DaoSchemeInfo>> {
     const schemes = await this._getSchemes();
     if (name) {
-      return schemes.filter((s: DaoSchemeInfo) => s.wrapper.name && (s.wrapper.name === name));
+      return schemes.filter((s: DaoSchemeInfo) => s.wrapper && s.wrapper.name && (s.wrapper.name === name));
     } else {
       return schemes;
     }
