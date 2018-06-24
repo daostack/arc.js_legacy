@@ -41,7 +41,7 @@ pages:
 - 'API Reference': 
   - Index : "api/README.md"
   # append output of `npm start docs.api.createPagesList` here:
-  - AbsoluteVoteWrapper : 'api/classes/AbsoluteVoteWrapper.md'
+   - AbsoluteVoteWrapper : 'api/classes/AbsoluteVoteWrapper.md'
   - AccountService : 'api/classes/AccountService.md'
   - ArcTransactionAgreementResult : 'api/classes/ArcTransactionAgreementResult.md'
   - ArcTransactionDataResult : 'api/classes/ArcTransactionDataResult.md'
@@ -158,12 +158,13 @@ pages:
   - GetVoteStatusConfig : 'api/interfaces/GetVoteStatusConfig.md'
   - GetWinningVoteConfig : 'api/interfaces/GetWinningVoteConfig.md'
   - HasContract : 'api/interfaces/HasContract.md'
+  - IContractWrapperBase : 'api/interfaces/IContractWrapperBase.md'
   - IContractWrapperFactory : 'api/interfaces/IContractWrapperFactory.md'
   - IEventSubscription : 'api/interfaces/IEventSubscription.md'
+  - IIntVoteInterface : 'api/interfaces/IIntVoteInterface.md'
   - ILogger : 'api/interfaces/ILogger.md'
   - InitializeArcOptions : 'api/interfaces/InitializeArcOptions.md'
   - InitialSchemesSetEventResult : 'api/interfaces/InitialSchemesSetEventResult.md'
-  - IntVoteInterface : 'api/interfaces/IntVoteInterface.md'
   - NewContributionProposalEventResult : 'api/interfaces/NewContributionProposalEventResult.md'
   - NewDaoConfig : 'api/interfaces/NewDaoConfig.md'
   - NewDaoVotingMachineConfig : 'api/interfaces/NewDaoVotingMachineConfig.md'
