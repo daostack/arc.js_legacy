@@ -1,10 +1,7 @@
 "use strict";
 import { Address, Hash } from "../commonTypes";
-import {
-  ArcTransactionDataResult,
-  ContractWrapperBase,
-  IContractWrapperFactory,
-} from "../contractWrapperBase";
+import { ContractWrapperBase } from "../contractWrapperBase";
+import { ArcTransactionDataResult, IContractWrapperFactory } from "../iContractWrapperBase";
 
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { TxGeneratingFunctionOptions } from "../transactionService";

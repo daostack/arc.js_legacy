@@ -1,14 +1,14 @@
 "use strict";
 import { BigNumber } from "bignumber.js";
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   IContractWrapperFactory,
   SchemeWrapper,
   StandardSchemeParams,
-} from "../contractWrapperBase";
-import { ContractWrapperFactory } from "../contractWrapperFactory";
+} from "../iContractWrapperBase";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";

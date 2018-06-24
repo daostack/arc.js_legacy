@@ -1,13 +1,13 @@
 "use strict";
 import { Hash } from "../commonTypes";
 
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   ArcTransactionResult,
   IContractWrapperFactory
-} from "../contractWrapperBase";
-import { ContractWrapperFactory } from "../contractWrapperFactory";
+} from "../IContractWrapperBase";
 import { ProposalService, VotableProposal } from "../proposalService";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";

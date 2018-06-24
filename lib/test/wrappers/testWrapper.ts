@@ -1,7 +1,8 @@
 "use strict";
 import { DefaultSchemePermissions, Hash, SchemePermissions } from "../../commonTypes";
-import { ArcTransactionDataResult, ContractWrapperBase, IContractWrapperFactory } from "../../contractWrapperBase";
+import { ContractWrapperBase } from "../../contractWrapperBase";
 import { ContractWrapperFactory } from "../../contractWrapperFactory";
+import { ArcTransactionDataResult, IContractWrapperFactory } from "../../iContractWrapperBase";
 import { Web3EventService } from "../../web3EventService";
 import { AbsoluteVoteParams } from "../../wrappers/absoluteVote";
 

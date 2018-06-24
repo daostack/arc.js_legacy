@@ -1,11 +1,11 @@
-import { ContractWrapperBase, IContractWrapperFactory } from "./contractWrapperBase";
+import { IContractWrapperBase, IContractWrapperFactory } from "./iContractWrapperBase";
 import { Utils } from "./utils";
 import { Web3EventService } from "./web3EventService";
 
 /**
  * Generic class factory for all of the contract wrapper classes.
  */
-export class ContractWrapperFactory<TWrapper extends ContractWrapperBase>
+export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
   implements IContractWrapperFactory<TWrapper> {
 
   private solidityContract: any;

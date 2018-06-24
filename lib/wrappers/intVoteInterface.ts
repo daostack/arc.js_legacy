@@ -1,13 +1,13 @@
 import { BigNumber } from "bignumber.js";
 import { Address, Hash } from "../commonTypes";
+import { ContractWrapperBase } from "../contractWrapperBase";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import {
   ArcTransactionProposalResult,
   ArcTransactionResult,
-  ContractWrapperBase,
   DecodedLogEntryEvent,
   IContractWrapperFactory
-} from "../contractWrapperBase";
-import { ContractWrapperFactory } from "../contractWrapperFactory";
+} from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";

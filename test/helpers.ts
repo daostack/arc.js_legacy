@@ -3,10 +3,10 @@ import { Address, Hash } from "../lib/commonTypes";
 import { DAO, NewDaoConfig } from "../lib/dao";
 import {
   ArcTransactionResult,
-  ContractWrapperBase,
-  ContractWrapperFactory,
   ContributionRewardWrapper,
   DecodedLogEntryEvent,
+  IContractWrapperBase,
+  IContractWrapperFactory,
   InitializeArcJs,
   IntVoteInterfaceWrapper,
   ProposalGeneratorBase,
@@ -126,7 +126,7 @@ export async function addProposeContributionReward(dao: DAO): Promise<Contributi
   return contributionReward;
 }
 
-export function wrapperForContract(contractName: string, address?: Address): Promise<ContractWrapperBase> {
+export function wrapperForContract(contractName: string, address?: Address): Promise<IContractWrapperBase> {
   return WrapperService.getContractWrapper(contractName, address);
 }
 
@@ -164,7 +164,7 @@ export function vote(
   return votingMachine.vote({ vote: theVote, proposalId, onBehalfOf: voter });
 }
 
-export function wrapperForVotingMachine(votingMachine: IntVoteInterfaceWrapper): ContractWrapperBase {
+export function wrapperForVotingMachine(votingMachine: IntVoteInterfaceWrapper): IContractWrapperBase {
   // Only works if the votingMachine is an instance originally deployed by DAOstack
   return WrapperService.wrappersByAddress.get(votingMachine.address);
 }
@@ -213,7 +213,7 @@ export async function increaseTime(duration: number): Promise<void> {
 export async function getDaoScheme(
   dao: DAO,
   schemeName: string,
-  factory: ContractWrapperFactory<any>): Promise<ContractWrapperBase> {
+  factory: IContractWrapperFactory<any>): Promise<IContractWrapperBase> {
   return factory.at((await dao.getSchemes(schemeName))[0].address);
 }
 

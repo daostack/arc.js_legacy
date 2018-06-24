@@ -19,6 +19,7 @@ export * from "./wrappers/daoCreator";
 export * from "./wrappers/genesisProtocol";
 export * from "./wrappers/globalConstraintRegistrar";
 export * from "./wrappers/intVoteInterface";
+export * from "./iContractWrapperBase";
 export * from "./wrappers/iIntVoteInterface";
 export * from "./wrappers/schemeRegistrar";
 export * from "./wrappers/tokenCapGC";

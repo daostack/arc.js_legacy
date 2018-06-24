@@ -1,8 +1,8 @@
 import { BigNumber } from "bignumber.js";
 import { assert } from "chai";
 import { BinaryVoteResult, Hash } from "../lib/commonTypes";
-import { ArcTransactionResult } from "../lib/contractWrapperBase";
 import { DAO, DaoSchemeInfo } from "../lib/dao";
+import { ArcTransactionResult } from "../lib/iContractWrapperBase";
 import { Utils } from "../lib/utils";
 import {
   ExecutedGenesisProposal,

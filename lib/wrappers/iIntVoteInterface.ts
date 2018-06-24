@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import { Address, Hash } from "../commonTypes";
-import { ArcTransactionProposalResult, ArcTransactionResult } from "../contractWrapperBase";
+import { ArcTransactionProposalResult, ArcTransactionResult } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
 import { EventFetcherFactory } from "../web3EventService";
 

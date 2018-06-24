@@ -9,14 +9,14 @@ import {
   SchemePermissions
 } from "../commonTypes";
 import { ConfigService } from "../configService";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   ArcTransactionResult,
   IContractWrapperFactory,
   SchemeWrapper
-} from "../contractWrapperBase";
-import { ContractWrapperFactory } from "../contractWrapperFactory";
+} from "../iContractWrapperBase";
 import { ProposalService } from "../proposalService";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";

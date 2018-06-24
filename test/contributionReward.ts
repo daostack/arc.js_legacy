@@ -1,7 +1,7 @@
 import { assert } from "chai";
 import { BinaryVoteResult, IntVoteInterfaceWrapper, RedeemEventResult } from "../lib";
-import { ArcTransactionProposalResult, DecodedLogEntryEvent } from "../lib/contractWrapperBase";
 import { DAO } from "../lib/dao";
+import { ArcTransactionProposalResult, DecodedLogEntryEvent } from "../lib/iContractWrapperBase";
 import {
   ContributionProposal,
   ContributionRewardFactory,

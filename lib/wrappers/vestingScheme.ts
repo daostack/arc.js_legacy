@@ -2,6 +2,7 @@
 import * as BigNumber from "bignumber.js";
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
 import { ConfigService } from "../configService";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
@@ -9,8 +10,7 @@ import {
   IContractWrapperFactory,
   SchemeWrapper,
   StandardSchemeParams,
-} from "../contractWrapperBase";
-import { ContractWrapperFactory } from "../contractWrapperFactory";
+} from "../iContractWrapperBase";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";

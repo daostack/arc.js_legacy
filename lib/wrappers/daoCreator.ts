@@ -4,12 +4,9 @@ import { computeForgeOrgGasLimit } from "../../gasLimits.js";
 import { AvatarService } from "../avatarService";
 import { Address, SchemePermissions } from "../commonTypes";
 import { ConfigService } from "../configService";
-import {
-  ArcTransactionResult,
-  ContractWrapperBase,
-  IContractWrapperFactory,
-} from "../contractWrapperBase";
+import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
+import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";

@@ -2,7 +2,7 @@
 import { EntityFetcherFactory, Web3EventService } from ".";
 import { AvatarService } from "./avatarService";
 import { Address, fnVoid, Hash } from "./commonTypes";
-import { ContractWrapperBase, DecodedLogEntryEvent } from "./contractWrapperBase";
+import { DecodedLogEntryEvent, IContractWrapperBase } from "./iContractWrapperBase";
 import { TransactionService } from "./transactionService";
 import { Utils } from "./utils";
 import { DaoCreatorFactory, DaoCreatorWrapper } from "./wrappers/daoCreator";
@@ -355,7 +355,7 @@ export interface DaoSchemeInfo {
   /**
    * Wrapper class for the scheme if it was deployed by the running version of Arc.js
    */
-  wrapper?: ContractWrapperBase;
+  wrapper?: IContractWrapperBase;
 }
 
 /********************************
@@ -369,7 +369,7 @@ export interface DaoGlobalConstraintInfo {
   /**
    * Wrapper class for the constraint if it was deployed by the running version of Arc.js
    */
-  wrapper: ContractWrapperBase;
+  wrapper: IContractWrapperBase;
   /**
    * hash of the constraint parameters
    */

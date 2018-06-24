@@ -6,7 +6,7 @@ import {
   IContractWrapperFactory,
   SchemeWrapper,
   StandardSchemeParams,
-} from "../contractWrapperBase";
+} from "../iContractWrapperBase";
 
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";

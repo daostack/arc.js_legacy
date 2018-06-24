@@ -1,13 +1,13 @@
 "use strict";
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   IContractWrapperFactory,
   SchemeWrapper,
   StandardSchemeParams,
-} from "../contractWrapperBase";
-import { ContractWrapperFactory } from "../contractWrapperFactory";
+} from "../iContractWrapperBase";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {

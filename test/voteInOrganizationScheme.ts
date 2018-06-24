@@ -5,7 +5,7 @@ import {
   fnVoid,
   Hash
 } from "../lib/commonTypes";
-import { DecodedLogEntryEvent } from "../lib/contractWrapperBase";
+import { DecodedLogEntryEvent } from "../lib/iContractWrapperBase";
 import { AbsoluteVoteWrapper } from "../lib/wrappers/absoluteVote";
 import { VoteProposalEventResult } from "../lib/wrappers/iIntVoteInterface";
 import { IntVoteInterfaceWrapper } from "../lib/wrappers/intVoteInterface";
