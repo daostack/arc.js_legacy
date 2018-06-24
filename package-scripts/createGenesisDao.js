@@ -1,4 +1,4 @@
-const GenesisDaoCreator = require("../dist/scripts/createDorDao.js").GenesisDaoCreator;
+const GenesisDaoCreator = require("../dist/scripts/createGenesisDao.js").GenesisDaoCreator;
 const env = require("env-variable")();
 const webConstructor = require("web3");
 
