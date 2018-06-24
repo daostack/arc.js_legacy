@@ -5,12 +5,13 @@ const env = require("env-variable")();
 import { Utils } from "../utils";
 // import { GetDefaultGenesisProtocolParameters } from "../wrappers/genesisProtocol";
 import { DAO } from '../dao';
-import { InitializeArcJs } from '../index';
+import { InitializeArcJs, FounderConfig } from '../index';
 
 /* tslint:disable-next-line:no-var-requires */
 const gasLimits: any = require("../../gasLimits.js");
 const computeForgeOrgGasLimit: any = gasLimits.computeForgeOrgGasLimit;
 const computeMaxGasLimit: any = gasLimits.computeMaxGasLimit;
+
 
 /**
  * Migration callback
@@ -33,7 +34,7 @@ export class DaoCreator {
     /**
      * Genesis DAO parameters
      */
-    const orgName = "Dougs Test";
+    const orgName = "Dougs Test II";
     const tokenName = "DougsTestDaoToken";
     const tokenSymbol = "DTDT";
 
@@ -57,6 +58,12 @@ export class DaoCreator {
     if (!founders || (founders.length === 0)) {
       throw new Error(`no founders were given for the network: ${network}`);
     }
+
+    /**
+     * convert founder amounts to Wei
+     */
+    founders.map((f: FounderConfig) => f.tokens = web3.toWei(f.tokens.toString()));
+    founders.map((f: FounderConfig) => f.reputation = web3.toWei(f.reputation.toString()));
 
     let gasLimit = computeForgeOrgGasLimit(founders.length);
     const maxGasLimit = await computeMaxGasLimit(web3);
