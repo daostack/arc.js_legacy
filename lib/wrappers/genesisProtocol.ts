@@ -409,8 +409,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       throw new Error("avatarAddress is not defined");
     }
 
-    const stakingTokenAddress = await this.contract.stakingToken();
-    const stakingToken = await (await Utils.requireContract("StandardToken")).at(stakingTokenAddress) as any;
+    const stakingToken = await this.getStakingToken();
 
     const stakingTokenBalance = await stakingToken.balanceOf(options.avatarAddress);
 

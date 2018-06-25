@@ -1,4 +1,5 @@
 import { BigNumber } from "bignumber.js";
+import { promisify } from "es6-promisify";
 import { Address, Hash } from "../lib/commonTypes";
 import { DAO, NewDaoConfig } from "../lib/dao";
 import {
@@ -18,6 +19,8 @@ import { Utils } from "../lib/utils";
 import { UtilsInternal } from "../lib/utilsInternal";
 import { SchemeRegistrarFactory, SchemeRegistrarWrapper } from "../lib/wrappers/schemeRegistrar";
 import { WrapperService } from "../lib/wrapperService";
+/* tslint:disable-next-line:no-var-requires */
+const env = require("env-variable")();
 
 export const NULL_HASH = Utils.NULL_HASH;
 export const NULL_ADDRESS = Utils.NULL_ADDRESS;
@@ -29,15 +32,16 @@ export const DefaultLogLevel = LogLevel.error;
 LoggingService.logLevel = DefaultLogLevel;
 
 let testWeb3;
+let network;
 
 const etherForEveryone = async (): Promise<void> => {
   const count = accounts.length - 1;
   for (let i = 0; i < count; i++) {
-    await web3.eth.sendTransaction({
+    await promisify((callback: any): void => web3.eth.sendTransaction({
       from: accounts[accounts.length - 1],
       to: accounts[i],
       value: web3.toWei(0.1, "ether"),
-    });
+    }, callback))();
   }
 };
 
@@ -50,17 +54,59 @@ const genTokensForEveryone = async (): Promise<void> => {
   });
 };
 
+let provider;
+
+const setupForNonGanacheNet = (): void => {
+  const webConstructor = require("web3");
+
+  let providerConfig;
+
+  /* tslint:disable:no-console */
+  console.log(`providerConfig at: ${env.arcjs_providerConfig}`);
+  providerConfig = require(env.arcjs_providerConfig);
+
+  const HDWalletProvider = require("truffle-hdwallet-provider");
+  console.log(`Provider: '${providerConfig.providerUrl}'`);
+  console.log(`Account: '${providerConfig.mnemonic}'`);
+  provider = new HDWalletProvider(providerConfig.mnemonic, providerConfig.providerUrl);
+  // Utils.getWeb3() will use this in InitializeArcJs()
+  (global as any).web3 = new webConstructor(provider);
+  /* tslint:enable:no-console */
+};
+
 beforeEach(async () => {
+
+  network = env.arcjs_network || "Ganache";
+
   if (!testWeb3) {
+
+    if (env.arcjs_providerConfig) {
+      // note this can be ganache too
+      setupForNonGanacheNet();
+    }
+
     (global as any).web3 = testWeb3 = await InitializeArcJs();
   }
-  (global as any).accounts = web3.eth.accounts;
-  await etherForEveryone();
-  await genTokensForEveryone();
+
+  (global as any).accounts = await promisify(web3.eth.getAccounts)();
+
+  if (network === "Ganache") {
+    await etherForEveryone();
+    await genTokensForEveryone();
+  }
+});
+
+after(() => {
+  if (provider) {
+    /* tslint:disable-next-line:no-console */
+    console.log("stopping provider engine...");
+    // see: https://github.com/trufflesuite/truffle-hdwallet-provider/issues/46
+    provider.engine.stop();
+  }
 });
 
 export async function forgeDao(opts: Partial<NewDaoConfig> = {}): Promise<DAO> {
-  const founders = Array.isArray(opts.founders) ? opts.founders :
+  const defaultFounders =
     [
       {
         address: accounts[0],
@@ -79,19 +125,19 @@ export async function forgeDao(opts: Partial<NewDaoConfig> = {}): Promise<DAO> {
       },
     ];
 
-  const schemes = Array.isArray(opts.schemes) ? opts.schemes : [
+  const defaultSchemes = [
     { name: "SchemeRegistrar" },
     { name: "UpgradeScheme" },
     { name: "GlobalConstraintRegistrar" },
   ];
 
-  return DAO.new({
-    founders,
+  return DAO.new(Object.assign({
+    founders: defaultFounders,
     name: opts.name || "ArcJsTestDao",
-    schemes,
+    schemes: defaultSchemes,
     tokenName: opts.tokenName || "Tokens of ArcJsTestDao",
     tokenSymbol: opts.tokenSymbol || "ATD",
-  });
+  }, opts));
 }
 
 /**

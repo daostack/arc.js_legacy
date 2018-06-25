@@ -107,6 +107,8 @@ export class Utils {
       (window as any).web3 = preWeb3;
     }
 
+    Utils.networkId = await promisify(preWeb3.version.getNetwork)() as string;
+
     return (Utils.web3 = preWeb3);
   }
 
@@ -224,12 +226,14 @@ export class Utils {
   }
 
   /**
-   * Returns the name of the current network.
+   * Returns promise of the name of the current or given network
+   * @param id Optional id of the network
    */
-  public static async getNetworkName(): Promise<string> {
-    const web3 = await Utils.getWeb3();
+  public static async getNetworkName(id?: string): Promise<string> {
 
-    const id = await promisify(web3.version.getNetwork)();
+    if (!id) {
+      id = await Utils.getNetworkId();
+    }
 
     switch (id) {
       case "1":
@@ -248,6 +252,16 @@ export class Utils {
       default:
         return "Unknown";
     }
+  }
+
+  /**
+   * Returns promise of the id of the current network
+   */
+  public static async getNetworkId(): Promise<string> {
+    if (!Utils.networkId) {
+      await Utils.getWeb3();
+    }
+    return Utils.networkId;
   }
 
   /**
@@ -279,6 +293,7 @@ export class Utils {
 
   private static web3: Web3 = undefined;
   private static alreadyTriedAndFailed: boolean = false;
+  private static networkId: string;
 }
 
 export { Web3 } from "web3";

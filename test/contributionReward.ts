@@ -94,6 +94,7 @@ describe("ContributionReward scheme", () => {
     const proposalId = await proposalResult.getProposalIdFromMinedTx();
 
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
+    assert(await helpers.voteWasExecuted(votingMachine, proposalId), "vote was not executed");
 
     // this will mine a block, allowing the award to be redeemed
     await helpers.increaseTime(1);
