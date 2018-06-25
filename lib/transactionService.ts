@@ -77,8 +77,23 @@ export class TransactionService extends PubSubEventService {
           .then((txReceiptConfirmed: TransactionReceiptTruffle): void => {
 
             TransactionService._publishTxEvent(eventStack, tx, txReceiptConfirmed, TransactionStage.confirmed);
+          })
+          .catch(() => {
+            TransactionService.publishTxFailed(eventStack, TransactionStage.confirmed, tx, txReceiptMined);
           });
+      })
+      .catch(() => {
+        TransactionService.publishTxFailed(eventStack, TransactionStage.mined, tx);
       });
+  }
+
+  public static publishTxFailed(
+    eventStack: TxEventStack,
+    atStage: TransactionStage,
+    tx?: Hash,
+    txReceipt?: TransactionReceiptTruffle): void {
+
+    TransactionService._publishTxEvent(eventStack, tx, txReceipt, atStage, true);
   }
 
   /**
@@ -128,43 +143,49 @@ export class TransactionService extends PubSubEventService {
     requiredDepth: number = 0
   ): Promise<TransactionReceipt | TransactionReceiptTruffle> {
 
-    if (requiredDepth < 0) {
-      throw Error(
-        `TransactionService.watchForConfirmedTransaction: requiredDepth cannot be less then zero: ${requiredDepth}`);
-    }
-
     return new Promise(async (
       resolve: (tx: TransactionReceipt | TransactionReceiptTruffle) => void,
       reject: (error: Error) => void): Promise<void> => {
 
-      const web3 = await Utils.getWeb3();
+      try {
 
-      /**
-       * see if we already have it
-       */
-      let receipt = await TransactionService.getMinedTransaction(txHash, contract, requiredDepth);
-      if (receipt) {
-        return resolve(receipt);
-      }
+        if (requiredDepth < 0) {
+          return reject(new Error(
+            `TransactionService.watchForConfirmedTransaction: requiredDepth cannot be less then zero: ${requiredDepth}`)
+          );
+        }
 
-      /**
-       * Fires on every new block
-       */
-      const filter = web3.eth.filter("latest");
+        const web3 = await Utils.getWeb3();
 
-      filter.watch(
-        async (error: Error): Promise<void> => {
-          if (!error) {
-            receipt = await TransactionService.getMinedTransaction(txHash, contract, requiredDepth);
-            if (receipt) {
-              filter.stopWatching();
-              resolve(receipt);
+        /**
+         * see if we already have it
+         */
+        let receipt = await TransactionService.getMinedTransaction(txHash, contract, requiredDepth);
+        if (receipt) {
+          return resolve(receipt);
+        }
+
+        /**
+         * Fires on every new block
+         */
+        const filter = web3.eth.filter("latest");
+
+        filter.watch(
+          async (ex: Error): Promise<void> => {
+            if (!ex) {
+              receipt = await TransactionService.getMinedTransaction(txHash, contract, requiredDepth);
+              if (receipt) {
+                filter.stopWatching();
+                return resolve(receipt);
+              }
+            } else {
+              LoggingService.error(`TransactionService.watchForMinedTransaction: an error occurred: ${ex}`);
+              return reject(ex);
             }
-          } else {
-            LoggingService.error(`TransactionService.watchForMinedTransaction: an error occurred: ${error.message}`);
-            reject(error);
-          }
-        });
+          });
+      } catch (ex) {
+        return reject(ex);
+      }
     });
   }
 
@@ -186,9 +207,16 @@ export class TransactionService extends PubSubEventService {
     contract: string | object = null,
     requiredDepth?: number): Promise<TransactionReceipt | TransactionReceiptTruffle> {
 
-    requiredDepth = await TransactionService.getDefaultDepth(requiredDepth);
-
-    return TransactionService.watchForMinedTransaction(txHash, contract, requiredDepth);
+    return new Promise(async (
+      resolve: (tx: TransactionReceipt | TransactionReceiptTruffle) => void,
+      reject: (error: Error) => void): Promise<void> => {
+      try {
+        requiredDepth = await TransactionService.getDefaultDepth(requiredDepth);
+        return resolve(await TransactionService.watchForMinedTransaction(txHash, contract, requiredDepth));
+      } catch (ex) {
+        return reject(ex);
+      }
+    });
   }
 
   /**
@@ -230,6 +258,7 @@ export class TransactionService extends PubSubEventService {
    * @param requiredDepth Optional minimum block depth required to resolve the promise.  Default is 0.
    * @param contract Optional contract instance or contract name of the contract that generated the transaction.
    * Supply this if you want decoded events (or else call `TransactionService.toTxTruffle` manually yourself)
+   * @returns The receipt, or null if not found.
    */
   public static async getMinedTransaction(
     txHash: Hash,
@@ -460,7 +489,8 @@ export class TransactionService extends PubSubEventService {
     eventStack: TxEventStack,
     tx: Hash,
     txReceipt: TransactionReceiptTruffle = null,
-    txStage: TransactionStage
+    txStage: TransactionStage,
+    failed: boolean = false
   ): void {
 
     for (let i = eventStack.length - 1; i >= 0; --i) {
@@ -470,6 +500,8 @@ export class TransactionService extends PubSubEventService {
       const functionName = eventSpec.functionName;
 
       const baseTopic = TransactionService.topicBaseFromFunctionName(functionName);
+
+      const fullTopic = `${baseTopic}.${TransactionStage[txStage]}${failed ? ".failed" : ""}`;
 
       /**
        * Clone to handle re-entrancy and ensure that recipients of the event can
@@ -482,8 +514,7 @@ export class TransactionService extends PubSubEventService {
       payload.tx = tx;
       payload.txReceipt = txReceipt;
       payload.txStage = txStage;
-
-      PubSubEventService.publish(`${baseTopic}.${TransactionStage[txStage]}`, payload);
+      PubSubEventService.publish(fullTopic, payload);
     }
   }
 
@@ -513,7 +544,8 @@ export enum TransactionStage {
 }
 
 /**
- * Information supplied to the event callback when the event is published.
+ * Information supplied to the event callback when the event is published. Otherwise
+ * known as the "payload".
  */
 export interface TransactionReceiptsEventInfo {
   /**

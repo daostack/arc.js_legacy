@@ -10,6 +10,7 @@ import {
 import { LoggingService } from "./loggingService";
 import {
   TransactionService,
+  TransactionStage,
   TxEventStack,
   TxGeneratingFunctionOptions
 } from "./transactionService";
@@ -180,10 +181,10 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
     const parametersHash: Hash = await this.contract.getParametersHash(...params);
 
     const txResult = await this.wrapTransactionInvocation(functionName,
+      // typically this is supposed to be an object, but here it is an array
       Object.assign(params, { txEventStack }),
-      () => {
-        return this.contract.setParameters.sendTransaction(...params);
-      });
+      this.contract.setParameters,
+      params);
 
     return new ArcTransactionDataResult<Hash>(txResult.tx, this.contract, parametersHash);
   }
@@ -226,35 +227,73 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
   /**
    * Wrap code that creates a transaction in the given transaction event. This is a helper
    * just for the common case of generating a single transaction.
+   * Rethrows exceptions that occur.
+   *
    * @param functionName Should look like [contractName].[functionName]
    * @param options Options that will be passed to the contract function being invoked
-   * @param generateTx Callback that will invoke the contract function
+   * @param generateTx Callback that will  the contract function
+   * @param func The contract function
+   * @param params The contract function parameters
+   * @param web3Params Optional web params, like `from`
    */
   protected async wrapTransactionInvocation(
     functionName: string,
     options: Partial<TxGeneratingFunctionOptions> & any,
-    generateTx: () => Promise<Hash>): Promise<ArcTransactionResult> {
+    func: ITruffleContractFunction,
+    params: Array<any>,
+    web3Params?: any): Promise<ArcTransactionResult> {
 
     const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
-
-    const tx = await generateTx();
-
     const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
+    let error;
 
-    TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
+    try {
+      const txHash = await this.sendTransaction(eventContext, func, params, web3Params);
+      TransactionService.publishTxLifecycleEvents(eventContext, txHash, this.contract);
+      return new ArcTransactionResult(txHash, this.contract);
+    } catch (ex) {
+      LoggingService.error(
+        `ContractWrapperBase.wrapTransactionInvocation: An error occurred calling ${functionName}: ${ex}`);
+      error = ex;
+    }
 
-    return new ArcTransactionResult(tx, this.contract);
+    if (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Invoke sendTransaction on the function.  Properly publish TxTracking events.
+   * Rethrows exceptions that occur.
+   * @param eventContext
+   * @param func
+   * @param params
+   * @param web3Params
+   */
+  protected sendTransaction(
+    eventContext: TxEventStack,
+    func: ITruffleContractFunction,
+    params: Array<any>,
+    web3Params: any = {}
+  ): Promise<Hash> {
+
+    params = params.concat(web3Params);
+
+    return func.sendTransaction(...params)
+      .then((txHash: Hash) => txHash)
+      .catch((ex: Error) => {
+        TransactionService.publishTxFailed(eventContext, TransactionStage.sent);
+        throw ex;
+      });
   }
 
   protected logContractFunctionCall(functionName: string, params?: any): void {
     LoggingService.debug(`${functionName}: ${params ? `${LoggingService.stringifyObject(params)}` : "no parameters"}`);
   }
+}
 
-  protected async sendTransaction(
-    fn: { sendTransaction: (...rest: Array<any>) => Promise<Hash> },
-    ...args: Array<any>): Promise<ArcTransactionResult> {
+export type TruffleContractFunction = (args?: Array<any>) => Promise<Hash>;
 
-    const txHash = await fn.sendTransaction(...args);
-    return new ArcTransactionResult(txHash, this.contract);
-  }
+export interface ITruffleContractFunction extends TruffleContractFunction {
+  sendTransaction: (args?: Array<any>) => Promise<Hash>;
 }

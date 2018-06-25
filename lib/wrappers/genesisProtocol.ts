@@ -103,11 +103,12 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
      */
     if (autoApproveTransfer) {
 
-      const token = await
-        (await Utils.requireContract("StandardToken")).at(await this.contract.stakingToken()) as any;
+      const stakingToken = await this.getStakingToken();
 
-      tx = await token.approve.sendTransaction(this.address,
-        amount,
+      tx = await this.sendTransaction(
+        eventContext,
+        stakingToken.approve,
+        [this.address, amount],
         { from: options.onBehalfOf ? options.onBehalfOf : await Utils.getDefaultAccount() });
 
       TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
@@ -116,15 +117,14 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     this.logContractFunctionCall("GenesisProtocol.stake", options);
 
-    tx = await this.contract.stake.sendTransaction(
-      options.proposalId,
-      options.vote,
-      amount,
+    tx = await this.sendTransaction(
+      eventContext,
+      this.contract.stake,
+      [options.proposalId, options.vote, amount],
       options.onBehalfOf ? {
         from: options.onBehalfOf ? options.onBehalfOf :
           await Utils.getDefaultAccount(),
-      } : undefined
-    );
+      } : undefined);
 
     TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
 
@@ -159,12 +159,10 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     return this.wrapTransactionInvocation("GenesisProtocol.redeem",
       options,
-      () => {
-        return this.contract.redeem.sendTransaction(
-          options.proposalId,
-          options.beneficiaryAddress
-        );
-      });
+      this.contract.redeem,
+      [options.proposalId,
+      options.beneficiaryAddress]
+    );
   }
 
   /**
@@ -194,12 +192,10 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     return this.wrapTransactionInvocation("GenesisProtocol.redeemDaoBounty",
       options,
-      () => {
-        return this.contract.redeemDaoBounty.sendTransaction(
-          options.proposalId,
-          options.beneficiaryAddress
-        );
-      });
+      this.contract.redeemDaoBounty,
+      [options.proposalId,
+      options.beneficiaryAddress]
+    );
   }
 
   /**

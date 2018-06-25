@@ -66,20 +66,18 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
 
     const txResult = await this.wrapTransactionInvocation("VestingScheme.propose",
       options,
-      async () => {
-        return this.contract.proposeVestingAgreement.sendTransaction(
-          options.beneficiaryAddress,
-          options.returnOnCancelAddress,
-          options.startingBlock,
-          web3.toBigNumber(options.amountPerPeriod),
-          options.periodLength,
-          options.numOfAgreedPeriods,
-          options.cliffInPeriods,
-          options.signaturesReqToCancel,
-          options.signers,
-          options.avatar
-        );
-      });
+      this.contract.proposeVestingAgreement,
+      [options.beneficiaryAddress,
+      options.returnOnCancelAddress,
+      options.startingBlock,
+      web3.toBigNumber(options.amountPerPeriod),
+      options.periodLength,
+      options.numOfAgreedPeriods,
+      options.cliffInPeriods,
+      options.signaturesReqToCancel,
+      options.signers,
+      options.avatar]
+    );
 
     return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
@@ -121,25 +119,31 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
      */
     if (autoApproveTransfer) {
       const token = await (await Utils.requireContract("StandardToken")).at(options.token) as any;
-      tx = await token.approve.sendTransaction(this.address, amountPerPeriod.mul(options.numOfAgreedPeriods));
+
+      tx = await this.sendTransaction(
+        eventContext,
+        token.approve,
+        [this.address, amountPerPeriod.mul(options.numOfAgreedPeriods)]);
+
       TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
       await TransactionService.watchForMinedTransaction(tx);
     }
 
     this.logContractFunctionCall("VestingScheme.createVestedAgreement", options);
 
-    tx = await this.contract.createVestedAgreement.sendTransaction(
-      options.token,
+    tx = await this.sendTransaction(
+      eventContext,
+      this.contract.createVestedAgreement,
+      [options.token,
       options.beneficiaryAddress,
       options.returnOnCancelAddress,
       options.startingBlock,
-      amountPerPeriod,
+        amountPerPeriod,
       options.periodLength,
       options.numOfAgreedPeriods,
       options.cliffInPeriods,
       options.signaturesReqToCancel,
-      options.signers
-    );
+      options.signers]);
 
     TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
 
@@ -163,9 +167,9 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
 
     return this.wrapTransactionInvocation("VestingScheme.signToCancel",
       options,
-      () => {
-        return this.contract.signToCancelAgreement.sendTransaction(options.agreementId);
-      });
+      this.contract.signToCancelAgreement,
+      [options.agreementId]
+    );
   }
 
   /**
@@ -185,9 +189,9 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
 
     return this.wrapTransactionInvocation("VestingScheme.revokeSignToCancel",
       options,
-      () => {
-        return this.contract.revokeSignToCancelAgreement.sendTransaction(options.agreementId);
-      });
+      this.contract.revokeSignToCancelAgreement,
+      [options.agreementId]
+    );
   }
 
   /**
@@ -206,9 +210,9 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
 
     return this.wrapTransactionInvocation("VestingScheme.collect",
       options,
-      () => {
-        return this.contract.collect.sendTransaction(options.agreementId);
-      });
+      this.contract.collect,
+      [options.agreementId]
+    );
   }
 
   /**

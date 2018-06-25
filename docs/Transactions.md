@@ -8,11 +8,11 @@ Using [TransactionService](api/classes/TransactionService), you can be notified 
 
 For example, out of all functions in Arc.js, [DAO.new](api/classes/DAO#new) generates the most transactions.  Suppose you want to feed back to the user how many transaction to expect, and when each one has completed.  Here is how you can do that:
 
-```javascript
+```typescript
 import { TransactionService } from "@daostack/arc.js";
 
 const subscription = TransactionService.subscribe("TxTracking.DAO.new", 
-  (eventName, txEventInfo) => {
+  (eventName: string, txEventInfo: TransactionReceiptsEventInfo) => {
     // the options you passed into the function (DAO.new in this case)
     const optionsWithDefaults = txEventInfo.options;
     // the expected number of transactions
@@ -55,11 +55,13 @@ options.myInvocationkey = TransactionService.generateInvocationKey("DAO.new");
     See more about how to use the Pub/Sub event system, including how to scope your subscriptions to whole sets of events, [here](/Events/#pubsub-events).
 
 ## Transaction Lifecycle
-All transactions proceed through three stages:  sent, mined and confirmed.  In the example above, when we subscribed to `TxTracking.DAO.new`, we actually subscribe to receive four distinct events: 
+All transactions proceed through three stages:  sent, mined and confirmed.  In the example above, when we subscribed to `TxTracking.DAO.new`, we are actually subscribing to four distinct events: 
 
 1. TxTracking.DAO.new.kickoff
 2. TxTracking.DAO.sent
 3. TxTracking.DAO.mined
 4. TxTracking.DAO.confirmed
 
-When you receive an event you can identify the stage by the `txStage` property of the `txEventInfo` (`payload` in Pub/Sub parlance) parameter of the callback (see the example code above) or the `eventName` (`topic` in Pub/Sub parlance) parameter of the callback.
+Identify the stage of the event using the the event name (topic) parameter of the callback, or by the `txStage` property of the `txEventInfo` (payload).  See the code example above.
+
+Errors may occur at any point in the lifecycle.  When they do you will receive an event with ".failed" appended to the event name (topic) parameter of the callback.  The txStage will represent the stage at which the error occurred, and you will receive no further events on the transaction.

@@ -48,7 +48,6 @@ const genTokensForEveryone = async (): Promise<void> => {
     // 1000 is an arbitrary number we've always given to founders for tests
     genToken.mint(account, web3.toWei(1000));
   });
-
 };
 
 beforeEach(async () => {

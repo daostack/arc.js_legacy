@@ -116,14 +116,14 @@ export class IntVoteInterfaceWrapper
 
     const txResult = await this.wrapTransactionInvocation("IntVoteInterface.propose",
       options,
-      () => {
-        return this.contract.propose.sendTransaction(
-          options.numOfChoices,
-          options.proposalParameters,
-          options.avatarAddress,
-          options.executable,
-          options.proposerAddress);
-      });
+      this.contract.propose,
+      [options.numOfChoices,
+      options.proposalParameters,
+      options.avatarAddress,
+      options.executable,
+      options.proposerAddress]
+    );
+
     return new ArcTransactionProposalResult(txResult.tx, this.contract, this);
   }
 
@@ -140,9 +140,9 @@ export class IntVoteInterfaceWrapper
 
     return this.wrapTransactionInvocation("IntVoteInterface.cancelProposal",
       options,
-      () => {
-        return this.contract.cancelProposal.sendTransaction(options.proposalId);
-      });
+      this.contract.cancelProposal,
+      [options.proposalId]
+    );
   }
 
   /**
@@ -162,12 +162,11 @@ export class IntVoteInterfaceWrapper
 
     return this.wrapTransactionInvocation("IntVoteInterface.ownerVote",
       options,
-      () => {
-        return this.contract.ownerVote.sendTransaction(
-          options.proposalId,
-          options.vote,
-          options.voterAddress);
-      });
+      this.contract.ownerVote,
+      [options.proposalId,
+      options.vote,
+      options.voterAddress]
+    );
   }
 
   /**
@@ -184,12 +183,10 @@ export class IntVoteInterfaceWrapper
 
     return this.wrapTransactionInvocation("IntVoteInterface.vote",
       options,
-      () => {
-        return this.contract.vote.sendTransaction(
-          options.proposalId,
-          options.vote,
-          options.onBehalfOf ? { from: options.onBehalfOf } : undefined);
-      });
+      this.contract.vote,
+      [options.proposalId, options.vote],
+      options.onBehalfOf ? { from: options.onBehalfOf } : undefined
+    );
   }
 
   /**
@@ -210,13 +207,12 @@ export class IntVoteInterfaceWrapper
 
     return this.wrapTransactionInvocation("IntVoteInterface.voteWithSpecifiedAmounts",
       options,
-      () => {
-        // tokens, the last parameter, is ignored
-        return this.contract.voteWithSpecifiedAmounts.sendTransaction(
-          options.proposalId,
-          options.vote,
-          options.reputation, new BigNumber(0));
-      });
+      this.contract.voteWithSpecifiedAmounts,
+      [options.proposalId,
+      options.vote,
+      options.reputation,
+      new BigNumber(0)]
+    );
   }
 
   /**
@@ -232,9 +228,9 @@ export class IntVoteInterfaceWrapper
 
     return this.wrapTransactionInvocation("IntVoteInterface.cancelVote",
       options,
-      () => {
-        return this.contract.cancelVote.sendTransaction(options.proposalId);
-      });
+      this.contract.cancelVote,
+      [options.proposalId]
+    );
   }
 
   /**
@@ -306,9 +302,9 @@ export class IntVoteInterfaceWrapper
 
     return this.wrapTransactionInvocation("IntVoteInterface.execute",
       options,
-      () => {
-        return this.contract.execute.sendTransaction(options.proposalId);
-      });
+      this.contract.execute,
+      [options.proposalId]
+    );
   }
 
   /**

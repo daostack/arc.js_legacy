@@ -7,7 +7,7 @@ import {
   ArcTransactionProposalResult,
   ArcTransactionResult,
   IContractWrapperFactory
-} from "../IContractWrapperBase";
+} from "../iContractWrapperBase";
 import { ProposalService, VotableProposal } from "../proposalService";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";

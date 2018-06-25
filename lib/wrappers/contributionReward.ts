@@ -140,24 +140,24 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
        */
       const avatarService = new AvatarService(options.avatar);
       const token = await avatarService.getNativeToken();
-      tx = await token.approve.sendTransaction(
-        this.address,
-        orgNativeTokenFee,
-        { from: await Utils.getDefaultAccount() });
+
+      tx = await this.sendTransaction(eventContext, token.approve, [this.address, orgNativeTokenFee]);
+
       TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
       await TransactionService.watchForMinedTransaction(tx);
     }
 
     this.logContractFunctionCall("ContributionReward.proposeContributionReward", options);
 
-    tx = await this.contract.proposeContributionReward.sendTransaction(
-      options.avatar,
+    tx = await this.sendTransaction(
+      eventContext,
+      this.contract.proposeContributionReward,
+      [options.avatar,
       Utils.SHA3(options.description),
-      reputationChange,
+        reputationChange,
       [nativeTokenReward, ethReward, externalTokenReward, options.periodLength, options.numberOfPeriods],
       options.externalToken,
-      options.beneficiaryAddress
-    );
+      options.beneficiaryAddress]);
 
     TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
 
@@ -192,13 +192,11 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
 
     return this.wrapTransactionInvocation("ContributionReward.redeemContributionReward",
       options,
-      () => {
-        return this.contract.redeem.sendTransaction(
-          options.proposalId,
-          options.avatar,
-          [options.reputation, options.nativeTokens, options.ethers, options.externalTokens]
-        );
-      });
+      this.contract.redeem,
+      [options.proposalId,
+      options.avatar,
+      [options.reputation, options.nativeTokens, options.ethers, options.externalTokens]]
+    );
   }
 
   /**
@@ -222,12 +220,10 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
 
     return this.wrapTransactionInvocation("ContributionReward.redeemExternalToken",
       options,
-      () => {
-        return this.contract.redeemExternalToken.sendTransaction(
-          options.proposalId,
-          options.avatar
-        );
-      });
+      this.contract.redeemExternalToken,
+      [options.proposalId,
+      options.avatar]
+    );
   }
 
   /**
@@ -251,12 +247,10 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
 
     return this.wrapTransactionInvocation("ContributionReward.redeemReputation",
       options,
-      () => {
-        return this.contract.redeemReputation.sendTransaction(
-          options.proposalId,
-          options.avatar
-        );
-      });
+      this.contract.redeemReputation,
+      [options.proposalId,
+      options.avatar]
+    );
   }
 
   /**
@@ -280,12 +274,10 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
 
     return this.wrapTransactionInvocation("ContributionReward.redeemNativeToken",
       options,
-      () => {
-        return this.contract.redeemNativeToken.sendTransaction(
-          options.proposalId,
-          options.avatar
-        );
-      });
+      this.contract.redeemNativeToken,
+      [options.proposalId,
+      options.avatar]
+    );
   }
 
   /**
@@ -309,12 +301,10 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
 
     return this.wrapTransactionInvocation("ContributionReward.redeemEther",
       options,
-      () => {
-        return this.contract.redeemEther.sendTransaction(
-          options.proposalId,
-          options.avatar
-        );
-      });
+      this.contract.redeemEther,
+      [options.proposalId,
+      options.avatar]
+    );
   }
 
   /**

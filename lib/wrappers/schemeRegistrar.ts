@@ -88,14 +88,12 @@ export class SchemeRegistrarWrapper extends ProposalGeneratorBase implements Sch
 
     const txResult = await this.wrapTransactionInvocation("SchemeRegistrar.proposeToAddModifyScheme",
       options,
-      () => {
-        return this.contract.proposeScheme.sendTransaction(
-          options.avatar,
-          options.schemeAddress,
-          options.schemeParametersHash,
-          SchemePermissions.toString(permissions)
-        );
-      });
+      this.contract.proposeScheme,
+      [options.avatar,
+      options.schemeAddress,
+      options.schemeParametersHash,
+      SchemePermissions.toString(permissions)]
+    );
 
     return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
@@ -120,12 +118,10 @@ export class SchemeRegistrarWrapper extends ProposalGeneratorBase implements Sch
 
     const txResult = await this.wrapTransactionInvocation("SchemeRegistrar.proposeToRemoveScheme",
       options,
-      () => {
-        return this.contract.proposeToRemoveScheme.sendTransaction(
-          options.avatar,
-          options.schemeAddress
-        );
-      });
+      this.contract.proposeToRemoveScheme,
+      [options.avatar,
+      options.schemeAddress]
+    );
 
     return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
