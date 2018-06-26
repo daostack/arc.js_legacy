@@ -63,7 +63,56 @@ describe("TransactionService", () => {
       "TxTracking.AbsoluteVote.setParameters.confirmed.failed", "didn't receive the failed event");
   });
 
-  it("receives fail event on mined error", async () => {
+  // it("receives fail event on mined status 0", async () => {
+
+  //   const av = WrapperService.wrappers.AbsoluteVote;
+
+  //   const eventsReceived = new Array<string>();
+
+  //   const subscription = TransactionService.subscribe(
+  //     ["TxTracking.AbsoluteVote.setParameters.mined"],
+  //     (topic: string, txEventInfo: TransactionReceiptsEventInfo) => {
+  //       eventsReceived.push(topic);
+  //     });
+
+  //   try {
+  //     const result = await (<any>av).wrapTransactionInvocation(
+  //       "AbsoluteVote.setParameters",
+  //       { ownerVote: true, reputation: helpers.SOME_ADDRESS, votePerc: 50 },
+  //       av.contract.setParameters,
+  //       [helpers.SOME_ADDRESS, 50, true],
+  //       // force to fail on insufficient gas
+  //       { gas: 100 });
+
+  //     const filter = web3.eth.filter("latest");
+
+  //     await new Promise(async (
+  //       resolve: () => void,
+  //       reject: () => void): Promise<void> => {
+  //       filter.watch(async (ex: Error): Promise<void> => {
+  //         if (!ex) {
+  //           const receipt = await TransactionService.getMinedTransaction(result.tx, undefined);
+  //           if (receipt) {
+  //             filter.stopWatching();
+  //             return resolve();
+  //           }
+  //         } else {
+  //           return reject();
+  //         }
+  //       });
+  //     });
+
+  //   } finally {
+  //     await helpers.sleep(1000); // allow time to confirm
+  //     subscription.unsubscribe();
+  //   }
+
+  //   assert.equal(eventsReceived.length, 1, "didn't receive the right number of events");
+  //   assert.equal(eventsReceived[0],
+  //     "TxTracking.AbsoluteVote.setParameters.mined.failed", "didn't receive the failed event");
+  // });
+
+  it("receives fail event on exception when checking for mined", async () => {
 
     const av = WrapperService.wrappers.AbsoluteVote;
 
@@ -77,7 +126,7 @@ describe("TransactionService", () => {
 
     const fnSave = TransactionService.watchForMinedTransaction;
     try {
-      // force an error to happen
+      // force an exception to happen
       TransactionService.watchForMinedTransaction = (): Promise<any> => {
         return Promise.reject(new Error("faking exception"));
       };
@@ -121,13 +170,13 @@ describe("TransactionService", () => {
     const eventsReceived = new Array<string>();
 
     const subscription = TransactionService.subscribe(
-      ["TxTracking.AbsoluteVote.execute.sent"],
+      ["TxTracking.AbsoluteVote.vote.sent"],
       (topic: string, txEventInfo: TransactionReceiptsEventInfo) => {
         eventsReceived.push(topic);
       });
 
     try {
-      await av.execute({ proposalId: helpers.SOME_HASH });
+      await av.vote({ vote: 0, proposalId: helpers.SOME_HASH });
     } catch (ex) {
       receivedException = true;
     } finally {
@@ -137,7 +186,7 @@ describe("TransactionService", () => {
 
     assert(receivedException, "didn't throw exception");
     assert.equal(eventsReceived.length, 1, "didn't receive the right number of events");
-    assert.equal(eventsReceived[0], "TxTracking.AbsoluteVote.execute.sent.failed", "didn't receive the failed event");
+    assert.equal(eventsReceived[0], "TxTracking.AbsoluteVote.vote.sent.failed", "didn't receive the failed event");
   });
 
   it("can publish from subclasses", async () => {

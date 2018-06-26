@@ -230,7 +230,8 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
    * Rethrows exceptions that occur.
    *
    * @param functionName Should look like [contractName].[functionName]
-   * @param options Options that will be passed to the contract function being invoked
+   * @param options Options that will be passed in the event payload, and
+   * potentially containing a txEventContext
    * @param generateTx Callback that will  the contract function
    * @param func The contract function
    * @param params The contract function parameters

@@ -69,18 +69,26 @@ export class TransactionService extends PubSubEventService {
     TransactionService.watchForMinedTransaction(tx, contract)
       .then((txReceiptMined: TransactionReceiptTruffle): void => {
 
-        TransactionService._publishTxEvent(eventStack, tx, txReceiptMined, TransactionStage.mined);
-        /**
-         * now start watching for confirmation
-         */
-        TransactionService.watchForConfirmedTransaction(tx, contract)
-          .then((txReceiptConfirmed: TransactionReceiptTruffle): void => {
+        if (txReceiptMined.receipt.status !== "0x1") {
+          TransactionService.publishTxFailed(eventStack, TransactionStage.mined, tx, txReceiptMined);
+        } else {
+          TransactionService._publishTxEvent(eventStack, tx, txReceiptMined, TransactionStage.mined);
+          /**
+           * now start watching for confirmation
+           */
+          TransactionService.watchForConfirmedTransaction(tx, contract)
+            .then((txReceiptConfirmed: TransactionReceiptTruffle): void => {
 
-            TransactionService._publishTxEvent(eventStack, tx, txReceiptConfirmed, TransactionStage.confirmed);
-          })
-          .catch(() => {
-            TransactionService.publishTxFailed(eventStack, TransactionStage.confirmed, tx, txReceiptMined);
-          });
+              if (txReceiptConfirmed.receipt.status !== "0x1") {
+                TransactionService.publishTxFailed(eventStack, TransactionStage.confirmed, tx, txReceiptConfirmed);
+              } else {
+                TransactionService._publishTxEvent(eventStack, tx, txReceiptConfirmed, TransactionStage.confirmed);
+              }
+            })
+            .catch(() => {
+              TransactionService.publishTxFailed(eventStack, TransactionStage.confirmed, tx, txReceiptMined);
+            });
+        }
       })
       .catch(() => {
         TransactionService.publishTxFailed(eventStack, TransactionStage.mined, tx);
