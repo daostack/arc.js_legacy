@@ -70,7 +70,12 @@ export class TransactionService extends PubSubEventService {
       .then((txReceiptMined: TransactionReceiptTruffle): void => {
 
         if (txReceiptMined.receipt.status !== "0x1") {
-          TransactionService.publishTxFailed(eventStack, TransactionStage.mined, tx, txReceiptMined);
+          TransactionService.publishTxFailed(
+            eventStack,
+            TransactionStage.mined,
+            new Error("Transaction status is 0"),
+            tx,
+            txReceiptMined);
         } else {
           TransactionService._publishTxEvent(eventStack, tx, txReceiptMined, TransactionStage.mined);
           /**
@@ -80,28 +85,39 @@ export class TransactionService extends PubSubEventService {
             .then((txReceiptConfirmed: TransactionReceiptTruffle): void => {
 
               if (txReceiptConfirmed.receipt.status !== "0x1") {
-                TransactionService.publishTxFailed(eventStack, TransactionStage.confirmed, tx, txReceiptConfirmed);
+                TransactionService.publishTxFailed(
+                  eventStack,
+                  TransactionStage.confirmed,
+                  new Error("Transaction status is 0"),
+                  tx,
+                  txReceiptConfirmed);
               } else {
                 TransactionService._publishTxEvent(eventStack, tx, txReceiptConfirmed, TransactionStage.confirmed);
               }
             })
-            .catch(() => {
-              TransactionService.publishTxFailed(eventStack, TransactionStage.confirmed, tx, txReceiptMined);
+            .catch((ex: Error) => {
+              TransactionService.publishTxFailed(
+                eventStack,
+                TransactionStage.confirmed,
+                ex,
+                tx,
+                txReceiptMined);
             });
         }
       })
-      .catch(() => {
-        TransactionService.publishTxFailed(eventStack, TransactionStage.mined, tx);
+      .catch((ex: Error) => {
+        TransactionService.publishTxFailed(eventStack, TransactionStage.mined, ex, tx);
       });
   }
 
   public static publishTxFailed(
     eventStack: TxEventStack,
     atStage: TransactionStage,
+    error: Error = new Error("Unspecified error"),
     tx?: Hash,
     txReceipt?: TransactionReceiptTruffle): void {
 
-    TransactionService._publishTxEvent(eventStack, tx, txReceipt, atStage, true);
+    TransactionService._publishTxEvent(eventStack, tx, txReceipt, atStage, true, error);
   }
 
   /**
@@ -498,7 +514,8 @@ export class TransactionService extends PubSubEventService {
     tx: Hash,
     txReceipt: TransactionReceiptTruffle = null,
     txStage: TransactionStage,
-    failed: boolean = false
+    failed: boolean = false,
+    error: Error = new Error("Unspecified error")
   ): void {
 
     for (let i = eventStack.length - 1; i >= 0; --i) {
@@ -522,6 +539,9 @@ export class TransactionService extends PubSubEventService {
       payload.tx = tx;
       payload.txReceipt = txReceipt;
       payload.txStage = txStage;
+      if (failed) {
+        payload.error = error;
+      }
       PubSubEventService.publish(fullTopic, payload);
     }
   }
@@ -589,6 +609,10 @@ export interface TransactionReceiptsEventInfo {
    * Stage of the transaction.  Can be `kickoff`, `sent`, `mined` or `confirmed`.
    */
   txStage: TransactionStage;
+  /**
+   * Error when a failure has occured.  Supplied by the ".failed" events.
+   */
+  error?: Error;
 }
 
 /**

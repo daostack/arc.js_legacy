@@ -283,7 +283,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
     return func.sendTransaction(...params)
       .then((txHash: Hash) => txHash)
       .catch((ex: Error) => {
-        TransactionService.publishTxFailed(eventContext, TransactionStage.sent);
+        TransactionService.publishTxFailed(eventContext, TransactionStage.sent, ex);
         throw ex;
       });
   }
