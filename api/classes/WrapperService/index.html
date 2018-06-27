@@ -2939,19 +2939,19 @@
 <p><a id="factories"></a></p>
 <h3 id="static-factories">«Static» factories<a class="headerlink" href="#static-factories" title="Permanent link">&para;</a></h3>
 <p><strong>●  factories</strong>:  <em><a href="../../interfaces/ArcWrapperFactories/">ArcWrapperFactories</a></em>  =  {} as ArcWrapperFactories</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/wrapperService.ts#L127">wrapperService.ts:127</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f779630e/lib/wrapperService.ts#L127">wrapperService.ts:127</a></em></p>
 <p>Wrapper factories by name. Use these when you want to do <code>.at()</code> or <code>.new()</code>. You can also use for <code>deployed()</code>, but the wrappers for deployed contracts are directly available from the <code>wrappers</code> and <code>wrappersByType</code> properties.</p>
 <hr />
 <p><a id="wrappers"></a></p>
 <h3 id="static-wrappers">«Static» wrappers<a class="headerlink" href="#static-wrappers" title="Permanent link">&para;</a></h3>
 <p><strong>●  wrappers</strong>:  <em><a href="../../interfaces/ArcWrappers/">ArcWrappers</a></em>  =  {} as ArcWrappers</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/wrapperService.ts#L117">wrapperService.ts:117</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f779630e/lib/wrapperService.ts#L117">wrapperService.ts:117</a></em></p>
 <p>Wrappers by name, hydrated with contracts as deployed by the running version of Arc.js.</p>
 <hr />
 <p><a id="wrappersByAddress"></a></p>
 <h3 id="static-wrappersbyaddress">«Static» wrappersByAddress<a class="headerlink" href="#static-wrappersbyaddress" title="Permanent link">&para;</a></h3>
 <p><strong>●  wrappersByAddress</strong>:  <em><code>Map</code>.&lt;<a href="../../#Address">Address</a>&gt;,.&lt;<a href="../../interfaces/IContractWrapperBase/">IContractWrapperBase</a>&gt;</em>  =  new Map<Address, IContractWrapperBase>()</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/wrapperService.ts#L137">wrapperService.ts:137</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f779630e/lib/wrapperService.ts#L137">wrapperService.ts:137</a></em></p>
 <p>Map of contract wrappers keyed by address. For example:</p>
 <p><code>const wrapper = WrapperService.wrappersByAddress.get(anAddress);</code></p>
 <p>Currently only returns the wrappers for contracts that were deployed by the running version of Arc.js.</p>
@@ -2959,14 +2959,14 @@
 <p><a id="wrappersByType"></a></p>
 <h3 id="static-wrappersbytype">«Static» wrappersByType<a class="headerlink" href="#static-wrappersbytype" title="Permanent link">&para;</a></h3>
 <p><strong>●  wrappersByType</strong>:  <em><a href="../../interfaces/ArcWrappersByType/">ArcWrappersByType</a></em>  =  {} as ArcWrappersByType</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/wrapperService.ts#L121">wrapperService.ts:121</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f779630e/lib/wrapperService.ts#L121">wrapperService.ts:121</a></em></p>
 <p>Contract wrapper factories grouped by type</p>
 <hr />
 <h2 id="methods_1">Methods<a class="headerlink" href="#methods_1" title="Permanent link">&para;</a></h2>
 <p><a id="getContractWrapper"></a></p>
 <h3 id="static-getcontractwrapper">«Static» getContractWrapper<a class="headerlink" href="#static-getcontractwrapper" title="Permanent link">&para;</a></h3>
 <p>► <strong>getContractWrapper</strong>(contractName: <em><code>string</code></em>, address?: <em><code>string</code></em>): <code>Promise</code>.&lt;<a href="../../interfaces/IContractWrapperBase/">IContractWrapperBase</a>⎮<code>undefined</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/wrapperService.ts#L240">wrapperService.ts:240</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f779630e/lib/wrapperService.ts#L240">wrapperService.ts:240</a></em></p>
 <p>Returns the promise of an Arc.js contract wrapper or undefined if not found.</p>
 <p>Most useful when you have both contract name and address and wish to most efficiently return the associated wrapper, or undefined when not found.</p>
 <p><strong>Parameters:</strong></p>
@@ -2996,7 +2996,7 @@
 <p><a id="initialize"></a></p>
 <h3 id="static-initialize">«Static» initialize<a class="headerlink" href="#static-initialize" title="Permanent link">&para;</a></h3>
 <p>► <strong>initialize</strong>(options?: <em><a href="../../interfaces/WrapperServiceInitializeOptions/">WrapperServiceInitializeOptions</a></em>): <code>Promise</code>.&lt;<code>void</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/wrapperService.ts#L145">wrapperService.ts:145</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f779630e/lib/wrapperService.ts#L145">wrapperService.ts:145</a></em></p>
 <p>initialize() must be called before any of the static properties will have values. It is called by ArcInitialize(), which in tur must be invoked by any application using Arc.js.</p>
 <p><strong>Parameters:</strong></p>
 <table>

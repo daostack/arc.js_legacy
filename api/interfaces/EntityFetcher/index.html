@@ -3006,7 +3006,7 @@
 <p><a id="get"></a></p>
 <h3 id="get">get<a class="headerlink" href="#get" title="Permanent link">&para;</a></h3>
 <p><strong>●  get</strong>:  <em><code>function</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/web3EventService.ts#L419">web3EventService.ts:419</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f779630e/lib/web3EventService.ts#L419">web3EventService.ts:419</a></em></p>
 <p>Get an array of <code>TDest</code> from Web3, given the filter supplied to the EntityFetcherFactory. You may supply a callback, which will be given the array, or you may accept the promise of the array from the return value of <code>get</code>.</p>
 <h4 id="type-declaration">Type declaration<a class="headerlink" href="#type-declaration" title="Permanent link">&para;</a></h4>
 <p>►(callback?: <em><a href="../../#EntityGetCallback">EntityGetCallback</a><code>TDest</code></em>): <code>Promise</code>.&lt;<code>Array</code>.&lt;<code>TDest</code>&gt;&gt;</p>
@@ -3032,7 +3032,7 @@
 <p><a id="subscribe"></a></p>
 <h3 id="subscribe">subscribe<a class="headerlink" href="#subscribe" title="Permanent link">&para;</a></h3>
 <p><strong>●  subscribe</strong>:  <em><code>function</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/web3EventService.ts#L434">web3EventService.ts:434</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f779630e/lib/web3EventService.ts#L434">web3EventService.ts:434</a></em></p>
 <p>Watch for <code>TDest</code>s from Web3, given the filter supplied to the EntityFetcherFactory. The Pub.Sub is published once per event firing. <code>subscribe</code> returns the subscription on which you must remember to call <code>unsubscribe</code> when you are done watching.</p>
 <p>Supply whatever name you want for <code>eventName</code>. This enables you to scope event handlers across event types and schemes.</p>
 <h4 id="type-declaration_1">Type declaration<a class="headerlink" href="#type-declaration_1" title="Permanent link">&para;</a></h4>
@@ -3064,13 +3064,13 @@
 <p><a id="transformEventCallback"></a></p>
 <h3 id="transformeventcallback">transformEventCallback<a class="headerlink" href="#transformeventcallback" title="Permanent link">&para;</a></h3>
 <p><strong>●  transformEventCallback</strong>:  <em><a href="../../#TransformEventCallback">TransformEventCallback</a><code>TDest</code>, <code>TSrc</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/web3EventService.ts#L413">web3EventService.ts:413</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f779630e/lib/web3EventService.ts#L413">web3EventService.ts:413</a></em></p>
 <p>Transforms TSrc to TDest. This is called automatically by the system. It is exposed here for use by <code>pipeEntityFetcherFactory</code>.</p>
 <hr />
 <p><a id="watch"></a></p>
 <h3 id="watch">watch<a class="headerlink" href="#watch" title="Permanent link">&para;</a></h3>
 <p><strong>●  watch</strong>:  <em><code>function</code></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/web3EventService.ts#L424">web3EventService.ts:424</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f779630e/lib/web3EventService.ts#L424">web3EventService.ts:424</a></em></p>
 <p>Watch for <code>TDest</code>s from Web3, given the filter supplied to the EntityFetcherFactory. The callback is invoked once per event firing.</p>
 <h4 id="type-declaration_2">Type declaration<a class="headerlink" href="#type-declaration_2" title="Permanent link">&para;</a></h4>
 <p>►(callback: <em><a href="../../#EntityWatchCallback">EntityWatchCallback</a><code>TDest</code></em>): <code>void</code></p>
@@ -3097,7 +3097,7 @@
 <p><a id="stopWatching"></a></p>
 <h3 id="stopwatching">stopWatching<a class="headerlink" href="#stopwatching" title="Permanent link">&para;</a></h3>
 <p>► <strong>stopWatching</strong>(callback?: <em><a href="../../#fnVoid">fnVoid</a></em>): <code>void</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/web3EventService.ts#L438">web3EventService.ts:438</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f779630e/lib/web3EventService.ts#L438">web3EventService.ts:438</a></em></p>
 <p>Stop watching the event.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3121,7 +3121,7 @@
 <p><a id="stopWatchingAsync"></a></p>
 <h3 id="stopwatchingasync">stopWatchingAsync<a class="headerlink" href="#stopwatchingasync" title="Permanent link">&para;</a></h3>
 <p>► <strong>stopWatchingAsync</strong>(): <code>Promise</code>.&lt;<code>void</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/web3EventService.ts#L443">web3EventService.ts:443</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f779630e/lib/web3EventService.ts#L443">web3EventService.ts:443</a></em></p>
 <p>Asynchronously stop watching the event, for environments where synchronous methods are not allowed.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>void</code>&gt;</p>
 <hr />

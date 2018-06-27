@@ -2834,7 +2834,7 @@
 <li>TxTracking.DAO.mined</li>
 <li>TxTracking.DAO.confirmed</li>
 </ol>
-<p>Identify the stage of the event using the the event name (topic) parameter of the callback, or by the <code>txStage</code> property of the <code>txEventInfo</code> (payload).  See the code example above.</p>
+<p>You can identify the stage of the event using the the event name (topic) parameter of the callback, or by the <code>txStage</code> property of the <code>txEventInfo</code> (payload).  See the code example above.</p>
 <p>Errors may occur at any point in the lifecycle.  When they do you will receive an event with ".failed" appended to the event name (topic) parameter of the callback,
 and the <code>error</code> property will contain the <code>Error</code> that describes what happened.  The txStage will represent the stage at which the error occurred, and you will receive no further events on the transaction.</p>
 <h2 id="estimating-gas-limits">Estimating Gas Limits<a class="headerlink" href="#estimating-gas-limits" title="Permanent link">&para;</a></h2>
