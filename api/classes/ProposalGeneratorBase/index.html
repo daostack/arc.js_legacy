@@ -2136,6 +2136,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../interfaces/ITruffleContractFunction/" title="ITruffleContractFunction" class="md-nav__link">
+      ITruffleContractFunction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../interfaces/NewContributionProposalEventResult/" title="NewContributionProposalEventResult" class="md-nav__link">
       NewContributionProposalEventResult
     </a>
@@ -3218,7 +3230,7 @@
 <p><a id="constructor"></a></p>
 <h3 id="new-proposalgeneratorbasesoliditycontract-any-web3eventservice-web3eventservice-proposalgeneratorbase">⊕ <strong>new ProposalGeneratorBase</strong>(solidityContract: <em><code>any</code></em>, web3EventService: <em><a href="../Web3EventService/">Web3EventService</a></em>): <a href="./">ProposalGeneratorBase</a><a class="headerlink" href="#new-proposalgeneratorbasesoliditycontract-any-web3eventservice-web3eventservice-proposalgeneratorbase" title="Permanent link">&para;</a></h3>
 <p><em>Overrides <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#constructor">constructor</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/28d2bcf/lib/proposalGeneratorBase.ts#L10">proposalGeneratorBase.ts:10</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/28d2bcf0/lib/proposalGeneratorBase.ts#L10">proposalGeneratorBase.ts:10</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -3288,7 +3300,7 @@
 <h2 id="methods_1">Methods<a class="headerlink" href="#methods_1" title="Permanent link">&para;</a></h2>
 <p><a id="estimateGas"></a></p>
 <h3 id="estimategas">estimateGas<a class="headerlink" href="#estimategas" title="Permanent link">&para;</a></h3>
-<p>► <strong>estimateGas</strong>(func: <em><a href="../interfaces/ITruffleContractFunction.md">ITruffleContractFunction</a></em>, params: <em><code>Array</code>.&lt;<code>any</code>&gt;</em>, web3Params?: <em><code>any</code></em>): <code>Promise</code>.&lt;<code>number</code>&gt;</p>
+<p>► <strong>estimateGas</strong>(func: <em><a href="../../interfaces/ITruffleContractFunction/">ITruffleContractFunction</a></em>, params: <em><code>Array</code>.&lt;<code>any</code>&gt;</em>, web3Params?: <em><code>any</code></em>): <code>Promise</code>.&lt;<code>number</code>&gt;</p>
 <p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#estimateGas">estimateGas</a></em></p>
 <p><em>Defined in contractWrapperBase.ts:182</em></p>
 <p>Estimate conservatively the amount of gas required to execute the given function with the given parameters. Adds 21000 to the estimate computed by web3.</p>
@@ -3305,7 +3317,7 @@
 <tbody>
 <tr>
 <td>func</td>
-<td><a href="../interfaces/ITruffleContractFunction.md">ITruffleContractFunction</a></td>
+<td><a href="../../interfaces/ITruffleContractFunction/">ITruffleContractFunction</a></td>
 <td>-</td>
 <td>The function</td>
 </tr>
@@ -3432,7 +3444,7 @@
 <p><a id="getVotingMachine"></a></p>
 <h3 id="getvotingmachine">getVotingMachine<a class="headerlink" href="#getvotingmachine" title="Permanent link">&para;</a></h3>
 <p>► <strong>getVotingMachine</strong>(avatarAddress: <em><a href="../../#Address">Address</a></em>): <code>Promise</code>.&lt;<a href="../IntVoteInterfaceWrapper/">IntVoteInterfaceWrapper</a>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/28d2bcf/lib/proposalGeneratorBase.ts#L30">proposalGeneratorBase.ts:30</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/28d2bcf0/lib/proposalGeneratorBase.ts#L30">proposalGeneratorBase.ts:30</a></em></p>
 <p>Return IntVoteInterfaceWrapper for this scheme as registered with the given avatar.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3456,7 +3468,7 @@
 <p><a id="getVotingMachineAddress"></a></p>
 <h3 id="getvotingmachineaddress">getVotingMachineAddress<a class="headerlink" href="#getvotingmachineaddress" title="Permanent link">&para;</a></h3>
 <p>► <strong>getVotingMachineAddress</strong>(avatarAddress: <em><a href="../../#Address">Address</a></em>): <code>Promise</code>.&lt;<a href="../../#Address">Address</a>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/28d2bcf/lib/proposalGeneratorBase.ts#L22">proposalGeneratorBase.ts:22</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/28d2bcf0/lib/proposalGeneratorBase.ts#L22">proposalGeneratorBase.ts:22</a></em></p>
 <p>Return the address of the voting machine for this scheme as registered with the given avatar.</p>
 <p><strong>Parameters:</strong></p>
 <table>

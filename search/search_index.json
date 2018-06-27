@@ -8861,6 +8861,51 @@
             "title": "_avatar"
         }, 
         {
+            "location": "/api/interfaces/ITruffleContractFunction/", 
+            "text": "API Reference\n \n \nITruffleContractFunction\n\n\nInterface: ITruffleContractFunction\n\n\nHierarchy\n\n\nfunction\n\n\n\u21b3 ITruffleContractFunction\n\n\nCallable\n\n\n\u25ba \n__call\n(args?: \nArray\n.\nany\n): \nPromise\n.\nHash\n\n\nDefined in contractWrapperBase.ts:360\n\n\nParameters:\n\n\n\n\n\n\n\n\nParam\n\n\nType\n\n\nDescription\n\n\n\n\n\n\n\n\n\n\nargs\n\n\nArray\n.\nany\n\n\n-\n\n\n\n\n\n\n\n\nReturns:\n \nPromise\n.\nHash\n\n\nProperties\n\n\n\n\nestimateGas\n\n\n\u25cf  estimateGas\n:  \nfunction\n \n\n\nDefined in contractWrapperBase.ts:364\n\n\nType declaration\n\n\n\u25ba(args?: \nArray\n.\nany\n): \nnumber\n\n\nParameters:\n\n\n\n\n\n\n\n\nParam\n\n\nType\n\n\nDescription\n\n\n\n\n\n\n\n\n\n\nargs\n\n\nArray\n.\nany\n\n\n-\n\n\n\n\n\n\n\n\nReturns:\n \nnumber\n\n\n\n\n\n\nsendTransaction\n\n\n\u25cf  sendTransaction\n:  \nfunction\n \n\n\nDefined in contractWrapperBase.ts:363\n\n\nType declaration\n\n\n\u25ba(args?: \nArray\n.\nany\n): \nPromise\n.\nHash\n\n\nParameters:\n\n\n\n\n\n\n\n\nParam\n\n\nType\n\n\nDescription\n\n\n\n\n\n\n\n\n\n\nargs\n\n\nArray\n.\nany\n\n\n-\n\n\n\n\n\n\n\n\nReturns:\n \nPromise\n.\nHash", 
+            "title": "ITruffleContractFunction"
+        }, 
+        {
+            "location": "/api/interfaces/ITruffleContractFunction/#interface-itrufflecontractfunction", 
+            "text": "", 
+            "title": "Interface: ITruffleContractFunction"
+        }, 
+        {
+            "location": "/api/interfaces/ITruffleContractFunction/#hierarchy", 
+            "text": "function  \u21b3 ITruffleContractFunction", 
+            "title": "Hierarchy"
+        }, 
+        {
+            "location": "/api/interfaces/ITruffleContractFunction/#callable", 
+            "text": "\u25ba  __call (args?:  Array . any ):  Promise . Hash  Defined in contractWrapperBase.ts:360  Parameters:     Param  Type  Description      args  Array . any  -     Returns:   Promise . Hash", 
+            "title": "Callable"
+        }, 
+        {
+            "location": "/api/interfaces/ITruffleContractFunction/#properties", 
+            "text": "", 
+            "title": "Properties"
+        }, 
+        {
+            "location": "/api/interfaces/ITruffleContractFunction/#estimategas", 
+            "text": "\u25cf  estimateGas :   function    Defined in contractWrapperBase.ts:364", 
+            "title": "estimateGas"
+        }, 
+        {
+            "location": "/api/interfaces/ITruffleContractFunction/#type-declaration", 
+            "text": "\u25ba(args?:  Array . any ):  number  Parameters:     Param  Type  Description      args  Array . any  -     Returns:   number", 
+            "title": "Type declaration"
+        }, 
+        {
+            "location": "/api/interfaces/ITruffleContractFunction/#sendtransaction", 
+            "text": "\u25cf  sendTransaction :   function    Defined in contractWrapperBase.ts:363", 
+            "title": "sendTransaction"
+        }, 
+        {
+            "location": "/api/interfaces/ITruffleContractFunction/#type-declaration_1", 
+            "text": "\u25ba(args?:  Array . any ):  Promise . Hash  Parameters:     Param  Type  Description      args  Array . any  -     Returns:   Promise . Hash", 
+            "title": "Type declaration"
+        }, 
+        {
             "location": "/api/interfaces/NewContributionProposalEventResult/", 
             "text": "API Reference\n \n \nNewContributionProposalEventResult\n\n\nInterface: NewContributionProposalEventResult\n\n\nProperties\n\n\n\n\n_avatar\n\n\n\u25cf  _avatar\n:  \nAddress\n \n\n\nDefined in \nwrappers/contributionReward.ts:542\n\n\nindexed\n\n\n\n\n\n\n_beneficiary\n\n\n\u25cf  _beneficiary\n:  \nAddress\n \n\n\nDefined in \nwrappers/contributionReward.ts:543\n\n\n\n\n\n\n_contributionDescription\n\n\n\u25cf  _contributionDescription\n:  \nHash\n \n\n\nDefined in \nwrappers/contributionReward.ts:544\n\n\n\n\n\n\n_externalToken\n\n\n\u25cf  _externalToken\n:  \nAddress\n \n\n\nDefined in \nwrappers/contributionReward.ts:545\n\n\n\n\n\n\n_intVoteInterface\n\n\n\u25cf  _intVoteInterface\n:  \nAddress\n \n\n\nDefined in \nwrappers/contributionReward.ts:549\n\n\nindexed\n\n\n\n\n\n\n_proposalId\n\n\n\u25cf  _proposalId\n:  \nHash\n \n\n\nDefined in \nwrappers/contributionReward.ts:553\n\n\nindexed\n\n\n\n\n\n\n_reputationChange\n\n\n\u25cf  _reputationChange\n:  \nBigNumber\n \n\n\nDefined in \nwrappers/contributionReward.ts:554\n\n\n\n\n\n\n_rewards\n\n\n\u25cf  _rewards\n:  \nArray\n.\nBigNumber\n \n\n\nDefined in \nwrappers/contributionReward.ts:555", 
             "title": "NewContributionProposalEventResult"

@@ -834,6 +834,12 @@
     </url>
         
     <url>
+     <loc>/api/interfaces/ITruffleContractFunction/</loc>
+     <lastmod>2018-06-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
      <loc>/api/interfaces/NewContributionProposalEventResult/</loc>
      <lastmod>2018-06-27</lastmod>
      <changefreq>daily</changefreq>
