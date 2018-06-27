@@ -2763,7 +2763,9 @@
 16
 17
 18
-19</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">TransactionService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+19
+20
+21</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">TransactionService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
 
 <span class="kr">const</span> <span class="nx">subscription</span> <span class="o">=</span> <span class="nx">TransactionService</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s2">&quot;TxTracking.DAO.new&quot;</span><span class="p">,</span> 
   <span class="p">(</span><span class="nx">eventName</span>: <span class="kt">string</span><span class="p">,</span> <span class="nx">txEventInfo</span>: <span class="kt">TransactionReceiptsEventInfo</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -2781,6 +2783,8 @@
     <span class="kr">const</span> <span class="nx">txReceipt</span> <span class="o">=</span> <span class="nx">txEventInfo</span><span class="p">.</span><span class="nx">txReceipt</span><span class="p">;</span>
     <span class="c1">// Stage of the transaction.  See `TransactionStage`.</span>
     <span class="kr">const</span> <span class="nx">stage</span> <span class="o">=</span> <span class="nx">txEventInfo</span><span class="p">.</span><span class="nx">txStage</span><span class="p">;</span>
+    <span class="c1">// Error, if this is a failed transaction.</span>
+    <span class="kr">const</span> <span class="nx">error</span> <span class="o">=</span> <span class="nx">txEventInfo</span><span class="p">.</span><span class="nx">error</span><span class="p">;</span>
 <span class="p">});</span>
 </pre></div>
 </td></tr></table>
@@ -2817,7 +2821,8 @@
 <li>TxTracking.DAO.confirmed</li>
 </ol>
 <p>Identify the stage of the event using the the event name (topic) parameter of the callback, or by the <code>txStage</code> property of the <code>txEventInfo</code> (payload).  See the code example above.</p>
-<p>Errors may occur at any point in the lifecycle.  When they do you will receive an event with ".failed" appended to the event name (topic) parameter of the callback.  The txStage will represent the stage at which the error occurred, and you will receive no further events on the transaction.</p>
+<p>Errors may occur at any point in the lifecycle.  When they do you will receive an event with ".failed" appended to the event name (topic) parameter of the callback,
+and the <code>error</code> property will contain the <code>Error</code> that describes what happened.  The txStage will represent the stage at which the error occurred, and you will receive no further events on the transaction.</p>
                 
                   
                 
