@@ -64,7 +64,7 @@ All transactions proceed through three stages:  sent, mined and confirmed.  In t
 3. TxTracking.DAO.mined
 4. TxTracking.DAO.confirmed
 
-Identify the stage of the event using the the event name (topic) parameter of the callback, or by the `txStage` property of the `txEventInfo` (payload).  See the code example above.
+You can identify the stage of the event using the the event name (topic) parameter of the callback, or by the `txStage` property of the `txEventInfo` (payload).  See the code example above.
 
 Errors may occur at any point in the lifecycle.  When they do you will receive an event with ".failed" appended to the event name (topic) parameter of the callback,
 and the `error` property will contain the `Error` that describes what happened.  The txStage will represent the stage at which the error occurred, and you will receive no further events on the transaction.
