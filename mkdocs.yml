@@ -41,7 +41,7 @@ pages:
 - 'API Reference': 
   - Index : "api/README.md"
   # append output of `npm start docs.api.createPagesList` here:
-   - AbsoluteVoteWrapper : 'api/classes/AbsoluteVoteWrapper.md'
+  - AbsoluteVoteWrapper : 'api/classes/AbsoluteVoteWrapper.md'
   - AccountService : 'api/classes/AccountService.md'
   - ArcTransactionAgreementResult : 'api/classes/ArcTransactionAgreementResult.md'
   - ArcTransactionDataResult : 'api/classes/ArcTransactionDataResult.md'
@@ -165,6 +165,7 @@ pages:
   - ILogger : 'api/interfaces/ILogger.md'
   - InitializeArcOptions : 'api/interfaces/InitializeArcOptions.md'
   - InitialSchemesSetEventResult : 'api/interfaces/InitialSchemesSetEventResult.md'
+  - ITruffleContractFunction : 'api/interfaces/ITruffleContractFunction.md'
   - NewContributionProposalEventResult : 'api/interfaces/NewContributionProposalEventResult.md'
   - NewDaoConfig : 'api/interfaces/NewDaoConfig.md'
   - NewDaoVotingMachineConfig : 'api/interfaces/NewDaoVotingMachineConfig.md'
