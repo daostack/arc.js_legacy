@@ -1,16 +1,16 @@
 "use strict";
 import { Address, Hash } from "../commonTypes";
-import {
-  ArcTransactionDataResult,
-  ContractWrapperBase,
-} from "../contractWrapperBase";
+import { ContractWrapperBase } from "../contractWrapperBase";
+import { ArcTransactionDataResult, IContractWrapperFactory } from "../iContractWrapperBase";
 
 import { ContractWrapperFactory } from "../contractWrapperFactory";
+import { TxGeneratingFunctionOptions } from "../transactionService";
+import { Web3EventService } from "../web3EventService";
 
 export class TokenCapGCWrapper extends ContractWrapperBase {
   public name: string = "TokenCapGC";
   public friendlyName: string = "Token Cap Global Constraint";
-  public factory: ContractWrapperFactory<TokenCapGCWrapper> = TokenCapGCFactory;
+  public factory: IContractWrapperFactory<TokenCapGCWrapper> = TokenCapGCFactory;
 
   public async setParameters(params: TokenCapGcParams): Promise<ArcTransactionDataResult<Hash>> {
 
@@ -24,13 +24,18 @@ export class TokenCapGCWrapper extends ContractWrapperBase {
       throw new Error("cap must be set and represent a number");
     }
 
-    return super._setParameters("TokenCapGC.setParameters", params.token, params.cap);
+    return super._setParameters(
+      "TokenCapGC.setParameters",
+      params.txEventStack,
+      params.token,
+      params.cap);
   }
 }
 
-export const TokenCapGCFactory = new ContractWrapperFactory("TokenCapGC", TokenCapGCWrapper);
+export const TokenCapGCFactory =
+  new ContractWrapperFactory("TokenCapGC", TokenCapGCWrapper, new Web3EventService());
 
-export interface TokenCapGcParams {
+export interface TokenCapGcParams extends TxGeneratingFunctionOptions {
   cap: number | string;
   token: Address;
 }

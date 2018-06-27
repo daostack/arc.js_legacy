@@ -6,7 +6,6 @@
     "preserveConstEnums": true,
     "noUnusedLocals": true,
     "sourceMap": true,
-    "baseUrl": "lib",
     "declaration": true,
     "importHelpers": true,
     "lib": [

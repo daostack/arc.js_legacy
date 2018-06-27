@@ -1,16 +1,21 @@
 import * as PubSub from "pubsub-js";
 import { LoggingService } from "./loggingService";
+import { UtilsInternal } from "./utilsInternal";
 
-export class EventService {
+/**
+ * A Pub/Sub event system that enables you to subscribe to various events published by Arc.js.
+ * See [Events](/Events).
+ */
+export class PubSubEventService {
 
   /**
    * Send the given payload to subscribers of the given topic.
-   * @param topic See [subscribe](EventService#subscribe)
+   * @param topic See [subscribe](PubSubEventService#subscribe)
    * @param payload Sent in the subscription callback.
    * @returns True if there are any subscribers
    */
   public static publish(topic: string, payload: any): boolean {
-    LoggingService.debug(`EventService: publishing ${topic}`);
+    LoggingService.debug(`PubSubEventService: publishing ${topic}`);
     return PubSub.publish(topic, payload);
   }
 
@@ -22,7 +27,7 @@ export class EventService {
    */
   public static subscribe(topics: string | Array<string>, callback: EventSubscriptionCallback): IEventSubscription {
     return Array.isArray(topics) ?
-      EventService.aggregate(topics, callback) :
+      PubSubEventService.aggregate(topics, callback) :
       new EventSubscription(PubSub.subscribe(topics, callback));
   }
 
@@ -42,7 +47,71 @@ export class EventService {
    * @param key - A token, function or topic to unsubscribe.
    */
   public static unsubscribe(key: EventSubscriptionKey): void {
-    PubSub.unsubscribe(key);
+    // timeout to allow lingering events to be handled before unsubscribing
+    setTimeout(() => { PubSub.unsubscribe(key); }, 0);
+  }
+
+  /**
+   * Return whether topic is specified by matchTemplates.
+   *
+   * Examples:
+   *
+   * matchTemplates: ["foo"]
+   * topic: "foo.bar"
+   * result: true
+   *
+   * matchTemplates: ["foo.bar"]
+   * topic: "foo"
+   * result: false
+   *
+   * Or a wildcard:
+   *
+   * matchTemplates: "*"
+   * topic: "foo"
+   * result: true
+   *
+   * @param matchTemplates
+   * @param topic
+   */
+  public static isTopicSpecifiedBy(
+    matchTemplates: Array<string> | string,
+    topic: string): boolean {
+
+    if (!topic) { return false; }
+    if (!matchTemplates) { return false; }
+
+    if ((typeof matchTemplates === "string") && (matchTemplates === "*")) { return true; }
+
+    matchTemplates = UtilsInternal.ensureArray(matchTemplates);
+
+    const topicWords = topic.split(".");
+
+    for (const template of matchTemplates) {
+
+      if (!template) { continue; }
+      if (template === topic) { return true; }
+      if (template.length > topic.length) { continue; }
+      if (template[0] === ".") { continue; }
+
+      const templateWords = template.split(".");
+
+      if (templateWords.length > topicWords.length) { continue; }
+
+      let matches = false;
+
+      for (let i = 0; i < templateWords.length; ++i) {
+        const templateWord = templateWords[i];
+        const topicWord = topicWords[i];
+        if ((templateWord === "*") || (templateWord === topicWord)) { matches = true; } else { matches = false; break; }
+      }
+
+      if (!matches) { continue; }
+
+      // else matches
+      return true;
+    }
+
+    return false;
   }
 
   /**
@@ -84,7 +153,7 @@ export class SubscriptionCollection implements IEventSubscription {
    */
   public subscribe(topics: string | Array<string>, callback: EventSubscriptionCallback): void {
 
-    if (!Array.isArray(topics)) { topics = [topics]; }
+    topics = UtilsInternal.ensureArray(topics);
 
     topics.forEach((topic: string) => {
       const subscriptionKey = PubSub.subscribe(topic, callback);
@@ -96,13 +165,10 @@ export class SubscriptionCollection implements IEventSubscription {
    * Unsubscribe from all of the events
    */
   public unsubscribe(): void {
-    // timeout to allow lingering events to be handled before unsubscribing
-    setTimeout(() => {
-      this.subscriptions.forEach((s: EventSubscription) => {
-        s.unsubscribe();
-      });
-      this.subscriptions.clear();
-    }, 0);
+    this.subscriptions.forEach((s: EventSubscription) => {
+      s.unsubscribe();
+    });
+    this.subscriptions.clear();
   }
 }
 
@@ -117,6 +183,7 @@ export class EventSubscription implements IEventSubscription {
   public constructor(private key: EventSubscriptionKey) {
   }
   public unsubscribe(): void {
-    PubSub.unsubscribe(this.key);
+    // timeout to allow lingering events to be handled before unsubscribing
+    setTimeout(() => { PubSub.unsubscribe(this.key); }, 0);
   }
 }

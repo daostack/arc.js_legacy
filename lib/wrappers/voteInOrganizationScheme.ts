@@ -1,40 +1,52 @@
 "use strict";
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
+import { BigNumber } from "bignumber.js";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
-  ContractWrapperBase,
-  EventFetcherFactory,
+  IContractWrapperFactory,
+  SchemeWrapper,
   StandardSchemeParams,
-} from "../contractWrapperBase";
-import { ContractWrapperFactory } from "../contractWrapperFactory";
-import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
+} from "../iContractWrapperBase";
+import { ProposalGeneratorBase } from "../proposalGeneratorBase";
+import { TxGeneratingFunctionOptions } from "../transactionService";
+import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
+import {
+  ProposalDeletedEventResult,
+  SchemeProposalExecuted,
+  SchemeProposalExecutedEventResult
+} from "./commonEventInterfaces";
 
-export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase implements SchemeWrapper {
+export class VoteInOrganizationSchemeWrapper extends ProposalGeneratorBase implements SchemeWrapper {
 
   public name: string = "VoteInOrganizationScheme";
   public friendlyName: string = "Vote In Organization Scheme";
-  public factory: ContractWrapperFactory<VoteInOrganizationSchemeWrapper> = VoteInOrganizationSchemeFactory;
+  public factory: IContractWrapperFactory<VoteInOrganizationSchemeWrapper> = VoteInOrganizationSchemeFactory;
   /**
    * Events
    */
 
-  /* tslint:disable:max-line-length */
-  public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult> = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
-  public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult> = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
-  public VoteOnBehalf: EventFetcherFactory<VoteOnBehalfEventResult> = this.createEventFetcherFactory<VoteOnBehalfEventResult>("VoteOnBehalf");
-  /* tslint:enable:max-line-length */
+  public NewVoteProposal: EventFetcherFactory<NewVoteProposalEventResult>;
+  public ProposalExecuted: EventFetcherFactory<SchemeProposalExecutedEventResult>;
+  public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
+  public VoteOnBehalf: EventFetcherFactory<VoteOnBehalfEventResult>;
 
-  public async proposeVote(
-    options: VoteInOrganizationProposeVoteConfig = {} as VoteInOrganizationProposeVoteConfig)
+  /**
+   * Submit a proposal to vote on a proposal in another DAO.
+   * @param options
+   */
+  public async proposeVoteInOrganization(
+    options: VoteInOrganizationProposeVoteConfig =
+      {} as VoteInOrganizationProposeVoteConfig & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionProposalResult> {
 
     if (!options.avatar) {
       throw new Error("avatar is not defined");
     }
 
-    if (!options.originalIntVote) {
-      throw new Error("originalIntVote is not defined");
+    if (!options.originalVotingMachineAddress) {
+      throw new Error("originalVotingMachineAddress is not defined");
     }
 
     if (!options.originalProposalId) {
@@ -45,15 +57,63 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase impleme
 
     const txResult = await this.wrapTransactionInvocation("VoteInOrganizationScheme.proposeVote",
       options,
-      () => {
-        return this.contract.proposeVote(
-          options.avatar,
-          options.originalIntVote,
-          options.originalProposalId
-        );
-      });
+      this.contract.proposeVote,
+      [options.avatar,
+      options.originalVotingMachineAddress,
+      options.originalProposalId]
+    );
 
-    return new ArcTransactionProposalResult(txResult.tx);
+    return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
+  }
+
+  /**
+   * EntityFetcherFactory for votable VoteInOrganizationProposal.
+   * @param avatarAddress
+   */
+  public async getVotableProposals(avatarAddress: Address):
+    Promise<EntityFetcherFactory<VotableVoteInOrganizationProposal, NewVoteProposalEventResult>> {
+
+    return this.proposalService.getProposalEvents(
+      {
+        baseArgFilter: { _avatar: avatarAddress },
+        proposalsEventFetcher: this.NewVoteProposal,
+        transformEventCallback:
+          async (args: NewVoteProposalEventResult): Promise<VotableVoteInOrganizationProposal> => {
+            return this.getVotableProposal(args._avatar, args._proposalId);
+          },
+        votableOnly: true,
+        votingMachine: await this.getVotingMachine(avatarAddress),
+      });
+  }
+
+  /**
+   * EntityFetcherFactory for executed proposals.
+   * @param avatarAddress
+   */
+  public getExecutedProposals(avatarAddress: Address):
+    EntityFetcherFactory<SchemeProposalExecuted, SchemeProposalExecutedEventResult> {
+
+    return this.proposalService.getProposalEvents(
+      {
+        baseArgFilter: { _avatar: avatarAddress },
+        proposalsEventFetcher: this.ProposalExecuted,
+        transformEventCallback:
+          (event: SchemeProposalExecutedEventResult): Promise<SchemeProposalExecuted> => {
+            return Promise.resolve({
+              avatarAddress: event._avatar,
+              proposalId: event._proposalId,
+              winningVote: event._param,
+            });
+          },
+      });
+  }
+
+  public async getVotableProposal(
+    avatarAddress: Address,
+    proposalId: Hash): Promise<VotableVoteInOrganizationProposal> {
+
+    const proposalParams = await this.contract.organizationsProposals(avatarAddress, proposalId);
+    return this.convertProposalPropsArrayToObject(proposalParams, proposalId);
   }
 
   public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
@@ -62,6 +122,7 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase impleme
 
     return super._setParameters(
       "VoteInOrganizationScheme.setParameters",
+      params.txEventStack,
       params.voteParametersHash,
       params.votingMachineAddress
     );
@@ -86,10 +147,33 @@ export class VoteInOrganizationSchemeWrapper extends ContractWrapperBase impleme
       votingMachineAddress: params[0],
     };
   }
+
+  protected hydrated(): void {
+    /* tslint:disable:max-line-length */
+    this.NewVoteProposal = this.createEventFetcherFactory<NewVoteProposalEventResult>(this.contract.NewVoteProposal);
+    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.ProposalExecuted);
+    this.ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>(this.contract.ProposalDeleted);
+    this.VoteOnBehalf = this.createEventFetcherFactory<VoteOnBehalfEventResult>(this.contract.VoteOnBehalf);
+    /* tslint:enable:max-line-length */
+  }
+
+  private convertProposalPropsArrayToObject(
+    propsArray: Array<any>,
+    proposalId: Hash): VotableVoteInOrganizationProposal {
+    return {
+      originalNumOfChoices: propsArray[2].toNumber(),
+      originalProposalId: propsArray[1],
+      originalVotingMachineAddress: propsArray[0],
+      proposalId,
+    };
+  }
 }
 
-export const VoteInOrganizationSchemeFactory = new ContractWrapperFactory(
-  "VoteInOrganizationScheme", VoteInOrganizationSchemeWrapper);
+export const VoteInOrganizationSchemeFactory =
+  new ContractWrapperFactory(
+    "VoteInOrganizationScheme",
+    VoteInOrganizationSchemeWrapper,
+    new Web3EventService());
 
 export interface VoteOnBehalfEventResult {
   _params: Array<Hash>;
@@ -104,9 +188,34 @@ export interface VoteInOrganizationProposeVoteConfig {
    * Address of the voting machine used by the original proposal.  The voting machine must
    * implement IntVoteInterface (as defined in Arc).
    */
-  originalIntVote: string;
+  originalVotingMachineAddress: Address;
   /**
    * Address of the "original" proposal for which the DAO's vote will cast.
    */
   originalProposalId: string;
+}
+
+export interface VotableVoteInOrganizationProposal {
+  originalVotingMachineAddress: Address;
+  originalNumOfChoices: number;
+  originalProposalId: Hash;
+  proposalId: Hash;
+}
+
+export interface NewVoteProposalEventResult {
+  /**
+   * indexed
+   */
+  _avatar: Address;
+  /**
+   * indexed
+   */
+  _intVoteInterface: Address;
+  _originalIntVote: Address;
+  _originalProposalId: Hash;
+  _originalNumOfChoices: BigNumber;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
 }

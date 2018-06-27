@@ -266,7 +266,7 @@ declare module "web3" {
     getCode(addressHexString: string): string;
     getCode(addressHexString: string, callback: (err: Error, code: string) => void): void;
 
-    filter(value: string | FilterObject): FilterResult;
+    filter(value: string | FilterObject, callback?: (err: Error, receipt: TransactionReceipt) => void): FilterResult;
 
     sendTransaction(txData: TxData): string;
     sendTransaction(txData: TxData, callback: (err: Error, value: string) => void): void;
@@ -410,8 +410,8 @@ declare module "web3" {
   export interface CallData extends CallTxDataBase {
     from?: string;
   }
-
   export interface TransactionReceipt {
+
     blockHash: string;
     blockNumber: number;
     transactionHash: string;

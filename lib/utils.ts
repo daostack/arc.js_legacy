@@ -1,12 +1,11 @@
 import { BigNumber } from "bignumber.js";
 import { promisify } from "es6-promisify";
 import abi = require("ethereumjs-abi");
-import TruffleContract = require("truffle-contract");
-import { providers as Web3Providers, Web3 } from "web3";
+import Contract = require("truffle-contract");
+import { ContractAbi, providers as Web3Providers, Web3 } from "web3";
 import { gasLimitsConfig } from "../gasLimits.js";
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "./commonTypes";
+import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { ConfigService } from "./configService";
-import { TransactionReceiptTruffle } from "./contractWrapperBase";
 import { LoggingService } from "./loggingService";
 // haven't figured out how to get web3 typings to properly expose the Web3 constructor.
 // v1.0 may improve on this entire Web3 typings experience
@@ -17,9 +16,8 @@ export class Utils {
 
   static get NULL_ADDRESS(): Address { return "0x0000000000000000000000000000000000000000"; }
   static get NULL_HASH(): Hash { return "0x0000000000000000000000000000000000000000000000000000000000000000"; }
-
   /**
-   * Returns TruffleContract given the name of the contract (like "SchemeRegistrar").
+   * Returns Truffle contract wrapper given the name of the contract (like "SchemeRegistrar").
    * Optimized for synchronicity issues encountered with MetaMask.
    * Throws an exception if it can't load the contract.
    * Uses the asynchronous web.eth.getAccounts to obtain the default account (good with MetaMask).
@@ -28,7 +26,7 @@ export class Utils {
   public static async requireContract(contractName: string): Promise<any> {
     try {
       const artifact = require(`../migrated_contracts/${contractName}.json`);
-      const contract = new TruffleContract(artifact);
+      const contract = new Contract(artifact);
       const myWeb3 = await Utils.getWeb3();
 
       contract.setProvider(myWeb3.currentProvider);
@@ -109,74 +107,9 @@ export class Utils {
       (window as any).web3 = preWeb3;
     }
 
+    Utils.networkId = await promisify(preWeb3.version.getNetwork)() as string;
+
     return (Utils.web3 = preWeb3);
-  }
-  /**
-   * Returns a value from the given transaction log.
-   * Undefined if not found for any reason.
-   *
-   * @param tx The transaction
-   * @param arg The name of the property whose value we wish to return from the args object:
-   *  tx.logs[index].args[argName]
-   * @param eventName Overrides index, identifies which log,
-   *  where tx.logs[n].event === eventName
-   * @param index Identifies which log when eventName is not given
-   */
-  public static getValueFromLogs(
-    tx: TransactionReceiptTruffle,
-    arg: string,
-    eventName: string = null,
-    index: number = 0): any | undefined {
-    /**
-     *
-     * tx is an object with the following values:
-     *
-     * tx.tx      => transaction hash, string
-     * tx.logs    => array of decoded events that were triggered within this transaction
-     * tx.receipt => transaction receipt object, which includes gas used
-     *
-     * tx.logs look like this:
-     *
-     * [ { logIndex: 13,
-     *     transactionIndex: 0,
-     *     transactionHash: "0x999e51b4124371412924d73b60a0ae1008462eb367db45f8452b134e5a8d56c8",
-     *     blockHash: "0xe35f7c374475a6933a500f48d4dfe5dce5b3072ad316f64fbf830728c6fe6fc9",
-     *     blockNumber: 294,
-     *     address: "0xd6a2a42b97ba20ee8655a80a842c2a723d7d488d",
-     *     type: "mined",
-     *     event: "NewOrg",
-     *     args: { _avatar: "0xcc05f0cde8c3e4b6c41c9b963031829496107bbb" } } ]
-     */
-    if (!tx.logs || !tx.logs.length) {
-      // TODO: log "getValueFromLogs: Transaction has no logs");
-      return undefined;
-    }
-
-    if (eventName && (eventName.length)) {
-      for (let i = 0; i < tx.logs.length; i++) {
-        if (tx.logs[i].event === eventName) {
-          index = i;
-          break;
-        }
-      }
-      if (typeof index === "undefined") {
-        // TODO: log  `getValueFromLogs: There is no event logged with eventName ${eventName}`
-        return undefined;
-      }
-    } else if (typeof index === "undefined") {
-      index = tx.logs.length - 1;
-    }
-    if (tx.logs[index].type !== "mined") {
-      // TODO: log  `getValueFromLogs: transaction has not been mined: ${tx.logs[index].event}`
-      return undefined;
-    }
-    const result = tx.logs[index].args[arg];
-
-    if (!result) {
-      // TODO: log  `getValueFromLogs: This log does not seem to have a field "${arg}": ${tx.logs[index].args}`
-      return undefined;
-    }
-    return result;
   }
 
   /**
@@ -285,17 +218,22 @@ export class Utils {
    * @param {Number} permissions
    */
   public static numberToPermissionsString(
-    permissions: SchemePermissions | DefaultSchemePermissions): string {
+    permissions: SchemePermissions): string {
 
     if (!permissions) { permissions = SchemePermissions.None; }
 
     return `0x${("00000000" + (permissions as number).toString(16)).substr(-8)}`;
   }
 
-  public static async getNetworkName(): Promise<string> {
-    const web3 = await Utils.getWeb3();
+  /**
+   * Returns promise of the name of the current or given network
+   * @param id Optional id of the network
+   */
+  public static async getNetworkName(id?: string): Promise<string> {
 
-    const id = await promisify(web3.version.getNetwork)();
+    if (!id) {
+      id = await Utils.getNetworkId();
+    }
 
     switch (id) {
       case "1":
@@ -317,6 +255,16 @@ export class Utils {
   }
 
   /**
+   * Returns promise of the id of the current network
+   */
+  public static async getNetworkId(): Promise<string> {
+    if (!Utils.networkId) {
+      await Utils.getWeb3();
+    }
+    return Utils.networkId;
+  }
+
+  /**
    * Returns promise of the address of the global GEN token.
    */
   public static async getGenTokenAddress(): Promise<string> {
@@ -328,15 +276,33 @@ export class Utils {
   }
 
   /**
-   * Returns promise of a TruffleContract for the global GEN token.
+   * Returns promise of a Truffle contract wrapper for the global GEN token.
    */
-  public static async getGenToken(): Promise<TruffleContract> {
+  public static async getGenToken(): Promise<any> {
     const address = await Utils.getGenTokenAddress();
     return (await Utils.requireContract("DAOToken")).at(address);
   }
 
+  /**
+   * Returns a promise of the given account's GEN token balance.
+   * @param agentAddress
+   */
+  public static async getGenTokenBalance(agentAddress: Address): Promise<BigNumber> {
+    const genTokenAddress = await Utils.getGenTokenAddress();
+    return Utils.getTokenBalance(agentAddress, genTokenAddress);
+  }
+
+  /**
+   * Returns the ABI for the given contract
+   * @param contractName
+   */
+  public static getAbiForContract(contractName: string): ContractAbi {
+    return require(`../migrated_contracts/${contractName}.json`).abi;
+  }
+
   private static web3: Web3 = undefined;
   private static alreadyTriedAndFailed: boolean = false;
+  private static networkId: string;
 }
 
 export { Web3 } from "web3";

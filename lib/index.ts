@@ -1,3 +1,4 @@
+/* tslint:disable:no-var-requires */
 /* tslint:disable-next-line:no-reference */
 /// <reference path="../custom_typings/web3.d.ts" />
 export * from "./accountService";
@@ -17,6 +18,9 @@ export * from "./wrappers/contributionReward";
 export * from "./wrappers/daoCreator";
 export * from "./wrappers/genesisProtocol";
 export * from "./wrappers/globalConstraintRegistrar";
+export * from "./wrappers/intVoteInterface";
+export * from "./iContractWrapperBase";
+export * from "./wrappers/iIntVoteInterface";
 export * from "./wrappers/schemeRegistrar";
 export * from "./wrappers/tokenCapGC";
 export * from "./wrappers/upgradeScheme";
@@ -25,11 +29,13 @@ export * from "./wrappers/voteInOrganizationScheme";
 export * from "./dao";
 export * from "./contractWrapperBase";
 export * from "./contractWrapperFactory";
-export * from "./eventService";
+export * from "./pubSubEventService";
+export * from "./web3EventService";
+export * from "./proposalService";
+export * from "./proposalGeneratorBase";
 export * from "./loggingService";
 export * from "./transactionService";
 export * from "./utils";
-/* tslint:disable-next-line:no-var-requires */
 export const computeForgeOrgGasLimit: any = require("../gasLimits.js").computeForgeOrgGasLimit;
 
 import { Web3 } from "web3";
@@ -69,7 +75,6 @@ export async function InitializeArcJs(options?: InitializeArcOptions): Promise<W
         throw new Error(`truffle network defaults not found: ${options.useNetworkDefaultsFor}`);
       }
 
-      ConfigService.set("network", options.useNetworkDefaultsFor);
       ConfigService.set("providerPort", networkDefaults.port);
       ConfigService.set("providerUrl", `http://${networkDefaults.host}`);
     }

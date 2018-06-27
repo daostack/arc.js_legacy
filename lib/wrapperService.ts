@@ -1,63 +1,62 @@
 import { Address } from "./commonTypes";
-import { ContractWrapperBase } from "./contractWrapperBase";
-import { ContractWrapperFactory } from "./contractWrapperFactory.js";
+import { IContractWrapperBase, IContractWrapperFactory } from "./iContractWrapperBase";
 import { LoggingService } from "./loggingService";
 import {
   AbsoluteVoteFactory,
   AbsoluteVoteWrapper
-} from "./wrappers/absoluteVote.js";
+} from "./wrappers/absoluteVote";
 import {
   ContributionRewardFactory,
   ContributionRewardWrapper
-} from "./wrappers/contributionReward.js";
+} from "./wrappers/contributionReward";
 import {
   DaoCreatorFactory,
   DaoCreatorWrapper
-} from "./wrappers/daoCreator.js";
+} from "./wrappers/daoCreator";
 import {
   GenesisProtocolFactory,
   GenesisProtocolWrapper
-} from "./wrappers/genesisProtocol.js";
+} from "./wrappers/genesisProtocol";
 import {
   GlobalConstraintRegistrarFactory,
   GlobalConstraintRegistrarWrapper
-} from "./wrappers/globalConstraintRegistrar.js";
+} from "./wrappers/globalConstraintRegistrar";
 import {
   SchemeRegistrarFactory,
   SchemeRegistrarWrapper
-} from "./wrappers/schemeRegistrar.js";
+} from "./wrappers/schemeRegistrar";
 import {
   TokenCapGCFactory,
   TokenCapGCWrapper
-} from "./wrappers/tokenCapGC.js";
+} from "./wrappers/tokenCapGC";
 import {
   UpgradeSchemeFactory,
   UpgradeSchemeWrapper
-} from "./wrappers/upgradeScheme.js";
+} from "./wrappers/upgradeScheme";
 import {
   VestingSchemeFactory,
   VestingSchemeWrapper
-} from "./wrappers/vestingScheme.js";
+} from "./wrappers/vestingScheme";
 import {
   VoteInOrganizationSchemeFactory,
   VoteInOrganizationSchemeWrapper
-} from "./wrappers/voteInOrganizationScheme.js";
+} from "./wrappers/voteInOrganizationScheme";
 
 /**
  * An object with property names being a contract key and property value as the
- * corresponding wrapper factory (ContractWrapperFactory<TWrapper).
+ * corresponding wrapper factory (IContractWrapperFactory<TWrapper).
  */
 export interface ArcWrapperFactories {
-  AbsoluteVote: ContractWrapperFactory<AbsoluteVoteWrapper>;
-  ContributionReward: ContractWrapperFactory<ContributionRewardWrapper>;
-  DaoCreator: ContractWrapperFactory<DaoCreatorWrapper>;
-  GenesisProtocol: ContractWrapperFactory<GenesisProtocolWrapper>;
-  GlobalConstraintRegistrar: ContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
-  SchemeRegistrar: ContractWrapperFactory<SchemeRegistrarWrapper>;
-  TokenCapGC: ContractWrapperFactory<TokenCapGCWrapper>;
-  UpgradeScheme: ContractWrapperFactory<UpgradeSchemeWrapper>;
-  VestingScheme: ContractWrapperFactory<VestingSchemeWrapper>;
-  VoteInOrganizationScheme: ContractWrapperFactory<VoteInOrganizationSchemeWrapper>;
+  AbsoluteVote: IContractWrapperFactory<AbsoluteVoteWrapper>;
+  ContributionReward: IContractWrapperFactory<ContributionRewardWrapper>;
+  DaoCreator: IContractWrapperFactory<DaoCreatorWrapper>;
+  GenesisProtocol: IContractWrapperFactory<GenesisProtocolWrapper>;
+  GlobalConstraintRegistrar: IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
+  SchemeRegistrar: IContractWrapperFactory<SchemeRegistrarWrapper>;
+  TokenCapGC: IContractWrapperFactory<TokenCapGCWrapper>;
+  UpgradeScheme: IContractWrapperFactory<UpgradeSchemeWrapper>;
+  VestingScheme: IContractWrapperFactory<VestingSchemeWrapper>;
+  VoteInOrganizationScheme: IContractWrapperFactory<VoteInOrganizationSchemeWrapper>;
 }
 
 /**
@@ -84,27 +83,27 @@ export interface ArcWrappersByType {
   /**
    * All wrapped contracts
    */
-  allWrappers: Array<ContractWrapperBase>;
+  allWrappers: Array<IContractWrapperBase>;
   /**
    * All wrapped schemes
    */
-  schemes: Array<ContractWrapperBase>;
+  schemes: Array<IContractWrapperBase>;
   /**
    * All wrapped schemes that can generate proposals
    */
-  proposalGeneratingSchemes: Array<ContractWrapperBase>;
+  proposalGeneratingSchemes: Array<IContractWrapperBase>;
   /**
    * All wrapped voting machines
    */
-  votingMachines: Array<ContractWrapperBase>;
+  votingMachines: Array<IContractWrapperBase>;
   /**
    * All wrapped global constraints
    */
-  globalConstraints: Array<ContractWrapperBase>;
+  globalConstraints: Array<IContractWrapperBase>;
   /**
    * Other types of wrappers
    */
-  other: Array<ContractWrapperBase>;
+  other: Array<IContractWrapperBase>;
 }
 
 /**
@@ -135,7 +134,7 @@ export class WrapperService {
    * Currently only returns the wrappers for contracts that were deployed by the running
    * version of Arc.js.
    */
-  public static wrappersByAddress: Map<Address, ContractWrapperBase> = new Map<Address, ContractWrapperBase>();
+  public static wrappersByAddress: Map<Address, IContractWrapperBase> = new Map<Address, IContractWrapperBase>();
 
   /**
    * initialize() must be called before any of the static properties will have values.
@@ -168,7 +167,7 @@ export class WrapperService {
     /**
      * Contract wrappers grouped by type
      */
-    WrapperService.wrappersByType.allWrappers = Object.values(WrapperService.wrappers) as Array<ContractWrapperBase>;
+    WrapperService.wrappersByType.allWrappers = Object.values(WrapperService.wrappers) as Array<IContractWrapperBase>;
     WrapperService.wrappersByType.globalConstraints = [
       WrapperService.wrappers.TokenCapGC,
     ];
@@ -202,19 +201,21 @@ export class WrapperService {
      * weird thing in typedocs where it doesn't treat `factories` as a property of `WrapperService`
      * unless we initialize it this way (otherwise it shows up in the "Object Literal" section).
      */
-    WrapperService.factories.AbsoluteVote = AbsoluteVoteFactory as ContractWrapperFactory<AbsoluteVoteWrapper>;
+    WrapperService.factories.AbsoluteVote = AbsoluteVoteFactory as IContractWrapperFactory<AbsoluteVoteWrapper>;
     WrapperService.factories.ContributionReward = ContributionRewardFactory as
-      ContractWrapperFactory<ContributionRewardWrapper>;
-    WrapperService.factories.DaoCreator = DaoCreatorFactory as ContractWrapperFactory<DaoCreatorWrapper>;
-    WrapperService.factories.GenesisProtocol = GenesisProtocolFactory as ContractWrapperFactory<GenesisProtocolWrapper>;
+      IContractWrapperFactory<ContributionRewardWrapper>;
+    WrapperService.factories.DaoCreator = DaoCreatorFactory as IContractWrapperFactory<DaoCreatorWrapper>;
+    WrapperService.factories.GenesisProtocol =
+      GenesisProtocolFactory as IContractWrapperFactory<GenesisProtocolWrapper>;
     WrapperService.factories.GlobalConstraintRegistrar = GlobalConstraintRegistrarFactory as
-      ContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
-    WrapperService.factories.SchemeRegistrar = SchemeRegistrarFactory as ContractWrapperFactory<SchemeRegistrarWrapper>;
-    WrapperService.factories.TokenCapGC = TokenCapGCFactory as ContractWrapperFactory<TokenCapGCWrapper>;
-    WrapperService.factories.UpgradeScheme = UpgradeSchemeFactory as ContractWrapperFactory<UpgradeSchemeWrapper>;
-    WrapperService.factories.VestingScheme = VestingSchemeFactory as ContractWrapperFactory<VestingSchemeWrapper>;
+      IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
+    WrapperService.factories.SchemeRegistrar =
+      SchemeRegistrarFactory as IContractWrapperFactory<SchemeRegistrarWrapper>;
+    WrapperService.factories.TokenCapGC = TokenCapGCFactory as IContractWrapperFactory<TokenCapGCWrapper>;
+    WrapperService.factories.UpgradeScheme = UpgradeSchemeFactory as IContractWrapperFactory<UpgradeSchemeWrapper>;
+    WrapperService.factories.VestingScheme = VestingSchemeFactory as IContractWrapperFactory<VestingSchemeWrapper>;
     WrapperService.factories.VoteInOrganizationScheme = VoteInOrganizationSchemeFactory as
-      ContractWrapperFactory<VoteInOrganizationSchemeWrapper>;
+      IContractWrapperFactory<VoteInOrganizationSchemeWrapper>;
     /**
      * TODO: this should be made aware of previously-deployed GCs
      */
@@ -237,7 +238,7 @@ export class WrapperService {
    * @param address - optional
    */
   public static async getContractWrapper(contractName: string, address?: string)
-    : Promise<ContractWrapperBase | undefined> {
+    : Promise<IContractWrapperBase | undefined> {
     const factories = await WrapperService.factories;
     const factory = factories[contractName];
     if (!factory) {
@@ -245,7 +246,7 @@ export class WrapperService {
     }
     if (address) {
       return factory.at(address)
-        .then((resultingContract: ContractWrapperBase) => resultingContract, () => undefined);
+        .then((resultingContract: IContractWrapperBase) => resultingContract, () => undefined);
     } else {
       return Promise.resolve(WrapperService.wrappers[contractName]);
     }
@@ -318,4 +319,4 @@ export const ContractWrappersByType: ArcWrappersByType = WrapperService.wrappers
 /**
  * for quicker access to the contract wrappers by address
  */
-export const ContractWrappersByAddress: Map<Address, ContractWrapperBase> = WrapperService.wrappersByAddress;
+export const ContractWrappersByAddress: Map<Address, IContractWrapperBase> = WrapperService.wrappersByAddress;

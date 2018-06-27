@@ -1,10 +1,23 @@
-import { DecodedLogEntryEvent, LogTopic, TransactionReceipt } from "web3";
+import { computeMaxGasLimit } from "../gasLimits.js";
 import { AvatarService } from "./avatarService";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
-import { ContractWrapperFactory } from "./contractWrapperFactory";
+import { ConfigService } from "./configService";
+import {
+  ArcTransactionDataResult,
+  ArcTransactionResult,
+  IContractWrapperBase,
+  IContractWrapperFactory,
+  StandardSchemeParams
+} from "./iContractWrapperBase";
 import { LoggingService } from "./loggingService";
-import { TransactionService } from "./transactionService";
+import {
+  TransactionService,
+  TransactionStage,
+  TxEventStack,
+  TxGeneratingFunctionOptions
+} from "./transactionService";
 import { Utils } from "./utils";
+import { EventFetcherFactory, Web3EventService } from "./web3EventService";
 /**
  * Abstract base class for all Arc contract wrapper classes
  *
@@ -18,15 +31,18 @@ import { Utils } from "./utils";
  *   [ wrapper properties and methods ]
  * }
  *
- * export const AbsoluteVote = new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper);
+ * export const AbsoluteVote = new ContractWrapperFactory(
+ *  "AbsoluteVote",
+ *  AbsoluteVoteWrapper,
+ *  new Web3EventService());
  * ```
  */
-export abstract class ContractWrapperBase {
+export abstract class ContractWrapperBase implements IContractWrapperBase {
 
   /**
    * The wrapper factor class providing static methods `at(someAddress)`, `new()` and `deployed()`.
    */
-  public abstract factory: ContractWrapperFactory<any>;
+  public abstract factory: IContractWrapperFactory<any>;
   /**
    * The name of the contract.
    */
@@ -48,8 +64,9 @@ export abstract class ContractWrapperBase {
   /**
    * ContractWrapperFactory constructs this
    * @param solidityContract The json contract truffle artifact
+   * @param web3EventService
    */
-  constructor(private solidityContract: any) {
+  constructor(private solidityContract: any, protected web3EventService: Web3EventService) {
   }
 
   /**
@@ -63,6 +80,7 @@ export abstract class ContractWrapperBase {
       // rather than the incomplete one returned by truffle.
       this.contract = await this.solidityContract.new(...rest)
         .then((contract: any) => contract, (error: any) => { throw error; });
+      this.hydrated();
     } catch (ex) {
       LoggingService.error(`hydrateFromNew failing: ${ex}`);
       return undefined;
@@ -81,6 +99,7 @@ export abstract class ContractWrapperBase {
       // rather than the incomplete one returned by truffle.
       this.contract = await this.solidityContract.at(address)
         .then((contract: any) => contract, (error: any) => { throw error; });
+      this.hydrated();
     } catch (ex) {
       LoggingService.error(`hydrateFromAt failing: ${ex}`);
       return undefined;
@@ -98,6 +117,7 @@ export abstract class ContractWrapperBase {
       // rather than the incomplete one returned by truffle.
       this.contract = await this.solidityContract.deployed()
         .then((contract: any) => contract, (error: any) => { throw error; });
+      this.hydrated();
     } catch (ex) {
       LoggingService.error(`hydrateFromDeployed failing: ${ex}`);
       return undefined;
@@ -150,23 +170,58 @@ export abstract class ContractWrapperBase {
     return avatarService.getController();
   }
 
-  protected async _setParameters(functionName: string, ...params: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
+  /**
+   * Estimate conservatively the amount of gas required to execute the given function with the given parameters.
+   * Adds 21000 to the estimate computed by web3.
+   *
+   * @param func The function
+   * @param params The parameters to send to the function
+   * @param web3Params The web3 parameters (like "from", for example).  If it contains "gas"
+   * then that value is returned, effectively a no-op.
+   */
+  public async estimateGas(
+    func: ITruffleContractFunction,
+    params: Array<any>,
+    web3Params: any = {}): Promise<number> {
+
+    if (web3Params.gas) {
+      return web3Params.gas;
+    }
+
+    const currentNetwork = await Utils.getNetworkName();
+
+    const web3 = await Utils.getWeb3();
+
+    const maxGasLimit = await computeMaxGasLimit(web3);
+
+    if (currentNetwork === "Ganache") {
+      return maxGasLimit; // because who cares with ganache and we can't get good estimates from it
+    }
+
+    params = params.concat(Object.assign({ gas: maxGasLimit }, web3Params));
+    return Math.max(Math.min((await func.estimateGas(...params)), maxGasLimit), 21000);
+  }
+
+  /**
+   * invoked to let base classes know that the `contract` is available.
+   */
+  /* tslint:disable-next-line:no-empty */
+  protected hydrated(): void { }
+
+  protected async _setParameters(
+    functionName: string,
+    txEventStack: TxEventStack,
+    ...params: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
 
     const parametersHash: Hash = await this.contract.getParametersHash(...params);
-    const eventTopic = "txReceipts.ContractWrapperBase.setParameters";
-
-    const txReceiptEventPayload = TransactionService.publishKickoffEvent(eventTopic, params, 1);
 
     const txResult = await this.wrapTransactionInvocation(functionName,
       // typically this is supposed to be an object, but here it is an array
-      params,
-      () => {
-        return this.contract.setParameters(...params);
-      });
+      Object.assign(params, { txEventStack }),
+      this.contract.setParameters,
+      params);
 
-    TransactionService.publishTxEvent(eventTopic, txReceiptEventPayload, txResult.tx);
-
-    return new ArcTransactionDataResult<Hash>(txResult.tx, parametersHash);
+    return new ArcTransactionDataResult<Hash>(txResult.tx, this.contract, parametersHash);
   }
 
   /**
@@ -186,111 +241,13 @@ export abstract class ContractWrapperBase {
   }
 
   /**
-   * Returns a function that creates an EventFetcher<TArgs>.
-   * For subclasses to use to create their event handlers.
-   * This is identical to what you get with Truffle, except that
-   * the result param of the callback is always guaranteed to be an array.
+   * See [Web3EventService.createEventFetcherFactory](Web3EventService#createEventFetcherFactory).
    *
-   * Example:
-   *
-   *    public NewProposal = this.eventWrapperFactory<NewProposalEventResult>("NewProposal");
-   *    const event = NewProposal(...);
-   *    event.get(...).
-   *
-   * @type TArgs - name of the event args (EventResult) interface, like NewProposalEventResult
-   * @param eventName - Name of the event like "NewProposal"
+   * @type TArgs
+   * @param eventName
    */
-  protected createEventFetcherFactory<TArgs>(eventName: string): EventFetcherFactory<TArgs> {
-
-    const that = this;
-
-    /**
-     * This is the function that returns the EventFetcher<TArgs>
-     * @param argFilter
-     * @param filterObject
-     * @param callback
-     */
-    const eventFetcherFactory: EventFetcherFactory<TArgs> = (
-      argFilter: any,
-      filterObject: EventFetcherFilterObject,
-      rootCallback?: EventCallback<TArgs>
-    ): EventFetcher<TArgs> => {
-
-      let baseEvent: EventFetcher<TArgs>;
-      let receivedEvents: Set<Hash>;
-
-      if (!!filterObject.suppressDups) {
-        receivedEvents = new Set<Hash>();
-      }
-
-      const handleEvent = (
-        error: any,
-        log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>,
-        callback?: EventCallback<TArgs>): void => {
-
-        /**
-         * always provide an array
-         */
-        if (!!error) {
-          log = [];
-        } else if (!Array.isArray(log)) {
-          log = [log];
-        }
-
-        /**
-         * optionally prune duplicate events (see https://github.com/ethereum/web3.js/issues/398)
-         */
-        if (receivedEvents && log.length) {
-          log = log.filter((evt: DecodedLogEntryEvent<TArgs>) => {
-            if (!receivedEvents.has(evt.transactionHash)) {
-              receivedEvents.add(evt.transactionHash);
-              return true;
-            } else {
-              return false;
-            }
-          });
-        }
-        callback(error, log);
-      };
-
-      const eventFetcher: EventFetcher<TArgs> = {
-
-        get(callback?: EventCallback<TArgs>): void {
-          baseEvent.get((error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>) => {
-            handleEvent(error, log, callback);
-          });
-        },
-
-        watch(callback?: EventCallback<TArgs>): void {
-          baseEvent.watch((error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>) => {
-            handleEvent(error, log, callback);
-          });
-        },
-
-        stopWatching(): void {
-          baseEvent.stopWatching();
-        },
-      };
-      /**
-       * if callback is set then this will start watching immediately,
-       * otherwise caller must use `get` and `watch`
-       */
-      const wrapperRootCallback: EventCallback<TArgs> | undefined = rootCallback ?
-        (error: any, log: DecodedLogEntryEvent<TArgs> | Array<DecodedLogEntryEvent<TArgs>>): void => {
-          if (!!error) {
-            log = [];
-          } else if (!Array.isArray(log)) {
-            log = [log];
-          }
-          rootCallback(error, log);
-        } : undefined;
-
-      baseEvent = that.contract[eventName](argFilter, filterObject, wrapperRootCallback);
-
-      return eventFetcher;
-    };
-
-    return eventFetcherFactory;
+  protected createEventFetcherFactory<TArgs>(baseEvent: any): EventFetcherFactory<TArgs> {
+    return this.web3EventService.createEventFetcherFactory(baseEvent);
   }
 
   protected validateStandardSchemeParams(params: StandardSchemeParams): void {
@@ -305,172 +262,104 @@ export abstract class ContractWrapperBase {
   /**
    * Wrap code that creates a transaction in the given transaction event. This is a helper
    * just for the common case of generating a single transaction.
+   * Rethrows exceptions that occur.
+   *
    * @param functionName Should look like [contractName].[functionName]
-   * @param options Options that will be passed to the contract function being invoked
-   * @param generateTx Callback that will invoke the contract function
+   * @param options Options that will be passed in the event payload, and
+   * potentially containing a txEventContext
+   * @param generateTx Callback that will  the contract function
+   * @param func The contract function
+   * @param params The contract function parameters
+   * @param web3Params Optional web params, like `from`
    */
   protected async wrapTransactionInvocation(
     functionName: string,
-    options: any,
-    generateTx: () => Promise<TransactionReceiptTruffle>): Promise<ArcTransactionResult> {
+    options: Partial<TxGeneratingFunctionOptions> & any,
+    func: ITruffleContractFunction,
+    params: Array<any>,
+    web3Params?: any): Promise<ArcTransactionResult> {
 
-    const topic = `txReceipts.${functionName}`;
+    const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
+    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
 
-    const txReceiptEventPayload = TransactionService.publishKickoffEvent(topic, options, 1);
+    try {
+      const txHash = await this.sendTransaction(eventContext, func, params, web3Params);
+      TransactionService.publishTxLifecycleEvents(eventContext, txHash, this.contract);
+      return new ArcTransactionResult(txHash, this.contract);
+    } catch (ex) {
+      LoggingService.error(
+        `ContractWrapperBase.wrapTransactionInvocation: An error occurred calling ${functionName}: ${ex}`);
+      throw ex;
+    }
+  }
 
-    const tx = await generateTx();
+  /**
+   * Invoke sendTransaction on the function.  Properly publish TxTracking events.
+   * Rethrows exceptions that occur.
+   *
+   * If `ConfigService.get("estimateGas")` and gas was not already supplied,
+   * then we estimate gas.
+   *
+   * @param eventContext The TxTracking context
+   * @param func The contract function
+   * @param params The contract function parameters
+   * @param web3Params Optional web params, like `from`
+   */
+  protected async sendTransaction(
+    eventContext: TxEventStack,
+    func: ITruffleContractFunction,
+    params: Array<any>,
+    web3Params: any = {}
+  ): Promise<Hash> {
 
-    TransactionService.publishTxEvent(topic, txReceiptEventPayload, tx);
+    try {
+      if (ConfigService.get("estimateGas") && !web3Params.gas) {
+        await this.estimateGas(func, params)
+          .then((gas: number) => {
+            // side-effect of altering web3Params allows caller to know what we used
+            Object.assign(web3Params, { gas });
+            LoggingService.debug(`invoking function with estimated gas: ${gas}`);
+          })
+          .catch((ex: Error) => {
+            // we will simply revert to the default gas limit in this case
+            LoggingService.error(`estimateGas failed: ${ex}`);
+          });
+      }
 
-    return new ArcTransactionResult(tx);
+      params = params.concat(web3Params);
+
+      let error;
+      const txHash = await func.sendTransaction(...params)
+        .then((tx: Hash) => tx)
+        /**
+         * Because of truffle's faked Promise implementation, catching here is the only way
+         * to be able to catch it on the outside
+         */
+        .catch((ex: Error) => {
+          error = ex;
+          return null;
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      return txHash;
+    } catch (ex) {
+      // catch every possible error
+      TransactionService.publishTxFailed(eventContext, TransactionStage.sent, ex);
+      throw ex;
+    }
   }
 
   protected logContractFunctionCall(functionName: string, params?: any): void {
-    LoggingService.debug(`calling ${functionName}${params ? ` with: ${LoggingService.stringifyObject(params)}` : ""}`);
+    LoggingService.debug(`${functionName}: ${params ? `${LoggingService.stringifyObject(params)}` : "no parameters"}`);
   }
 }
 
-/**
- * The bundle of logs, TransactionReceipt and other information as returned by Truffle after invoking
- * a contract function that causes a transaction.
- */
-export interface TransactionReceiptTruffle {
-  logs: Array<any>;
-  receipt: TransactionReceipt;
-  transactionHash: Hash;
-  /**
-   * address of the transaction
-   */
-  tx: Address;
+export type TruffleContractFunction = (args?: Array<any>) => Promise<Hash>;
+
+export interface ITruffleContractFunction extends TruffleContractFunction {
+  sendTransaction: (args?: Array<any>) => Promise<Hash>;
+  estimateGas: (args?: Array<any>) => number;
 }
-
-export class ArcTransactionResult {
-
-  /**
-   * the transaction result to be returned
-   */
-  public tx: TransactionReceiptTruffle;
-
-  constructor(tx: TransactionReceiptTruffle) {
-    this.tx = tx;
-  }
-
-  /**
-   * Returns a value from the transaction logs.
-   * @param valueName - The name of the property whose value we wish to return
-   * @param eventName - Name of the event in whose log we are to look for the value
-   * @param index - Index of the log in which to look for the value, when eventName is not given.
-   * Default is the index of the last log in the transaction.
-   */
-  public getValueFromTx(valueName: string, eventName: string = null, index: number = 0): any | undefined {
-    return Utils.getValueFromLogs(this.tx, valueName, eventName, index);
-  }
-}
-/**
- * Base or actual type returned by all contract wrapper methods that generate a transaction and initiate a proposal.
- */
-export class ArcTransactionProposalResult extends ArcTransactionResult {
-
-  /**
-   * unique hash identifying a proposal
-   */
-  public proposalId: string;
-
-  constructor(tx: TransactionReceiptTruffle) {
-    super(tx);
-    this.proposalId = Utils.getValueFromLogs(tx, "_proposalId");
-  }
-}
-/**
- * Base or actual type returned by all contract wrapper methods that generate a transaction and any other result.
- */
-export class ArcTransactionDataResult<TData> extends ArcTransactionResult {
-  /**
-   * The data result to be returned
-   */
-  public result: TData;
-
-  constructor(tx: TransactionReceiptTruffle, result: TData) {
-    super(tx);
-    this.result = result;
-  }
-}
-
-export type EventCallback<TArgs> =
-  (
-    err: Error,
-    log: Array<DecodedLogEntryEvent<TArgs>>
-  ) => void;
-
-/**
- * The generic type of every handler function that returns an event.  See this
- * web3 documentation article for more information:
- * https://github.com/ethereum/wiki/wiki/JavaScript-API#contract-events
- *
- * argsFilter - contains the return values by which you want to filter the logs, e.g.
- * {'valueA': 1, 'valueB': [myFirstAddress, mySecondAddress]}
- * By default all filter  values are set to null which means that they will match
- * any event of given type sent from this contract.  Default is {}.
- *
- * filterObject - Additional filter options.  Typically something like { from: "latest" }.
- * Note if you don't want Arc.js to suppress duplicate events, set `suppressDups` to false.
- *
- * callback - (optional) If you pass a callback it will immediately
- * start watching.  Otherwise you will need to call .get or .watch.
- */
-export type EventFetcherFactory<TArgs> =
-  (
-    argFilter: any,
-    filterObject: EventFetcherFilterObject,
-    callback?: EventCallback<TArgs>
-  ) => EventFetcher<TArgs>;
-
-export type EventFetcherHandler<TArgs> =
-  (
-    callback: EventCallback<TArgs>
-  ) => void;
-
-/**
- * returned by EventFetcherFactory<TArgs> which is created by eventWrapperFactory.
- */
-export interface EventFetcher<TArgs> {
-  get: EventFetcherHandler<TArgs>;
-  watch: EventFetcherHandler<TArgs>;
-  stopWatching(): void;
-}
-
-/**
- * Haven't figured out how to export EventFetcherFilterObject that extends FilterObject from web3.
- * Maybe will be easier with web3 v1.0, perhaps using typescript's module augmentation feature.
- */
-
-/**
- * Options supplied to `EventFetcherFactory` and thence to `get and `watch`.
- */
-export interface EventFetcherFilterObject {
-  fromBlock?: number | string;
-  toBlock?: number | string;
-  address?: string;
-  topics?: Array<LogTopic>;
-  /**
-   * true to suppress duplicate events (see https://github.com/ethereum/web3.js/issues/398).
-   * The default is true.
-   */
-  suppressDups?: boolean;
-}
-
-/**
- * Common scheme parameters for schemes that are able to create proposals.
- */
-export interface StandardSchemeParams {
-  /**
-   * Hash of the voting machine parameters to use when voting on a proposal.
-   */
-  voteParametersHash: Hash;
-  /**
-   * Address of the voting machine to use when voting on a proposal.
-   */
-  votingMachineAddress: Address;
-}
-
-export { DecodedLogEntryEvent, TransactionReceipt } from "web3";

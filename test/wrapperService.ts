@@ -1,10 +1,10 @@
 import { assert } from "chai";
 import {
-  ContractWrapperBase,
   ContractWrapperFactories,
   ContractWrappers,
   ContractWrappersByAddress,
-  ContractWrappersByType
+  ContractWrappersByType,
+  IContractWrapperBase
 } from "../lib/index";
 import { LoggingService, LogLevel } from "../lib/loggingService";
 import { GenesisProtocolWrapper } from "../lib/wrappers/genesisProtocol";
@@ -45,7 +45,7 @@ describe("WrapperService", () => {
   });
 
   it("Can enumerate allWrappers", () => {
-    ContractWrappersByType.allWrappers.forEach((wrapper: ContractWrapperBase) => {
+    ContractWrappersByType.allWrappers.forEach((wrapper: IContractWrapperBase) => {
       assert.isOk(wrapper);
       assert(wrapper.name.length > 0);
     });

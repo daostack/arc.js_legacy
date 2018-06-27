@@ -29,7 +29,7 @@ export class AvatarService {
   }
 
   /**
-   * Returns promise of the Avatar TruffleContract.
+   * Returns promise of the Avatar Truffle contract wrapper.
    * Returns undefined if not found.
    */
   public async getAvatar(): Promise<any> {
@@ -60,7 +60,7 @@ export class AvatarService {
   }
 
   /**
-   * Returns promise of a TruffleContract for the controller.  Could be
+   * Returns promise of a Truffle contract wrapper for the controller.  Could be
    * either UController or Controller.  You can know which one
    * by checking the AvatarService instance property `isUController`.
    */
@@ -99,7 +99,7 @@ export class AvatarService {
   }
 
   /**
-   * Returns promise of the avatar's native reputation TruffleContract.
+   * Returns promise of the avatar's native reputation Truffle contract wrapper.
    */
   public async getNativeReputation(): Promise<any> {
     if (!this.nativeReputation) {
@@ -126,7 +126,7 @@ export class AvatarService {
   }
 
   /**
-   * Returns promise of the avatar's native token TruffleContract.
+   * Returns promise of the avatar's native token Truffle contract wrapper.
    * Assumes the token is a `DAOToken`.
    */
   public async getNativeToken(): Promise<any> {

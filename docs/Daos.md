@@ -260,11 +260,27 @@ if (upgradeSchemeInfo.wrapper) {
 You can obtain all of the DAOs that have been created by the DaoCreator that was deployed by the currently-running version of Arc.js:
 
 ```javascript
-const avatarAddresses = await DAO.getDaos({});
+const avatarAddresses = await DAO.getDaos();
 ```
 
 Or all of the DAOs created by a specific DaoCreator:
 
 ```javascript
 const avatarAddresses = await DAO.getDaos({"daoCreatorAddress": [anAddress]});
+```
+
+You can also get DAOs using the [EventFetcherFactory](api/README/#eventfetcherfactory) mechanism, enabling you to watch as DAOs are created, and get the events with more precision:
+
+```javascript
+const daoEventFetcherFactory = await DAO.getDaoCreationEvents();
+const watcher = await daoEventFetcherFactory({}, { fromBlock: 0 }).watch(
+  async (error, daoAddresses) => {
+    if (!error) {
+        const addresses = await daoAddresses;
+        avatarAddresses.forEach((address) => {
+          const dao = await DAO.at(address);
+        });
+      }
+  }
+);
 ```

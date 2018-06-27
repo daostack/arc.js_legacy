@@ -1,4 +1,5 @@
 import { assert } from "chai";
+import { BinaryVoteResult } from "../lib/commonTypes";
 import { Utils } from "../lib/utils";
 import { UpgradeSchemeFactory, UpgradeSchemeWrapper } from "../lib/wrappers/upgradeScheme";
 import * as helpers from "./helpers";
@@ -23,6 +24,126 @@ describe("UpgradeScheme", () => {
     avatar = await Avatar.new("name", token.address, reputation.address);
   });
 
+  it("can get executed proposals", async () => {
+
+    const dao = await helpers.forgeDao();
+
+    const upgradeScheme =
+      await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory) as UpgradeSchemeWrapper;
+
+    const schemeParams = await upgradeScheme.getParameters(
+      await upgradeScheme.getSchemeParametersHash(dao.avatar.address));
+
+    const newUpgradeScheme = await UpgradeSchemeFactory.new();
+
+    await newUpgradeScheme.setParameters(schemeParams);
+
+    const votingMachine = await upgradeScheme.getVotingMachine(dao.avatar.address);
+
+    const result = await upgradeScheme.proposeUpgradingScheme({
+      avatar: dao.avatar.address,
+      scheme: newUpgradeScheme.address,
+      schemeParametersHash: await dao.controller.getSchemeParameters(upgradeScheme.address, dao.avatar.address),
+    });
+
+    const proposalId = await result.getProposalIdFromMinedTx();
+
+    await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[1] });
+
+    /**
+     * at this point upgradeScheme is no longer registered with the controller.
+     * Thus we will not be able to obtain the scheme's voting machine address.
+     */
+    const executedProposals = await upgradeScheme.getExecutedProposals(dao.avatar.address)(
+      {}, { fromBlock: 0 }).get();
+
+    assert(executedProposals.length > 0, "Executed proposals not found");
+  });
+
+  it("can get upgraded UpgradeSchemes", async () => {
+
+    const dao = await helpers.forgeDao();
+
+    const upgradeScheme =
+      await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory) as UpgradeSchemeWrapper;
+
+    const newUpgradeScheme = await UpgradeSchemeFactory.new();
+
+    assert.isFalse(
+      await dao.isSchemeRegistered(newUpgradeScheme.address),
+      "new scheme is already registered into the controller"
+    );
+    assert.isTrue(
+      await dao.isSchemeRegistered(upgradeScheme.address),
+      "original scheme is not registered into the controller"
+    );
+
+    const votingMachine = await upgradeScheme.getVotingMachine(dao.avatar.address);
+
+    const result = await upgradeScheme.proposeUpgradingScheme({
+      avatar: dao.avatar.address,
+      scheme: newUpgradeScheme.address,
+      schemeParametersHash: await dao.controller.getSchemeParameters(upgradeScheme.address, dao.avatar.address),
+    });
+
+    const proposalId = await result.getProposalIdFromMinedTx();
+
+    const proposals = await (
+      await upgradeScheme.getVotableUpgradeUpgradeSchemeProposals(dao.avatar.address))(
+        {},
+        { fromBlock: 0 }).get();
+
+    assert.equal(proposals.length, 1);
+
+    const proposal = proposals[0];
+    assert.equal(proposal.proposalId, proposalId);
+
+    await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[1] });
+
+    const executedProposals = await upgradeScheme.getExecutedProposals(dao.avatar.address)(
+      { _proposalId: proposalId }, { fromBlock: 0 }).get();
+
+    assert.equal(executedProposals.length, 1, "Executed proposal not found");
+
+    const executedProposal = executedProposals[0];
+
+    assert(executedProposal.proposalId === proposalId, "executed proposalId not found");
+  });
+
+  it("can get upgraded Controllers", async () => {
+
+    const dao = await helpers.forgeDao();
+
+    const upgradeScheme =
+      await helpers.getDaoScheme(dao, "UpgradeScheme", UpgradeSchemeFactory) as UpgradeSchemeWrapper;
+
+    const newController = await Controller.new(avatar.address);
+
+    assert.equal(
+      await dao.controller.newControllers(dao.avatar.address),
+      helpers.NULL_ADDRESS,
+      "there is already a new controller"
+    );
+
+    const result = await upgradeScheme.proposeController({
+      avatar: dao.avatar.address,
+      controller: newController.address,
+    });
+
+    const proposalId = await result.getProposalIdFromMinedTx();
+
+    const proposals = await (
+      await upgradeScheme.getVotableUpgradeControllerProposals(dao.avatar.address))(
+        {},
+        { fromBlock: 0 }
+      ).get();
+
+    assert.equal(proposals.length, 1);
+
+    const proposal = proposals[0];
+    assert.equal(proposal.proposalId, proposalId);
+  });
+
   it("proposeController javascript wrapper should change controller", async () => {
     const dao = await helpers.forgeDao();
 
@@ -43,7 +164,7 @@ describe("UpgradeScheme", () => {
 
     // newUpgradeScheme.registerDao(dao.avatar.address);
 
-    const proposalId = result.proposalId;
+    const proposalId = await result.getProposalIdFromMinedTx();
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
@@ -76,7 +197,7 @@ describe("UpgradeScheme", () => {
     }
     );
 
-    const proposalId = result.proposalId;
+    const proposalId = await result.getProposalIdFromMinedTx();
     // now vote with the majority for the proposal
     const votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
@@ -118,7 +239,7 @@ describe("UpgradeScheme", () => {
       schemeParametersHash: await dao.controller.getSchemeParameters(upgradeScheme.address, dao.avatar.address),
     });
 
-    const proposalId = result.proposalId;
+    const proposalId = await result.getProposalIdFromMinedTx();
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
@@ -146,7 +267,7 @@ describe("UpgradeScheme", () => {
       schemeParametersHash: helpers.SOME_HASH,
     });
 
-    const proposalId = result.proposalId;
+    const proposalId = await result.getProposalIdFromMinedTx();
 
     const votingMachine = await helpers.getSchemeVotingMachine(dao, upgradeScheme);
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);

@@ -1,44 +1,44 @@
 "use strict";
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
-  ContractWrapperBase,
-  EventFetcherFactory,
+  IContractWrapperFactory,
+  SchemeWrapper,
   StandardSchemeParams,
-} from "../contractWrapperBase";
-import { ContractWrapperFactory } from "../contractWrapperFactory";
-import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
+} from "../iContractWrapperBase";
+import { ProposalGeneratorBase } from "../proposalGeneratorBase";
+import { TxGeneratingFunctionOptions } from "../transactionService";
+import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
+import {
+  ProposalDeletedEventResult,
+  SchemeProposalExecuted,
+  SchemeProposalExecutedEventResult
+} from "./commonEventInterfaces";
 
-export class SchemeRegistrarWrapper extends ContractWrapperBase implements SchemeWrapper {
+export class SchemeRegistrarWrapper extends ProposalGeneratorBase implements SchemeWrapper {
 
   public name: string = "SchemeRegistrar";
   public friendlyName: string = "Scheme Registrar";
-  public factory: ContractWrapperFactory<SchemeRegistrarWrapper> = SchemeRegistrarFactory;
+  public factory: IContractWrapperFactory<SchemeRegistrarWrapper> = SchemeRegistrarFactory;
   /**
    * Events
    */
 
-  /* tslint:disable:max-line-length */
-  public NewSchemeProposal: EventFetcherFactory<NewSchemeProposalEventResult> = this.createEventFetcherFactory<NewSchemeProposalEventResult>("NewSchemeProposal");
-  public RemoveSchemeProposal: EventFetcherFactory<RemoveSchemeProposalEventResult> = this.createEventFetcherFactory<RemoveSchemeProposalEventResult>("RemoveSchemeProposal");
-  public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult> = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
-  public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult> = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
-  /* tslint:enable:max-line-length */
+  public NewSchemeProposal: EventFetcherFactory<NewSchemeProposalEventResult>;
+  public RemoveSchemeProposal: EventFetcherFactory<RemoveSchemeProposalEventResult>;
+  public ProposalExecuted: EventFetcherFactory<SchemeProposalExecutedEventResult>;
+  public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
 
   /**
-   * Note relating to permissions: According rules defined in the Controller,
-   * this SchemeRegistrar is only capable of registering schemes that have
-   * either no permissions or have the permission to register other schemes.
-   * Therefore Arc's SchemeRegistrar is not capable of registering schemes
-   * that have permissions greater than its own, thus excluding schemes having
-   * the permission to add/remove global constraints or upgrade the controller.
-   * The Controller will throw an exception when an attempt is made
-   * to add or remove schemes having greater permissions than the scheme attempting the change.
+   * Submit a proposal to add or modify a given scheme.
+   * @param options
    */
   public async proposeToAddModifyScheme(
-    options: ProposeToAddModifySchemeParams = {} as ProposeToAddModifySchemeParams)
+    options: ProposeToAddModifySchemeParams = {} as ProposeToAddModifySchemeParams & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionProposalResult> {
+
     const defaults = {
       permissions: null,
       schemeName: null,
@@ -88,20 +88,22 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
 
     const txResult = await this.wrapTransactionInvocation("SchemeRegistrar.proposeToAddModifyScheme",
       options,
-      () => {
-        return this.contract.proposeScheme(
-          options.avatar,
-          options.schemeAddress,
-          options.schemeParametersHash,
-          SchemePermissions.toString(permissions)
-        );
-      });
+      this.contract.proposeScheme,
+      [options.avatar,
+      options.schemeAddress,
+      options.schemeParametersHash,
+      SchemePermissions.toString(permissions)]
+    );
 
-    return new ArcTransactionProposalResult(txResult.tx);
+    return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
 
+  /**
+   * Submit a proposal to remove a given scheme.
+   * @param options
+   */
   public async proposeToRemoveScheme(
-    options: ProposeToRemoveSchemeParams = {} as ProposeToRemoveSchemeParams)
+    options: ProposeToRemoveSchemeParams = {} as ProposeToRemoveSchemeParams & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionProposalResult> {
 
     if (!options.avatar) {
@@ -116,14 +118,12 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
 
     const txResult = await this.wrapTransactionInvocation("SchemeRegistrar.proposeToRemoveScheme",
       options,
-      () => {
-        return this.contract.proposeToRemoveScheme(
-          options.avatar,
-          options.schemeAddress
-        );
-      });
+      this.contract.proposeToRemoveScheme,
+      [options.avatar,
+      options.schemeAddress]
+    );
 
-    return new ArcTransactionProposalResult(txResult.tx);
+    return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
 
   public async setParameters(params: SchemeRegistrarParams): Promise<ArcTransactionDataResult<Hash>> {
@@ -132,6 +132,7 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
 
     return super._setParameters(
       "SchemeRegistrar.setParameters",
+      params.txEventStack,
       params.voteParametersHash,
       params.voteRemoveParametersHash ? params.voteRemoveParametersHash : params.voteParametersHash,
       params.votingMachineAddress
@@ -158,9 +159,104 @@ export class SchemeRegistrarWrapper extends ContractWrapperBase implements Schem
       votingMachineAddress: params[2],
     };
   }
+
+  /**
+   * EntityFetcherFactory for votable SchemeRegistrarProposal.
+   * @param avatarAddress
+   */
+  public async getVotableAddSchemeProposals(avatarAddress: Address):
+    Promise<EntityFetcherFactory<VotableSchemeRegistrarProposal, NewSchemeProposalEventResult>> {
+
+    if (!avatarAddress) {
+      throw new Error("avatarAddress is not set");
+    }
+
+    return this.proposalService.getProposalEvents(
+      {
+        baseArgFilter: { _avatar: avatarAddress },
+        proposalsEventFetcher: this.NewSchemeProposal,
+        transformEventCallback:
+          async (args: NewSchemeProposalEventResult): Promise<VotableSchemeRegistrarProposal> => {
+            return this.getVotableProposal(args._avatar, args._proposalId);
+          },
+        votableOnly: true,
+        votingMachine: await this.getVotingMachine(avatarAddress),
+      });
+  }
+
+  /**
+   * EntityFetcherFactory for votable SchemeRegistrarProposal.
+   * @param avatarAddress
+   */
+  public async getVotableRemoveSchemeProposals(avatarAddress: Address):
+    Promise<EntityFetcherFactory<VotableSchemeRegistrarProposal, RemoveSchemeProposalEventResult>> {
+
+    if (!avatarAddress) {
+      throw new Error("avatarAddress is not set");
+    }
+
+    return this.proposalService.getProposalEvents(
+      {
+        baseArgFilter: { _avatar: avatarAddress },
+        proposalsEventFetcher: this.RemoveSchemeProposal,
+        transformEventCallback:
+          async (args: RemoveSchemeProposalEventResult): Promise<VotableSchemeRegistrarProposal> => {
+            return this.getVotableProposal(args._avatar, args._proposalId);
+          },
+        votableOnly: true,
+        votingMachine: await this.getVotingMachine(avatarAddress),
+      });
+  }
+
+  /**
+   * EntityFetcherFactory for executed proposals.
+   * @param avatarAddress
+   */
+  public getExecutedProposals(avatarAddress: Address):
+    EntityFetcherFactory<SchemeProposalExecuted, SchemeProposalExecutedEventResult> {
+
+    return this.proposalService.getProposalEvents(
+      {
+        baseArgFilter: { _avatar: avatarAddress },
+        proposalsEventFetcher: this.ProposalExecuted,
+        transformEventCallback:
+          (event: SchemeProposalExecutedEventResult): Promise<SchemeProposalExecuted> => {
+            return Promise.resolve({
+              avatarAddress: event._avatar,
+              proposalId: event._proposalId,
+              winningVote: event._param,
+            });
+          },
+      });
+  }
+
+  public async getVotableProposal(avatarAddress: Address, proposalId: Hash): Promise<VotableSchemeRegistrarProposal> {
+    const proposalParams = await this.contract.organizationsProposals(avatarAddress, proposalId);
+    return this.convertProposalPropsArrayToObject(proposalParams, proposalId);
+  }
+
+  protected hydrated(): void {
+    /* tslint:disable:max-line-length */
+    this.NewSchemeProposal = this.createEventFetcherFactory<NewSchemeProposalEventResult>(this.contract.NewSchemeProposal);
+    this.RemoveSchemeProposal = this.createEventFetcherFactory<RemoveSchemeProposalEventResult>(this.contract.RemoveSchemeProposal);
+    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.ProposalExecuted);
+    this.ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>(this.contract.ProposalDeleted);
+    /* tslint:enable:max-line-length */
+  }
+
+  private convertProposalPropsArrayToObject(propsArray: Array<any>, proposalId: Hash): VotableSchemeRegistrarProposal {
+    return {
+      parametersHash: propsArray[1],
+      permissions: SchemePermissions.fromString(propsArray[3]),
+      proposalId,
+      proposalType: propsArray[2].toNumber(),
+      schemeAddress: propsArray[0],
+    };
+  }
 }
 
-export const SchemeRegistrarFactory = new ContractWrapperFactory("SchemeRegistrar", SchemeRegistrarWrapper);
+export const SchemeRegistrarFactory =
+  new ContractWrapperFactory("SchemeRegistrar", SchemeRegistrarWrapper, new Web3EventService());
 
 export interface NewSchemeProposalEventResult {
   /**
@@ -246,4 +342,17 @@ export interface SchemeRegistrarParams extends StandardSchemeParams {
    * Default is the value of voteParametersHash.
    */
   voteRemoveParametersHash?: Hash;
+}
+
+export enum SchemeRegistrarProposalType {
+  Add = 1,
+  Remove = 2,
+}
+
+export interface VotableSchemeRegistrarProposal {
+  schemeAddress: Address;
+  parametersHash: Hash;
+  proposalType: SchemeRegistrarProposalType;
+  permissions: SchemePermissions;
+  proposalId: Hash;
 }

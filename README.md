@@ -10,6 +10,8 @@ For more information about Arc contracts and the entire DAOstack ecosystem, plea
 ### Documentation
 Check out the [complete documentation on Arc.js](https://daostack.github.io/arc.js).
 
+Build and preview the documentation in a local repo using the script command `npm start docs.build.andPreview`.
+
 ## Contribute to Arc.js
 
 PRs are welcome but please first consult with the [Contribution guide](https://github.com/daostack/arc/blob/master/CONTRIBUTING.md).

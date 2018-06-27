@@ -1,6 +1,6 @@
 import { Address } from "./commonTypes";
-import { EventService, IEventSubscription } from "./eventService";
 import { LoggingService } from "./loggingService";
+import { IEventSubscription, PubSubEventService } from "./pubSubEventService";
 import { Utils } from "./utils";
 
 export class AccountService {
@@ -52,7 +52,7 @@ export class AccountService {
       if (currentAccount !== AccountService.currentAccount) {
         AccountService.currentAccount = currentAccount;
         LoggingService.info(`Account watch: account changed: ${currentAccount}`);
-        EventService.publish(AccountService.AccountChangedEventTopic, currentAccount);
+        PubSubEventService.publish(AccountService.AccountChangedEventTopic, currentAccount);
       }
       AccountService.accountChangedLock = false;
     }, 1000);
@@ -77,7 +77,7 @@ export class AccountService {
    * @returns A subscription to the event.  Unsubscribe by calling `[theSubscription].unsubscribe()`.
    */
   public static subscribeToAccountChanges(callback: (address: Address) => void): IEventSubscription {
-    return EventService.subscribe(AccountService.AccountChangedEventTopic,
+    return PubSubEventService.subscribe(AccountService.AccountChangedEventTopic,
       (topic: string, address: Address): any => callback(address));
   }
 

@@ -1,37 +1,43 @@
 "use strict";
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions, SchemeWrapper } from "../commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
-  ContractWrapperBase,
-  EventFetcherFactory,
+  IContractWrapperFactory,
+  SchemeWrapper,
   StandardSchemeParams,
-} from "../contractWrapperBase";
+} from "../iContractWrapperBase";
 
 import { ContractWrapperFactory } from "../contractWrapperFactory";
-import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
+import { ProposalGeneratorBase } from "../proposalGeneratorBase";
+import { TxGeneratingFunctionOptions } from "../transactionService";
+import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
+import {
+  ProposalDeletedEventResult,
+  SchemeProposalExecuted,
+  SchemeProposalExecutedEventResult
+} from "./commonEventInterfaces";
 
-export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeWrapper {
+export class UpgradeSchemeWrapper extends ProposalGeneratorBase implements SchemeWrapper {
 
   public name: string = "UpgradeScheme";
   public friendlyName: string = "Upgrade Scheme";
-  public factory: ContractWrapperFactory<UpgradeSchemeWrapper> = UpgradeSchemeFactory;
+  public factory: IContractWrapperFactory<UpgradeSchemeWrapper> = UpgradeSchemeFactory;
   /**
    * Events
    */
 
-  /* tslint:disable:max-line-length */
-  public NewUpgradeProposal: EventFetcherFactory<NewUpgradeProposalEventResult> = this.createEventFetcherFactory<NewUpgradeProposalEventResult>("NewUpgradeProposal");
-  public ChangeUpgradeSchemeProposal: EventFetcherFactory<ChangeUpgradeSchemeProposalEventResult> = this.createEventFetcherFactory<ChangeUpgradeSchemeProposalEventResult>("ChangeUpgradeSchemeProposal");
-  public ProposalExecuted: EventFetcherFactory<ProposalExecutedEventResult> = this.createEventFetcherFactory<ProposalExecutedEventResult>("ProposalExecuted");
-  public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult> = this.createEventFetcherFactory<ProposalDeletedEventResult>("ProposalDeleted");
-  /* tslint:enable:max-line-length */
+  public NewUpgradeProposal: EventFetcherFactory<NewUpgradeProposalEventResult>;
+  public ChangeUpgradeSchemeProposal: EventFetcherFactory<ChangeUpgradeSchemeProposalEventResult>;
+  public ProposalExecuted: EventFetcherFactory<SchemeProposalExecutedEventResult>;
+  public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
 
-  /*******************************************
-   * proposeController
+  /**
+   * Submit a proposal to change the DAO's controller.
+   * @param options
    */
   public async proposeController(
-    options: ProposeControllerParams = {} as ProposeControllerParams)
+    options: ProposeControllerParams = {} as ProposeControllerParams & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionProposalResult> {
 
     if (!options.avatar) {
@@ -46,21 +52,20 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeW
 
     const txResult = await this.wrapTransactionInvocation("UpgradeScheme.proposeController",
       options,
-      () => {
-        return this.contract.proposeUpgrade(
-          options.avatar,
-          options.controller
-        );
-      });
+      this.contract.proposeUpgrade,
+      [options.avatar,
+      options.controller]
+    );
 
-    return new ArcTransactionProposalResult(txResult.tx);
+    return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
 
-  /********************************************
-   * proposeUpgradingScheme
+  /**
+   * Submit a proposal to change or modify the DAO's upgrading scheme.
+   * @param options
    */
   public async proposeUpgradingScheme(
-    options: ProposeUpgradingSchemeParams = {} as ProposeUpgradingSchemeParams)
+    options: ProposeUpgradingSchemeParams = {} as ProposeUpgradingSchemeParams & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionProposalResult> {
 
     if (!options.avatar) {
@@ -79,15 +84,13 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeW
 
     const txResult = await this.wrapTransactionInvocation("UpgradeScheme.proposeUpgradingScheme",
       options,
-      () => {
-        return this.contract.proposeChangeUpgradingScheme(
-          options.avatar,
-          options.scheme,
-          options.schemeParametersHash
-        );
-      });
+      this.contract.proposeChangeUpgradingScheme,
+      [options.avatar,
+      options.scheme,
+      options.schemeParametersHash]
+    );
 
-    return new ArcTransactionProposalResult(txResult.tx);
+    return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
 
   public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
@@ -96,6 +99,7 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeW
 
     return super._setParameters(
       "UpgradeScheme.setParameters",
+      params.txEventStack,
       params.voteParametersHash,
       params.votingMachineAddress
     );
@@ -120,9 +124,95 @@ export class UpgradeSchemeWrapper extends ContractWrapperBase implements SchemeW
       votingMachineAddress: params[1],
     };
   }
+
+  /**
+   * EntityFetcherFactory for votable UpgradeSchemeProposal.
+   * @param avatarAddress
+   */
+  public async getVotableUpgradeUpgradeSchemeProposals(avatarAddress: Address):
+    Promise<EntityFetcherFactory<VotableUpgradeSchemeProposal, ChangeUpgradeSchemeProposalEventResult>> {
+
+    return this.proposalService.getProposalEvents(
+      {
+        baseArgFilter: { _avatar: avatarAddress },
+        proposalsEventFetcher: this.ChangeUpgradeSchemeProposal,
+        transformEventCallback:
+          async (args: ChangeUpgradeSchemeProposalEventResult): Promise<VotableUpgradeSchemeProposal> => {
+            return this.getVotableProposal(args._avatar, args._proposalId);
+          },
+        votableOnly: true,
+        votingMachine: await this.getVotingMachine(avatarAddress),
+      });
+  }
+
+  /**
+   * EntityFetcherFactory for votable UpgradeSchemeProposal.
+   * @param avatarAddress
+   */
+  public async getVotableUpgradeControllerProposals(avatarAddress: Address):
+    Promise<EntityFetcherFactory<VotableUpgradeSchemeProposal, NewUpgradeProposalEventResult>> {
+
+    return this.proposalService.getProposalEvents(
+      {
+        baseArgFilter: { _avatar: avatarAddress },
+        proposalsEventFetcher: this.NewUpgradeProposal,
+        transformEventCallback:
+          async (args: NewUpgradeProposalEventResult): Promise<VotableUpgradeSchemeProposal> => {
+            return this.getVotableProposal(args._avatar, args._proposalId);
+          },
+        votableOnly: true,
+        votingMachine: await this.getVotingMachine(avatarAddress),
+      });
+  }
+
+  /**
+   * EntityFetcherFactory for executed proposals.
+   * @param avatarAddress
+   */
+  public getExecutedProposals(avatarAddress: Address):
+    EntityFetcherFactory<SchemeProposalExecuted, SchemeProposalExecutedEventResult> {
+
+    return this.proposalService.getProposalEvents(
+      {
+        baseArgFilter: { _avatar: avatarAddress },
+        proposalsEventFetcher: this.ProposalExecuted,
+        transformEventCallback:
+          (event: SchemeProposalExecutedEventResult): Promise<SchemeProposalExecuted> => {
+            return Promise.resolve({
+              avatarAddress: event._avatar,
+              proposalId: event._proposalId,
+              winningVote: event._param,
+            });
+          },
+      });
+  }
+
+  public async getVotableProposal(avatarAddress: Address, proposalId: Hash): Promise<VotableUpgradeSchemeProposal> {
+    const proposalParams = await this.contract.organizationsProposals(avatarAddress, proposalId);
+    return this.convertProposalPropsArrayToObject(proposalParams, proposalId);
+  }
+
+  protected hydrated(): void {
+    /* tslint:disable:max-line-length */
+    this.NewUpgradeProposal = this.createEventFetcherFactory<NewUpgradeProposalEventResult>(this.contract.NewUpgradeProposal);
+    this.ChangeUpgradeSchemeProposal = this.createEventFetcherFactory<ChangeUpgradeSchemeProposalEventResult>(this.contract.ChangeUpgradeSchemeProposal);
+    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.ProposalExecuted);
+    this.ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>(this.contract.ProposalDeleted);
+    /* tslint:enable:max-line-length */
+  }
+
+  private convertProposalPropsArrayToObject(propsArray: Array<any>, proposalId: Hash): VotableUpgradeSchemeProposal {
+    return {
+      paramsUpgradingScheme: propsArray[1],
+      proposalId,
+      proposalType: propsArray[2].toNumber(),
+      upgradeContractAddress: propsArray[0],
+    };
+  }
 }
 
-export const UpgradeSchemeFactory = new ContractWrapperFactory("UpgradeScheme", UpgradeSchemeWrapper);
+export const UpgradeSchemeFactory =
+  new ContractWrapperFactory("UpgradeScheme", UpgradeSchemeWrapper, new Web3EventService());
 
 export interface NewUpgradeProposalEventResult {
   /**
@@ -181,4 +271,19 @@ export interface ProposeControllerParams {
    *  controller address
    */
   controller: string;
+}
+
+export enum UpgradeSchemeProposalType {
+  Controller = 1,
+  UpgradeScheme = 2,
+}
+
+export interface VotableUpgradeSchemeProposal {
+  /**
+   * Either a controller or an upgrade scheme.
+   */
+  upgradeContractAddress: Address;
+  paramsUpgradingScheme: Hash;
+  proposalType: UpgradeSchemeProposalType;
+  proposalId: Hash;
 }
