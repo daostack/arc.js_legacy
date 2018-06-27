@@ -1,8 +1,8 @@
 const env = require("env-variable")();
 const webConstructor = require("web3");
-// import { Utils } from "../utils";
+import { Utils } from "../utils";
 // import { UtilsInternal } from "../utilsInternal");
-const promisify = require("es6-promisify").promisify;
+//const promisify = require("es6-promisify").promisify;
 
 let providerConfig;
 let provider;
@@ -20,21 +20,21 @@ if (env.arcjs_providerConfig) {
   web3 = (<any>global).web3 = new webConstructor(provider);
 }
 
-// const mintTokens = async () => {
-//   const DAOToken = await Utils.requireContract("DAOToken");
-//   // then we will create a new token to use for staking
-//   const token = await DAOToken.at("0x240481418e44558cf9c4b87cd0497a34771749e7");
-//   console.log(`got token`);
+const mintTokens = async () => {
+  const DAOToken = await Utils.requireContract("DAOToken");
+  // then we will create a new token to use for staking
+  const token = await DAOToken.at("0x240481418e44558cf9c4b87cd0497a34771749e7");
+  console.log(`got token`);
 
-//   console.log(`minting...`);
-//   await token.mint("0x78434fdaf6d44254b95634e2be9d7ca3433d8853", web3.toWei(100));
-//   console.log(`done`);
-// };
+  console.log(`minting...`);
+  await token.mint("0x0017cd246be69d243657400685B3C17c545bfd0F", web3.toWei(1000));
+  console.log(`done`);
+};
 
-const createDougsTestDao = async () => {
-  const DaoCreator = require("./createDougsTestDao.js").DaoCreator;
-  await new DaoCreator().createDao();
-}
+// const createDougsTestDao = async () => {
+//   const DaoCreator = require("./createDougsTestDao.js").DaoCreator;
+//   await new DaoCreator().createDao();
+// }
 
 // const getGpProposals = async () => {
 
@@ -184,4 +184,4 @@ const createDougsTestDao = async () => {
 //   process.exit(0);
 // }
 
-createDougsTestDao().then(() => { process.exit(0) }).catch((err: Error) => { console.log(err); process.exit(0); });
+mintTokens().then(() => { process.exit(0) }).catch((err: Error) => { console.log(err); process.exit(0); });
