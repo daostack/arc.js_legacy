@@ -1,4 +1,5 @@
 const promisify = require("es6-promisify").promisify;
+const arcForgeOrgGasLimit = require("./arcConstants.js").ARC_GAS_LIMIT;
 /**
  * Defines some useful gas limit constants, provides some useful gasLimit-related utilities.
  *
@@ -11,7 +12,7 @@ const gasLimitsConfig =
   /**
    * The gas limit used by Arc to forge a DAO with foundersInGasLimitArc founders
    */
-  "gasLimit_arc": 5600000,
+  "gasLimit_arc": arcForgeOrgGasLimit,
   /**
    * The amount of gas needed for each founder when creating a DAO
    */
