@@ -343,6 +343,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#estimating-gas-limits" title="Estimating Gas Limits" class="md-nav__link">
+    Estimating Gas Limits
+  </a>
+  
+</li>
+      
       
       
       
@@ -2721,6 +2728,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#estimating-gas-limits" title="Estimating Gas Limits" class="md-nav__link">
+    Estimating Gas Limits
+  </a>
+  
+</li>
+      
       
       
       
@@ -2823,6 +2837,14 @@
 <p>Identify the stage of the event using the the event name (topic) parameter of the callback, or by the <code>txStage</code> property of the <code>txEventInfo</code> (payload).  See the code example above.</p>
 <p>Errors may occur at any point in the lifecycle.  When they do you will receive an event with ".failed" appended to the event name (topic) parameter of the callback,
 and the <code>error</code> property will contain the <code>Error</code> that describes what happened.  The txStage will represent the stage at which the error occurred, and you will receive no further events on the transaction.</p>
+<h2 id="estimating-gas-limits">Estimating Gas Limits<a class="headerlink" href="#estimating-gas-limits" title="Permanent link">&para;</a></h2>
+<p>Arc.js contains an experimental feature that automatically estimates the gas cost of any transaction executed using the contract wrappers.  The estimate will appear in a client like MetaMask, giving the user a more accurate sense of how much the transaction is going to cost when they are decided whether to approve the transaction, and putting fewer of the user's funds at risk in case of an error.</p>
+<p>This feature is disabled by default.  You can enable it at any time with the following line:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">ConfigService</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;estimateGas&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<p>And you may similarly disable it at any time.</p>
                 
                   
                 

@@ -3014,7 +3014,7 @@
 <h2 id="constructors_1">Constructors<a class="headerlink" href="#constructors_1" title="Permanent link">&para;</a></h2>
 <p><a id="constructor"></a></p>
 <h3 id="new-arctransactionresulttx-hash-contract-stringany-arctransactionresult">⊕ <strong>new ArcTransactionResult</strong>(tx: <em><a href="../../#Hash">Hash</a></em>, contract: <em><code>string</code>⎮<code>any</code></em>): <a href="./">ArcTransactionResult</a><a class="headerlink" href="#new-arctransactionresulttx-hash-contract-stringany-arctransactionresult" title="Permanent link">&para;</a></h3>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6be16c8a/lib/iContractWrapperBase.ts#L30">iContractWrapperBase.ts:30</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/iContractWrapperBase.ts#L30">iContractWrapperBase.ts:30</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -3043,14 +3043,14 @@
 <p><a id="tx"></a></p>
 <h3 id="tx">tx<a class="headerlink" href="#tx" title="Permanent link">&para;</a></h3>
 <p><strong>●  tx</strong>:  <em><a href="../../#Hash">Hash</a></em> </p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6be16c8a/lib/iContractWrapperBase.ts#L36">iContractWrapperBase.ts:36</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/iContractWrapperBase.ts#L36">iContractWrapperBase.ts:36</a></em></p>
 <p>The transaction hash</p>
 <hr />
 <h2 id="methods_1">Methods<a class="headerlink" href="#methods_1" title="Permanent link">&para;</a></h2>
 <p><a id="getTxConfirmed"></a></p>
 <h3 id="gettxconfirmed">getTxConfirmed<a class="headerlink" href="#gettxconfirmed" title="Permanent link">&para;</a></h3>
 <p>► <strong>getTxConfirmed</strong>(requiredDepth?: <em><code>number</code></em>): <code>Promise</code>.&lt;<a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a>⎮<code>null</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6be16c8a/lib/iContractWrapperBase.ts#L64">iContractWrapperBase.ts:64</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/iContractWrapperBase.ts#L64">iContractWrapperBase.ts:64</a></em></p>
 <p>Returns a promise of the transaction if it is confirmed, converted to a TransactionReceiptTruffle (with readable logs).</p>
 <p>Returns null if the transaction is not yet found at the required depth.</p>
 <p><strong>Parameters:</strong></p>
@@ -3075,7 +3075,7 @@
 <p><a id="getTxMined"></a></p>
 <h3 id="gettxmined">getTxMined<a class="headerlink" href="#gettxmined" title="Permanent link">&para;</a></h3>
 <p>► <strong>getTxMined</strong>(): <code>Promise</code>.&lt;<a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a>⎮<code>null</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6be16c8a/lib/iContractWrapperBase.ts#L49">iContractWrapperBase.ts:49</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/iContractWrapperBase.ts#L49">iContractWrapperBase.ts:49</a></em></p>
 <p>Returns a promise of the transaction if it is mined, converted to a TransactionReceiptTruffle (with readable logs).</p>
 <p>Returns null if the transaciton is not yet mined.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a>⎮<code>null</code>&gt;</p>
@@ -3083,7 +3083,7 @@
 <p><a id="getValueFromMinedTx"></a></p>
 <h3 id="getvaluefromminedtx">getValueFromMinedTx<a class="headerlink" href="#getvaluefromminedtx" title="Permanent link">&para;</a></h3>
 <p>► <strong>getValueFromMinedTx</strong>(valueName: <em><code>string</code></em>, eventName?: <em><code>string</code></em>, index?: <em><code>number</code></em>): <code>Promise</code>.&lt;<code>any</code>⎮<code>undefined</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6be16c8a/lib/iContractWrapperBase.ts#L103">iContractWrapperBase.ts:103</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/iContractWrapperBase.ts#L103">iContractWrapperBase.ts:103</a></em></p>
 <p>Returns promise of a value from the logs of the mined transaction. Will watch for the mined tx, so could take a while to return.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3121,7 +3121,7 @@
 <p><a id="watchForTxConfirmed"></a></p>
 <h3 id="watchfortxconfirmed">watchForTxConfirmed<a class="headerlink" href="#watchfortxconfirmed" title="Permanent link">&para;</a></h3>
 <p>► <strong>watchForTxConfirmed</strong>(requiredDepth?: <em><code>number</code></em>): <code>Promise</code>.&lt;<a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6be16c8a/lib/iContractWrapperBase.ts#L89">iContractWrapperBase.ts:89</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/iContractWrapperBase.ts#L89">iContractWrapperBase.ts:89</a></em></p>
 <p>Returns a promise of a TransactionReceipt once the given transaction has been confirmed, converted to a TransactionReceiptTruffle (with readable logs), according to the optional <code>requiredDepth</code>.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3145,7 +3145,7 @@
 <p><a id="watchForTxMined"></a></p>
 <h3 id="watchfortxmined">watchForTxMined<a class="headerlink" href="#watchfortxmined" title="Permanent link">&para;</a></h3>
 <p>► <strong>watchForTxMined</strong>(): <code>Promise</code>.&lt;<a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6be16c8a/lib/iContractWrapperBase.ts#L75">iContractWrapperBase.ts:75</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/013f10a4/lib/iContractWrapperBase.ts#L75">iContractWrapperBase.ts:75</a></em></p>
 <p>Returns promise of a mined transaction once it has been mined, converted to a TransactionReceiptTruffle (with readable logs).</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a>&gt;</p>
 <hr />
