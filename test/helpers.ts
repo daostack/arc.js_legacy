@@ -4,6 +4,7 @@ import { Address, Hash } from "../lib/commonTypes";
 import { DAO, NewDaoConfig } from "../lib/dao";
 import {
   ArcTransactionResult,
+  ConfigService,
   ContributionRewardWrapper,
   DecodedLogEntryEvent,
   IContractWrapperBase,
@@ -27,9 +28,11 @@ export const NULL_ADDRESS = Utils.NULL_ADDRESS;
 export const SOME_HASH = "0x1000000000000000000000000000000000000000000000000000000000000000";
 export const SOME_ADDRESS = "0x1000000000000000000000000000000000000000";
 
-export const DefaultLogLevel = LogLevel.error;
+/* tslint:disable-next-line:no-bitwise */
+export const DefaultLogLevel = LogLevel.error | LogLevel.info;
 
 LoggingService.logLevel = DefaultLogLevel;
+ConfigService.set("estimateGas", true);
 
 let testWeb3;
 let network;
@@ -46,8 +49,7 @@ const etherForEveryone = async (): Promise<void> => {
 };
 
 const genTokensForEveryone = async (): Promise<void> => {
-  const address = await Utils.getGenTokenAddress();
-  const genToken = await (await Utils.requireContract("DAOToken")).at(address) as any;
+  const genToken = await Utils.getGenToken();
   accounts.forEach((account: Address) => {
     // 1000 is an arbitrary number we've always given to founders for tests
     genToken.mint(account, web3.toWei(1000));
@@ -76,7 +78,7 @@ const setupForNonGanacheNet = (): void => {
 
 beforeEach(async () => {
 
-  network = env.arcjs_network || "Ganache";
+  network = (env.arcjs_network || "ganache").toLowerCase();
 
   if (!testWeb3) {
 
@@ -90,7 +92,7 @@ beforeEach(async () => {
 
   (global as any).accounts = await promisify(web3.eth.getAccounts)();
 
-  if (network === "Ganache") {
+  if (network === "ganache") {
     await etherForEveryone();
     await genTokensForEveryone();
   }
@@ -233,26 +235,35 @@ export async function voteWasExecuted(votingMachine: IntVoteInterfaceWrapper, pr
 
 // Increases ganache time by the passed duration in seconds
 export async function increaseTime(duration: number): Promise<void> {
-  const id = new Date().getTime();
 
-  return new Promise((resolve: (res: any) => any, reject: (err: any) => any): void => {
-    web3.currentProvider.sendAsync({
-      id,
-      jsonrpc: "2.0",
-      method: "evm_increaseTime",
-      params: [duration],
-    }, (err1: any) => {
-      if (err1) { return reject(err1); }
+  if (network === "ganache") {
+    const id = new Date().getTime();
 
+    return new Promise((resolve: (res: any) => any, reject: (err: any) => any): void => {
       web3.currentProvider.sendAsync({
-        id: id + 1,
+        id,
         jsonrpc: "2.0",
-        method: "evm_mine",
-      }, (err2: any, res: any): void => {
-        return err2 ? reject(err2) : resolve(res);
+        method: "evm_increaseTime",
+        params: [duration],
+      }, (err1: any) => {
+        if (err1) { return reject(err1); }
+
+        web3.currentProvider.sendAsync({
+          id: id + 1,
+          jsonrpc: "2.0",
+          method: "evm_mine",
+        }, (err2: any, res: any): void => {
+          return err2 ? reject(err2) : resolve(res);
+        });
       });
     });
-  });
+  }
+}
+
+export async function waitForBlocks(blocks: number): Promise<void> {
+  const currentBlock = await UtilsInternal.lastBlock();
+  /* tslint:disable-next-line:no-empty */
+  while ((await UtilsInternal.lastBlock()) - currentBlock < blocks) { }
 }
 
 export async function getDaoScheme(

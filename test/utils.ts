@@ -20,6 +20,11 @@ describe("Misc", () => {
     assert.equal(await token.symbol(), "GEN");
   });
 
+  it("has GEN token balance", async () => {
+    const balance = web3.fromWei(await Utils.getGenTokenBalance(accounts[0]));
+    assert(balance.gt(0));
+  });
+
   it("LoggingService can stringify circular object", async () => {
     const objA: any = {};
     const objB: any = { objA };
@@ -60,9 +65,7 @@ describe("PubSub events", () => {
     assert.isTrue(PubSubEventService.isTopicSpecifiedBy(["barn", "foo", "flank"], "foo.bar"), `test failed: ${++testId}`);
     /* tslint:enable:max-line-length */
   });
-});
 
-describe("PubSub events", () => {
   it("isTopicSpecifiedBy works", async () => {
     let testId = 0;
 

@@ -9,6 +9,7 @@ import {
 } from "../lib";
 import { BinaryVoteResult, fnVoid } from "../lib/commonTypes";
 import { TransactionReceiptsEventInfo, TransactionService, TransactionStage } from "../lib/transactionService";
+import { UtilsInternal } from "../lib/utilsInternal";
 import * as helpers from "./helpers";
 
 describe("TransactionService", () => {
@@ -43,8 +44,9 @@ describe("TransactionService", () => {
           if (!ex) {
             const receipt = await TransactionService.getConfirmedTransaction(result.tx, undefined);
             if (receipt) {
-              filter.stopWatching();
-              return resolve();
+              UtilsInternal.stopWatchingAsync(filter).then(() => {
+                return resolve();
+              });
             }
           } else {
             return reject();
@@ -93,8 +95,9 @@ describe("TransactionService", () => {
   //         if (!ex) {
   //           const receipt = await TransactionService.getMinedTransaction(result.tx, undefined);
   //           if (receipt) {
-  //             filter.stopWatching();
-  //             return resolve();
+  // UtilsInternal.stopWatchingAsync(filter).then(() => {
+  //   return resolve();
+  // });
   //           }
   //         } else {
   //           return reject();
@@ -142,8 +145,9 @@ describe("TransactionService", () => {
           if (!ex) {
             const receipt = await TransactionService.getMinedTransaction(result.tx, undefined);
             if (receipt) {
-              filter.stopWatching();
-              return resolve();
+              UtilsInternal.stopWatchingAsync(filter).then(() => {
+                return resolve();
+              });
             }
           } else {
             return reject();

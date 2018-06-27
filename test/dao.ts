@@ -27,6 +27,12 @@ describe("DAO", () => {
     }, options));
   };
 
+  it("founders have a native token balance", async () => {
+    const dao = await getNewDao();
+    const balance = web3.fromWei(await dao.getTokenBalance(accounts[0]));
+    assert(balance.eq(100));
+  });
+
   it("can call getDaos", async () => {
 
     let daos = await DAO.getDaos();
@@ -82,7 +88,7 @@ describe("DAO", () => {
     await getNewDao();
 
     await helpers.sleep(1000);
-    watcher.stopWatching();
+    await watcher.stopWatchingAsync();
     subscription.unsubscribe();
     assert.equal(countWatch, originalCountOfDaos + 1, `Should have watched one new dao`);
     assert.equal(countSubscribe, originalCountOfDaos + 1, `Should have subscribed to one new dao`);

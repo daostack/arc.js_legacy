@@ -1,7 +1,8 @@
 import { assert } from "chai";
-import { BinaryVoteResult, IntVoteInterfaceWrapper, RedeemEventResult } from "../lib";
+import { BinaryVoteResult, IntVoteInterfaceWrapper, RedeemEventResult, Utils } from "../lib";
 import { DAO } from "../lib/dao";
 import { ArcTransactionProposalResult, DecodedLogEntryEvent } from "../lib/iContractWrapperBase";
+import { UtilsInternal } from "../lib/utilsInternal";
 import {
   ContributionProposal,
   ContributionRewardFactory,
@@ -14,14 +15,34 @@ describe("ContributionReward scheme", () => {
   let dao: DAO;
   let scheme: ContributionRewardWrapper;
   let votingMachine: IntVoteInterfaceWrapper;
+  let account0;
+  let account1;
+  let network;
 
   beforeEach(async () => {
+    if (!dao) {
+      await setupDao();
+    }
+  });
 
-    dao = await helpers.forgeDao({
-      schemes: [
-        { name: "ContributionReward" },
-      ],
-    });
+  const setupDao = async (): Promise<void> => {
+    if (!network) {
+      network = await Utils.getNetworkName();
+    }
+    if (network !== "Ganache") {
+      const daoAddress = network === "Kovan" ? "0x78434fdaf6d44254b95634e2be9d7ca3433d8853" : "???";
+      dao = await DAO.at(daoAddress);
+      account0 = accounts[0];
+      account1 = accounts[0];
+    } else {
+      dao = await helpers.forgeDao({
+        schemes: [
+          { name: "ContributionReward" },
+        ],
+      });
+      account0 = accounts[0];
+      account1 = accounts[1];
+    }
 
     scheme = await helpers.getDaoScheme(
       dao,
@@ -29,12 +50,14 @@ describe("ContributionReward scheme", () => {
       ContributionRewardFactory) as ContributionRewardWrapper;
 
     votingMachine = await scheme.getVotingMachine(dao.avatar.address);
-  });
+  };
 
-  const proposeReward = async (rewardsSpec: any): Promise<ArcTransactionProposalResult> => {
-    const result = await scheme.proposeContributionReward(Object.assign({
+  const proposeReward = async (
+    rewardsSpec: any,
+    customScheme: ContributionRewardWrapper = scheme): Promise<ArcTransactionProposalResult> => {
+    const result = await customScheme.proposeContributionReward(Object.assign({
       avatar: dao.avatar.address,
-      beneficiaryAddress: accounts[1],
+      beneficiaryAddress: account1,
       description: "A new contribution",
       numberOfPeriods: 1,
       periodLength: 1,
@@ -49,7 +72,7 @@ describe("ContributionReward scheme", () => {
   it("can get NewContributionProposal event with rewards", async () => {
 
     const result = await proposeReward({
-      nativeTokenReward: web3.toWei(10),
+      nativeTokenReward: web3.toWei(1),
     });
 
     // const proposal = await result.getTxConfirmed();
@@ -66,38 +89,45 @@ describe("ContributionReward scheme", () => {
 
   it("can create and propose with orgNativeTokenFee", async () => {
 
-    dao = await helpers.forgeDao({
-      schemes: [
-        { name: "ContributionReward", additionalParams: { orgNativeTokenFee: web3.toWei(10) } },
-      ],
-    });
+    if (network === "Ganache") {
 
-    scheme = await helpers.getDaoScheme(
-      dao,
-      "ContributionReward",
-      ContributionRewardFactory) as ContributionRewardWrapper;
+      const localDao = await helpers.forgeDao({
+        schemes: [
+          { name: "ContributionReward", additionalParams: { orgNativeTokenFee: web3.toWei(1) } },
+        ],
+      });
 
-    /**
-     * should not revert
-     */
-    await proposeReward({
-      nativeTokenReward: web3.toWei(10),
-    });
+      const localScheme = await helpers.getDaoScheme(
+        localDao,
+        "ContributionReward",
+        ContributionRewardFactory) as ContributionRewardWrapper;
+
+      /**
+       * should not revert
+       */
+      await proposeReward({
+        nativeTokenReward: web3.toWei(1),
+      }, localScheme);
+    }
   });
 
   it("can propose, vote and redeem", async () => {
 
     const proposalResult = await proposeReward({
-      nativeTokenReward: web3.toWei(10),
+      nativeTokenReward: web3.toWei(1),
     });
 
     const proposalId = await proposalResult.getProposalIdFromMinedTx();
 
-    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
+    await helpers.vote(votingMachine, proposalId, 1, account1);
     assert(await helpers.voteWasExecuted(votingMachine, proposalId), "vote was not executed");
 
-    // this will mine a block, allowing the award to be redeemed
-    await helpers.increaseTime(1);
+    if (network === "Ganache") {
+      // this will mine a block, allowing the award to be redeemed
+      await helpers.increaseTime(1);
+    } else {
+      await helpers.waitForBlocks(1);
+    }
 
     // now try to redeem some native tokens
     const result = await scheme.redeemContributionReward({
@@ -111,18 +141,18 @@ describe("ContributionReward scheme", () => {
     const eventProposalId = await result.getValueFromMinedTx("_proposalId", "RedeemNativeToken");
     const amount = await result.getValueFromMinedTx("_amount", "RedeemNativeToken");
     assert.equal(eventProposalId, proposalId);
-    assert(helpers.fromWei(amount).eq(10));
+    assert(helpers.fromWei(amount).eq(1));
   });
 
   it("can redeem reputation", async () => {
 
     const proposalResult = await proposeReward({
-      reputationChange: web3.toWei(10),
+      reputationChange: web3.toWei(1),
     });
 
     const proposalId = await proposalResult.getProposalIdFromMinedTx();
 
-    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
+    await helpers.vote(votingMachine, proposalId, 1, account1);
 
     // this will mine a block, allowing the award to be redeemed
     await helpers.increaseTime(1);
@@ -138,34 +168,34 @@ describe("ContributionReward scheme", () => {
     const eventProposalId = await result.getValueFromMinedTx("_proposalId", "RedeemReputation");
     const amount = await result.getValueFromMinedTx("_amount", "RedeemReputation");
     assert.equal(eventProposalId, proposalId);
-    assert(helpers.fromWei(amount).eq(10));
+    assert(helpers.fromWei(amount).eq(1));
   });
 
   it("can redeem ethers", async () => {
-
+    const ethAmount = 0.000000001;
     const proposalResult = await proposeReward({
-      ethReward: web3.toWei(.005),
+      ethReward: web3.toWei(ethAmount),
     });
 
     const proposalId = await proposalResult.getProposalIdFromMinedTx();
 
-    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
+    await helpers.vote(votingMachine, proposalId, 1, account1);
 
     // this will mine a block, allowing the award to be redeemed
     await helpers.increaseTime(1);
 
     // give the avatar some eth to pay out
-    await helpers.transferEthToDao(dao, .005);
+    await helpers.transferEthToDao(dao, ethAmount);
 
     const rewards = await scheme.getBeneficiaryRewards({
       avatar: dao.avatar.address,
-      beneficiaryAddress: accounts[1],
+      beneficiaryAddress: account1,
       proposalId,
     });
 
     assert.equal(rewards.length, 1);
-    assert(rewards[0].ethAvailableToReward.eq(web3.toWei(".005")),
-      `${rewards[0].ethAvailableToReward} should equal ${web3.toWei(".005")}`);
+    assert(rewards[0].ethAvailableToReward.eq(web3.toWei(ethAmount)),
+      `${rewards[0].ethAvailableToReward} should equal ${web3.toWei(ethAmount)}`);
 
     // now try to redeem some native tokens
     const result = await scheme.redeemEther({
@@ -179,20 +209,20 @@ describe("ContributionReward scheme", () => {
     const amount = await result.getValueFromMinedTx("_amount", "RedeemEther");
     const beneficiary = await result.getValueFromMinedTx("_beneficiary", "RedeemEther");
 
-    assert.equal(beneficiary, accounts[1]);
+    assert.equal(beneficiary, account1);
     assert.equal(eventProposalId, proposalId);
-    assert(helpers.fromWei(amount).eq(.005));
+    assert(helpers.fromWei(amount).eq(ethAmount));
   });
 
   it("can redeem native tokens", async () => {
 
     const proposalResult = await proposeReward({
-      nativeTokenReward: web3.toWei(10),
+      nativeTokenReward: web3.toWei(1),
     });
 
     const proposalId = await proposalResult.getProposalIdFromMinedTx();
 
-    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
+    await helpers.vote(votingMachine, proposalId, 1, account1);
 
     // this will mine a block, allowing the award to be redeemed
     await helpers.increaseTime(1);
@@ -208,7 +238,7 @@ describe("ContributionReward scheme", () => {
     const eventProposalId = await result.getValueFromMinedTx("_proposalId", "RedeemNativeToken");
     const amount = await result.getValueFromMinedTx("_amount", "RedeemNativeToken");
     assert.equal(eventProposalId, proposalId);
-    assert(helpers.fromWei(amount).eq(10));
+    assert(helpers.fromWei(amount).eq(1));
   });
 
   it("can redeem external tokens", async () => {
@@ -217,27 +247,27 @@ describe("ContributionReward scheme", () => {
 
     const proposalResult = await proposeReward({
       externalToken: externalToken.address,
-      externalTokenReward: web3.toWei(10),
+      externalTokenReward: web3.toWei(1),
     });
 
     const proposalId = await proposalResult.getProposalIdFromMinedTx();
 
-    await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
+    await helpers.vote(votingMachine, proposalId, 1, account1);
 
     // this will mine a block, allowing the award to be redeemed
     await helpers.increaseTime(1);
 
-    await helpers.transferTokensToDao(dao, 10, accounts[0], externalToken);
+    await helpers.transferTokensToDao(dao, 1, account1, externalToken);
 
     const rewards = await scheme.getBeneficiaryRewards({
       avatar: dao.avatar.address,
-      beneficiaryAddress: accounts[1],
+      beneficiaryAddress: account1,
       proposalId,
     });
 
     assert.equal(rewards.length, 1);
-    assert(rewards[0].externalTokensAvailableToReward.eq(web3.toWei("10")),
-      `${rewards[0].externalTokensAvailableToReward} should equal ${web3.toWei("10")}`);
+    assert(rewards[0].externalTokensAvailableToReward.eq(web3.toWei("1")),
+      `${rewards[0].externalTokensAvailableToReward} should equal ${web3.toWei("1")}`);
 
     // now try to redeem some native tokens
     const result = await scheme.redeemExternalToken({
@@ -250,75 +280,79 @@ describe("ContributionReward scheme", () => {
     const eventProposalId = await result.getValueFromMinedTx("_proposalId", "RedeemExternalToken");
     const amount = await result.getValueFromMinedTx("_amount", "RedeemExternalToken");
     assert.equal(eventProposalId, proposalId);
-    assert(helpers.fromWei(amount).eq(10));
+    assert(helpers.fromWei(amount).eq(1));
   });
 
   it("can get proposals", async () => {
 
-    dao = await helpers.forgeDao({
-      schemes: [
-        {
-          name: "ContributionReward",
-          votingMachineParams: {
-            ownerVote: false,
+    if (network === "Ganache") {
+
+      dao = await helpers.forgeDao({
+        schemes: [
+          {
+            name: "ContributionReward",
+            votingMachineParams: {
+              ownerVote: false,
+            },
           },
-        },
-      ],
-    });
+        ],
+      });
 
-    let result = await proposeReward({ nativeTokenReward: web3.toWei(10) });
+      let result = await proposeReward({ nativeTokenReward: web3.toWei(1) });
 
-    const proposalId1 = await result.getProposalIdFromMinedTx();
+      const proposalId1 = await result.getProposalIdFromMinedTx();
 
-    result = await proposeReward({ reputationChange: web3.toWei(10) });
+      result = await proposeReward({ reputationChange: web3.toWei(1) });
 
-    const proposalId2 = await result.getProposalIdFromMinedTx();
+      const proposalId2 = await result.getProposalIdFromMinedTx();
 
-    let proposals = await (await scheme.getVotableProposals(dao.avatar.address))({}, { fromBlock: 0 }).get();
+      let proposals = await (await scheme.getVotableProposals(dao.avatar.address))({}, { fromBlock: 0 }).get();
 
-    assert.equal(proposals.length, 2, "Should have found 2 votable proposals");
-    assert(proposals.filter(
-      (p: ContributionProposal) => p.proposalId === proposalId1).length, "proposalId1 not found");
-    assert(proposals.filter(
-      (p: ContributionProposal) => p.proposalId === proposalId2).length, "proposalId2 not found");
+      assert.equal(proposals.length, 2, "Should have found 2 votable proposals");
+      assert(proposals.filter(
+        (p: ContributionProposal) => p.proposalId === proposalId1).length, "proposalId1 not found");
+      assert(proposals.filter(
+        (p: ContributionProposal) => p.proposalId === proposalId2).length, "proposalId2 not found");
 
-    let proposal = await scheme.getVotableProposal(dao.avatar.address, proposalId2);
+      let proposal = await scheme.getVotableProposal(dao.avatar.address, proposalId2);
 
-    assert(proposal.proposalId === proposalId2, "proposalId2 not found");
-    assert.equal(proposal.beneficiaryAddress, accounts[1],
-      "beneficiaryAddress not set properly on proposal");
+      assert(proposal.proposalId === proposalId2, "proposalId2 not found");
+      assert.equal(proposal.beneficiaryAddress, account1,
+        "beneficiaryAddress not set properly on proposal");
 
-    await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId: proposalId2, onBehalfOf: accounts[0] });
-    await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId: proposalId2, onBehalfOf: accounts[1] });
+      await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId: proposalId2, onBehalfOf: account0 });
+      await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId: proposalId2, onBehalfOf: account1 });
 
-    proposals = await scheme.getExecutedProposals(dao.avatar.address)(
-      { _proposalId: proposalId2 }, { fromBlock: 0 }).get();
+      proposals = await scheme.getExecutedProposals(dao.avatar.address)(
+        { _proposalId: proposalId2 }, { fromBlock: 0 }).get();
 
-    assert.equal(proposals.length, 1, "Executed proposal not found");
+      assert.equal(proposals.length, 1, "Executed proposal not found");
 
-    proposal = proposals[0];
+      proposal = proposals[0];
 
-    assert(proposal.proposalId === proposalId2, "executed proposalId2 not found");
+      assert(proposal.proposalId === proposalId2, "executed proposalId2 not found");
 
-    assert.equal(proposal.beneficiaryAddress, accounts[1],
-      "beneficiaryAddress not set properly on proposal");
+      assert.equal(proposal.beneficiaryAddress, account1,
+        "beneficiaryAddress not set properly on proposal");
 
-    const proposalsFromGet = await scheme.ProposalExecuted({ _avatar: dao.avatar.address }, { fromBlock: 0 }).get();
+      const proposalsFromGet = await scheme.ProposalExecuted({ _avatar: dao.avatar.address }, { fromBlock: 0 }).get();
 
-    // make sure the direct return value of 'get' works
-    assert.equal(proposals.length,
-      proposalsFromGet.length,
-      "direct and indirect calls returned different array lengths");
-
+      // make sure the direct return value of 'get' works
+      assert.equal(proposals.length,
+        proposalsFromGet.length,
+        "direct and indirect calls returned different array lengths");
+    }
   });
 
   it("can get beneficiaryAddress's outstanding rewards", async () => {
 
-    let result = await proposeReward({ nativeTokenReward: web3.toWei(10) });
+    await setupDao();
+
+    let result = await proposeReward({ nativeTokenReward: web3.toWei(1) });
 
     const nativeRewardProposalId = await result.getProposalIdFromMinedTx();
 
-    result = await proposeReward({ reputationChange: web3.toWei(10) });
+    result = await proposeReward({ reputationChange: web3.toWei(1) });
 
     const reputationChangeProposalId = await result.getProposalIdFromMinedTx();
 
@@ -331,19 +365,19 @@ describe("ContributionReward scheme", () => {
       "reputationChangeProposalId not found");
 
     await votingMachine.vote({
-      onBehalfOf: accounts[1],
+      onBehalfOf: account1,
       proposalId: nativeRewardProposalId,
       vote: BinaryVoteResult.Yes,
     });
     await votingMachine.vote({
-      onBehalfOf: accounts[1],
+      onBehalfOf: account1,
       proposalId: reputationChangeProposalId,
       vote: BinaryVoteResult.Yes,
     });
 
     let rewards = await scheme.getBeneficiaryRewards({
       avatar: dao.avatar.address,
-      beneficiaryAddress: accounts[1],
+      beneficiaryAddress: account1,
     });
 
     assert.equal(rewards.length, 2, "Should have found 2 sets of proposal rewards");
@@ -355,18 +389,18 @@ describe("ContributionReward scheme", () => {
     assert(rewards2.length, "reputationChange not found");
 
     assert.equal(helpers.fromWei(rewards1[0].nativeTokenRewardUnredeemed).toNumber(),
-      10, "incorrect remaining nativeToken amount");
+      1, "incorrect remaining nativeToken amount");
     assert.equal(rewards1[0].nativeTokenRewardUnredeemed.toNumber(),
       proposals[0].nativeTokenReward.toNumber(), "undereemed should equal total to be redeemed");
     assert.equal(helpers.fromWei(rewards2[0].reputationChangeUnredeemed).toNumber(),
-      10, "incorrect remaining reputationChange amount");
+      1, "incorrect remaining reputationChange amount");
 
     assert.equal(proposals[0].nativeTokenReward.toNumber(),
       rewards1[0].nativeTokenReward.toNumber(), "total redeemable should equal total redeemable");
 
     rewards = await scheme.getBeneficiaryRewards({
       avatar: dao.avatar.address,
-      beneficiaryAddress: accounts[1],
+      beneficiaryAddress: account1,
     });
 
     /**
@@ -377,12 +411,12 @@ describe("ContributionReward scheme", () => {
 
     const nativeTokenRewardsAfterVote = await scheme.getBeneficiaryRewards({
       avatar: dao.avatar.address,
-      beneficiaryAddress: accounts[1],
+      beneficiaryAddress: account1,
       proposalId: nativeRewardProposalId,
     });
 
     assert.equal(helpers.fromWei(nativeTokenRewardsAfterVote[0].nativeTokenRewardRedeemable).toNumber(),
-      10, "native tokens should be redeemable");
+      1, "native tokens should be redeemable");
 
     // now try to redeem some native tokens
     await scheme.redeemNativeToken({
@@ -407,7 +441,7 @@ describe("ContributionReward scheme", () => {
 
     rewards = await scheme.getBeneficiaryRewards({
       avatar: dao.avatar.address,
-      beneficiaryAddress: accounts[1],
+      beneficiaryAddress: account1,
     });
 
     assert.equal(rewards.length, 2, "Should have found 2 sets of proposal rewards");
@@ -423,6 +457,6 @@ describe("ContributionReward scheme", () => {
     assert.equal(helpers.fromWei(reward1.nativeTokenRewardUnredeemed).toNumber(),
       0, "incorrect remaining nativeToken amount");
     assert.equal(helpers.fromWei(reward2.reputationChangeUnredeemed).toNumber(),
-      10, "incorrect remaining reputationChange amount");
+      1, "incorrect remaining reputationChange amount");
   });
 });

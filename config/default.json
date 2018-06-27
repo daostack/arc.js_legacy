@@ -2,6 +2,7 @@
   "autoApproveTokenTransfers": true,
   "defaultVotingMachine": "AbsoluteVote",
   "logLevel": 9,
+  "estimateGas": false,
   "txDepthRequiredForConfirmation": {
     "default": 7,
     "ganache": 0,

@@ -1,5 +1,7 @@
+import { computeMaxGasLimit } from "../gasLimits.js";
 import { AvatarService } from "./avatarService";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
+import { ConfigService } from "./configService";
 import {
   ArcTransactionDataResult,
   ArcTransactionResult,
@@ -14,6 +16,7 @@ import {
   TxEventStack,
   TxGeneratingFunctionOptions
 } from "./transactionService";
+import { Utils } from "./utils";
 import { EventFetcherFactory, Web3EventService } from "./web3EventService";
 /**
  * Abstract base class for all Arc contract wrapper classes
@@ -168,6 +171,38 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
   }
 
   /**
+   * Estimate conservatively the amount of gas required to execute the given function with the given parameters.
+   * Adds 21000 to the estimate computed by web3.
+   *
+   * @param func The function
+   * @param params The parameters to send to the function
+   * @param web3Params The web3 parameters (like "from", for example).  If it contains "gas"
+   * then that value is returned, effectively a no-op.
+   */
+  public async estimateGas(
+    func: ITruffleContractFunction,
+    params: Array<any>,
+    web3Params: any = {}): Promise<number> {
+
+    if (web3Params.gas) {
+      return web3Params.gas;
+    }
+
+    const currentNetwork = await Utils.getNetworkName();
+
+    const web3 = await Utils.getWeb3();
+
+    const maxGasLimit = await computeMaxGasLimit(web3);
+
+    if (currentNetwork === "Ganache") {
+      return maxGasLimit; // because who cares with ganache and we can't get good estimates from it
+    }
+
+    params = params.concat(Object.assign({ gas: maxGasLimit }, web3Params));
+    return Math.max(Math.min((await func.estimateGas(...params)), maxGasLimit), 21000);
+  }
+
+  /**
    * invoked to let base classes know that the `contract` is available.
    */
   /* tslint:disable-next-line:no-empty */
@@ -246,7 +281,6 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
 
     const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
     const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
-    let error;
 
     try {
       const txHash = await this.sendTransaction(eventContext, func, params, web3Params);
@@ -255,37 +289,67 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
     } catch (ex) {
       LoggingService.error(
         `ContractWrapperBase.wrapTransactionInvocation: An error occurred calling ${functionName}: ${ex}`);
-      error = ex;
-    }
-
-    if (error) {
-      throw error;
+      throw ex;
     }
   }
 
   /**
    * Invoke sendTransaction on the function.  Properly publish TxTracking events.
    * Rethrows exceptions that occur.
-   * @param eventContext
-   * @param func
-   * @param params
-   * @param web3Params
+   *
+   * If `ConfigService.get("estimateGas")` and gas was not already supplied,
+   * then we estimate gas.
+   *
+   * @param eventContext The TxTracking context
+   * @param func The contract function
+   * @param params The contract function parameters
+   * @param web3Params Optional web params, like `from`
    */
-  protected sendTransaction(
+  protected async sendTransaction(
     eventContext: TxEventStack,
     func: ITruffleContractFunction,
     params: Array<any>,
     web3Params: any = {}
   ): Promise<Hash> {
 
-    params = params.concat(web3Params);
+    try {
+      if (ConfigService.get("estimateGas") && !web3Params.gas) {
+        await this.estimateGas(func, params)
+          .then((gas: number) => {
+            // side-effect of altering web3Params allows caller to know what we used
+            Object.assign(web3Params, { gas });
+            LoggingService.debug(`invoking function with estimated gas: ${gas}`);
+          })
+          .catch((ex: Error) => {
+            // we will simply revert to the default gas limit in this case
+            LoggingService.error(`estimateGas failed: ${ex}`);
+          });
+      }
 
-    return func.sendTransaction(...params)
-      .then((txHash: Hash) => txHash)
-      .catch((ex: Error) => {
-        TransactionService.publishTxFailed(eventContext, TransactionStage.sent, ex);
-        throw ex;
-      });
+      params = params.concat(web3Params);
+
+      let error;
+      const txHash = await func.sendTransaction(...params)
+        .then((tx: Hash) => tx)
+        /**
+         * Because of truffle's faked Promise implementation, catching here is the only way
+         * to be able to catch it on the outside
+         */
+        .catch((ex: Error) => {
+          error = ex;
+          return null;
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      return txHash;
+    } catch (ex) {
+      // catch every possible error
+      TransactionService.publishTxFailed(eventContext, TransactionStage.sent, ex);
+      throw ex;
+    }
   }
 
   protected logContractFunctionCall(functionName: string, params?: any): void {
@@ -297,4 +361,5 @@ export type TruffleContractFunction = (args?: Array<any>) => Promise<Hash>;
 
 export interface ITruffleContractFunction extends TruffleContractFunction {
   sendTransaction: (args?: Array<any>) => Promise<Hash>;
+  estimateGas: (args?: Array<any>) => number;
 }

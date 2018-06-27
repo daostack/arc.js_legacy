@@ -1,4 +1,5 @@
 import { promisify } from "es6-promisify";
+import { FilterResult } from "web3";
 import { fnVoid } from "./commonTypes";
 import { Utils } from "./utils";
 
@@ -24,5 +25,13 @@ export class UtilsInternal {
   public static async lastBlock(): Promise<number> {
     const web3 = await Utils.getWeb3();
     return promisify(web3.eth.getBlockNumber)();
+  }
+
+  /**
+   * For environments that don't allow synchronous functions
+   * @param filter
+   */
+  public static stopWatchingAsync(filter: FilterResult): Promise<any> {
+    return promisify((callback: any): any => filter.stopWatching(callback))();
   }
 }

@@ -284,6 +284,15 @@ export class Utils {
   }
 
   /**
+   * Returns a promise of the given account's GEN token balance.
+   * @param agentAddress
+   */
+  public static async getGenTokenBalance(agentAddress: Address): Promise<BigNumber> {
+    const genTokenAddress = await Utils.getGenTokenAddress();
+    return Utils.getTokenBalance(agentAddress, genTokenAddress);
+  }
+
+  /**
    * Returns the ABI for the given contract
    * @param contractName
    */

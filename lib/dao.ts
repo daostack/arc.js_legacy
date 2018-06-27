@@ -1,4 +1,5 @@
 "use strict";
+import BigNumber from "bignumber.js";
 import { EntityFetcherFactory, Web3EventService } from ".";
 import { AvatarService } from "./avatarService";
 import { Address, fnVoid, Hash } from "./commonTypes";
@@ -189,6 +190,13 @@ export class DAO {
     return web3.toUtf8(await this.avatar.orgName());
   }
 
+  /**
+   * Returns a promise of the given account's native token balance.
+   * @param agentAddress
+   */
+  public async getTokenBalance(agentAddress: Address): Promise<BigNumber> {
+    return Utils.getTokenBalance(agentAddress, this.token.address);
+  }
   /**
    * Returns the promise of the  token name for the DAO as stored in the native token
    * @return {Promise<string>}

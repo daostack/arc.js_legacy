@@ -199,8 +199,9 @@ export class TransactionService extends PubSubEventService {
             if (!ex) {
               receipt = await TransactionService.getMinedTransaction(txHash, contract, requiredDepth);
               if (receipt) {
-                filter.stopWatching();
-                return resolve(receipt);
+                await UtilsInternal.stopWatchingAsync(filter).then(() => {
+                  return resolve(receipt);
+                });
               }
             } else {
               LoggingService.error(`TransactionService.watchForMinedTransaction: an error occurred: ${ex}`);

@@ -1,6 +1,7 @@
 import { DecodedLogEntryEvent, LogTopic } from "web3";
-import { Hash } from "./commonTypes";
+import { fnVoid, Hash } from "./commonTypes";
 import { IEventSubscription, PubSubEventService } from "./pubSubEventService";
+import { UtilsInternal } from "./utilsInternal";
 
 /**
  * Support for working with events that originate from Arc contracts
@@ -108,9 +109,11 @@ export class Web3EventService {
 
           return new Web3EventSubscription(subscription, baseFetcher);
         },
-
-        stopWatching(): void {
-          baseFetcher.stopWatching();
+        stopWatching(callback?: fnVoid): void {
+          baseFetcher.stopWatching(callback);
+        },
+        stopWatchingAsync(): Promise<void> {
+          return UtilsInternal.stopWatchingAsync(baseFetcher);
         },
       };
     };
@@ -255,8 +258,11 @@ export class Web3EventService {
           return new Web3EventSubscription(subscription, baseFetcher);
         },
 
-        stopWatching(): void {
-          baseFetcher.stopWatching();
+        stopWatching(callback?: fnVoid): void {
+          baseFetcher.stopWatching(callback);
+        },
+        stopWatchingAsync(): Promise<void> {
+          return UtilsInternal.stopWatchingAsync(baseFetcher);
         },
       };
     };
@@ -429,7 +435,12 @@ export interface EntityFetcher<TDest, TSrc> {
   /**
    * Stop watching the event.
    */
-  stopWatching(): void;
+  stopWatching(callback?: fnVoid): void;
+  /**
+   * Asynchronously stop watching the event, for environments where
+   * synchronous methods are not allowed.
+   */
+  stopWatchingAsync(): Promise<void>;
 }
 
 /**
@@ -495,7 +506,12 @@ export interface EventFetcher<TEventArgs> {
   /**
    * Stop watching the event.
    */
-  stopWatching(): void;
+  stopWatching(callback?: fnVoid): void;
+  /**
+   * Asynchronously stop watching the event, for environments where
+   * synchronous methods are not allowed.
+   */
+  stopWatchingAsync(): Promise<void>;
 }
 
 /**
@@ -504,7 +520,8 @@ export interface EventFetcher<TEventArgs> {
 export interface Web3EventFetcher {
   get: (callback: (error: Error, args: DecodedLogEntryEvent<any> | Array<DecodedLogEntryEvent<any>>) => void) => void;
   watch: (callback: (error: Error, args: DecodedLogEntryEvent<any> | Array<DecodedLogEntryEvent<any>>) => void) => void;
-  stopWatching(): void;
+  stopWatching(callback?: fnVoid): void;
+  stopWatchingAsync(): Promise<void>;
 }
 
 /**
@@ -533,8 +550,9 @@ export class Web3EventSubscription<TEventArgs> implements IEventSubscription {
     private fetcher: EventFetcher<TEventArgs>) { }
 
   public unsubscribe(): void {
-    this.fetcher.stopWatching();
-    setTimeout(this.subscription.unsubscribe, 0);
+    this.fetcher.stopWatchingAsync().then(() => {
+      this.subscription.unsubscribe();
+    });
   }
 }
 
