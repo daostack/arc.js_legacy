@@ -255,8 +255,8 @@ export class WrapperService {
   }
 
   /**
-   * Confirm the given contract wrapper is the same contract as one named as deployed
-   * in the running version of Arc.js.
+   * Confirm the given contract wrapper wraps the same contract as it purports to,
+   * and is the one deployed in the running version of Arc.js.
    *
    * This will reject wrappers of different versions of contracts with the same name in Arc.
    * @param contractNameWant
