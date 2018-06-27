@@ -2,7 +2,7 @@ import { BigNumber } from "bignumber.js";
 import { promisify } from "es6-promisify";
 import abi = require("ethereumjs-abi");
 import Contract = require("truffle-contract");
-import { ContractAbi, providers as Web3Providers, Web3 } from "web3";
+import { providers as Web3Providers, Web3 } from "web3";
 import { gasLimitsConfig } from "../gasLimits.js";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { ConfigService } from "./configService";
@@ -293,11 +293,11 @@ export class Utils {
   }
 
   /**
-   * Returns the ABI for the given contract
+   * Returns the truffle artifact json for the given contract
    * @param contractName
    */
-  public static getAbiForContract(contractName: string): ContractAbi {
-    return require(`../migrated_contracts/${contractName}.json`).abi;
+  public static getTruffleArtifactForContract(contractName: string): any {
+    return require(`../migrated_contracts/${contractName}.json`);
   }
 
   private static web3: Web3 = undefined;

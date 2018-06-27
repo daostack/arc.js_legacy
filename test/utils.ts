@@ -1,5 +1,6 @@
 "use strict";
 import { assert } from "chai";
+import { promisify } from "es6-promisify";
 import { DefaultSchemePermissions } from "../lib/commonTypes";
 import { ConfigService } from "../lib/configService";
 import { InitializeArcJs, LoggingService } from "../lib/index";
@@ -10,6 +11,30 @@ import { WrapperService } from "../lib/wrapperService";
 import * as helpers from "./helpers";
 
 describe("Misc", () => {
+
+  it("can check correct wrapper", async () => {
+    const contractNameShouldBe = "GenesisProtocol";
+    const contractNameDontWant = "AbsoluteVote";
+    /**
+     * We know there is a contract at the given address, but it is an AV, not a GP that
+     * we're asking for.
+     */
+    let wrapperFound = await WrapperService.factories[contractNameShouldBe]
+      .at(WrapperService.wrappers[contractNameDontWant].address);
+
+    let confirmed = await WrapperService.confirmContractType(wrapperFound);
+
+    assert(!confirmed);
+
+    wrapperFound = await WrapperService.factories[contractNameShouldBe]
+      .at(WrapperService.wrappers[contractNameShouldBe].address);
+
+    confirmed = await WrapperService.confirmContractType(wrapperFound);
+
+    assert(confirmed);
+
+  });
+
   it("can get global GEN token", async () => {
     const token = await Utils.getGenToken();
     const address = token.address;
