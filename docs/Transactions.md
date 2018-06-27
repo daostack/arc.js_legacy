@@ -68,3 +68,14 @@ Identify the stage of the event using the the event name (topic) parameter of th
 
 Errors may occur at any point in the lifecycle.  When they do you will receive an event with ".failed" appended to the event name (topic) parameter of the callback,
 and the `error` property will contain the `Error` that describes what happened.  The txStage will represent the stage at which the error occurred, and you will receive no further events on the transaction.
+
+## Estimating Gas Limits
+Arc.js contains an experimental feature that automatically estimates the gas cost of any transaction executed using the contract wrappers.  The estimate will appear in a client like MetaMask, giving the user a more accurate sense of how much the transaction is going to cost when they are decided whether to approve the transaction, and putting fewer of the user's funds at risk in case of an error.
+
+This feature is disabled by default.  You can enable it at any time with the following line:
+
+```javascript
+ConfigService.set("estimateGas", true);
+```
+
+And you may similarly disable it at any time.
