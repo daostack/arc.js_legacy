@@ -47,6 +47,9 @@ export class ArcTransactionResult {
    * Returns null if the transaciton is not yet mined.
    */
   public async getTxMined(): Promise<TransactionReceiptTruffle | null> {
+    if (!this.tx) {
+      return null;
+    }
     return TransactionService.getMinedTransaction(
       this.tx,
       this.contract) as Promise<TransactionReceiptTruffle | null>;
@@ -62,6 +65,9 @@ export class ArcTransactionResult {
    * Default comes from the `ConfigurationService`.
    */
   public async getTxConfirmed(requiredDepth?: number): Promise<TransactionReceiptTruffle | null> {
+    if (!this.tx) {
+      return null;
+    }
     return TransactionService.getConfirmedTransaction(
       this.tx,
       this.contract,
@@ -73,6 +79,9 @@ export class ArcTransactionResult {
    * converted to a TransactionReceiptTruffle (with readable logs).
    */
   public async watchForTxMined(): Promise<TransactionReceiptTruffle> {
+    if (!this.tx) {
+      return null;
+    }
     return TransactionService.watchForMinedTransaction(
       this.tx,
       this.contract) as Promise<TransactionReceiptTruffle | null>;
@@ -87,6 +96,9 @@ export class ArcTransactionResult {
    * Default comes from the `ConfigurationService`.
    */
   public async watchForTxConfirmed(requiredDepth?: number): Promise<TransactionReceiptTruffle> {
+    if (!this.tx) {
+      return null;
+    }
     return TransactionService.watchForConfirmedTransaction(this.tx,
       this.contract,
       requiredDepth) as Promise<TransactionReceiptTruffle | null>;

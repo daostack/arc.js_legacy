@@ -141,7 +141,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
       const avatarService = new AvatarService(options.avatar);
       const token = await avatarService.getNativeToken();
 
-      tx = await this.sendTransaction(eventContext, token.approve, [this.address, orgNativeTokenFee]);
+      tx = await this.sendTransaction(eventContext, token.approve, [options.avatar, orgNativeTokenFee]);
 
       TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
       await TransactionService.watchForMinedTransaction(tx);

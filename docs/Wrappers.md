@@ -87,6 +87,7 @@ Arc contracts and associated Arc.js contract wrapper classes can be categorized 
 **Others**
 
 * DaoCreator
+* StandardToken
 
 You can enumerate the wrappers in each category, for example, schemes:
 

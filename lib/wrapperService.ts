@@ -28,6 +28,10 @@ import {
   SchemeRegistrarWrapper
 } from "./wrappers/schemeRegistrar";
 import {
+  StandardTokenFactory,
+  StandardTokenWrapper
+} from "./wrappers/standardToken";
+import {
   TokenCapGCFactory,
   TokenCapGCWrapper
 } from "./wrappers/tokenCapGC";
@@ -55,6 +59,7 @@ export interface ArcWrapperFactories {
   GenesisProtocol: IContractWrapperFactory<GenesisProtocolWrapper>;
   GlobalConstraintRegistrar: IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
   SchemeRegistrar: IContractWrapperFactory<SchemeRegistrarWrapper>;
+  StandardToken: IContractWrapperFactory<StandardTokenWrapper>;
   TokenCapGC: IContractWrapperFactory<TokenCapGCWrapper>;
   UpgradeScheme: IContractWrapperFactory<UpgradeSchemeWrapper>;
   VestingScheme: IContractWrapperFactory<VestingSchemeWrapper>;
@@ -72,6 +77,7 @@ export interface ArcWrappers {
   GenesisProtocol: GenesisProtocolWrapper;
   GlobalConstraintRegistrar: GlobalConstraintRegistrarWrapper;
   SchemeRegistrar: SchemeRegistrarWrapper;
+  StandardToken: StandardTokenWrapper;
   TokenCapGC: TokenCapGCWrapper;
   UpgradeScheme: UpgradeSchemeWrapper;
   VestingScheme: VestingSchemeWrapper;
@@ -160,6 +166,7 @@ export class WrapperService {
     WrapperService.wrappers.GenesisProtocol = filter.GenesisProtocol ? await GenesisProtocolFactory.deployed() : null;
     WrapperService.wrappers.GlobalConstraintRegistrar = filter.GlobalConstraintRegistrar ? await GlobalConstraintRegistrarFactory.deployed() : null;
     WrapperService.wrappers.SchemeRegistrar = filter.SchemeRegistrar ? await SchemeRegistrarFactory.deployed() : null;
+    WrapperService.wrappers.StandardToken = filter.StandardToken ? await StandardTokenFactory.deployed() : null;
     WrapperService.wrappers.TokenCapGC = filter.TokenCapGC ? await TokenCapGCFactory.deployed() : null;
     WrapperService.wrappers.UpgradeScheme = filter.UpgradeScheme ? await UpgradeSchemeFactory.deployed() : null;
     WrapperService.wrappers.VestingScheme = filter.VestingScheme ? await VestingSchemeFactory.deployed() : null;
@@ -175,6 +182,7 @@ export class WrapperService {
     ];
     WrapperService.wrappersByType.other = [
       WrapperService.wrappers.DaoCreator,
+      WrapperService.wrappers.StandardToken,
     ];
     WrapperService.wrappersByType.schemes = [
       WrapperService.wrappers.ContributionReward,
@@ -189,6 +197,7 @@ export class WrapperService {
       WrapperService.wrappers.ContributionReward,
       WrapperService.wrappers.GlobalConstraintRegistrar,
       WrapperService.wrappers.SchemeRegistrar,
+      WrapperService.wrappers.StandardToken,
       WrapperService.wrappers.UpgradeScheme,
       WrapperService.wrappers.VestingScheme,
       WrapperService.wrappers.VoteInOrganizationScheme,
@@ -213,6 +222,8 @@ export class WrapperService {
       IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
     WrapperService.factories.SchemeRegistrar =
       SchemeRegistrarFactory as IContractWrapperFactory<SchemeRegistrarWrapper>;
+    WrapperService.factories.StandardToken =
+      StandardTokenFactory as IContractWrapperFactory<StandardTokenWrapper>;
     WrapperService.factories.TokenCapGC = TokenCapGCFactory as IContractWrapperFactory<TokenCapGCWrapper>;
     WrapperService.factories.UpgradeScheme = UpgradeSchemeFactory as IContractWrapperFactory<UpgradeSchemeWrapper>;
     WrapperService.factories.VestingScheme = VestingSchemeFactory as IContractWrapperFactory<VestingSchemeWrapper>;
@@ -285,6 +296,7 @@ export class WrapperService {
     GenesisProtocol: true,
     GlobalConstraintRegistrar: true,
     SchemeRegistrar: true,
+    StandardToken: true,
     TokenCapGC: true,
     UpgradeScheme: true,
     VestingScheme: true,
@@ -298,6 +310,7 @@ export class WrapperService {
     GenesisProtocol: false,
     GlobalConstraintRegistrar: false,
     SchemeRegistrar: false,
+    StandardToken: false,
     TokenCapGC: false,
     UpgradeScheme: false,
     VestingScheme: false,
@@ -312,6 +325,7 @@ export interface WrapperFilter {
   GenesisProtocol?: boolean;
   GlobalConstraintRegistrar?: boolean;
   SchemeRegistrar?: boolean;
+  StandardToken?: boolean;
   TokenCapGC?: boolean;
   UpgradeScheme?: boolean;
   VestingScheme?: boolean;
