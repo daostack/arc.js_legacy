@@ -313,6 +313,8 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
   ): Promise<Hash> {
 
     try {
+      let error;
+
       if (ConfigService.get("estimateGas") && !web3Params.gas) {
         await this.estimateGas(func, params)
           .then((gas: number) => {
@@ -323,12 +325,17 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
           .catch((ex: Error) => {
             // we will simply revert to the default gas limit in this case
             LoggingService.error(`estimateGas failed: ${ex}`);
+            error = ex;
           });
+      }
+
+      if (error) {
+        // don't attempt sending the tx
+        throw error;
       }
 
       params = params.concat(web3Params);
 
-      let error;
       const txHash = await func.sendTransaction(...params)
         .then((tx: Hash) => tx)
         /**
