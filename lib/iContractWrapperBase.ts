@@ -115,6 +115,9 @@ export class ArcTransactionResult {
   public async getValueFromMinedTx(
     valueName: string,
     eventName: string = null, index: number = 0): Promise<any | undefined> {
+    if (!this.tx) {
+      return null;
+    }
     const txMined = await this.watchForTxMined();
     return TransactionService.getValueFromLogs(txMined, valueName, eventName, index);
   }
@@ -148,15 +151,13 @@ export class ArcTransactionProposalResult extends ArcTransactionResult {
  * Base or actual type returned by all contract wrapper methods that generate a transaction and any other result.
  */
 export class ArcTransactionDataResult<TData> extends ArcTransactionResult {
-  /**
-   * Additional data being returned.
-   */
-  public result: TData;
-
   constructor(
     tx: Hash,
     contract: any,
-    result: TData) {
+    /**
+     * Additional data being returned.
+     */
+    public result: TData) {
     super(tx, contract);
     this.result = result;
   }
