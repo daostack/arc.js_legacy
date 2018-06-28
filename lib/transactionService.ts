@@ -42,7 +42,10 @@ export class TransactionService extends PubSubEventService {
     /**
      * publish the `kickoff` event
      */
-    TransactionService._publishTxEvent([{ functionName, payload }], null, null, TransactionStage.kickoff);
+    TransactionService._publishTxEvent(
+      [new TxEventSpec(functionName, payload)],
+      null, null,
+      TransactionStage.kickoff);
 
     return payload;
   }
@@ -51,17 +54,17 @@ export class TransactionService extends PubSubEventService {
    * Send the given payload to subscribers of the given topic on `sent`, `mined` and `confirmed`.
    *
    * @hidden - for internal use only
-   * @param eventStack array of TxEventSpec
+   * @param eventContext array of TxEventSpec
    * @param tx the transaction id.
    * @param contract Truffle contract wrapper for the contract that is generating the transaction.
    */
   public static publishTxLifecycleEvents(
-    eventStack: TxEventStack,
+    eventContext: TxEventContext,
     tx: Hash,
     contract: any
   ): void {
 
-    TransactionService._publishTxEvent(eventStack, tx, null, TransactionStage.sent);
+    TransactionService._publishTxEvent(eventContext.stack, tx, null, TransactionStage.sent);
 
     /**
      * We are at the base context and should start watching for the mined and confirmed transaction stages.
@@ -71,13 +74,13 @@ export class TransactionService extends PubSubEventService {
 
         if (txReceiptMined.receipt.status !== "0x1") {
           TransactionService.publishTxFailed(
-            eventStack,
+            eventContext,
             TransactionStage.mined,
             new Error("Transaction status is 0"),
             tx,
             txReceiptMined);
         } else {
-          TransactionService._publishTxEvent(eventStack, tx, txReceiptMined, TransactionStage.mined);
+          TransactionService._publishTxEvent(eventContext.stack, tx, txReceiptMined, TransactionStage.mined);
           /**
            * now start watching for confirmation
            */
@@ -86,18 +89,22 @@ export class TransactionService extends PubSubEventService {
 
               if (txReceiptConfirmed.receipt.status !== "0x1") {
                 TransactionService.publishTxFailed(
-                  eventStack,
+                  eventContext,
                   TransactionStage.confirmed,
                   new Error("Transaction status is 0"),
                   tx,
                   txReceiptConfirmed);
               } else {
-                TransactionService._publishTxEvent(eventStack, tx, txReceiptConfirmed, TransactionStage.confirmed);
+                TransactionService._publishTxEvent(
+                  eventContext.stack,
+                  tx,
+                  txReceiptConfirmed,
+                  TransactionStage.confirmed);
               }
             })
             .catch((ex: Error) => {
               TransactionService.publishTxFailed(
-                eventStack,
+                eventContext,
                 TransactionStage.confirmed,
                 ex,
                 tx,
@@ -106,23 +113,23 @@ export class TransactionService extends PubSubEventService {
         }
       })
       .catch((ex: Error) => {
-        TransactionService.publishTxFailed(eventStack, TransactionStage.mined, ex, tx);
+        TransactionService.publishTxFailed(eventContext, TransactionStage.mined, ex, tx);
       });
   }
 
   public static publishTxFailed(
-    eventStack: TxEventStack,
+    eventContext: TxEventContext,
     atStage: TransactionStage,
     error: Error = new Error("Unspecified error"),
     tx?: Hash,
     txReceipt?: TransactionReceiptTruffle): void {
 
-    TransactionService._publishTxEvent(eventStack, tx, txReceipt, atStage, true, error);
+    TransactionService._publishTxEvent(eventContext.stack, tx, txReceipt, atStage, true, error);
   }
 
   /**
    * Return a new event stack with the given one pushed onto it.
-   * Will take obj.txEventStack, else create a new one.
+   * Will take obj.txEventContext, else create a new one.
    *
    * @hidden - for internal use only
    * @param obj
@@ -133,21 +140,25 @@ export class TransactionService extends PubSubEventService {
     functionName: string,
     payload: TransactionReceiptsEventInfo,
     obj: Partial<TxGeneratingFunctionOptions> & any
-  ): TxEventStack {
+  ): TxEventContext {
 
-    const eventSpec: TxEventSpec = { functionName, payload };
-    let eventStack: TxEventStack | undefined = obj.txEventStack;
+    const eventSpec = new TxEventSpec(functionName, payload);
+    let eventContext: TxEventContext | undefined = obj.txEventContext;
 
-    if (!eventStack) {
-      eventStack = new Array<TxEventSpec>();
+    if (!eventContext) {
+      eventContext = new TxEventContext(
+        payload.invocationKey,
+        new Array<TxEventSpec>()
+      );
     }
 
-    // clone to avoid problems with re-entrancy
-    eventStack = [...eventStack];
+    // clone the incoming stack to avoid problems with re-entrancy
+    eventContext.stack = [...eventContext.stack];
 
-    eventStack.push(eventSpec);
+    // push the new context
+    eventContext.stack.push(eventSpec);
 
-    return eventStack;
+    return eventContext;
   }
 
   /**
@@ -493,25 +504,27 @@ export class TransactionService extends PubSubEventService {
 
   private static createPayload(
     functionName: string,
-    options: any,
+    options: TxGeneratingFunctionOptions & any,
     txCount: number
   ): TransactionReceiptsEventInfo {
 
     const payload = {
       functionName,
-      invocationKey: TransactionService.generateInvocationKey(),
       options,
       tx: null,
       txCount,
       txReceipt: null,
       txStage: TransactionStage.kickoff,
-    };
+    } as Partial<TransactionReceiptsEventInfo>;
 
-    return payload;
+    payload.invocationKey = options.txEventContext ?
+      options.txEventContext.invocationKey : TransactionService.generateInvocationKey();
+
+    return payload as TransactionReceiptsEventInfo;
   }
 
   private static _publishTxEvent(
-    eventStack: TxEventStack,
+    eventStack: Array<TxEventSpec>,
     tx: Hash,
     txReceipt: TransactionReceiptTruffle = null,
     txStage: TransactionStage,
@@ -619,21 +632,29 @@ export interface TransactionReceiptsEventInfo {
 /**
  * @hidden - for internal use only
  */
-export type TxEventStack = Array<TxEventSpec>;
+export class TxEventContext {
+  /* tslint:disable-nex-line:no-empty */
+  constructor(
+    public invocationKey: number,
+    public stack: Array<TxEventSpec>
+  ) { }
+}
 
 /**
  * @hidden - for internal use only
  */
-export interface TxEventSpec {
-  functionName: string;
-  payload: TransactionReceiptsEventInfo;
+export class TxEventSpec {
+  /* tslint:disable-nex-line:no-empty */
+  constructor(
+    public functionName: string,
+    public payload: TransactionReceiptsEventInfo) { }
 }
 
 /**
  * @hidden - for internal use only
  */
 export interface TxGeneratingFunctionOptions {
-  txEventStack?: TxEventStack;
+  txEventContext?: TxEventContext;
 }
 
 /**

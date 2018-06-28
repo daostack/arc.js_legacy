@@ -171,7 +171,7 @@ export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase impl
 
     return super._setParameters(
       "GlobalConstraintRegistrar.setParameters",
-      params.txEventStack,
+      params.txEventContext,
       params.voteParametersHash,
       params.votingMachineAddress
     );

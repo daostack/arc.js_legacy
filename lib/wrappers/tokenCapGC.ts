@@ -26,7 +26,7 @@ export class TokenCapGCWrapper extends ContractWrapperBase {
 
     return super._setParameters(
       "TokenCapGC.setParameters",
-      params.txEventStack,
+      params.txEventContext,
       params.token,
       params.cap);
   }

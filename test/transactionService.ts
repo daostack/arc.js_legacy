@@ -14,6 +14,57 @@ import * as helpers from "./helpers";
 
 describe("TransactionService", () => {
 
+  it("has consistent invocationKey across the entire context", async () => {
+
+    const av = WrapperService.wrappers.AbsoluteVote;
+
+    const eventsReceived = new Array<string>();
+
+    const subscription = TransactionService.subscribe(
+      ["TxTracking.AbsoluteVote.setParameters.confirmed"],
+      (topic: string, txEventInfo: TransactionReceiptsEventInfo) => {
+        eventsReceived.push(topic);
+      });
+
+    const fnSave = TransactionService.watchForConfirmedTransaction;
+    try {
+      // force an error to happen
+      TransactionService.watchForConfirmedTransaction = (): Promise<any> => {
+        return Promise.reject(new Error("faking exception"));
+      };
+
+      const result = await av.setParameters({ ownerVote: true, reputation: helpers.SOME_ADDRESS, votePerc: 50 });
+
+      const filter = web3.eth.filter("latest");
+
+      await new Promise(async (
+        resolve: () => void,
+        reject: () => void): Promise<void> => {
+        filter.watch(async (ex: Error): Promise<void> => {
+          if (!ex) {
+            const receipt = await TransactionService.getConfirmedTransaction(result.tx, undefined);
+            if (receipt) {
+              UtilsInternal.stopWatchingAsync(filter).then(() => {
+                return resolve();
+              });
+            }
+          } else {
+            return reject();
+          }
+        });
+      });
+
+    } finally {
+      TransactionService.watchForConfirmedTransaction = fnSave;
+      await helpers.sleep(1000); // allow time to confirm
+      subscription.unsubscribe();
+    }
+
+    assert.equal(eventsReceived.length, 1, "didn't receive the right number of events");
+    assert.equal(eventsReceived[0],
+      "TxTracking.AbsoluteVote.setParameters.confirmed.failed", "didn't receive the failed event");
+  });
+
   it("receives fail event on confirmed error", async () => {
 
     const av = WrapperService.wrappers.AbsoluteVote;
@@ -196,10 +247,16 @@ describe("TransactionService", () => {
   it("can publish from subclasses", async () => {
 
     const eventsReceived = new Array<TransactionReceiptsEventInfo>();
+    let invocationKey = -1;
 
     const subscription = TransactionService.subscribe(
       ["TxTracking.AbsoluteVote.vote.confirmed", "TxTracking.IntVoteInterface.vote.confirmed"],
       (topic: string, txEventInfo: TransactionReceiptsEventInfo) => {
+        if (invocationKey === -1) {
+          invocationKey = txEventInfo.invocationKey;
+        } else {
+          assert.equal(invocationKey, txEventInfo.invocationKey);
+        }
         eventsReceived.push(txEventInfo);
       });
 
