@@ -173,6 +173,9 @@ export class WrapperService {
     WrapperService.wrappersByType.globalConstraints = [
       WrapperService.wrappers.TokenCapGC,
     ];
+    WrapperService.wrappersByType.other = [
+      WrapperService.wrappers.DaoCreator,
+    ];
     WrapperService.wrappersByType.schemes = [
       WrapperService.wrappers.ContributionReward,
       WrapperService.wrappers.GenesisProtocol,
