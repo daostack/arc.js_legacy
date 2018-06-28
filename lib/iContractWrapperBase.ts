@@ -47,6 +47,9 @@ export class ArcTransactionResult {
    * Returns null if the transaciton is not yet mined.
    */
   public async getTxMined(): Promise<TransactionReceiptTruffle | null> {
+    if (!this.tx) {
+      return null;
+    }
     return TransactionService.getMinedTransaction(
       this.tx,
       this.contract) as Promise<TransactionReceiptTruffle | null>;
@@ -62,6 +65,9 @@ export class ArcTransactionResult {
    * Default comes from the `ConfigurationService`.
    */
   public async getTxConfirmed(requiredDepth?: number): Promise<TransactionReceiptTruffle | null> {
+    if (!this.tx) {
+      return null;
+    }
     return TransactionService.getConfirmedTransaction(
       this.tx,
       this.contract,
@@ -73,6 +79,9 @@ export class ArcTransactionResult {
    * converted to a TransactionReceiptTruffle (with readable logs).
    */
   public async watchForTxMined(): Promise<TransactionReceiptTruffle> {
+    if (!this.tx) {
+      return null;
+    }
     return TransactionService.watchForMinedTransaction(
       this.tx,
       this.contract) as Promise<TransactionReceiptTruffle | null>;
@@ -87,6 +96,9 @@ export class ArcTransactionResult {
    * Default comes from the `ConfigurationService`.
    */
   public async watchForTxConfirmed(requiredDepth?: number): Promise<TransactionReceiptTruffle> {
+    if (!this.tx) {
+      return null;
+    }
     return TransactionService.watchForConfirmedTransaction(this.tx,
       this.contract,
       requiredDepth) as Promise<TransactionReceiptTruffle | null>;
@@ -103,6 +115,9 @@ export class ArcTransactionResult {
   public async getValueFromMinedTx(
     valueName: string,
     eventName: string = null, index: number = 0): Promise<any | undefined> {
+    if (!this.tx) {
+      return null;
+    }
     const txMined = await this.watchForTxMined();
     return TransactionService.getValueFromLogs(txMined, valueName, eventName, index);
   }
@@ -136,15 +151,13 @@ export class ArcTransactionProposalResult extends ArcTransactionResult {
  * Base or actual type returned by all contract wrapper methods that generate a transaction and any other result.
  */
 export class ArcTransactionDataResult<TData> extends ArcTransactionResult {
-  /**
-   * Additional data being returned.
-   */
-  public result: TData;
-
   constructor(
     tx: Hash,
     contract: any,
-    result: TData) {
+    /**
+     * Additional data being returned.
+     */
+    public result: TData) {
     super(tx, contract);
     this.result = result;
   }
