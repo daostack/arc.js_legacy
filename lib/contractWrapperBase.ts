@@ -323,7 +323,6 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
             LoggingService.debug(`invoking function with estimated gas: ${gas}`);
           })
           .catch((ex: Error) => {
-            // we will simply revert to the default gas limit in this case
             LoggingService.error(`estimateGas failed: ${ex}`);
             error = ex;
           });
