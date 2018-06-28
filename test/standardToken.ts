@@ -2,7 +2,7 @@
 import { assert } from "chai";
 import { Utils } from "../lib/utils";
 import { UtilsInternal } from "../lib/utilsInternal";
-import { WrapperService } from "../lib/wrapperService";
+import { StandardTokenFactory } from "../lib/wrappers/standardToken";
 import "./helpers";
 
 describe("Standard Token", () => {
@@ -11,7 +11,7 @@ describe("Standard Token", () => {
 
     const tokenAddress = await Utils.getGenTokenAddress();
     assert.isOk(tokenAddress);
-    const token = await WrapperService.factories.StandardToken.at(tokenAddress);
+    const token = await StandardTokenFactory.at(tokenAddress);
     assert.isOk(token);
 
     const amount = web3.toWei(1);
