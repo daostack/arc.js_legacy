@@ -40,7 +40,7 @@ export class DAO {
      */
     const eventContext = TransactionService.newTxEventContext("DAO.new", payload, options);
 
-    options.txEventStack = eventContext;
+    options.txEventContext = eventContext;
 
     const result = await (await daoCreator.forgeOrg(options)).watchForTxMined();
 
@@ -50,8 +50,8 @@ export class DAO {
       throw new Error("avatar address is not defined");
     }
 
-    // In case forgeOrg ever may decide to alter options.txEventStack, reset it here
-    options.txEventStack = eventContext;
+    // In case forgeOrg ever may decide to alter options.txEventContext, reset it here
+    options.txEventContext = eventContext;
 
     await (await daoCreator.setSchemes(Object.assign({ avatar: avatarAddress }, options))).watchForTxMined();
 

@@ -446,7 +446,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
 
     return super._setParameters(
       "ContributionReward.setParameters",
-      params.txEventStack,
+      params.txEventContext,
       params.orgNativeTokenFee,
       params.voteParametersHash,
       params.votingMachineAddress

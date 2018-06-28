@@ -122,7 +122,7 @@ export class VoteInOrganizationSchemeWrapper extends ProposalGeneratorBase imple
 
     return super._setParameters(
       "VoteInOrganizationScheme.setParameters",
-      params.txEventStack,
+      params.txEventContext,
       params.voteParametersHash,
       params.votingMachineAddress
     );

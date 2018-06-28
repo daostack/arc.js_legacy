@@ -13,7 +13,7 @@ import { LoggingService } from "./loggingService";
 import {
   TransactionService,
   TransactionStage,
-  TxEventStack,
+  TxEventContext,
   TxGeneratingFunctionOptions
 } from "./transactionService";
 import { Utils } from "./utils";
@@ -210,14 +210,14 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
 
   protected async _setParameters(
     functionName: string,
-    txEventStack: TxEventStack,
+    txEventContext: TxEventContext,
     ...params: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
 
     const parametersHash: Hash = await this.contract.getParametersHash(...params);
 
     const txResult = await this.wrapTransactionInvocation(functionName,
       // typically this is supposed to be an object, but here it is an array
-      Object.assign(params, { txEventStack }),
+      Object.assign(params, { txEventContext }),
       this.contract.setParameters,
       params);
 
@@ -306,7 +306,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
    * @param web3Params Optional web params, like `from`
    */
   protected async sendTransaction(
-    eventContext: TxEventStack,
+    eventContext: TxEventContext,
     func: ITruffleContractFunction,
     params: Array<any>,
     web3Params: any = {}

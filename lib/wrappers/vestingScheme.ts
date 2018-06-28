@@ -278,7 +278,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
 
     return super._setParameters(
       "VestingScheme.setParameters",
-      params.txEventStack,
+      params.txEventContext,
       params.voteParametersHash,
       params.votingMachineAddress
     );

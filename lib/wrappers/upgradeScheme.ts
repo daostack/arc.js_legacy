@@ -99,7 +99,7 @@ export class UpgradeSchemeWrapper extends ProposalGeneratorBase implements Schem
 
     return super._setParameters(
       "UpgradeScheme.setParameters",
-      params.txEventStack,
+      params.txEventContext,
       params.voteParametersHash,
       params.votingMachineAddress
     );

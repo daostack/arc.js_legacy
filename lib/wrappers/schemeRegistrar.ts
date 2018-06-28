@@ -132,7 +132,7 @@ export class SchemeRegistrarWrapper extends ProposalGeneratorBase implements Sch
 
     return super._setParameters(
       "SchemeRegistrar.setParameters",
-      params.txEventStack,
+      params.txEventContext,
       params.voteParametersHash,
       params.voteRemoveParametersHash ? params.voteRemoveParametersHash : params.voteParametersHash,
       params.votingMachineAddress

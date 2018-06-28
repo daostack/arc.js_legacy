@@ -818,7 +818,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     return super._setParameters(
       "GenesisProtocol.setParameters",
-      params.txEventStack,
+      params.txEventContext,
       [
         preBoostedVoteRequiredPercentage,
         params.preBoostedVotePeriodLimit,
@@ -883,14 +883,14 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     const functionName = "GenesisProtocol.propose";
     const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
     const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
-    return super.propose(Object.assign(options, { txEventStack: eventContext }));
+    return super.propose(Object.assign(options, { txEventContext: eventContext }));
   }
 
   public async vote(options: VoteOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
     const functionName = "GenesisProtocol.vote";
     const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
     const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
-    return super.vote(Object.assign(options, { txEventStack: eventContext }));
+    return super.vote(Object.assign(options, { txEventContext: eventContext }));
   }
 
   public async voteWithSpecifiedAmounts(
@@ -898,13 +898,13 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     const functionName = "GenesisProtocol.voteWithSpecifiedAmounts";
     const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
     const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
-    return super.voteWithSpecifiedAmounts(Object.assign(options, { txEventStack: eventContext }));
+    return super.voteWithSpecifiedAmounts(Object.assign(options, { txEventContext: eventContext }));
   }
   public async execute(options: ProposalIdOption & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
     const functionName = "GenesisProtocol.execute";
     const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
     const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
-    return super.execute(Object.assign(options, { txEventStack: eventContext }));
+    return super.execute(Object.assign(options, { txEventContext: eventContext }));
   }
 
   protected hydrated(): void {
