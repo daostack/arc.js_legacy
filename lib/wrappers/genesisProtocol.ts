@@ -922,18 +922,19 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     return {
       avatarAddress: proposalArray[0],
       boostedPhaseTime: proposalArray[7],
-      currentBoostedVotePeriodLimit: proposalArray[12],
+      currentBoostedVotePeriodLimit: proposalArray[11],
+      daoBountyRemain: proposalArray[13],
       executable: proposalArray[2],
       lostReputation: proposalArray[5],
       numOfChoices: proposalArray[1].toNumber(),
-      paramsHash: proposalArray[13],
+      paramsHash: proposalArray[12],
       proposalId,
-      proposer: proposalArray[11],
-      state: proposalArray[9],
-      submittedTime: proposalArray[6],
+      proposer: proposalArray[10],
+      state: proposalArray[8].toNumber(),
+      submittedTime: proposalArray[6].toNumber(),
       totalVotes: proposalArray[3],
       votersStakes: proposalArray[4],
-      winningVote: proposalArray[10],
+      winningVote: proposalArray[9].toNumber(),
     };
   }
 }
@@ -1370,6 +1371,7 @@ export interface GenesisProtocolProposal {
    * in seconds
    */
   currentBoostedVotePeriodLimit: number;
+  daoBountyRemain: BigNumber.BigNumber;
   executable: Address;
   lostReputation: BigNumber.BigNumber;
   numOfChoices: number;

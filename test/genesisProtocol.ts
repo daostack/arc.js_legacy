@@ -10,6 +10,7 @@ import {
   GenesisProtocolProposal,
   GenesisProtocolWrapper,
   GetDefaultGenesisProtocolParameters,
+  ProposalState,
 } from "../lib/wrappers/genesisProtocol";
 import { SchemeRegistrarFactory, SchemeRegistrarWrapper } from "../lib/wrappers/schemeRegistrar";
 import { WrapperService } from "../lib/wrapperService";
@@ -161,6 +162,7 @@ describe("GenesisProtocol", () => {
       "proposalId2 not found");
 
     assert(typeof proposals[0].numOfChoices === "number");
+    assert.equal(proposals[0].state, ProposalState.PreBoosted, "state is wrong");
   });
 
   it("can get executed proposals", async () => {
@@ -190,6 +192,7 @@ describe("GenesisProtocol", () => {
     assert(proposals[0].proposalId === proposalId2, "proposalId2 not found");
     assert.isOk(proposals[0].totalReputation, "totalReputation not set properly on proposal");
     assert.equal(proposals[0].decision, 1, "decision is wrong");
+    assert.equal(proposals[0].state, ProposalState.Executed, "state is wrong");
   });
 
   it("scheme can use GenesisProtocol", async () => {
