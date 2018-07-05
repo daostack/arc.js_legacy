@@ -245,7 +245,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
             voteParametersHash: schemeVoteParametersHash,
             votingMachineAddress: schemeVotingMachineParams.votingMachineAddress,
           },
-          schemeOptions.additionalParams || {}
+          schemeOptions
         ));
 
       const schemeParamsHash = txResult.result;
@@ -445,12 +445,11 @@ export interface SchemeConfig {
    */
   votingMachineParams?: NewDaoVotingMachineConfig;
   /**
-   * Other scheme parameters, any params besides those already provided in votingMachineParams.
-   * For example, ContributionReward requires orgNativeTokenFee.  SchemeRegistrar has voteRemoveParametersHash.
-   *
-   * Default is {}
+   * You can add other scheme parameters here.
+   * For example, ContributionReward requires orgNativeTokenFee.
+   * SchemeRegistrar has voteRemoveParametersHash.
    */
-  additionalParams?: any;
+  [x: string]: any;
 }
 
 export interface SchemesConfig {

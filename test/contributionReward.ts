@@ -54,9 +54,10 @@ describe("ContributionReward scheme", () => {
 
   const proposeReward = async (
     rewardsSpec: any,
-    customScheme: ContributionRewardWrapper = scheme): Promise<ArcTransactionProposalResult> => {
+    customScheme: ContributionRewardWrapper = scheme,
+    customDao: DAO = dao): Promise<ArcTransactionProposalResult> => {
     const result = await customScheme.proposeContributionReward(Object.assign({
-      avatar: dao.avatar.address,
+      avatar: customDao.avatar.address,
       beneficiaryAddress: account1,
       description: "A new contribution",
       numberOfPeriods: 1,
@@ -89,26 +90,35 @@ describe("ContributionReward scheme", () => {
 
   it("can create and propose with orgNativeTokenFee", async () => {
 
-    if (network === "Ganache") {
+    const localDao = await helpers.forgeDao({
+      schemes: [
+        {
+          name: "ContributionReward",
+          orgNativeTokenFee: web3.toWei(1),
+        },
+      ],
+    });
 
-      const localDao = await helpers.forgeDao({
-        schemes: [
-          { name: "ContributionReward", additionalParams: { orgNativeTokenFee: web3.toWei(1) } },
-        ],
-      });
+    const localScheme = await helpers.getDaoScheme(
+      localDao,
+      "ContributionReward",
+      ContributionRewardFactory) as ContributionRewardWrapper;
 
-      const localScheme = await helpers.getDaoScheme(
-        localDao,
-        "ContributionReward",
-        ContributionRewardFactory) as ContributionRewardWrapper;
+    const params = await scheme.getSchemeParameters(localDao.avatar.address);
+    assert.equal(params.orgNativeTokenFee.toString(), web3.toWei(1), "parameter was not persisted");
 
-      /**
-       * should not revert
-       */
-      await proposeReward({
-        nativeTokenReward: web3.toWei(1),
-      }, localScheme);
-    }
+    const currentBalance = await localDao.getTokenBalance(accounts[0]);
+
+    await localDao.token.approve(scheme.address, web3.toWei(1), { from: accounts[0] });
+    /**
+     * should not revert
+     */
+    await proposeReward({
+      reputationChange: web3.toWei(1),
+    }, localScheme, localDao);
+
+    const newBalance = await localDao.getTokenBalance(accounts[0]);
+    assert(currentBalance.sub(newBalance).toString() === web3.toWei(1), "fee was not extracted");
   });
 
   it("can propose, vote and redeem", async () => {

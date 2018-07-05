@@ -444,10 +444,16 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
       },
       params);
 
+    const orgNativeTokenFee = new BigNumber(params.orgNativeTokenFee);
+
+    if (orgNativeTokenFee.lt(0)) {
+      throw new Error("orgNativeTokenFee must be greater than or equal to 0");
+    }
+
     return super._setParameters(
       "ContributionReward.setParameters",
       params.txEventContext,
-      params.orgNativeTokenFee,
+      orgNativeTokenFee,
       params.voteParametersHash,
       params.votingMachineAddress
     );
