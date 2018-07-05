@@ -132,9 +132,9 @@ export class TransactionService extends PubSubEventService {
    * Will take obj.txEventContext, else create a new one.
    *
    * @hidden - for internal use only
+   * @param functionName
+   * @param payload
    * @param obj
-   * @param eventSpec
-   * @param addToObject True to clone obj and add the new txEventContext to it
    */
   public static newTxEventContext(
     functionName: string,
@@ -553,10 +553,16 @@ export class TransactionService extends PubSubEventService {
       payload.tx = tx;
       payload.txReceipt = txReceipt;
       payload.txStage = txStage;
+
+      // delete so doesn't cause problems (such as circular references to `options`) for the client
+      const savetxEventContext = payload.options.txEventContext;
+      delete payload.options.txEventContext;
+
       if (failed) {
         payload.error = error;
       }
       PubSubEventService.publish(fullTopic, payload);
+      payload.options.txEventContext = savetxEventContext;
     }
   }
 
