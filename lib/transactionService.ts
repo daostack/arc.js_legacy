@@ -553,6 +553,10 @@ export class TransactionService extends PubSubEventService {
       payload.tx = tx;
       payload.txReceipt = txReceipt;
       payload.txStage = txStage;
+
+      // delete so doesn't cause problems (such as circular references to `options`) for the client
+      delete payload.options.TxEventContext;
+
       if (failed) {
         payload.error = error;
       }
