@@ -304,13 +304,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#creating-a-new-dao-with-all-defaults" title="Creating a new DAO with all defaults" class="md-nav__link">
-    Creating a new DAO with all defaults
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#creating-a-new-dao-with-founders" title="Creating a new DAO with founders" class="md-nav__link">
     Creating a new DAO with founders
   </a>
@@ -2866,13 +2859,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#creating-a-new-dao-with-all-defaults" title="Creating a new DAO with all defaults" class="md-nav__link">
-    Creating a new DAO with all defaults
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#creating-a-new-dao-with-founders" title="Creating a new DAO with founders" class="md-nav__link">
     Creating a new DAO with founders
   </a>
@@ -2985,23 +2971,8 @@ of the DAO, such as when voting and the nature of what causes it to be gained or
 <p class="admonition-title">Tip</p>
 <p>Under the hood, <code>Dao.new</code> uses the <a href="../api/classes/DaoCreatorWrapper">DaoCreatorWrapper</a> class.</p>
 </div>
-<h3 id="creating-a-new-dao-with-all-defaults">Creating a new DAO with all defaults<a class="headerlink" href="#creating-a-new-dao-with-all-defaults" title="Permanent link">&para;</a></h3>
-<p>The simplest example of how to create a new DAO uses all defaults:  No schemes nor founders:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">newDao</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAO</span><span class="p">.</span><span class="k">new</span><span class="p">({</span>
-  <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;My New DAO&quot;</span><span class="p">,</span>
-  <span class="nx">tokenName</span><span class="o">:</span> <span class="s2">&quot;My new Token&quot;</span><span class="p">,</span>
-  <span class="nx">tokenSymbol</span><span class="o">:</span> <span class="s2">&quot;MNT&quot;</span>
-<span class="p">});</span>
-</pre></div>
-</td></tr></table>
-
-<p>And voilà, you have created a new DAO in the DAO stack on Ethereum.  The returned object <code>newDao</code> is an instance of <a href="../api/classes/DAO">DAO</a> and you are off and running.  But you won't run far without schemes and founders who can make proposals and vote on them, and for that, the founders will need some reputation.</p>
 <h3 id="creating-a-new-dao-with-founders">Creating a new DAO with founders<a class="headerlink" href="#creating-a-new-dao-with-founders" title="Permanent link">&para;</a></h3>
-<p>Create a new DAO with founders by including a "founders" array.  This will automatically mint tokens and reputation to each founder:</p>
+<p>The simplest example of how to create a new DAO adds one or more founders and no schemes. You add the founders by including a "founders" array.  This will automatically mint tokens and reputation to each founder:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -3030,7 +3001,7 @@ of the DAO, such as when voting and the nature of what causes it to be gained or
   <span class="nx">tokenSymbol</span><span class="o">:</span> <span class="s2">&quot;MNT&quot;</span><span class="p">,</span>
   <span class="nx">founders</span><span class="o">:</span> <span class="p">[</span>
     <span class="p">{</span>
-      <span class="c1">// the current user</span>
+      <span class="c1">// the current user account</span>
       <span class="nx">address</span><span class="o">:</span> <span class="nx">accounts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
       <span class="nx">reputation</span><span class="o">:</span> <span class="nx">web3</span><span class="p">.</span><span class="nx">toWei</span><span class="p">(</span><span class="mi">1000</span><span class="p">),</span>
       <span class="nx">tokens</span><span class="o">:</span> <span class="nx">web3</span><span class="p">.</span><span class="nx">toWei</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>
@@ -3050,11 +3021,12 @@ of the DAO, such as when voting and the nature of what causes it to be gained or
 </pre></div>
 </td></tr></table>
 
+<p>And voilà, you have created a new DAO with three founders in the DAO stack on Ethereum.  The returned object <code>newDao</code> is an instance of <a href="../api/classes/DAO">DAO</a>.</p>
+<p>But though this DAO has founders with tokens and reputation who can thus make proposals and vote on them, there is still no way to make proposals, that is, no schemes, and thus nothing on which to vote.  The DAO needs some schemes, at minimum a <a href="../api/classes/SchemeRegistrarWrapper">SchemeRegistrar</a> with which you can propose to add, modify or remove other schemes.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>It is not possible to add or remove founders.  In fact, there is no retained sense of who they even were .  They are simply addresses you supply when you create a DAO and to whom will immediately be minted tokens and reputation.  You can mint reputation or tokens to others... this would effectively be like adding them as founders.</p>
+<p>It is not possible to add or remove founders.  In fact, there is no retained sense of who they even were.  They are simply addresses you supply when you create a DAO and to whom will immediately be minted tokens and reputation.  You can later mint reputation or tokens to others... this would effectively be like adding them as founders.</p>
 </div>
-<p>So this DAO has founders with tokens and reputation, but no way to make proposals, that is, no schemes, and thus nothing on which to vote.  The DAO needs some schemes, at minimum a <a href="../api/classes/SchemeRegistrarWrapper">SchemeRegistrar</a> with which you can propose to add, modify or remove other schemes.</p>
 <h3 id="creating-a-new-dao-with-schemes">Creating a new DAO with schemes<a class="headerlink" href="#creating-a-new-dao-with-schemes" title="Permanent link">&para;</a></h3>
 <p>Create a new DAO with schemes by including a "schemes" array.  The following example registers the schemes with all default parameters, permissions and voting machines.</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -3079,7 +3051,7 @@ of the DAO, such as when voting and the nature of what causes it to be gained or
 </pre></div>
 </td></tr></table>
 
-<p>Put the last two examples together and you have a DAO with founders and schemes and can really start to realize the full potential of a DAO in the DAOstack stack.</p>
+<p>Put the last two examples together and you have a DAO with founders and schemes and can start to realize the potential of a DAO in the DAOstack ecosystem.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>Refer here to <a href="../Proposals#schemes">more about schemes</a>.</p>
@@ -3281,34 +3253,35 @@ of the DAO, such as when voting and the nature of what causes it to be gained or
 </td></tr></table>
 
 <p>Or all of the DAOs created by a specific DaoCreator:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">avatarAddresses</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAO</span><span class="p">.</span><span class="nx">getDaos</span><span class="p">({</span><span class="s2">&quot;daoCreatorAddress&quot;</span><span class="o">:</span> <span class="p">[</span><span class="nx">anAddress</span><span class="p">]});</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">avatarAddresses</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAO</span><span class="p">.</span><span class="nx">getDaos</span><span class="p">({</span><span class="s2">&quot;daoCreatorAddress&quot;</span><span class="o">:</span> <span class="nx">anAddress</span><span class="p">});</span>
 </pre></div>
 </td></tr></table>
 
-<p>You can also get DAOs using the <a href="../api/README/#eventfetcherfactory">EventFetcherFactory</a> mechanism, enabling you to watch as DAOs are created, and get the events with more precision:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">daoEventFetcherFactory</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAO</span><span class="p">.</span><span class="nx">getDaoCreationEvents</span><span class="p">();</span>
-<span class="kr">const</span> <span class="nx">watcher</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">daoEventFetcherFactory</span><span class="p">({},</span> <span class="p">{</span> <span class="nx">fromBlock</span><span class="o">:</span> <span class="mi">0</span> <span class="p">}).</span><span class="nx">watch</span><span class="p">(</span>
-  <span class="nx">async</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">daoAddresses</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+<p>You can also watch as DAOs are, or have been, created using the <a href="../api/README/#eventfetcherfactory">EventFetcherFactory</a> mechanism:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">daoEventFetcherFactory</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAO</span><span class="p">.</span><span class="nx">getDaoCreationEvents</span><span class="p">();</span>
+<span class="kr">const</span> <span class="nx">watcher</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">daoEventFetcherFactory</span><span class="p">({},</span> <span class="p">{</span> <span class="nx">fromBlock</span>: <span class="kt">0</span> <span class="p">}).</span><span class="nx">watch</span><span class="p">(</span>
+  <span class="nx">async</span> <span class="p">(</span><span class="nx">error</span>: <span class="kt">Error</span><span class="p">,</span> <span class="nx">addressPromise</span>: <span class="kt">Promise</span><span class="o">&lt;</span><span class="nx">Address</span><span class="o">&gt;</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kr">const</span> <span class="nx">addresses</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">daoAddresses</span><span class="p">;</span>
-        <span class="nx">avatarAddresses</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">address</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-          <span class="kr">const</span> <span class="nx">dao</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAO</span><span class="p">.</span><span class="nx">at</span><span class="p">(</span><span class="nx">address</span><span class="p">);</span>
-        <span class="p">});</span>
+        <span class="kr">const</span> <span class="nx">address</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">addressPromise</span><span class="p">;</span>
+        <span class="kr">const</span> <span class="nx">dao</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAO</span><span class="p">.</span><span class="nx">at</span><span class="p">(</span><span class="nx">address</span><span class="p">);</span>
       <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">);</span>
 </pre></div>
 </td></tr></table>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Like with <code>DAO.getDaos</code> you can supply a <code>daoCreatorAddress</code> in the options of <code>getDaoCreationEvents</code>.</p>
+</div>
                 
                   
                 
