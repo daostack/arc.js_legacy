@@ -551,7 +551,7 @@ export class Web3EventSubscription<TEventArgs> implements IEventSubscription {
 
   public unsubscribe(): void {
     this.fetcher.stopWatchingAsync().then(() => {
-      this.subscription.unsubscribe();
+      this.subscription.unsubscribe.bind(this.subscription);
     });
   }
 }

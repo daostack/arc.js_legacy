@@ -166,7 +166,7 @@ export class SubscriptionCollection implements IEventSubscription {
    */
   public unsubscribe(): void {
     this.subscriptions.forEach((s: EventSubscription) => {
-      s.unsubscribe();
+      s.unsubscribe.bind(s);
     });
     this.subscriptions.clear();
   }
