@@ -556,7 +556,7 @@ export class TransactionService extends PubSubEventService {
 
       // delete so doesn't cause problems (such as circular references to `options`) for the client
       const savetxEventContext = payload.options.txEventContext;
-      payload.options.txEventContext = undefined;
+      delete payload.options.txEventContext;
 
       if (failed) {
         payload.error = error;
