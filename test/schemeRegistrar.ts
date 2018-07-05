@@ -52,10 +52,8 @@ describe("SchemeRegistrar", () => {
 
     const dao = await helpers.forgeDao({
       schemes: [{
-        additionalParams: {
-          voteRemoveParametersHash: voteParamsHash,
-        },
         name: "SchemeRegistrar",
+        voteRemoveParametersHash: voteParamsHash,
       }],
     });
 

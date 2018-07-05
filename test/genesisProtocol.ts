@@ -91,11 +91,9 @@ describe("GenesisProtocol", () => {
       ],
       schemes: [
         {
-          additionalParams: {
-            boostedVotePeriodLimit: 180,
-            quietEndingPeriod: 60,
-          },
+          boostedVotePeriodLimit: 180,
           name: "GenesisProtocol",
+          quietEndingPeriod: 60,
         },
       ],
     });
