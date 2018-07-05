@@ -42,23 +42,9 @@ Almost everything in the configuration has a default.  The following sections de
 !!! tip
     Under the hood, `Dao.new` uses the [DaoCreatorWrapper](api/classes/DaoCreatorWrapper) class.
 
-### Creating a new DAO with all defaults
-
-The simplest example of how to create a new DAO uses all defaults:  No schemes nor founders:
-
-```javascript
-const newDao = await DAO.new({
-  name: "My New DAO",
-  tokenName: "My new Token",
-  tokenSymbol: "MNT"
-});
-```
-
-And voilà, you have created a new DAO in the DAO stack on Ethereum.  The returned object `newDao` is an instance of [DAO](api/classes/DAO) and you are off and running.  But you won't run far without schemes and founders who can make proposals and vote on them, and for that, the founders will need some reputation.
-
 ### Creating a new DAO with founders
 
-Create a new DAO with founders by including a "founders" array.  This will automatically mint tokens and reputation to each founder:
+The simplest example of how to create a new DAO adds one or more founders and no schemes. You add the founders by including a "founders" array.  This will automatically mint tokens and reputation to each founder:
 
 ```javascript
 const newDao = await DAO.new({
@@ -67,7 +53,7 @@ const newDao = await DAO.new({
   tokenSymbol: "MNT",
   founders: [
     {
-      // the current user
+      // the current user account
       address: accounts[0],
       reputation: web3.toWei(1000),
       tokens: web3.toWei(40)
@@ -86,10 +72,12 @@ const newDao = await DAO.new({
 });
 ```
 
-!!! note
-    It is not possible to add or remove founders.  In fact, there is no retained sense of who they even were .  They are simply addresses you supply when you create a DAO and to whom will immediately be minted tokens and reputation.  You can mint reputation or tokens to others... this would effectively be like adding them as founders.
+And voilà, you have created a new DAO with three founders in the DAO stack on Ethereum.  The returned object `newDao` is an instance of [DAO](api/classes/DAO).
 
-So this DAO has founders with tokens and reputation, but no way to make proposals, that is, no schemes, and thus nothing on which to vote.  The DAO needs some schemes, at minimum a [SchemeRegistrar](api/classes/SchemeRegistrarWrapper) with which you can propose to add, modify or remove other schemes.
+But though this DAO has founders with tokens and reputation who can thus make proposals and vote on them, there is still no way to make proposals, that is, no schemes, and thus nothing on which to vote.  The DAO needs some schemes, at minimum a [SchemeRegistrar](api/classes/SchemeRegistrarWrapper) with which you can propose to add, modify or remove other schemes.
+
+!!! note
+    It is not possible to add or remove founders.  In fact, there is no retained sense of who they even were.  They are simply addresses you supply when you create a DAO and to whom will immediately be minted tokens and reputation.  You can later mint reputation or tokens to others... this would effectively be like adding them as founders.
 
 ### Creating a new DAO with schemes
 
@@ -108,7 +96,7 @@ const newDao = await DAO.new({
 });
 ```
 
-Put the last two examples together and you have a DAO with founders and schemes and can really start to realize the full potential of a DAO in the DAOstack stack.
+Put the last two examples together and you have a DAO with founders and schemes and can start to realize the potential of a DAO in the DAOstack ecosystem.
 
 !!! info
     Refer here to [more about schemes](Proposals#schemes).
@@ -266,21 +254,22 @@ const avatarAddresses = await DAO.getDaos();
 Or all of the DAOs created by a specific DaoCreator:
 
 ```javascript
-const avatarAddresses = await DAO.getDaos({"daoCreatorAddress": [anAddress]});
+const avatarAddresses = await DAO.getDaos({"daoCreatorAddress": anAddress});
 ```
 
-You can also get DAOs using the [EventFetcherFactory](api/README/#eventfetcherfactory) mechanism, enabling you to watch as DAOs are created, and get the events with more precision:
+You can also watch as DAOs are, or have been, created using the [EventFetcherFactory](api/README/#eventfetcherfactory) mechanism:
 
-```javascript
+```typescript
 const daoEventFetcherFactory = await DAO.getDaoCreationEvents();
 const watcher = await daoEventFetcherFactory({}, { fromBlock: 0 }).watch(
-  async (error, daoAddresses) => {
+  async (error: Error, addressPromise: Promise<Address>): void => {
     if (!error) {
-        const addresses = await daoAddresses;
-        avatarAddresses.forEach((address) => {
-          const dao = await DAO.at(address);
-        });
+        const address = await addressPromise;
+        const dao = await DAO.at(address);
       }
   }
 );
 ```
+
+!!! note
+    Like with `DAO.getDaos` you can supply a `daoCreatorAddress` in the options of `getDaoCreationEvents`.
