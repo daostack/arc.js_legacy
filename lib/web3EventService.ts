@@ -549,9 +549,18 @@ export class Web3EventSubscription<TEventArgs> implements IEventSubscription {
     private subscription: IEventSubscription,
     private fetcher: EventFetcher<TEventArgs>) { }
 
-  public unsubscribe(): void {
-    this.fetcher.stopWatchingAsync().then(() => {
-      this.subscription.unsubscribe();
+  /**
+   * Unsubscribe from all of the events
+   * @param milliseconds number of milliseconds to timeout.
+   * Default is -1 which means not to timeout at all.
+   */
+  public unsubscribe(milliseconds: number = -1): Promise<void> {
+    return new Promise((resolve: fnVoid): Promise<void> => {
+      return this.fetcher.stopWatchingAsync()
+        .then((): void => {
+          this.subscription.unsubscribe.call(this.subscription, milliseconds)
+            .then(() => { resolve(); });
+        });
     });
   }
 }
