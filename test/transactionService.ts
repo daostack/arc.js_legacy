@@ -56,8 +56,7 @@ describe("TransactionService", () => {
 
     } finally {
       TransactionService.watchForConfirmedTransaction = fnSave;
-      await helpers.sleep(1000); // allow time to confirm
-      subscription.unsubscribe();
+      await subscription.unsubscribe(0);
     }
 
     assert.equal(eventsReceived.length, 1, "didn't receive the right number of events");
@@ -107,8 +106,7 @@ describe("TransactionService", () => {
 
     } finally {
       TransactionService.watchForConfirmedTransaction = fnSave;
-      await helpers.sleep(1000); // allow time to confirm
-      subscription.unsubscribe();
+      await subscription.unsubscribe(0);
     }
 
     assert.equal(eventsReceived.length, 1, "didn't receive the right number of events");
@@ -157,8 +155,7 @@ describe("TransactionService", () => {
   //     });
 
   //   } finally {
-  //     await helpers.sleep(1000); // allow time to confirm
-  //     subscription.unsubscribe();
+  //     await subscription.unsubscribe(0);
   //   }
 
   //   assert.equal(eventsReceived.length, 1, "didn't receive the right number of events");
@@ -208,8 +205,7 @@ describe("TransactionService", () => {
 
     } finally {
       TransactionService.watchForMinedTransaction = fnSave;
-      await helpers.sleep(1000); // allow time to confirm
-      subscription.unsubscribe();
+      await subscription.unsubscribe(0);
     }
 
     assert.equal(eventsReceived.length, 1, "didn't receive the right number of events");
@@ -235,8 +231,7 @@ describe("TransactionService", () => {
     } catch (ex) {
       receivedException = true;
     } finally {
-      await helpers.sleep(1000); // allow time to confirm
-      subscription.unsubscribe();
+      await subscription.unsubscribe(0);
     }
 
     assert(receivedException, "didn't throw exception");
@@ -295,11 +290,10 @@ describe("TransactionService", () => {
       const votingMachine =
         (await WrapperService.factories.AbsoluteVote.at(votingMachineAddress)) as AbsoluteVoteWrapper;
 
-      await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId });
+      await (await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId })).getTxConfirmed();
 
     } finally {
-      await helpers.sleep(1000); // allow time to confirm
-      subscription.unsubscribe();
+      await subscription.unsubscribe(1000);
     }
 
     assert.equal(eventsReceived.length, 2);
@@ -446,8 +440,7 @@ describe("TransactionService", () => {
       });
     } finally {
       // have to wait for txs to get fully confirmed
-      await helpers.sleep(1000); // allow time to confirm
-      subscription.unsubscribe();
+      await subscription.unsubscribe(0);
     }
     assert.equal(txCount, 19);
   });

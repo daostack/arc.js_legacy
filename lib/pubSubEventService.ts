@@ -1,4 +1,5 @@
 import * as PubSub from "pubsub-js";
+import { fnVoid } from "./commonTypes";
 import { LoggingService } from "./loggingService";
 import { UtilsInternal } from "./utilsInternal";
 
@@ -39,16 +40,30 @@ export class PubSubEventService {
   }
 
   /**
-   * Removes a subscription.
+   * Unsubscribes after optional timeout.
    * When passed a token, removes a specific subscription,
    * when passed a callback, removes all subscriptions for that callback,
    * when passed a topic, removes all subscriptions for the topic hierarchy.
    *
    * @param key - A token, function or topic to unsubscribe.
+   * @param milliseconds number of milliseconds to timeout.
+   * Default is -1 which means not to timeout at all.
    */
-  public static unsubscribe(key: EventSubscriptionKey): void {
+  public static unsubscribe(
+    key: EventSubscriptionKey,
+    milliseconds: number = -1): Promise<void> {
     // timeout to allow lingering events to be handled before unsubscribing
-    setTimeout(() => { PubSub.unsubscribe(key); }, 0);
+    if (milliseconds === -1) {
+      PubSub.unsubscribe(key);
+      return Promise.resolve();
+    }
+    // timeout to allow lingering events to be handled before unsubscribing
+    return new Promise<void>((resolve: fnVoid): void => {
+      setTimeout(() => {
+        PubSub.unsubscribe(key);
+        resolve();
+      }, milliseconds);
+    });
   }
 
   /**
@@ -163,12 +178,18 @@ export class SubscriptionCollection implements IEventSubscription {
 
   /**
    * Unsubscribe from all of the events
+   * @param milliseconds number of milliseconds to timeout.
+   * Default is -1 which means not to timeout at all.
    */
-  public unsubscribe(): void {
+  public unsubscribe(milliseconds: number = -1): Promise<void> {
+    const promises = new Array<Promise<void>>();
     this.subscriptions.forEach((s: EventSubscription) => {
-      s.unsubscribe.bind(s);
+      promises.push(s.unsubscribe.call(s, milliseconds));
     });
-    this.subscriptions.clear();
+
+    return Promise.all(promises).then(() => {
+      this.subscriptions.clear();
+    });
   }
 }
 
@@ -176,14 +197,29 @@ export type EventSubscriptionCallback = (topic: string, payload: any) => any;
 export type EventSubscriptionKey = string | EventSubscriptionCallback;
 
 export interface IEventSubscription {
-  unsubscribe(): void;
+  unsubscribe(milliseconds?: number): Promise<void>;
 }
 
 export class EventSubscription implements IEventSubscription {
   public constructor(private key: EventSubscriptionKey) {
   }
-  public unsubscribe(): void {
+
+  /**
+   * Unsubscribes after optional timeout.
+   * @param milliseconds number of milliseconds to timeout.
+   * Default is -1 which means not to timeout at all.
+   */
+  public unsubscribe(milliseconds: number = -1): Promise<void> {
+    if (milliseconds === -1) {
+      PubSub.unsubscribe(this.key);
+      return Promise.resolve();
+    }
     // timeout to allow lingering events to be handled before unsubscribing
-    setTimeout(() => { PubSub.unsubscribe(this.key); }, 0);
+    return new Promise<void>((resolve: fnVoid): void => {
+      setTimeout(() => {
+        PubSub.unsubscribe(this.key);
+        resolve();
+      }, milliseconds);
+    });
   }
 }
