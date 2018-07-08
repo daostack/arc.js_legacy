@@ -848,7 +848,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     return this._getSchemeParameters(avatarAddress);
   }
 
-  public async getParameters(paramsHash: Hash): Promise<GenesisProtocolParams> {
+  public async getParameters(paramsHash: Hash): Promise<GetGenesisProtocolParamsResult> {
     const params = await this.getParametersArray(paramsHash);
     return {
       boostedVotePeriodLimit: params[2].toNumber(),
@@ -1051,6 +1051,71 @@ export interface GenesisProtocolParams extends TxGeneratingFunctionOptions {
    * The percentage of reputation deducted from losing pre-boosted voters.
    * Must be between 0 and 100.
    * Default is 1.
+   */
+  votersReputationLossRatio: number;
+}
+
+export interface GetGenesisProtocolParamsResult {
+  /**
+   * The time limit in seconds for a proposal to be in relative voting mode.
+   */
+  boostedVotePeriodLimit: number;
+  /**
+   * Multiple of a winning stake to be rewarded as bounty.
+   */
+  daoBountyConst: number;
+  /**
+   * Upper bound on the total bounty amount on a proposal.
+   */
+  daoBountyLimit: BigNumber.BigNumber;
+  /**
+   * A floor on the staking fee which is normally computed using
+   * [[GenesisProtocolParams.stakerFeeRatioForVoters]], in Wei.
+   */
+  minimumStakingFee: BigNumber.BigNumber;
+  /**
+   * The time limit in seconds for a proposal to be in absolute voting mode.
+   */
+  preBoostedVotePeriodLimit: number;
+  /**
+   * The percentage of the absolute vote that must be exceeded to result in a win.
+   */
+  preBoostedVoteRequiredPercentage: number;
+  /**
+   * Constant A in the calculation of the proposer's reward.
+   * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
+   */
+  proposingRepRewardConstA: number;
+  /**
+   * Constant B in the calculation of the proposer's reward.
+   * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
+   */
+  proposingRepRewardConstB: number;
+  /**
+   * The duration of the quietEndingPeriod, in seconds.
+   */
+  quietEndingPeriod: number;
+  /**
+   * The percentage of a stake that is given to all voters.
+   * Voters (pre and during boosting period) share this amount in proportion to their reputation.
+   * Must be between 0 and 100.
+   */
+  stakerFeeRatioForVoters: number;
+  /**
+   * Constant A in the threshold calculation,in Wei. See [[GenesisProtocolWrapper.getThreshold]].
+   */
+  thresholdConstA: BigNumber.BigNumber | string;
+  /**
+   * Constant B in the threshold calculation. See [[GenesisProtocolWrapper.getThreshold]].
+   */
+  thresholdConstB: number;
+  /**
+   * The percentage of losing pre-boosted voters' lost reputation (see votersReputationLossRatio)
+   * rewarded to winning pre-boosted voters.
+   */
+  votersGainRepRatioFromLostRep: number;
+  /**
+   * The percentage of reputation deducted from losing pre-boosted voters.
    */
   votersReputationLossRatio: number;
 }

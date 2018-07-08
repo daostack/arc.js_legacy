@@ -3,6 +3,7 @@ import { Address, Hash } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ArcTransactionDataResult, IContractWrapperFactory } from "../iContractWrapperBase";
 
+import BigNumber from "bignumber.js";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { TxGeneratingFunctionOptions } from "../transactionService";
 import { Web3EventService } from "../web3EventService";
@@ -17,18 +18,34 @@ export class TokenCapGCWrapper extends ContractWrapperBase {
     if (!params.token) {
       throw new Error("token must be set");
     }
+    const cap = new BigNumber(params.cap);
 
-    if (((typeof params.cap !== "number") &&
-      ((typeof params.cap !== "string") ||
-        (isNaN(parseInt(params.cap, undefined)))))) {
-      throw new Error("cap must be set and represent a number");
+    if (cap.lt(0)) {
+      throw new Error("cap must be greater than or equal to zero");
     }
 
     return super._setParameters(
       "TokenCapGC.setParameters",
       params.txEventContext,
       params.token,
-      params.cap);
+      cap);
+  }
+
+  public async getParameters(paramsHash: Hash): Promise<any> {
+    const params = await this.getParametersArray(paramsHash);
+    return {
+      cap: params[1],
+      token: params[0],
+    };
+  }
+
+  public async getSchemeParametersHash(avatarAddress: Address): Promise<Hash> {
+    const controller = await this.getController(avatarAddress);
+    return controller.getGlobalConstraintParameters(this.address, avatarAddress);
+  }
+
+  public async getSchemeParameters(avatarAddress: Address): Promise<GetTokenCapGcParamsResult> {
+    return this._getSchemeParameters(avatarAddress);
   }
 }
 
@@ -36,6 +53,11 @@ export const TokenCapGCFactory =
   new ContractWrapperFactory("TokenCapGC", TokenCapGCWrapper, new Web3EventService());
 
 export interface TokenCapGcParams extends TxGeneratingFunctionOptions {
-  cap: number | string;
+  cap: BigNumber | string;
+  token: Address;
+}
+
+export interface GetTokenCapGcParamsResult {
+  cap: BigNumber;
   token: Address;
 }

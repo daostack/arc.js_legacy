@@ -7,7 +7,7 @@ import {
   GlobalConstraintRegistrarFactory,
   GlobalConstraintRegistrarWrapper
 } from "../lib/wrappers/globalConstraintRegistrar";
-import { TokenCapGCFactory } from "../lib/wrappers/tokenCapGC";
+import { TokenCapGCFactory, TokenCapGCWrapper } from "../lib/wrappers/tokenCapGC";
 import { WrapperService } from "../lib/wrapperService";
 import * as helpers from "./helpers";
 
@@ -28,7 +28,7 @@ describe("GlobalConstraintRegistrar", () => {
     const tokenCapGC = WrapperService.wrappers.TokenCapGC;
 
     const globalConstraintParametersHash =
-      (await tokenCapGC.setParameters({ token: dao.token.address, cap: 3141 })).result;
+      (await tokenCapGC.setParameters({ token: dao.token.address, cap: "3141" })).result;
 
     const globalConstraintRegistrar = await helpers.getDaoScheme(
       dao,
@@ -162,8 +162,9 @@ describe("GlobalConstraintRegistrar", () => {
 
     // create a new global constraint - a TokenCapGC instance
     const tokenCapGC = await TokenCapGCFactory.new();
+    const tokenCapParams = { token: dao.token.address, cap: "3141" };
     // register paramets for setting a cap on the nativeToken of our dao of 21 million
-    const tokenCapGCParamsHash = (await tokenCapGC.setParameters({ token: dao.token.address, cap: 3141 })).result;
+    const tokenCapGCParamsHash = (await tokenCapGC.setParameters(tokenCapParams)).result;
 
     // next line needs some real hash for the conditions for removing this scheme
     const votingMachineHash = tokenCapGCParamsHash;
@@ -205,7 +206,18 @@ describe("GlobalConstraintRegistrar", () => {
 
     await helpers.vote(votingMachine, proposalId, 1, accounts[1]);
 
-    // at this point, our global constrait has been registered at the dao
+    // at this point, our global constraint has been registered at the dao
     assert.equal((await dao.controller.globalConstraintsCount(dao.avatar.address))[1].toNumber(), 1);
+
+    const tokenWrapper = await WrapperService.factories.TokenCapGC.at(tokenCapGC.address) as TokenCapGCWrapper;
+
+    const paramsHash = await tokenWrapper.getSchemeParametersHash(dao.avatar.address);
+
+    assert.equal(paramsHash, tokenCapGCParamsHash);
+
+    const params = await tokenWrapper.getSchemeParameters(dao.avatar.address);
+
+    assert.equal(params.cap.toString(), tokenCapParams.cap);
+    assert.equal(params.token, tokenCapParams.token);
   });
 });

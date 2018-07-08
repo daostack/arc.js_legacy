@@ -317,7 +317,7 @@ describe("DAO", () => {
     const tokenCapGC = await WrapperService.wrappers.TokenCapGC;
 
     const globalConstraintParametersHash = (await tokenCapGC.setParameters({
-      cap: 3141,
+      cap: "3141",
       token: dao.token.address,
     })).result;
 
