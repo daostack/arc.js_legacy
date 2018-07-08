@@ -38,12 +38,15 @@ export const arcJsDeployer = (
     const ExecutableTest = artifacts.require("ExecutableTest.sol");
     const GenesisProtocol = artifacts.require("GenesisProtocol.sol");
     const GlobalConstraintRegistrar = artifacts.require("GlobalConstraintRegistrar.sol");
+    const QuorumVote = artifacts.require("QuorumVote.sol");
     const SchemeRegistrar = artifacts.require("SchemeRegistrar.sol");
     const SimpleICO = artifacts.require("SimpleICO.sol");
     const TokenCapGC = artifacts.require("TokenCapGC.sol");
     const UpgradeScheme = artifacts.require("UpgradeScheme.sol");
     const VestingScheme = artifacts.require("VestingScheme.sol");
     const VoteInOrganizationScheme = artifacts.require("VoteInOrganizationScheme.sol");
+    const OrganizationRegister = artifacts.require("OrganizationRegister.sol");
+
     const UController = artifacts.require("UController.sol");
 
     console.log(`Deploying schemes to ${network}`);
@@ -100,10 +103,12 @@ export const arcJsDeployer = (
     await deployer.deploy(GlobalConstraintRegistrar, { gas: gasLimit });
     await deployer.deploy(ContributionReward, { gas: gasLimit });
     await deployer.deploy(AbsoluteVote, { gas: gasLimit });
+    await deployer.deploy(QuorumVote, { gas: gasLimit });
     await deployer.deploy(SimpleICO, { gas: gasLimit });
     await deployer.deploy(TokenCapGC, { gas: gasLimit });
     await deployer.deploy(VestingScheme, { gas: gasLimit });
     await deployer.deploy(VoteInOrganizationScheme, { gas: gasLimit });
+    await deployer.deploy(OrganizationRegister, { gas: gasLimit });
     if (network !== "live") {
       await deployer.deploy(ExecutableTest, { gas: gasLimit });
     }

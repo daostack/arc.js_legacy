@@ -152,8 +152,7 @@ describe("GenesisProtocol", () => {
       { _avatar: dao.avatar.address },
       { fromBlock: 0 }).get();
 
-    // TODO: This should be === 2.  Should be fixed in next Arc version
-    assert(proposals.length >= 2, "Should have found 2 proposals");
+    assert(proposals.length === 2, "Should have found 2 proposals");
     assert(proposals.filter((p: GenesisProtocolProposal) => p.proposalId === proposalId1).length,
       "proposalId1 not found");
     assert(proposals.filter((p: GenesisProtocolProposal) => p.proposalId === proposalId2).length,
@@ -175,8 +174,7 @@ describe("GenesisProtocol", () => {
       { _avatar: dao.avatar.address },
       { fromBlock: 0 }).get();
 
-    // TODO: This should be === 2.  Should be fixed in next Arc version
-    assert(proposals.length >= 2, "Should have found 2 proposals");
+    assert(proposals.length === 2, "Should have found 2 proposals");
     assert(proposals.filter((p: ExecutedGenesisProposal) => p.proposalId === proposalId1).length,
       "proposalId1 not found");
     assert(proposals.filter((p: ExecutedGenesisProposal) => p.proposalId === proposalId2).length,

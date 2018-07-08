@@ -1,5 +1,5 @@
 "use strict";
-import { Hash } from "../commonTypes";
+import { Address, Hash } from "../commonTypes";
 
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import {
@@ -12,18 +12,15 @@ import { ProposalService, VotableProposal } from "../proposalService";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
-  CancelProposalEventResult,
-  CancelVotingEventResult,
   NewProposalEventResult,
   OwnerVoteOptions,
   ProposalIdOption,
   ProposeOptions,
   VoteOptions,
-  VoteProposalEventResult,
-  VoteWithSpecifiedAmountsOptions,
-  VotingMachineExecuteProposalEventResult
+  VoteWithSpecifiedAmountsOptions
 } from "./iIntVoteInterface";
 
+import { BigNumber } from "bignumber.js";
 import { IntVoteInterfaceWrapper } from "./intVoteInterface";
 
 export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper {
@@ -35,12 +32,8 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper {
   /**
    * Events
    */
-
-  public NewProposal: EventFetcherFactory<NewProposalEventResult>;
-  public CancelProposal: EventFetcherFactory<CancelProposalEventResult>;
-  public ExecuteProposal: EventFetcherFactory<VotingMachineExecuteProposalEventResult>;
-  public VoteProposal: EventFetcherFactory<VoteProposalEventResult>;
-  public CancelVoting: EventFetcherFactory<CancelVotingEventResult>;
+  public AVVoteProposal: EventFetcherFactory<AVVoteProposalEventResult>;
+  public RefreshReputation: EventFetcherFactory<RefreshReputationEventResult>;
 
   /**
    * EntityFetcherFactory for votable proposals.
@@ -145,12 +138,10 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper {
   }
 
   protected hydrated(): void {
+    super.hydrated();
     /* tslint:disable:max-line-length */
-    this.NewProposal = this.createEventFetcherFactory<NewProposalEventResult>(this.contract.NewProposal);
-    this.CancelProposal = this.createEventFetcherFactory<CancelProposalEventResult>(this.contract.CancelProposal);
-    this.ExecuteProposal = this.createEventFetcherFactory<VotingMachineExecuteProposalEventResult>(this.contract.ExecuteProposal);
-    this.VoteProposal = this.createEventFetcherFactory<VoteProposalEventResult>(this.contract.VoteProposal);
-    this.CancelVoting = this.createEventFetcherFactory<CancelVotingEventResult>(this.contract.CancelVoting);
+    this.AVVoteProposal = this.createEventFetcherFactory<AVVoteProposalEventResult>(this.contract.AVVoteProposal);
+    this.RefreshReputation = this.createEventFetcherFactory<RefreshReputationEventResult>(this.contract.RefreshReputation);
     /* tslint:enable:max-line-length */
   }
 }
@@ -168,4 +159,29 @@ export interface AbsoluteVoteParamsResult {
   ownerVote: boolean;
   reputation: string;
   votePerc: number;
+}
+
+export interface AVVoteProposalEventResult {
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+  _isOwnerVote: boolean;
+}
+
+export interface RefreshReputationEventResult {
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+  /**
+   * indexed
+   */
+  _avatar: Address;
+  /**
+   * indexed
+   */
+  _voter: Address;
+
+  _reputation: BigNumber;
 }

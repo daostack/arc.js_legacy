@@ -11,8 +11,8 @@ import {
 } from "./wrappers/intVoteInterface";
 
 import {
-  NewProposalEventResult,
-  VotingMachineExecuteProposalEventResult
+  ExecuteProposalEventResult,
+  NewProposalEventResult
 } from "./wrappers/iIntVoteInterface";
 /**
  * A single instance of ProposalService provides services relating to a single
@@ -112,11 +112,11 @@ export class ProposalService {
    * @param votingMachineAddress
    */
   public getExecutedProposals(votingMachine: IntVoteInterfaceWrapper):
-    EntityFetcherFactory<ExecutedProposal, VotingMachineExecuteProposalEventResult> {
+    EntityFetcherFactory<ExecutedProposal, ExecuteProposalEventResult> {
 
-    return this.web3EventService.createEntityFetcherFactory<ExecutedProposal, VotingMachineExecuteProposalEventResult>(
+    return this.web3EventService.createEntityFetcherFactory<ExecutedProposal, ExecuteProposalEventResult>(
       votingMachine.ExecuteProposal,
-      (args: VotingMachineExecuteProposalEventResult): Promise<ExecutedProposal> => {
+      (args: ExecuteProposalEventResult): Promise<ExecutedProposal> => {
         return Promise.resolve(
           {
             decision: args._decision.toNumber(),

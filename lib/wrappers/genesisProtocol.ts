@@ -1,5 +1,6 @@
 "use strict";
 import * as BigNumber from "bignumber.js";
+import { gasLimitsConfig } from "../../gasLimits.js";
 import { AvatarService } from "../avatarService";
 import {
   Address,
@@ -23,14 +24,13 @@ import { Utils } from "../utils";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { RedeemEventResult } from "./commonEventInterfaces";
 import {
+  ExecuteProposalEventResult,
   NewProposalEventResult,
   OwnerVoteOptions,
   ProposalIdOption,
   ProposeOptions,
   VoteOptions,
-  VoteProposalEventResult,
   VoteWithSpecifiedAmountsOptions,
-  VotingMachineExecuteProposalEventResult,
 } from "./iIntVoteInterface";
 
 import { IntVoteInterfaceWrapper } from "./intVoteInterface";
@@ -45,9 +45,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
    */
 
   /* tslint:disable:max-line-length */
-  public NewProposal: EventFetcherFactory<NewProposalEventResult>;
-  public ExecuteProposal: EventFetcherFactory<GenesisProtocolExecuteProposalEventResult>;
-  public VoteProposal: EventFetcherFactory<VoteProposalEventResult>;
+  public GPExecuteProposal: EventFetcherFactory<GPExecuteProposalEventResult>;
   public Stake: EventFetcherFactory<StakeEventResult>;
   public Redeem: EventFetcherFactory<RedeemEventResult>;
   public RedeemReputation: EventFetcherFactory<RedeemEventResult>;
@@ -704,16 +702,16 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
    * @param avatarAddress
    */
   public get ExecutedProposals():
-    EntityFetcherFactory<ExecutedGenesisProposal, GenesisProtocolExecuteProposalEventResult> {
+    EntityFetcherFactory<ExecutedGenesisProposal, ExecuteProposalEventResult> {
 
     return this.web3EventService
-      .createEntityFetcherFactory<ExecutedGenesisProposal, GenesisProtocolExecuteProposalEventResult>(
+      .createEntityFetcherFactory<ExecutedGenesisProposal, ExecuteProposalEventResult>(
         this.ExecuteProposal,
-        async (args: GenesisProtocolExecuteProposalEventResult): Promise<ExecutedGenesisProposal> => {
+        // TODO: use GPExecuteProposal to return executionState
+        async (args: ExecuteProposalEventResult): Promise<ExecutedGenesisProposal> => {
           const proposal = await this.getProposal(args._proposalId);
           return Object.assign(proposal, {
             decision: args._decision.toNumber(),
-            executionState: args._executionState.toNumber(),
             totalReputation: args._totalReputation,
           });
         });
@@ -908,13 +906,13 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   }
 
   protected hydrated(): void {
+    super.hydrated();
     /* tslint:disable:max-line-length */
-    this.NewProposal = this.createEventFetcherFactory<NewProposalEventResult>(this.contract.NewProposal);
-    this.ExecuteProposal = this.createEventFetcherFactory<GenesisProtocolExecuteProposalEventResult>(this.contract.ExecuteProposal);
-    this.VoteProposal = this.createEventFetcherFactory<VoteProposalEventResult>(this.contract.VoteProposal);
+    this.GPExecuteProposal = this.createEventFetcherFactory<GPExecuteProposalEventResult>(this.contract.GPExecuteProposal);
     this.Stake = this.createEventFetcherFactory<StakeEventResult>(this.contract.Stake);
     this.Redeem = this.createEventFetcherFactory<RedeemEventResult>(this.contract.Redeem);
     this.RedeemReputation = this.createEventFetcherFactory<RedeemEventResult>(this.contract.RedeemReputation);
+    this.RedeemDaoBounty = this.createEventFetcherFactory<RedeemEventResult>(this.contract.RedeemDaoBounty);
     /* tslint:enable:max-line-length */
   }
 
@@ -949,7 +947,7 @@ export class GenesisProtocolFactoryType extends ContractWrapperFactory<GenesisPr
    * is the token of the DAO that is going to use this GenesisProtocol.
    */
   public async new(stakingTokenAddress: Address): Promise<GenesisProtocolWrapper> {
-    return super.new(stakingTokenAddress);
+    return super.new(stakingTokenAddress, { gas: gasLimitsConfig.gasLimit_arc });
   }
 }
 
@@ -969,7 +967,7 @@ export interface StakeEventResult {
   /**
    * indexed
    */
-  _voter: Address;
+  _staker: Address;
 }
 
 export interface GenesisProtocolParams extends TxGeneratingFunctionOptions {
@@ -1292,7 +1290,11 @@ export enum ExecutionState {
   BoostedBarCrossed = 4,
 }
 
-export interface GenesisProtocolExecuteProposalEventResult extends VotingMachineExecuteProposalEventResult {
+export interface GPExecuteProposalEventResult {
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
   /**
    * _executionState.toNumber() will give you a value from the enum `ExecutionState`
    */
@@ -1358,7 +1360,6 @@ export interface ExecutedGenesisProposal extends GenesisProtocolProposal {
    * total reputation in the DAO at the time the proposal is created in the voting machine
    */
   totalReputation: BigNumber.BigNumber;
-  executionState: ExecutionState;
 }
 
 export interface GenesisProtocolProposal {

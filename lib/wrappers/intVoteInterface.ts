@@ -14,6 +14,7 @@ import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
   CancelProposalEventResult,
   CancelVotingEventResult,
+  ExecuteProposalEventResult,
   IIntVoteInterface,
   NewProposalEventResult,
   OwnerVoteOptions,
@@ -22,8 +23,7 @@ import {
   VoteOptions,
   VoteProposalEventResult,
   VoteStatusOptions,
-  VoteWithSpecifiedAmountsOptions,
-  VotingMachineExecuteProposalEventResult
+  VoteWithSpecifiedAmountsOptions
 } from "./iIntVoteInterface";
 
 /**
@@ -31,9 +31,7 @@ import {
  * Arc contract interface.  Also serves as the base class for all the specific
  * voting machine contract wrapper classes.
  */
-export class IntVoteInterfaceWrapper
-  extends ContractWrapperBase
-  implements IIntVoteInterface {
+export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IIntVoteInterface {
 
   public factory: IContractWrapperFactory<any> = IntVoteInterfaceFactory;
   public name: string = "IntVoteInterface";
@@ -51,7 +49,7 @@ export class IntVoteInterfaceWrapper
   /**
    * Get or watch events fired when proposals have been executed
    */
-  public ExecuteProposal: EventFetcherFactory<VotingMachineExecuteProposalEventResult>;
+  public ExecuteProposal: EventFetcherFactory<ExecuteProposalEventResult>;
   /**
    * Get or watch events fired whenever votes are cast on a proposal
    */
@@ -338,12 +336,11 @@ export class IntVoteInterfaceWrapper
 
   protected hydrated(): void {
     /* tslint:disable:max-line-length */
-    // TODO:  get Arc to implement these in IntVoteInterface
-    // this.NewProposal = this.web3EventService.createEventFetcherFactory<NewProposalEventResult>(this.contract.NewProposal);
-    // this.CancelProposal = this.web3EventService.createEventFetcherFactory<CancelProposalEventResult>(this.contract.CancelProposal);
-    // this.ExecuteProposal = this.web3EventService.createEventFetcherFactory<VotingMachineExecuteProposalEventResult>(this.contract.ExecuteProposal);
-    // this.VoteProposal = this.web3EventService.createEventFetcherFactory<VoteProposalEventResult>(this.contract.VoteProposal);
-    // this.CancelVoting = this.web3EventService.createEventFetcherFactory<CancelVotingEventResult>(this.contract.CancelVoting);
+    this.NewProposal = this.web3EventService.createEventFetcherFactory<NewProposalEventResult>(this.contract.NewProposal);
+    this.CancelProposal = this.web3EventService.createEventFetcherFactory<CancelProposalEventResult>(this.contract.CancelProposal);
+    this.ExecuteProposal = this.web3EventService.createEventFetcherFactory<ExecuteProposalEventResult>(this.contract.ExecuteProposal);
+    this.VoteProposal = this.web3EventService.createEventFetcherFactory<VoteProposalEventResult>(this.contract.VoteProposal);
+    this.CancelVoting = this.web3EventService.createEventFetcherFactory<CancelVotingEventResult>(this.contract.CancelVoting);
     /* tslint:enable:max-line-length */
   }
 

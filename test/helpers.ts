@@ -7,13 +7,13 @@ import {
   ConfigService,
   ContributionRewardWrapper,
   DecodedLogEntryEvent,
+  ExecuteProposalEventResult,
   IContractWrapperBase,
   IContractWrapperFactory,
   InitializeArcJs,
   IntVoteInterfaceWrapper,
   ProposalGeneratorBase,
-  SchemeWrapper,
-  VotingMachineExecuteProposalEventResult
+  SchemeWrapper
 } from "../lib/index";
 import { LoggingService, LogLevel } from "../lib/loggingService";
 import { Utils } from "../lib/utils";
@@ -224,7 +224,7 @@ export async function voteWasExecuted(votingMachine: IntVoteInterfaceWrapper, pr
 
     const event = vmWrapper.ExecuteProposal({ _proposalId: proposalId }, { fromBlock: 0 });
     event.get(
-      (err: Error, events: Array<DecodedLogEntryEvent<VotingMachineExecuteProposalEventResult>>): void => {
+      (err: Error, events: Array<DecodedLogEntryEvent<ExecuteProposalEventResult>>): void => {
         if (err) {
           return reject(err);
         }

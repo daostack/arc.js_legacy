@@ -10,7 +10,7 @@ import { EventFetcherFactory } from "../web3EventService";
 export interface IIntVoteInterface {
   NewProposal: EventFetcherFactory<NewProposalEventResult>;
   CancelProposal: EventFetcherFactory<CancelProposalEventResult>;
-  ExecuteProposal: EventFetcherFactory<VotingMachineExecuteProposalEventResult>;
+  ExecuteProposal: EventFetcherFactory<ExecuteProposalEventResult>;
   VoteProposal: EventFetcherFactory<VoteProposalEventResult>;
   CancelVoting: EventFetcherFactory<CancelVotingEventResult>;
 
@@ -66,6 +66,10 @@ export interface CancelProposalEventResult {
   /**
    * indexed
    */
+  _avatar: Address;
+  /**
+   * indexed
+   */
   _proposalId: Hash;
 }
 
@@ -73,11 +77,22 @@ export interface CancelVotingEventResult {
   /**
    * indexed
    */
+  _avatar: Address;
+  /**
+   * indexed
+   */
   _proposalId: Hash;
+  /**
+   * indexed
+   */
   _voter: Address;
 }
 
 export interface NewProposalEventResult {
+  /**
+   * indexed
+   */
+  _avatar: Address;
   _numOfChoices: BigNumber;
   _paramsHash: Hash;
   /**
@@ -85,14 +100,16 @@ export interface NewProposalEventResult {
    */
   _proposalId: Hash;
   _proposer: Address;
-  _avatar: Address;
 }
 
-// TODO: include _avatar?
 /**
  * fired by voting machines
  */
-export interface VotingMachineExecuteProposalEventResult {
+export interface ExecuteProposalEventResult {
+  /**
+   * indexed
+   */
+  _avatar: Address;
   /**
    * the vote choice that won.
    */
@@ -107,8 +124,11 @@ export interface VotingMachineExecuteProposalEventResult {
   _totalReputation: BigNumber;
 }
 
-// TODO: include _avatar?
 export interface VoteProposalEventResult {
+  /**
+   * indexed
+   */
+  _avatar: Address;
   /**
    * indexed
    */
