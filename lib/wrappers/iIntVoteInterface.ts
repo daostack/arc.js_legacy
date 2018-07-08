@@ -143,3 +143,8 @@ export interface VoteProposalEventResult {
    */
   _voter: Address;
 }
+
+export interface GetAllowedRangeOfChoicesResult {
+  minVote: number;
+  maxVote: number;
+}

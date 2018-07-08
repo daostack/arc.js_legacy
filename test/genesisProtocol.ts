@@ -81,6 +81,12 @@ describe("GenesisProtocol", () => {
     executableTest = await ExecutableTest.deployed();
   });
 
+  it("can get range of choices", async () => {
+    const result = await await genesisProtocol.getAllowedRangeOfChoices();
+    assert.equal(result.minVote, 2);
+    assert.equal(result.maxVote, 2);
+  });
+
   it("can set boostedVotePeriodLimit in dao.new", async () => {
     dao = await helpers.forgeDao({
       founders: [{
@@ -592,8 +598,7 @@ describe("GenesisProtocol", () => {
       });
       assert(false, "Should have thrown validation exception");
     } catch (ex) {
-      // TODO: get MAX_NUM_OF_CHOICES into IntVoteInterface
-      // assert.equal(ex, "Error: numOfChoices must be between 1 and 10");
+      assert.equal(ex, "Error: numOfChoices cannot be greater than 2");
     }
   });
 });

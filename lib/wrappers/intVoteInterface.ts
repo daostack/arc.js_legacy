@@ -15,6 +15,7 @@ import {
   CancelProposalEventResult,
   CancelVotingEventResult,
   ExecuteProposalEventResult,
+  GetAllowedRangeOfChoicesResult,
   IIntVoteInterface,
   NewProposalEventResult,
   OwnerVoteOptions,
@@ -91,15 +92,18 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
       throw new Error(`execute is not defined`);
     }
 
-    // TODO: get MAX_NUM_OF_CHOICES into IntVoteInterface
-    // const numChoices = await this.getNumberOfChoices({ proposalId });
+    const numChoiceBounds = await this.getAllowedRangeOfChoices();
 
     if (!Number.isInteger(options.numOfChoices)) {
       throw new Error(`numOfChoices must be a number`);
     }
 
-    if (options.numOfChoices <= 0) {
-      throw new Error(`numOfChoices must be greater than 0`);
+    if (options.numOfChoices < numChoiceBounds.minVote) {
+      throw new Error(`numOfChoices cannot be less than ${numChoiceBounds.minVote}`);
+    }
+
+    if (options.numOfChoices > numChoiceBounds.maxVote) {
+      throw new Error(`numOfChoices cannot be greater than ${numChoiceBounds.maxVote}`);
     }
 
     if (!options.proposalParameters) {
@@ -332,6 +336,17 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
     }
 
     return voteTotals;
+  }
+
+  /**
+   * Returns promise of the allowed range of choices for a voting machine.
+   */
+  public async getAllowedRangeOfChoices(): Promise<GetAllowedRangeOfChoicesResult> {
+    const result = await this.contract.getAllowedRangeOfChoices();
+    return {
+      maxVote: result[1].toNumber(),
+      minVote: result[0].toNumber(),
+    };
   }
 
   protected hydrated(): void {
