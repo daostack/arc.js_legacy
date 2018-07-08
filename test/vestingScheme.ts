@@ -221,6 +221,18 @@ describe("VestingScheme scheme", () => {
     const organizationProposal = await vestingScheme.contract.organizationsProposals(dao.avatar.address, proposalId);
     assert.equal(organizationProposal[0], dao.token.address);
     assert.equal(organizationProposal[1], accounts[0]); // beneficiary
+
+    await result.votingMachine.vote({ proposalId, vote: 1 });
+
+    const fetcher = vestingScheme.getExecutedProposals(dao.avatar.address)(
+      { _proposalId: proposalId }, { fromBlock: 0 });
+
+    const events = await fetcher.get();
+
+    assert.equal(events.length, 1);
+    assert.equal(events[0].proposalId, proposalId);
+    assert.equal(typeof events[0].agreementId, "number");
+    assert(events[0].agreementId > 0, "agreementId is not set");
   });
 
   it("propose agreement fails when no period is given", async () => {

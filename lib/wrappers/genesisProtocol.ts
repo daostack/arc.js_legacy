@@ -707,14 +707,25 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     return this.web3EventService
       .createEntityFetcherFactory<ExecutedGenesisProposal, ExecuteProposalEventResult>(
         this.ExecuteProposal,
-        // TODO: use GPExecuteProposal to return executionState
         async (args: ExecuteProposalEventResult): Promise<ExecutedGenesisProposal> => {
           const proposal = await this.getProposal(args._proposalId);
           return Object.assign(proposal, {
             decision: args._decision.toNumber(),
+            executionState: await this.getProposalExecutionState(proposal.proposalId),
             totalReputation: args._totalReputation,
           });
         });
+  }
+
+  /**
+   * Returns a promise of the execution state of the given proposal.  The result is
+   * ExecutionState.None if the proposal has not been executed or is not found.
+   * @param proposalId
+   */
+  public async getProposalExecutionState(proposalId: Hash): Promise<ExecutionState> {
+    const fetcher = this.GPExecuteProposal({ _proposalId: proposalId }, { fromBlock: 0 });
+    const events = await fetcher.get();
+    return events.length ? events[0].args._executionState.toNumber() : ExecutionState.None;
   }
 
   public async getProposal(proposalId: Hash): Promise<GenesisProtocolProposal> {
@@ -1425,6 +1436,7 @@ export interface ExecutedGenesisProposal extends GenesisProtocolProposal {
    * total reputation in the DAO at the time the proposal is created in the voting machine
    */
   totalReputation: BigNumber.BigNumber;
+  executionState: ExecutionState;
 }
 
 export interface GenesisProtocolProposal {

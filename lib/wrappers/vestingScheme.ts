@@ -248,28 +248,38 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
       });
   }
 
-  // TODO: Return Agreement here when it is possible to obtain the agreementId from Arc.
   /**
    * EntityFetcherFactory for executed proposals.
    * @param avatarAddress
    */
   public getExecutedProposals(avatarAddress: Address):
-    EntityFetcherFactory<SchemeProposalExecuted, SchemeProposalExecutedEventResult> {
+    EntityFetcherFactory<VestingSchemeSchemeProposalExecuted, SchemeProposalExecutedEventResult> {
 
     return this.proposalService.getProposalEvents(
       {
         baseArgFilter: { _avatar: avatarAddress },
         proposalsEventFetcher: this.ProposalExecuted,
         transformEventCallback:
-          // TODO: use ProposeVestedAgreement to also return  agreementId
-          (event: SchemeProposalExecutedEventResult): Promise<SchemeProposalExecuted> => {
+          async (event: SchemeProposalExecutedEventResult): Promise<VestingSchemeSchemeProposalExecuted> => {
             return Promise.resolve({
+              agreementId: await this.getProposalAgreementId(event._proposalId),
               avatarAddress: event._avatar,
               proposalId: event._proposalId,
               winningVote: event._param,
             });
           },
       });
+  }
+
+  /**
+   * Returns a promise of the agreementId associated with the given proposal. The result
+   * is 0 if the proposal has not been executed or is not found.
+   * @param proposalId
+   */
+  public async getProposalAgreementId(proposalId: Hash): Promise<number> {
+    const fetcher = this.ProposedVestedAgreement({ _proposalId: proposalId }, { fromBlock: 0 });
+    const events = await fetcher.get();
+    return events.length ? events[0].args._agreementId.toNumber() : 0;
   }
 
   public async getVotableProposal(avatarAddress: Address, proposalId: Hash): Promise<AgreementProposal> {
@@ -603,4 +613,8 @@ export interface AgreementBase {
   signaturesReqToCancel: BigNumber.BigNumber;
   startingBlock: BigNumber.BigNumber;
   tokenAddress: Address;
+}
+
+export interface VestingSchemeSchemeProposalExecuted extends SchemeProposalExecuted {
+  agreementId: number;
 }

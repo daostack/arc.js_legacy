@@ -6,6 +6,7 @@ import { ArcTransactionResult } from "../lib/iContractWrapperBase";
 import { Utils } from "../lib/utils";
 import {
   ExecutedGenesisProposal,
+  ExecutionState,
   GenesisProtocolFactory,
   GenesisProtocolProposal,
   GenesisProtocolWrapper,
@@ -195,6 +196,7 @@ describe("GenesisProtocol", () => {
     assert.isOk(proposals[0].totalReputation, "totalReputation not set properly on proposal");
     assert.equal(proposals[0].decision, 1, "decision is wrong");
     assert.equal(proposals[0].state, ProposalState.Executed, "state is wrong");
+    assert.equal(proposals[0].executionState, ExecutionState.PreBoostedBarCrossed, "executionState is wrong");
   });
 
   it("scheme can use GenesisProtocol", async () => {
