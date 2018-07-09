@@ -47,7 +47,7 @@ npm explore @daostack/arc.js -- npm start ganache
 Now migrate the Arc contracts to Ganache:
 
 ```script
-npm explore @daostack/arc.js -- npm start ganache.migrateContracts
+npm explore @daostack/arc.js -- npm start migrateContracts
 ```
 
 Now when your app uses Arc.js, it will be running against Ganache and the contracts you just migrated.
