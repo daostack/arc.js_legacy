@@ -81,6 +81,19 @@ describe("GenesisProtocol", () => {
     executableTest = await ExecutableTest.deployed();
   });
 
+  it("can call stakeWithApproval", async () => {
+    const proposalId = await createProposal();
+
+    const result = await genesisProtocol.stakeWithApproval({
+      amount: web3.toWei(1),
+      proposalId,
+      vote: BinaryVoteResult.Yes,
+    });
+
+    assert.isOk(result);
+    assert.isOk(result.tx);
+  });
+
   it("can get range of choices", async () => {
     const result = await await genesisProtocol.getAllowedRangeOfChoices();
     assert.equal(result.minVote, 2);
