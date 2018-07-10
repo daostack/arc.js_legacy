@@ -290,9 +290,9 @@ declare module "web3" {
     estimateGas(callData: CallData): number;
     estimateGas(callData: CallData, callback: (err: Error, gas: number) => void): void;
 
-    // TODO defaultBlock
-    getTransactionCount(address: string): number;
-    getTransactionCount(address: string, callback: (err: Error, count: number) => void): void;
+    getTransactionCount(address: string,
+                        block?: number | string,
+                        callback?: (err: Error, count: number) => void): void;
   }
 
   export interface VersionApi {

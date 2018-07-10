@@ -34,6 +34,7 @@ import {
   VoteWithSpecifiedAmountsOptions,
 } from "./iIntVoteInterface";
 
+import { promisify } from "es6-promisify";
 import { IntVoteInterfaceWrapper } from "./intVoteInterface";
 
 export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements SchemeWrapper {

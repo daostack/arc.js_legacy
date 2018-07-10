@@ -1,5 +1,4 @@
 import { assert } from "chai";
-import { promisify } from "util";
 import { TransactionReceipt } from "web3";
 import {
   AbsoluteVoteWrapper,
