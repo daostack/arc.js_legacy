@@ -1,8 +1,10 @@
+import { BigNumber } from "bignumber.js";
 import { assert } from "chai";
-import { BinaryVoteResult, Hash } from "../lib/commonTypes";
+import { Address, BinaryVoteResult, Hash } from "../lib/commonTypes";
 import { DAO, DaoSchemeInfo } from "../lib/dao";
 import { ArcTransactionResult } from "../lib/iContractWrapperBase";
 import { Utils } from "../lib/utils";
+import { Web3EventService } from "../lib/web3EventService";
 import {
   ExecutedGenesisProposal,
   ExecutionState,
@@ -84,6 +86,14 @@ describe("GenesisProtocol", () => {
   it("can call stakeWithApproval", async () => {
     const proposalId = await createProposal();
 
+    const web3EventService = new Web3EventService();
+    const stakingToken = await genesisProtocol.getStakingToken();
+    const transferFetcher = web3EventService
+      .createEventFetcherFactory<{ to: Address, from: Address, value: BigNumber }>(stakingToken.Transfer)(
+        { from: accounts[0] }, { fromBlock: 0 });
+    let transferEvents = await transferFetcher.get();
+    const transfersBefore = transferEvents.length;
+
     const result = await genesisProtocol.stakeWithApproval({
       amount: web3.toWei(1),
       proposalId,
@@ -92,6 +102,16 @@ describe("GenesisProtocol", () => {
 
     assert.isOk(result);
     assert.isOk(result.tx);
+
+    transferEvents = await transferFetcher.get();
+    const transfersAfter = transferEvents.length;
+    assert.equal(transfersBefore + 1, transfersAfter, "should be one more transfer event");
+    assert.equal(transferEvents[transfersAfter - 1].args.value.toString(), web3.toWei(1));
+    assert.equal(transferEvents[transfersAfter - 1].args.to.toString(), genesisProtocol.address);
+
+    const stakeFetcher = genesisProtocol.Stake({ _proposalId: proposalId }, { fromBlock: 0 });
+    const stakeEvents = await stakeFetcher.get();
+    assert.equal(stakeEvents.length, 1, "should be one Stake event");
   });
 
   it("can call stakeWithApproval a second time", async () => {
