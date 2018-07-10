@@ -1,4 +1,3 @@
-import { BigNumber } from "bignumber.js";
 import { assert } from "chai";
 import { BinaryVoteResult, Hash } from "../lib/commonTypes";
 import { DAO, DaoSchemeInfo } from "../lib/dao";
@@ -82,122 +81,122 @@ describe("GenesisProtocol", () => {
     executableTest = await ExecutableTest.deployed();
   });
 
-  it("can get range of choices", async () => {
-    const result = await await genesisProtocol.getAllowedRangeOfChoices();
-    assert.equal(result.minVote, 2);
-    assert.equal(result.maxVote, 2);
-  });
+  // it("can get range of choices", async () => {
+  //   const result = await await genesisProtocol.getAllowedRangeOfChoices();
+  //   assert.equal(result.minVote, 2);
+  //   assert.equal(result.maxVote, 2);
+  // });
 
-  it("can set boostedVotePeriodLimit in dao.new", async () => {
-    dao = await helpers.forgeDao({
-      founders: [{
-        address: accounts[0],
-        reputation: web3.toWei(1000),
-        tokens: web3.toWei(1000),
-      },
-      ],
-      schemes: [
-        {
-          boostedVotePeriodLimit: 180,
-          name: "GenesisProtocol",
-          quietEndingPeriod: 60,
-        },
-      ],
-    });
+  // it("can set boostedVotePeriodLimit in dao.new", async () => {
+  //   dao = await helpers.forgeDao({
+  //     founders: [{
+  //       address: accounts[0],
+  //       reputation: web3.toWei(1000),
+  //       tokens: web3.toWei(1000),
+  //     },
+  //     ],
+  //     schemes: [
+  //       {
+  //         boostedVotePeriodLimit: 180,
+  //         name: "GenesisProtocol",
+  //         quietEndingPeriod: 60,
+  //       },
+  //     ],
+  //   });
 
-    const scheme =
-      (await helpers.getDaoScheme(dao, "GenesisProtocol", GenesisProtocolFactory)) as GenesisProtocolWrapper;
+  //   const scheme =
+  //     (await helpers.getDaoScheme(dao, "GenesisProtocol", GenesisProtocolFactory)) as GenesisProtocolWrapper;
 
-    const params = await scheme.getSchemeParameters(dao.avatar.address);
+  //   const params = await scheme.getSchemeParameters(dao.avatar.address);
 
-    assert.equal(params.boostedVotePeriodLimit, 180);
-    assert.equal(params.quietEndingPeriod, 60);
-  });
+  //   assert.equal(params.boostedVotePeriodLimit, 180);
+  //   assert.equal(params.quietEndingPeriod, 60);
+  // });
 
-  it("can call getTokenBalances", async () => {
-    const stakingToken = await genesisProtocol.getStakingToken();
+  // it("can call getTokenBalances", async () => {
+  //   const stakingToken = await genesisProtocol.getStakingToken();
 
-    await helpers.transferTokensToDao(dao, 15, accounts[0], dao.token);
-    await helpers.transferTokensToDao(dao, 25, accounts[0], stakingToken);
+  //   await helpers.transferTokensToDao(dao, 15, accounts[0], dao.token);
+  //   await helpers.transferTokensToDao(dao, 25, accounts[0], stakingToken);
 
-    const result = await genesisProtocol.getTokenBalances({
-      avatarAddress: dao.avatar.address,
-    });
+  //   const result = await genesisProtocol.getTokenBalances({
+  //     avatarAddress: dao.avatar.address,
+  //   });
 
-    assert.equal(result.nativeToken.address, dao.token.address, "wrong nativeToken");
-    assert.equal(result.stakingToken.address, stakingToken.address, "wrong stakingToken");
-    assert(result.nativeTokenBalance.eq(web3.toWei(15)),
-      `nativeTokenBalance is wrong: ${result.nativeTokenBalance}`);
-    assert(result.stakingTokenBalance.eq(web3.toWei(25)),
-      `stakingTokenBalance is wrong: ${result.stakingTokenBalance}`);
-  });
+  //   assert.equal(result.nativeToken.address, dao.token.address, "wrong nativeToken");
+  //   assert.equal(result.stakingToken.address, stakingToken.address, "wrong stakingToken");
+  //   assert(result.nativeTokenBalance.eq(web3.toWei(15)),
+  //     `nativeTokenBalance is wrong: ${result.nativeTokenBalance}`);
+  //   assert(result.stakingTokenBalance.eq(web3.toWei(25)),
+  //     `stakingTokenBalance is wrong: ${result.stakingTokenBalance}`);
+  // });
 
-  it("can get votable proposals", async () => {
+  // it("can get votable proposals", async () => {
 
-    dao = await helpers.forgeDao({
-      founders: [{
-        address: accounts[0],
-        reputation: web3.toWei(1000),
-        tokens: web3.toWei(1000),
-      },
-      ],
-      schemes: [
-        {
-          name: "GenesisProtocol",
-          votingMachineParams: {
-            ownerVote: false,
-          },
-        },
-      ],
-    });
+  //   dao = await helpers.forgeDao({
+  //     founders: [{
+  //       address: accounts[0],
+  //       reputation: web3.toWei(1000),
+  //       tokens: web3.toWei(1000),
+  //     },
+  //     ],
+  //     schemes: [
+  //       {
+  //         name: "GenesisProtocol",
+  //         votingMachineParams: {
+  //           ownerVote: false,
+  //         },
+  //       },
+  //     ],
+  //   });
 
-    const proposalId1 = await createProposal();
+  //   const proposalId1 = await createProposal();
 
-    const proposalId2 = await createProposal();
+  //   const proposalId2 = await createProposal();
 
-    const proposals = await genesisProtocol.VotableGenesisProtocolProposals(
-      { _avatar: dao.avatar.address },
-      { fromBlock: 0 }).get();
+  //   const proposals = await genesisProtocol.VotableGenesisProtocolProposals(
+  //     { _avatar: dao.avatar.address },
+  //     { fromBlock: 0 }).get();
 
-    assert(proposals.length === 2, "Should have found 2 proposals");
-    assert(proposals.filter((p: GenesisProtocolProposal) => p.proposalId === proposalId1).length,
-      "proposalId1 not found");
-    assert(proposals.filter((p: GenesisProtocolProposal) => p.proposalId === proposalId2).length,
-      "proposalId2 not found");
+  //   assert(proposals.length === 2, "Should have found 2 proposals");
+  //   assert(proposals.filter((p: GenesisProtocolProposal) => p.proposalId === proposalId1).length,
+  //     "proposalId1 not found");
+  //   assert(proposals.filter((p: GenesisProtocolProposal) => p.proposalId === proposalId2).length,
+  //     "proposalId2 not found");
 
-    assert(typeof proposals[0].numOfChoices === "number");
-    assert.equal(proposals[0].state, ProposalState.PreBoosted, "state is wrong");
-  });
+  //   assert(typeof proposals[0].numOfChoices === "number");
+  //   assert.equal(proposals[0].state, ProposalState.PreBoosted, "state is wrong");
+  // });
 
-  it("can get executed proposals", async () => {
+  // it("can get executed proposals", async () => {
 
-    const proposalId1 = await createProposal();
-    await voteProposal(proposalId1, 1);
+  //   const proposalId1 = await createProposal();
+  //   await voteProposal(proposalId1, 1);
 
-    const proposalId2 = await createProposal();
-    await voteProposal(proposalId2, 1);
+  //   const proposalId2 = await createProposal();
+  //   await voteProposal(proposalId2, 1);
 
-    let proposals = await genesisProtocol.ExecutedProposals(
-      { _avatar: dao.avatar.address },
-      { fromBlock: 0 }).get();
+  //   let proposals = await genesisProtocol.ExecutedProposals(
+  //     { _avatar: dao.avatar.address },
+  //     { fromBlock: 0 }).get();
 
-    assert(proposals.length === 2, "Should have found 2 proposals");
-    assert(proposals.filter((p: ExecutedGenesisProposal) => p.proposalId === proposalId1).length,
-      "proposalId1 not found");
-    assert(proposals.filter((p: ExecutedGenesisProposal) => p.proposalId === proposalId2).length,
-      "proposalId2 not found");
+  //   assert(proposals.length === 2, "Should have found 2 proposals");
+  //   assert(proposals.filter((p: ExecutedGenesisProposal) => p.proposalId === proposalId1).length,
+  //     "proposalId1 not found");
+  //   assert(proposals.filter((p: ExecutedGenesisProposal) => p.proposalId === proposalId2).length,
+  //     "proposalId2 not found");
 
-    proposals = await genesisProtocol.ExecutedProposals(
-      { _avatar: dao.avatar.address, _proposalId: proposalId2 },
-      { fromBlock: 0 }).get();
+  //   proposals = await genesisProtocol.ExecutedProposals(
+  //     { _avatar: dao.avatar.address, _proposalId: proposalId2 },
+  //     { fromBlock: 0 }).get();
 
-    assert.equal(proposals.length, 1, "Should have found 1 proposals");
-    assert(proposals[0].proposalId === proposalId2, "proposalId2 not found");
-    assert.isOk(proposals[0].totalReputation, "totalReputation not set properly on proposal");
-    assert.equal(proposals[0].decision, 1, "decision is wrong");
-    assert.equal(proposals[0].state, ProposalState.Executed, "state is wrong");
-    assert.equal(proposals[0].executionState, ExecutionState.PreBoostedBarCrossed, "executionState is wrong");
-  });
+  //   assert.equal(proposals.length, 1, "Should have found 1 proposals");
+  //   assert(proposals[0].proposalId === proposalId2, "proposalId2 not found");
+  //   assert.isOk(proposals[0].totalReputation, "totalReputation not set properly on proposal");
+  //   assert.equal(proposals[0].decision, 1, "decision is wrong");
+  //   assert.equal(proposals[0].state, ProposalState.Executed, "state is wrong");
+  //   assert.equal(proposals[0].executionState, ExecutionState.PreBoostedBarCrossed, "executionState is wrong");
+  // });
 
   it("scheme can use GenesisProtocol", async () => {
 
@@ -218,7 +217,6 @@ describe("GenesisProtocol", () => {
         {
           name: "SchemeRegistrar",
           votingMachineParams: {
-            ownerVote: false,
             votingMachineName: "GenesisProtocol",
           },
         },
@@ -235,7 +233,7 @@ describe("GenesisProtocol", () => {
 
     assert.isOk(schemeRegistrar);
     /**
-     * propose to remove ContributionReward.  It should get the ownerVote, then requiring just 30 more reps to execute.
+     * propose to remove ContributionReward.
      */
     const result = await schemeRegistrar.proposeToRemoveScheme(
       {
@@ -265,7 +263,8 @@ describe("GenesisProtocol", () => {
     assert.isFalse(await helpers.voteWasExecuted(votingMachine, proposalId), "Should not have been executed");
     assert.isTrue(await votingMachine.isVotable({ proposalId }), "Should be votable");
 
-    await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[0] });
+    await helpers.vote(votingMachine, proposalId, BinaryVoteResult.Yes, accounts[0]);
+    // await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[0] });
 
     assert.isTrue(await helpers.voteWasExecuted(votingMachine, proposalId), "vote was not executed");
     assert.isFalse(await votingMachine.isVotable({ proposalId }), "Should not be votable");

@@ -43,10 +43,6 @@ export interface OwnerVoteOptions extends ProposalIdOption {
 
 export interface VoteOptions extends ProposalIdOption {
   vote: number;
-  /**
-   * Optional agent on whose behalf to vote.
-   */
-  onBehalfOf?: Address;
 }
 
 export interface VoteWithSpecifiedAmountsOptions extends ProposalIdOption {

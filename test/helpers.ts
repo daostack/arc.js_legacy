@@ -10,6 +10,7 @@ import {
   ExecuteProposalEventResult,
   IContractWrapperBase,
   IContractWrapperFactory,
+  IIntVoteInterface,
   InitializeArcJs,
   IntVoteInterfaceWrapper,
   ProposalGeneratorBase,
@@ -203,12 +204,12 @@ export async function getVotingMachineParameters(
  * vote for the proposal given by proposalId.
  */
 export function vote(
-  votingMachine: IntVoteInterfaceWrapper,
+  votingMachine: IIntVoteInterface,
   proposalId: Hash,
   theVote: number,
   voter: Address): Promise<ArcTransactionResult> {
   voter = (voter ? voter : accounts[0]);
-  return votingMachine.vote({ vote: theVote, proposalId, onBehalfOf: voter });
+  return (votingMachine as any).contract.vote(proposalId, theVote, { from: voter });
 }
 
 export function wrapperForVotingMachine(votingMachine: IntVoteInterfaceWrapper): IContractWrapperBase {

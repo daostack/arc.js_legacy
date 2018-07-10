@@ -29,20 +29,15 @@ describe("ContributionReward scheme", () => {
     if (!network) {
       network = await Utils.getNetworkName();
     }
-    if (network !== "Ganache") {
-      const daoAddress = network === "Kovan" ? "0x78434fdaf6d44254b95634e2be9d7ca3433d8853" : "???";
-      dao = await DAO.at(daoAddress);
-      account0 = accounts[0];
-      account1 = accounts[0];
-    } else {
-      dao = await helpers.forgeDao({
-        schemes: [
-          { name: "ContributionReward" },
-        ],
-      });
-      account0 = accounts[0];
-      account1 = accounts[1];
-    }
+
+    dao = await helpers.forgeDao({
+      schemes: [
+        { name: "ContributionReward" },
+      ],
+    });
+
+    account0 = accounts[0];
+    account1 = accounts[1];
 
     scheme = await helpers.getDaoScheme(
       dao,
@@ -330,8 +325,11 @@ describe("ContributionReward scheme", () => {
       assert.equal(proposal.beneficiaryAddress, account1,
         "beneficiaryAddress not set properly on proposal");
 
-      await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId: proposalId2, onBehalfOf: account0 });
-      await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId: proposalId2, onBehalfOf: account1 });
+      await helpers.vote(votingMachine, proposalId2, BinaryVoteResult.Yes, account0);
+      await helpers.vote(votingMachine, proposalId2, BinaryVoteResult.Yes, account1);
+
+      // await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId: proposalId2, onBehalfOf: account0 });
+      // await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId: proposalId2, onBehalfOf: account1 });
 
       proposals = await scheme.getExecutedProposals(dao.avatar.address)(
         { _proposalId: proposalId2 }, { fromBlock: 0 }).get();
@@ -374,16 +372,19 @@ describe("ContributionReward scheme", () => {
     assert(proposals.filter((p: ContributionProposal) => p.proposalId === reputationChangeProposalId).length,
       "reputationChangeProposalId not found");
 
-    await votingMachine.vote({
-      onBehalfOf: account1,
-      proposalId: nativeRewardProposalId,
-      vote: BinaryVoteResult.Yes,
-    });
-    await votingMachine.vote({
-      onBehalfOf: account1,
-      proposalId: reputationChangeProposalId,
-      vote: BinaryVoteResult.Yes,
-    });
+    await helpers.vote(votingMachine, nativeRewardProposalId, BinaryVoteResult.Yes, account1);
+    await helpers.vote(votingMachine, reputationChangeProposalId, BinaryVoteResult.Yes, account1);
+
+    // await votingMachine.vote({
+    //   onBehalfOf: account1,
+    //   proposalId: nativeRewardProposalId,
+    //   vote: BinaryVoteResult.Yes,
+    // });
+    // await votingMachine.vote({
+    //   onBehalfOf: account1,
+    //   proposalId: reputationChangeProposalId,
+    //   vote: BinaryVoteResult.Yes,
+    // });
 
     let rewards = await scheme.getBeneficiaryRewards({
       avatar: dao.avatar.address,

@@ -172,7 +172,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
   }
 
   /**
-   * Vote on behalf of msgSender (current account or onBehalfOf).
+   * Vote on behalf of the current account.
    * @param options
    */
   public async vote(options: VoteOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
@@ -186,8 +186,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
     return this.wrapTransactionInvocation("IntVoteInterface.vote",
       options,
       this.contract.vote,
-      [options.proposalId, options.vote],
-      options.onBehalfOf ? { from: options.onBehalfOf } : undefined
+      [options.proposalId, options.vote]
     );
   }
 

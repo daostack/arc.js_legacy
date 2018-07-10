@@ -4,21 +4,6 @@ export type fnVoid = () => void;
 export type Hash = string;
 export type Address = string;
 
-export interface VoteConfig {
-  /**
-   * optional address of agent casting the vote.
-   */
-  onBehalfOf?: Address;
-  /**
-   * unique hash of proposal index
-   */
-  proposalId: Hash;
-  /**
-   * the choice of vote. Can be 1 (YES) or 2 (NO).
-   */
-  vote: number;
-}
-
 export enum BinaryVoteResult {
   Abstain = 0,
   Yes = 1,

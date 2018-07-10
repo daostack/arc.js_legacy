@@ -190,8 +190,10 @@ describe("VoteInOrganizationScheme", () => {
     /**
      * cast a vote using voteInOrganizationScheme's voting machine.
      */
-    await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[1] });
-    await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[2] });
+    await helpers.vote(votingMachine, proposalId, BinaryVoteResult.Yes, accounts[1]);
+    await helpers.vote(votingMachine, proposalId, BinaryVoteResult.Yes, accounts[2]);
+    // await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[1] });
+    // await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[2] });
     /**
      * confirm that a vote was cast by the original DAO's scheme
      */

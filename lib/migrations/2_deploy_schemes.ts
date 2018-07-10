@@ -46,6 +46,7 @@ export const arcJsDeployer = (
     const VestingScheme = artifacts.require("VestingScheme.sol");
     const VoteInOrganizationScheme = artifacts.require("VoteInOrganizationScheme.sol");
     const OrganizationRegister = artifacts.require("OrganizationRegister.sol");
+    const Redeemer = artifacts.require("Redeemer.sol");
 
     const UController = artifacts.require("UController.sol");
 
@@ -98,10 +99,12 @@ export const arcJsDeployer = (
     await deployer.deploy(DaoCreator, controllerCreator.address, { gas: gasLimit });
     await deployer.deploy(UController, { gas: gasLimit });
     await deployer.deploy(GenesisProtocol, genTokenAddress, { gas: gasLimit });
+    const genesisProtocolInstance = await GenesisProtocol.deployed();
     await deployer.deploy(SchemeRegistrar, { gas: gasLimit });
     await deployer.deploy(UpgradeScheme, { gas: gasLimit });
     await deployer.deploy(GlobalConstraintRegistrar, { gas: gasLimit });
     await deployer.deploy(ContributionReward, { gas: gasLimit });
+    const contributionRewardInstance = await ContributionReward.deployed();
     await deployer.deploy(AbsoluteVote, { gas: gasLimit });
     await deployer.deploy(QuorumVote, { gas: gasLimit });
     await deployer.deploy(SimpleICO, { gas: gasLimit });
@@ -109,6 +112,11 @@ export const arcJsDeployer = (
     await deployer.deploy(VestingScheme, { gas: gasLimit });
     await deployer.deploy(VoteInOrganizationScheme, { gas: gasLimit });
     await deployer.deploy(OrganizationRegister, { gas: gasLimit });
+    await deployer.deploy(Redeemer,
+      contributionRewardInstance.address,
+      genesisProtocolInstance.address,
+      { gas: gasLimit });
+
     if (network !== "live") {
       await deployer.deploy(ExecutableTest, { gas: gasLimit });
     }

@@ -18,7 +18,7 @@ export class StandardTokenWrapper extends ContractWrapperBase {
   public Approval: EventFetcherFactory<ApprovalEventResult>;
 
   /**
-   * Approve transfer of tokens by msg.sender (or `onBehalfOf`if given)
+   * Approve transfer of tokens by msg.sender (or `onBehalfOf` if given)
    * from the given "spender".
    * @param options
    */
@@ -61,6 +61,11 @@ export class StandardTokenWrapper extends ContractWrapperBase {
  * defined just to add good type checking
  */
 export class StandardTokenFactoryType extends ContractWrapperFactory<StandardTokenWrapper> {
+
+  public async deployed(): Promise<StandardTokenWrapper> {
+    throw new Error("StandardToken has not been deployed");
+  }
+
   public async new(
     initialAccount: Address,
     initialBalance: BigNumber): Promise<StandardTokenWrapper> {

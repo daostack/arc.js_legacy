@@ -65,12 +65,6 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   public async stake(options: StakeConfig =
     {} as StakeConfig & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
 
-    const defaults = {
-      onBehalfOf: null,
-    };
-
-    options = Object.assign({}, defaults, options) as StakeConfig;
-
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
     }
@@ -97,7 +91,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     let tx;
     /**
-     * approve immediate transfer of staked tokens from onBehalfOf to this scheme
+     * approve immediate transfer of staked tokens to this scheme
      */
     if (autoApproveTransfer) {
 
@@ -106,8 +100,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       tx = await this.sendTransaction(
         eventContext,
         stakingToken.approve,
-        [this.address, amount],
-        { from: options.onBehalfOf ? options.onBehalfOf : await Utils.getDefaultAccount() });
+        [this.address, amount]);
 
       TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
       await TransactionService.watchForMinedTransaction(tx);
@@ -118,11 +111,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     tx = await this.sendTransaction(
       eventContext,
       this.contract.stake,
-      [options.proposalId, options.vote, amount],
-      options.onBehalfOf ? {
-        from: options.onBehalfOf ? options.onBehalfOf :
-          await Utils.getDefaultAccount(),
-      } : undefined);
+      [options.proposalId, options.vote, amount]);
 
     TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
 
@@ -158,8 +147,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     return this.wrapTransactionInvocation("GenesisProtocol.redeem",
       options,
       this.contract.redeem,
-      [options.proposalId,
-      options.beneficiaryAddress]
+      [options.proposalId, options.beneficiaryAddress]
     );
   }
 
@@ -191,8 +179,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     return this.wrapTransactionInvocation("GenesisProtocol.redeemDaoBounty",
       options,
       this.contract.redeemDaoBounty,
-      [options.proposalId,
-      options.beneficiaryAddress]
+      [options.proposalId, options.beneficiaryAddress]
     );
   }
 
@@ -1170,10 +1157,6 @@ export interface StakeConfig {
    * token amount to stake on the outcome resulting in this vote, in Wei
    */
   amount: BigNumber.BigNumber | string;
-  /**
-   * stake on behalf of this agent
-   */
-  onBehalfOf?: Address;
   /**
    * unique hash of proposal index
    */
