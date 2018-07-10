@@ -156,10 +156,10 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       nonce,
       signature);
 
-    this.logContractFunctionCall("GenesisProtocol.stakeAndApprove", options);
+    this.logContractFunctionCall("GenesisProtocol.stakeWithApproval", options);
 
     return this.wrapTransactionInvocation(
-      "GenesisProtocol.stakeAndApprove",
+      "GenesisProtocol.stakeWithApproval",
       options,
       stakingToken.approveAndCall,
       [this.address, amount.toString(10), extraData.params[0].data],
