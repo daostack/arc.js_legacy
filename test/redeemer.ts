@@ -63,7 +63,6 @@ describe("Redeemer", () => {
     assert.isOk(result.votingMachine);
 
     await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.Yes, accounts[1]);
-    // await result.votingMachine.vote({ proposalId, vote: 1, onBehalfOf: accounts[1] });
 
     await helpers.increaseTime(1);
 

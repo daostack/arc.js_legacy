@@ -49,7 +49,6 @@ describe("UpgradeScheme", () => {
     const proposalId = await result.getProposalIdFromMinedTx();
 
     await helpers.vote(votingMachine, proposalId, BinaryVoteResult.Yes, accounts[1]);
-    // await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[1] });
 
     /**
      * at this point upgradeScheme is no longer registered with the controller.
@@ -100,7 +99,6 @@ describe("UpgradeScheme", () => {
     assert.equal(proposal.proposalId, proposalId);
 
     await helpers.vote(votingMachine, proposalId, BinaryVoteResult.Yes, accounts[1]);
-    // await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[1] });
 
     const executedProposals = await upgradeScheme.getExecutedProposals(dao.avatar.address)(
       { _proposalId: proposalId }, { fromBlock: 0 }).get();

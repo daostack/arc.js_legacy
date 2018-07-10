@@ -328,9 +328,6 @@ describe("ContributionReward scheme", () => {
       await helpers.vote(votingMachine, proposalId2, BinaryVoteResult.Yes, account0);
       await helpers.vote(votingMachine, proposalId2, BinaryVoteResult.Yes, account1);
 
-      // await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId: proposalId2, onBehalfOf: account0 });
-      // await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId: proposalId2, onBehalfOf: account1 });
-
       proposals = await scheme.getExecutedProposals(dao.avatar.address)(
         { _proposalId: proposalId2 }, { fromBlock: 0 }).get();
 
@@ -374,17 +371,6 @@ describe("ContributionReward scheme", () => {
 
     await helpers.vote(votingMachine, nativeRewardProposalId, BinaryVoteResult.Yes, account1);
     await helpers.vote(votingMachine, reputationChangeProposalId, BinaryVoteResult.Yes, account1);
-
-    // await votingMachine.vote({
-    //   onBehalfOf: account1,
-    //   proposalId: nativeRewardProposalId,
-    //   vote: BinaryVoteResult.Yes,
-    // });
-    // await votingMachine.vote({
-    //   onBehalfOf: account1,
-    //   proposalId: reputationChangeProposalId,
-    //   vote: BinaryVoteResult.Yes,
-    // });
 
     let rewards = await scheme.getBeneficiaryRewards({
       avatar: dao.avatar.address,

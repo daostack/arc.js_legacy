@@ -310,7 +310,6 @@ describe("GenesisProtocol", () => {
     assert.isTrue(await votingMachine.isVotable({ proposalId }), "Should be votable");
 
     await helpers.vote(votingMachine, proposalId, BinaryVoteResult.Yes, accounts[0]);
-    // await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[0] });
 
     assert.isTrue(await helpers.voteWasExecuted(votingMachine, proposalId), "vote was not executed");
     assert.isFalse(await votingMachine.isVotable({ proposalId }), "Should not be votable");

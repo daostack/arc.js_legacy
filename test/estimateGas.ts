@@ -188,7 +188,6 @@ describe("estimate gas", () => {
 
     if (network === "Ganache") {
       await helpers.vote(votingMachine, proposalId, BinaryVoteResult.Yes, accounts[1]);
-      // await votingMachine.vote({ vote: 1, proposalId, onBehalfOf: accounts[1] });
     }
 
     // assert(await helpers.voteWasExecuted(votingMachine.contract, proposalId), "vote was not executed");
