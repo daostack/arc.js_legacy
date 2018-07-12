@@ -14,6 +14,8 @@ import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
   CancelProposalEventResult,
   CancelVotingEventResult,
+  ExecuteProposalEventResult,
+  GetAllowedRangeOfChoicesResult,
   IIntVoteInterface,
   NewProposalEventResult,
   OwnerVoteOptions,
@@ -22,8 +24,7 @@ import {
   VoteOptions,
   VoteProposalEventResult,
   VoteStatusOptions,
-  VoteWithSpecifiedAmountsOptions,
-  VotingMachineExecuteProposalEventResult
+  VoteWithSpecifiedAmountsOptions
 } from "./iIntVoteInterface";
 
 /**
@@ -31,9 +32,7 @@ import {
  * Arc contract interface.  Also serves as the base class for all the specific
  * voting machine contract wrapper classes.
  */
-export class IntVoteInterfaceWrapper
-  extends ContractWrapperBase
-  implements IIntVoteInterface {
+export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IIntVoteInterface {
 
   public factory: IContractWrapperFactory<any> = IntVoteInterfaceFactory;
   public name: string = "IntVoteInterface";
@@ -51,7 +50,7 @@ export class IntVoteInterfaceWrapper
   /**
    * Get or watch events fired when proposals have been executed
    */
-  public ExecuteProposal: EventFetcherFactory<VotingMachineExecuteProposalEventResult>;
+  public ExecuteProposal: EventFetcherFactory<ExecuteProposalEventResult>;
   /**
    * Get or watch events fired whenever votes are cast on a proposal
    */
@@ -93,15 +92,18 @@ export class IntVoteInterfaceWrapper
       throw new Error(`execute is not defined`);
     }
 
-    // TODO: get MAX_NUM_OF_CHOICES into IntVoteInterface
-    // const numChoices = await this.getNumberOfChoices({ proposalId });
+    const numChoiceBounds = await this.getAllowedRangeOfChoices();
 
     if (!Number.isInteger(options.numOfChoices)) {
       throw new Error(`numOfChoices must be a number`);
     }
 
-    if (options.numOfChoices <= 0) {
-      throw new Error(`numOfChoices must be greater than 0`);
+    if (options.numOfChoices < numChoiceBounds.minVote) {
+      throw new Error(`numOfChoices cannot be less than ${numChoiceBounds.minVote}`);
+    }
+
+    if (options.numOfChoices > numChoiceBounds.maxVote) {
+      throw new Error(`numOfChoices cannot be greater than ${numChoiceBounds.maxVote}`);
     }
 
     if (!options.proposalParameters) {
@@ -170,7 +172,7 @@ export class IntVoteInterfaceWrapper
   }
 
   /**
-   * Vote on behalf of msgSender (current account or onBehalfOf).
+   * Vote on behalf of the current account.
    * @param options
    */
   public async vote(options: VoteOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
@@ -184,8 +186,7 @@ export class IntVoteInterfaceWrapper
     return this.wrapTransactionInvocation("IntVoteInterface.vote",
       options,
       this.contract.vote,
-      [options.proposalId, options.vote],
-      options.onBehalfOf ? { from: options.onBehalfOf } : undefined
+      [options.proposalId, options.vote]
     );
   }
 
@@ -336,14 +337,24 @@ export class IntVoteInterfaceWrapper
     return voteTotals;
   }
 
+  /**
+   * Returns promise of the allowed range of choices for a voting machine.
+   */
+  public async getAllowedRangeOfChoices(): Promise<GetAllowedRangeOfChoicesResult> {
+    const result = await this.contract.getAllowedRangeOfChoices();
+    return {
+      maxVote: result[1].toNumber(),
+      minVote: result[0].toNumber(),
+    };
+  }
+
   protected hydrated(): void {
     /* tslint:disable:max-line-length */
-    // TODO:  get Arc to implement these in IntVoteInterface
-    // this.NewProposal = this.web3EventService.createEventFetcherFactory<NewProposalEventResult>(this.contract.NewProposal);
-    // this.CancelProposal = this.web3EventService.createEventFetcherFactory<CancelProposalEventResult>(this.contract.CancelProposal);
-    // this.ExecuteProposal = this.web3EventService.createEventFetcherFactory<VotingMachineExecuteProposalEventResult>(this.contract.ExecuteProposal);
-    // this.VoteProposal = this.web3EventService.createEventFetcherFactory<VoteProposalEventResult>(this.contract.VoteProposal);
-    // this.CancelVoting = this.web3EventService.createEventFetcherFactory<CancelVotingEventResult>(this.contract.CancelVoting);
+    this.NewProposal = this.web3EventService.createEventFetcherFactory<NewProposalEventResult>(this.contract.NewProposal);
+    this.CancelProposal = this.web3EventService.createEventFetcherFactory<CancelProposalEventResult>(this.contract.CancelProposal);
+    this.ExecuteProposal = this.web3EventService.createEventFetcherFactory<ExecuteProposalEventResult>(this.contract.ExecuteProposal);
+    this.VoteProposal = this.web3EventService.createEventFetcherFactory<VoteProposalEventResult>(this.contract.VoteProposal);
+    this.CancelVoting = this.web3EventService.createEventFetcherFactory<CancelVotingEventResult>(this.contract.CancelVoting);
     /* tslint:enable:max-line-length */
   }
 

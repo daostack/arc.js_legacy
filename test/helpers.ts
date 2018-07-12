@@ -7,13 +7,14 @@ import {
   ConfigService,
   ContributionRewardWrapper,
   DecodedLogEntryEvent,
+  ExecuteProposalEventResult,
   IContractWrapperBase,
   IContractWrapperFactory,
+  IIntVoteInterface,
   InitializeArcJs,
   IntVoteInterfaceWrapper,
   ProposalGeneratorBase,
-  SchemeWrapper,
-  VotingMachineExecuteProposalEventResult
+  SchemeWrapper
 } from "../lib/index";
 import { LoggingService, LogLevel } from "../lib/loggingService";
 import { Utils } from "../lib/utils";
@@ -203,12 +204,12 @@ export async function getVotingMachineParameters(
  * vote for the proposal given by proposalId.
  */
 export function vote(
-  votingMachine: IntVoteInterfaceWrapper,
+  votingMachine: IIntVoteInterface,
   proposalId: Hash,
   theVote: number,
   voter: Address): Promise<ArcTransactionResult> {
   voter = (voter ? voter : accounts[0]);
-  return votingMachine.vote({ vote: theVote, proposalId, onBehalfOf: voter });
+  return (votingMachine as any).contract.vote(proposalId, theVote, { from: voter });
 }
 
 export function wrapperForVotingMachine(votingMachine: IntVoteInterfaceWrapper): IContractWrapperBase {
@@ -224,7 +225,7 @@ export async function voteWasExecuted(votingMachine: IntVoteInterfaceWrapper, pr
 
     const event = vmWrapper.ExecuteProposal({ _proposalId: proposalId }, { fromBlock: 0 });
     event.get(
-      (err: Error, events: Array<DecodedLogEntryEvent<VotingMachineExecuteProposalEventResult>>): void => {
+      (err: Error, events: Array<DecodedLogEntryEvent<ExecuteProposalEventResult>>): void => {
         if (err) {
           return reject(err);
         }

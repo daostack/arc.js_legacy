@@ -1,5 +1,7 @@
 "use strict";
-import * as BigNumber from "bignumber.js";
+import { BigNumber } from "bignumber.js";
+import ethereumjs = require("ethereumjs-abi");
+import { gasLimitsConfig } from "../../gasLimits.js";
 import { AvatarService } from "../avatarService";
 import {
   Address,
@@ -23,16 +25,16 @@ import { Utils } from "../utils";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { RedeemEventResult } from "./commonEventInterfaces";
 import {
+  ExecuteProposalEventResult,
   NewProposalEventResult,
   OwnerVoteOptions,
   ProposalIdOption,
   ProposeOptions,
   VoteOptions,
-  VoteProposalEventResult,
   VoteWithSpecifiedAmountsOptions,
-  VotingMachineExecuteProposalEventResult,
 } from "./iIntVoteInterface";
 
+import { promisify } from "es6-promisify";
 import { IntVoteInterfaceWrapper } from "./intVoteInterface";
 
 export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements SchemeWrapper {
@@ -45,9 +47,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
    */
 
   /* tslint:disable:max-line-length */
-  public NewProposal: EventFetcherFactory<NewProposalEventResult>;
-  public ExecuteProposal: EventFetcherFactory<GenesisProtocolExecuteProposalEventResult>;
-  public VoteProposal: EventFetcherFactory<VoteProposalEventResult>;
+  public GPExecuteProposal: EventFetcherFactory<GPExecuteProposalEventResult>;
   public Stake: EventFetcherFactory<StakeEventResult>;
   public Redeem: EventFetcherFactory<RedeemEventResult>;
   public RedeemReputation: EventFetcherFactory<RedeemEventResult>;
@@ -67,20 +67,13 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   public async stake(options: StakeConfig =
     {} as StakeConfig & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
 
-    const defaults = {
-      onBehalfOf: null,
-    };
-
-    options = Object.assign({}, defaults, options) as StakeConfig;
-
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
     }
 
     this._validateVote(options.vote, options.proposalId);
 
-    const web3 = await Utils.getWeb3();
-    const amount = web3.toBigNumber(options.amount);
+    const amount = new BigNumber(options.amount);
 
     if (amount.lte(0)) {
       throw new Error("amount must be > 0");
@@ -99,7 +92,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     let tx;
     /**
-     * approve immediate transfer of staked tokens from onBehalfOf to this scheme
+     * approve immediate transfer of staked tokens to this scheme
      */
     if (autoApproveTransfer) {
 
@@ -108,8 +101,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       tx = await this.sendTransaction(
         eventContext,
         stakingToken.approve,
-        [this.address, amount],
-        { from: options.onBehalfOf ? options.onBehalfOf : await Utils.getDefaultAccount() });
+        [this.address, amount]);
 
       TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
       await TransactionService.watchForMinedTransaction(tx);
@@ -120,15 +112,59 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     tx = await this.sendTransaction(
       eventContext,
       this.contract.stake,
-      [options.proposalId, options.vote, amount],
-      options.onBehalfOf ? {
-        from: options.onBehalfOf ? options.onBehalfOf :
-          await Utils.getDefaultAccount(),
-      } : undefined);
+      [options.proposalId, options.vote, amount]);
 
     TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
 
     return new ArcTransactionResult(tx, this.contract);
+  }
+
+  /**
+   * Preapprove the transfer of stakingTokens from the default account to this GenesisProtocol contract,
+   * and then stake, all in a single transaction.
+   * @param options
+   */
+  public async stakeWithApproval(options: StakeConfig =
+    {} as StakeConfig & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+
+    if (!options.proposalId) {
+      throw new Error("proposalId is not defined");
+    }
+
+    this._validateVote(options.vote, options.proposalId);
+
+    const amount = new BigNumber(options.amount);
+
+    if (amount.lte(0)) {
+      throw new Error("amount must be > 0");
+    }
+    const stakingToken = await this.getStakingToken();
+    const staker = await Utils.getDefaultAccount();
+    const nonce = 0;
+
+    const textMsg = "0x" + ethereumjs.soliditySHA3(
+      ["address", "bytes32", "uint", "uint", "uint"],
+      [this.address, options.proposalId, options.vote, amount.toString(10), nonce]
+    ).toString("hex");
+
+    const web3 = await Utils.getWeb3();
+    const signature = web3.eth.sign(staker, textMsg);
+
+    const extraData = await this.contract.stakeWithSignature.request(
+      options.proposalId,
+      options.vote,
+      amount.toString(10),
+      nonce,
+      signature);
+
+    this.logContractFunctionCall("GenesisProtocol.stakeWithApproval", options);
+
+    return this.wrapTransactionInvocation(
+      "GenesisProtocol.stakeWithApproval",
+      options,
+      stakingToken.approveAndCall,
+      [this.address, amount.toString(10), extraData.params[0].data],
+      { from: staker });
   }
 
   /**
@@ -160,8 +196,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     return this.wrapTransactionInvocation("GenesisProtocol.redeem",
       options,
       this.contract.redeem,
-      [options.proposalId,
-      options.beneficiaryAddress]
+      [options.proposalId, options.beneficiaryAddress]
     );
   }
 
@@ -193,8 +228,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     return this.wrapTransactionInvocation("GenesisProtocol.redeemDaoBounty",
       options,
       this.contract.redeemDaoBounty,
-      [options.proposalId,
-      options.beneficiaryAddress]
+      [options.proposalId, options.beneficiaryAddress]
     );
   }
 
@@ -217,9 +251,9 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   /**
    * Return the current proposal score.
    * @param {GetScoreConfig} options
-   * @returns Promise<BigNumber.BigNumber>
+   * @returns Promise<BigNumber>
    */
-  public async getScore(options: GetScoreConfig = {} as GetScoreConfig): Promise<BigNumber.BigNumber> {
+  public async getScore(options: GetScoreConfig = {} as GetScoreConfig): Promise<BigNumber> {
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -237,7 +271,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
    * as well as the GenesisProtocol parameters thresholdConstA and thresholdConstB.
    * @param {GetThresholdConfig} options
    */
-  public getThreshold(options: GetThresholdConfig = {} as GetThresholdConfig): Promise<BigNumber.BigNumber> {
+  public getThreshold(options: GetThresholdConfig = {} as GetThresholdConfig): Promise<BigNumber> {
 
     if (!options.avatar) {
       throw new Error("avatar is not defined");
@@ -255,11 +289,11 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   /**
    * Return the reputation amount to which the proposal proposer is entitled in the event that the proposal is approved.
    * @param {GetRedeemableReputationProposerConfig} options
-   * @returns Promise<BigNumber.BigNumber>
+   * @returns Promise<BigNumber>
    */
   public async getRedeemableReputationProposer(
     options: GetRedeemableReputationProposerConfig = {} as GetRedeemableReputationProposerConfig)
-    : Promise<BigNumber.BigNumber> {
+    : Promise<BigNumber> {
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -273,11 +307,11 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   /**
    * Return the token amount to which the voter is entitled in the event that the proposal is approved.
    * @param {GetRedeemableTokensVoterConfig} options
-   * @returns Promise<BigNumber.BigNumber>
+   * @returns Promise<BigNumber>
    */
   public async getRedeemableTokensVoter(
     options: GetRedeemableTokensVoterConfig = {} as GetRedeemableTokensVoterConfig)
-    : Promise<BigNumber.BigNumber> {
+    : Promise<BigNumber> {
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -298,11 +332,11 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   /**
    * Return the reputation amount to which the voter is entitled in the event that the proposal is approved.
    * @param {GetRedeemableReputationVoterConfig} options
-   * @returns Promise<BigNumber.BigNumber>
+   * @returns Promise<BigNumber>
    */
   public async getRedeemableReputationVoter(
     options: GetRedeemableReputationVoterConfig = {} as GetRedeemableReputationVoterConfig)
-    : Promise<BigNumber.BigNumber> {
+    : Promise<BigNumber> {
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -322,11 +356,11 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   /**
    * Return the token amount to which the given staker is entitled in the event that the proposal is approved.
    * @param {GetRedeemableRewardsStakerConfig} opts
-   * @returns Promise<BigNumber.BigNumber>
+   * @returns Promise<BigNumber>
    */
   public async getRedeemableTokensStaker(
     options: GetRedeemableRewardsStakerConfig = {} as GetRedeemableRewardsStakerConfig)
-    : Promise<BigNumber.BigNumber> {
+    : Promise<BigNumber> {
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -347,11 +381,11 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   /**
    * Return the token amount of bounty to which the given staker is entitled in the event that the proposal is approved.
    * @param {GetRedeemableRewardsStakerConfig} opts
-   * @returns Promise<BigNumber.BigNumber>
+   * @returns Promise<BigNumber>
    */
   public async getRedeemableTokensStakerBounty(
     options: GetRedeemableRewardsStakerConfig = {} as GetRedeemableRewardsStakerConfig)
-    : Promise<BigNumber.BigNumber> {
+    : Promise<BigNumber> {
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -372,11 +406,11 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   /**
    * Return the reputation amount to which the staker is entitled in the event that the proposal is approved.
    * @param {GetRedeemableReputationStakerConfig} options
-   * @returns Promise<BigNumber.BigNumber>
+   * @returns Promise<BigNumber>
    */
   public async getRedeemableReputationStaker(
     options: GetRedeemableReputationStakerConfig = {} as GetRedeemableReputationStakerConfig)
-    : Promise<BigNumber.BigNumber> {
+    : Promise<BigNumber> {
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -482,11 +516,11 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   /**
    * Returns the reputation currently voted on the given choice.
    * @param {GetVoteStatusConfig} options
-   * @returns Promise<BigNumber.BigNumber>
+   * @returns Promise<BigNumber>
    */
   public async getVoteStatus(
     options: GetVoteStatusConfig = {} as GetVoteStatusConfig)
-    : Promise<BigNumber.BigNumber> {
+    : Promise<BigNumber> {
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -605,11 +639,11 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   /**
    * Return the amount stakes behind a given proposal and vote.
    * @param {GetVoteStakeConfig} options
-   * @returns Promise<BigNumber.BigNumber>
+   * @returns Promise<BigNumber>
    */
   public async getVoteStake(
     options: GetVoteStakeConfig = {} as GetVoteStakeConfig)
-    : Promise<BigNumber.BigNumber> {
+    : Promise<BigNumber> {
 
     if (!options.proposalId) {
       throw new Error("proposalId is not defined");
@@ -704,19 +738,30 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
    * @param avatarAddress
    */
   public get ExecutedProposals():
-    EntityFetcherFactory<ExecutedGenesisProposal, GenesisProtocolExecuteProposalEventResult> {
+    EntityFetcherFactory<ExecutedGenesisProposal, ExecuteProposalEventResult> {
 
     return this.web3EventService
-      .createEntityFetcherFactory<ExecutedGenesisProposal, GenesisProtocolExecuteProposalEventResult>(
+      .createEntityFetcherFactory<ExecutedGenesisProposal, ExecuteProposalEventResult>(
         this.ExecuteProposal,
-        async (args: GenesisProtocolExecuteProposalEventResult): Promise<ExecutedGenesisProposal> => {
+        async (args: ExecuteProposalEventResult): Promise<ExecutedGenesisProposal> => {
           const proposal = await this.getProposal(args._proposalId);
           return Object.assign(proposal, {
             decision: args._decision.toNumber(),
-            executionState: args._executionState.toNumber(),
+            executionState: await this.getProposalExecutionState(proposal.proposalId),
             totalReputation: args._totalReputation,
           });
         });
+  }
+
+  /**
+   * Returns a promise of the execution state of the given proposal.  The result is
+   * ExecutionState.None if the proposal has not been executed or is not found.
+   * @param proposalId
+   */
+  public async getProposalExecutionState(proposalId: Hash): Promise<ExecutionState> {
+    const fetcher = this.GPExecuteProposal({ _proposalId: proposalId }, { fromBlock: 0 });
+    const events = await fetcher.get();
+    return events.length ? events[0].args._executionState.toNumber() : ExecutionState.None;
   }
 
   public async getProposal(proposalId: Hash): Promise<GenesisProtocolProposal> {
@@ -736,10 +781,9 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       params);
 
     // in Wei
-    const web3 = await Utils.getWeb3();
-    const maxEthValue = web3.toBigNumber(10).pow(26);
+    const maxEthValue = new BigNumber(10).pow(26);
 
-    const minimumStakingFee = web3.toBigNumber(params.minimumStakingFee);
+    const minimumStakingFee = new BigNumber(params.minimumStakingFee);
 
     if (minimumStakingFee.lt(0)) {
       throw new Error("minimumStakingFee must be greater than or equal to 0");
@@ -763,7 +807,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
         "proposingRepRewardConstB must be greater than or equal to 0 and less than or equal to 100000000");
     }
 
-    const thresholdConstA = web3.toBigNumber(params.thresholdConstA);
+    const thresholdConstA = new BigNumber(params.thresholdConstA);
 
     if (thresholdConstA.lt(0)) {
       throw new Error("thresholdConstA must be greater than or equal to 0");
@@ -810,7 +854,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
         "daoBountyConst must be greater than stakerFeeRatioForVoters and less than 2*stakerFeeRatioForVoters");
     }
 
-    const daoBountyLimit = web3.toBigNumber(params.daoBountyLimit);
+    const daoBountyLimit = new BigNumber(params.daoBountyLimit);
 
     if (daoBountyLimit.lt(0)) {
       throw new Error("daoBountyLimit must be greater than or equal to 0");
@@ -850,7 +894,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     return this._getSchemeParameters(avatarAddress);
   }
 
-  public async getParameters(paramsHash: Hash): Promise<GenesisProtocolParams> {
+  public async getParameters(paramsHash: Hash): Promise<GetGenesisProtocolParamsResult> {
     const params = await this.getParametersArray(paramsHash);
     return {
       boostedVotePeriodLimit: params[2].toNumber(),
@@ -871,12 +915,12 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   }
 
   /**
-   * Return the staking token address.
+   * Return promise of the staking token truffle contract.
    * @returns Promise<Address>
    */
   public async getStakingToken(): Promise<any> {
     const tokenAddress = await this.contract.stakingToken();
-    return (await Utils.requireContract("StandardToken")).at(tokenAddress);
+    return (await Utils.requireContract("ERC827Token")).at(tokenAddress);
   }
 
   public async propose(options: ProposeOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionProposalResult> {
@@ -908,13 +952,13 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   }
 
   protected hydrated(): void {
+    super.hydrated();
     /* tslint:disable:max-line-length */
-    this.NewProposal = this.createEventFetcherFactory<NewProposalEventResult>(this.contract.NewProposal);
-    this.ExecuteProposal = this.createEventFetcherFactory<GenesisProtocolExecuteProposalEventResult>(this.contract.ExecuteProposal);
-    this.VoteProposal = this.createEventFetcherFactory<VoteProposalEventResult>(this.contract.VoteProposal);
+    this.GPExecuteProposal = this.createEventFetcherFactory<GPExecuteProposalEventResult>(this.contract.GPExecuteProposal);
     this.Stake = this.createEventFetcherFactory<StakeEventResult>(this.contract.Stake);
     this.Redeem = this.createEventFetcherFactory<RedeemEventResult>(this.contract.Redeem);
     this.RedeemReputation = this.createEventFetcherFactory<RedeemEventResult>(this.contract.RedeemReputation);
+    this.RedeemDaoBounty = this.createEventFetcherFactory<RedeemEventResult>(this.contract.RedeemDaoBounty);
     /* tslint:enable:max-line-length */
   }
 
@@ -949,7 +993,7 @@ export class GenesisProtocolFactoryType extends ContractWrapperFactory<GenesisPr
    * is the token of the DAO that is going to use this GenesisProtocol.
    */
   public async new(stakingTokenAddress: Address): Promise<GenesisProtocolWrapper> {
-    return super.new(stakingTokenAddress);
+    return super.new(stakingTokenAddress, { gas: gasLimitsConfig.gasLimit_arc });
   }
 }
 
@@ -960,7 +1004,7 @@ export const GenesisProtocolFactory =
     new Web3EventService()) as GenesisProtocolFactoryType;
 
 export interface StakeEventResult {
-  _amount: BigNumber.BigNumber;
+  _amount: BigNumber;
   /**
    * indexed
    */
@@ -969,7 +1013,7 @@ export interface StakeEventResult {
   /**
    * indexed
    */
-  _voter: Address;
+  _staker: Address;
 }
 
 export interface GenesisProtocolParams extends TxGeneratingFunctionOptions {
@@ -986,13 +1030,13 @@ export interface GenesisProtocolParams extends TxGeneratingFunctionOptions {
   /**
    * Upper bound on the total bounty amount on a proposal.
    */
-  daoBountyLimit: BigNumber.BigNumber | string;
+  daoBountyLimit: BigNumber | string;
   /**
    * A floor on the staking fee which is normally computed using
    * [[GenesisProtocolParams.stakerFeeRatioForVoters]], in Wei.
    * Default is 0.
    */
-  minimumStakingFee: BigNumber.BigNumber | string;
+  minimumStakingFee: BigNumber | string;
   /**
    * The time limit in seconds for a proposal to be in absolute voting mode.
    * Default is 1814400 (three weeks).
@@ -1035,7 +1079,7 @@ export interface GenesisProtocolParams extends TxGeneratingFunctionOptions {
    * Must be between 0 and 100000000 (converted to Wei).
    * Default is 7, converted to Wei.
    */
-  thresholdConstA: BigNumber.BigNumber | string;
+  thresholdConstA: BigNumber | string;
   /**
    * Constant B in the threshold calculation. See [[GenesisProtocolWrapper.getThreshold]].
    * Must be greater than zero and less than or equal to 100000000.
@@ -1057,49 +1101,110 @@ export interface GenesisProtocolParams extends TxGeneratingFunctionOptions {
   votersReputationLossRatio: number;
 }
 
+export interface GetGenesisProtocolParamsResult {
+  /**
+   * The time limit in seconds for a proposal to be in relative voting mode.
+   */
+  boostedVotePeriodLimit: number;
+  /**
+   * Multiple of a winning stake to be rewarded as bounty.
+   */
+  daoBountyConst: number;
+  /**
+   * Upper bound on the total bounty amount on a proposal.
+   */
+  daoBountyLimit: BigNumber;
+  /**
+   * A floor on the staking fee which is normally computed using
+   * [[GenesisProtocolParams.stakerFeeRatioForVoters]], in Wei.
+   */
+  minimumStakingFee: BigNumber;
+  /**
+   * The time limit in seconds for a proposal to be in absolute voting mode.
+   */
+  preBoostedVotePeriodLimit: number;
+  /**
+   * The percentage of the absolute vote that must be exceeded to result in a win.
+   */
+  preBoostedVoteRequiredPercentage: number;
+  /**
+   * Constant A in the calculation of the proposer's reward.
+   * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
+   */
+  proposingRepRewardConstA: number;
+  /**
+   * Constant B in the calculation of the proposer's reward.
+   * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
+   */
+  proposingRepRewardConstB: number;
+  /**
+   * The duration of the quietEndingPeriod, in seconds.
+   */
+  quietEndingPeriod: number;
+  /**
+   * The percentage of a stake that is given to all voters.
+   * Voters (pre and during boosting period) share this amount in proportion to their reputation.
+   * Must be between 0 and 100.
+   */
+  stakerFeeRatioForVoters: number;
+  /**
+   * Constant A in the threshold calculation,in Wei. See [[GenesisProtocolWrapper.getThreshold]].
+   */
+  thresholdConstA: BigNumber | string;
+  /**
+   * Constant B in the threshold calculation. See [[GenesisProtocolWrapper.getThreshold]].
+   */
+  thresholdConstB: number;
+  /**
+   * The percentage of losing pre-boosted voters' lost reputation (see votersReputationLossRatio)
+   * rewarded to winning pre-boosted voters.
+   */
+  votersGainRepRatioFromLostRep: number;
+  /**
+   * The percentage of reputation deducted from losing pre-boosted voters.
+   */
+  votersReputationLossRatio: number;
+}
+
 export interface GetVoterInfoResult {
   vote: number;
-  reputation: BigNumber.BigNumber;
+  reputation: BigNumber;
 }
 
 export interface GetProposalStatusResult {
   /**
    * Amount of reputation voted
    */
-  totalVotes: BigNumber.BigNumber;
+  totalVotes: BigNumber;
   /**
    * Number of staked tokens currently redeemable by stakers
    */
-  totalStakerStakes: BigNumber.BigNumber;
+  totalStakerStakes: BigNumber;
   /**
    * Total number of staked tokens currently redeemable by everyone
    */
-  totalStaked: BigNumber.BigNumber;
+  totalStaked: BigNumber;
   /**
    * Number of staked tokens set aside and redeemable for all voters (via the staking fee)
    */
-  totalVoterStakes: BigNumber.BigNumber;
+  totalVoterStakes: BigNumber;
 }
 
 export interface GetScoreThresholdParamsResult {
-  thresholdConstA: BigNumber.BigNumber;
+  thresholdConstA: BigNumber;
   thresholdConstB: number;
 }
 
 export interface GetStakerInfoResult {
   vote: number;
-  stake: BigNumber.BigNumber;
+  stake: BigNumber;
 }
 
 export interface StakeConfig {
   /**
    * token amount to stake on the outcome resulting in this vote, in Wei
    */
-  amount: BigNumber.BigNumber | string;
-  /**
-   * stake on behalf of this agent
-   */
-  onBehalfOf?: Address;
+  amount: BigNumber | string;
   /**
    * unique hash of proposal index
    */
@@ -1292,11 +1397,15 @@ export enum ExecutionState {
   BoostedBarCrossed = 4,
 }
 
-export interface GenesisProtocolExecuteProposalEventResult extends VotingMachineExecuteProposalEventResult {
+export interface GPExecuteProposalEventResult {
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
   /**
    * _executionState.toNumber() will give you a value from the enum `ExecutionState`
    */
-  _executionState: BigNumber.BigNumber;
+  _executionState: BigNumber;
 }
 
 export enum ProposalState {
@@ -1320,7 +1429,7 @@ export interface GenesisProtocolDaoTokenBalances {
   /**
    * The avatar's balance off native tokens, in Wei
    */
-  nativeTokenBalance: BigNumber.BigNumber;
+  nativeTokenBalance: BigNumber;
   /**
    * The standard token's truffle contract
    */
@@ -1328,7 +1437,7 @@ export interface GenesisProtocolDaoTokenBalances {
   /**
    * The avatar's balance of staking tokens, in Wei
    */
-  stakingTokenBalance: BigNumber.BigNumber;
+  stakingTokenBalance: BigNumber;
 }
 
 export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProtocolParams> => {
@@ -1357,7 +1466,7 @@ export interface ExecutedGenesisProposal extends GenesisProtocolProposal {
   /**
    * total reputation in the DAO at the time the proposal is created in the voting machine
    */
-  totalReputation: BigNumber.BigNumber;
+  totalReputation: BigNumber;
   executionState: ExecutionState;
 }
 
@@ -1371,9 +1480,9 @@ export interface GenesisProtocolProposal {
    * in seconds
    */
   currentBoostedVotePeriodLimit: number;
-  daoBountyRemain: BigNumber.BigNumber;
+  daoBountyRemain: BigNumber;
   executable: Address;
-  lostReputation: BigNumber.BigNumber;
+  lostReputation: BigNumber;
   numOfChoices: number;
   paramsHash: Hash;
   proposalId: Hash;
@@ -1383,8 +1492,8 @@ export interface GenesisProtocolProposal {
    * in seconds
    */
   submittedTime: number;
-  totalVotes: BigNumber.BigNumber;
-  votersStakes: BigNumber.BigNumber;
+  totalVotes: BigNumber;
+  votersStakes: BigNumber;
   winningVote: number;
 }
 

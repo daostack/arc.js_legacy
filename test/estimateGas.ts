@@ -187,7 +187,7 @@ describe("estimate gas", () => {
   it("can redeem proposal", async () => {
 
     if (network === "Ganache") {
-      await votingMachine.vote({ vote: 1, proposalId, onBehalfOf: accounts[1] });
+      await helpers.vote(votingMachine, proposalId, BinaryVoteResult.Yes, accounts[1]);
     }
 
     // assert(await helpers.voteWasExecuted(votingMachine.contract, proposalId), "vote was not executed");

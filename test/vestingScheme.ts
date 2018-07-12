@@ -75,10 +75,9 @@ describe("VestingScheme scheme", () => {
     assert(agreements.filter((a: AgreementProposal) => a.proposalId === proposalId2).length, "proposalId2 not found");
 
     agreements = await (await vestingScheme.getVotableProposals(dao.avatar.address))(
-      { _proposal: proposalId2 }, { fromBlock: 0 }).get();
+      { _proposalId: proposalId2 }, { fromBlock: 0 }).get();
 
-    // TODO: this should be 1, see https://github.com/daostack/arc/issues/448
-    assert.equal(agreements.length, 2, "Should have found 1 agreements");
+    assert.equal(agreements.length, 1, "Should have found 1 agreement");
     assert(agreements.filter((p: AgreementProposal) => p.proposalId === proposalId2).length, "proposalId2 not found");
     assert.equal(agreements[0].beneficiaryAddress, accounts[1], "beneficiaryAddress not set properly on agreement");
   });
@@ -213,9 +212,8 @@ describe("VestingScheme scheme", () => {
     assert.isOk(result);
     assert.isOk(result.tx);
     const tx = await result.watchForTxMined();
-    // TODO: Why is it executing???  It doesn't execute in virtually the same Arc test.
     assert.equal(tx.logs.length, 1);
-    // TODO restore this: assert.equal(tx.logs[0].event, "AgreementProposal");
+    assert.equal(tx.logs[0].event, "AgreementProposal");
     const avatarAddress = TransactionService.getValueFromLogs(tx, "_avatar", "AgreementProposal", 1);
     assert.equal(avatarAddress, dao.avatar.address);
 
@@ -223,6 +221,18 @@ describe("VestingScheme scheme", () => {
     const organizationProposal = await vestingScheme.contract.organizationsProposals(dao.avatar.address, proposalId);
     assert.equal(organizationProposal[0], dao.token.address);
     assert.equal(organizationProposal[1], accounts[0]); // beneficiary
+
+    await result.votingMachine.vote({ proposalId, vote: 1 });
+
+    const fetcher = vestingScheme.getExecutedProposals(dao.avatar.address)(
+      { _proposalId: proposalId }, { fromBlock: 0 });
+
+    const events = await fetcher.get();
+
+    assert.equal(events.length, 1);
+    assert.equal(events[0].proposalId, proposalId);
+    assert.equal(typeof events[0].agreementId, "number");
+    assert(events[0].agreementId > 0, "agreementId is not set");
   });
 
   it("propose agreement fails when no period is given", async () => {

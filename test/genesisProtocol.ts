@@ -1,11 +1,13 @@
 import { BigNumber } from "bignumber.js";
 import { assert } from "chai";
-import { BinaryVoteResult, Hash } from "../lib/commonTypes";
+import { Address, BinaryVoteResult, Hash } from "../lib/commonTypes";
 import { DAO, DaoSchemeInfo } from "../lib/dao";
 import { ArcTransactionResult } from "../lib/iContractWrapperBase";
 import { Utils } from "../lib/utils";
+import { Web3EventService } from "../lib/web3EventService";
 import {
   ExecutedGenesisProposal,
+  ExecutionState,
   GenesisProtocolFactory,
   GenesisProtocolProposal,
   GenesisProtocolWrapper,
@@ -81,6 +83,56 @@ describe("GenesisProtocol", () => {
     executableTest = await ExecutableTest.deployed();
   });
 
+  it("can call stakeWithApproval", async () => {
+    const proposalId = await createProposal();
+
+    const web3EventService = new Web3EventService();
+    const stakingToken = await genesisProtocol.getStakingToken();
+    const transferFetcher = web3EventService
+      .createEventFetcherFactory<{ to: Address, from: Address, value: BigNumber }>(stakingToken.Transfer)(
+        { from: accounts[0] }, { fromBlock: 0 });
+    let transferEvents = await transferFetcher.get();
+    const transfersBefore = transferEvents.length;
+
+    const result = await genesisProtocol.stakeWithApproval({
+      amount: web3.toWei(1),
+      proposalId,
+      vote: BinaryVoteResult.Yes,
+    });
+
+    assert.isOk(result);
+    assert.isOk(result.tx);
+
+    transferEvents = await transferFetcher.get();
+    const transfersAfter = transferEvents.length;
+    assert.equal(transfersBefore + 1, transfersAfter, "should be one more transfer event");
+    assert.equal(transferEvents[transfersAfter - 1].args.value.toString(), web3.toWei(1));
+    assert.equal(transferEvents[transfersAfter - 1].args.to.toString(), genesisProtocol.address);
+
+    const stakeFetcher = genesisProtocol.Stake({ _proposalId: proposalId }, { fromBlock: 0 });
+    const stakeEvents = await stakeFetcher.get();
+    assert.equal(stakeEvents.length, 1, "should be one Stake event");
+  });
+
+  it("can call stakeWithApproval a second time", async () => {
+    const proposalId = await createProposal();
+
+    const result = await genesisProtocol.stakeWithApproval({
+      amount: web3.toWei(1),
+      proposalId,
+      vote: BinaryVoteResult.Yes,
+    });
+
+    assert.isOk(result);
+    assert.isOk(result.tx);
+  });
+
+  it("can get range of choices", async () => {
+    const result = await await genesisProtocol.getAllowedRangeOfChoices();
+    assert.equal(result.minVote, 2);
+    assert.equal(result.maxVote, 2);
+  });
+
   it("can set boostedVotePeriodLimit in dao.new", async () => {
     dao = await helpers.forgeDao({
       founders: [{
@@ -152,8 +204,7 @@ describe("GenesisProtocol", () => {
       { _avatar: dao.avatar.address },
       { fromBlock: 0 }).get();
 
-    // TODO: This should be === 2.  Should be fixed in next Arc version
-    assert(proposals.length >= 2, "Should have found 2 proposals");
+    assert(proposals.length === 2, "Should have found 2 proposals");
     assert(proposals.filter((p: GenesisProtocolProposal) => p.proposalId === proposalId1).length,
       "proposalId1 not found");
     assert(proposals.filter((p: GenesisProtocolProposal) => p.proposalId === proposalId2).length,
@@ -175,8 +226,7 @@ describe("GenesisProtocol", () => {
       { _avatar: dao.avatar.address },
       { fromBlock: 0 }).get();
 
-    // TODO: This should be === 2.  Should be fixed in next Arc version
-    assert(proposals.length >= 2, "Should have found 2 proposals");
+    assert(proposals.length === 2, "Should have found 2 proposals");
     assert(proposals.filter((p: ExecutedGenesisProposal) => p.proposalId === proposalId1).length,
       "proposalId1 not found");
     assert(proposals.filter((p: ExecutedGenesisProposal) => p.proposalId === proposalId2).length,
@@ -191,6 +241,7 @@ describe("GenesisProtocol", () => {
     assert.isOk(proposals[0].totalReputation, "totalReputation not set properly on proposal");
     assert.equal(proposals[0].decision, 1, "decision is wrong");
     assert.equal(proposals[0].state, ProposalState.Executed, "state is wrong");
+    assert.equal(proposals[0].executionState, ExecutionState.PreBoostedBarCrossed, "executionState is wrong");
   });
 
   it("scheme can use GenesisProtocol", async () => {
@@ -212,7 +263,6 @@ describe("GenesisProtocol", () => {
         {
           name: "SchemeRegistrar",
           votingMachineParams: {
-            ownerVote: false,
             votingMachineName: "GenesisProtocol",
           },
         },
@@ -229,7 +279,7 @@ describe("GenesisProtocol", () => {
 
     assert.isOk(schemeRegistrar);
     /**
-     * propose to remove ContributionReward.  It should get the ownerVote, then requiring just 30 more reps to execute.
+     * propose to remove ContributionReward.
      */
     const result = await schemeRegistrar.proposeToRemoveScheme(
       {
@@ -259,7 +309,7 @@ describe("GenesisProtocol", () => {
     assert.isFalse(await helpers.voteWasExecuted(votingMachine, proposalId), "Should not have been executed");
     assert.isTrue(await votingMachine.isVotable({ proposalId }), "Should be votable");
 
-    await votingMachine.vote({ vote: BinaryVoteResult.Yes, proposalId, onBehalfOf: accounts[0] });
+    await helpers.vote(votingMachine, proposalId, BinaryVoteResult.Yes, accounts[0]);
 
     assert.isTrue(await helpers.voteWasExecuted(votingMachine, proposalId), "vote was not executed");
     assert.isFalse(await votingMachine.isVotable({ proposalId }), "Should not be votable");
@@ -594,8 +644,7 @@ describe("GenesisProtocol", () => {
       });
       assert(false, "Should have thrown validation exception");
     } catch (ex) {
-      // TODO: get MAX_NUM_OF_CHOICES into IntVoteInterface
-      // assert.equal(ex, "Error: numOfChoices must be between 1 and 10");
+      assert.equal(ex, "Error: numOfChoices cannot be greater than 2");
     }
   });
 });

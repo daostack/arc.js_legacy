@@ -27,8 +27,21 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
    * Events
    */
 
+  /**
+   * fired when a proposal is executed whether an agreement is created or not.
+   */
   public ProposalExecuted: EventFetcherFactory<SchemeProposalExecutedEventResult>;
+  /**
+   * fired when proposal is executed and an agreement is created
+   */
+  public ProposedVestedAgreement: EventFetcherFactory<ProposedVestedAgreementEventResult>;
+  /**
+   * fired when a proposal is submitted to create an agreement
+   */
   public AgreementProposal: EventFetcherFactory<AgreementProposalEventResult>;
+  /**
+   * fired when an agreement is created through `create` (not-through a proposal process)
+   */
   public NewVestedAgreement: EventFetcherFactory<NewVestedAgreementEventResult>;
   public SignToCancelAgreement: EventFetcherFactory<SignToCancelAgreementEventResult>;
   public RevokeSignToCancelAgreement: EventFetcherFactory<RevokeSignToCancelAgreementEventResult>;
@@ -235,27 +248,38 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
       });
   }
 
-  // TODO: Return Agreement here when it is possible to obtain the agreementId from Arc.
   /**
    * EntityFetcherFactory for executed proposals.
    * @param avatarAddress
    */
   public getExecutedProposals(avatarAddress: Address):
-    EntityFetcherFactory<SchemeProposalExecuted, SchemeProposalExecutedEventResult> {
+    EntityFetcherFactory<VestingSchemeSchemeProposalExecuted, SchemeProposalExecutedEventResult> {
 
     return this.proposalService.getProposalEvents(
       {
         baseArgFilter: { _avatar: avatarAddress },
         proposalsEventFetcher: this.ProposalExecuted,
         transformEventCallback:
-          (event: SchemeProposalExecutedEventResult): Promise<SchemeProposalExecuted> => {
+          async (event: SchemeProposalExecutedEventResult): Promise<VestingSchemeSchemeProposalExecuted> => {
             return Promise.resolve({
+              agreementId: await this.getProposalAgreementId(event._proposalId),
               avatarAddress: event._avatar,
               proposalId: event._proposalId,
               winningVote: event._param,
             });
           },
       });
+  }
+
+  /**
+   * Returns a promise of the agreementId associated with the given proposal. The result
+   * is 0 if the proposal has not been executed or is not found.
+   * @param proposalId
+   */
+  public async getProposalAgreementId(proposalId: Hash): Promise<number> {
+    const fetcher = this.ProposedVestedAgreement({ _proposalId: proposalId }, { fromBlock: 0 });
+    const events = await fetcher.get();
+    return events.length ? events[0].args._agreementId.toNumber() : 0;
   }
 
   public async getVotableProposal(avatarAddress: Address, proposalId: Hash): Promise<AgreementProposal> {
@@ -309,6 +333,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
     this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.ProposalExecuted);
     this.AgreementProposal = this.createEventFetcherFactory<AgreementProposalEventResult>(this.contract.AgreementProposal);
     this.NewVestedAgreement = this.createEventFetcherFactory<NewVestedAgreementEventResult>(this.contract.NewVestedAgreement);
+    this.ProposedVestedAgreement = this.createEventFetcherFactory<ProposedVestedAgreementEventResult>(this.contract.ProposedVestedAgreement);
     this.SignToCancelAgreement = this.createEventFetcherFactory<SignToCancelAgreementEventResult>(this.contract.SignToCancelAgreement);
     this.RevokeSignToCancelAgreement = this.createEventFetcherFactory<RevokeSignToCancelAgreementEventResult>(this.contract.RevokeSignToCancelAgreement);
     this.AgreementCancel = this.createEventFetcherFactory<AgreementCancelEventResult>(this.contract.AgreementCancel);
@@ -409,6 +434,9 @@ export interface AgreementProposalEventResult {
    * indexed
    */
   _avatar: Address;
+  /**
+   * indexed
+   */
   _proposalId: Hash;
 }
 
@@ -417,6 +445,17 @@ export interface NewVestedAgreementEventResult {
    * indexed
    */
   _agreementId: BigNumber.BigNumber;
+}
+
+export interface ProposedVestedAgreementEventResult {
+  /**
+   * indexed
+   */
+  _agreementId: BigNumber.BigNumber;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
 }
 
 export interface SignToCancelAgreementEventResult {
@@ -553,6 +592,9 @@ export interface GetAgreementParams {
 }
 
 export interface AgreementProposal extends AgreementBase {
+  /**
+   * indexed
+   */
   proposalId: Hash;
 }
 
@@ -571,4 +613,8 @@ export interface AgreementBase {
   signaturesReqToCancel: BigNumber.BigNumber;
   startingBlock: BigNumber.BigNumber;
   tokenAddress: Address;
+}
+
+export interface VestingSchemeSchemeProposalExecuted extends SchemeProposalExecuted {
+  agreementId: number;
 }

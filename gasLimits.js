@@ -11,6 +11,7 @@ const gasLimitsConfig =
 {
   /**
    * The gas limit used by Arc to forge a DAO with foundersInGasLimitArc founders
+   * and to `new` GenesisProtocol.
    */
   "gasLimit_arc": arcForgeOrgGasLimit,
   /**

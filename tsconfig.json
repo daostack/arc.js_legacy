@@ -4,7 +4,6 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "preserveConstEnums": true,
-    "noUnusedLocals": true,
     "sourceMap": true,
     "declaration": true,
     "importHelpers": true,

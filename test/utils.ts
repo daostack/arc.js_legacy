@@ -1,6 +1,5 @@
 "use strict";
 import { assert } from "chai";
-import { promisify } from "es6-promisify";
 import { DefaultSchemePermissions } from "../lib/commonTypes";
 import { ConfigService } from "../lib/configService";
 import { InitializeArcJs, LoggingService } from "../lib/index";

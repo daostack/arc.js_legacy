@@ -64,6 +64,9 @@ export interface SchemeProposalExecutedEventResult {
    * indexed
    */
   _avatar: Address;
+  /**
+   * typically the winning vote
+   */
   _param: number;
   /**
    * indexed
