@@ -150,10 +150,13 @@ export class TransactionService extends PubSubEventService {
         payload.invocationKey,
         new Array<TxEventSpec>()
       );
+    } else {
+      // clone the incoming stack to avoid problems with re-entrancy
+      eventContext = new TxEventContext(
+        payload.invocationKey,
+        [...eventContext.stack]
+      );
     }
-
-    // clone the incoming stack to avoid problems with re-entrancy
-    eventContext.stack = [...eventContext.stack];
 
     // push the new context
     eventContext.stack.push(eventSpec);
