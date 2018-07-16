@@ -19,7 +19,7 @@ if (env.arcjs_providerConfig) {
     const HDWalletProvider = require("truffle-hdwallet-provider");
     console.log(`Provider: '${providerConfig.providerUrl}'`);
     console.log(`Account: '${providerConfig.mnemonic}'`);
-    provider = new HDWalletProvider(providerConfig.mnemonic, providerConfig.providerUrl);
+    global.provider = provider = new HDWalletProvider(providerConfig.mnemonic, providerConfig.providerUrl);
   }
 }
 

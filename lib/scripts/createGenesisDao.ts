@@ -124,6 +124,8 @@ export class GenesisDaoCreator {
       UtilsInternal.sleep(1000);
     }
 
+    console.log(`Avatar forged at: ${avatarInst.address}`);
+
     /** for use by setSchemes */
     return {
       avatarAddress: avatarInst.address,
