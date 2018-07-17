@@ -21,6 +21,7 @@ export * from "./wrappers/globalConstraintRegistrar";
 export * from "./wrappers/intVoteInterface";
 export * from "./iContractWrapperBase";
 export * from "./wrappers/iIntVoteInterface";
+export * from "./wrappers/redeemer";
 export * from "./wrappers/schemeRegistrar";
 export * from "./wrappers/standardToken";
 export * from "./wrappers/tokenCapGC";

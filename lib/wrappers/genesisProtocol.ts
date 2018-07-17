@@ -148,7 +148,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     ).toString("hex");
 
     const web3 = await Utils.getWeb3();
-    const signature = web3.eth.sign(staker, textMsg);
+    const signature = await promisify((callback: any) => web3.eth.sign(staker, textMsg, callback))();
 
     const extraData = await this.contract.stakeWithSignature.request(
       options.proposalId,

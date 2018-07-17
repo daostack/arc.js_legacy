@@ -97,30 +97,30 @@ export const arcJsDeployer = (
 
     await deployer.deploy(ControllerCreator, { gas: gasLimit, gasPrice: gasPrice * 2 });
     const controllerCreator = await ControllerCreator.deployed();
-    await deployer.deploy(DaoCreator, controllerCreator.address, { gas: gasLimit, gasPrice: gasPrice });
+    await deployer.deploy(DaoCreator, controllerCreator.address, { gas: gasLimit, gasPrice });
     await deployer.deploy(UController, { gas: gasLimit, gasPrice: gasPrice * 2 });
     await deployer.deploy(GenesisProtocol, genTokenAddress, { gas: gasLimit, gasPrice: gasPrice * 2 });
-    await deployer.deploy(SchemeRegistrar, { gas: gasLimit, gasPrice: gasPrice });
-    await deployer.deploy(UpgradeScheme, { gas: gasLimit, gasPrice: gasPrice });
+    await deployer.deploy(SchemeRegistrar, { gas: gasLimit, gasPrice });
+    await deployer.deploy(UpgradeScheme, { gas: gasLimit, gasPrice });
     await deployer.deploy(GlobalConstraintRegistrar, { gas: gasLimit, gasPrice: gasPrice * 2 });
-    await deployer.deploy(ContributionReward, { gas: gasLimit, gasPrice: gasPrice });
-    await deployer.deploy(AbsoluteVote, { gas: gasLimit, gasPrice: gasPrice });
-    await deployer.deploy(QuorumVote, { gas: gasLimit, gasPrice: gasPrice });
-    await deployer.deploy(SimpleICO, { gas: gasLimit, gasPrice: gasPrice });
-    await deployer.deploy(TokenCapGC, { gas: gasLimit, gasPrice: gasPrice });
-    await deployer.deploy(VestingScheme, { gas: gasLimit, gasPrice: gasPrice });
-    await deployer.deploy(VoteInOrganizationScheme, { gas: gasLimit, gasPrice: gasPrice });
-    await deployer.deploy(OrganizationRegister, { gas: gasLimit, gasPrice: gasPrice });
+    await deployer.deploy(ContributionReward, { gas: gasLimit, gasPrice });
+    await deployer.deploy(AbsoluteVote, { gas: gasLimit, gasPrice });
+    await deployer.deploy(QuorumVote, { gas: gasLimit, gasPrice });
+    await deployer.deploy(SimpleICO, { gas: gasLimit, gasPrice });
+    await deployer.deploy(TokenCapGC, { gas: gasLimit, gasPrice });
+    await deployer.deploy(VestingScheme, { gas: gasLimit, gasPrice });
+    await deployer.deploy(VoteInOrganizationScheme, { gas: gasLimit, gasPrice });
+    await deployer.deploy(OrganizationRegister, { gas: gasLimit, gasPrice });
 
     const genesisProtocolInstance = await GenesisProtocol.deployed();
     const contributionRewardInstance = await ContributionReward.deployed();
     await deployer.deploy(Redeemer,
       contributionRewardInstance.address,
       genesisProtocolInstance.address,
-      { gas: gasLimit, gasPrice: gasPrice });
+      { gas: gasLimit, gasPrice });
 
     if (network !== "live") {
-      await deployer.deploy(ExecutableTest, { gas: gasLimit, gasPrice: gasPrice });
+      await deployer.deploy(ExecutableTest, { gas: gasLimit, gasPrice });
     }
   });
 };
