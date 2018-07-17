@@ -29,8 +29,8 @@ module.exports = {
       provider: function () {
         return provider;
       },
-      gas: 6000000,
-      gasPrice: 60000000000,
+      gas: 4543760,
+      gasPrice: 10000000000,
       network_id: 1
     },
     ganache: {

@@ -55,8 +55,8 @@ export class GenesisDaoCreator {
     /**
      * Genesis DAO parameters
      */
-    const orgName = live ? "Genesis" : "Genesis Alpha";
-    const tokenName = live ? "Genesis" : "Genesis Alpha";
+    const orgName = live ? "Genesis Alpha" : "Genesis Alpha";
+    const tokenName = live ? "Genesis Alpha" : "Genesis Alpha";
     const tokenSymbol = "GDT";
 
     /**

@@ -54,6 +54,7 @@ export const arcJsDeployer = (
 
     const DAOToken = await Utils.requireContract("DAOToken");
     const gasLimit = await computeMaxGasLimit(web3);
+    const gasPrice = 10000000000; // 10 Gwei
     let genTokenAddress;
 
     await DAOToken.at("0x543Ff227F64Aa17eA132Bf9886cAb5DB55DCAddf")
@@ -94,31 +95,32 @@ export const arcJsDeployer = (
     console.log(`Using global GEN token for staking on ${network} at: ${genTokenAddress}`);
     console.log(`Deploying schemes on ${network}, gasLimit: ${gasLimit}`);
 
-    await deployer.deploy(ControllerCreator, { gas: gasLimit });
+    await deployer.deploy(ControllerCreator, { gas: gasLimit, gasPrice: gasPrice * 2 });
     const controllerCreator = await ControllerCreator.deployed();
-    await deployer.deploy(DaoCreator, controllerCreator.address, { gas: gasLimit });
-    await deployer.deploy(UController, { gas: gasLimit });
-    await deployer.deploy(GenesisProtocol, genTokenAddress, { gas: gasLimit });
+    await deployer.deploy(DaoCreator, controllerCreator.address, { gas: gasLimit, gasPrice: gasPrice });
+    await deployer.deploy(UController, { gas: gasLimit, gasPrice: gasPrice * 2 });
+    await deployer.deploy(GenesisProtocol, genTokenAddress, { gas: gasLimit, gasPrice: gasPrice * 2 });
+    await deployer.deploy(SchemeRegistrar, { gas: gasLimit, gasPrice: gasPrice });
+    await deployer.deploy(UpgradeScheme, { gas: gasLimit, gasPrice: gasPrice });
+    await deployer.deploy(GlobalConstraintRegistrar, { gas: gasLimit, gasPrice: gasPrice * 2 });
+    await deployer.deploy(ContributionReward, { gas: gasLimit, gasPrice: gasPrice });
+    await deployer.deploy(AbsoluteVote, { gas: gasLimit, gasPrice: gasPrice });
+    await deployer.deploy(QuorumVote, { gas: gasLimit, gasPrice: gasPrice });
+    await deployer.deploy(SimpleICO, { gas: gasLimit, gasPrice: gasPrice });
+    await deployer.deploy(TokenCapGC, { gas: gasLimit, gasPrice: gasPrice });
+    await deployer.deploy(VestingScheme, { gas: gasLimit, gasPrice: gasPrice });
+    await deployer.deploy(VoteInOrganizationScheme, { gas: gasLimit, gasPrice: gasPrice });
+    await deployer.deploy(OrganizationRegister, { gas: gasLimit, gasPrice: gasPrice });
+
     const genesisProtocolInstance = await GenesisProtocol.deployed();
-    await deployer.deploy(SchemeRegistrar, { gas: gasLimit });
-    await deployer.deploy(UpgradeScheme, { gas: gasLimit });
-    await deployer.deploy(GlobalConstraintRegistrar, { gas: gasLimit });
-    await deployer.deploy(ContributionReward, { gas: gasLimit });
     const contributionRewardInstance = await ContributionReward.deployed();
-    await deployer.deploy(AbsoluteVote, { gas: gasLimit });
-    await deployer.deploy(QuorumVote, { gas: gasLimit });
-    await deployer.deploy(SimpleICO, { gas: gasLimit });
-    await deployer.deploy(TokenCapGC, { gas: gasLimit });
-    await deployer.deploy(VestingScheme, { gas: gasLimit });
-    await deployer.deploy(VoteInOrganizationScheme, { gas: gasLimit });
-    await deployer.deploy(OrganizationRegister, { gas: gasLimit });
     await deployer.deploy(Redeemer,
       contributionRewardInstance.address,
       genesisProtocolInstance.address,
-      { gas: gasLimit });
+      { gas: gasLimit, gasPrice: gasPrice });
 
     if (network !== "live") {
-      await deployer.deploy(ExecutableTest, { gas: gasLimit });
+      await deployer.deploy(ExecutableTest, { gas: gasLimit, gasPrice: gasPrice });
     }
   });
 };
