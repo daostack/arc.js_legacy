@@ -99,7 +99,12 @@ export class Web3EventService {
 
         subscribe(
           eventName: string,
-          callback: EventWatchSubscriptionCallback<TEventArgs>): Web3EventSubscription<TEventArgs> {
+          callback?: EventWatchSubscriptionCallback<TEventArgs>): Web3EventSubscription<TEventArgs> {
+
+          if (!callback) {
+            /* tslint:disable-next-line:no-empty */
+            callback = (): void => { };
+          }
 
           const subscription = PubSubEventService.subscribe(eventName, callback);
 
@@ -247,7 +252,12 @@ export class Web3EventService {
 
         subscribe(
           eventName: string,
-          callback: EntityWatchSubscriptionCallback<TEntity>): Web3EventSubscription<TEventArgs> {
+          callback?: EntityWatchSubscriptionCallback<TEntity>): Web3EventSubscription<TEventArgs> {
+
+          if (!callback) {
+            /* tslint:disable-next-line:no-empty */
+            callback = (): void => { };
+          }
 
           const subscription = PubSubEventService.subscribe(eventName, callback);
 
@@ -431,7 +441,7 @@ export interface EntityFetcher<TDest, TSrc> {
    * Supply whatever name you want for `eventName`.  This enables you to scope
    * event handlers across event types and schemes.
    */
-  subscribe: (eventName: string, callback: EntityWatchSubscriptionCallback<TDest>) => IEventSubscription;
+  subscribe: (eventName: string, callback?: EntityWatchSubscriptionCallback<TDest>) => IEventSubscription;
   /**
    * Stop watching the event.
    */
@@ -497,7 +507,7 @@ export interface EventFetcher<TEventArgs> {
    * Supply whatever name you want for `eventName`.  This enables you to scope
    * event handlers across event types and schemes.
    */
-  subscribe: (eventName: string, callback: EventWatchSubscriptionCallback<TEventArgs>) => IEventSubscription;
+  subscribe: (eventName: string, callback?: EventWatchSubscriptionCallback<TEventArgs>) => IEventSubscription;
   /**
    * Watch for `DecodedLogEntryEvent`s from Web3, given the filter supplied to the EventFetcherFactory.
    * The callback is invoked once per event firing.
