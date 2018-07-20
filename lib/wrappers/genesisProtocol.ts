@@ -142,13 +142,62 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     const staker = await Utils.getDefaultAccount();
     const nonce = 0;
 
-    const textMsg = "0x" + ethereumjs.soliditySHA3(
-      ["address", "bytes32", "uint", "uint", "uint"],
-      [this.address, options.proposalId, options.vote, amount.toString(10), nonce]
-    ).toString("hex");
-
     const web3 = await Utils.getWeb3();
-    const signature = await promisify((callback: any) => web3.eth.sign(staker, textMsg, callback))();
+    let signature;
+
+    if ((web3.currentProvider as any).isMetaMask) {
+
+      const msgParams = [
+        {
+          // Any string label you want
+          name: "GenesisProtocol contract address",
+          // Any valid solidity type
+          type: "address",
+          // The value to sign
+          value: this.address,
+        },
+        {
+          name: "Proposal id",
+          type: "bytes32",
+          value: options.proposalId,
+        },
+        {
+          name: "Vote",
+          type: "uint",
+          value: options.vote,
+        },
+        {
+          name: "Amount to stake",
+          type: "uint",
+          value: amount.toString(10),
+        },
+        {
+          name: "nonce",
+          type: "uint",
+          value: nonce,
+        },
+      ];
+
+      // var msg = sigUtil.bufferToHex(new Buffer(textMsg, 'utf8'))
+      const result: any = await promisify((callback: any) => web3.currentProvider.sendAsync(
+        {
+          from: staker,
+          method: "eth_signTypedData",
+          params: [msgParams, staker],
+        } as any, callback))();
+
+      if (result.error) {
+        throw new Error(`stakeWithApproval: ${result.error.message}`);
+      }
+
+      signature = result.result;
+    } else {
+      const textMsg = "0x" + ethereumjs.soliditySHA3(
+        ["address", "bytes32", "uint", "uint", "uint"],
+        [this.address, options.proposalId, options.vote, amount.toString(10), nonce]
+      ).toString("hex");
+      signature = await promisify((callback: any) => web3.eth.sign(staker, textMsg, callback))();
+    }
 
     const extraData = await this.contract.stakeWithSignature.request(
       options.proposalId,
@@ -1005,6 +1054,10 @@ export const GenesisProtocolFactory =
 
 export interface StakeEventResult {
   _amount: BigNumber;
+  /**
+   * indexed
+   */
+  _avatar: Address;
   /**
    * indexed
    */
