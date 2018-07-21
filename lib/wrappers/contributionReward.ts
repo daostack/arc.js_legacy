@@ -78,8 +78,8 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
       throw new Error("numberOfPeriods must be greater than zero");
     }
 
-    if (!Number.isInteger(options.periodLength) || (options.periodLength <= 0)) {
-      throw new Error("periodLength must be an integer greater than zero");
+    if (!Number.isInteger(options.periodLength) || (options.periodLength < 0)) {
+      throw new Error("periodLength must be an integer greater than or equal to zero");
     }
 
     /**
@@ -324,7 +324,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
         proposalsEventFetcher: this.NewContributionProposal,
         transformEventCallback:
           async (args: NewContributionProposalEventResult): Promise<ContributionProposal> => {
-            return this.getVotableProposal(args._avatar, args._proposalId);
+            return this.getProposal(args._avatar, args._proposalId);
           },
         votableOnly: true,
         votingMachine: await this.getVotingMachine(avatarAddress),
@@ -345,7 +345,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
         proposalsEventFetcher: this.ProposalExecuted,
         transformEventCallback:
           (event: SchemeProposalExecutedEventResult): Promise<ContributionProposal> => {
-            return this.getVotableProposal(avatarAddress, event._proposalId);
+            return this.getProposal(avatarAddress, event._proposalId);
           },
       });
   }
@@ -390,7 +390,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
               return reject(error);
             }
             for (const event of log) {
-              const proposal = await this.getVotableProposal(options.avatar, event.args._proposalId);
+              const proposal = await this.getProposal(options.avatar, event.args._proposalId);
               if (proposal.beneficiaryAddress === options.beneficiaryAddress) {
                 proposals.push(proposal);
               }
@@ -459,7 +459,12 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
     );
   }
 
-  public async getVotableProposal(avatarAddress: Address, proposalId: Hash): Promise<ContributionProposal> {
+  /**
+   * Returns promise of a `ContributionProposal` for the given proposal id and avatar address.
+   * @param avatarAddress
+   * @param proposalId
+   */
+  public async getProposal(avatarAddress: Address, proposalId: Hash): Promise<ContributionProposal> {
     const proposalParams = await this.contract.organizationsProposals(avatarAddress, proposalId);
     return this.convertProposalPropsArrayToObject(proposalParams, proposalId);
   }
@@ -706,7 +711,8 @@ export interface ProposeContributionRewardParams {
   externalTokenReward?: BigNumber | string;
   /**
    * The number of blocks in a period.
-   * Must be > 0.
+   * Must be >= 0.  If zero then the rewards will be redeemable immediately
+   * upon proposal execution.
    */
   periodLength: number;
   /**

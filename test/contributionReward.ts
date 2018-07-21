@@ -319,7 +319,7 @@ describe("ContributionReward scheme", () => {
       assert(proposals.filter(
         (p: ContributionProposal) => p.proposalId === proposalId2).length, "proposalId2 not found");
 
-      let proposal = await scheme.getVotableProposal(dao.avatar.address, proposalId2);
+      let proposal = await scheme.getProposal(dao.avatar.address, proposalId2);
 
       assert(proposal.proposalId === proposalId2, "proposalId2 not found");
       assert.equal(proposal.beneficiaryAddress, account1,
