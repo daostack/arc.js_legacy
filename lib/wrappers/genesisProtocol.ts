@@ -178,7 +178,6 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
         },
       ];
 
-      // var msg = sigUtil.bufferToHex(new Buffer(textMsg, 'utf8'))
       const result: any = await promisify((callback: any) => web3.currentProvider.sendAsync(
         {
           from: staker,
@@ -813,6 +812,11 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     return events.length ? events[0].args._executionState.toNumber() : ExecutionState.None;
   }
 
+  /**
+   * Returns promise of a `GenesisProtocolProposal` for the given proposal id.
+   * @param avatarAddress
+   * @param proposalId
+   */
   public async getProposal(proposalId: Hash): Promise<GenesisProtocolProposal> {
     const proposalParams = await this.contract.proposals(proposalId);
     return this.convertProposalPropsArrayToObject(proposalParams, proposalId);

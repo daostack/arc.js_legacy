@@ -14,6 +14,8 @@ export interface IIntVoteInterface {
   VoteProposal: EventFetcherFactory<VoteProposalEventResult>;
   CancelVoting: EventFetcherFactory<CancelVotingEventResult>;
 
+  address: Address;
+
   propose(options: ProposeOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionProposalResult>;
   cancelProposal(options: ProposalIdOption & TxGeneratingFunctionOptions): Promise<ArcTransactionResult>;
   ownerVote(options: OwnerVoteOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult>;
