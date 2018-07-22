@@ -64,7 +64,7 @@
     "env-variable": "0.0.3",
     "es6-promisify": "^6.0.0",
     "ethereumjs-abi": "^0.6.5",
-    "ethjs-abi": "^0.1.8",
+    "ethjs-abi": "0.1.8",
     "fs-extra": "^5.0.0",
     "ganache-cli": "^6.1.6",
     "node-glob": "^1.2.0",
