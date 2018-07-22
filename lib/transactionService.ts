@@ -174,6 +174,7 @@ export class TransactionService extends PubSubEventService {
    * @param contract Optional contract instance or contract name of the contract that generated the transaction.
    * Supply this if you want decoded events (or else call `TransactionService.toTxTruffle` manually yourself)
    * @param requiredDepth Optional minimum block depth required to resolve the promise.  Default is 0.
+   * @returns Promise of `TransactionReceiptTruffle` if contract is given, else `TransactionReceipt`
    */
   public static async watchForMinedTransaction(
     txHash: Hash,
@@ -297,7 +298,8 @@ export class TransactionService extends PubSubEventService {
    * @param requiredDepth Optional minimum block depth required to resolve the promise.  Default is 0.
    * @param contract Optional contract instance or contract name of the contract that generated the transaction.
    * Supply this if you want decoded events (or else call `TransactionService.toTxTruffle` manually yourself)
-   * @returns The receipt, or null if not found.
+   * @returns Promise of `TransactionReceiptTruffle` if contract is given, else `TransactionReceipt`,
+   * or null if not found.
    */
   public static async getMinedTransaction(
     txHash: Hash,
@@ -636,7 +638,6 @@ export interface TransactionReceiptsEventInfo {
  * @hidden - for internal use only
  */
 export class TxEventContext {
-  /* tslint:disable-nex-line:no-empty */
   constructor(
     public invocationKey: number,
     public stack: Array<TxEventSpec>
@@ -647,7 +648,6 @@ export class TxEventContext {
  * @hidden - for internal use only
  */
 export class TxEventSpec {
-  /* tslint:disable-nex-line:no-empty */
   constructor(
     public functionName: string,
     public payload: TransactionReceiptsEventInfo) { }

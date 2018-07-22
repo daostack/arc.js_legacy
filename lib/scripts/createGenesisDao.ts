@@ -110,18 +110,24 @@ export class GenesisDaoCreator {
 
     let avatarInst;
 
-    /**
-     * save info for later steps
-     */
     while (!avatarInst) {
-      avatarInst = await Avatar.at(txForgeOrg.logs[0].args._avatar);
-      console.log("sleeping until Avatar is mined...");
-      /**
-       * Sleep and retry until avatarInst is ready.
-       * This is an unfortunate hack until we better understand
-       * why it has been needed when deploying to mainnet.
-       */
-      UtilsInternal.sleep(1000);
+
+      await Avatar.at(txForgeOrg.logs[0].args._avatar)
+        .then((address: Address) => {
+          avatarInst = address;
+        })
+        /* tslint:disable-next-line:no-empty */
+        .catch(() => {
+        });
+
+      if (!avatarInst) {
+        console.log("sleeping until Avatar is available...");
+        /**
+         * Sleep and retry until avatarInst is mined.  This is necessary
+         * virtually every time we run against mainnet.
+         */
+        await UtilsInternal.sleep(2000);
+      }
     }
 
     console.log(`Avatar forged at: ${avatarInst.address}`);
