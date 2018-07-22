@@ -71,7 +71,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       throw new Error("proposalId is not defined");
     }
 
-    this._validateVote(options.vote, options.proposalId);
+    await this._validateVote(options.vote, options.proposalId);
 
     const amount = new BigNumber(options.amount);
 
@@ -131,7 +131,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       throw new Error("proposalId is not defined");
     }
 
-    this._validateVote(options.vote, options.proposalId);
+    await this._validateVote(options.vote, options.proposalId);
 
     const amount = new BigNumber(options.amount);
 
@@ -574,7 +574,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       throw new Error("proposalId is not defined");
     }
 
-    this._validateVote(options.vote, options.proposalId);
+    await this._validateVote(options.vote, options.proposalId);
 
     this.logContractFunctionCall("GenesisProtocol.voteStatus", options);
     /**
@@ -697,7 +697,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       throw new Error("proposalId is not defined");
     }
 
-    this._validateVote(options.vote, options.proposalId);
+    await this._validateVote(options.vote, options.proposalId);
 
     this.logContractFunctionCall("GenesisProtocol.voteStake", options);
 
