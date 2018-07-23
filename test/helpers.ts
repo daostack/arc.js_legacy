@@ -19,6 +19,7 @@ import {
 import { LoggingService, LogLevel } from "../lib/loggingService";
 import { Utils } from "../lib/utils";
 import { UtilsInternal } from "../lib/utilsInternal";
+import { DaoTokenWrapper } from "../lib/wrappers/daoToken";
 import { SchemeRegistrarFactory, SchemeRegistrarWrapper } from "../lib/wrappers/schemeRegistrar";
 import { WrapperService } from "../lib/wrapperService";
 /* tslint:disable-next-line:no-var-requires */
@@ -50,10 +51,10 @@ const etherForEveryone = async (): Promise<void> => {
 };
 
 const genTokensForEveryone = async (): Promise<void> => {
-  const genToken = await Utils.getGenToken();
+  const genToken = await DaoTokenWrapper.getGenToken();
   accounts.forEach((account: Address) => {
     // 1000 is an arbitrary number we've always given to founders for tests
-    genToken.mint(account, web3.toWei(1000));
+    genToken.contract.mint(account, web3.toWei(1000));
   });
 };
 
@@ -283,6 +284,7 @@ export async function getDaoScheme(
  */
 export function transferTokensToDao(dao: DAO, amount: number, fromAddress: Address, token: any): Promise<any> {
   token = token ? token : dao.token;
+  token = token.contract ? token.contract : token;
   return token.transfer(dao.avatar.address, web3.toWei(amount), { from: fromAddress });
 }
 

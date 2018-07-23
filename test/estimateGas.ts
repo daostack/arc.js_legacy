@@ -121,7 +121,7 @@ describe("estimate gas", () => {
     const stakingToken = await votingMachine.getStakingToken();
 
     const gas = await scheme.estimateGas(
-      stakingToken.approve,
+      stakingToken.contract.approve,
       [votingMachine.address, stakingAmount],
       { from: accounts[0] });
 
@@ -131,7 +131,7 @@ describe("estimate gas", () => {
 
     (scheme.constructor as any).synchronization_timeout = 0;
 
-    await stakingToken.approve(votingMachine.address, stakingAmount, { gas, from: accounts[0] });
+    await stakingToken.contract.approve(votingMachine.address, stakingAmount, { gas, from: accounts[0] });
   });
 
   it("can stake on a proposal", async () => {

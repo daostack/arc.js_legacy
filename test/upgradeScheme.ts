@@ -173,8 +173,8 @@ describe("UpgradeScheme", () => {
     assert.equal(await dao.controller.newControllers(dao.avatar.address), newController.address);
 
     // avatar, token and reputation ownership shold have been transferred to the new controller
-    assert.equal(await dao.token.owner(), newController.address);
-    assert.equal(await dao.reputation.owner(), newController.address);
+    assert.equal(await dao.token.contract.owner(), newController.address);
+    assert.equal(await dao.reputation.contract.owner(), newController.address);
     assert.equal(await dao.avatar.owner(), newController.address);
   });
 
@@ -209,8 +209,8 @@ describe("UpgradeScheme", () => {
     );
 
     // avatar, token and reputation ownership shold have been transferred to the new controller
-    assert.equal(await dao.token.owner(), newController.address);
-    assert.equal(await dao.reputation.owner(), newController.address);
+    assert.equal(await dao.token.contract.owner(), newController.address);
+    assert.equal(await dao.reputation.contract.owner(), newController.address);
     assert.equal(await dao.avatar.owner(), newController.address);
 
     // TODO: we also want to reflect this upgrade in our Controller object!

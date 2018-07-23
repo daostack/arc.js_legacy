@@ -18,6 +18,7 @@ import { Utils } from "../utils";
 import { UtilsInternal } from "../utilsInternal";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { SchemeProposalExecuted, SchemeProposalExecutedEventResult } from "./commonEventInterfaces";
+import { StandardTokenFactory } from "./standardToken";
 
 export class VestingSchemeWrapper extends ProposalGeneratorBase implements SchemeWrapper {
 
@@ -127,25 +128,24 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
 
     const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
 
-    let tx: Hash;
     /**
      * approve immediate transfer of the given tokens from currentAccount to the VestingScheme
      */
     if (autoApproveTransfer) {
-      const token = await (await Utils.requireContract("StandardToken")).at(options.token) as any;
+      const token = await StandardTokenFactory.at(options.token) as any;
 
-      tx = await this.sendTransaction(
-        eventContext,
-        token.approve,
-        [this.address, amountPerPeriod.mul(options.numOfAgreedPeriods)]);
+      const result = await token.approve({
+        amount: amountPerPeriod.mul(options.numOfAgreedPeriods),
+        spender: this.address,
+        txEventContext: eventContext,
+      });
 
-      TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
-      await TransactionService.watchForMinedTransaction(tx);
+      await result.watchForTxMined();
     }
 
     this.logContractFunctionCall("VestingScheme.createVestedAgreement", options);
 
-    tx = await this.sendTransaction(
+    const tx = await this.sendTransaction(
       eventContext,
       this.contract.createVestedAgreement,
       [options.token,
@@ -159,7 +159,9 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
       options.signaturesReqToCancel,
       options.signers]);
 
-    TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
+    if (tx) {
+      TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
+    }
 
     return new ArcTransactionAgreementResult(tx, this.contract);
   }

@@ -133,7 +133,6 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
 
     const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
 
-    let tx: Hash;
     if (autoApproveTransfer) {
       /**
        * approve immediate transfer of native tokens from msg.sender to the avatar
@@ -141,15 +140,18 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
       const avatarService = new AvatarService(options.avatar);
       const token = await avatarService.getNativeToken();
 
-      tx = await this.sendTransaction(eventContext, token.approve, [options.avatar, orgNativeTokenFee]);
+      const result = await token.approve({
+        amount: orgNativeTokenFee,
+        spender: options.avatar,
+        txEventContext: eventContext,
+      });
 
-      TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
-      await TransactionService.watchForMinedTransaction(tx);
+      await result.watchForTxMined();
     }
 
     this.logContractFunctionCall("ContributionReward.proposeContributionReward", options);
 
-    tx = await this.sendTransaction(
+    const tx = await this.sendTransaction(
       eventContext,
       this.contract.proposeContributionReward,
       [options.avatar,
@@ -159,7 +161,9 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
       options.externalToken,
       options.beneficiaryAddress]);
 
-    TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
+    if (tx) {
+      TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
+    }
 
     return new ArcTransactionProposalResult(tx, this.contract, await this.getVotingMachine(options.avatar));
   }

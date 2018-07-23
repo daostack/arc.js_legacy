@@ -1,6 +1,6 @@
 import { assert } from "chai";
 import { Address, SchemePermissions } from "../lib/commonTypes";
-import { DAO, NewDaoConfig, PerDaoCallback } from "../lib/dao";
+import { DAO, NewDaoConfig, Participant, PerDaoCallback } from "../lib/dao";
 import {
   GlobalConstraintRegistrarFactory,
   GlobalConstraintRegistrarWrapper
@@ -26,6 +26,65 @@ describe("DAO", () => {
       tokenSymbol: "ATD",
     }, options));
   };
+
+  it("can get participants", async () => {
+    const dao = await getNewDao({
+      founders: [
+        {
+          address: accounts[0],
+          reputation: web3.toWei(10),
+          tokens: web3.toWei(100),
+        },
+        {
+          address: accounts[1],
+          reputation: web3.toWei(100),
+          tokens: web3.toWei(100),
+        },
+        {
+          address: accounts[2],
+          reputation: web3.toWei(1000),
+          tokens: web3.toWei(100),
+        },
+      ],
+    });
+
+    let participants = await dao.getParticipants({
+      returnReputations: true,
+    });
+
+    assert.equal(participants.length, 3);
+
+    let participantsFound = participants.filter((f: Participant): boolean => f.address === accounts[0]);
+    assert.equal(participantsFound.length, 1);
+    assert.equal(participantsFound[0].reputation.toString(10), web3.toWei(10));
+
+    participantsFound = participants.filter((f: Participant): boolean => f.address === accounts[1]);
+    assert.equal(participantsFound.length, 1);
+    assert.equal(participantsFound[0].reputation.toString(10), web3.toWei(100));
+
+    participantsFound = participants.filter((f: Participant): boolean => f.address === accounts[2]);
+    assert.equal(participantsFound.length, 1);
+    assert.equal(participantsFound[0].reputation.toString(10), web3.toWei(1000));
+
+    participants = await dao.getParticipants({
+      participantAddress: accounts[1],
+      returnReputations: true,
+    });
+
+    assert.equal(participants.length, 1);
+    assert.equal(participants[0].address, accounts[1]);
+    assert.equal(participants[0].reputation.toString(10), web3.toWei(100));
+
+    participants = await dao.getParticipants();
+
+    assert.equal(participants.length, 3);
+    assert(typeof participants[0].address === "string");
+    assert(typeof participants[1].address === "string");
+    assert(typeof participants[2].address === "string");
+    assert(typeof participants[0].reputation === "undefined");
+    assert(typeof participants[1].reputation === "undefined");
+    assert(typeof participants[2].reputation === "undefined");
+  });
 
   it("founders have a native token balance", async () => {
     const dao = await getNewDao();

@@ -34,16 +34,6 @@ describe("Misc", () => {
 
   });
 
-  it("can get global GEN token", async () => {
-    const token = await Utils.getGenToken();
-    const address = token.address;
-    // assumes running in ganache and that ganache was started by arc.js (with the correct network id)
-    assert.equal(address, "0xdcf22b53f327b4f7f3ac42d957834bd962637555");
-    assert.isOk(token);
-    assert.equal(await token.name(), "DAOstack");
-    assert.equal(await token.symbol(), "GEN");
-  });
-
   it("has GEN token balance", async () => {
     const balance = web3.fromWei(await Utils.getGenTokenBalance(accounts[0]));
     assert(balance.gt(0));

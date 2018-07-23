@@ -1,13 +1,15 @@
 "use strict";
 import BigNumber from "bignumber.js";
-import { EntityFetcherFactory, Web3EventService } from ".";
 import { AvatarService } from "./avatarService";
 import { Address, fnVoid, Hash } from "./commonTypes";
 import { DecodedLogEntryEvent, IContractWrapperBase } from "./iContractWrapperBase";
 import { TransactionService } from "./transactionService";
 import { Utils } from "./utils";
+import { EntityFetcherFactory, EventFetcherFilterObject, Web3EventService } from "./web3EventService";
 import { DaoCreatorFactory, DaoCreatorWrapper } from "./wrappers/daoCreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult, SchemesConfig } from "./wrappers/daoCreator";
+import { DaoTokenWrapper } from "./wrappers/daoToken";
+import { ReputationMintEventResult, ReputationWrapper } from "./wrappers/reputation";
 import { WrapperService } from "./wrapperService";
 
 /**
@@ -72,7 +74,7 @@ export class DAO {
 
       dao.avatar = await avatarService.getAvatar();
       dao.controller = await avatarService.getController();
-      dao.hasUController = avatarService.isUController;
+      dao.hasUController = await avatarService.getIsUController();
       dao.token = await avatarService.getNativeToken();
       dao.reputation = await avatarService.getNativeReputation();
 
@@ -133,11 +135,11 @@ export class DAO {
   /**
    * Truffle contract wrapper for the DAO's native token (DAOToken by default)
    */
-  public token: any;
+  public token: DaoTokenWrapper;
   /**
    * Truffle contract wrapper for the DAO's native reputation (Reputation)
    */
-  public reputation: any;
+  public reputation: ReputationWrapper;
 
   /**
    * Returns the promise of all of the schemes registered into this DAO, as Array<DaoSchemeInfo>
@@ -165,6 +167,44 @@ export class DAO {
     } else {
       return constraints;
     }
+  }
+
+  /**
+   * Returns promise of an array of `Participant` representing accounts that currently have
+   * greater-than-zero reputation with this DAO.  Optionally returns the current reputation
+   * of each participant.
+   * @param options
+   */
+  public async getParticipants(
+    options: GetParticipantsOptions = {} as GetParticipantsOptions): Promise<Array<Participant>> {
+
+    const addresses = new Set<Address>();
+    let participants: Array<Participant>;
+
+    const fetcher = this.reputation.Mint(
+      options.participantAddress ? { _to: options.participantAddress } : undefined,
+      Object.assign({ fromBlock: 0 }, options));
+
+    const events = await fetcher.get();
+
+    events.forEach(
+      async (event: DecodedLogEntryEvent<ReputationMintEventResult>): Promise<void> => {
+        addresses.add(event.args._to);
+      });
+
+    if (options.returnReputations) {
+      participants = new Array<Participant>();
+
+      for (const account of addresses) {
+        const balance = await this.reputation.reputationOf(account);
+        if (balance.gt(0)) {
+          participants.push({ address: account, reputation: balance });
+        }
+      }
+    } else {
+      participants = Array.from(addresses.values()).map((address: Address): Participant => ({ address }));
+    }
+    return participants;
   }
 
   /**
@@ -202,7 +242,7 @@ export class DAO {
    * @return {Promise<string>}
    */
   public async getTokenName(): Promise<string> {
-    return await this.token.name();
+    return await this.token.getTokenName();
   }
 
   /**
@@ -210,7 +250,7 @@ export class DAO {
    * @return {Promise<string>}
    */
   public async getTokenSymbol(): Promise<string> {
-    return await this.token.symbol();
+    return await this.token.getTokenSymbol();
   }
 
   /**
@@ -397,4 +437,20 @@ export type PerDaoCallback = (avatarAddress: Address) => void | Promise<boolean>
 
 export interface GetDaosOptions {
   daoCreatorAddress?: Address;
+}
+
+export interface GetParticipantsOptions extends EventFetcherFilterObject {
+  /**
+   * optional address of a single participant to filter on
+   */
+  participantAddress?: Address;
+  /**
+   * true to retrieve and return the current reputation of each participant
+   */
+  returnReputations?: boolean;
+}
+
+export interface Participant {
+  address: Address;
+  reputation?: BigNumber;
 }

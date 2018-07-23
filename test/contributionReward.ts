@@ -104,7 +104,12 @@ describe("ContributionReward scheme", () => {
 
     const currentBalance = await localDao.getTokenBalance(accounts[0]);
 
-    await localDao.token.approve(scheme.address, web3.toWei(1), { from: accounts[0] });
+    await localDao.token.approve(
+      {
+        amount: web3.toWei(1),
+        owner: accounts[0],
+        spender: scheme.address,
+      });
     /**
      * should not revert
      */

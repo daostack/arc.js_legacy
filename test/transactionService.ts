@@ -113,55 +113,6 @@ describe("TransactionService", () => {
       "TxTracking.AbsoluteVote.setParameters.confirmed.failed", "didn't receive the failed event");
   });
 
-  // it("receives fail event on mined status 0", async () => {
-
-  //   const av = WrapperService.wrappers.AbsoluteVote;
-
-  //   const eventsReceived = new Array<string>();
-
-  //   const subscription = TransactionService.subscribe(
-  //     ["TxTracking.AbsoluteVote.setParameters.mined"],
-  //     (topic: string, txEventInfo: TransactionReceiptsEventInfo) => {
-  //       eventsReceived.push(topic);
-  //     });
-
-  //   try {
-  //     const result = await (<any>av).wrapTransactionInvocation(
-  //       "AbsoluteVote.setParameters",
-  //       { ownerVote: true, reputation: helpers.SOME_ADDRESS, votePerc: 50 },
-  //       av.contract.setParameters,
-  //       [helpers.SOME_ADDRESS, 50, true],
-  //       // force to fail on insufficient gas
-  //       { gas: 100 });
-
-  //     const filter = web3.eth.filter("latest");
-
-  //     await new Promise(async (
-  //       resolve: () => void,
-  //       reject: () => void): Promise<void> => {
-  //       filter.watch(async (ex: Error): Promise<void> => {
-  //         if (!ex) {
-  //           const receipt = await TransactionService.getMinedTransaction(result.tx, undefined);
-  //           if (receipt) {
-  // UtilsInternal.stopWatchingAsync(filter).then(() => {
-  //   return resolve();
-  // });
-  //           }
-  //         } else {
-  //           return reject();
-  //         }
-  //       });
-  //     });
-
-  //   } finally {
-  //     await subscription.unsubscribe(0);
-  //   }
-
-  //   assert.equal(eventsReceived.length, 1, "didn't receive the right number of events");
-  //   assert.equal(eventsReceived[0],
-  //     "TxTracking.AbsoluteVote.setParameters.mined.failed", "didn't receive the failed event");
-  // });
-
   it("receives fail event on exception when checking for mined", async () => {
 
     const av = WrapperService.wrappers.AbsoluteVote;

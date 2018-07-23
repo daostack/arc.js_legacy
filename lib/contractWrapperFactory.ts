@@ -33,7 +33,7 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
 
   /**
    * Return a wrapper around the contract, hydrated from the given address.
-   * Throws an exception if the contract is not found at the given address.
+   * Returns undefined if not found.
    * @param address
    */
   public async at(address: string): Promise<TWrapper> {
@@ -45,6 +45,7 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
    * Return a wrapper around the contract as deployed by the current version of Arc.js.
    * Note this is usually not needed as the WrapperService provides these
    * wrappers already hydrated.
+   * Returns undefined if not found.
    */
   public async deployed(): Promise<TWrapper> {
     await this.ensureSolidityContract();
