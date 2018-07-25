@@ -1018,8 +1018,8 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   private convertProposalPropsArrayToObject(proposalArray: Array<any>, proposalId: Hash): GenesisProtocolProposal {
     return {
       avatarAddress: proposalArray[0],
-      boostedPhaseTime: proposalArray[7],
-      currentBoostedVotePeriodLimit: proposalArray[11],
+      boostedPhaseTime: proposalArray[7].toNumber(),
+      currentBoostedVotePeriodLimit: proposalArray[11].toNumber(),
       daoBountyRemain: proposalArray[13],
       executable: proposalArray[2],
       lostReputation: proposalArray[5],
