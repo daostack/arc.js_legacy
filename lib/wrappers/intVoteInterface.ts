@@ -89,7 +89,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
     }
 
     if (!options.executable) {
-      throw new Error(`execute is not defined`);
+      throw new Error(`executatable is not defined`);
     }
 
     const numChoiceBounds = await this.getAllowedRangeOfChoices();

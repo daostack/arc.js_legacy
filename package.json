@@ -60,7 +60,6 @@
     "color-convert": "^1.9.1",
     "cwd": "^0.10.0",
     "decompress": "^4.2.0",
-    "default-options": "^1.0.0",
     "env-variable": "0.0.3",
     "es6-promisify": "^6.0.0",
     "ethereumjs-abi": "^0.6.5",
