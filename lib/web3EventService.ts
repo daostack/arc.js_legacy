@@ -423,11 +423,16 @@ export interface EntityFetcher<TDest, TSrc> {
    * The Pub.Sub is published once per event firing.
    * `subscribe` returns the subscription on which you must remember to call `unsubscribe` when you are
    * done watching.
+   * If `requiredDepth` is set then will not invoke the callback until the transaction has been mined to
+   * the requiredDepth.
    *
    * Supply whatever name you want for `eventName`.  This enables you to scope
    * event handlers across event types and schemes.
    */
-  subscribe: (eventName: string, callback?: EntityWatchSubscriptionCallback<TDest>) => IEventSubscription;
+  subscribe: (
+    eventName: string,
+    callback?: EntityWatchSubscriptionCallback<TDest>,
+    requiredDepth?: number) => IEventSubscription;
   /**
    * Stop watching the event.
    */
@@ -486,21 +491,26 @@ export interface EventFetcher<TEventArgs> {
   get: (callback?: EventGetCallback<TEventArgs>) => Promise<Array<DecodedLogEntryEvent<TEventArgs>>>;
   /**
    * Watch for `DecodedLogEntryEvent`s from Web3, given the filter supplied to the EventFetcherFactory.
-   * The Pub.Sub is published once per event firing.
-   * `subscribe` returns the subscription on which you must remember to call `unsubscribe` when you are
-   * done watching.
-   *
-   * Supply whatever name you want for `eventName`.  This enables you to scope
-   * event handlers across event types and schemes.
-   */
-  subscribe: (eventName: string, callback?: EventWatchSubscriptionCallback<TEventArgs>) => IEventSubscription;
-  /**
-   * Watch for `DecodedLogEntryEvent`s from Web3, given the filter supplied to the EventFetcherFactory.
    * The callback is invoked once per event firing.
    * If `requiredDepth` is set then will not invoke the callback until the transaction has been mined to
    * the requiredDepth.
    */
   watch: (callback: EventWatchCallback<TEventArgs>, requiredDepth?: number) => void;
+  /**
+   * Watch for `DecodedLogEntryEvent`s from Web3, given the filter supplied to the EventFetcherFactory.
+   * The Pub.Sub is published once per event firing.
+   * `subscribe` returns the subscription on which you must remember to call `unsubscribe` when you are
+   * done watching.
+   * If `requiredDepth` is set then will not invoke the callback until the transaction has been mined to
+   * the requiredDepth.
+   *
+   * Supply whatever name you want for `eventName`.  This enables you to scope
+   * event handlers across event types and schemes.
+   */
+  subscribe: (
+    eventName: string,
+    callback?: EventWatchSubscriptionCallback<TEventArgs>,
+    requiredDepth?: number) => IEventSubscription;
   /**
    * Stop watching the event.
    */
