@@ -3238,8 +3238,8 @@
 13
 14</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">entityFetcherFactory</span> <span class="o">=</span> <span class="nx">web3EventService</span><span class="p">.</span><span class="nx">createEntityFetcherFactory</span><span class="p">(</span>
   <span class="nx">upgradeScheme</span><span class="p">.</span><span class="nx">ChangeUpgradeSchemeProposal</span><span class="p">,</span>
-  <span class="p">(</span><span class="nx">args</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">({</span> <span class="nx">avatarAddress</span><span class="o">:</span> <span class="nx">args</span><span class="p">.</span><span class="nx">_avatar</span> <span class="p">});</span>
+  <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">({</span> <span class="nx">avatarAddress</span><span class="o">:</span> <span class="nx">event</span><span class="p">.</span><span class="nx">args</span><span class="p">.</span><span class="nx">_avatar</span> <span class="p">});</span>
   <span class="p">});</span>
 
 <span class="kr">const</span> <span class="nx">eventFetcher</span> <span class="o">=</span> <span class="nx">entityFetcherFactory</span><span class="p">({},</span> <span class="p">{</span> <span class="nx">fromBlock</span><span class="o">:</span> <span class="mi">0</span><span class="p">});</span>
@@ -3258,10 +3258,6 @@
 </pre></div>
 </td></tr></table>
 
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You can "pipe" one <code>EntityFetcherFactory</code> to another using the <a href="../api/classes/Web3EventService#pipeEntityFetcherFactory">Web3EventService.pipeEntityFetcherFactory</a>, chaining transformations of one entity type to another.</p>
-</div>
 <p><a name="pubsubweb3"></a></p>
 <h3 id="pubsub-web3-events">Pub/Sub Web3 Events<a class="headerlink" href="#pubsub-web3-events" title="Permanent link">&para;</a></h3>
 <p>Both <code>EventFetcher</code> and <code>EntityFetcher</code> provide a <code>subscribe</code> function, sibling to <code>get</code> and <code>watch</code>, that enables you specify the topic of a Pub/Sub event that will be published whenever the underlying Web3 event is fired.</p>

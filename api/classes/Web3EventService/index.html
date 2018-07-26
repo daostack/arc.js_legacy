@@ -972,40 +972,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#pipeentityfetcherfactory" title="pipeEntityFetcherFactory" class="md-nav__link">
-    pipeEntityFetcherFactory
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tentitydest" title="TEntityDest" class="md-nav__link">
-    TEntityDest
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tentitysrc" title="TEntitySrc" class="md-nav__link">
-    TEntitySrc
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tentityoriginalsrc" title="TEntityOriginalSrc" class="md-nav__link">
-    TEntityOriginalSrc
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -3102,40 +3068,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#pipeentityfetcherfactory" title="pipeEntityFetcherFactory" class="md-nav__link">
-    pipeEntityFetcherFactory
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tentitydest" title="TEntityDest" class="md-nav__link">
-    TEntityDest
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tentitysrc" title="TEntitySrc" class="md-nav__link">
-    TEntitySrc
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tentityoriginalsrc" title="TEntityOriginalSrc" class="md-nav__link">
-    TEntityOriginalSrc
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -3169,14 +3101,13 @@
 <ul>
 <li><a href="./#createEntityFetcherFactory">createEntityFetcherFactory</a></li>
 <li><a href="./#createEventFetcherFactory">createEventFetcherFactory</a></li>
-<li><a href="./#pipeEntityFetcherFactory">pipeEntityFetcherFactory</a></li>
 </ul>
 <hr />
 <h2 id="methods_1">Methods<a class="headerlink" href="#methods_1" title="Permanent link">&para;</a></h2>
 <p><a id="createEntityFetcherFactory"></a></p>
 <h3 id="createentityfetcherfactory">createEntityFetcherFactory<a class="headerlink" href="#createentityfetcherfactory" title="Permanent link">&para;</a></h3>
 <p>► <strong>createEntityFetcherFactory</strong>TEntity,TEventArgs(eventFetcherFactory: <em><a href="../../#EventFetcherFactory">EventFetcherFactory</a><code>TEventArgs</code></em>, transformEventCallback: <em><a href="../../#TransformEventCallback">TransformEventCallback</a><code>TEntity</code>, <code>TEventArgs</code></em>, baseArgFilter?: <em><code>any</code></em>): <a href="../../#EntityFetcherFactory">EntityFetcherFactory</a><code>TEntity</code>, <code>TEventArgs</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6bbd1fd8/lib/web3EventService.ts#L147">web3EventService.ts:147</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/05ea3430/lib/web3EventService.ts#L152">web3EventService.ts:152</a></em></p>
 <p>Converts a <code>EventFetcherFactory&lt;TEventArgs&gt;</code> into a <code>EntityFetcherFactory&lt;TEntity, TEventArgs&gt;</code>. So whenever a web3 event is received by the given <code>EventFetcherFactory</code>, we transform the <code>TEventArgs</code> into <code>TEntities</code>.</p>
 <p>Note that the callback parameter of <code>EntityFetcher.get</code> is optional; you may alternatively obtain the promise of a <code>Array&lt;TEntity&gt;</code> from the return value of <code>get</code>.</p>
 <p>See <a href="../../../Events#web3events">Arc Web3 Events in Arc.js</a>.</p>
@@ -3219,7 +3150,7 @@
 <p><a id="createEventFetcherFactory"></a></p>
 <h3 id="createeventfetcherfactory">createEventFetcherFactory<a class="headerlink" href="#createeventfetcherfactory" title="Permanent link">&para;</a></h3>
 <p>► <strong>createEventFetcherFactory</strong>TEventArgs(baseEvent: <em><code>any</code></em>, preProcessEvent?: <em><a href="../../#PreProcessEventCallback">PreProcessEventCallback</a><code>TEventArgs</code></em>, baseArgFilter?: <em><code>any</code></em>): <a href="../../#EventFetcherFactory">EventFetcherFactory</a><code>TEventArgs</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6bbd1fd8/lib/web3EventService.ts#L30">web3EventService.ts:30</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/05ea3430/lib/web3EventService.ts#L32">web3EventService.ts:32</a></em></p>
 <p>Returns a function that creates an EventFetcher<teventargs>. For subclasses to use to create their event handlers. This is identical to what you get with Truffle, except with enhancements.</teventargs></p>
 <p>Note that the callback parameter of <code>EventFetcher.get</code> is optional; you may alternatively obtain the promise of a <code>Array&lt;TEventArgs&gt;</code> from the return value of <code>get</code>.</p>
 <p>See <a href="../../../Events#web3events">Arc Web3 Events in Arc.js</a>.
@@ -3258,39 +3189,6 @@
 </tbody>
 </table>
 <p><strong>Returns:</strong> <a href="../../#EventFetcherFactory">EventFetcherFactory</a><code>TEventArgs</code></p>
-<hr />
-<p><a id="pipeEntityFetcherFactory"></a></p>
-<h3 id="pipeentityfetcherfactory">pipeEntityFetcherFactory<a class="headerlink" href="#pipeentityfetcherfactory" title="Permanent link">&para;</a></h3>
-<p>► <strong>pipeEntityFetcherFactory</strong>TEntityDest,TEntitySrc,TEntityOriginalSrc(entityFetcherFactory: <em><a href="../../#EntityFetcherFactory">EntityFetcherFactory</a><code>TEntitySrc</code>, <code>TEntityOriginalSrc</code></em>, transformEventCallback: <em><a href="../../#TransformEventCallback">TransformEventCallback</a><code>TEntityDest</code>, <code>TEntitySrc</code></em>): <a href="../../#EntityFetcherFactory">EntityFetcherFactory</a><code>TEntityDest</code>, <code>TEntitySrc</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6bbd1fd8/lib/web3EventService.ts#L288">web3EventService.ts:288</a></em></p>
-<p>Convert the EntityFetcherFactory<TEntitySrc, TEntityOriginalSrc> into an EntityFetcherFactory<TEntityDest, TEntitySrc>.</p>
-<p><strong>Type parameters:</strong></p>
-<h4 id="tentitydest">TEntityDest<a class="headerlink" href="#tentitydest" title="Permanent link">&para;</a></h4>
-<h4 id="tentitysrc">TEntitySrc<a class="headerlink" href="#tentitysrc" title="Permanent link">&para;</a></h4>
-<h4 id="tentityoriginalsrc">TEntityOriginalSrc<a class="headerlink" href="#tentityoriginalsrc" title="Permanent link">&para;</a></h4>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>entityFetcherFactory</td>
-<td><a href="../../#EntityFetcherFactory">EntityFetcherFactory</a><code>TEntitySrc</code>, <code>TEntityOriginalSrc</code></td>
-<td>The source EntityFetcherFactory</td>
-</tr>
-<tr>
-<td>transformEventCallback</td>
-<td><a href="../../#TransformEventCallback">TransformEventCallback</a><code>TEntityDest</code>, <code>TEntitySrc</code></td>
-<td>Converts TEntitySrc into TEntityDest</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <a href="../../#EntityFetcherFactory">EntityFetcherFactory</a><code>TEntityDest</code>, <code>TEntitySrc</code></p>
 <hr />
                 
                   
