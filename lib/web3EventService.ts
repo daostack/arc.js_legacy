@@ -341,20 +341,15 @@ export class Web3EventService {
 
       // invoke callback if there is one
       if (callback) {
-        if (singly) {
-          for (const e of log) {
-            if (requiredDepth) {
-              await TransactionService.watchForConfirmedTransaction(e.transactionHash, null, requiredDepth);
-            }
+        for (const e of log) {
+          if (requiredDepth) {
+            await TransactionService.watchForConfirmedTransaction(e.transactionHash, null, requiredDepth);
+          }
+          if (singly) {
             callback(error, e);
           }
-        } else {
-
-          for (const e of log) {
-            if (requiredDepth) {
-              await TransactionService.watchForConfirmedTransaction(e.transactionHash, null, requiredDepth);
-            }
-          }
+        }
+        if (!singly) {
           callback(error, log);
         }
       }
