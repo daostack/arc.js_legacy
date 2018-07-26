@@ -145,8 +145,8 @@ Here is how you can turn `ChangeUpgradeSchemeProposal` into an `EntityFetcherFac
 ```javascript
 const entityFetcherFactory = web3EventService.createEntityFetcherFactory(
   upgradeScheme.ChangeUpgradeSchemeProposal,
-  (args) => {
-    return Promise.resolve({ avatarAddress: args._avatar });
+  (event) => {
+    return Promise.resolve({ avatarAddress: event.args._avatar });
   });
 
 const eventFetcher = entityFetcherFactory({}, { fromBlock: 0});
@@ -164,9 +164,6 @@ When you are done with fetching these events you can stop watching:
 ```javascript
 eventFetcher.stopWatching();
 ```
-
-!!! note
-    You can "pipe" one `EntityFetcherFactory` to another using the [Web3EventService.pipeEntityFetcherFactory](api/classes/Web3EventService#pipeEntityFetcherFactory), chaining transformations of one entity type to another.
 
 <a name="pubsubweb3"></a>
 ### Pub/Sub Web3 Events

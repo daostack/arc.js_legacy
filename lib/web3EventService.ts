@@ -1,6 +1,8 @@
 import { DecodedLogEntryEvent, LogTopic } from "web3";
 import { fnVoid, Hash } from "./commonTypes";
 import { IEventSubscription, PubSubEventService } from "./pubSubEventService";
+import { TransactionService } from "./transactionService";
+import { Utils } from "./utils";
 import { UtilsInternal } from "./utilsInternal";
 
 /**
@@ -80,26 +82,29 @@ export class Web3EventService {
              reject: (error: Error) => void): void => {
 
               baseFetcher.get(
-                (error: Error,
-                 log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>): void => {
+                async (
+                  error: Error,
+                  log:
+                    DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>): Promise<void> => {
                   if (error) {
                     return reject(error);
                   }
-                  resolve(handleEvent(error, log, false, callback));
+                  resolve(await handleEvent(error, log, false, callback));
                 });
             });
         },
 
-        watch(callback: EventWatchCallback<TEventArgs>): void {
+        watch(callback: EventWatchCallback<TEventArgs>, requiredDepth: number = 0): void {
           baseFetcher.watch(
-            (error: Error, log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>) => {
-              handleEvent(error, log, true, callback);
+            async (error: Error, log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>) => {
+              await handleEvent(error, log, true, callback, requiredDepth);
             });
         },
 
         subscribe(
           eventName: string,
-          callback?: EventWatchSubscriptionCallback<TEventArgs>): Web3EventSubscription<TEventArgs> {
+          callback?: EventWatchSubscriptionCallback<TEventArgs>,
+          requiredDepth: number = 0): Web3EventSubscription<TEventArgs> {
 
           if (!callback) {
             /* tslint:disable-next-line:no-empty */
@@ -110,7 +115,7 @@ export class Web3EventService {
 
           this.watch((error: Error, args: DecodedLogEntryEvent<TEventArgs>) => {
             PubSubEventService.publish(eventName, args);
-          });
+          }, requiredDepth);
 
           return new Web3EventSubscription(subscription, baseFetcher);
         },
@@ -173,7 +178,8 @@ export class Web3EventService {
            * invoke this callback on every event (watch)
            * or on the array of events (get), depending on the value of singly
            */
-         callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
+         callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void,
+         requiredDepth: number = 0):
           Promise<Array<TEntity>> => {
 
           const promiseOfEntities: Promise<Array<TEntity>> =
@@ -192,7 +198,7 @@ export class Web3EventService {
                 const entities = new Array<TEntity>();
                 // transform all the log entries into entities
                 for (const event of log) {
-                  const transformedEntity = await transformEventCallback(event.args);
+                  const transformedEntity = await transformEventCallback(event);
                   if (typeof transformedEntity !== "undefined") {
                     if (callback && singly) {
                       callback(error, transformedEntity);
@@ -230,8 +236,6 @@ export class Web3EventService {
        */
       return {
 
-        transformEventCallback,
-
         get(callback?: EntityGetCallback<TEntity>): Promise<Array<TEntity>> {
           return new Promise<Array<TEntity>>(
             (resolve: (result: Array<TEntity>) => void, reject: (error: Error) => void): void => {
@@ -244,15 +248,16 @@ export class Web3EventService {
             });
         },
 
-        watch(callback?: EntityWatchCallback<TEntity>): void {
+        watch(callback?: EntityWatchCallback<TEntity>, requiredDepth: number = 0): void {
           baseFetcher.watch((error: Error, log: DecodedLogEntryEvent<TEventArgs>) => {
-            handleEvent(error, log, true, callback);
+            handleEvent(error, log, true, callback, requiredDepth);
           });
         },
 
         subscribe(
           eventName: string,
-          callback?: EntityWatchSubscriptionCallback<TEntity>): Web3EventSubscription<TEventArgs> {
+          callback?: EntityWatchSubscriptionCallback<TEntity>,
+          requiredDepth: number = 0): Web3EventSubscription<TEventArgs> {
 
           if (!callback) {
             /* tslint:disable-next-line:no-empty */
@@ -263,7 +268,7 @@ export class Web3EventService {
 
           this.watch((error: Error, entity: TEntity) => {
             PubSubEventService.publish(eventName, entity);
-          });
+          }, requiredDepth);
 
           return new Web3EventSubscription(subscription, baseFetcher);
         },
@@ -279,38 +284,9 @@ export class Web3EventService {
   }
 
   /**
-   * Convert the EntityFetcherFactory<TEntitySrc, TEntityOriginalSrc> into an
-   * EntityFetcherFactory<TEntityDest, TEntitySrc>.
-   *
-   * @param entityFetcherFactory The source EntityFetcherFactory
-   * @param transformEventCallback Converts TEntitySrc into TEntityDest
-   */
-  public pipeEntityFetcherFactory<TEntityDest, TEntitySrc, TEntityOriginalSrc>(
-    entityFetcherFactory: EntityFetcherFactory<TEntitySrc, TEntityOriginalSrc>,
-    transformEventCallback: TransformEventCallback<TEntityDest, TEntitySrc>
-  ): EntityFetcherFactory<TEntityDest, TEntitySrc> {
-
-    const fetcher = entityFetcherFactory();
-
-    /**
-     * replace the existing transformEventCallback with the new one that will invoke the old one
-     */
-    (fetcher.transformEventCallback as any) = async (entity: TEntityOriginalSrc): Promise<TEntityDest | undefined> => {
-      const transformedEntity =
-        await (fetcher.transformEventCallback(entity as TEntityOriginalSrc) as Promise<TEntitySrc | undefined>);
-      if (typeof transformedEntity !== "undefined") {
-        return transformEventCallback(transformedEntity) as Promise<TEntityDest | undefined>;
-      }
-    };
-
-    return entityFetcherFactory as EntityFetcherFactory<any, any>;
-  }
-
-  /**
    * Returns a function that we will use internally to handle each Web3 event
    * @param suppressDups
    * @param preProcessEvent
-   * @param singly true to issue callback on every arg rather than on the array
    */
   private createBaseWeb3EventHandler<TEventArgs>(
     suppressDups: boolean,
@@ -323,15 +299,17 @@ export class Web3EventService {
       receivedEvents = new Set<Hash>();
     }
 
-    return (
+    return async (
       error: Error,
       log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>,
+      // singly true to issue callback on every arg rather than on the array
       singly: boolean,
-      // invoke this callback on every event (watch) or on the array of events (get), depending on the value of singly
+      // invoke this callback on every event (watch) or on the array of events (get), depending on the value of `singly`
       callback?: (
         error: Error,
-        args: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>) => void)
-      : Array<DecodedLogEntryEvent<TEventArgs>> => {
+        args: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>) => void,
+      requiredDepth: number = 0)
+      : Promise<Array<DecodedLogEntryEvent<TEventArgs>>> => {
       /**
        * convert to an array
        */
@@ -363,9 +341,15 @@ export class Web3EventService {
 
       // invoke callback if there is one
       if (callback) {
-        if (singly) {
-          log.forEach((e: DecodedLogEntryEvent<TEventArgs>) => { callback(error, e); });
-        } else {
+        for (const e of log) {
+          if (requiredDepth) {
+            await TransactionService.watchForConfirmedTransaction(e.transactionHash, null, requiredDepth);
+          }
+          if (singly) {
+            callback(error, e);
+          }
+        }
+        if (!singly) {
           callback(error, log);
         }
       }
@@ -380,7 +364,7 @@ export interface EventPreProcessorReturn<TEventArgs> { error: Error; log: Array<
 export type PreProcessEventCallback<TEventArgs> =
   (error: Error, log: Array<DecodedLogEntryEvent<TEventArgs>>) => EventPreProcessorReturn<TEventArgs>;
 
-export type TransformEventCallback<TDest, TSrc> = (args: TSrc) => Promise<TDest | undefined>;
+export type TransformEventCallback<TDest, TSrc> = (event: DecodedLogEntryEvent<TSrc>) => Promise<TDest | undefined>;
 
 /**
  * Function that returns an `EntityFetcher<TEntity>`.
@@ -417,11 +401,6 @@ export type EntityWatchSubscriptionCallback<TEntity> = (eventName: string, paylo
  */
 export interface EntityFetcher<TDest, TSrc> {
   /**
-   * Transforms TSrc to TDest.  This is called automatically by the system.  It is
-   * exposed here for use by `pipeEntityFetcherFactory`.
-   */
-  transformEventCallback: TransformEventCallback<TDest, TSrc>;
-  /**
    * Get an array of `TDest` from Web3, given the filter supplied to the EntityFetcherFactory.
    * You may supply a callback, which will be given the array, or you may
    * accept the promise of the array from the return value of `get`.
@@ -430,18 +409,25 @@ export interface EntityFetcher<TDest, TSrc> {
   /**
    * Watch for `TDest`s from Web3, given the filter supplied to the EntityFetcherFactory.
    * The callback is invoked once per event firing.
+   * If `requiredDepth` is set then will not invoke the callback until the transaction has been mined to
+   * the requiredDepth.
    */
-  watch: (callback: EntityWatchCallback<TDest>) => void;
+  watch: (callback: EntityWatchCallback<TDest>, requiredDepth?: number) => void;
   /**
    * Watch for `TDest`s from Web3, given the filter supplied to the EntityFetcherFactory.
    * The Pub.Sub is published once per event firing.
    * `subscribe` returns the subscription on which you must remember to call `unsubscribe` when you are
    * done watching.
+   * If `requiredDepth` is set then will not invoke the callback until the transaction has been mined to
+   * the requiredDepth.
    *
    * Supply whatever name you want for `eventName`.  This enables you to scope
    * event handlers across event types and schemes.
    */
-  subscribe: (eventName: string, callback?: EntityWatchSubscriptionCallback<TDest>) => IEventSubscription;
+  subscribe: (
+    eventName: string,
+    callback?: EntityWatchSubscriptionCallback<TDest>,
+    requiredDepth?: number) => IEventSubscription;
   /**
    * Stop watching the event.
    */
@@ -500,19 +486,26 @@ export interface EventFetcher<TEventArgs> {
   get: (callback?: EventGetCallback<TEventArgs>) => Promise<Array<DecodedLogEntryEvent<TEventArgs>>>;
   /**
    * Watch for `DecodedLogEntryEvent`s from Web3, given the filter supplied to the EventFetcherFactory.
+   * The callback is invoked once per event firing.
+   * If `requiredDepth` is set then will not invoke the callback until the transaction has been mined to
+   * the requiredDepth.
+   */
+  watch: (callback: EventWatchCallback<TEventArgs>, requiredDepth?: number) => void;
+  /**
+   * Watch for `DecodedLogEntryEvent`s from Web3, given the filter supplied to the EventFetcherFactory.
    * The Pub.Sub is published once per event firing.
    * `subscribe` returns the subscription on which you must remember to call `unsubscribe` when you are
    * done watching.
+   * If `requiredDepth` is set then will not invoke the callback until the transaction has been mined to
+   * the requiredDepth.
    *
    * Supply whatever name you want for `eventName`.  This enables you to scope
    * event handlers across event types and schemes.
    */
-  subscribe: (eventName: string, callback?: EventWatchSubscriptionCallback<TEventArgs>) => IEventSubscription;
-  /**
-   * Watch for `DecodedLogEntryEvent`s from Web3, given the filter supplied to the EventFetcherFactory.
-   * The callback is invoked once per event firing.
-   */
-  watch: (callback: EventWatchCallback<TEventArgs>) => void;
+  subscribe: (
+    eventName: string,
+    callback?: EventWatchSubscriptionCallback<TEventArgs>,
+    requiredDepth?: number) => IEventSubscription;
   /**
    * Stop watching the event.
    */
@@ -580,5 +573,6 @@ type BaseWeb3EventCallback<T> =
     error: Error,
     log: DecodedLogEntryEvent<T> | Array<DecodedLogEntryEvent<T>>,
     singly: boolean,
-    callback?: (error: Error, args: DecodedLogEntryEvent<T> | Array<DecodedLogEntryEvent<T>>) => void
-  ) => Array<DecodedLogEntryEvent<T>>;
+    callback?: (error: Error, args: DecodedLogEntryEvent<T> | Array<DecodedLogEntryEvent<T>>) => void,
+    requiredDepth?: number
+  ) => Promise<Array<DecodedLogEntryEvent<T>>>;

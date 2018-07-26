@@ -2,7 +2,7 @@
 import { Address, Hash } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
-import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
+import { ArcTransactionResult, DecodedLogEntryEvent, IContractWrapperFactory } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 
@@ -62,17 +62,17 @@ export class RedeemerWrapper extends ContractWrapperBase {
 
     return web3EventService.createEntityFetcherFactory<RedemptionResult, RedeemerRedeemEventResult>(
       this.RedeemerRedeem,
-      async (args: RedeemerRedeemEventResult): Promise<RedemptionResult> => {
-        if (!options.executed || args._execute) {
+      async (event: DecodedLogEntryEvent<RedeemerRedeemEventResult>): Promise<RedemptionResult> => {
+        if (!options.executed || event.args._execute) {
           return Promise.resolve({
-            contributionRewardEther: args._contributionRewardEther,
-            contributionRewardExternalToken: args._contributionRewardExternalToken,
-            contributionRewardNativeToken: args._contributionRewardNativeToken,
-            contributionRewardReputation: args._contributionRewardReputation,
-            genesisProtocolDaoBounty: args._genesisProtocolDaoBounty,
-            genesisProtocolRedeem: args._genesisProtocolRedeem,
-            proposalExecuted: args._execute,
-            proposalId: args._proposalId,
+            contributionRewardEther: event.args._contributionRewardEther,
+            contributionRewardExternalToken: event.args._contributionRewardExternalToken,
+            contributionRewardNativeToken: event.args._contributionRewardNativeToken,
+            contributionRewardReputation: event.args._contributionRewardReputation,
+            genesisProtocolDaoBounty: event.args._genesisProtocolDaoBounty,
+            genesisProtocolRedeem: event.args._genesisProtocolRedeem,
+            proposalExecuted: event.args._execute,
+            proposalId: event.args._proposalId,
           });
         }
       },

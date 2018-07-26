@@ -7,6 +7,7 @@ import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   ArcTransactionResult,
+  DecodedLogEntryEvent,
   IContractWrapperFactory,
   SchemeWrapper,
   StandardSchemeParams,
@@ -240,8 +241,8 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
         baseArgFilter: { _avatar: avatarAddress },
         proposalsEventFetcher: this.AgreementProposal,
         transformEventCallback:
-          async (args: SchemeProposalExecutedEventResult): Promise<AgreementProposal> => {
-            return this.getVotableProposal(args._avatar, args._proposalId);
+          async (event: DecodedLogEntryEvent<SchemeProposalExecutedEventResult>): Promise<AgreementProposal> => {
+            return this.getVotableProposal(event.args._avatar, event.args._proposalId);
           },
         votableOnly: true,
         votingMachine: await this.getVotingMachine(avatarAddress),
@@ -260,12 +261,13 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
         baseArgFilter: { _avatar: avatarAddress },
         proposalsEventFetcher: this.ProposalExecuted,
         transformEventCallback:
-          async (event: SchemeProposalExecutedEventResult): Promise<VestingSchemeSchemeProposalExecuted> => {
+          async (event: DecodedLogEntryEvent<SchemeProposalExecutedEventResult>)
+            : Promise<VestingSchemeSchemeProposalExecuted> => {
             return Promise.resolve({
-              agreementId: await this.getProposalAgreementId(event._proposalId),
-              avatarAddress: event._avatar,
-              proposalId: event._proposalId,
-              winningVote: event._param,
+              agreementId: await this.getProposalAgreementId(event.args._proposalId),
+              avatarAddress: event.args._avatar,
+              proposalId: event.args._proposalId,
+              winningVote: event.args._param,
             });
           },
       });

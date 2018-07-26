@@ -323,8 +323,8 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
         baseArgFilter: { _avatar: avatarAddress },
         proposalsEventFetcher: this.NewContributionProposal,
         transformEventCallback:
-          async (args: NewContributionProposalEventResult): Promise<ContributionProposal> => {
-            return this.getProposal(args._avatar, args._proposalId);
+          async (event: DecodedLogEntryEvent<NewContributionProposalEventResult>): Promise<ContributionProposal> => {
+            return this.getProposal(event.args._avatar, event.args._proposalId);
           },
         votableOnly: true,
         votingMachine: await this.getVotingMachine(avatarAddress),
@@ -344,8 +344,8 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
         baseArgFilter: { _avatar: avatarAddress },
         proposalsEventFetcher: this.ProposalExecuted,
         transformEventCallback:
-          (event: SchemeProposalExecutedEventResult): Promise<ContributionProposal> => {
-            return this.getProposal(avatarAddress, event._proposalId);
+          (event: DecodedLogEntryEvent<SchemeProposalExecutedEventResult>): Promise<ContributionProposal> => {
+            return this.getProposal(avatarAddress, event.args._proposalId);
           },
       });
   }
