@@ -6,6 +6,7 @@ import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   ArcTransactionResult,
+  DecodedLogEntryEvent,
   IContractWrapperFactory
 } from "../iContractWrapperBase";
 import { ProposalService, VotableProposal } from "../proposalService";
@@ -46,13 +47,13 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper {
 
     return proposalService.getProposalEvents({
       proposalsEventFetcher: this.NewProposal,
-      transformEventCallback: async (args: NewProposalEventResult): Promise<VotableProposal> => {
+      transformEventCallback: async (event: DecodedLogEntryEvent<NewProposalEventResult>): Promise<VotableProposal> => {
         return {
-          avatarAddress: args._avatar,
-          numOfChoices: args._numOfChoices.toNumber(),
-          paramsHash: args._paramsHash,
-          proposalId: args._proposalId,
-          proposerAddress: args._proposer,
+          avatarAddress: event.args._avatar,
+          numOfChoices: event.args._numOfChoices.toNumber(),
+          paramsHash: event.args._paramsHash,
+          proposalId: event.args._proposalId,
+          proposerAddress: event.args._proposer,
         };
       },
       votableOnly: true,

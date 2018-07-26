@@ -5,6 +5,7 @@ import { ContractWrapperFactory } from "../contractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
+  DecodedLogEntryEvent,
   IContractWrapperFactory,
   SchemeWrapper,
   StandardSchemeParams,
@@ -78,8 +79,9 @@ export class VoteInOrganizationSchemeWrapper extends ProposalGeneratorBase imple
         baseArgFilter: { _avatar: avatarAddress },
         proposalsEventFetcher: this.NewVoteProposal,
         transformEventCallback:
-          async (args: NewVoteProposalEventResult): Promise<VotableVoteInOrganizationProposal> => {
-            return this.getVotableProposal(args._avatar, args._proposalId);
+          async (event: DecodedLogEntryEvent<NewVoteProposalEventResult>)
+            : Promise<VotableVoteInOrganizationProposal> => {
+            return this.getVotableProposal(event.args._avatar, event.args._proposalId);
           },
         votableOnly: true,
         votingMachine: await this.getVotingMachine(avatarAddress),
@@ -98,11 +100,11 @@ export class VoteInOrganizationSchemeWrapper extends ProposalGeneratorBase imple
         baseArgFilter: { _avatar: avatarAddress },
         proposalsEventFetcher: this.ProposalExecuted,
         transformEventCallback:
-          (event: SchemeProposalExecutedEventResult): Promise<SchemeProposalExecuted> => {
+          (event: DecodedLogEntryEvent<SchemeProposalExecutedEventResult>): Promise<SchemeProposalExecuted> => {
             return Promise.resolve({
-              avatarAddress: event._avatar,
-              proposalId: event._proposalId,
-              winningVote: event._param,
+              avatarAddress: event.args._avatar,
+              proposalId: event.args._proposalId,
+              winningVote: event.args._param,
             });
           },
       });

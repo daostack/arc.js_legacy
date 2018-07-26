@@ -3,6 +3,7 @@ import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../c
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
+  DecodedLogEntryEvent,
   IContractWrapperFactory,
   SchemeWrapper,
   StandardSchemeParams,
@@ -137,8 +138,9 @@ export class UpgradeSchemeWrapper extends ProposalGeneratorBase implements Schem
         baseArgFilter: { _avatar: avatarAddress },
         proposalsEventFetcher: this.ChangeUpgradeSchemeProposal,
         transformEventCallback:
-          async (args: ChangeUpgradeSchemeProposalEventResult): Promise<VotableUpgradeSchemeProposal> => {
-            return this.getVotableProposal(args._avatar, args._proposalId);
+          async (event: DecodedLogEntryEvent<ChangeUpgradeSchemeProposalEventResult>)
+            : Promise<VotableUpgradeSchemeProposal> => {
+            return this.getVotableProposal(event.args._avatar, event.args._proposalId);
           },
         votableOnly: true,
         votingMachine: await this.getVotingMachine(avatarAddress),
@@ -157,8 +159,8 @@ export class UpgradeSchemeWrapper extends ProposalGeneratorBase implements Schem
         baseArgFilter: { _avatar: avatarAddress },
         proposalsEventFetcher: this.NewUpgradeProposal,
         transformEventCallback:
-          async (args: NewUpgradeProposalEventResult): Promise<VotableUpgradeSchemeProposal> => {
-            return this.getVotableProposal(args._avatar, args._proposalId);
+          async (event: DecodedLogEntryEvent<NewUpgradeProposalEventResult>): Promise<VotableUpgradeSchemeProposal> => {
+            return this.getVotableProposal(event.args._avatar, event.args._proposalId);
           },
         votableOnly: true,
         votingMachine: await this.getVotingMachine(avatarAddress),
@@ -177,11 +179,11 @@ export class UpgradeSchemeWrapper extends ProposalGeneratorBase implements Schem
         baseArgFilter: { _avatar: avatarAddress },
         proposalsEventFetcher: this.ProposalExecuted,
         transformEventCallback:
-          (event: SchemeProposalExecutedEventResult): Promise<SchemeProposalExecuted> => {
+          (event: DecodedLogEntryEvent<SchemeProposalExecutedEventResult>): Promise<SchemeProposalExecuted> => {
             return Promise.resolve({
-              avatarAddress: event._avatar,
-              proposalId: event._proposalId,
-              winningVote: event._param,
+              avatarAddress: event.args._avatar,
+              proposalId: event.args._proposalId,
+              winningVote: event.args._param,
             });
           },
       });

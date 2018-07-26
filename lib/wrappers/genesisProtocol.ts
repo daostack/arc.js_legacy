@@ -35,6 +35,7 @@ import {
 } from "./iIntVoteInterface";
 
 import { promisify } from "es6-promisify";
+import { DecodedLogEntryEvent } from "web3";
 import { IntVoteInterfaceWrapper } from "./intVoteInterface";
 
 export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements SchemeWrapper {
@@ -756,8 +757,9 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     return proposalService.getProposalEvents({
       proposalsEventFetcher: this.NewProposal,
-      transformEventCallback: async (args: NewProposalEventResult): Promise<GenesisProtocolProposal> => {
-        return this.getProposal(args._proposalId);
+      transformEventCallback: async (event: DecodedLogEntryEvent<NewProposalEventResult>)
+        : Promise<GenesisProtocolProposal> => {
+        return this.getProposal(event.args._proposalId);
       },
       votableOnly: true,
       votingMachine: this,
@@ -791,12 +793,12 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     return this.web3EventService
       .createEntityFetcherFactory<ExecutedGenesisProposal, ExecuteProposalEventResult>(
         this.ExecuteProposal,
-        async (args: ExecuteProposalEventResult): Promise<ExecutedGenesisProposal> => {
-          const proposal = await this.getProposal(args._proposalId);
+        async (event: DecodedLogEntryEvent<ExecuteProposalEventResult>): Promise<ExecutedGenesisProposal> => {
+          const proposal = await this.getProposal(event.args._proposalId);
           return Object.assign(proposal, {
-            decision: args._decision.toNumber(),
+            decision: event.args._decision.toNumber(),
             executionState: await this.getProposalExecutionState(proposal.proposalId),
-            totalReputation: args._totalReputation,
+            totalReputation: event.args._totalReputation,
           });
         });
   }

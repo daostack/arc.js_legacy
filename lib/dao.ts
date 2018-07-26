@@ -113,8 +113,8 @@ export class DAO {
 
     return web3EventService.createEntityFetcherFactory(
       daoCreator.InitialSchemesSet,
-      async (args: InitialSchemesSetEventResult): Promise<Address> => {
-        return Promise.resolve(args._avatar);
+      async (event: DecodedLogEntryEvent<InitialSchemesSetEventResult>): Promise<Address> => {
+        return Promise.resolve(event.args._avatar);
       });
   }
 

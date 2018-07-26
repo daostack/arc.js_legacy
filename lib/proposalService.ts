@@ -10,6 +10,7 @@ import {
   IntVoteInterfaceWrapper,
 } from "./wrappers/intVoteInterface";
 
+import { DecodedLogEntryEvent } from "web3";
 import {
   ExecuteProposalEventResult,
   NewProposalEventResult
@@ -57,22 +58,23 @@ export class ProposalService {
 
     return this.web3EventService.createEntityFetcherFactory<TProposal, TEventArgs>(
       options.proposalsEventFetcher,
-      async (args: TEventArgs): Promise<TProposal | (TProposal & ProposalEntity) | undefined> => {
+      async (event: DecodedLogEntryEvent<TEventArgs>)
+        : Promise<TProposal | (TProposal & ProposalEntity) | undefined> => {
         let entity: TProposal | (TProposal & ProposalEntity) | undefined;
 
         if (options.votingMachine) {
-          const isVotable = await options.votingMachine.isVotable({ proposalId: args._proposalId });
+          const isVotable = await options.votingMachine.isVotable({ proposalId: event.args._proposalId });
 
           entity = await (
             ((!votableOnly || isVotable) ?
-              options.transformEventCallback(args) :
+              options.transformEventCallback(event) :
               Promise.resolve(undefined)));
 
           if (entity && isVotable) {
             (entity as (TProposal & ProposalEntity)).votingMachine = options.votingMachine;
           }
         } else {
-          entity = await options.transformEventCallback(args);
+          entity = await options.transformEventCallback(event);
         }
         return entity;
       },
@@ -91,14 +93,14 @@ export class ProposalService {
 
     return this.web3EventService.createEntityFetcherFactory<VotableProposal, NewProposalEventResult>(
       votingMachine.VotableProposals,
-      (args: NewProposalEventResult): Promise<VotableProposal> => {
+      (event: DecodedLogEntryEvent<NewProposalEventResult>): Promise<VotableProposal> => {
         return Promise.resolve(
           {
-            avatarAddress: args._avatar,
-            numOfChoices: args._numOfChoices.toNumber(),
-            paramsHash: args._paramsHash,
-            proposalId: args._proposalId,
-            proposerAddress: args._proposer,
+            avatarAddress: event.args._avatar,
+            numOfChoices: event.args._numOfChoices.toNumber(),
+            paramsHash: event.args._paramsHash,
+            proposalId: event.args._proposalId,
+            proposerAddress: event.args._proposer,
           }
         );
       });
@@ -116,12 +118,12 @@ export class ProposalService {
 
     return this.web3EventService.createEntityFetcherFactory<ExecutedProposal, ExecuteProposalEventResult>(
       votingMachine.ExecuteProposal,
-      (args: ExecuteProposalEventResult): Promise<ExecutedProposal> => {
+      (event: DecodedLogEntryEvent<ExecuteProposalEventResult>): Promise<ExecutedProposal> => {
         return Promise.resolve(
           {
-            decision: args._decision.toNumber(),
-            proposalId: args._proposalId,
-            totalReputation: args._totalReputation,
+            decision: event.args._decision.toNumber(),
+            proposalId: event.args._proposalId,
+            totalReputation: event.args._totalReputation,
           }
         );
       });

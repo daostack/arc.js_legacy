@@ -4,6 +4,7 @@ import { ContractWrapperFactory } from "../contractWrapperFactory";
 import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
+  DecodedLogEntryEvent,
   IContractWrapperFactory,
   SchemeWrapper,
   StandardSchemeParams,
@@ -110,8 +111,9 @@ export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase impl
         baseArgFilter: { _avatar: avatarAddress },
         proposalsEventFetcher: this.NewGlobalConstraintsProposal,
         transformEventCallback:
-          async (args: NewGlobalConstraintsProposalEventResult): Promise<VotableGlobalConstraintProposal> => {
-            return this.getVotableProposal(args._avatar, args._proposalId);
+          async (event: DecodedLogEntryEvent<NewGlobalConstraintsProposalEventResult>)
+            : Promise<VotableGlobalConstraintProposal> => {
+            return this.getVotableProposal(event.args._avatar, event.args._proposalId);
           },
         votableOnly: true,
         votingMachine: await this.getVotingMachine(avatarAddress),
@@ -130,8 +132,9 @@ export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase impl
         baseArgFilter: { _avatar: avatarAddress },
         proposalsEventFetcher: this.RemoveGlobalConstraintsProposal,
         transformEventCallback:
-          async (args: RemoveGlobalConstraintsProposalEventResult): Promise<VotableGlobalConstraintProposal> => {
-            return this.getVotableProposal(args._avatar, args._proposalId);
+          async (event: DecodedLogEntryEvent<RemoveGlobalConstraintsProposalEventResult>)
+            : Promise<VotableGlobalConstraintProposal> => {
+            return this.getVotableProposal(event.args._avatar, event.args._proposalId);
           },
         votableOnly: true,
         votingMachine: await this.getVotingMachine(avatarAddress),
@@ -150,11 +153,11 @@ export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase impl
         baseArgFilter: { _avatar: avatarAddress },
         proposalsEventFetcher: this.ProposalExecuted,
         transformEventCallback:
-          (event: SchemeProposalExecutedEventResult): Promise<SchemeProposalExecuted> => {
+          (event: DecodedLogEntryEvent<SchemeProposalExecutedEventResult>): Promise<SchemeProposalExecuted> => {
             return Promise.resolve({
-              avatarAddress: event._avatar,
-              proposalId: event._proposalId,
-              winningVote: event._param,
+              avatarAddress: event.args._avatar,
+              proposalId: event.args._proposalId,
+              winningVote: event.args._param,
             });
           },
       });
