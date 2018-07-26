@@ -1,6 +1,8 @@
 import { DecodedLogEntryEvent, LogTopic } from "web3";
 import { fnVoid, Hash } from "./commonTypes";
 import { IEventSubscription, PubSubEventService } from "./pubSubEventService";
+import { TransactionService } from "./transactionService";
+import { Utils } from "./utils";
 import { UtilsInternal } from "./utilsInternal";
 
 /**
@@ -80,20 +82,22 @@ export class Web3EventService {
              reject: (error: Error) => void): void => {
 
               baseFetcher.get(
-                (error: Error,
-                 log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>): void => {
+                async (
+                  error: Error,
+                  log:
+                    DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>): Promise<void> => {
                   if (error) {
                     return reject(error);
                   }
-                  resolve(handleEvent(error, log, false, callback));
+                  resolve(await handleEvent(error, log, false, callback));
                 });
             });
         },
 
-        watch(callback: EventWatchCallback<TEventArgs>): void {
+        watch(callback: EventWatchCallback<TEventArgs>, requiredDepth: number = 0): void {
           baseFetcher.watch(
-            (error: Error, log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>) => {
-              handleEvent(error, log, true, callback);
+            async (error: Error, log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>) => {
+              await handleEvent(error, log, true, callback, requiredDepth);
             });
         },
 
@@ -310,7 +314,6 @@ export class Web3EventService {
    * Returns a function that we will use internally to handle each Web3 event
    * @param suppressDups
    * @param preProcessEvent
-   * @param singly true to issue callback on every arg rather than on the array
    */
   private createBaseWeb3EventHandler<TEventArgs>(
     suppressDups: boolean,
@@ -323,15 +326,18 @@ export class Web3EventService {
       receivedEvents = new Set<Hash>();
     }
 
-    return (
+    return async (
       error: Error,
       log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>,
+      // singly true to issue callback on every arg rather than on the array
       singly: boolean,
       // invoke this callback on every event (watch) or on the array of events (get), depending on the value of singly
       callback?: (
         error: Error,
-        args: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>) => void)
-      : Array<DecodedLogEntryEvent<TEventArgs>> => {
+        args: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>) => void,
+      // only issue callback
+      requiredDepth: number = 0)
+      : Promise<Array<DecodedLogEntryEvent<TEventArgs>>> => {
       /**
        * convert to an array
        */
@@ -364,8 +370,19 @@ export class Web3EventService {
       // invoke callback if there is one
       if (callback) {
         if (singly) {
-          log.forEach((e: DecodedLogEntryEvent<TEventArgs>) => { callback(error, e); });
+          for (const e of log) {
+            if (requiredDepth) {
+              await TransactionService.watchForConfirmedTransaction(e.transactionHash, null, requiredDepth);
+            }
+            callback(error, e);
+          }
         } else {
+
+          for (const e of log) {
+            if (requiredDepth) {
+              await TransactionService.watchForConfirmedTransaction(e.transactionHash, null, requiredDepth);
+            }
+          }
           callback(error, log);
         }
       }
@@ -580,5 +597,6 @@ type BaseWeb3EventCallback<T> =
     error: Error,
     log: DecodedLogEntryEvent<T> | Array<DecodedLogEntryEvent<T>>,
     singly: boolean,
-    callback?: (error: Error, args: DecodedLogEntryEvent<T> | Array<DecodedLogEntryEvent<T>>) => void
-  ) => Array<DecodedLogEntryEvent<T>>;
+    callback?: (error: Error, args: DecodedLogEntryEvent<T> | Array<DecodedLogEntryEvent<T>>) => void,
+    requiredDepth?: number
+  ) => Promise<Array<DecodedLogEntryEvent<T>>>;
