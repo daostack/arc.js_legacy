@@ -117,7 +117,7 @@ export const arcJsDeployer = (
     await deployer.deploy(Redeemer,
       contributionRewardInstance.address,
       genesisProtocolInstance.address,
-      { gas: gasLimit, gasPrice });
+      { gas: gasLimit, gasPrice: gasPrice * 2 });
 
     if (network !== "live") {
       await deployer.deploy(ExecutableTest, { gas: gasLimit, gasPrice });
