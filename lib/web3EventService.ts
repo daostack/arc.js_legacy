@@ -42,40 +42,42 @@ export class Web3EventService {
      * This is the function that returns the EventFetcher<TEventArgs>
      * argFilter - Optional event argument filter, like `{ _proposalId: [someHash] }`.
      * filterObject - Optional event filter.  Default is `{ fromBlock: "latest" }`
-     * callback
+     * callback.
+     * immediateWatchCallback - when supplied, starts watch immediately
+     * immediateRequiredDepth - only used when immediateWatchCallback is supplied. If set
+     * then will not invoke the callback until the transaction has been mined to the requiredDepth.
      */
     return (
       argFilter: any = {},
       filterObject: EventFetcherFilterObject = {},
-      immediateWatchCallback?: EventWatchCallback<TEventArgs>
+      immediateWatchCallback?: EventWatchCallback<TEventArgs>,
+      immediateRequiredDepth: number = 0
     ): EventFetcher<TEventArgs> => {
 
       const handleEvent = this.createBaseWeb3EventHandler(
         filterObject.suppressDups,
         preProcessEvent);
 
-      let immediateBaseEventCallback: EventWatchCallback<TEventArgs>;
-
-      if (immediateWatchCallback) {
-        immediateBaseEventCallback =
-          (error: Error, log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>): void => {
-            handleEvent(error, log, true, immediateWatchCallback);
-          };
-      }
+      const baseFetcher: EventFetcher<TEventArgs> =
+        baseEvent(Object.assign(argFilter, baseArgFilter), filterObject);
 
       /**
-       * If `immediateWatchCallback` is defined then this will start watching immediately using `baseEventCallback`.
-       * Otherwise `baseEventCallback` will here be undefined and caller must use `get` and `watch`.
+       * If `immediateWatchCallback` is defined then we should start watching immediately.
        */
-      const baseFetcher: EventFetcher<TEventArgs> =
-        baseEvent(Object.assign(argFilter, baseArgFilter), filterObject, immediateBaseEventCallback);
+      if (immediateWatchCallback) {
+        baseFetcher.watch(
+          async (error: Error, log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>) => {
+            await handleEvent(error, log, true, immediateWatchCallback, immediateRequiredDepth);
+          });
+      }
 
       /**
        * return the fetcher
        */
       return {
 
-        get(callback?: EventGetCallback<TEventArgs>): Promise<Array<DecodedLogEntryEvent<TEventArgs>>> {
+        get(callback?: EventGetCallback<TEventArgs>, requiredDepth: number = 0)
+          : Promise<Array<DecodedLogEntryEvent<TEventArgs>>> {
           return new Promise<Array<DecodedLogEntryEvent<TEventArgs>>>(
             (resolve: (
               result: Array<DecodedLogEntryEvent<TEventArgs>>) => void,
@@ -89,7 +91,7 @@ export class Web3EventService {
                   if (error) {
                     return reject(error);
                   }
-                  resolve(await handleEvent(error, log, false, callback));
+                  resolve(await handleEvent(error, log, false, callback, requiredDepth));
                 });
             });
         },
@@ -163,23 +165,37 @@ export class Web3EventService {
       throw new Error("transformEventCallback was not supplied");
     }
 
+    /**
+     * This is the function that returns the EntityFetcher<TEventArgs>
+     * argFilter - Optional event argument filter, like `{ _proposalId: [someHash] }`.
+     * filterObject - Optional event filter.  Default is `{ fromBlock: "latest" }`
+     * callback.
+     * immediateWatchCallback - when supplied, starts watch immediately
+     * immediateRequiredDepth - only used when immediateWatchCallback is supplied. If set
+     * then will not invoke the callback until the transaction has been mined to the requiredDepth.
+     */
     return (
       argFilter: any = {},
       filterObject: EventFetcherFilterObject = {},
-      immediateWatchCallback?: EntityWatchCallback<TEntity>
+      immediateWatchCallback?: EntityWatchCallback<TEntity>,
+      immediateRequiredDepth: number = 0
     ): EntityFetcher<TEntity, TEventArgs> => {
 
       // handler that takes the events and issues givenCallback appropriately
       const handleEvent =
         (error: Error,
          log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>,
+          // singly true to issue callback on every arg rather than on the array
          singly: boolean,
           /*
            * invoke this callback on every event (watch)
-           * or on the array of events (get), depending on the value of singly
+           * or on the array of events (get), depending on the value of singly.
+           * when singly, callback gets the entity.
+           * watch is always singly.
+           * when not singly, callback gets a promise of the array of entities.
+           * get is not singly.  so get gets a promise of an array.
            */
-         callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void,
-         requiredDepth: number = 0):
+         callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
           Promise<Array<TEntity>> => {
 
           const promiseOfEntities: Promise<Array<TEntity>> =
@@ -215,28 +231,26 @@ export class Web3EventService {
           return promiseOfEntities;
         };
 
-      let immediateBaseEventCallback: EventWatchCallback<TEventArgs>;
-
-      if (immediateWatchCallback) {
-        immediateBaseEventCallback =
-          (error: Error, args: DecodedLogEntryEvent<TEventArgs>): void => {
-            handleEvent(error, args, true, immediateWatchCallback);
-          };
-      }
+      const baseFetcher: EventFetcher<TEventArgs> = eventFetcherFactory(
+        Object.assign(argFilter, baseArgFilter), filterObject);
 
       /**
-       * If `givenCallback` is defined then this will start watching immediately using `baseEventCallback`.
-       * Otherwise `baseEventCallback` will here be undefined and caller must use `get` and `watch`.
+       * If `immediateWatchCallback` is defined then we should start watching immediately.
        */
-      const baseFetcher: EventFetcher<TEventArgs> = eventFetcherFactory(
-        Object.assign(argFilter, baseArgFilter), filterObject, immediateBaseEventCallback);
+      if (immediateWatchCallback) {
+        baseFetcher.watch((error: Error, log: DecodedLogEntryEvent<TEventArgs>) => {
+          handleEvent(error, log, true, immediateWatchCallback);
+        }, immediateRequiredDepth);
+      }
 
       /**
        * return the fetcher
        */
       return {
 
-        get(callback?: EntityGetCallback<TEntity>): Promise<Array<TEntity>> {
+        get(callback?: EntityGetCallback<TEntity>, requiredDepth: number = 0)
+          : Promise<Array<TEntity>> {
+          // remember get is singly, so there is a promise of an array
           return new Promise<Array<TEntity>>(
             (resolve: (result: Array<TEntity>) => void, reject: (error: Error) => void): void => {
               baseFetcher.get(async (error: Error, log: Array<DecodedLogEntryEvent<TEventArgs>>): Promise<void> => {
@@ -244,14 +258,15 @@ export class Web3EventService {
                   return reject(error);
                 }
                 resolve(await handleEvent(error, log, false, callback));
-              });
+              }, requiredDepth);
             });
         },
 
         watch(callback?: EntityWatchCallback<TEntity>, requiredDepth: number = 0): void {
+          // remember watch is singly, no promises
           baseFetcher.watch((error: Error, log: DecodedLogEntryEvent<TEventArgs>) => {
-            handleEvent(error, log, true, callback, requiredDepth);
-          });
+            handleEvent(error, log, true, callback);
+          }, requiredDepth);
         },
 
         subscribe(
@@ -304,7 +319,10 @@ export class Web3EventService {
       log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>,
       // singly true to issue callback on every arg rather than on the array
       singly: boolean,
-      // invoke this callback on every event (watch) or on the array of events (get), depending on the value of `singly`
+      /*
+       * invoke this callback on every event (watch)
+       * or on the array of events (get), depending on the value of singly
+       */
       callback?: (
         error: Error,
         args: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>) => void,
@@ -343,6 +361,7 @@ export class Web3EventService {
       if (callback) {
         for (const e of log) {
           if (requiredDepth) {
+            if (requiredDepth === -1) { requiredDepth = 0; } // to use the default value
             await TransactionService.watchForConfirmedTransaction(e.transactionHash, null, requiredDepth);
           }
           if (singly) {
@@ -390,7 +409,12 @@ export type EntityFetcherFactory<TDest, TSrc> =
      * Optional callback to immediately start start watching.
      * Without this you will call `get` or `watch`.
      */
-    callback?: EntityWatchCallback<TDest>
+    callback?: EntityWatchCallback<TDest>,
+    /**
+     * Optional and only used when callback is supplied. If set
+     * then will not invoke the callback until the transaction has been mined to the requiredDepth.
+     */
+    requiredDepth?: number
   ) => EntityFetcher<TDest, TSrc>;
 
 export type EntityWatchCallback<TEntity> = (error: Error, entity: TEntity) => void;
@@ -404,8 +428,10 @@ export interface EntityFetcher<TDest, TSrc> {
    * Get an array of `TDest` from Web3, given the filter supplied to the EntityFetcherFactory.
    * You may supply a callback, which will be given the array, or you may
    * accept the promise of the array from the return value of `get`.
+   * If `requiredDepth` is set then will not invoke the callback until the transaction has been mined to
+   * the requiredDepth.
    */
-  get: (callback?: EntityGetCallback<TDest>) => Promise<Array<TDest>>;
+  get: (callback?: EntityGetCallback<TDest>, requiredDepth?: number) => Promise<Array<TDest>>;
   /**
    * Watch for `TDest`s from Web3, given the filter supplied to the EntityFetcherFactory.
    * The callback is invoked once per event firing.
@@ -460,7 +486,12 @@ export type EventFetcherFactory<TEventArgs> =
      * Optional callback to immediately start start watching.
      * Without this you will call `get` or `watch`.
      */
-    callback?: EventWatchCallback<TEventArgs>
+    callback?: EventWatchCallback<TEventArgs>,
+    /**
+     * Optional and only used when callback is supplied. If set
+     * then will not invoke the callback until the transaction has been mined to the requiredDepth.
+     */
+    requiredDepth?: number
   ) => EventFetcher<TEventArgs>;
 
 export type EventWatchCallback<TEventArgs> =
@@ -482,8 +513,12 @@ export interface EventFetcher<TEventArgs> {
    * Get an array of `DecodedLogEntryEvent` from Web3, given the filter supplied to the EventFetcherFactory.
    * You may supply a callback, which will be given the array, or you may
    * accept the promise of the array from the return value of `get`.
+   * If `requiredDepth` is set then will not invoke the callback until the transaction has been mined to
+   * the requiredDepth.
    */
-  get: (callback?: EventGetCallback<TEventArgs>) => Promise<Array<DecodedLogEntryEvent<TEventArgs>>>;
+  get: (
+    callback?: EventGetCallback<TEventArgs>,
+    requiredDepth?: number) => Promise<Array<DecodedLogEntryEvent<TEventArgs>>>;
   /**
    * Watch for `DecodedLogEntryEvent`s from Web3, given the filter supplied to the EventFetcherFactory.
    * The callback is invoked once per event firing.
