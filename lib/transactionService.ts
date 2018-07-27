@@ -569,7 +569,12 @@ export class TransactionService extends PubSubEventService {
     return `TxTracking.${functionName}`;
   }
 
-  private static async getDefaultDepth(requiredDepth?: number): Promise<number> {
+  /**
+   * Returns the default value for required block depth defined for the current network
+   * in the Arc.js global configuration ("txDepthRequiredForConfirmation").
+   * @param requiredDepth Overrides the default if given
+   */
+  public static async getDefaultDepth(requiredDepth?: number): Promise<number> {
 
     if (typeof requiredDepth === "undefined") {
       const requiredDepths = ConfigService.get("txDepthRequiredForConfirmation");
