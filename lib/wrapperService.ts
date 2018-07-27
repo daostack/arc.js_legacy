@@ -16,6 +16,10 @@ import {
   DaoCreatorWrapper
 } from "./wrappers/daoCreator";
 import {
+  DaoTokenFactory,
+  DaoTokenWrapper
+} from "./wrappers/daoToken";
+import {
   GenesisProtocolFactory,
   GenesisProtocolWrapper
 } from "./wrappers/genesisProtocol";
@@ -24,13 +28,25 @@ import {
   GlobalConstraintRegistrarWrapper
 } from "./wrappers/globalConstraintRegistrar";
 import {
+  MintableTokenFactory,
+  MintableTokenWrapper
+} from "./wrappers/mintableToken";
+import {
   RedeemerFactory,
   RedeemerWrapper
 } from "./wrappers/redeemer";
 import {
+  ReputationFactory,
+  ReputationWrapper
+} from "./wrappers/reputation";
+import {
   SchemeRegistrarFactory,
   SchemeRegistrarWrapper
 } from "./wrappers/schemeRegistrar";
+import {
+  StandardTokenFactory,
+  StandardTokenWrapper
+} from "./wrappers/standardToken";
 import {
   TokenCapGCFactory,
   TokenCapGCWrapper
@@ -56,10 +72,14 @@ export interface ArcWrapperFactories {
   AbsoluteVote: IContractWrapperFactory<AbsoluteVoteWrapper>;
   ContributionReward: IContractWrapperFactory<ContributionRewardWrapper>;
   DaoCreator: IContractWrapperFactory<DaoCreatorWrapper>;
+  DaoToken: IContractWrapperFactory<DaoTokenWrapper>;
   GenesisProtocol: IContractWrapperFactory<GenesisProtocolWrapper>;
   GlobalConstraintRegistrar: IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
+  MintableToken: IContractWrapperFactory<MintableTokenWrapper>;
   Redeemer: IContractWrapperFactory<RedeemerWrapper>;
+  Reputation: IContractWrapperFactory<ReputationWrapper>;
   SchemeRegistrar: IContractWrapperFactory<SchemeRegistrarWrapper>;
+  StandardToken: IContractWrapperFactory<StandardTokenWrapper>;
   TokenCapGC: IContractWrapperFactory<TokenCapGCWrapper>;
   UpgradeScheme: IContractWrapperFactory<UpgradeSchemeWrapper>;
   VestingScheme: IContractWrapperFactory<VestingSchemeWrapper>;
@@ -215,14 +235,18 @@ export class WrapperService {
     WrapperService.factories.ContributionReward = ContributionRewardFactory as
       IContractWrapperFactory<ContributionRewardWrapper>;
     WrapperService.factories.DaoCreator = DaoCreatorFactory as IContractWrapperFactory<DaoCreatorWrapper>;
+    WrapperService.factories.DaoToken = DaoTokenFactory as IContractWrapperFactory<DaoTokenWrapper>;
     WrapperService.factories.GenesisProtocol =
       GenesisProtocolFactory as IContractWrapperFactory<GenesisProtocolWrapper>;
     WrapperService.factories.GlobalConstraintRegistrar = GlobalConstraintRegistrarFactory as
       IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
+    WrapperService.factories.MintableToken = MintableTokenFactory as IContractWrapperFactory<MintableTokenWrapper>;
     WrapperService.factories.Redeemer =
       RedeemerFactory as IContractWrapperFactory<RedeemerWrapper>;
+    WrapperService.factories.Reputation = ReputationFactory as IContractWrapperFactory<ReputationWrapper>;
     WrapperService.factories.SchemeRegistrar =
       SchemeRegistrarFactory as IContractWrapperFactory<SchemeRegistrarWrapper>;
+    WrapperService.factories.StandardToken = StandardTokenFactory as IContractWrapperFactory<StandardTokenWrapper>;
     WrapperService.factories.TokenCapGC = TokenCapGCFactory as IContractWrapperFactory<TokenCapGCWrapper>;
     WrapperService.factories.UpgradeScheme = UpgradeSchemeFactory as IContractWrapperFactory<UpgradeSchemeWrapper>;
     WrapperService.factories.VestingScheme = VestingSchemeFactory as IContractWrapperFactory<VestingSchemeWrapper>;
