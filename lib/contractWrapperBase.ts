@@ -198,6 +198,13 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
       return maxGasLimit; // because who cares with ganache and we can't get good estimates from it
     }
 
+    /**
+     * Add the input web3 params to the params we pass to estimateGas.
+     * Include maxGasLimit just for doing the estimation.
+     * I believe estimateGas will return a value will not exceed maxGasLimit.
+     * If it returns maxGasLimit then the actual function will probably run out of gas when called for real.
+     * TODO:  Throw an exception in that case?
+     */
     params = params.concat(Object.assign({ gas: maxGasLimit }, web3Params));
     return Math.max(Math.min((await func.estimateGas(...params)), maxGasLimit), 21000);
   }
