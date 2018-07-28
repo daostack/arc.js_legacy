@@ -4,7 +4,7 @@
     
     <url>
      <loc>/Home/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -12,7 +12,7 @@
     
     <url>
      <loc>/Configuration/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -20,7 +20,7 @@
     
     <url>
      <loc>/Daos/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -28,7 +28,7 @@
     
     <url>
      <loc>/Wrappers/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -36,7 +36,7 @@
     
     <url>
      <loc>/Proposals/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -44,7 +44,7 @@
     
     <url>
      <loc>/Events/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -52,7 +52,7 @@
     
     <url>
      <loc>/Transactions/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -60,7 +60,7 @@
     
     <url>
      <loc>/Scripts/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -68,7 +68,7 @@
     
     <url>
      <loc>/Migration/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -76,7 +76,7 @@
     
     <url>
      <loc>/GanacheDb/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -85,1243 +85,1423 @@
         
     <url>
      <loc>/api/README/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/AbsoluteVoteWrapper/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/AccountService/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/ArcTransactionAgreementResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/ArcTransactionDataResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/ArcTransactionProposalResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/ArcTransactionResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/AvatarService/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/ConfigService/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/ContractWrapperBase/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/ContractWrapperFactory/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/ContributionRewardWrapper/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/classes/ControllerService/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/DAO/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/DaoCreatorFactoryType/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/DaoCreatorWrapper/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/classes/DaoTokenFactoryType/</loc>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/classes/DaoTokenWrapper/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/DefaultSchemePermissions/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/EventSubscription/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/GenesisDaoCreator/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/GenesisProtocolFactoryType/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/GenesisProtocolWrapper/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/GlobalConstraintRegistrarWrapper/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/IntVoteInterfaceFactoryType/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/IntVoteInterfaceWrapper/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/LoggingService/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/classes/MintableTokenFactoryType/</loc>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/classes/MintableTokenWrapper/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/PromiseEventService/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/ProposalGeneratorBase/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/ProposalService/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/PubSubEventService/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/RedeemerFactoryType/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/RedeemerWrapper/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/classes/ReputationFactoryType/</loc>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/classes/ReputationWrapper/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/SchemeRegistrarWrapper/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/StandardTokenFactoryType/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/StandardTokenWrapper/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/SubscriptionCollection/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/TokenCapGCWrapper/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/TransactionService/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/UpgradeSchemeWrapper/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/Utils/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/UtilsInternal/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/VestingSchemeWrapper/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/VoteInOrganizationSchemeWrapper/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/Web3EventService/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/Web3EventSubscription/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/classes/WrapperService/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/enums/BinaryVoteResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/enums/ExecutionState/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/enums/GlobalConstraintProposalType/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/enums/LogLevel/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/enums/ProposalState/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/enums/RewardType/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/enums/SchemePermissions/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/enums/SchemeRegistrarProposalType/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/enums/TransactionStage/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/enums/UpgradeSchemeProposalType/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/AbsoluteVoteParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/AbsoluteVoteParamsResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/Agreement/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/AgreementBase/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/AgreementCancelEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/AgreementProposal/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/AgreementProposalEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/AllowanceOptions/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ApprovalEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/ApproveAndCallOptions/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ArcWrapperFactories/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ArcWrappers/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ArcWrappersByType/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/AVVoteProposalEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/BurnableTokenBurnOptions/</loc>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/BurnEventResult/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/CancelProposalEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/CancelVotingEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/ChangeApprovalAndCallOptions/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ChangeUpgradeSchemeProposalEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/CollectEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/CollectVestingAgreementConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/CommonVestingAgreementConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ContributionProposal/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ContributionRewardParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ContributionRewardParamsReturn/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ContributionRewardRedeemParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ContributionRewardSpecifiedRedemptionParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ControllerAddGlobalConstraintsEventLogEntry/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ControllerRegisterSchemeEventLogEntry/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/CreateVestingAgreementConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/DaoGlobalConstraintInfo/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/DaoSchemeInfo/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/DaoTokenBurnOptions/</loc>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/DaoTokenMintOptions/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/EntityFetcher/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/EventFetcher/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/EventFetcherFilterObject/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/EventHasPropertyId/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/EventPreProcessorReturn/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ExecutedGenesisProposal/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ExecutedProposal/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ExecuteProposalEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ForgedDaoInfo/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ForgeOrgConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/FounderConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GenesisProtocolDaoTokenBalances/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GenesisProtocolParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GenesisProtocolProposal/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetAgreementParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetAllowedRangeOfChoicesResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetBeneficiaryRewardsParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetDaosOptions/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetGenesisProtocolParamsResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetNumberOfChoicesConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/GetParticipantsOptions/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetProposalAvatarConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetProposalEventsOptions/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetProposalStatusConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetProposalStatusResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetRedeemableReputationProposerConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetRedeemableReputationStakerConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetRedeemableReputationVoterConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetRedeemableRewardsStakerConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetRedeemableTokensVoterConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetRedemptionOptions/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetScoreConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetScoreThresholdParamsConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetScoreThresholdParamsResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetStakerInfoConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetStakerInfoResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetStateConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetThresholdConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetTokenBalancesOptions/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetTokenCapGcParamsResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetTotalReputationSupplyConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetVoterInfoConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetVoterInfoResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetVoteStakeConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetVoteStatusConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GetWinningVoteConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/GPExecuteProposalEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/HasContract/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/IBurnableTokenWrapper/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/IContractWrapperBase/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/IContractWrapperFactory/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/IErc827TokenWrapper/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/IEventSubscription/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/IIntVoteInterface/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ILogger/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/InitializeArcOptions/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/InitialSchemesSetEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ITruffleContractFunction/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/MintableTokenMintOptions/</loc>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/MintEventResult/</loc>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/MintFinishedEventResult/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/NewContributionProposalEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/NewDaoConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/NewDaoVotingMachineConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/NewGlobalConstraintsProposalEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/NewOrgEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/NewProposalEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/NewSchemeProposalEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/NewUpgradeProposalEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/NewVestedAgreementEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/NewVoteProposalEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/OwnerVoteOptions/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/Participant/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ProposalDeletedEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ProposalEntity/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ProposalExecutedEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ProposalIdOption/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ProposalRewards/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ProposeContributionRewardParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ProposeControllerParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ProposedVestedAgreementEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ProposeOptions/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ProposeToAddModifyGlobalConstraintParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ProposeToAddModifySchemeParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ProposeToRemoveGlobalConstraintParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ProposeToRemoveSchemeParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ProposeUpgradingSchemeParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ProposeVestingAgreementConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/RedeemConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/RedeemerOptions/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/RedeemerRedeemEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/RedeemEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/RedemptionResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/RefreshReputationEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/RemoveGlobalConstraintsProposalEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/RemoveSchemeProposalEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/ReputationBurnOptions/</loc>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/ReputationMintEventResult/</loc>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/ReputationMintOptions/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/RevokeSignToCancelAgreementEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/RevokeSignToCancelVestingAgreementConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/SchemeConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/SchemeProposalExecuted/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/SchemeProposalExecutedEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/SchemeRegistrarParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/SchemesConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/SchemeWrapper/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/SetSchemesConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/ShouldBoostConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/SignToCancelAgreementEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/SignToCancelVestingAgreementConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/StakeConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/StakeEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/StandardSchemeParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/StandardTokenAllowanceOptions/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/StandardTokenApproveOptions/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>/api/interfaces/StandardTokenParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <loc>/api/interfaces/StandardTokenChangeApprovalOptions/</loc>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/StandardTokenTransferFromOptions/</loc>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/StandardTokenTransferOptions/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/TokenCapGcParams/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/TransactionReceiptsEventInfo/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/TransactionReceiptTruffle/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/TransferAndCallOptions/</loc>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/TransferEventResult/</loc>
+     <lastmod>2018-07-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/interfaces/TransferFromAndCallOptions/</loc>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/TruffleContract/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/VestingSchemeSchemeProposalExecuted/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/VotableGlobalConstraintProposal/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/VotableProposal/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/VotableSchemeRegistrarProposal/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/VotableUpgradeSchemeProposal/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/VotableVoteInOrganizationProposal/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/VoteInOrganizationProposeVoteConfig/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/VoteOnBehalfEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/VoteOptions/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/VoteProposalEventResult/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/VoteStatusOptions/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/VoteWithSpecifiedAmountsOptions/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/Web3EventFetcher/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/WrapperFilter/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/interfaces/WrapperServiceInitializeOptions/</loc>
-     <lastmod>2018-07-26</lastmod>
+     <lastmod>2018-07-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
