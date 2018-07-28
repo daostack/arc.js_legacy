@@ -3,6 +3,7 @@ import { assert } from "chai";
 import { Address, BinaryVoteResult, Hash } from "../lib/commonTypes";
 import { DAO, DaoSchemeInfo } from "../lib/dao";
 import { ArcTransactionResult } from "../lib/iContractWrapperBase";
+import { TransactionReceiptsEventInfo, TransactionService } from "../lib/transactionService";
 import { Utils } from "../lib/utils";
 import { Web3EventService } from "../lib/web3EventService";
 import {
@@ -94,14 +95,26 @@ describe("GenesisProtocol", () => {
     let transferEvents = await transferFetcher.get();
     const transfersBefore = transferEvents.length;
 
-    const result = await genesisProtocol.stakeWithApproval({
-      amount: web3.toWei(1),
-      proposalId,
-      vote: BinaryVoteResult.Yes,
-    });
+    const eventsReceived = new Array<string>();
 
-    assert.isOk(result);
-    assert.isOk(result.tx);
+    const subscription = TransactionService.subscribe(
+      ["TxTracking.GenesisProtocol.stakeWithApproval.mined"],
+      (topic: string, txEventInfo: TransactionReceiptsEventInfo) => {
+        eventsReceived.push(topic);
+      });
+
+    try {
+      const result = await (await genesisProtocol.stakeWithApproval({
+        amount: web3.toWei(1),
+        proposalId,
+        vote: BinaryVoteResult.Yes,
+      })).getTxMined();
+
+      assert.isOk(result);
+      assert.isOk(result.transactionHash);
+    } finally {
+      await subscription.unsubscribe(0);
+    }
 
     transferEvents = await transferFetcher.get();
     const transfersAfter = transferEvents.length;
@@ -112,6 +125,8 @@ describe("GenesisProtocol", () => {
     const stakeFetcher = genesisProtocol.Stake({ _proposalId: proposalId }, { fromBlock: 0 });
     const stakeEvents = await stakeFetcher.get();
     assert.equal(stakeEvents.length, 1, "should be one Stake event");
+
+    assert.equal(eventsReceived.length, 1, "didn't receive the right number of txTracking events");
   });
 
   it("can call stakeWithApproval a second time", async () => {
@@ -425,14 +440,26 @@ describe("GenesisProtocol", () => {
     assert.isOk(result);
     assert.equal(result.vote, 1);
     assert.equal(helpers.fromWei(result.reputation).toNumber(), 1000);
-
   });
 
   it("can call stake", async () => {
     const proposalId = await createProposal();
-    const result = await stakeProposalVote(proposalId, 1, 10);
-    assert.isOk(result);
-    assert.isOk(result.tx);
+    const eventsReceived = new Array<string>();
+
+    const subscription = TransactionService.subscribe(
+      ["TxTracking.GenesisProtocol.stake.mined", "TxTracking.StandardToken.approve.mined"],
+      (topic: string, txEventInfo: TransactionReceiptsEventInfo) => {
+        eventsReceived.push(topic);
+      });
+
+    try {
+      const result = await (await stakeProposalVote(proposalId, 1, 10)).watchForTxMined();
+      assert.isOk(result);
+      assert.isOk(result.transactionHash);
+    } finally {
+      await subscription.unsubscribe(0);
+    }
+    assert.equal(eventsReceived.length, 3, "didn't receive the right number of txTracking events");
   });
 
   it("can call vote", async () => {

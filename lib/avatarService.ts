@@ -1,8 +1,11 @@
 import { BigNumber } from "bignumber.js";
 import { promisify } from "es6-promisify";
 import { Address } from "./commonTypes";
+import { ControllerService } from "./controllerService";
 import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
+import { DaoTokenFactory, DaoTokenWrapper } from "./wrappers/daoToken";
+import { ReputationFactory, ReputationWrapper } from "./wrappers/reputation";
 
 /**
  * Methods for querying information about an Avatar.
@@ -13,19 +16,17 @@ import { Utils } from "./utils";
  */
 export class AvatarService {
 
-  public isUController: boolean;
+  public controllerService: ControllerService;
   private avatarAddress: Address;
   private avatar: any;
-  private controllerAddress: any;
-  private controller: any;
   private nativeReputationAddress: any;
-  private nativeReputation: any;
+  private nativeReputation: ReputationWrapper;
   private nativeTokenAddress: any;
-  private nativeToken: any;
+  private nativeToken: DaoTokenWrapper;
 
   constructor(avatarAddress: Address) {
     this.avatarAddress = avatarAddress;
-    this.isUController = undefined;
+    this.controllerService = new ControllerService(avatarAddress);
   }
 
   /**
@@ -46,43 +47,24 @@ export class AvatarService {
     }
   }
 
+  public getIsUController(): Promise<boolean> {
+    return this.controllerService.getIsUController();
+  }
+
   /**
    * Returns promise of the address of the controller
    */
   public async getControllerAddress(): Promise<string> {
-    if (!this.controllerAddress) {
-      const avatar = await this.getAvatar();
-      if (avatar) {
-        this.controllerAddress = await avatar.owner();
-      }
-    }
-    return this.controllerAddress;
+    return this.controllerService.getControllerAddress();
   }
 
   /**
    * Returns promise of a Truffle contract wrapper for the controller.  Could be
    * either UController or Controller.  You can know which one
-   * by checking the AvatarService instance property `isUController`.
+   * by called `getIsUController`.
    */
   public async getController(): Promise<any> {
-
-    if (!this.controller) {
-      const controllerAddress = await this.getControllerAddress();
-      if (controllerAddress) {
-        /**
-         * TODO:  check for previous and future versions of UController here
-         */
-        const UControllerContract = await Utils.requireContract("UController");
-        const ControllerContract = await Utils.requireContract("Controller");
-        const uControllerAddress = (await UControllerContract.deployed()).address;
-
-        this.isUController = uControllerAddress === controllerAddress;
-        this.controller = this.isUController ?
-          await UControllerContract.at(controllerAddress) :
-          await ControllerContract.at(controllerAddress);
-      }
-    }
-    return this.controller;
+    return this.controllerService.getController();
   }
 
   /**
@@ -101,12 +83,11 @@ export class AvatarService {
   /**
    * Returns promise of the avatar's native reputation Truffle contract wrapper.
    */
-  public async getNativeReputation(): Promise<any> {
+  public async getNativeReputation(): Promise<ReputationWrapper> {
     if (!this.nativeReputation) {
       const reputationAddress = await this.getNativeReputationAddress();
       if (reputationAddress) {
-        const Reputation = await Utils.requireContract("Reputation");
-        this.nativeReputation = await Reputation.at(reputationAddress);
+        this.nativeReputation = await ReputationFactory.at(reputationAddress);
       }
     }
     return this.nativeReputation;
@@ -129,11 +110,11 @@ export class AvatarService {
    * Returns promise of the avatar's native token Truffle contract wrapper.
    * Assumes the token is a `DAOToken`.
    */
-  public async getNativeToken(): Promise<any> {
+  public async getNativeToken(): Promise<DaoTokenWrapper> {
     if (!this.nativeToken) {
       const tokenAddress = await this.getNativeTokenAddress();
       if (tokenAddress) {
-        this.nativeToken = await (await Utils.requireContract("DAOToken")).at(tokenAddress) as any;
+        this.nativeToken = await DaoTokenFactory.at(tokenAddress);
       }
     }
     return this.nativeToken;
@@ -144,19 +125,18 @@ export class AvatarService {
    * If tokenAddress is not supplied, then uses native token.
    */
   public async getTokenBalance(tokenAddress?: Address): Promise<BigNumber> {
-    let token;
+    let token: DaoTokenWrapper;
 
     if (!tokenAddress) {
       token = await this.getNativeToken();
     } else {
-      token = await (await Utils.requireContract("StandardToken")).at(tokenAddress)
-        .then((theToken: any) => theToken) // only way to get to catch
-        .catch((ex: Error) => {
-          LoggingService.error(`AvatarService:  unable to load token at ${tokenAddress}: ${ex}`);
-          return undefined;
-        });
+      token = await DaoTokenFactory.at(tokenAddress);
     }
-    return token ? token.balanceOf(this.avatarAddress) : Promise.resolve(undefined);
+    if (!token) {
+      LoggingService.error(`AvatarService: Unable to load token at ${tokenAddress}`);
+      return Promise.resolve(undefined);
+    }
+    return token.getBalanceOf(this.avatarAddress);
   }
 
   /**

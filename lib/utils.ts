@@ -147,7 +147,7 @@ export class Utils {
       throw new Error("Utils.getTokenBalance: agentAddress is not defined");
     }
 
-    const token = await (await Utils.requireContract("StandardToken")).at(tokenAddress) as any;
+    const token = await (await Utils.requireContract("BasicToken")).at(tokenAddress);
 
     return token.balanceOf(agentAddress);
   }
@@ -273,14 +273,6 @@ export class Utils {
 
     const address = addresses[networkName];
     return address ? address : addresses.default;
-  }
-
-  /**
-   * Returns promise of a Truffle contract wrapper for the global GEN token.
-   */
-  public static async getGenToken(): Promise<any> {
-    const address = await Utils.getGenTokenAddress();
-    return (await Utils.requireContract("DAOToken")).at(address);
   }
 
   /**

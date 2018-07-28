@@ -1,7 +1,7 @@
 import { computeMaxGasLimit } from "../gasLimits.js";
-import { AvatarService } from "./avatarService";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { ConfigService } from "./configService";
+import { ControllerService } from "./controllerService";
 import {
   ArcTransactionDataResult,
   ArcTransactionResult,
@@ -91,7 +91,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
   /**
    * Initialize from a given address on the current network.
    * @param address of the deployed contract
-   * @returns this
+   * @returns this or undefined if not found
    */
   public async hydrateFromAt(address: string): Promise<any> {
     try {
@@ -109,7 +109,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
 
   /**
    * Initialize as it was migrated by Arc.js on the current network.
-   * @returns this
+   * @returns this or undefined if not found
    */
   public async hydrateFromDeployed(): Promise<any> {
     try {
@@ -166,8 +166,8 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
    * @param avatarAddress
    */
   public async getController(avatarAddress: Address): Promise<any> {
-    const avatarService = new AvatarService(avatarAddress);
-    return avatarService.getController();
+    const controllerService = new ControllerService(avatarAddress);
+    return controllerService.getController();
   }
 
   /**

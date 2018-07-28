@@ -16,6 +16,7 @@ import {
   ArcTransactionDataResult,
   ArcTransactionProposalResult,
   ArcTransactionResult,
+  DecodedLogEntryEvent,
   IContractWrapperFactory,
   SchemeWrapper
 } from "../iContractWrapperBase";
@@ -35,8 +36,8 @@ import {
 } from "./iIntVoteInterface";
 
 import { promisify } from "es6-promisify";
-import { DecodedLogEntryEvent } from "web3";
 import { IntVoteInterfaceWrapper } from "./intVoteInterface";
+import { StandardTokenFactory, StandardTokenWrapper } from "./standardToken";
 
 export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements SchemeWrapper {
 
@@ -91,7 +92,6 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
 
-    let tx;
     /**
      * approve immediate transfer of staked tokens to this scheme
      */
@@ -99,23 +99,25 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
       const stakingToken = await this.getStakingToken();
 
-      tx = await this.sendTransaction(
-        eventContext,
-        stakingToken.approve,
-        [this.address, amount]);
+      const result = await stakingToken.approve({
+        amount,
+        spender: this.address,
+        txEventContext: eventContext,
+      });
 
-      TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
-      await TransactionService.watchForMinedTransaction(tx);
+      await result.watchForTxMined();
     }
 
     this.logContractFunctionCall("GenesisProtocol.stake", options);
 
-    tx = await this.sendTransaction(
+    const tx = await this.sendTransaction(
       eventContext,
       this.contract.stake,
       [options.proposalId, options.vote, amount]);
 
-    TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
+    if (tx) {
+      TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
+    }
 
     return new ArcTransactionResult(tx, this.contract);
   }
@@ -139,7 +141,15 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     if (amount.lte(0)) {
       throw new Error("amount must be > 0");
     }
-    const stakingToken = await this.getStakingToken();
+
+    const stakingTokenAddress = await this.getStakingTokenAddress();
+    const stakingToken = (await
+      (await Utils.requireContract("ERC827Token")).at(stakingTokenAddress));
+
+    if (!stakingToken) {
+      throw new Error("GenesisProtocol.stakeWithApproval: token must implement ERC827Token");
+    }
+
     const staker = await Utils.getDefaultAccount();
     const nonce = 0;
 
@@ -208,6 +218,10 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     this.logContractFunctionCall("GenesisProtocol.stakeWithApproval", options);
 
+    /**
+     * We are not using DaoTokenWrapper here because we can't be sure the stakingToken is one.
+     * We only know it is ERC827Token, and have retrieved it above as such.
+     */
     return this.wrapTransactionInvocation(
       "GenesisProtocol.stakeWithApproval",
       options,
@@ -494,13 +508,13 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     const stakingToken = await this.getStakingToken();
 
-    const stakingTokenBalance = await stakingToken.balanceOf(options.avatarAddress);
+    const stakingTokenBalance = await stakingToken.getBalanceOf(options.avatarAddress);
 
     const avatarService = new AvatarService(options.avatarAddress);
 
     const nativeToken = await avatarService.getNativeToken();
 
-    const nativeTokenBalance = await nativeToken.balanceOf(options.avatarAddress);
+    const nativeTokenBalance = await nativeToken.getBalanceOf(options.avatarAddress);
 
     return {
       nativeToken,
@@ -970,12 +984,21 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   }
 
   /**
-   * Return promise of the staking token truffle contract.
+   * Returns promise of the staking token as StandardTokenWrapper.
+   * @returns Promise<StandardTokenWrapper>
+   */
+  public async getStakingToken(): Promise<StandardTokenWrapper> {
+    const tokenAddress = await this.getStakingTokenAddress();
+    // StandardToken includes `approve`, which is required for staking
+    return StandardTokenFactory.at(tokenAddress);
+  }
+
+  /**
+   * Returns promise of the staking token address.
    * @returns Promise<Address>
    */
-  public async getStakingToken(): Promise<any> {
-    const tokenAddress = await this.contract.stakingToken();
-    return (await Utils.requireContract("ERC827Token")).at(tokenAddress);
+  public async getStakingTokenAddress(): Promise<Address> {
+    return await this.contract.stakingToken();
   }
 
   public async propose(options: ProposeOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionProposalResult> {

@@ -143,7 +143,6 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     const defaultVotingMachineParams = Object.assign({
       // voting machines can't supply reputation as a default -- they don't know what it is
       reputation: reputationAddress,
-      txEventContext: eventContext,
       votingMachineName: configuredVotingMachineName,
     }, options.votingMachineParams || {});
 
@@ -159,7 +158,8 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     /**
      * each voting machine applies its own default values in setParameters
      */
-    let txResult = await defaultVotingMachine.setParameters(defaultVotingMachineParams);
+    let txResult = await defaultVotingMachine.setParameters(
+      Object.assign(defaultVotingMachineParams, { txEventContext: eventContext }));
 
     const defaultVoteParametersHash = txResult.result;
 
@@ -230,7 +230,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
         schemeVoteParametersHash = txResult.result;
       } else {
         // using the defaults
-        schemeVotingMachineParams = defaultVotingMachineParams;
+        schemeVotingMachineParams = Object.assign(defaultVotingMachineParams, { txEventContext: eventContext });
         schemeVoteParametersHash = defaultVoteParametersHash;
       }
 

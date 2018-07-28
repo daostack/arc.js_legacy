@@ -41,7 +41,7 @@ describe("Web3EventService", () => {
     const amount = web3.toWei(1);
     const result = await token.approve({
       amount,
-      onBehalfOf: accounts[4],
+      owner: accounts[4],
       spender: accounts[0],
     });
 
@@ -92,7 +92,7 @@ describe("Web3EventService", () => {
     const amount = web3.toWei(1);
     const result = await token.approve({
       amount,
-      onBehalfOf: accounts[4],
+      owner: accounts[4],
       spender: accounts[0],
     });
 
