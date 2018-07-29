@@ -1,9 +1,16 @@
-import { DecodedLogEntryEvent, LogTopic } from "web3";
+import {
+  DecodedLogEntryEvent,
+  LogTopic,
+  TransactionReceipt,
+  FilterTransactionResult
+} from "web3";
 import { fnVoid, Hash } from "./commonTypes";
 import { IEventSubscription, PubSubEventService } from "./pubSubEventService";
 import { TransactionService } from "./transactionService";
 import { Utils } from "./utils";
-import { UtilsInternal } from "./utilsInternal";
+import { UtilsInternal, Web3Watcher } from "./utilsInternal";
+import { LoggingService } from './loggingService';
+import { IContractWrapperBase } from './iContractWrapperBase';
 
 /**
  * Support for working with events that originate from Arc contracts
@@ -299,6 +306,108 @@ export class Web3EventService {
   }
 
   /**
+   * Given a list of contract events and a PubSub event topic, whenever a transaction is detected, publish the
+   * PubSub event with a payload that is an array of `DecodedLogEntryEvent` of the requested events, if
+   * any were emitted during the transaction.
+   * 
+   * You can filter the events as usual with web3 events using `options.filter`.
+   * 
+   * You may optionally supply a callback and it will be subscribed.  In that case this will
+   * return a promise of the `IEventSubscription` to which you should be sure to unsubscribe
+   * when you are done.
+   * @param options 
+   */
+  public async joinEvents(options: JoinEventsOptions
+  ): Promise<IEventSubscription | undefined> {
+
+    if (!options.events) {
+      throw new Event("events was not supplied");
+    }
+
+    if (!options.eventName) {
+      throw new Event("topic was not supplied");
+    }
+
+    const filter: EventFetcherFilterObject = options.filter || { fromBlock: "latest" };
+
+    /* tslint:disable-next-line:no-empty */
+
+    let subscription;
+
+    const web3 = await Utils.getWeb3();
+
+    /**
+     * this will return each transaction
+     */
+    const txWatcher = web3.eth.filter(filter);
+
+    if (options.callback) {
+      const sub = PubSubEventService.subscribe(options.eventName, options.callback);
+      subscription = new Web3EventSubscription(sub, txWatcher);
+    }
+
+    txWatcher.watch(async (ex: Error, tx: FilterTransactionResult): Promise<void> => {
+
+      /**
+       * TODO: worry about dups as blocks settle?
+       */
+      const foundEvents = new Array<JoinEventResult>();
+
+      if (!ex) {
+
+        if (tx.type === "pending") {
+          LoggingService.warn(`Web3EventService.joinEvents: transaction has not yet been mined, potential for transaction to appear out of sequence: ${tx.transactionHash}`);
+        }
+
+        const txReceipt = await TransactionService.getMinedTransaction(tx.transactionHash) as TransactionReceipt;
+        const foundContractAddress = txReceipt.contractAddress;
+        let foundContract: IContractWrapperBase;
+
+        /** 
+         * The contract that generated this transaction must be among those given in options.events
+         */
+        for (const eventSpec of options.events) {
+          if (foundContractAddress === eventSpec.contract.address) {
+            foundContract = eventSpec.contract;
+            break;
+          }
+        }
+
+        if (foundContract) {
+          /**
+           * get the decoded logs
+           */
+          const txReceiptWithLogs = await TransactionService.toTxTruffle(txReceipt, foundContract.contract);
+
+          txReceiptWithLogs.logs.forEach((foundTxLog: DecodedLogEntryEvent<any>): void => {
+
+            options.events.filter((es: JoinEventSpec) => es.contract.address == foundContractAddress)
+              .forEach((foundEventSpec: JoinEventSpec) => {
+
+                if (foundEventSpec.eventName === foundTxLog.event) {
+                  foundEvents.push({
+                    eventName: foundEventSpec.eventName,
+                    contract: foundEventSpec.contract,
+                    event: foundTxLog
+                  });
+                }
+              });
+
+            if (foundEvents.length) {
+              PubSubEventService.publish(options.eventName, foundEvents);
+            }
+          });
+        }
+      }
+      else {
+        LoggingService.error(`Web3EventService.joinEvents: an error occurred during watch: ${ex}`);
+      }
+    });
+
+    return subscription;
+  }
+
+  /**
    * Returns a function that we will use internally to handle each Web3 event
    * @param suppressDups
    * @param preProcessEvent
@@ -316,7 +425,7 @@ export class Web3EventService {
 
     return async (
       error: Error,
-      log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>,
+      events: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>,
       // singly true to issue callback on every arg rather than on the array
       singly: boolean,
       /*
@@ -332,16 +441,16 @@ export class Web3EventService {
        * convert to an array
        */
       if (!!error) {
-        log = [];
-      } else if (!Array.isArray(log)) {
-        log = [log];
+        events = [];
+      } else if (!Array.isArray(events)) {
+        events = [events];
       }
 
       /**
        * optionally prune duplicate events (see https://github.com/ethereum/web3.js/issues/398)
        */
-      if (receivedEvents && log.length) {
-        log = log.filter((evt: DecodedLogEntryEvent<TEventArgs>) => {
+      if (receivedEvents && events.length) {
+        events = events.filter((evt: DecodedLogEntryEvent<TEventArgs>) => {
           if (!receivedEvents.has(evt.transactionHash)) {
             receivedEvents.add(evt.transactionHash);
             return true;
@@ -352,14 +461,14 @@ export class Web3EventService {
       }
 
       if (preProcessEvent) {
-        const processedResult = preProcessEvent(error, log);
+        const processedResult = preProcessEvent(error, events);
         error = processedResult.error;
-        log = processedResult.log;
+        events = processedResult.log;
       }
 
       // invoke callback if there is one
       if (callback) {
-        for (const e of log) {
+        for (const e of events) {
           if (requiredDepth) {
             if (requiredDepth === -1) { requiredDepth = undefined; } // to use the default value
             await TransactionService.watchForConfirmedTransaction(e.transactionHash, null, requiredDepth);
@@ -369,12 +478,12 @@ export class Web3EventService {
           }
         }
         if (!singly) {
-          callback(error, log);
+          callback(error, events);
         }
       }
 
       // return array of DecodedLogEntryEvents in any case
-      return log;
+      return events;
     };
   }
 }
@@ -553,21 +662,6 @@ export interface EventFetcher<TEventArgs> {
 }
 
 /**
- * As implemented by Web3
- */
-export interface Web3EventFetcher {
-  get: (callback: (error: Error, args: DecodedLogEntryEvent<any> | Array<DecodedLogEntryEvent<any>>) => void) => void;
-  watch: (callback: (error: Error, args: DecodedLogEntryEvent<any> | Array<DecodedLogEntryEvent<any>>) => void) => void;
-  stopWatching(callback?: fnVoid): void;
-  stopWatchingAsync(): Promise<void>;
-}
-
-/**
- * Haven't figured out how to export EventFetcherFilterObject that extends FilterObject from web3.
- * Maybe will be easier with web3 v1.0, perhaps using typescript's module augmentation feature.
- */
-
-/**
  * Options supplied to `EventFetcherFactory` and thence to `get and `watch`.
  */
 export interface EventFetcherFilterObject {
@@ -585,7 +679,7 @@ export interface EventFetcherFilterObject {
 export class Web3EventSubscription<TEventArgs> implements IEventSubscription {
   constructor(
     private subscription: IEventSubscription,
-    private fetcher: EventFetcher<TEventArgs>) { }
+    private fetcher: Web3Watcher) { }
 
   /**
    * Unsubscribe from all of the events
@@ -594,7 +688,7 @@ export class Web3EventSubscription<TEventArgs> implements IEventSubscription {
    */
   public unsubscribe(milliseconds: number = -1): Promise<void> {
     return new Promise((resolve: fnVoid): Promise<void> => {
-      return this.fetcher.stopWatchingAsync()
+      return UtilsInternal.stopWatchingAsync(this.fetcher)
         .then((): void => {
           this.subscription.unsubscribe.call(this.subscription, milliseconds)
             .then(() => { resolve(); });
@@ -611,3 +705,38 @@ type BaseWeb3EventCallback<T> =
     callback?: (error: Error, args: DecodedLogEntryEvent<T> | Array<DecodedLogEntryEvent<T>>) => void,
     requiredDepth?: number
   ) => Promise<Array<DecodedLogEntryEvent<T>>>;
+
+export interface JoinEventResult extends JoinEventSpec {
+  event: DecodedLogEntryEvent<any>;
+}
+
+export interface JoinEventSpec {
+  /**
+   * name of the event to trap
+   */
+  eventName: string;
+  /**
+   * Arc.js contract wrapper for the contract that fires the event.
+   */
+  contract: IContractWrapperBase;
+}
+
+export interface JoinEventsOptions {
+  /**
+   * specification of the events you want to watch for
+   */
+  events: Array<JoinEventSpec>;
+  /**
+   * topic os the PubSub event to which you can subscribe
+   */
+  eventName: string;
+  /**
+   * Optional scope of blocks to watch.  default is "latest"
+   */
+  filter: EventFetcherFilterObject;
+  /**
+   * optional callback to automatically subscribe.  If you don't
+   * supply this you can supply one later when you subscribe.
+   */
+  callback?: EventWatchSubscriptionCallback<any>;
+}
