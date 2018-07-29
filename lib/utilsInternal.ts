@@ -1,5 +1,4 @@
 import { promisify } from "es6-promisify";
-import { FilterResult } from "web3";
 import { fnVoid } from "./commonTypes";
 import { Utils, Web3 } from "./utils";
 
@@ -31,7 +30,7 @@ export class UtilsInternal {
    * For environments that don't allow synchronous functions
    * @param filter
    */
-  public static stopWatchingAsync(filter: FilterResult): Promise<any> {
+  public static stopWatchingAsync(filter: Web3Watcher): Promise<any> {
     return promisify((callback: any): any => filter.stopWatching(callback))();
   }
 
@@ -42,4 +41,8 @@ export class UtilsInternal {
   public static getWeb3Sync(): Web3 {
     return (Utils as any).web3;
   }
+}
+
+export interface Web3Watcher {
+  stopWatching(callback?: fnVoid): void;
 }
