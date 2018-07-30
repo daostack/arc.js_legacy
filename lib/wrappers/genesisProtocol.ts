@@ -169,7 +169,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
           value: this.address,
         },
         {
-          name: "proposalId",
+          name: "ProposalId",
           type: "bytes32",
           value: options.proposalId,
         },
