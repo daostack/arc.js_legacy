@@ -188,7 +188,7 @@ export class DAO {
     const events = await fetcher.get();
 
     events.forEach(
-      async (event: DecodedLogEntryEvent<ReputationMintEventResult>): Promise<void> => {
+      (event: DecodedLogEntryEvent<ReputationMintEventResult>): void => {
         addresses.add(event.args._to);
       });
 

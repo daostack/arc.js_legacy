@@ -10,7 +10,7 @@ import {
 } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";
-import { EventFetcherFactory, Web3EventService } from "../web3EventService";
+import { EventFetcherFactory, EventPreProcessorReturn, Web3EventService } from "../web3EventService";
 import {
   CancelProposalEventResult,
   CancelVotingEventResult,
@@ -65,15 +65,17 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
    * Get or watch NewProposal events, filtering out proposals that are no longer votable.
    */
   public get VotableProposals(): EventFetcherFactory<NewProposalEventResult> {
-    return this.web3EventService.createEventFetcherFactory<NewProposalEventResult>(this.contract.NewProposal,
-      (error: Error, log: Array<DecodedLogEntryEvent<NewProposalEventResult>>) => {
+    return this.web3EventService.createEventFetcherFactory<NewProposalEventResult>(
+      this.contract.NewProposal,
+      (error: Error, log: Array<DecodedLogEntryEvent<NewProposalEventResult>>)
+        : Promise<EventPreProcessorReturn<any>> => {
         if (!error) {
           log = log.filter(async (event: DecodedLogEntryEvent<NewProposalEventResult>) => {
             const proposalId = event.args._proposalId;
             return await this.isVotable({ proposalId });
           });
         }
-        return { error, log };
+        return Promise.resolve({ error, log });
       });
   }
   /**
