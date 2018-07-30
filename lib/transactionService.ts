@@ -20,7 +20,7 @@ export class TransactionService extends PubSubEventService {
    * Generate a new invocation key.
    */
   public static generateInvocationKey(): number {
-    return Math.floor((Math.random() * Number.MAX_SAFE_INTEGER));
+    return UtilsInternal.getRandomNumber();
   }
 
   /**
