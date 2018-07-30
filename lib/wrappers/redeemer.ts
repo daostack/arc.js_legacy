@@ -1,10 +1,13 @@
 "use strict";
+import BigNumber from "../../node_modules/bignumber.js";
 import { Address, Hash } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
-import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
+import { ArcTransactionResult, IContractWrapperFactory, DecodedLogEntryEvent } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
-import { Web3EventService } from "../web3EventService";
+import { AggregatedEventsResult, EntityFetcherFactory, EventToAggregate, Web3EventService } from "../web3EventService";
+import { WrapperService } from "../wrapperService";
+import { RedeemEventResult } from "./commonEventInterfaces";
 
 export class RedeemerWrapper extends ContractWrapperBase {
   public name: string = "Redeemer";
@@ -41,6 +44,92 @@ export class RedeemerWrapper extends ContractWrapperBase {
       [options.proposalId, options.avatarAddress, options.beneficiaryAddress]
     );
   }
+
+  /**
+   * Obtain an `EntityFetcherFactory` that enables you to get, watch and subscribe to events that
+   * return a `RedeemerRewardEventsResult` when rewards are rewarded via Redeemer.redeem.
+   */
+  public rewardsEvents():
+    EntityFetcherFactory<RedeemerRewardEventsResult, AggregatedEventsResult> {
+
+    const web3EventService = new Web3EventService();
+    const eventSpecifiersMap = new Map<EventToAggregate, string>();
+    const genesisProtocol = WrapperService.wrappers.GenesisProtocol;
+    const contributionReward = WrapperService.wrappers.ContributionReward;
+
+    /* tslint:disable:max-line-length */
+    eventSpecifiersMap.set({ eventName: "Redeem", contract: genesisProtocol }, "rewardGenesisProtocolTokens");
+    eventSpecifiersMap.set({ eventName: "RedeemReputation", contract: genesisProtocol }, "rewardGenesisProtocolReputation");
+    eventSpecifiersMap.set({ eventName: "RedeemDaoBounty", contract: genesisProtocol }, "bountyGenesisProtocolDao");
+    eventSpecifiersMap.set({ eventName: "RedeemReputation", contract: contributionReward }, "rewardContributionReputation");
+    eventSpecifiersMap.set({ eventName: "RedeemEther", contract: contributionReward }, "rewardContributionEther");
+    eventSpecifiersMap.set({ eventName: "RedeemNativeToken", contract: contributionReward }, "rewardContributionNativeToken");
+    eventSpecifiersMap.set({ eventName: "RedeemExternalToken", contract: contributionReward }, "rewardContributionExternalToken");
+    /* tslint:enable:max-line-length */
+
+    const baseFetcherFactory = web3EventService.aggregatedEventsFetcherFactory(Array.from(eventSpecifiersMap.keys()));
+
+    return web3EventService.pipeEntityFetcherFactory(
+      baseFetcherFactory,
+      (txEvent: AggregatedEventsResult): Promise<RedeemerRewardEventsResult | undefined> => {
+        if (txEvent.txReceipt.receipt.contractAddress === this.address) {
+
+          const events: Array<DecodedLogEntryEvent<RedeemEventResult>> = Array.from(txEvent.events.values());
+          const proposalId = events[0].args._proposalId;
+          const result = {
+            proposalId,
+            transactionHash: txEvent.txReceipt.transactionHash,
+          } as RedeemerRewardEventsResult;
+
+          /**
+           * get all the reward amounts
+           */
+          for (const eventSpecifier of eventSpecifiersMap.keys()) {
+            const event = txEvent.events.get(eventSpecifier) as DecodedLogEntryEvent<RedeemEventResult>;
+            if (event) {
+              result[eventSpecifiersMap.get(eventSpecifier)] = event.args._amount;
+            }
+          }
+
+          /**
+           * get the GP beneficiary, if there is one
+           */
+          for (const eventSpecifier of txEvent.events.keys()) {
+
+            const propertyName = eventSpecifiersMap.get(eventSpecifier);
+
+            if ([
+              "rewardGenesisProtocolTokens",
+              "rewardGenesisProtocolReputation",
+              "bountyGenesisProtocolDao"].indexOf(propertyName) !== -1) {
+
+              const event = txEvent.events.get(eventSpecifier) as DecodedLogEntryEvent<RedeemEventResult>;
+              result.beneficiaryGenesisProtocol = event.args._beneficiary;
+              break;
+            }
+          }
+
+          /**
+           * get the CR beneficiary, if there is one
+           */
+          for (const eventSpecifier of txEvent.events.keys()) {
+            const propertyName = eventSpecifiersMap.get(eventSpecifier);
+
+            if ([
+              "rewardContributionReputation",
+              "rewardContributionEther",
+              "rewardContributionNativeToken",
+              "rewardContributionExternalToken"].indexOf(propertyName) !== -1) {
+
+              const event = txEvent.events.get(eventSpecifier) as DecodedLogEntryEvent<RedeemEventResult>;
+              result.beneficiaryContributionReward = event.args._beneficiary;
+              break;
+            }
+          }
+          return Promise.resolve(result);
+        }
+      });
+  }
 }
 
 /**
@@ -61,38 +150,22 @@ export const RedeemerFactory =
     RedeemerWrapper,
     new Web3EventService()) as RedeemerFactoryType;
 
-export interface GetRedemptionOptions {
-  proposalId: Hash;
-  executed?: boolean;
-}
-
-export interface RedemptionResult {
-  contributionRewardEther: boolean;
-  contributionRewardExternalToken: boolean;
-  contributionRewardNativeToken: boolean;
-  contributionRewardReputation: boolean;
-  proposalExecuted: boolean;
-  genesisProtocolRedeem: boolean;
-  genesisProtocolDaoBounty: boolean;
-  proposalId: Hash;
-}
-
 export interface RedeemerOptions extends TxGeneratingFunctionOptions {
   avatarAddress: Address;
   beneficiaryAddress: Address;
   proposalId: Hash;
 }
 
-export interface RedeemerRedeemEventResult {
-  _contributionRewardEther: boolean;
-  _contributionRewardExternalToken: boolean;
-  _contributionRewardNativeToken: boolean;
-  _contributionRewardReputation: boolean;
-  /**
-   * indexed
-   */
-  _execute: boolean;
-  _genesisProtocolRedeem: boolean;
-  _genesisProtocolDaoBounty: boolean;
-  _proposalId: Hash;
+export interface RedeemerRewardEventsResult {
+  beneficiaryGenesisProtocol: Address;
+  beneficiaryContributionReward: Address;
+  bountyGenesisProtocolDao: BigNumber;
+  proposalId: Hash;
+  rewardContributionEther: BigNumber;
+  rewardContributionExternalToken: BigNumber;
+  rewardContributionNativeToken: BigNumber;
+  rewardContributionReputation: BigNumber;
+  rewardGenesisProtocolTokens: BigNumber;
+  rewardGenesisProtocolReputation: BigNumber;
+  transactionHash: Hash;
 }

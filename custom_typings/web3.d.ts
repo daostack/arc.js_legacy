@@ -134,7 +134,7 @@ declare module "web3" {
 
   export interface FilterResult {
     get(callback: () => void): void;
-    watch(callback: (err: Error, result: FilterTransactionResult) => void): void;
+    watch(callback: (err: Error, result: FilterTransactionEventResult) => void): void;
     stopWatching(callback?: () => void): void;
   }
 
@@ -268,7 +268,7 @@ declare module "web3" {
 
     filter(
       value: string | FilterObject,
-      callback?: (err: Error, receipt: string | FilterTransactionResult) => void): FilterResult;
+      callback?: (err: Error, receipt: string | FilterTransactionEventResult) => void): FilterResult;
 
     sendTransaction(txData: TxData): string;
     sendTransaction(txData: TxData, callback: (err: Error, value: string) => void): void;
@@ -438,7 +438,7 @@ declare module "web3" {
     topics: Array<string>;
   }
 
-  export interface FilterTransactionResult {
+  export interface FilterTransactionEventResult {
     logIndex: number | null;
     transactionIndex: number;
     transactionHash: string;
