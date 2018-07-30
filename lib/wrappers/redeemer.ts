@@ -47,15 +47,18 @@ export class RedeemerWrapper extends ContractWrapperBase {
 
   /**
    * Obtain an `EntityFetcherFactory` that enables you to get, watch and subscribe to events that
-   * return a `RedeemerRewardEventsResult` when rewards are rewarded via Redeemer.redeem.
+   * return a `RedeemerRewardEventsResult` when rewards are rewarded, either via `Redeemer.redeem`
+   * or directly via `GenesisProtocol` and `ContributionReward`.
+   * @param options
    */
-  public rewardsEvents():
+  public rewardsEvents(options: RewardsEventsOptions = {}):
     EntityFetcherFactory<RedeemerRewardEventsResult, AggregatedEventsResult> {
 
     const web3EventService = new Web3EventService();
     const eventSpecifiersMap = new Map<EventToAggregate, string>();
     const genesisProtocol = WrapperService.wrappers.GenesisProtocol;
     const contributionReward = WrapperService.wrappers.ContributionReward;
+    const redeemerContractAddress = options.redeemerAddress || this.address;
 
     /* tslint:disable:max-line-length */
     eventSpecifiersMap.set({ eventName: "Redeem", contract: genesisProtocol }, "rewardGenesisProtocolTokens");
@@ -72,7 +75,7 @@ export class RedeemerWrapper extends ContractWrapperBase {
     return web3EventService.pipeEntityFetcherFactory(
       baseFetcherFactory,
       (txEvent: AggregatedEventsResult): Promise<RedeemerRewardEventsResult | undefined> => {
-        if (txEvent.txReceipt.receipt.contractAddress === this.address) {
+        if (options.allSources || (txEvent.txReceipt.receipt.contractAddress === redeemerContractAddress)) {
 
           const events: Array<DecodedLogEntryEvent<RedeemEventResult>> = Array.from(txEvent.events.values());
           const proposalId = events[0].args._proposalId;
@@ -168,4 +171,21 @@ export interface RedeemerRewardEventsResult {
   rewardGenesisProtocolTokens: BigNumber;
   rewardGenesisProtocolReputation: BigNumber;
   transactionHash: Hash;
+}
+
+/**
+ * Options for `rewardsEvents`.
+ */
+export interface RewardsEventsOptions {
+  /**
+   * True to report on all redeeming traansactions, false to report on
+   * only those transactions that originate with the Redeemer contract.  The default
+   * is false.
+   */
+  allSources?: boolean;
+  /**
+   * Optional Redeemer contract address.  The default is the one deployed by the
+   * currently running version of Arc.js.
+   */
+  redeemerAddress?: Address;
 }
