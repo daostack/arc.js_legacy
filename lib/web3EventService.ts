@@ -1,16 +1,16 @@
 import {
   DecodedLogEntryEvent,
+  FilterTransactionResult,
   LogTopic,
-  TransactionReceipt,
-  FilterTransactionResult
+  TransactionReceipt
 } from "web3";
 import { fnVoid, Hash } from "./commonTypes";
+import { IContractWrapperBase } from "./iContractWrapperBase";
+import { LoggingService } from "./loggingService";
 import { IEventSubscription, PubSubEventService } from "./pubSubEventService";
-import { TransactionService, TransactionReceiptTruffle } from "./transactionService";
+import { TransactionReceiptTruffle, TransactionService } from "./transactionService";
 import { Utils } from "./utils";
 import { UtilsInternal, Web3Watcher } from "./utilsInternal";
-import { LoggingService } from './loggingService';
-import { IContractWrapperBase } from './iContractWrapperBase';
 
 /**
  * Support for working with events that originate from Arc contracts
@@ -307,18 +307,17 @@ export class Web3EventService {
 
   /**
    * Given a list of contract events and a PubSub event topic, whenever a transaction is detected, publish the
-   * PubSub event with a payload that includes the TransactionReceipt and an array of `DecodedLogEntryEvent` 
+   * PubSub event with a payload that includes the TransactionReceipt and an array of `DecodedLogEntryEvent`
    * of the requested events, if any were emitted during the transaction.
-   * 
+   *
    * You can filter the events as usual with web3 events using `options.filter`.
    * The default is `{ fromBlock: "latest" }`.
-   * 
+   *
    * You may optionally supply a callback and it will be subscribed to the PubSub event.  In that case `joinEvents` will
    * return a promise of the `IEventSubscription` to which you should be sure to unsubscribe when you are done.
-   * @param options 
+   * @param options
    */
-  public async joinEvents(options: JoinEventsOptions
-  ): Promise<IEventSubscription | undefined> {
+  public async joinEvents(options: JoinEventsOptions): Promise<IEventSubscription | undefined> {
 
     if (!options.events) {
       throw new Event("events was not supplied");
@@ -329,8 +328,6 @@ export class Web3EventService {
     }
 
     const filter: EventFetcherFilterObject = options.filter || { fromBlock: "latest" };
-
-    /* tslint:disable-next-line:no-empty */
 
     let subscription;
 
@@ -356,6 +353,7 @@ export class Web3EventService {
       if (!ex) {
 
         if (tx.type === "pending") {
+          /* tslint:disable-next-line:max-line-length */
           LoggingService.warn(`Web3EventService.joinEvents: transaction has not yet been mined, potential for transaction to appear out of sequence: ${tx.transactionHash}`);
         }
 
@@ -363,7 +361,7 @@ export class Web3EventService {
         const foundContractAddress = txReceipt.contractAddress;
         let foundContract: IContractWrapperBase;
 
-        /** 
+        /**
          * The contract that generated this transaction must be among those given in options.events
          */
         for (const eventSpec of options.events) {
@@ -381,28 +379,24 @@ export class Web3EventService {
 
           txReceiptWithLogs.logs.forEach((foundTxLog: DecodedLogEntryEvent<any>): void => {
 
-            options.events.filter((es: JoinEventSpec) => es.contract.address == foundContractAddress)
+            options.events.filter((es: JoinEventSpec) => es.contract.address === foundContractAddress)
               .forEach((foundEventSpec: JoinEventSpec) => {
 
                 if (foundEventSpec.eventName === foundTxLog.event) {
                   foundEvents.push({
                     contract: foundEventSpec.contract,
                     event: foundTxLog,
-                    eventName: foundEventSpec.eventName
+                    eventName: foundEventSpec.eventName,
                   });
                 }
               });
 
             if (foundEvents.length) {
-              PubSubEventService.publish(options.eventName, {
-                events: foundEvents,
-                txReceipt: txReceiptWithLogs
-              });
+              PubSubEventService.publish(options.eventName, { events: foundEvents, txReceipt: txReceiptWithLogs });
             }
           });
         }
-      }
-      else {
+      } else {
         LoggingService.error(`Web3EventService.joinEvents: an error occurred during watch: ${ex}`);
       }
     });

@@ -255,8 +255,8 @@ declare module "web3" {
     // TODO block param
     getBalance(addressHexString: string, blockNumber?: number | string): BigNumber.BigNumber;
     getBalance(addressHexString: string,
-      blockNumber?: number | string,
-      callback?: (err: Error, result: BigNumber.BigNumber) => void): void;
+               blockNumber?: number | string,
+               callback?: (err: Error, result: BigNumber.BigNumber) => void): void;
 
     // TODO block param
     getStorageAt(address: string, position: number): string;
@@ -266,7 +266,9 @@ declare module "web3" {
     getCode(addressHexString: string): string;
     getCode(addressHexString: string, callback: (err: Error, code: string) => void): void;
 
-    filter(value: string | FilterObject, callback?: (err: Error, receipt: string | FilterTransactionResult) => void): FilterResult;
+    filter(
+      value: string | FilterObject,
+      callback?: (err: Error, receipt: string | FilterTransactionResult) => void): FilterResult;
 
     sendTransaction(txData: TxData): string;
     sendTransaction(txData: TxData, callback: (err: Error, value: string) => void): void;
@@ -291,8 +293,8 @@ declare module "web3" {
     estimateGas(callData: CallData, callback: (err: Error, gas: number) => void): void;
 
     getTransactionCount(address: string,
-      block?: number | string,
-      callback?: (err: Error, count: number) => void): void;
+                        block?: number | string,
+                        callback?: (err: Error, count: number) => void): void;
   }
 
   export interface VersionApi {
