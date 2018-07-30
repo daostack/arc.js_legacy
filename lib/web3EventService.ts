@@ -88,7 +88,7 @@ export class Web3EventService {
           return new Promise<Array<DecodedLogEntryEvent<TEventArgs>>>(
             (resolve: (
               result: Array<DecodedLogEntryEvent<TEventArgs>>) => void,
-             reject: (error: Error) => void): void => {
+              reject: (error: Error) => void): void => {
 
               baseFetcher.get(
                 async (
@@ -191,9 +191,9 @@ export class Web3EventService {
       // handler that takes the events and issues givenCallback appropriately
       const handleEvent =
         (error: Error,
-         log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>,
+          log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>,
           // singly true to issue callback on every arg rather than on the array
-         singly: boolean,
+          singly: boolean,
           /*
            * invoke this callback on every event (watch)
            * or on the array of events (get), depending on the value of singly.
@@ -202,7 +202,7 @@ export class Web3EventService {
            * when not singly, callback gets a promise of the array of entities.
            * get is not singly.  so get gets a promise of an array.
            */
-         callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
+          callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
           Promise<Array<TEntity>> => {
 
           const promiseOfEntities: Promise<Array<TEntity>> =
@@ -307,17 +307,17 @@ export class Web3EventService {
 
   /**
    * Given a list of contract events and a PubSub event topic, whenever a transaction is detected, publish the
-   * PubSub event with a payload that includes the TransactionReceipt and an array of `DecodedLogEntryEvent`
-   * of the requested events, if any were emitted during the transaction.
+   * PubSub event with a payload that includes the TransactionReceipt and a `Map<EventToAggregate, AggregatedEvent>`
+   * that you can use to obtain the requested events, if any were emitted during the transaction.
    *
    * You can filter the events as usual with web3 events using `options.filter`.
    * The default is `{ fromBlock: "latest" }`.
    *
-   * You may optionally supply a callback and it will be subscribed to the PubSub event.  In that case `joinEvents` will
+   * You may optionally supply a callback and it will be subscribed to the PubSub event.  In that case `aggregateEvents` will
    * return a promise of the `IEventSubscription` to which you should be sure to unsubscribe when you are done.
    * @param options
    */
-  public async joinEvents(options: JoinEventsOptions): Promise<IEventSubscription | undefined> {
+  public async aggregateEvents(options: AggregateEventsOptions): Promise<IEventSubscription | undefined> {
 
     if (!options.events) {
       throw new Event("events was not supplied");
@@ -348,13 +348,13 @@ export class Web3EventService {
       /**
        * TODO: worry about dups as blocks settle?
        */
-      const foundEvents = new Array<JoinEvent>();
+      const foundEvents = new Map<EventToAggregate, DecodedLogEntryEvent<any>>();
 
       if (!ex) {
 
         if (tx.type === "pending") {
           /* tslint:disable-next-line:max-line-length */
-          LoggingService.warn(`Web3EventService.joinEvents: transaction has not yet been mined, potential for transaction to appear out of sequence: ${tx.transactionHash}`);
+          LoggingService.warn(`Web3EventService.aggregateEvents: transaction has not yet been mined, potential for transaction to appear out of sequence: ${tx.transactionHash}`);
         }
 
         const txReceipt = await TransactionService.getMinedTransaction(tx.transactionHash) as TransactionReceipt;
@@ -379,25 +379,21 @@ export class Web3EventService {
 
           txReceiptWithLogs.logs.forEach((foundTxLog: DecodedLogEntryEvent<any>): void => {
 
-            options.events.filter((es: JoinEventSpec) => es.contract.address === foundContractAddress)
-              .forEach((foundEventSpec: JoinEventSpec) => {
+            options.events.filter((es: EventToAggregate) => es.contract.address === foundContractAddress)
+              .forEach((aggregatedEvent: EventToAggregate) => {
 
-                if (foundEventSpec.eventName === foundTxLog.event) {
-                  foundEvents.push({
-                    contract: foundEventSpec.contract,
-                    event: foundTxLog,
-                    eventName: foundEventSpec.eventName,
-                  });
+                if (aggregatedEvent.eventName === foundTxLog.event) {
+                  foundEvents.set(aggregatedEvent, foundTxLog);
                 }
               });
 
-            if (foundEvents.length) {
+            if (foundEvents.keys.length) {
               PubSubEventService.publish(options.eventName, { events: foundEvents, txReceipt: txReceiptWithLogs });
             }
           });
         }
       } else {
-        LoggingService.error(`Web3EventService.joinEvents: an error occurred during watch: ${ex}`);
+        LoggingService.error(`Web3EventService.aggregateEvents: an error occurred during watch: ${ex}`);
       }
     });
 
@@ -703,29 +699,12 @@ type BaseWeb3EventCallback<T> =
     requiredDepth?: number
   ) => Promise<Array<DecodedLogEntryEvent<T>>>;
 
-/**
- * Included in the payload of the PubSub events issued by `joinEvents`.
- */
-export interface JoinEvent {
-  /**
-   * Arc.js contract wrapper for the contract that fired the event.
-   */
-  contract: IContractWrapperBase;
-  /**
-   * the decoded event information
-   */
-  event: DecodedLogEntryEvent<any>;
-  /**
-   * name of the event
-   */
-  eventName: string;
-}
 
-export interface JoinEventPayload {
+export interface AggregatedEventsPayload {
   /**
    * The requested events, decoded
    */
-  events: Array<JoinEvent>;
+  events: Map<EventToAggregate, DecodedLogEntryEvent<any>>;
   /**
    * TransactionReceipt for the transaction that generated the events
    */
@@ -733,9 +712,9 @@ export interface JoinEventPayload {
 }
 
 /**
- * for specifying desired events in `JoinEventsOptions`
+ * for specifying desired events in `AggregateEventsOptions`
  */
-export interface JoinEventSpec {
+export interface EventToAggregate {
   /**
    * Arc.js contract wrapper for the contract that will fire the event.
    */
@@ -746,16 +725,16 @@ export interface JoinEventSpec {
   eventName: string;
 }
 
-export interface JoinEventsOptions {
+export interface AggregateEventsOptions {
   /**
    * optional callback to automatically subscribe.  If you don't
    * supply this you can supply one later when you subscribe.
    */
-  callback?: (eventName: string, payload: JoinEventPayload) => void;
+  callback?: (eventName: string, payload: AggregatedEventsPayload) => void;
   /**
    * specification of the events you want to watch for
    */
-  events: Array<JoinEventSpec>;
+  events: Array<EventToAggregate>;
   /**
    * topic of the PubSub event to which you can subscribe
    */
