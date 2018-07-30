@@ -307,8 +307,8 @@ export class Web3EventService {
 
   /**
    * Given a list of contract events and a PubSub event topic, whenever a transaction is detected, publish the
-   * PubSub event with a payload that is an array of `DecodedLogEntryEvent` of the requested events, if
-   * any were emitted during the transaction.
+   * PubSub event with a payload that includes the TransactionReceipt and an array of `DecodedLogEntryEvent` 
+   * of the requested events, if any were emitted during the transaction.
    * 
    * You can filter the events as usual with web3 events using `options.filter`.
    * The default is `{ fromBlock: "latest" }`.
