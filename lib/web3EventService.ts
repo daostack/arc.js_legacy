@@ -6,7 +6,7 @@ import {
 } from "web3";
 import { fnVoid, Hash } from "./commonTypes";
 import { IEventSubscription, PubSubEventService } from "./pubSubEventService";
-import { TransactionService } from "./transactionService";
+import { TransactionService, TransactionReceiptTruffle } from "./transactionService";
 import { Utils } from "./utils";
 import { UtilsInternal, Web3Watcher } from "./utilsInternal";
 import { LoggingService } from './loggingService';
@@ -311,10 +311,10 @@ export class Web3EventService {
    * any were emitted during the transaction.
    * 
    * You can filter the events as usual with web3 events using `options.filter`.
+   * The default is `{ fromBlock: "latest" }`.
    * 
-   * You may optionally supply a callback and it will be subscribed.  In that case this will
-   * return a promise of the `IEventSubscription` to which you should be sure to unsubscribe
-   * when you are done.
+   * You may optionally supply a callback and it will be subscribed to the PubSub event.  In that case `joinEvents` will
+   * return a promise of the `IEventSubscription` to which you should be sure to unsubscribe when you are done.
    * @param options 
    */
   public async joinEvents(options: JoinEventsOptions
@@ -337,7 +337,7 @@ export class Web3EventService {
     const web3 = await Utils.getWeb3();
 
     /**
-     * this will return each transaction
+     * this will return every transaction in the chain
      */
     const txWatcher = web3.eth.filter(filter);
 
@@ -351,7 +351,7 @@ export class Web3EventService {
       /**
        * TODO: worry about dups as blocks settle?
        */
-      const foundEvents = new Array<JoinEventResult>();
+      const foundEvents = new Array<JoinEvent>();
 
       if (!ex) {
 
@@ -386,15 +386,18 @@ export class Web3EventService {
 
                 if (foundEventSpec.eventName === foundTxLog.event) {
                   foundEvents.push({
-                    eventName: foundEventSpec.eventName,
                     contract: foundEventSpec.contract,
-                    event: foundTxLog
+                    event: foundTxLog,
+                    eventName: foundEventSpec.eventName
                   });
                 }
               });
 
             if (foundEvents.length) {
-              PubSubEventService.publish(options.eventName, foundEvents);
+              PubSubEventService.publish(options.eventName, {
+                events: foundEvents,
+                txReceipt: txReceiptWithLogs
+              });
             }
           });
         }
@@ -706,37 +709,65 @@ type BaseWeb3EventCallback<T> =
     requiredDepth?: number
   ) => Promise<Array<DecodedLogEntryEvent<T>>>;
 
-export interface JoinEventResult extends JoinEventSpec {
+/**
+ * Included in the payload of the PubSub events issued by `joinEvents`.
+ */
+export interface JoinEvent {
+  /**
+   * Arc.js contract wrapper for the contract that fired the event.
+   */
+  contract: IContractWrapperBase;
+  /**
+   * the decoded event information
+   */
   event: DecodedLogEntryEvent<any>;
+  /**
+   * name of the event
+   */
+  eventName: string;
 }
 
+export interface JoinEventPayload {
+  /**
+   * The requested events, decoded
+   */
+  events: Array<JoinEvent>;
+  /**
+   * TransactionReceipt for the transaction that generated the events
+   */
+  txReceipt: TransactionReceiptTruffle;
+}
+
+/**
+ * for specifying desired events in `JoinEventsOptions`
+ */
 export interface JoinEventSpec {
+  /**
+   * Arc.js contract wrapper for the contract that will fire the event.
+   */
+  contract: IContractWrapperBase;
   /**
    * name of the event to trap
    */
   eventName: string;
-  /**
-   * Arc.js contract wrapper for the contract that fires the event.
-   */
-  contract: IContractWrapperBase;
 }
 
 export interface JoinEventsOptions {
+  /**
+   * optional callback to automatically subscribe.  If you don't
+   * supply this you can supply one later when you subscribe.
+   */
+  callback?: (eventName: string, payload: JoinEventPayload) => void;
   /**
    * specification of the events you want to watch for
    */
   events: Array<JoinEventSpec>;
   /**
-   * topic os the PubSub event to which you can subscribe
+   * topic of the PubSub event to which you can subscribe
    */
   eventName: string;
   /**
    * Optional scope of blocks to watch.  default is "latest"
    */
-  filter: EventFetcherFilterObject;
-  /**
-   * optional callback to automatically subscribe.  If you don't
-   * supply this you can supply one later when you subscribe.
-   */
-  callback?: EventWatchSubscriptionCallback<any>;
+  filter?: EventFetcherFilterObject;
 }
