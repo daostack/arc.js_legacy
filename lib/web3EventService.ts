@@ -521,14 +521,16 @@ export class Web3EventService {
 
       const getEventTxHash =
         (evt: FilterEvent): Hash => (typeof evt === "object") ? evt.transactionHash : evt;
+      const getEventTxLogIndex =
+        (evt: FilterEvent): number => (typeof evt === "object") ? evt.logIndex : 0;
       /**
        * optionally prune duplicate events (see https://github.com/ethereum/web3.js/issues/398)
        */
       if (receivedEvents && eventsArray.length) {
         eventsArray = eventsArray.filter((evt: FilterEvent): boolean => {
-          const transactionHash = getEventTxHash(evt);
-          if (!receivedEvents.has(transactionHash)) {
-            receivedEvents.add(transactionHash);
+          const transactionKey = `${getEventTxHash(evt)}_${getEventTxLogIndex(evt)}`;
+          if (!receivedEvents.has(transactionKey)) {
+            receivedEvents.add(transactionKey);
             return true;
           } else {
             return false;
@@ -895,7 +897,7 @@ export interface EventToAggregate {
   eventName: string;
 }
 
-type FilterEvent = { transactionHash: Hash; } | Hash;
+type FilterEvent = { transactionHash: Hash; logIndex: number } | Hash;
 
 interface EventPreProcessorReturnInternal {
   error: Error;
