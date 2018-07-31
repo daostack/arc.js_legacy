@@ -25,6 +25,7 @@ export * from "./wrappers/iIntVoteInterface";
 export * from "./wrappers/intVoteInterface";
 export * from "./wrappers/mintableToken";
 export * from "./wrappers/redeemer";
+export * from "./wrappers/reputation";
 export * from "./wrappers/schemeRegistrar";
 export * from "./wrappers/standardToken";
 export * from "./wrappers/tokenCapGC";
