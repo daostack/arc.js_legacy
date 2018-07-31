@@ -483,7 +483,7 @@ export class Web3EventService {
    * @param preProcessEvent
    */
   private createBaseWeb3EventHandler(
-    suppressDups: boolean = true,
+    suppressDups: boolean = false,
     preProcessEvent?: PreProcessEventCallbackInternal)
     : BaseWeb3EventCallback {
 
@@ -519,16 +519,18 @@ export class Web3EventService {
         eventsArray = events;
       }
 
+      const getBlockNumber =
+        (evt: FilterEvent): number => (typeof evt === "object") ? evt.blockNumber : 0;
       const getEventTxHash =
         (evt: FilterEvent): Hash => (typeof evt === "object") ? evt.transactionHash : evt;
       const getEventTxLogIndex =
-        (evt: FilterEvent): number => (typeof evt === "object") ? evt.logIndex : 0;
+        (evt: FilterEvent): string => (typeof evt === "object") ? evt.logIndex.toString() : evt;
       /**
        * optionally prune duplicate events (see https://github.com/ethereum/web3.js/issues/398)
        */
       if (receivedEvents && eventsArray.length) {
         eventsArray = eventsArray.filter((evt: FilterEvent): boolean => {
-          const transactionKey = `${getEventTxHash(evt)}_${getEventTxLogIndex(evt)}`;
+          const transactionKey = `${getBlockNumber(evt)}_${getEventTxLogIndex(evt)}`;
           if (!receivedEvents.has(transactionKey)) {
             receivedEvents.add(transactionKey);
             return true;
@@ -897,7 +899,7 @@ export interface EventToAggregate {
   eventName: string;
 }
 
-type FilterEvent = { transactionHash: Hash; logIndex: number } | Hash;
+type FilterEvent = { transactionHash: Hash; logIndex: number, blockNumber: number } | Hash;
 
 interface EventPreProcessorReturnInternal {
   error: Error;
