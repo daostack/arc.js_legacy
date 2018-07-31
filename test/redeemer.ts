@@ -197,7 +197,7 @@ describe("Redeemer", () => {
 
     await basicSetup();
 
-    const rewardsFetcher = redeemer.rewardsEvents()();
+    const rewardsFetcher = redeemer.rewardsEvents();
 
     const events = await rewardsFetcher.get();
 
