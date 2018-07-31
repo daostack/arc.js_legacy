@@ -5,13 +5,18 @@ import { UtilsInternal } from "../lib/utilsInternal";
 import { ContributionRewardFactory, ContributionRewardWrapper } from "../lib/wrappers/contributionReward";
 import { GenesisProtocolWrapper } from "../lib/wrappers/genesisProtocol";
 import { WrapperService } from "../lib/wrapperService";
+import { RedeemerWrapper } from "../lib/wrappers/redeemer";
 import * as helpers from "./helpers";
 
 describe("Redeemer", () => {
 
-  it("can redeem", async () => {
+  let redeemer: RedeemerWrapper;
+  let dao: DAO;
+  let proposalId: Hash;
+  let redeemedResult: TransactionReceiptTruffle;
 
-    const dao = await helpers.forgeDao({
+  const basicSetup = async (): Promise<void> => {
+    dao = await helpers.forgeDao({
       founders: [{
         address: accounts[0],
         reputation: web3.toWei(3000),
@@ -67,7 +72,7 @@ describe("Redeemer", () => {
       reputationChange: web3.toWei(repAmount),
     }));
 
-    const proposalId = await result.getProposalIdFromMinedTx();
+    proposalId = await result.getProposalIdFromMinedTx();
 
     assert.isOk(proposalId);
     assert.isOk(result.votingMachine);
@@ -170,13 +175,13 @@ describe("Redeemer", () => {
 
     const latestBlock = await UtilsInternal.lastBlock();
 
-    const redeemed = (await redeemer.redeem({
+    redeemedResult = await (await redeemer.redeem({
       avatarAddress: dao.avatar.address,
       beneficiaryAddress: accounts[0],
       proposalId,
     })).getTxMined();
 
-    assert(redeemed);
+    assert(redeemedResult);
 
     const fetcher = gp.Redeem(
       { _beneficiary: accounts[0], _proposalId: proposalId, _avatar: dao.avatar.address },
@@ -186,5 +191,23 @@ describe("Redeemer", () => {
 
     assert.equal(events.length, 1);
     assert.equal(web3.fromWei(events[0].args._amount).toNumber(), 5);
+  };
+
+  it("can get all rewardsEvents", async () => {
+
+    const currentBlock = await UtilsInternal.lastBlock();
+
+    await basicSetup();
+
+    const rewardsFetcher = redeemer.rewardsEvents()({}, { fromBlock: currentBlock });
+
+    const events = await rewardsFetcher.get();
+
+    assert.isOk(events);
+    assert.equal(events.length, 1, "wrong number of events");
+  });
+
+  it("can redeem", async () => {
+    await basicSetup();
   });
 });

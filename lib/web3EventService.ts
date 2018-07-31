@@ -90,7 +90,7 @@ export class Web3EventService {
      * immediateRequiredDepth - only used when immediateWatchCallback is supplied. If set
      * then will not invoke the callback until the transaction has been mined to the requiredDepth.
      */
-    return (
+    const factoryFunc = (
       argFilter: any = {},
       filterObject: EventFetcherFilterObject = {},
       immediateWatchCallback?: EntityWatchCallback<TEntity>,
@@ -100,9 +100,9 @@ export class Web3EventService {
       // handler that takes the events and issues givenCallback appropriately
       const handleEvent =
         (error: Error,
-         log: EventCallbackArrayPayload<TEventArgs> | EventCallbackSinglyPayload<TEventArgs>,
+          log: EventCallbackArrayPayload<TEventArgs> | EventCallbackSinglyPayload<TEventArgs>,
           // singly true to issue callback on every arg rather than on the array
-         singly: boolean,
+          singly: boolean,
           /*
            * invoke this callback on every event (watch)
            * or on the array of events (get), depending on the value of singly.
@@ -111,7 +111,7 @@ export class Web3EventService {
            * when not singly, callback gets a promise of the array of entities.
            * get is not singly.  so get gets a promise of an array.
            */
-         callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
+          callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
           Promise<Array<TEntity>> => {
 
           const promiseOfEntities: Promise<Array<TEntity>> =
@@ -130,7 +130,7 @@ export class Web3EventService {
                 const entities = new Array<TEntity>();
                 // transform all the log entries into entities
                 for (const event of log) {
-                  const transformedEntity = await transformEventCallback(event);
+                  const transformedEntity = await (<any>factoryFunc).transformEventCallback(event);
                   if (typeof transformedEntity !== "undefined") {
                     if (callback && singly) {
                       callback(error, transformedEntity);
@@ -213,6 +213,9 @@ export class Web3EventService {
         },
       };
     };
+
+    (<EntityFetcherFactory<TEntity, TEventArgs>>factoryFunc).transformEventCallback = transformEventCallback;
+    return <EntityFetcherFactory<TEntity, TEventArgs>>factoryFunc;
   }
 
   /**
@@ -233,6 +236,7 @@ export class Web3EventService {
       preProcessEvent);
 
     return (
+      argsFilter: any, // this is ignored
       filterObject?: EventFetcherFilterObject,
       callback?: FilterWatchCallback,
       requiredDepth?: number
@@ -262,49 +266,40 @@ export class Web3EventService {
     return this.createEntityFetcherFactory<AggregatedEventsResult, FilterTransactionEventResult>(
       baseFetcher,
       async (tx: FilterTransactionEventResult): Promise<AggregatedEventsResult | undefined> => {
-        /**
-         * TODO: worry about dups as blocks settle?
-         */
+
         const foundEvents = new Map<EventToAggregate, DecodedLogEntryEvent<any>>();
-        let txReceiptWithLogs;
         if (tx.type === "pending") {
           /* tslint:disable-next-line:max-line-length */
           LoggingService.warn(`Web3EventService.aggregateEvents: transaction has not yet been mined, potential for transaction to appear out of sequence: ${tx.transactionHash}`);
         }
 
         const txReceipt = await TransactionService.getMinedTransaction(tx.transactionHash) as TransactionReceipt;
-        const foundContractAddress = txReceipt.contractAddress;
-        let foundContract: IContractWrapperBase;
 
-        /**
-         * The contract that generated this transaction must be among those given in options.events
-         */
-        for (const eventSpec of events) {
-          if (foundContractAddress === eventSpec.contract.address) {
-            foundContract = eventSpec.contract;
-            break;
+        for (const log of txReceipt.logs) {
+
+          const contractAddress = log.address;
+          /**
+           * see if a contract of interest generated this log
+           */
+          for (const eventSpec of events) {
+
+            // IContractWrapperBase
+            const foundContract = (contractAddress === eventSpec.contract.address) ? eventSpec.contract : null;
+
+            if (foundContract) {
+              /**
+               * get the decoded events for this contract
+               */
+              const txReceiptDecoded = await TransactionService.toTxTruffle(txReceipt, foundContract.contract);
+              const decodedEvent = txReceiptDecoded.logs.filter((l) => l.logIndex === log.logIndex)[0];
+              if (eventSpec.eventName === decodedEvent.event) {
+                foundEvents.set(eventSpec, decodedEvent);
+              }
+            }
           }
         }
-
-        if (foundContract) {
-          /**
-           * get the decoded logs
-           */
-          txReceiptWithLogs = await TransactionService.toTxTruffle(txReceipt, foundContract.contract);
-
-          txReceiptWithLogs.logs.forEach((foundTxLog: DecodedLogEntryEvent<any>): void => {
-
-            events.filter((es: EventToAggregate) => es.contract.address === foundContractAddress)
-              .forEach((aggregatedEvent: EventToAggregate) => {
-
-                if (aggregatedEvent.eventName === foundTxLog.event) {
-                  foundEvents.set(aggregatedEvent, foundTxLog);
-                }
-              });
-          });
-        }
-        if (foundEvents.keys.length) {
-          return { events: foundEvents, txReceipt: txReceiptWithLogs };
+        if (foundEvents.size) {
+          return { events: foundEvents, txReceipt };
         }
       });
   }
@@ -321,22 +316,32 @@ export class Web3EventService {
     transformEventCallback: TransformEventCallback<TEntityDest, TEntitySrc>
   ): EntityFetcherFactory<TEntityDest, TEntitySrc> {
 
-    const fetcher = entityFetcherFactory();
+    /**
+     * create a fetcher just to get the base transformEventCallback.
+     * we won't use it for anything else
+     */
+    const baseTransformEventCallback = entityFetcherFactory.transformEventCallback;
+
+    if (!baseTransformEventCallback) {
+      throw new Error("Web3EventService.pipeEntityFetcherFactory: base entityFetcherFactory does not have a transformEventCallback")
+    }
 
     /**
      * replace the existing transformEventCallback with the new one that will invoke the old one
      */
     /* tslint:disable:max-line-length */
-    ((fetcher as any).transformEventCallback as any) = async (entity: TEntityOriginalSrc): Promise<TEntityDest | undefined> => {
-      const transformedEntity =
-        await ((fetcher as any).transformEventCallback(entity as TEntityOriginalSrc) as Promise<TEntitySrc | undefined>);
-      if (typeof transformedEntity !== "undefined") {
-        return transformEventCallback(transformedEntity) as Promise<TEntityDest | undefined>;
+    (entityFetcherFactory.transformEventCallback as any) = async (entity: TEntityOriginalSrc): Promise<TEntityDest | undefined> => {
+
+      const originalTransformedEntity =
+        await (baseTransformEventCallback(entity as TEntityOriginalSrc) as Promise<TEntitySrc | undefined>);
+
+      if (typeof originalTransformedEntity !== "undefined") {
+        return transformEventCallback(originalTransformedEntity) as Promise<TEntityDest | undefined>;
       }
     };
     /* tslint:enable:max-line-length */
 
-    return entityFetcherFactory as EntityFetcherFactory<any, any>;
+    return entityFetcherFactory as EntityFetcherFactory<any, any>; // really EntityFetcherFactory<TEntityDest, TEntitySrc>
   }
 
   private _createEventFetcherFactory(
@@ -390,7 +395,7 @@ export class Web3EventService {
           : Promise<any> {
           return new Promise<any>(
             (resolve: (result: any) => void,
-             reject: (error: Error) => void): void => {
+              reject: (error: Error) => void): void => {
 
               baseFetcher.get(
                 async (error: Error, log: any): Promise<void> => {
@@ -524,7 +529,7 @@ export class Web3EventService {
  *
  * @type TEntity The type returns to the callback.
  */
-export type EntityFetcherFactory<TDest, TSrc> =
+export type EntityFetcherFactoryFunction<TDest, TSrc> =
   (
     /**
      * Arg values by which you wish to filter the web3 event logs, e.g.
@@ -550,6 +555,10 @@ export type EntityFetcherFactory<TDest, TSrc> =
      */
     requiredDepth?: number
   ) => EntityFetcher<TDest, TSrc>;
+
+export interface EntityFetcherFactory<TDest, TSrc> extends EntityFetcherFactoryFunction<TDest, TSrc> {
+  transformEventCallback: TransformEventCallback<TDest, TSrc>;
+}
 
 export type EntityWatchCallback<TEntity> = (error: Error, entity: TEntity) => void;
 export type EntityGetCallback<TEntity> = (error: Error, entity: Promise<Array<TEntity>>) => void;
@@ -706,6 +715,7 @@ export interface EventFetcher<TEventArgs> {
  */
 export type FilterFetcherFactory =
   (
+    argsFilter?: any, // ignored
     /**
      * Web3 event filter options.  Typically something like `{ fromBlock: 0 }`.
      * Note if you don't want Arc.js to suppress duplicate events, set `suppressDups` to false.
@@ -837,7 +847,7 @@ export interface AggregatedEventsResult {
   /**
    * TransactionReceipt for the transaction that generated the events
    */
-  txReceipt: TransactionReceiptTruffle;
+  txReceipt: TransactionReceipt;
 }
 
 /**
