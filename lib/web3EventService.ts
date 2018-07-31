@@ -100,9 +100,9 @@ export class Web3EventService {
       // handler that takes the events and issues givenCallback appropriately
       const handleEvent =
         (error: Error,
-         log: EventCallbackArrayPayload<TEventArgs> | EventCallbackSinglyPayload<TEventArgs>,
+          log: EventCallbackArrayPayload<TEventArgs> | EventCallbackSinglyPayload<TEventArgs>,
           // singly true to issue callback on every arg rather than on the array
-         singly: boolean,
+          singly: boolean,
           /*
            * invoke this callback on every event (watch)
            * or on the array of events (get), depending on the value of singly.
@@ -111,7 +111,7 @@ export class Web3EventService {
            * when not singly, callback gets a promise of the array of entities.
            * get is not singly.  so get gets a promise of an array.
            */
-         callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
+          callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
           Promise<Array<TEntity>> => {
 
           const promiseOfEntities: Promise<Array<TEntity>> =
@@ -262,14 +262,15 @@ export class Web3EventService {
   /**
    * Given a list of contract events, return an EntityFetcherFactory that enables you to get, watch and subscribe
    * to an event that fires whenever a transaction is detected that emitted one or more of the given contract events.
-   * You will receive an `AggregatedEventsResult` that includes the TransactionReceipt and a
+   * Your callback will receive an `AggregatedEventsResult` that includes the TransactionReceipt and a
    * `Map<EventToAggregate, DecodedLogEntryEvent<any>>`
    * that you can use to obtain the requested contract events, if any were emitted by the transaction.
    *
    * This only finds transactions that happen after you have initiated the get or watch.  It does
    * not look back in time.
    *
-   * The returned EntityFetcher ignores the `argFilter` and `web3Filter` arguments.
+   * The returned EntityFetcher ignores the `argFilter` (irrelevant) and `web3Filter` (always "pending") arguments.
+   * The `get`, `watch` and `subscribe` methods ignore the `requiredDepth` parameter, which you must pass here.
    *
    * @param events An array of `EventToAggregate` that specifies which events to look for,
    * by name and Arc.js contract wrapper.
@@ -428,7 +429,7 @@ export class Web3EventService {
           : Promise<any> {
           return new Promise<any>(
             (resolve: (result: any) => void,
-             reject: (error: Error) => void): void => {
+              reject: (error: Error) => void): void => {
 
               baseFetcher.get(
                 async (error: Error, log: any): Promise<void> => {
