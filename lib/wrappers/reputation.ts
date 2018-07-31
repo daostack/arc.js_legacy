@@ -15,7 +15,7 @@ export class ReputationWrapper extends ContractWrapperBase {
   public factory: IContractWrapperFactory<ReputationWrapper> = ReputationFactory;
 
   public Mint: EventFetcherFactory<ReputationMintEventResult>;
-  public Burn: EventFetcherFactory<BurnEventResult>;
+  public Burn: EventFetcherFactory<ReputationBurnEventResult>;
 
   /**
    * Mint reputation to the given recipient
@@ -85,7 +85,7 @@ export class ReputationWrapper extends ContractWrapperBase {
   protected hydrated(): void {
     /* tslint:disable:max-line-length */
     this.Mint = this.createEventFetcherFactory<ReputationMintEventResult>(this.contract.Mint);
-    this.Burn = this.createEventFetcherFactory<BurnEventResult>(this.contract.Burn);
+    this.Burn = this.createEventFetcherFactory<ReputationBurnEventResult>(this.contract.Burn);
     /* tslint:enable:max-line-length */
   }
 }
@@ -134,7 +134,7 @@ export interface ReputationMintEventResult {
   _amount: BigNumber;
 }
 
-export interface BurnEventResult {
+export interface ReputationBurnEventResult {
   /**
    * Whose reputation was burnt
    * indexed
