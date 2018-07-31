@@ -289,8 +289,8 @@ export class Web3EventService {
      * TODO:
      * Rather than tracking transactions directly, track the mining of blocks and
      * enumerate the transactions within them. This may give us the ability to go back
-     * in time, and will increase the chances of being able to aggregate events that span multiple
-     * transactions into a single event (when they all occur in a single block).
+     * in time, and will increase the chances of being able to aggregate events, that span multiple
+     * transactions, into a single event (when they all occur in a single block).
      */
     const baseFetcher = this.createFilterFetcherFactory("pending");
 
