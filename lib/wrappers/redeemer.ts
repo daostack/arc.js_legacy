@@ -74,63 +74,64 @@ export class RedeemerWrapper extends ContractWrapperBase {
 
     return web3EventService.pipeEntityFetcherFactory(
       baseFetcherFactory,
-      (txEvent: AggregatedEventsResult): Promise<RedeemerRewardEventsResult | undefined> => {
-        if (options.allSources || (txEvent.txReceipt.receipt.contractAddress === redeemerContractAddress)) {
+      (aggregatedEventResult: AggregatedEventsResult): Promise<RedeemerRewardEventsResult | undefined> => {
 
-          const events: Array<DecodedLogEntryEvent<RedeemEventResult>> = Array.from(txEvent.events.values());
-          const proposalId = events[0].args._proposalId;
-          const result = {
-            proposalId,
-            transactionHash: txEvent.txReceipt.transactionHash,
-          } as RedeemerRewardEventsResult;
+        // if (!options.onlyFromRedeemer || (txEvent.txReceipt.receipt.contractAddress === redeemerContractAddress)) {
 
-          /**
-           * get all the reward amounts
-           */
-          for (const eventSpecifier of eventSpecifiersMap.keys()) {
-            const event = txEvent.events.get(eventSpecifier) as DecodedLogEntryEvent<RedeemEventResult>;
-            if (event) {
-              result[eventSpecifiersMap.get(eventSpecifier)] = event.args._amount;
-            }
+        const events: Array<DecodedLogEntryEvent<RedeemEventResult>> = Array.from(aggregatedEventResult.events.values());
+        const proposalId = events[0].args._proposalId;
+        const result = {
+          proposalId,
+          transactionHash: aggregatedEventResult.txReceipt.transactionHash,
+        } as RedeemerRewardEventsResult;
+
+        /**
+         * get all the reward amounts
+         */
+        for (const eventSpecifier of eventSpecifiersMap.keys()) {
+          const event = aggregatedEventResult.events.get(eventSpecifier) as DecodedLogEntryEvent<RedeemEventResult>;
+          if (event) {
+            result[eventSpecifiersMap.get(eventSpecifier)] = event.args._amount;
           }
-
-          /**
-           * get the GP beneficiary, if there is one
-           */
-          for (const eventSpecifier of txEvent.events.keys()) {
-
-            const propertyName = eventSpecifiersMap.get(eventSpecifier);
-
-            if ([
-              "rewardGenesisProtocolTokens",
-              "rewardGenesisProtocolReputation",
-              "bountyGenesisProtocolDao"].indexOf(propertyName) !== -1) {
-
-              const event = txEvent.events.get(eventSpecifier) as DecodedLogEntryEvent<RedeemEventResult>;
-              result.beneficiaryGenesisProtocol = event.args._beneficiary;
-              break;
-            }
-          }
-
-          /**
-           * get the CR beneficiary, if there is one
-           */
-          for (const eventSpecifier of txEvent.events.keys()) {
-            const propertyName = eventSpecifiersMap.get(eventSpecifier);
-
-            if ([
-              "rewardContributionReputation",
-              "rewardContributionEther",
-              "rewardContributionNativeToken",
-              "rewardContributionExternalToken"].indexOf(propertyName) !== -1) {
-
-              const event = txEvent.events.get(eventSpecifier) as DecodedLogEntryEvent<RedeemEventResult>;
-              result.beneficiaryContributionReward = event.args._beneficiary;
-              break;
-            }
-          }
-          return Promise.resolve(result);
         }
+
+        /**
+         * get the GP beneficiary, if there is one
+         */
+        for (const eventSpecifier of aggregatedEventResult.events.keys()) {
+
+          const propertyName = eventSpecifiersMap.get(eventSpecifier);
+
+          if ([
+            "rewardGenesisProtocolTokens",
+            "rewardGenesisProtocolReputation",
+            "bountyGenesisProtocolDao"].indexOf(propertyName) !== -1) {
+
+            const event = aggregatedEventResult.events.get(eventSpecifier) as DecodedLogEntryEvent<RedeemEventResult>;
+            result.beneficiaryGenesisProtocol = event.args._beneficiary;
+            break;
+          }
+        }
+
+        /**
+         * get the CR beneficiary, if there is one
+         */
+        for (const eventSpecifier of aggregatedEventResult.events.keys()) {
+          const propertyName = eventSpecifiersMap.get(eventSpecifier);
+
+          if ([
+            "rewardContributionReputation",
+            "rewardContributionEther",
+            "rewardContributionNativeToken",
+            "rewardContributionExternalToken"].indexOf(propertyName) !== -1) {
+
+            const event = aggregatedEventResult.events.get(eventSpecifier) as DecodedLogEntryEvent<RedeemEventResult>;
+            result.beneficiaryContributionReward = event.args._beneficiary;
+            break;
+          }
+        }
+        return Promise.resolve(result);
+        // }
       });
   }
 }
@@ -178,11 +179,11 @@ export interface RedeemerRewardEventsResult {
  */
 export interface RewardsEventsOptions {
   /**
-   * True to report on all redeeming traansactions, false to report on
-   * only those transactions that originate with the Redeemer contract.  The default
-   * is false.
+   * True to report on only those transactions that originate with the Redeemer contract,
+   * false to report on all redeeming transactions.  The default
+   * is false (report on all redeeming transactions).
    */
-  allSources?: boolean;
+  onlyFromRedeemer?: boolean;
   /**
    * Optional Redeemer contract address.  The default is the one deployed by the
    * currently running version of Arc.js.

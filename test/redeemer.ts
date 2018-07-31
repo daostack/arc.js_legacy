@@ -1,17 +1,20 @@
 "use strict";
 import { assert } from "chai";
-import { BinaryVoteResult, WrapperService } from "../lib";
-import { Utils } from "../lib/utils";
+import { BinaryVoteResult, DAO, Hash, TransactionReceiptTruffle, WrapperService } from "../lib";
 import { UtilsInternal } from "../lib/utilsInternal";
 import { ContributionRewardFactory, ContributionRewardWrapper } from "../lib/wrappers/contributionReward";
-import { RedeemerFactory } from "../lib/wrappers/redeemer";
+import { RedeemerWrapper } from "../lib/wrappers/redeemer";
 import * as helpers from "./helpers";
 
 describe("Redeemer", () => {
 
-  it("can redeem", async () => {
+  let redeemer: RedeemerWrapper;
+  let dao: DAO;
+  let proposalId: Hash;
+  let redeemedResult: TransactionReceiptTruffle;
 
-    const dao = await helpers.forgeDao({
+  const basicSetup = async (): Promise<void> => {
+    dao = await helpers.forgeDao({
       founders: [{
         address: accounts[0],
         reputation: web3.toWei(1001),
@@ -57,7 +60,7 @@ describe("Redeemer", () => {
       reputationChange: web3.toWei(repAmount),
     }));
 
-    const proposalId = await result.getProposalIdFromMinedTx();
+    proposalId = await result.getProposalIdFromMinedTx();
 
     assert.isOk(proposalId);
     assert.isOk(result.votingMachine);
@@ -70,14 +73,32 @@ describe("Redeemer", () => {
     await helpers.transferEthToDao(dao, ethAmount);
     await helpers.transferTokensToDao(dao, externalTokenAmount, accounts[1], externalToken);
 
-    const redeemer = await WrapperService.factories.Redeemer.deployed();
+    redeemer = await WrapperService.factories.Redeemer.deployed();
 
-    const redeemed = (await redeemer.redeem({
+    redeemedResult = await (await redeemer.redeem({
       avatarAddress: dao.avatar.address,
       beneficiaryAddress: accounts[1],
       proposalId,
     })).getTxMined();
 
-    assert(redeemed);
+    assert(redeemedResult);
+  };
+
+  it("can get all rewardsEvents", async () => {
+
+    const currentBlock = await UtilsInternal.lastBlock();
+
+    await basicSetup();
+
+    const rewardsFetcher = redeemer.rewardsEvents()({}, { fromBlock: currentBlock });
+
+    const events = await rewardsFetcher.get();
+
+    assert.isOk(events);
+    assert.equal(events.length, 1, "wrong number of events");
+  });
+
+  it("can redeem", async () => {
+    await basicSetup();
   });
 });
