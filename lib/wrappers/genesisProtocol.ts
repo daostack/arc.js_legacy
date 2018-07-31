@@ -155,20 +155,21 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     const web3 = await Utils.getWeb3();
     let signature;
+    let signatureType = 1;
 
     if ((web3.currentProvider as any).isMetaMask) {
 
       const msgParams = [
         {
           // Any string label you want
-          name: "GenesisProtocol contract address",
+          name: "GenesisProtocolAddress",
           // Any valid solidity type
           type: "address",
           // The value to sign
           value: this.address,
         },
         {
-          name: "Proposal id",
+          name: "ProposalId",
           type: "bytes32",
           value: options.proposalId,
         },
@@ -178,12 +179,12 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
           value: options.vote,
         },
         {
-          name: "Amount to stake",
+          name: "AmountToStake",
           type: "uint",
           value: amount.toString(10),
         },
         {
-          name: "nonce",
+          name: "Nonce",
           type: "uint",
           value: nonce,
         },
@@ -201,6 +202,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       }
 
       signature = result.result;
+      signatureType = 2;
     } else {
       const textMsg = "0x" + ethereumjs.soliditySHA3(
         ["address", "bytes32", "uint", "uint", "uint"],
@@ -214,6 +216,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       options.vote,
       amount.toString(10),
       nonce,
+      signatureType,
       signature);
 
     this.logContractFunctionCall("GenesisProtocol.stakeWithApproval", options);
