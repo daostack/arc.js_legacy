@@ -1,5 +1,5 @@
 "use strict";
-import BigNumber from "../../node_modules/bignumber.js";
+import BigNumber from "bignumber.js";
 import { Address, Hash } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
