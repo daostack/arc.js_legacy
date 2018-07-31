@@ -78,7 +78,8 @@ export class RedeemerWrapper extends ContractWrapperBase {
 
         // if (!options.onlyFromRedeemer || (txEvent.txReceipt.receipt.contractAddress === redeemerContractAddress)) {
 
-        const events: Array<DecodedLogEntryEvent<RedeemEventResult>> = Array.from(aggregatedEventResult.events.values());
+        const events: Array<DecodedLogEntryEvent<RedeemEventResult>> =
+          Array.from(aggregatedEventResult.events.values());
         const proposalId = events[0].args._proposalId;
         const result = {
           proposalId,
@@ -90,9 +91,7 @@ export class RedeemerWrapper extends ContractWrapperBase {
          */
         for (const eventSpecifier of eventSpecifiersMap.keys()) {
           const event = aggregatedEventResult.events.get(eventSpecifier) as DecodedLogEntryEvent<RedeemEventResult>;
-          if (event) {
-            result[eventSpecifiersMap.get(eventSpecifier)] = event.args._amount;
-          }
+          result[eventSpecifiersMap.get(eventSpecifier)] = event ? event.args._amount : new BigNumber(0);
         }
 
         /**

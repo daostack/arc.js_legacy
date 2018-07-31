@@ -1,6 +1,6 @@
 import {
   DecodedLogEntryEvent,
-  FilterTransactionEventResult,
+  FilterLogEventResult,
   LogTopic,
   TransactionReceipt
 } from "web3";
@@ -84,7 +84,7 @@ export class Web3EventService {
     /**
      * This is the function that returns the EntityFetcher<TEventArgs>
      * argFilter - Optional event argument filter, like `{ _proposalId: [someHash] }`.
-     * filterObject - Optional event filter.  Default is `{ fromBlock: "latest" }`
+     * web3Filter - Optional event filter.  Default is "latest"
      * callback.
      * immediateWatchCallback - when supplied, starts watch immediately
      * immediateRequiredDepth - only used when immediateWatchCallback is supplied. If set
@@ -92,7 +92,7 @@ export class Web3EventService {
      */
     const factoryFunc = (
       argFilter: any = {},
-      filterObject: EventFetcherFilterObject = {},
+      web3Filter: EventFetcherFilterObject = {},
       immediateWatchCallback?: EntityWatchCallback<TEntity>,
       immediateRequiredDepth: number = 0
     ): EntityFetcher<TEntity, TEventArgs> => {
@@ -100,9 +100,9 @@ export class Web3EventService {
       // handler that takes the events and issues givenCallback appropriately
       const handleEvent =
         (error: Error,
-          log: EventCallbackArrayPayload<TEventArgs> | EventCallbackSinglyPayload<TEventArgs>,
+         log: EventCallbackArrayPayload<TEventArgs> | EventCallbackSinglyPayload<TEventArgs>,
           // singly true to issue callback on every arg rather than on the array
-          singly: boolean,
+         singly: boolean,
           /*
            * invoke this callback on every event (watch)
            * or on the array of events (get), depending on the value of singly.
@@ -111,7 +111,7 @@ export class Web3EventService {
            * when not singly, callback gets a promise of the array of entities.
            * get is not singly.  so get gets a promise of an array.
            */
-          callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
+         callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
           Promise<Array<TEntity>> => {
 
           const promiseOfEntities: Promise<Array<TEntity>> =
@@ -130,7 +130,7 @@ export class Web3EventService {
                 const entities = new Array<TEntity>();
                 // transform all the log entries into entities
                 for (const event of log) {
-                  const transformedEntity = await (<any>factoryFunc).transformEventCallback(event);
+                  const transformedEntity = await (factoryFunc as any).transformEventCallback(event);
                   if (typeof transformedEntity !== "undefined") {
                     if (callback && singly) {
                       callback(error, transformedEntity);
@@ -149,7 +149,7 @@ export class Web3EventService {
 
       const baseFetcher: IFetcher = (eventFetcherFactory as any)(
         Object.assign(argFilter, baseArgFilter), // argsFilter
-        filterObject); // web3Filter
+        web3Filter); // web3Filter
 
       /**
        * If `immediateWatchCallback` is defined then we should start watching immediately.
@@ -214,34 +214,40 @@ export class Web3EventService {
       };
     };
 
-    (<EntityFetcherFactory<TEntity, TEventArgs>>factoryFunc).transformEventCallback = transformEventCallback;
-    return <EntityFetcherFactory<TEntity, TEventArgs>>factoryFunc;
+    (factoryFunc as EntityFetcherFactory<TEntity, TEventArgs>).transformEventCallback = transformEventCallback;
+    return factoryFunc as EntityFetcherFactory<TEntity, TEventArgs>;
   }
 
   /**
-   * Create an `FilterFetcherFactory` for `web3.eth.filter` that generates `FilterTransactionResult`
-   * rather than `DecodedLogEntryEvent<T>`.
+   * Create an `FilterFetcherFactory` for `web3.eth.filter` that generates:
    *
-   * Note that the `FilterFetcher` does not accept an argFilter parameter like the contract event fetchers do.
+   * `FilterLogEventResult` when web3Filter is an `EventFetcherFilterObject`
+   *  the latest block Hash when web3Filter is "latest"
+   *  the latest pending transaction Hash when web3Filter is "pending"
+   *
+   * `FilterFetcher` ignores the argFilter and web3Filter parameters.
+   *  `argFilter` is not used by web3.eth.filter, and web3Filter is set here in `createFilterFetcherFactory`.
    * @param preProcessEvent
+   * @param web3Filter -- the filter to be used in get/watch/subscribe
    */
   public createFilterFetcherFactory(
+    web3Filter: EventFetcherFilterObject | string,
     preProcessEvent?: PreProcessEventCallback<any>
   ): FilterFetcherFactory {
 
     const web3 = UtilsInternal.getWeb3Sync();
 
     const eventFetcherFactory = this._createEventFetcherFactory(
-      (argFilter: any, webFilter: EventFetcherFilterObject) => web3.eth.filter(webFilter),
+      (argFilter: any, webFilter: EventFetcherFilterObject | string) => web3.eth.filter(web3Filter),
       preProcessEvent);
 
     return (
-      argsFilter: any, // this is ignored
-      filterObject?: EventFetcherFilterObject,
+      argsFilter: any, // ignored
+      filterObject?: any, // ignored
       callback?: FilterWatchCallback,
       requiredDepth?: number
     ): FilterFetcher => {
-      return eventFetcherFactory({}, filterObject, callback, requiredDepth) as any as FilterFetcher;
+      return eventFetcherFactory({}, web3Filter, callback, requiredDepth) as any as FilterFetcher;
     };
   }
 
@@ -255,25 +261,21 @@ export class Web3EventService {
    * by name and Arc.js contract wrapper.
    */
   public aggregatedEventsFetcherFactory(events: Array<EventToAggregate>)
-    : EntityFetcherFactory<AggregatedEventsResult, FilterTransactionEventResult> {
+    : EntityFetcherFactory<AggregatedEventsResult, Hash> {
 
     if (!events) {
       throw new Event("events was not supplied");
     }
 
-    const baseFetcher = this.createFilterFetcherFactory();
+    const baseFetcher = this.createFilterFetcherFactory("pending");
 
-    return this.createEntityFetcherFactory<AggregatedEventsResult, FilterTransactionEventResult>(
+    return this.createEntityFetcherFactory<AggregatedEventsResult, Hash>(
       baseFetcher,
-      async (tx: FilterTransactionEventResult): Promise<AggregatedEventsResult | undefined> => {
+      async (txHash: Hash): Promise<AggregatedEventsResult | undefined> => {
 
         const foundEvents = new Map<EventToAggregate, DecodedLogEntryEvent<any>>();
-        if (tx.type === "pending") {
-          /* tslint:disable-next-line:max-line-length */
-          LoggingService.warn(`Web3EventService.aggregateEvents: transaction has not yet been mined, potential for transaction to appear out of sequence: ${tx.transactionHash}`);
-        }
 
-        const txReceipt = await TransactionService.getMinedTransaction(tx.transactionHash) as TransactionReceipt;
+        const txReceipt = await TransactionService.getMinedTransaction(txHash) as TransactionReceipt;
 
         for (const log of txReceipt.logs) {
 
@@ -291,7 +293,8 @@ export class Web3EventService {
                * get the decoded events for this contract
                */
               const txReceiptDecoded = await TransactionService.toTxTruffle(txReceipt, foundContract.contract);
-              const decodedEvent = txReceiptDecoded.logs.filter((l) => l.logIndex === log.logIndex)[0];
+              const decodedEvent =
+                txReceiptDecoded.logs.filter((l: DecodedLogEntryEvent<any>) => l.logIndex === log.logIndex)[0];
               if (eventSpec.eventName === decodedEvent.event) {
                 foundEvents.set(eventSpec, decodedEvent);
               }
@@ -323,7 +326,8 @@ export class Web3EventService {
     const baseTransformEventCallback = entityFetcherFactory.transformEventCallback;
 
     if (!baseTransformEventCallback) {
-      throw new Error("Web3EventService.pipeEntityFetcherFactory: base entityFetcherFactory does not have a transformEventCallback")
+      throw new Error(
+        "Web3EventService.pipeEntityFetcherFactory: base entityFetcherFactory does not have a transformEventCallback");
     }
 
     /**
@@ -341,7 +345,8 @@ export class Web3EventService {
     };
     /* tslint:enable:max-line-length */
 
-    return entityFetcherFactory as EntityFetcherFactory<any, any>; // really EntityFetcherFactory<TEntityDest, TEntitySrc>
+    // really EntityFetcherFactory<TEntityDest, TEntitySrc>
+    return entityFetcherFactory as EntityFetcherFactory<any, any>;
   }
 
   private _createEventFetcherFactory(
@@ -356,7 +361,7 @@ export class Web3EventService {
     /**
      * This is the function that returns the EventFetcher<TEventArgs>
      * argFilter - Optional event argument filter, like `{ _proposalId: [someHash] }`.
-     * filterObject - Optional event filter.  Default is `{ fromBlock: "latest" }`
+     * web3Filter - Optional event filter.  Default is "latest"
      * callback.
      * immediateWatchCallback - when supplied, starts watch immediately
      * immediateRequiredDepth - only used when immediateWatchCallback is supplied. If set
@@ -364,17 +369,17 @@ export class Web3EventService {
      */
     return (
       argFilter: any = {},
-      filterObject: EventFetcherFilterObject = {},
-      immediateWatchCallback?: EventWatchCallback<any> | FilterWatchCallback,
+      web3Filter: EventFetcherFilterObject = {},
+      immediateWatchCallback?: any,
       immediateRequiredDepth: number = 0
     ): IFetcher => {
 
       const handleEvent = this.createBaseWeb3EventHandler(
-        filterObject.suppressDups,
+        web3Filter.suppressDups,
         preProcessEvent);
 
       const baseFetcher: IFetcher =
-        baseEvent(Object.assign(argFilter, baseArgFilter), filterObject);
+        baseEvent(Object.assign(argFilter, baseArgFilter), web3Filter);
 
       /**
        * If `immediateWatchCallback` is defined then we should start watching immediately.
@@ -395,7 +400,7 @@ export class Web3EventService {
           : Promise<any> {
           return new Promise<any>(
             (resolve: (result: any) => void,
-              reject: (error: Error) => void): void => {
+             reject: (error: Error) => void): void => {
 
               baseFetcher.get(
                 async (error: Error, log: any): Promise<void> => {
@@ -540,10 +545,10 @@ export type EntityFetcherFactoryFunction<TDest, TSrc> =
      */
     argsFilter?: any,
     /**
-     * Web3 event filter options.  Typically something like `{ fromBlock: 0 }`.
+     * Web3 event filter options.  Typically something like `{ fromBlock: 0 }` or "latest".
      * Note if you don't want Arc.js to suppress duplicate events, set `suppressDups` to false.
      */
-    filterObject?: EventFetcherFilterObject,
+    web3Filter?: EventFetcherFilterObject | string,
     /**
      * Optional callback to immediately start start watching.
      * Without this you will call `get` or `watch`.
@@ -641,10 +646,10 @@ export type EventFetcherFactory<TEventArgs> =
      */
     argsFilter?: any,
     /**
-     * Additional filter options.  Typically something like `{ fromBlock: 0 }`.
+     * Additional filter options.  Typically something like `{ fromBlock: 0 }` or "latest".
      * Note if you don't want Arc.js to suppress duplicate events, set `suppressDups` to false.
      */
-    filterObject?: EventFetcherFilterObject,
+    web3Filter?: EventFetcherFilterObject | string,
     /**
      * Optional callback to immediately start start watching.
      * Without this you will call `get` or `watch`.
@@ -715,12 +720,12 @@ export interface EventFetcher<TEventArgs> {
  */
 export type FilterFetcherFactory =
   (
-    argsFilter?: any, // ignored
-    /**
-     * Web3 event filter options.  Typically something like `{ fromBlock: 0 }`.
-     * Note if you don't want Arc.js to suppress duplicate events, set `suppressDups` to false.
-     */
-    filterObject?: EventFetcherFilterObject,
+    // argsFilter?: any, // ignored
+    // /**
+    //  * Web3 event filter options.  Typically something like `{ fromBlock: 0 }` or "latest".
+    //  * Note if you don't want Arc.js to suppress duplicate events, set `suppressDups` to false.
+    //  */
+    // web3Filter?: EventFetcherFilterObject | string,
     /**
      * Optional callback to immediately start start watching.
      * Without this you will call `get` or `watch`.
@@ -733,8 +738,8 @@ export type FilterFetcherFactory =
     requiredDepth?: number
   ) => FilterFetcher;
 
-export type FilterCallbackArrayPayload = Array<FilterTransactionEventResult>;
-export type FilterCallbackSinglyPayload = FilterTransactionEventResult;
+export type FilterCallbackArrayPayload = Array<FilterLogEventResult | Hash>;
+export type FilterCallbackSinglyPayload = FilterLogEventResult | Hash;
 
 export type FilterWatchCallback =
   (error: Error, args: FilterCallbackSinglyPayload) => void;
@@ -752,7 +757,7 @@ export type FilterWatchSubscriptionCallback =
  */
 export interface FilterFetcher {
   /**
-   * Get an array of `FilterTransactionResult` from Web3, given the filter supplied to the FilterFetcherFactory.
+   * Get an array of `FilterLogEventResult|Hash` from Web3, given the filter supplied to the FilterFetcherFactory.
    * You may supply a callback, which will be given the array, or you may
    * accept the promise of the array from the return value of `get`.
    * If `requiredDepth` is set then will not invoke the callback until the transaction has been mined to
@@ -762,14 +767,16 @@ export interface FilterFetcher {
     callback?: FilterGetCallback,
     requiredDepth?: number) => Promise<FilterCallbackArrayPayload>;
   /**
-   * Watch for `FilterTransactionResult`s from Web3, given the filter supplied to the FilterFetcherFactory.
+   * Watch for `FilterLogEventResult`s or block/tx hashes from Web3, given the filter supplied
+   * to the FilterFetcherFactory.
    * The callback is invoked once per event firing.
    * If `requiredDepth` is set then will not invoke the callback until the transaction has been mined to
    * the requiredDepth.  Pass -1 to use the Arc.js's global default depth.
    */
   watch: (callback: FilterWatchCallback, requiredDepth?: number) => void;
   /**
-   * Watch for `FilterTransactionResult`s from Web3, given the filter supplied to the FilterFetcherFactory.
+   * Watch for `FilterLogEventResult`s or block/tx hashes from Web3, given the filter supplied
+   * to the FilterFetcherFactory.
    * The Pub.Sub is published once per event firing.
    * `subscribe` returns the subscription on which you must remember to call `unsubscribe` when you are
    * done watching.
@@ -879,7 +886,7 @@ type PreProcessEventCallbackInternal =
 type IFetcherFactory =
   (
     argsFilter?: any,
-    filterObject?: EventFetcherFilterObject,
+    web3Filter?: EventFetcherFilterObject | string,
     callback?: EventWatchCallback<any> | FilterWatchCallback,
     requiredDepth?: number
   ) => IFetcher;

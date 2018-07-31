@@ -12,6 +12,10 @@ describe("Redeemer", () => {
   let dao: DAO;
   let proposalId: Hash;
   let redeemedResult: TransactionReceiptTruffle;
+  const ethAmount = 0.000000001;
+  const repAmount = 1;
+  // const nativeTokenAmount = 2;
+  const externalTokenAmount = 3;
 
   const basicSetup = async (): Promise<void> => {
     dao = await helpers.forgeDao({
@@ -41,10 +45,6 @@ describe("Redeemer", () => {
       "ContributionReward",
       ContributionRewardFactory) as ContributionRewardWrapper;
 
-    const ethAmount = 0.000000001;
-    const repAmount = 1;
-    // const nativeTokenAmount = 2;
-    const externalTokenAmount = 3;
     const externalToken = await dao.token;
 
     const result = await scheme.proposeContributionReward(Object.assign({
@@ -65,7 +65,7 @@ describe("Redeemer", () => {
     assert.isOk(proposalId);
     assert.isOk(result.votingMachine);
 
-    await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.Yes, accounts[1]);
+    await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.Yes, accounts[0]);
 
     await helpers.increaseTime(1);
 
@@ -77,7 +77,7 @@ describe("Redeemer", () => {
 
     redeemedResult = await (await redeemer.redeem({
       avatarAddress: dao.avatar.address,
-      beneficiaryAddress: accounts[1],
+      beneficiaryAddress: accounts[0],
       proposalId,
     })).getTxMined();
 
@@ -86,16 +86,22 @@ describe("Redeemer", () => {
 
   it("can get all rewardsEvents", async () => {
 
-    const currentBlock = await UtilsInternal.lastBlock();
-
     await basicSetup();
 
-    const rewardsFetcher = redeemer.rewardsEvents()({}, { fromBlock: currentBlock });
+    const rewardsFetcher = redeemer.rewardsEvents()();
 
     const events = await rewardsFetcher.get();
 
     assert.isOk(events);
     assert.equal(events.length, 1, "wrong number of events");
+    const rewardResults = events[0];
+    assert.equal(rewardResults.beneficiaryContributionReward, accounts[1]);
+    assert.equal(rewardResults.beneficiaryGenesisProtocol, accounts[0]);
+    assert.equal(web3.fromWei(rewardResults.rewardContributionEther).toNumber(), ethAmount);
+    assert.equal(web3.fromWei(rewardResults.rewardContributionReputation).toNumber(), repAmount);
+    assert.equal(web3.fromWei(rewardResults.rewardContributionExternalToken).toNumber(), externalTokenAmount);
+    assert.equal(web3.fromWei(rewardResults.rewardContributionNativeToken).toNumber(), 0);
+
   });
 
   it("can redeem", async () => {
