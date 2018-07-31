@@ -5,6 +5,7 @@ import {
 } from "web3";
 import { Utils } from "../lib/utils";
 import { UtilsInternal } from "../lib/utilsInternal";
+<<<<<<< master
 import {
   Web3EventService
 } from "../lib/web3EventService";
@@ -13,19 +14,16 @@ import {
   StandardTokenFactory,
 } from "../lib/wrappers/standardToken";
 import "./helpers";
+=======
+import * as helpers from "./helpers";
+>>>>>>> make requiredDepth work
 
 describe("Web3EventService", () => {
 
   interface EntityType { blockNumber: number; }
 
-  const makeTransactions = async (count: number = 1): Promise<void> => {
-    while (count--) {
-      await web3.eth.sendTransaction({
-        from: accounts[0],
-        to: accounts[3],
-        value: web3.toWei(0.00001, "ether"),
-      });
-    }
+  const makeTransactions = (count: number = 1): Promise<void> => {
+    return helpers.makeTransactions(count);
   };
 
   it("can get entity with requiredDepth", async () => {

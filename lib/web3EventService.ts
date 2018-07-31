@@ -227,6 +227,9 @@ export class Web3EventService {
    *
    * `FilterFetcher` ignores the argFilter and web3Filter parameters.
    *  `argFilter` is not used by web3.eth.filter, and web3Filter is set here in `createFilterFetcherFactory`.
+   *
+   * requiredDepth is not supported in the `FilterFetcher` methods.
+   *
    * @param preProcessEvent
    * @param web3Filter -- the filter to be used in get/watch/subscribe
    */
@@ -243,11 +246,16 @@ export class Web3EventService {
 
     return (
       argsFilter: any, // ignored
-      filterObject?: any, // ignored
-      callback?: FilterWatchCallback,
-      requiredDepth?: number
+      localWeb3Filter?: any, // ignored except for suppressDups
+      callback?: FilterWatchCallback
     ): FilterFetcher => {
-      return eventFetcherFactory({}, web3Filter, callback, requiredDepth) as any as FilterFetcher;
+
+      const fetcher = eventFetcherFactory({},
+        Object.assign({}, web3Filter, { suppressDups: localWeb3Filter.suppressDups }),
+        callback,
+        0) as any as FilterFetcher;
+
+      return fetcher;
     };
   }
 
@@ -265,8 +273,12 @@ export class Web3EventService {
    *
    * @param events An array of `EventToAggregate` that specifies which events to look for,
    * by name and Arc.js contract wrapper.
+   * @param requiredDepth -- If set then will not invoke the callback until the transaction has been mined to
+   * the requiredDepth.Pass -1 to use the Arc.js's global default depth.  Note that the Fetcher
    */
-  public aggregatedEventsFetcherFactory(events: Array<EventToAggregate>)
+  public aggregatedEventsFetcherFactory(
+    events: Array<EventToAggregate>,
+    requiredDepth: number = 0)
     : EntityFetcherFactory<AggregatedEventsResult, Hash> {
 
     if (!events) {
@@ -287,7 +299,10 @@ export class Web3EventService {
 
         const foundEvents = new Map<EventToAggregate, DecodedLogEntryEvent<any>>();
 
-        const txReceipt = await TransactionService.getMinedTransaction(txHash) as TransactionReceipt;
+        const txReceipt = await TransactionService.watchForMinedTransaction(
+          txHash,
+          undefined,
+          requiredDepth) as TransactionReceipt;
 
         for (const log of txReceipt.logs) {
 
@@ -304,6 +319,7 @@ export class Web3EventService {
               /**
                * get the decoded events for this contract
                */
+              (txReceipt as any).receipt = null; // force it to redo
               const txReceiptDecoded = await TransactionService.toTxTruffle(txReceipt, foundContract.contract);
               const decodedEvent =
                 txReceiptDecoded.logs.filter((l: DecodedLogEntryEvent<any>) => l.logIndex === log.logIndex)[0];
@@ -466,13 +482,13 @@ export class Web3EventService {
    * @param preProcessEvent
    */
   private createBaseWeb3EventHandler(
-    suppressDups: boolean,
+    suppressDups: boolean = true,
     preProcessEvent?: PreProcessEventCallbackInternal)
     : BaseWeb3EventCallback {
 
     let receivedEvents: Set<Hash>;
 
-    if (!!suppressDups) {
+    if (suppressDups) {
       receivedEvents = new Set<Hash>();
     }
 
@@ -493,19 +509,25 @@ export class Web3EventService {
       /**
        * convert to an array
        */
-      if (!!error) {
-        events = [];
+      let eventsArray: Array<FilterEvent>;
+      if (error) {
+        eventsArray = new Array();
       } else if (!Array.isArray(events)) {
-        events = [events];
+        eventsArray = new Array(events as any);
+      } else {
+        eventsArray = events;
       }
 
+      const getEventTxHash =
+        (evt: FilterEvent): Hash => (typeof evt === "object") ? evt.transactionHash : evt;
       /**
        * optionally prune duplicate events (see https://github.com/ethereum/web3.js/issues/398)
        */
-      if (receivedEvents && events.length) {
-        events = events.filter((evt: FilterEvent) => {
-          if (!receivedEvents.has(evt.transactionHash)) {
-            receivedEvents.add(evt.transactionHash);
+      if (receivedEvents && eventsArray.length) {
+        eventsArray = eventsArray.filter((evt: FilterEvent): boolean => {
+          const transactionHash = getEventTxHash(evt);
+          if (!receivedEvents.has(transactionHash)) {
+            receivedEvents.add(transactionHash);
             return true;
           } else {
             return false;
@@ -514,29 +536,30 @@ export class Web3EventService {
       }
 
       if (preProcessEvent) {
-        const processedResult = await preProcessEvent(error, events);
+        const processedResult = await preProcessEvent(error, eventsArray);
         error = processedResult.error;
-        events = processedResult.log;
+        eventsArray = processedResult.log;
       }
 
       // invoke callback if there is one
       if (callback) {
-        for (const e of events) {
+        for (const e of eventsArray) {
           if (requiredDepth) {
             if (requiredDepth === -1) { requiredDepth = undefined; } // to use the default value
-            await TransactionService.watchForConfirmedTransaction(e.transactionHash, null, requiredDepth);
+            const transactionHash = getEventTxHash(e);
+            await TransactionService.watchForConfirmedTransaction(transactionHash, null, requiredDepth);
           }
           if (singly) {
             callback(error, e);
           }
         }
         if (!singly) {
-          callback(error, events);
+          callback(error, eventsArray);
         }
       }
 
       // return array of DecodedLogEntryEvents in any case
-      return events;
+      return eventsArray;
     };
   }
 }
@@ -732,12 +755,8 @@ export interface EventFetcher<TEventArgs> {
  */
 export type FilterFetcherFactory =
   (
-    // argsFilter?: any, // ignored
-    // /**
-    //  * Web3 event filter options.  Typically something like `{ fromBlock: 0 }` or "latest".
-    //  * Note if you don't want Arc.js to suppress duplicate events, set `suppressDups` to false.
-    //  */
-    // web3Filter?: EventFetcherFilterObject | string,
+    argsFilter?: any, // ignored
+    web3Filter?: EventFetcherFilterObject | string, // ignored except for suppressDups
     /**
      * Optional callback to immediately start start watching.
      * Without this you will call `get` or `watch`.
@@ -772,36 +791,28 @@ export interface FilterFetcher {
    * Get an array of `FilterLogEventResult|Hash` from Web3, given the filter supplied to the FilterFetcherFactory.
    * You may supply a callback, which will be given the array, or you may
    * accept the promise of the array from the return value of `get`.
-   * If `requiredDepth` is set then will not invoke the callback until the transaction has been mined to
-   * the requiredDepth.  Pass -1 to use the Arc.js's global default depth.
    */
   get: (
-    callback?: FilterGetCallback,
-    requiredDepth?: number) => Promise<FilterCallbackArrayPayload>;
+    callback?: FilterGetCallback) => Promise<FilterCallbackArrayPayload>;
   /**
    * Watch for `FilterLogEventResult`s or block/tx hashes from Web3, given the filter supplied
    * to the FilterFetcherFactory.
    * The callback is invoked once per event firing.
-   * If `requiredDepth` is set then will not invoke the callback until the transaction has been mined to
-   * the requiredDepth.  Pass -1 to use the Arc.js's global default depth.
    */
-  watch: (callback: FilterWatchCallback, requiredDepth?: number) => void;
+  watch: (callback: FilterWatchCallback) => void;
   /**
    * Watch for `FilterLogEventResult`s or block/tx hashes from Web3, given the filter supplied
    * to the FilterFetcherFactory.
    * The Pub.Sub is published once per event firing.
    * `subscribe` returns the subscription on which you must remember to call `unsubscribe` when you are
    * done watching.
-   * If `requiredDepth` is set then will not invoke the callback until the transaction has been mined to
-   * the requiredDepth.  Pass -1 to use the Arc.js's global default depth.
    *
    * Supply whatever name you want for `eventName`.  This enables you to scope
    * event handlers across event types and schemes.
    */
   subscribe: (
     eventName: string,
-    callback?: FilterWatchSubscriptionCallback,
-    requiredDepth?: number) => IEventSubscription;
+    callback?: FilterWatchSubscriptionCallback) => IEventSubscription;
   /**
    * Stop watching the event.
    */
@@ -883,9 +894,7 @@ export interface EventToAggregate {
   eventName: string;
 }
 
-interface FilterEvent {
-  transactionHash: Hash;
-}
+type FilterEvent = { transactionHash: Hash; } | Hash;
 
 interface EventPreProcessorReturnInternal {
   error: Error;

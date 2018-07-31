@@ -1,12 +1,14 @@
 "use strict";
 import { assert } from "chai";
-import { BinaryVoteResult } from "../lib/commonTypes";
-import { UtilsInternal } from "../lib/utilsInternal";
+import { BinaryVoteResult, Hash } from "../lib/commonTypes";
 import { ContributionRewardFactory, ContributionRewardWrapper } from "../lib/wrappers/contributionReward";
-import { GenesisProtocolWrapper } from "../lib/wrappers/genesisProtocol";
+import { GenesisProtocolWrapper, GenesisProtocolFactory } from "../lib/wrappers/genesisProtocol";
 import { WrapperService } from "../lib/wrapperService";
-import { RedeemerWrapper } from "../lib/wrappers/redeemer";
+import { UtilsInternal } from "../lib/utilsInternal";
+import { RedeemerRewardEventsResult, RedeemerWrapper } from "../lib/wrappers/redeemer";
 import * as helpers from "./helpers";
+import { TransactionReceiptTruffle } from '../lib/transactionService';
+import { DAO } from '../lib/dao';
 
 describe("Redeemer", () => {
 
@@ -14,11 +16,18 @@ describe("Redeemer", () => {
   let dao: DAO;
   let proposalId: Hash;
   let redeemedResult: TransactionReceiptTruffle;
+  let genesisProtocol: GenesisProtocolWrapper;
+  let preRedeemBlockNumber;
   const ethAmount = 0.000000001;
   const repAmount = 1;
   // const nativeTokenAmount = 2;
   const externalTokenAmount = 3;
 
+  const setupRedeemer = async (): Promise<void> => {
+    if (!redeemer) {
+      redeemer = await WrapperService.factories.Redeemer.deployed();
+    }
+  };
   const basicSetup = async (): Promise<void> => {
     dao = await helpers.forgeDao({
       founders: [{
@@ -77,11 +86,16 @@ describe("Redeemer", () => {
     assert.isOk(proposalId);
     assert.isOk(result.votingMachine);
 
-    const gp = (await dao.getSchemes("GenesisProtocol"))[0].wrapper as GenesisProtocolWrapper;
-    await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.No, accounts[2]);
-    await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.Yes, accounts[3]);
+    genesisProtocol = await GenesisProtocolFactory.at(await scheme.getVotingMachineAddress(dao.avatar.address));
+    await genesisProtocol.stake({
+      amount: web3.toWei(10),
+      proposalId,
+      vote: BinaryVoteResult.Yes,
+    });
 
-    await (await gp.stakeWithApproval({ amount: web3.toWei(10), vote: 1, proposalId })).getTxMined();
+    await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.Yes, accounts[0]);
+
+    await (await genesisProtocol.stakeWithApproval({ amount: web3.toWei(10), vote: 1, proposalId })).getTxMined();
 
     await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.Yes, accounts[1]);
 
@@ -183,7 +197,7 @@ describe("Redeemer", () => {
 
     assert(redeemedResult);
 
-    const fetcher = gp.Redeem(
+    const fetcher = genesisProtocol.Redeem(
       { _beneficiary: accounts[0], _proposalId: proposalId, _avatar: dao.avatar.address },
       { fromBlock: latestBlock });
 
@@ -193,13 +207,41 @@ describe("Redeemer", () => {
     assert.equal(web3.fromWei(events[0].args._amount).toNumber(), 5);
   };
 
+  it("can get rewardsEvents at requiredDepth", async () => {
+
+    const events = new Array<RedeemerRewardEventsResult>();
+    await setupRedeemer();
+    const rewardsFetcher = redeemer.rewardsEvents(2)();
+
+    rewardsFetcher.watch((error: Error, event: RedeemerRewardEventsResult): void => {
+      events.push(event);
+    });
+
+    await basicSetup();
+
+    await helpers.makeTransactions(2);
+
+    await helpers.sleep(1000);
+
+    rewardsFetcher.stopWatching();
+
+    assert.isOk(events);
+    assert.equal(events.length, 1, "wrong number of events");
+
+    const eventBlockNumber = (await web3.eth.getTransaction(events[0].transactionHash)).blockNumber;
+    const currentBlockNumber = await UtilsInternal.lastBlock();
+
+    assert.equal(eventBlockNumber, preRedeemBlockNumber + 1, "wrong number of blocks(1)");
+    assert.equal(eventBlockNumber, currentBlockNumber - 2, "wrong number of blocks(2)");
+  });
+
   it("can get all rewardsEvents", async () => {
 
     await basicSetup();
 
     const rewardsFetcher = redeemer.rewardsEvents();
 
-    const events = await rewardsFetcher.get();
+    const events = await rewardsFetcher().get();
 
     assert.isOk(events);
     assert.equal(events.length, 1, "wrong number of events");
@@ -210,7 +252,8 @@ describe("Redeemer", () => {
     assert.equal(web3.fromWei(rewardResults.rewardContributionReputation).toNumber(), repAmount);
     assert.equal(web3.fromWei(rewardResults.rewardContributionExternalToken).toNumber(), externalTokenAmount);
     assert.equal(web3.fromWei(rewardResults.rewardContributionNativeToken).toNumber(), 0);
-
+    assert.equal(web3.fromWei(rewardResults.rewardGenesisProtocolTokens).toNumber(), 10);
+    assert.equal(web3.fromWei(rewardResults.rewardGenesisProtocolReputation).toNumber(), 10.01);
   });
 
   it("can redeem", async () => {
