@@ -257,6 +257,12 @@ export class Web3EventService {
    * You will receive an `AggregatedEventsResult` that includes the TransactionReceipt and a
    * `Map<EventToAggregate, DecodedLogEntryEvent<any>>`
    * that you can use to obtain the requested contract events, if any were emitted by the transaction.
+   *
+   * This only finds transactions that happen after you have initiated the get or watch.  It does
+   * not look back in time.
+   *
+   * The returned EntityFetcher ignores the `argFilter` and `web3Filter` arguments.
+   *
    * @param events An array of `EventToAggregate` that specifies which events to look for,
    * by name and Arc.js contract wrapper.
    */
