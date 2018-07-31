@@ -36,6 +36,7 @@ import {
 } from "./iIntVoteInterface";
 
 import { promisify } from "es6-promisify";
+import { UtilsInternal } from "../utilsInternal.js";
 import { IntVoteInterfaceWrapper } from "./intVoteInterface";
 import { StandardTokenFactory, StandardTokenWrapper } from "./standardToken";
 
@@ -151,24 +152,25 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     }
 
     const staker = await Utils.getDefaultAccount();
-    const nonce = 0;
+    const nonce = UtilsInternal.getRandomNumber();
 
     const web3 = await Utils.getWeb3();
     let signature;
+    let signatureType;
 
     if ((web3.currentProvider as any).isMetaMask) {
 
       const msgParams = [
         {
           // Any string label you want
-          name: "GenesisProtocol contract address",
+          name: "GenesisProtocolAddress",
           // Any valid solidity type
           type: "address",
           // The value to sign
           value: this.address,
         },
         {
-          name: "Proposal id",
+          name: "ProposalId",
           type: "bytes32",
           value: options.proposalId,
         },
@@ -178,12 +180,12 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
           value: options.vote,
         },
         {
-          name: "Amount to stake",
+          name: "AmountToStake",
           type: "uint",
           value: amount.toString(10),
         },
         {
-          name: "nonce",
+          name: "Nonce",
           type: "uint",
           value: nonce,
         },
@@ -201,12 +203,14 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       }
 
       signature = result.result;
+      signatureType = 2;
     } else {
       const textMsg = "0x" + ethereumjs.soliditySHA3(
         ["address", "bytes32", "uint", "uint", "uint"],
         [this.address, options.proposalId, options.vote, amount.toString(10), nonce]
       ).toString("hex");
       signature = await promisify((callback: any) => web3.eth.sign(staker, textMsg, callback))();
+      signatureType = 1;
     }
 
     const extraData = await this.contract.stakeWithSignature.request(
@@ -214,6 +218,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       options.vote,
       amount.toString(10),
       nonce,
+      signatureType,
       signature);
 
     this.logContractFunctionCall("GenesisProtocol.stakeWithApproval", options);
@@ -334,19 +339,17 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
    * as well as the GenesisProtocol parameters thresholdConstA and thresholdConstB.
    * @param {GetThresholdConfig} options
    */
-  public getThreshold(options: GetThresholdConfig = {} as GetThresholdConfig): Promise<BigNumber> {
+  public async getThreshold(options: GetThresholdConfig = {} as GetThresholdConfig): Promise<BigNumber> {
 
     if (!options.avatar) {
       throw new Error("avatar is not defined");
     }
 
-    if (!options.proposalId) {
-      throw new Error("proposalId is not defined");
-    }
+    const gpParametersHash = await this.getSchemeParametersHash(options.avatar);
 
     this.logContractFunctionCall("GenesisProtocol.threshold", options);
 
-    return this.contract.threshold(options.proposalId, options.avatar);
+    return this.contract.threshold(gpParametersHash, options.avatar);
   }
 
   /**
@@ -1327,10 +1330,6 @@ export interface GetThresholdConfig {
    * the DAO's avatar address
    */
   avatar: Address;
-  /**
-   * unique hash of proposal index
-   */
-  proposalId: string;
 }
 
 /**

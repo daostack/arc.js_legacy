@@ -2,16 +2,14 @@
 import { Address, Hash } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
-import { ArcTransactionResult, DecodedLogEntryEvent, IContractWrapperFactory } from "../iContractWrapperBase";
+import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
-import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
+import { Web3EventService } from "../web3EventService";
 
 export class RedeemerWrapper extends ContractWrapperBase {
   public name: string = "Redeemer";
   public friendlyName: string = "Redeemer";
   public factory: IContractWrapperFactory<RedeemerWrapper> = RedeemerFactory;
-
-  public RedeemerRedeem: EventFetcherFactory<RedeemerRedeemEventResult>;
 
   /**
    * Redeems rewards for a ContributionReward proposal in a single transaction.
@@ -42,47 +40,6 @@ export class RedeemerWrapper extends ContractWrapperBase {
       this.contract.redeem,
       [options.proposalId, options.avatarAddress, options.beneficiaryAddress]
     );
-  }
-
-  /**
-   * returns EventFetcherFactory that returns an `RedemtionResult` for each
-   * `RedeemerRedeem` event, optionally for the given proposalId.
-   * @param options
-   */
-  public getRedemptions(options: GetRedemptionOptions):
-    EntityFetcherFactory<RedemptionResult, RedeemerRedeemEventResult> {
-
-    const fetcherOptions = {} as any;
-
-    if (options.proposalId) {
-      fetcherOptions._proposalId = options.proposalId;
-    }
-
-    const web3EventService = new Web3EventService();
-
-    return web3EventService.createEntityFetcherFactory<RedemptionResult, RedeemerRedeemEventResult>(
-      this.RedeemerRedeem,
-      async (event: DecodedLogEntryEvent<RedeemerRedeemEventResult>): Promise<RedemptionResult> => {
-        if (!options.executed || event.args._execute) {
-          return Promise.resolve({
-            contributionRewardEther: event.args._contributionRewardEther,
-            contributionRewardExternalToken: event.args._contributionRewardExternalToken,
-            contributionRewardNativeToken: event.args._contributionRewardNativeToken,
-            contributionRewardReputation: event.args._contributionRewardReputation,
-            genesisProtocolDaoBounty: event.args._genesisProtocolDaoBounty,
-            genesisProtocolRedeem: event.args._genesisProtocolRedeem,
-            proposalExecuted: event.args._execute,
-            proposalId: event.args._proposalId,
-          });
-        }
-      },
-      fetcherOptions);
-  }
-
-  protected hydrated(): void {
-    /* tslint:disable:max-line-length */
-    this.RedeemerRedeem = this.createEventFetcherFactory<RedeemerRedeemEventResult>(this.contract.RedeemerRedeem);
-    /* tslint:enable:max-line-length */
   }
 }
 

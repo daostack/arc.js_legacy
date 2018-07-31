@@ -79,17 +79,5 @@ describe("Redeemer", () => {
     })).getTxMined();
 
     assert(redeemed);
-
-    const fetcher = redeemer.getRedemptions({ proposalId });
-
-    const events = await fetcher().get();
-
-    assert.equal(events.length, 1);
-    assert.equal(events[0].proposalId, proposalId);
-    assert(events[0].contributionRewardEther);
-    assert(events[0].contributionRewardExternalToken);
-    assert(!events[0].contributionRewardNativeToken);
-    assert(events[0].contributionRewardReputation);
-    assert(events[0].genesisProtocolRedeem);
   });
 });
