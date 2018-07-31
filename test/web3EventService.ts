@@ -3,20 +3,14 @@ import { assert } from "chai";
 import { ApprovalEventResult, DecodedLogEntryEvent, StandardTokenFactory, Web3EventService } from "../lib/index";
 import { Utils } from "../lib/utils";
 import { UtilsInternal } from "../lib/utilsInternal";
-import "./helpers";
+import * as helpers from "./helpers";
 
 describe("Web3EventService", () => {
 
   interface EntityType { blockNumber: number; }
 
-  const makeTransactions = async (count: number = 1): Promise<void> => {
-    while (count--) {
-      await web3.eth.sendTransaction({
-        from: accounts[0],
-        to: accounts[3],
-        value: web3.toWei(0.00001, "ether"),
-      });
-    }
+  const makeTransactions = (count: number = 1): Promise<void> => {
+    return helpers.makeTransactions(count);
   };
 
   it("can get entity with requiredDepth", async () => {
