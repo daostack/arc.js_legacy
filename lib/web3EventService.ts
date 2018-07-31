@@ -839,7 +839,7 @@ export interface EventFetcherFilterObject {
   topics?: Array<LogTopic>;
   /**
    * true to suppress duplicate events (see https://github.com/ethereum/web3.js/issues/398).
-   * The default is true.
+   * The default is false.
    */
   suppressDups?: boolean;
 }
