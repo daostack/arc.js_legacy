@@ -100,9 +100,9 @@ export class Web3EventService {
       // handler that takes the events and issues givenCallback appropriately
       const handleEvent =
         (error: Error,
-         log: EventCallbackArrayPayload<TEventArgs> | EventCallbackSinglyPayload<TEventArgs>,
+          log: EventCallbackArrayPayload<TEventArgs> | EventCallbackSinglyPayload<TEventArgs>,
           // singly true to issue callback on every arg rather than on the array
-         singly: boolean,
+          singly: boolean,
           /*
            * invoke this callback on every event (watch)
            * or on the array of events (get), depending on the value of singly.
@@ -111,7 +111,7 @@ export class Web3EventService {
            * when not singly, callback gets a promise of the array of entities.
            * get is not singly.  so get gets a promise of an array.
            */
-         callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
+          callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
           Promise<Array<TEntity>> => {
 
           const promiseOfEntities: Promise<Array<TEntity>> =
@@ -246,12 +246,12 @@ export class Web3EventService {
 
     return (
       argsFilter: any, // ignored
-      localWeb3Filter?: any, // ignored except for suppressDups
+      localWeb3Filter?: any, // ignored
       callback?: FilterWatchCallback
     ): FilterFetcher => {
 
       const fetcher = eventFetcherFactory({},
-        Object.assign({}, web3Filter, { suppressDups: localWeb3Filter.suppressDups }),
+        web3Filter,
         callback,
         0) as any as FilterFetcher;
 
@@ -404,7 +404,6 @@ export class Web3EventService {
     ): IFetcher => {
 
       const handleEvent = this.createBaseWeb3EventHandler(
-        web3Filter.suppressDups,
         preProcessEvent);
 
       const baseFetcher: IFetcher =
@@ -429,7 +428,7 @@ export class Web3EventService {
           : Promise<any> {
           return new Promise<any>(
             (resolve: (result: any) => void,
-             reject: (error: Error) => void): void => {
+              reject: (error: Error) => void): void => {
 
               baseFetcher.get(
                 async (error: Error, log: any): Promise<void> => {
@@ -479,19 +478,11 @@ export class Web3EventService {
 
   /**
    * Returns a function that we will use internally to handle each Web3 event
-   * @param suppressDups
    * @param preProcessEvent
    */
   private createBaseWeb3EventHandler(
-    suppressDups: boolean = false,
     preProcessEvent?: PreProcessEventCallbackInternal)
     : BaseWeb3EventCallback {
-
-    let receivedEvents: Set<Hash>;
-
-    if (suppressDups) {
-      receivedEvents = new Set<Hash>();
-    }
 
     return async (
       error: Error,
@@ -519,26 +510,14 @@ export class Web3EventService {
         eventsArray = events;
       }
 
-      const getBlockNumber =
-        (evt: FilterEvent): number => (typeof evt === "object") ? evt.blockNumber : 0;
       const getEventTxHash =
         (evt: FilterEvent): Hash => (typeof evt === "object") ? evt.transactionHash : evt;
-      const getEventTxLogIndex =
-        (evt: FilterEvent): string => (typeof evt === "object") ? evt.logIndex.toString() : evt;
       /**
-       * optionally prune duplicate events (see https://github.com/ethereum/web3.js/issues/398)
+       * prune duplicate/orphaned events (see https://github.com/ethereum/web3.js/issues/398)
        */
-      if (receivedEvents && eventsArray.length) {
-        eventsArray = eventsArray.filter((evt: FilterEvent): boolean => {
-          const transactionKey = `${getBlockNumber(evt)}_${getEventTxLogIndex(evt)}`;
-          if (!receivedEvents.has(transactionKey)) {
-            receivedEvents.add(transactionKey);
-            return true;
-          } else {
-            return false;
-          }
-        });
-      }
+      eventsArray = eventsArray.filter((evt: FilterEvent): boolean => {
+        return (typeof evt === "object") ? !evt.removed : true;
+      });
 
       if (preProcessEvent) {
         const processedResult = await preProcessEvent(error, eventsArray);
@@ -586,7 +565,6 @@ export type EntityFetcherFactoryFunction<TDest, TSrc> =
     argsFilter?: any,
     /**
      * Web3 event filter options.  Typically something like `{ fromBlock: 0 }` or "latest".
-     * Note if you don't want Arc.js to suppress duplicate events, set `suppressDups` to false.
      */
     web3Filter?: EventFetcherFilterObject | string,
     /**
@@ -687,7 +665,6 @@ export type EventFetcherFactory<TEventArgs> =
     argsFilter?: any,
     /**
      * Additional filter options.  Typically something like `{ fromBlock: 0 }` or "latest".
-     * Note if you don't want Arc.js to suppress duplicate events, set `suppressDups` to false.
      */
     web3Filter?: EventFetcherFilterObject | string,
     /**
@@ -761,7 +738,7 @@ export interface EventFetcher<TEventArgs> {
 export type FilterFetcherFactory =
   (
     argsFilter?: any, // ignored
-    web3Filter?: EventFetcherFilterObject | string, // ignored except for suppressDups
+    web3Filter?: EventFetcherFilterObject | string, // ignored
     /**
      * Optional callback to immediately start start watching.
      * Without this you will call `get` or `watch`.
@@ -837,11 +814,6 @@ export interface EventFetcherFilterObject {
   toBlock?: number | string;
   address?: string;
   topics?: Array<LogTopic>;
-  /**
-   * true to suppress duplicate events (see https://github.com/ethereum/web3.js/issues/398).
-   * The default is false.
-   */
-  suppressDups?: boolean;
 }
 
 export class Web3EventSubscription<TEventArgs> implements IEventSubscription {
@@ -899,7 +871,7 @@ export interface EventToAggregate {
   eventName: string;
 }
 
-type FilterEvent = { transactionHash: Hash; logIndex: number, blockNumber: number } | Hash;
+type FilterEvent = { transactionHash: Hash; removed: boolean } | Hash;
 
 interface EventPreProcessorReturnInternal {
   error: Error;
