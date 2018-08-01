@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js";
 import { Address, Hash } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
-import { ArcTransactionResult, IContractWrapperFactory, DecodedLogEntryEvent } from "../iContractWrapperBase";
+import { ArcTransactionResult, DecodedLogEntryEvent, IContractWrapperFactory } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
 import { AggregatedEventsResult, EntityFetcherFactory, EventToAggregate, Web3EventService } from "../web3EventService";
 import { WrapperService } from "../wrapperService";
