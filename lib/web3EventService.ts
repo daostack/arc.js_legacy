@@ -300,10 +300,7 @@ export class Web3EventService {
 
         const foundEvents = new Map<EventToAggregate, DecodedLogEntryEvent<any>>();
 
-        const txReceipt = await TransactionService.watchForMinedTransaction(
-          txHash,
-          undefined,
-          requiredDepth) as TransactionReceipt;
+        const txReceipt = await TransactionService.watchForMinedTransaction(txHash) as TransactionReceipt;
 
         for (const log of txReceipt.logs) {
 
@@ -317,6 +314,9 @@ export class Web3EventService {
             const foundContract = (contractAddress === eventSpec.contract.address) ? eventSpec.contract : null;
 
             if (foundContract) {
+              if (requiredDepth) {
+                await TransactionService.watchForMinedTransaction(txHash, undefined, requiredDepth);
+              }
               /**
                * get the decoded events for this contract
                */
