@@ -507,6 +507,24 @@ export class TransactionService extends PubSubEventService {
     return result;
   }
 
+  /**
+   * Returns the default value for required block depth defined for the current network
+   * in the Arc.js global configuration ("txDepthRequiredForConfirmation").
+   * @param requiredDepth Overrides the default if given
+   */
+  public static async getDefaultDepth(requiredDepth?: number): Promise<number> {
+
+    if (typeof requiredDepth === "undefined") {
+      const requiredDepths = ConfigService.get("txDepthRequiredForConfirmation");
+      const networkName = await Utils.getNetworkName();
+      requiredDepth = requiredDepths[networkName.toLowerCase()];
+      if (typeof requiredDepth === "undefined") {
+        requiredDepth = requiredDepths.default;
+      }
+    }
+    return requiredDepth;
+  }
+
   private static createPayload(
     functionName: string,
     options: TxGeneratingFunctionOptions & any,
@@ -567,24 +585,6 @@ export class TransactionService extends PubSubEventService {
 
   private static topicBaseFromFunctionName(functionName: string): string {
     return `TxTracking.${functionName}`;
-  }
-
-  /**
-   * Returns the default value for required block depth defined for the current network
-   * in the Arc.js global configuration ("txDepthRequiredForConfirmation").
-   * @param requiredDepth Overrides the default if given
-   */
-  public static async getDefaultDepth(requiredDepth?: number): Promise<number> {
-
-    if (typeof requiredDepth === "undefined") {
-      const requiredDepths = ConfigService.get("txDepthRequiredForConfirmation");
-      const networkName = await Utils.getNetworkName();
-      requiredDepth = requiredDepths[networkName.toLowerCase()];
-      if (typeof requiredDepth === "undefined") {
-        requiredDepth = requiredDepths.default;
-      }
-    }
-    return requiredDepth;
   }
 }
 

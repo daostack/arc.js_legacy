@@ -536,7 +536,6 @@ describe("GenesisProtocol", () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getThreshold({
       avatar: dao.avatar.address,
-      proposalId,
     });
     assert(typeof result !== "undefined");
   });
