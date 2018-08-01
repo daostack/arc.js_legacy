@@ -121,7 +121,7 @@ describe("Redeemer", () => {
 
     await basicSetup();
 
-    await helpers.makeTransactions(2);
+    await helpers.makeTransactions(4);
 
     await helpers.sleep(1000);
 
@@ -134,7 +134,7 @@ describe("Redeemer", () => {
     const currentBlockNumber = await UtilsInternal.lastBlock();
 
     assert.equal(eventBlockNumber, preRedeemBlockNumber + 1, "wrong number of blocks(1)");
-    assert.equal(eventBlockNumber, currentBlockNumber - 2, "wrong number of blocks(2)");
+    assert((currentBlockNumber - eventBlockNumber) >= 2, "wrong number of blocks(2)");
   });
 
   it("can get all rewardsEvents", async () => {
