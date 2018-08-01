@@ -12386,6 +12386,31 @@
             "title": "_scheme"
         }, 
         {
+            "location": "/api/interfaces/ReputationBurnEventResult/", 
+            "text": "API Reference\n \n \nReputationBurnEventResult\n\n\nInterface: ReputationBurnEventResult\n\n\nProperties\n\n\n\n\n_amount\n\n\n\u25cf  _amount\n:  \nBigNumber\n \n\n\nDefined in \nwrappers/reputation.ts:150\n\n\nAmount burnt\n\n\n\n\n\n\n_from\n\n\n\u25cf  _from\n:  \nAddress\n \n\n\nDefined in \nwrappers/reputation.ts:146\n\n\nWhose reputation was burnt indexed", 
+            "title": "ReputationBurnEventResult"
+        }, 
+        {
+            "location": "/api/interfaces/ReputationBurnEventResult/#interface-reputationburneventresult", 
+            "text": "", 
+            "title": "Interface: ReputationBurnEventResult"
+        }, 
+        {
+            "location": "/api/interfaces/ReputationBurnEventResult/#properties", 
+            "text": "", 
+            "title": "Properties"
+        }, 
+        {
+            "location": "/api/interfaces/ReputationBurnEventResult/#_amount", 
+            "text": "\u25cf  _amount :   BigNumber    Defined in  wrappers/reputation.ts:150  Amount burnt", 
+            "title": "_amount"
+        }, 
+        {
+            "location": "/api/interfaces/ReputationBurnEventResult/#_from", 
+            "text": "\u25cf  _from :   Address    Defined in  wrappers/reputation.ts:146  Whose reputation was burnt indexed", 
+            "title": "_from"
+        }, 
+        {
             "location": "/api/interfaces/ReputationBurnOptions/", 
             "text": "API Reference\n \n \nReputationBurnOptions\n\n\nInterface: ReputationBurnOptions\n\n\nProperties\n\n\n\n\namount\n\n\n\u25cf  amount\n:  \nBigNumber\n \n\n\nDefined in \nwrappers/reputation.ts:126\n\n\nAmount to mint\n\n\n\n\n\n\nfrom\n\n\n\u25cf  from\n:  \nBigNumber\n \n\n\nDefined in \nwrappers/reputation.ts:122", 
             "title": "ReputationBurnOptions"
