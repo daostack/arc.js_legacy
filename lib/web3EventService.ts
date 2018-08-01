@@ -275,7 +275,8 @@ export class Web3EventService {
    * @param events An array of `EventToAggregate` that specifies which events to look for,
    * by name and Arc.js contract wrapper.
    * @param requiredDepth -- If set then will not invoke the callback until the transaction has been mined to
-   * the requiredDepth.Pass -1 to use the Arc.js's global default depth.  Note that the Fetcher
+   * the requiredDepth.Pass -1 to use the Arc.js's global default depth. Note that the Fetcher get/wtach/subscribe
+   * methods ignore this value if you pass it there.
    */
   public aggregatedEventsFetcherFactory(
     events: Array<EventToAggregate>,
