@@ -106,13 +106,15 @@ describe("Redeemer", () => {
       proposalId,
     })).getTxMined();
 
-    assert(redeemedResult);
+    assert.isOk(redeemedResult);
   };
 
   it("can get rewardsEvents at requiredDepth", async () => {
 
     const events = new Array<RedeemerRewardEventsResult>();
+
     await setupRedeemer();
+
     const rewardsFetcher = redeemer.rewardsEvents(2)();
 
     rewardsFetcher.watch((error: Error, event: RedeemerRewardEventsResult): void => {
