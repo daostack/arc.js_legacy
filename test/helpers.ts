@@ -109,6 +109,16 @@ after(() => {
   }
 });
 
+export async function makeTransactions(count: number = 1): Promise<void> {
+  while (count--) {
+    await web3.eth.sendTransaction({
+      from: accounts[0],
+      to: accounts[3],
+      value: web3.toWei(0.00001, "ether"),
+    });
+  }
+}
+
 export async function forgeDao(opts: Partial<NewDaoConfig> = {}): Promise<DAO> {
   const defaultFounders =
     [

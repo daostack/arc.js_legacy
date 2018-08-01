@@ -134,7 +134,7 @@ declare module "web3" {
 
   export interface FilterResult {
     get(callback: () => void): void;
-    watch(callback: (err: Error, result: LogEntryEvent) => void): void;
+    watch(callback: (err: Error, result: FilterLogEventResult) => void): void;
     stopWatching(callback?: () => void): void;
   }
 
@@ -266,7 +266,9 @@ declare module "web3" {
     getCode(addressHexString: string): string;
     getCode(addressHexString: string, callback: (err: Error, code: string) => void): void;
 
-    filter(value: string | FilterObject, callback?: (err: Error, receipt: TransactionReceipt) => void): FilterResult;
+    filter(
+      value: string | FilterObject,
+      callback?: (err: Error, receipt: string | FilterLogEventResult) => void): FilterResult;
 
     sendTransaction(txData: TxData): string;
     sendTransaction(txData: TxData, callback: (err: Error, value: string) => void): void;
@@ -434,5 +436,17 @@ declare module "web3" {
     address: string;
     data: string;
     topics: Array<string>;
+  }
+
+  export interface FilterLogEventResult {
+    logIndex: number | null;
+    transactionIndex: number;
+    transactionHash: string;
+    blockHash: string;
+    blockNumber: number;
+    address: string;
+    data: string;
+    topics: Array<string>;
+    type: string; // pending or mined
   }
 }

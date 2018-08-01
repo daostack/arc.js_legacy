@@ -71,6 +71,10 @@ export class ReputationWrapper extends ContractWrapperBase {
     );
   }
 
+  public async getTotalSupply(): Promise<BigNumber> {
+    return this.contract.totalSupply();
+  }
+
   public reputationOf(accountAddress: Address): Promise<BigNumber> {
 
     if (!accountAddress) {
