@@ -232,6 +232,7 @@ pages:
   - RefreshReputationEventResult : 'api/interfaces/RefreshReputationEventResult.md'
   - RemoveGlobalConstraintsProposalEventResult : 'api/interfaces/RemoveGlobalConstraintsProposalEventResult.md'
   - RemoveSchemeProposalEventResult : 'api/interfaces/RemoveSchemeProposalEventResult.md'
+  - ReputationBurnEventResult : 'api/interfaces/ReputationBurnEventResult.md'
   - ReputationBurnOptions : 'api/interfaces/ReputationBurnOptions.md'
   - ReputationMintEventResult : 'api/interfaces/ReputationMintEventResult.md'
   - ReputationMintOptions : 'api/interfaces/ReputationMintOptions.md'
