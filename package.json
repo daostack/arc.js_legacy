@@ -1,6 +1,6 @@
 {
   "name": "@daostack/arc.js",
-  "version": "0.0.0-alpha.74",
+  "version": "0.0.0-alpha.75",
   "description": "A JavaScript library for interacting with @daostack/arc ethereum smart contracts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -73,7 +73,7 @@
     "pubsub-js": "^1.6.0",
     "truffle-contract": "^3.0.1",
     "truffle-core-migrate-without-compile": "^4.0.7",
-    "truffle-hdwallet-provider": "0.0.5",
+    "truffle-hdwallet-provider": "^0.0.6",
     "tslib": "^1.9.0"
   },
   "devDependencies": {
