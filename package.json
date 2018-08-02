@@ -1,6 +1,10 @@
 {
   "name": "@daostack/arc.js",
+<<<<<<< master
   "version": "0.0.0-alpha.74",
+=======
+  "version": "0.0.0-alpha.75",
+>>>>>>> bump version
   "description": "A JavaScript library for interacting with @daostack/arc ethereum smart contracts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
