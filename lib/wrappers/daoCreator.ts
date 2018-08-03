@@ -137,7 +137,19 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
      */
     const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
 
-    const votingMachineParamsHashes = new Map<Address, Hash>();
+    const votingMachineParamsHashes = new Map<Address, Set<Hash>>();
+    const paramsHashCacheSet = (address: Address, hash: Hash): void => {
+      let hashes = votingMachineParamsHashes.get(address);
+      if (!hashes) {
+        hashes = new Set<Hash>();
+      }
+      hashes.add(hash);
+    };
+
+    const paramsHashCacheHasHash = (address: Address, hash: Hash): boolean => {
+      let hashes = votingMachineParamsHashes.get(address);
+      return hashes && hashes.has(hash);
+    };
 
     const avatarService = new AvatarService(options.avatar);
     const reputationAddress = await avatarService.getNativeReputationAddress();
@@ -164,7 +176,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       Object.assign(defaultVotingMachineParams, { txEventContext: eventContext }));
 
     const defaultVoteParametersHash = txResult.result;
-    votingMachineParamsHashes.set(defaultVotingMachine.address, defaultVoteParametersHash);
+    paramsHashCacheSet(defaultVotingMachine.address, defaultVoteParametersHash);
 
     // avoid nonce collisions
     await txResult.watchForTxMined();
@@ -235,11 +247,11 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
         schemeVoteParametersHash = await schemeVotingMachine.getParametersHash(schemeVotingMachineParams);
 
         // avoid nonce collisions and avoid unnecessary transactions
-        if (votingMachineParamsHashes.get(schemeVotingMachine.address) !== schemeVoteParametersHash) {
+        if (!paramsHashCacheHasHash(schemeVotingMachine.address, schemeVoteParametersHash)) {
           txResult = await schemeVotingMachine.setParameters(schemeVotingMachineParams);
           // avoid nonce collisions
           await txResult.watchForTxMined();
-          votingMachineParamsHashes.set(schemeVotingMachine.address, schemeVoteParametersHash);
+          paramsHashCacheSet(schemeVotingMachine.address, schemeVoteParametersHash);
         }
       } else {
         // using the defaults
@@ -259,7 +271,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       const schemeParamsHash = await scheme.getParametersHash(schemeParameters);
 
       // avoid nonce collisions and avoid unnecessary transactions
-      if (votingMachineParamsHashes.get(scheme.address) !== schemeParamsHash) {
+      if (!paramsHashCacheHasHash(scheme.address, schemeParamsHash)) {
         /**
          * This is the set of all possible parameters from which the current scheme
          * will choose just the ones it requires
@@ -267,7 +279,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
         txResult = await scheme.setParameters(schemeParameters);
         // avoid nonce collisions
         await txResult.watchForTxMined();
-        votingMachineParamsHashes.set(scheme.address, schemeParamsHash);
+        paramsHashCacheSet(scheme.address, schemeParamsHash);
       }
 
       initialSchemesSchemes.push(scheme.address);
