@@ -119,7 +119,7 @@ describe("GenesisProtocol", () => {
         amount: web3.toWei(1),
         proposalId,
         vote: BinaryVoteResult.Yes,
-      })).watchTxMined();
+      })).watchForTxMined();
 
       assert.isOk(result);
       assert.isOk(result.transactionHash);
