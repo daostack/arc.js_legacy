@@ -147,7 +147,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
    * Given an object containing the contract's parameters, return the hash
    * that would be used to represent them in Arc.  Note this doesn't indicate
    * whether the parameters have been registered with the contract.
-   * @param params 
+   * @param params
    */
   public getParametersHash(params: any): Promise<Hash> {
     throw new Error("getParametersHash has not been not implemented by the contract wrapper");

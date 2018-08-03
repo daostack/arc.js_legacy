@@ -147,7 +147,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     };
 
     const paramsHashCacheHasHash = (address: Address, hash: Hash): boolean => {
-      let hashes = votingMachineParamsHashes.get(address);
+      const hashes = votingMachineParamsHashes.get(address);
       return hashes && hashes.has(hash);
     };
 
