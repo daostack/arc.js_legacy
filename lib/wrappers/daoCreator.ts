@@ -2,7 +2,7 @@
 import * as BigNumber from "bignumber.js";
 import { computeForgeOrgGasLimit } from "../../gasLimits.js";
 import { AvatarService } from "../avatarService";
-import { Address, SchemePermissions } from "../commonTypes";
+import { Address, SchemePermissions, Hash } from "../commonTypes";
 import { ConfigService } from "../configService";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
@@ -137,6 +137,8 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
      */
     const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
 
+    const votingMachineParamsHashes = new Map<Address, Hash>();
+
     const avatarService = new AvatarService(options.avatar);
     const reputationAddress = await avatarService.getNativeReputationAddress();
     const configuredVotingMachineName = ConfigService.get("defaultVotingMachine");
@@ -162,6 +164,10 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       Object.assign(defaultVotingMachineParams, { txEventContext: eventContext }));
 
     const defaultVoteParametersHash = txResult.result;
+    votingMachineParamsHashes.set(defaultVotingMachine.address, defaultVoteParametersHash);
+
+    // avoid nonce collisions 
+    await txResult.watchForTxMined();
 
     const initialSchemesSchemes = [];
     const initialSchemesParams = [];
@@ -222,33 +228,47 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
           schemeVotingMachineParams.votingMachineAddress = schemeVotingMachine.address;
         }
 
-        schemeVotingMachineParams = Object.assign(defaultVotingMachineParams, schemeVotingMachineParams);
+        schemeVotingMachineParams = Object.assign({}, defaultVotingMachineParams, schemeVotingMachineParams);
         /**
          * get the voting machine parameters
          */
-        txResult = await schemeVotingMachine.setParameters(schemeVotingMachineParams);
-        schemeVoteParametersHash = txResult.result;
+        schemeVoteParametersHash = await schemeVotingMachine.getParametersHash(schemeVotingMachineParams);
+
+        // avoid nonce collisions and avoid unnecessary transactions
+        if (votingMachineParamsHashes.get(schemeVotingMachine.address) !== schemeVoteParametersHash) {
+          txResult = await schemeVotingMachine.setParameters(schemeVotingMachineParams);
+          // avoid nonce collisions 
+          await txResult.watchForTxMined();
+          votingMachineParamsHashes.set(schemeVotingMachine.address, schemeVoteParametersHash);
+        }
       } else {
         // using the defaults
-        schemeVotingMachineParams = Object.assign(defaultVotingMachineParams, { txEventContext: eventContext });
+        schemeVotingMachineParams = Object.assign({}, defaultVotingMachineParams, { txEventContext: eventContext });
         schemeVoteParametersHash = defaultVoteParametersHash;
       }
 
-      /**
-       * This is the set of all possible parameters from which the current scheme
-       * will choose just the ones it requires
-       */
-      txResult = await scheme.setParameters(
-        Object.assign(
-          {
-            txEventContext: eventContext,
-            voteParametersHash: schemeVoteParametersHash,
-            votingMachineAddress: schemeVotingMachineParams.votingMachineAddress,
-          },
-          schemeOptions
-        ));
+      const schemeParameters = Object.assign(
+        {
+          txEventContext: eventContext,
+          voteParametersHash: schemeVoteParametersHash,
+          votingMachineAddress: schemeVotingMachineParams.votingMachineAddress,
+        },
+        schemeOptions
+      );
 
-      const schemeParamsHash = txResult.result;
+      const schemeParamsHash = await scheme.getParametersHash(schemeParameters);
+
+      // avoid nonce collisions and avoid unnecessary transactions
+      if (votingMachineParamsHashes.get(scheme.address) !== schemeParamsHash) {
+        /**
+         * This is the set of all possible parameters from which the current scheme
+         * will choose just the ones it requires
+         */
+        txResult = await scheme.setParameters(schemeParameters);
+        // avoid nonce collisions 
+        await txResult.watchForTxMined();
+        votingMachineParamsHashes.set(scheme.address, schemeParamsHash);
+      }
 
       initialSchemesSchemes.push(scheme.address);
       initialSchemesParams.push(schemeParamsHash);

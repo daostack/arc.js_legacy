@@ -438,6 +438,20 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
     return rewardsArray;
   }
 
+  public getParametersHash(params: ContributionRewardParams): Promise<Hash> {
+    params = Object.assign({},
+      {
+        orgNativeTokenFee: 0,
+      },
+      params);
+
+    return this._getParametersHash(
+      params.orgNativeTokenFee,
+      params.voteParametersHash,
+      params.votingMachineAddress
+    );
+  }
+
   public async setParameters(params: ContributionRewardParams): Promise<ArcTransactionDataResult<Hash>> {
 
     this.validateStandardSchemeParams(params);

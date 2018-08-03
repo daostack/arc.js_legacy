@@ -13,6 +13,12 @@ export class TokenCapGCWrapper extends ContractWrapperBase {
   public friendlyName: string = "Token Cap Global Constraint";
   public factory: IContractWrapperFactory<TokenCapGCWrapper> = TokenCapGCFactory;
 
+  public getParametersHash(params: TokenCapGcParams): Promise<Hash> {
+    return this._getParametersHash(
+      params.token,
+      params.cap || 0
+    );
+  }
   public async setParameters(params: TokenCapGcParams): Promise<ArcTransactionDataResult<Hash>> {
 
     if (!params.token) {

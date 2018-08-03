@@ -127,6 +127,14 @@ export class SchemeRegistrarWrapper extends ProposalGeneratorBase implements Sch
     return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
 
+  public getParametersHash(params: SchemeRegistrarParams): Promise<Hash> {
+    return this._getParametersHash(
+      params.voteParametersHash,
+      params.voteRemoveParametersHash ? params.voteRemoveParametersHash : params.voteParametersHash,
+      params.votingMachineAddress
+    );
+  }
+
   public async setParameters(params: SchemeRegistrarParams): Promise<ArcTransactionDataResult<Hash>> {
 
     this.validateStandardSchemeParams(params);

@@ -300,6 +300,13 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
     return agreement;
   }
 
+  public getParametersHash(params: StandardSchemeParams): Promise<Hash> {
+    return this._getParametersHash(
+      params.voteParametersHash,
+      params.votingMachineAddress
+    );
+  }
+
   public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
 
     this.validateStandardSchemeParams(params);

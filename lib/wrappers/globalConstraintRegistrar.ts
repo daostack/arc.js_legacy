@@ -168,6 +168,13 @@ export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase impl
     return this.convertProposalPropsArrayToObject(proposalParams, proposalId);
   }
 
+  public getParametersHash(params: StandardSchemeParams): Promise<Hash> {
+    return this._getParametersHash(
+      params.voteParametersHash,
+      params.votingMachineAddress
+    );
+  }
+
   public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
 
     this.validateStandardSchemeParams(params);

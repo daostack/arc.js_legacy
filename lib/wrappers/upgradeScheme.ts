@@ -94,6 +94,13 @@ export class UpgradeSchemeWrapper extends ProposalGeneratorBase implements Schem
     return new ArcTransactionProposalResult(txResult.tx, this.contract, await this.getVotingMachine(options.avatar));
   }
 
+  public getParametersHash(params: StandardSchemeParams): Promise<Hash> {
+    return this._getParametersHash(
+      params.voteParametersHash,
+      params.votingMachineAddress
+    );
+  }
+
   public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
 
     this.validateStandardSchemeParams(params);

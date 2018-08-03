@@ -84,6 +84,17 @@ describe("GenesisProtocol", () => {
     executableTest = await ExecutableTest.deployed();
   });
 
+  it("can get params hash", async () => {
+
+    const params = await GetDefaultGenesisProtocolParameters();
+
+    const paramsHashSet = (await genesisProtocol.setParameters(params)).result;
+
+    const paramsHashGet = await genesisProtocol.getParametersHash(params);
+
+    assert.equal(paramsHashGet, paramsHashSet), "Hashes are not the same";
+  });
+
   it("can call stakeWithApproval", async () => {
     const proposalId = await createProposal();
 
