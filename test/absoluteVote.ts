@@ -11,8 +11,8 @@ describe("AbsoluteVote", () => {
     const absoluteVote = await AbsoluteVoteFactory.new();
 
     const params = await {
-      reputation: helpers.SOME_ADDRESS,
       ownerVote: true,
+      reputation: helpers.SOME_ADDRESS,
       votePerc: 50,
     };
 
@@ -20,6 +20,6 @@ describe("AbsoluteVote", () => {
 
     const paramsHashGet = await absoluteVote.getParametersHash(params);
 
-    assert.equal(paramsHashGet, paramsHashSet), "Hashes are not the same";
+    assert.equal(paramsHashGet, paramsHashSet, "Hashes are not the same");
   });
 });

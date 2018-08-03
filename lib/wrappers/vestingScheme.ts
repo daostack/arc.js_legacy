@@ -307,7 +307,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements Schem
     );
   }
 
-  public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
+  public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
 
     this.validateStandardSchemeParams(params);
 

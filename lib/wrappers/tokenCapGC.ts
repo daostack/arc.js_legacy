@@ -19,7 +19,7 @@ export class TokenCapGCWrapper extends ContractWrapperBase {
       params.cap || 0
     );
   }
-  public async setParameters(params: TokenCapGcParams): Promise<ArcTransactionDataResult<Hash>> {
+  public setParameters(params: TokenCapGcParams): Promise<ArcTransactionDataResult<Hash>> {
 
     if (!params.token) {
       throw new Error("token must be set");

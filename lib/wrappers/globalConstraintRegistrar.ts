@@ -175,7 +175,7 @@ export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase impl
     );
   }
 
-  public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
+  public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
 
     this.validateStandardSchemeParams(params);
 

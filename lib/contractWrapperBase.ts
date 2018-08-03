@@ -247,10 +247,9 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
     return this.getParameters(paramsHash);
   }
 
-  public _getParametersHash(...params: Array<any>): Promise<Hash> {
+  protected _getParametersHash(...params: Array<any>): Promise<Hash> {
     return this.contract.getParametersHash(...params);
   }
-
 
   /**
    * See [Web3EventService.createEventFetcherFactory](Web3EventService#createEventFetcherFactory).

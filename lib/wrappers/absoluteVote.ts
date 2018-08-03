@@ -75,7 +75,7 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper {
       params.ownerVote);
   }
 
-  public async setParameters(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>> {
+  public setParameters(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>> {
 
     params = Object.assign({},
       {

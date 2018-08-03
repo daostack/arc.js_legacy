@@ -2,7 +2,7 @@
 import * as BigNumber from "bignumber.js";
 import { computeForgeOrgGasLimit } from "../../gasLimits.js";
 import { AvatarService } from "../avatarService";
-import { Address, SchemePermissions, Hash } from "../commonTypes";
+import { Address, Hash, SchemePermissions } from "../commonTypes";
 import { ConfigService } from "../configService";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
@@ -166,7 +166,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     const defaultVoteParametersHash = txResult.result;
     votingMachineParamsHashes.set(defaultVotingMachine.address, defaultVoteParametersHash);
 
-    // avoid nonce collisions 
+    // avoid nonce collisions
     await txResult.watchForTxMined();
 
     const initialSchemesSchemes = [];
@@ -237,7 +237,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
         // avoid nonce collisions and avoid unnecessary transactions
         if (votingMachineParamsHashes.get(schemeVotingMachine.address) !== schemeVoteParametersHash) {
           txResult = await schemeVotingMachine.setParameters(schemeVotingMachineParams);
-          // avoid nonce collisions 
+          // avoid nonce collisions
           await txResult.watchForTxMined();
           votingMachineParamsHashes.set(schemeVotingMachine.address, schemeVoteParametersHash);
         }
@@ -265,7 +265,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
          * will choose just the ones it requires
          */
         txResult = await scheme.setParameters(schemeParameters);
-        // avoid nonce collisions 
+        // avoid nonce collisions
         await txResult.watchForTxMined();
         votingMachineParamsHashes.set(scheme.address, schemeParamsHash);
       }

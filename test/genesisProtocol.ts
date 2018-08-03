@@ -92,7 +92,7 @@ describe("GenesisProtocol", () => {
 
     const paramsHashGet = await genesisProtocol.getParametersHash(params);
 
-    assert.equal(paramsHashGet, paramsHashSet), "Hashes are not the same";
+    assert.equal(paramsHashGet, paramsHashSet, "Hashes are not the same");
   });
 
   it("can call stakeWithApproval", async () => {
@@ -119,7 +119,7 @@ describe("GenesisProtocol", () => {
         amount: web3.toWei(1),
         proposalId,
         vote: BinaryVoteResult.Yes,
-      })).getTxMined();
+      })).watchTxMined();
 
       assert.isOk(result);
       assert.isOk(result.transactionHash);

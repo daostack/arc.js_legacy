@@ -135,7 +135,7 @@ export class SchemeRegistrarWrapper extends ProposalGeneratorBase implements Sch
     );
   }
 
-  public async setParameters(params: SchemeRegistrarParams): Promise<ArcTransactionDataResult<Hash>> {
+  public setParameters(params: SchemeRegistrarParams): Promise<ArcTransactionDataResult<Hash>> {
 
     this.validateStandardSchemeParams(params);
 

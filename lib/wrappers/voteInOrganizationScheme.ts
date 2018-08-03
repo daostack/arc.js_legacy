@@ -125,7 +125,7 @@ export class VoteInOrganizationSchemeWrapper extends ProposalGeneratorBase imple
     );
   }
 
-  public async setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
+  public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
 
     this.validateStandardSchemeParams(params);
 

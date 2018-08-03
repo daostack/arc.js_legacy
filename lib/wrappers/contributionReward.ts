@@ -452,7 +452,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
     );
   }
 
-  public async setParameters(params: ContributionRewardParams): Promise<ArcTransactionDataResult<Hash>> {
+  public setParameters(params: ContributionRewardParams): Promise<ArcTransactionDataResult<Hash>> {
 
     this.validateStandardSchemeParams(params);
 
