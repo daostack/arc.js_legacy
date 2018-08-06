@@ -2,7 +2,7 @@
 import * as BigNumber from "bignumber.js";
 import { computeForgeOrgGasLimit } from "../../gasLimits.js";
 import { AvatarService } from "../avatarService";
-import { Address, SchemePermissions } from "../commonTypes";
+import { Address, Hash, SchemePermissions } from "../commonTypes";
 import { ConfigService } from "../configService";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
@@ -137,6 +137,20 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
      */
     const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
 
+    const votingMachineParamsHashes = new Map<Address, Set<Hash>>();
+    const paramsHashCacheSet = (address: Address, hash: Hash): void => {
+      let hashes = votingMachineParamsHashes.get(address);
+      if (!hashes) {
+        hashes = new Set<Hash>();
+      }
+      hashes.add(hash);
+    };
+
+    const paramsHashCacheHasHash = (address: Address, hash: Hash): boolean => {
+      const hashes = votingMachineParamsHashes.get(address);
+      return hashes && hashes.has(hash);
+    };
+
     const avatarService = new AvatarService(options.avatar);
     const reputationAddress = await avatarService.getNativeReputationAddress();
     const configuredVotingMachineName = ConfigService.get("defaultVotingMachine");
@@ -162,6 +176,10 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       Object.assign(defaultVotingMachineParams, { txEventContext: eventContext }));
 
     const defaultVoteParametersHash = txResult.result;
+    paramsHashCacheSet(defaultVotingMachine.address, defaultVoteParametersHash);
+
+    // avoid nonce collisions
+    await txResult.watchForTxMined();
 
     const initialSchemesSchemes = [];
     const initialSchemesParams = [];
@@ -222,33 +240,47 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
           schemeVotingMachineParams.votingMachineAddress = schemeVotingMachine.address;
         }
 
-        schemeVotingMachineParams = Object.assign(defaultVotingMachineParams, schemeVotingMachineParams);
+        schemeVotingMachineParams = Object.assign({}, defaultVotingMachineParams, schemeVotingMachineParams);
         /**
          * get the voting machine parameters
          */
-        txResult = await schemeVotingMachine.setParameters(schemeVotingMachineParams);
-        schemeVoteParametersHash = txResult.result;
+        schemeVoteParametersHash = await schemeVotingMachine.getParametersHash(schemeVotingMachineParams);
+
+        // avoid nonce collisions and avoid unnecessary transactions
+        if (!paramsHashCacheHasHash(schemeVotingMachine.address, schemeVoteParametersHash)) {
+          txResult = await schemeVotingMachine.setParameters(schemeVotingMachineParams);
+          // avoid nonce collisions
+          await txResult.watchForTxMined();
+          paramsHashCacheSet(schemeVotingMachine.address, schemeVoteParametersHash);
+        }
       } else {
         // using the defaults
-        schemeVotingMachineParams = Object.assign(defaultVotingMachineParams, { txEventContext: eventContext });
+        schemeVotingMachineParams = Object.assign({}, defaultVotingMachineParams, { txEventContext: eventContext });
         schemeVoteParametersHash = defaultVoteParametersHash;
       }
 
-      /**
-       * This is the set of all possible parameters from which the current scheme
-       * will choose just the ones it requires
-       */
-      txResult = await scheme.setParameters(
-        Object.assign(
-          {
-            txEventContext: eventContext,
-            voteParametersHash: schemeVoteParametersHash,
-            votingMachineAddress: schemeVotingMachineParams.votingMachineAddress,
-          },
-          schemeOptions
-        ));
+      const schemeParameters = Object.assign(
+        {
+          txEventContext: eventContext,
+          voteParametersHash: schemeVoteParametersHash,
+          votingMachineAddress: schemeVotingMachineParams.votingMachineAddress,
+        },
+        schemeOptions
+      );
 
-      const schemeParamsHash = txResult.result;
+      const schemeParamsHash = await scheme.getParametersHash(schemeParameters);
+
+      // avoid nonce collisions and avoid unnecessary transactions
+      if (!paramsHashCacheHasHash(scheme.address, schemeParamsHash)) {
+        /**
+         * This is the set of all possible parameters from which the current scheme
+         * will choose just the ones it requires
+         */
+        txResult = await scheme.setParameters(schemeParameters);
+        // avoid nonce collisions
+        await txResult.watchForTxMined();
+        paramsHashCacheSet(scheme.address, schemeParamsHash);
+      }
 
       initialSchemesSchemes.push(scheme.address);
       initialSchemesParams.push(schemeParamsHash);

@@ -131,7 +131,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
    *
    * @param {any} params -- parameters as the contract.setParameters function expects them.
    */
-  public async setParameters(...params: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
+  public setParameters(...params: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
     throw new Error("setParameters has not been not implemented by the contract wrapper");
   }
 
@@ -139,8 +139,18 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
    * Given a hash, returns the associated parameters as an object.
    * @param paramsHash
    */
-  public async getParameters(paramsHash: Hash): Promise<any> {
+  public getParameters(paramsHash: Hash): Promise<any> {
     throw new Error("getParameters has not been not implemented by the contract wrapper");
+  }
+
+  /**
+   * Given an object containing the contract's parameters, return the hash
+   * that would be used to represent them in Arc.  Note this doesn't indicate
+   * whether the parameters have been registered with the contract.
+   * @param params
+   */
+  public getParametersHash(params: any): Promise<Hash> {
+    throw new Error("getParametersHash has not been not implemented by the contract wrapper");
   }
 
   /**
@@ -157,7 +167,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
    * in which the parameters appear in the contract's Parameters struct.
    * @param paramsHash
    */
-  public async getParametersArray(paramsHash: Hash): Promise<Array<any>> {
+  public getParametersArray(paramsHash: Hash): Promise<Array<any>> {
     return this.contract.parameters(paramsHash);
   }
 
@@ -165,7 +175,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
    * Returns the controller associated with the given avatar
    * @param avatarAddress
    */
-  public async getController(avatarAddress: Address): Promise<any> {
+  public getController(avatarAddress: Address): Promise<any> {
     const controllerService = new ControllerService(avatarAddress);
     return controllerService.getController();
   }
@@ -245,6 +255,10 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
   protected async _getSchemeParameters(avatarAddress: Address): Promise<any> {
     const paramsHash = await this.getSchemeParametersHash(avatarAddress);
     return this.getParameters(paramsHash);
+  }
+
+  protected _getParametersHash(...params: Array<any>): Promise<Hash> {
+    return this.contract.getParametersHash(...params);
   }
 
   /**

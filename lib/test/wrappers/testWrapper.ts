@@ -20,7 +20,7 @@ export class TestWrapperWrapper extends ContractWrapperBase {
     return "abc";
   }
 
-  public async setParameters(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>> {
+  public setParameters(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>> {
     params = Object.assign({},
       {
         ownerVote: true,

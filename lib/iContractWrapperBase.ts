@@ -17,6 +17,7 @@ export interface IContractWrapperBase extends HasContract {
   setParameters(...params: Array<any>): Promise<ArcTransactionDataResult<Hash>>;
   getParameters(paramsHash: Hash): Promise<any>;
   getSchemeParametersHash(avatarAddress: Address): Promise<Hash>;
+  getParametersHash(params: any): Promise<Hash>;
   getParametersArray(paramsHash: Hash): Promise<Array<any>>;
   getController(avatarAddress: Address): Promise<any>;
 }

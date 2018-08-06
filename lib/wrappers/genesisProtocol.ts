@@ -841,6 +841,31 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     return this.convertProposalPropsArrayToObject(proposalParams, proposalId);
   }
 
+  public async getParametersHash(params: GenesisProtocolParams): Promise<Hash> {
+
+    params = Object.assign({},
+      await GetDefaultGenesisProtocolParameters(),
+      params);
+
+    return this._getParametersHash(
+      [
+        params.preBoostedVoteRequiredPercentage || 0,
+        params.preBoostedVotePeriodLimit,
+        params.boostedVotePeriodLimit,
+        params.thresholdConstA || 0,
+        params.thresholdConstB || 0,
+        params.minimumStakingFee || 0,
+        params.quietEndingPeriod,
+        params.proposingRepRewardConstA || 0,
+        params.proposingRepRewardConstB || 0,
+        params.stakerFeeRatioForVoters || 0,
+        params.votersReputationLossRatio || 0,
+        params.votersGainRepRatioFromLostRep || 0,
+        params.daoBountyConst || 0,
+        params.daoBountyLimit || 0,
+      ]);
+  }
+
   /**
    * Set the contract parameters.
    * @param {GenesisProtocolParams} params
