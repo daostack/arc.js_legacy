@@ -28,6 +28,10 @@ import {
   GlobalConstraintRegistrarWrapper
 } from "./wrappers/globalConstraintRegistrar";
 import {
+  IntVoteInterfaceFactory,
+  IntVoteInterfaceWrapper
+} from "./wrappers/intVoteInterface";
+import {
   MintableTokenFactory,
   MintableTokenWrapper
 } from "./wrappers/mintableToken";
@@ -75,6 +79,7 @@ export interface ArcWrapperFactories {
   DaoToken: IContractWrapperFactory<DaoTokenWrapper>;
   GenesisProtocol: IContractWrapperFactory<GenesisProtocolWrapper>;
   GlobalConstraintRegistrar: IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
+  IntVoteInterface: IContractWrapperFactory<IntVoteInterfaceWrapper>;
   MintableToken: IContractWrapperFactory<MintableTokenWrapper>;
   Redeemer: IContractWrapperFactory<RedeemerWrapper>;
   Reputation: IContractWrapperFactory<ReputationWrapper>;
@@ -88,7 +93,8 @@ export interface ArcWrapperFactories {
 
 /**
  * An object with property names being a contract key and property value as the
- * corresponding wrapper.
+ * corresponding wrapper.  Only deployed wrappers are included here.  Other wrappers
+ * may be obtained via their factory.
  */
 export interface ArcWrappers {
   AbsoluteVote: AbsoluteVoteWrapper;
@@ -240,6 +246,8 @@ export class WrapperService {
       GenesisProtocolFactory as IContractWrapperFactory<GenesisProtocolWrapper>;
     WrapperService.factories.GlobalConstraintRegistrar = GlobalConstraintRegistrarFactory as
       IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
+    WrapperService.factories.IntVoteInterface = IntVoteInterfaceFactory as
+      IContractWrapperFactory<IntVoteInterfaceWrapper>;
     WrapperService.factories.MintableToken = MintableTokenFactory as IContractWrapperFactory<MintableTokenWrapper>;
     WrapperService.factories.Redeemer =
       RedeemerFactory as IContractWrapperFactory<RedeemerWrapper>;
