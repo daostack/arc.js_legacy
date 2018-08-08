@@ -201,23 +201,33 @@ export interface IEventSubscription {
 }
 
 export class EventSubscription implements IEventSubscription {
-  public constructor(private key: EventSubscriptionKey) {
+  public constructor(
+    private key: EventSubscriptionKey,
+    private callback?: () => Promise<void>) {
   }
 
   /**
    * Unsubscribes after optional timeout.
    * @param milliseconds number of milliseconds to timeout.
+   * @param callback optional callback to invoke when finished unsubscribing
    * Default is -1 which means not to timeout at all.
    */
   public unsubscribe(milliseconds: number = -1): Promise<void> {
     if (milliseconds === -1) {
       PubSub.unsubscribe(this.key);
-      return Promise.resolve();
+      if (this.callback) {
+        return this.callback();
+      } else {
+        return Promise.resolve();
+      }
     }
     // timeout to allow lingering events to be handled before unsubscribing
     return new Promise<void>((resolve: fnVoid): void => {
-      setTimeout(() => {
+      setTimeout(async () => {
         PubSub.unsubscribe(this.key);
+        if (this.callback) {
+          await this.callback();
+        }
         resolve();
       }, milliseconds);
     });

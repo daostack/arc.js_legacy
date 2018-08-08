@@ -311,7 +311,10 @@ export class TransactionService extends PubSubEventService {
       web3.eth.getTransactionReceipt(txHash, innerCallback);
     })()
       .then(async (receipt: TransactionReceipt | null) => {
-        const depth = await TransactionService.getTransactionDepth(receipt);
+        let depth = 0;
+        if (requiredDepth) {
+          depth = await TransactionService.getTransactionDepth(receipt);
+        }
         // blockNumber should always be set, but just in case...
         if ((receipt && !receipt.blockNumber) || (depth < requiredDepth)) { return null; } else {
           if (contract) {

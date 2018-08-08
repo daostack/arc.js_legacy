@@ -5,7 +5,7 @@ import { ContributionRewardFactory, ContributionRewardWrapper } from "../lib/wra
 import { GenesisProtocolWrapper, GenesisProtocolFactory } from "../lib/wrappers/genesisProtocol";
 import { WrapperService } from "../lib/wrapperService";
 import { UtilsInternal } from "../lib/utilsInternal";
-import { RedeemerRewardEventsResult, RedeemerWrapper } from "../lib/wrappers/redeemer";
+import { RedeemerWrapper } from "../lib/wrappers/redeemer";
 import * as helpers from "./helpers";
 import { TransactionReceiptTruffle } from '../lib/transactionService';
 import { DAO } from '../lib/dao';
@@ -17,6 +17,7 @@ describe("Redeemer", () => {
   let proposalId: Hash;
   let redeemedResult: TransactionReceiptTruffle;
   let genesisProtocol: GenesisProtocolWrapper;
+  let contributionReward: ContributionRewardWrapper;
   let preRedeemBlockNumber;
   const ethAmount = 0.000000001;
   const repAmount = 1;
@@ -28,6 +29,57 @@ describe("Redeemer", () => {
       redeemer = await WrapperService.factories.Redeemer.deployed();
     }
   };
+
+  const createProposal = async (): Promise<void> => {
+    const externalToken = await dao.token;
+
+    const result = await contributionReward.proposeContributionReward(Object.assign({
+      avatar: dao.avatar.address,
+      beneficiaryAddress: accounts[1],
+      description: "A new contribution",
+      ethReward: web3.toWei(ethAmount),
+      externalToken: externalToken.address,
+      externalTokenReward: web3.toWei(externalTokenAmount),
+      // nativeTokenReward: web3.toWei(nativeTokenAmount),
+      numberOfPeriods: 1,
+      periodLength: 1,
+      reputationChange: web3.toWei(repAmount),
+    }));
+
+    proposalId = await result.getProposalIdFromMinedTx();
+
+    assert.isOk(proposalId);
+    assert.isOk(result.votingMachine);
+
+    // give the avatar some eth to pay out
+    await helpers.transferEthToDao(dao, ethAmount);
+    await helpers.transferTokensToDao(dao, externalTokenAmount, accounts[1], externalToken);
+  };
+
+  const redeemProposal = async (): Promise<void> => {
+    // at this point the redeem is mined but not confirmed
+    preRedeemBlockNumber = await UtilsInternal.lastBlock();
+
+    redeemedResult = await (await redeemer.redeem({
+      avatarAddress: dao.avatar.address,
+      beneficiaryAddress: accounts[0],
+      proposalId,
+    })).getTxMined();
+
+    assert.isOk(redeemedResult);
+  };
+
+  const voteProposal = async (): Promise<void> => {
+    await genesisProtocol.stake({
+      amount: web3.toWei(10),
+      proposalId,
+      vote: BinaryVoteResult.Yes,
+    });
+
+    await helpers.vote(genesisProtocol, proposalId, BinaryVoteResult.Yes, accounts[0]);
+    await helpers.increaseTime(1);
+  };
+
   const basicSetup = async (): Promise<void> => {
     dao = await helpers.forgeDao({
       founders: [{
@@ -61,171 +113,89 @@ describe("Redeemer", () => {
       ],
     });
 
-    const scheme = await helpers.getDaoScheme(
+    contributionReward = await helpers.getDaoScheme(
       dao,
       "ContributionReward",
       ContributionRewardFactory) as ContributionRewardWrapper;
 
-    const externalToken = await dao.token;
-
-    const result = await scheme.proposeContributionReward(Object.assign({
-      avatar: dao.avatar.address,
-      beneficiaryAddress: accounts[1],
-      description: "A new contribution",
-      ethReward: web3.toWei(ethAmount),
-      externalToken: externalToken.address,
-      externalTokenReward: web3.toWei(externalTokenAmount),
-      // nativeTokenReward: web3.toWei(nativeTokenAmount),
-      numberOfPeriods: 1,
-      periodLength: 0,
-      reputationChange: web3.toWei(repAmount),
-    }));
-
-    proposalId = await result.getProposalIdFromMinedTx();
-
-    assert.isOk(proposalId);
-    assert.isOk(result.votingMachine);
-
-    genesisProtocol = await GenesisProtocolFactory.at(await scheme.getVotingMachineAddress(dao.avatar.address));
-    await genesisProtocol.stake({
-      amount: web3.toWei(10),
-      proposalId,
-      vote: BinaryVoteResult.Yes,
-    });
-
-    await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.Yes, accounts[0]);
-
-    await (await genesisProtocol.stakeWithApproval({ amount: web3.toWei(10), vote: 1, proposalId })).getTxMined();
-
-    await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.Yes, accounts[1]);
-
-    /**
-     * expire out of the GP boosting phase. 259200 is the default boosting phase length.
-     */
-    await helpers.increaseTime(259200);
-
-    // give the avatar some eth to pay out
-    await helpers.transferEthToDao(dao, ethAmount);
-    await helpers.transferTokensToDao(dao, externalTokenAmount, accounts[1], externalToken);
-
-    const redeemer = WrapperService.wrappers.Redeemer;
-
-    /**
-     * staker
-     */
-    let redeemable = (await redeemer.redeemables(
-      {
-        avatarAddress: dao.avatar.address,
-        beneficiaryAddress: accounts[0],
-        proposalId,
-      }
-    ));
-
-    assert.equal(redeemable.contributionRewardEther, true);
-    assert.equal(redeemable.contributionRewardNativeToken, false);
-    assert.equal(redeemable.contributionRewardExternalToken, true);
-    assert.equal(redeemable.contributionRewardReputation, true);
-    assert.equal(web3.fromWei(redeemable.stakerTokenAmount).toNumber(), 5);
-    assert.equal(web3.fromWei(redeemable.stakerReputationAmount).toNumber(), 1);
-    assert.equal(web3.fromWei(redeemable.daoStakingBountyPotentialReward).toNumber(), 7.5);
-    assert.equal(web3.fromWei(redeemable.voterReputationAmount).toNumber(), 0);
-    assert.equal(web3.fromWei(redeemable.proposerReputationAmount).toNumber(), 15);
-
-    /**
-     * winning boosted voter
-     */
-    redeemable = (await redeemer.redeemables(
-      {
-        avatarAddress: dao.avatar.address,
-        beneficiaryAddress: accounts[1],
-        proposalId,
-      }
-    ));
-
-    assert.equal(redeemable.contributionRewardEther, true);
-    assert.equal(redeemable.contributionRewardNativeToken, false);
-    assert.equal(redeemable.contributionRewardExternalToken, true);
-    assert.equal(redeemable.contributionRewardReputation, true);
-    assert.equal(web3.fromWei(redeemable.stakerTokenAmount).toNumber(), 0);
-    assert.equal(web3.fromWei(redeemable.stakerReputationAmount).toNumber(), 0);
-    assert.equal(web3.fromWei(redeemable.voterReputationAmount).toNumber(), 0);
-    assert.equal(web3.fromWei(redeemable.voterTokenAmount).toNumber(), 0);
-
-    /**
-     * losing preboosted voter
-     */
-    redeemable = (await redeemer.redeemables(
-      {
-        avatarAddress: dao.avatar.address,
-        beneficiaryAddress: accounts[2],
-        proposalId,
-      }
-    ));
-
-    assert.equal(redeemable.contributionRewardEther, true);
-    assert.equal(redeemable.contributionRewardNativeToken, false);
-    assert.equal(redeemable.contributionRewardExternalToken, true);
-    assert.equal(redeemable.contributionRewardReputation, true);
-    assert.equal(web3.fromWei(redeemable.voterTokenAmount).toNumber(), 2.5);
-    assert.equal(web3.fromWei(redeemable.voterReputationAmount).toNumber(), 0);
-
-    /**
-     * winning preboosted voter
-     */
-    redeemable = (await redeemer.redeemables(
-      {
-        avatarAddress: dao.avatar.address,
-        beneficiaryAddress: accounts[3],
-        proposalId,
-      }
-    ));
-
-    assert.equal(redeemable.contributionRewardEther, true);
-    assert.equal(redeemable.contributionRewardNativeToken, false);
-    assert.equal(redeemable.contributionRewardExternalToken, true);
-    assert.equal(redeemable.contributionRewardReputation, true);
-    assert.equal(web3.fromWei(redeemable.voterTokenAmount).toNumber(), 2.5);
-    assert.equal(web3.fromWei(redeemable.voterReputationAmount).toNumber(), 7);
-
-    const latestBlock = await UtilsInternal.lastBlock();
-
-    redeemedResult = await (await redeemer.redeem({
-      avatarAddress: dao.avatar.address,
-      beneficiaryAddress: accounts[0],
-      proposalId,
-    })).getTxMined();
-
-    assert(redeemedResult);
-
-    const fetcher = genesisProtocol.Redeem(
-      { _beneficiary: accounts[0], _proposalId: proposalId, _avatar: dao.avatar.address },
-      { fromBlock: latestBlock });
-
-    const events = await fetcher.get();
-
-    assert.equal(events.length, 1);
-    assert.equal(web3.fromWei(events[0].args._amount).toNumber(), 5);
-  };
-
-  it("can get rewardsEvents at requiredDepth", async () => {
-
-    const events = new Array<RedeemerRewardEventsResult>();
+    genesisProtocol = await GenesisProtocolFactory.at(
+      await contributionReward.getVotingMachineAddress(dao.avatar.address));
 
     await setupRedeemer();
 
-    const rewardsFetcher = redeemer.rewardsEvents(2)();
+    await createProposal();
 
-    rewardsFetcher.watch((error: Error, event: RedeemerRewardEventsResult): void => {
-      events.push(event);
-    });
+    await voteProposal();
 
-    await basicSetup();
+    await redeemProposal();
+  };
 
-    await helpers.makeTransactions(4);
+  it("can watch", async () => {
 
-    await helpers.sleep(1000);
+    let redeemerSubscription;
+    const events = new Array<RedeemerRewardsEventPayload>();
+    const localSubscription = PubSubEventService.subscribe(
+      "Redeeming.event",
+      (topic: string, event: RedeemerRewardsEventPayload): void => {
+        events.push(event);
+      });
 
-    rewardsFetcher.stopWatching();
+    try {
+
+      await basicSetup();
+
+      redeemerSubscription = await redeemer.rewardsEvents(
+        "Redeeming.event",
+        { fromBlock: preRedeemBlockNumber, toBlock: "latest" });
+
+      // console.log(`${await UtilsInternal.lastBlock()}`);
+      await helpers.sleep(100);
+      // console.log(`${await UtilsInternal.lastBlock()}`);
+
+      assert.isOk(events);
+      assert.equal(events.length, 1, "wrong number of events");
+
+      // console.log(`${await UtilsInternal.lastBlock()}`);
+      await createProposal();
+      await voteProposal();
+      await redeemProposal();
+      // console.log(`${await UtilsInternal.lastBlock()}`);
+
+    } finally {
+      if (redeemerSubscription) {
+        await redeemerSubscription.unsubscribe(1000)
+          .then(async () => { if (localSubscription) { await localSubscription.unsubscribe(1000); } });
+      }
+    }
+    // console.log(`${await UtilsInternal.lastBlock()}`);
+    assert.equal(events.length, 2, "wrong number of events after new proposal");
+  });
+
+  it("can get rewardsEvents at requiredDepth", async () => {
+
+    let redeemerSubscription;
+    const events = new Array<RedeemerRewardsEventPayload>();
+    const localSubscription =
+      PubSubEventService.subscribe("Redeeming.event", (topic: string, event: RedeemerRewardsEventPayload): void => {
+        events.push(event);
+      });
+
+    try {
+      await basicSetup();
+
+      await helpers.makeTransactions(4);
+
+      redeemerSubscription = await redeemer.rewardsEvents(
+        "Redeeming.event",
+        { fromBlock: preRedeemBlockNumber, toBlock: await UtilsInternal.lastBlock() },
+        2);
+
+    } finally {
+      if (redeemerSubscription) {
+        await redeemerSubscription.unsubscribe(1000)
+          .then(async () => { if (localSubscription) { await localSubscription.unsubscribe(1000); } });
+      }
+    }
 
     assert.isOk(events);
     assert.equal(events.length, 1, "wrong number of events");
@@ -239,11 +209,26 @@ describe("Redeemer", () => {
 
   it("can get all rewardsEvents", async () => {
 
-    await basicSetup();
+    let redeemerSubscription;
+    const events = new Array<RedeemerRewardsEventPayload>();
+    const localSubscription =
+      PubSubEventService.subscribe("Redeeming.event", (topic: string, event: RedeemerRewardsEventPayload): void => {
+        events.push(event);
+      });
 
-    const rewardsFetcher = redeemer.rewardsEvents();
+    try {
+      await basicSetup();
 
-    const events = await rewardsFetcher().get();
+      redeemerSubscription = await redeemer.rewardsEvents(
+        "Redeeming.event",
+        { fromBlock: preRedeemBlockNumber, toBlock: await UtilsInternal.lastBlock() });
+
+    } finally {
+      if (redeemerSubscription) {
+        await redeemerSubscription.unsubscribe(1000)
+          .then(async () => { if (localSubscription) { await localSubscription.unsubscribe(1000); } });
+      }
+    }
 
     assert.isOk(events);
     assert.equal(events.length, 1, "wrong number of events");
