@@ -82,13 +82,23 @@ export class AggregateEventService {
       }
     }
 
+    let mutex = false;
+
     const handler = async (): Promise<boolean> => {
-      lastBlockComplete = await this.handleAggregateEventNewBlock(
-        events,
-        eventTopic,
-        filter,
-        lastBlockComplete
-      );
+
+      if (!mutex) {
+        // prevent reentrancy
+        mutex = true;
+
+        lastBlockComplete = await this.handleAggregateEventNewBlock(
+          events,
+          eventTopic,
+          filter,
+          lastBlockComplete
+        );
+        mutex = false;
+      }
+
       // return whether we're done. filter.toBlock must be a number if not forever
       return (!isWatch && (lastBlockComplete === filter.toBlock));
     };
