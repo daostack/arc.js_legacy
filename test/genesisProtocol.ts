@@ -571,10 +571,8 @@ describe("GenesisProtocol", () => {
 
   it("can call getRedeemableReputationProposer", async () => {
     const proposalId = await createProposal();
-    const result = await genesisProtocol.getRedeemableReputationProposer({
-      proposalId,
-    });
-    assert(typeof result !== "undefined");
+    const redeemable = await genesisProtocol.getRedeemableReputationProposer({ proposalId });
+    assert.equal(web3.fromWei(redeemable).toNumber(), 0);
   });
 
   it("can call getRedeemableTokensVoter", async () => {
@@ -588,11 +586,19 @@ describe("GenesisProtocol", () => {
 
   it("can call getRedeemableReputationVoter", async () => {
     const proposalId = await createProposal();
-    const result = await genesisProtocol.getRedeemableReputationVoter({
+    let redeemable = await genesisProtocol.getRedeemableReputationVoter({
       beneficiaryAddress: accounts[0],
       proposalId,
     });
-    assert(typeof result !== "undefined");
+
+    assert.equal(web3.fromWei(redeemable).toNumber(), 0);
+
+    await voteProposal(proposalId, 1);
+
+    // should be executed now
+    redeemable = await genesisProtocol.getRedeemableReputationVoter({ proposalId, beneficiaryAddress: accounts[0] });
+    assert.equal(web3.fromWei(redeemable).toNumber(), 18);
+
   });
 
   it("can call getRedeemableReputationStaker", async () => {

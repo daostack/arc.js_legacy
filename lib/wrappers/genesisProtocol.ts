@@ -365,6 +365,10 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       throw new Error("proposalId is not defined");
     }
 
+    if (!await this.validateRedemptionRequest(options.proposalId)) {
+      return new BigNumber(0);
+    }
+
     this.logContractFunctionCall("GenesisProtocol.getRedeemableReputationProposer", options);
 
     return this.contract.getRedeemableReputationProposer(options.proposalId);
@@ -385,6 +389,10 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     if (!options.beneficiaryAddress) {
       throw new Error("beneficiaryAddress is not defined");
+    }
+
+    if (!await this.validateRedemptionRequest(options.proposalId)) {
+      return new BigNumber(0);
     }
 
     this.logContractFunctionCall("GenesisProtocol.getRedeemableTokensVoter", options);
@@ -412,6 +420,10 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       throw new Error("beneficiaryAddress is not defined");
     }
 
+    if (!await this.validateRedemptionRequest(options.proposalId)) {
+      return new BigNumber(0);
+    }
+
     this.logContractFunctionCall("GenesisProtocol.getRedeemableReputationVoter", options);
 
     return this.contract.getRedeemableReputationVoter(
@@ -434,6 +446,10 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     if (!options.beneficiaryAddress) {
       throw new Error("beneficiaryAddress is not defined");
+    }
+
+    if (!await this.validateRedemptionRequest(options.proposalId)) {
+      return new BigNumber(0);
     }
 
     this.logContractFunctionCall("GenesisProtocol.getRedeemableTokensStaker", options);
@@ -461,6 +477,10 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       throw new Error("beneficiaryAddress is not defined");
     }
 
+    if (!await this.validateRedemptionRequest(options.proposalId)) {
+      return new BigNumber(0);
+    }
+
     this.logContractFunctionCall("GenesisProtocol.getRedeemableTokensStakerBounty", options);
 
     return this.contract.getRedeemableTokensStakerBounty(
@@ -484,6 +504,10 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
     if (!options.beneficiaryAddress) {
       throw new Error("beneficiaryAddress is not defined");
+    }
+
+    if (!await this.validateRedemptionRequest(options.proposalId)) {
+      return new BigNumber(0);
     }
 
     this.logContractFunctionCall("GenesisProtocol.getRedeemableReputationStaker", options);
@@ -1086,6 +1110,11 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       votersStakes: proposalArray[4],
       winningVote: proposalArray[9].toNumber(),
     };
+  }
+
+  private async validateRedemptionRequest(proposalId: Hash): Promise<boolean> {
+    const proposalState = await this.getState({ proposalId });
+    return ((proposalState === ProposalState.Executed) || (proposalState === ProposalState.Closed));
   }
 }
 
