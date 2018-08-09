@@ -176,7 +176,7 @@ See more about how to use Pub/Sub events [here](#subscribing).
 
 <a name="accountchanges"></a>
 ### Account Changes
-You can be notified whenever the current account changes by setting [InitializeArcOptions.watchForAccountChanges](/api/interfaces/InitializeArcOptions#watchForAccountChanges) to `true` when you call [InitializeArcJs](/api/README/#initializearcjs), and then by calling [subscribeToAccountChanges](/api/classes/accountService#subscribeToAccountChanges). For more information, see [AccountService](/api/classes/AccountService).
+You can be notified whenever the current account changes by setting [InitializeArcOptions.watchForAccountChanges](/api/interfaces/InitializeArcOptions#watchForAccountChanges) to `true` when you call [InitializeArcJs](/api/README/#initializearcjs), and then by calling [subscribeToAccountChanges](/api/classes/AccountService#subscribeToAccountChanges). For more information, see [AccountService](/api/classes/AccountService).
 
 ## Comparing Enhanced Web3 with Entity for Web3 Event Fetchers
 Enhanced Web3 ([EventFetcherFactory](api/README/#eventfetcherfactory)) and entity ([EntityFetcherFactory](api/README/#entityfetcherfactory)) events each have relative pros and cons.  
