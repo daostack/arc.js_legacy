@@ -11,6 +11,7 @@ export {
   ContractWrappersByType,
   ContractWrappersByAddress
 } from "./wrapperService";
+export * from "./aggregatedEventService";
 export * from "./wrapperService";
 export * from "./wrappers/absoluteVote";
 export * from "./wrappers/commonEventInterfaces";

@@ -1,17 +1,18 @@
 "use strict";
 import BigNumber from "bignumber.js";
+import {
+  AggregatedEventsPayload,
+  AggregateEventService,
+  AggregateEventsFilter,
+  EventToAggregate
+} from "../aggregatedEventService";
 import { Address, Hash } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, DecodedLogEntryEvent, IContractWrapperFactory } from "../iContractWrapperBase";
 import { EventSubscription, IEventSubscription, PubSubEventService } from "../pubSubEventService";
 import { TxGeneratingFunctionOptions } from "../transactionService";
-import {
-  AggregatedEventsPayload,
-  AggregateEventsFilter,
-  EventToAggregate,
-  Web3EventService
-} from "../web3EventService";
+import { Web3EventService } from "../web3EventService";
 import { WrapperService } from "../wrapperService";
 import { RedeemEventResult } from "./commonEventInterfaces";
 
@@ -133,7 +134,6 @@ export class RedeemerWrapper extends ContractWrapperBase {
     filter?: AggregateEventsFilter,
     requiredDepth: number = 0): Promise<IEventSubscription> {
 
-    const web3EventService = new Web3EventService();
     const eventSpecifiersMap = new Map<EventToAggregate, string>();
     const genesisProtocol = WrapperService.wrappers.GenesisProtocol;
     const contributionReward = WrapperService.wrappers.ContributionReward;
@@ -209,7 +209,9 @@ export class RedeemerWrapper extends ContractWrapperBase {
       });
 
     // aggregatorSubscription is not necessarily defined
-    const aggregatorSubscription = await web3EventService.aggregateEvents(
+    const aggService = new AggregateEventService();
+
+    const aggregatorSubscription = await aggService.aggregateEvents(
       Array.from(eventSpecifiersMap.keys()),
       aggregatorEventName,
       filter,
