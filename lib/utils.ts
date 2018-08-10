@@ -35,6 +35,7 @@ export class Utils {
         gas: gasLimitsConfig.gasLimit_runtime,
       });
       LoggingService.debug(`requireContract: loaded ${contractName}`);
+      this.setTruffleTimeout(contract);
       return contract;
     } catch (ex) {
       LoggingService.error(`requireContract failing: ${ex}`);
@@ -290,6 +291,20 @@ export class Utils {
    */
   public static getTruffleArtifactForContract(contractName: string): any {
     return require(`../migrated_contracts/${contractName}.json`);
+  }
+
+  /**
+   * The number in seconds that truffle waits to return a mined transaction, where 0 means no timeout.
+   * Undefined (absent) to use truffle's default value.
+   * @hidden - for internal use only
+   * @param contract
+   */
+  public static setTruffleTimeout(contract: any): void {
+    const truffleTimeout = ConfigService.get("truffleTimeout");
+    if (typeof truffleTimeout !== "undefined") {
+      // number in seconds where 0 means no timeout
+      contract.constructor.synchronization_timeout = truffleTimeout;
+    }
   }
 
   private static web3: Web3 = undefined;
