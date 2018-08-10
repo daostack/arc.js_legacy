@@ -1,5 +1,4 @@
 import * as JSON from "circular-json";
-import { ConfigService } from "./configService";
 
 export enum LogLevel {
   none = 0,
@@ -67,7 +66,7 @@ export class LoggingService {
 
   public static loggers: Array<ILogger> = [new ConsoleLogger()];
 
-  public static logLevel: LogLevel = parseInt(ConfigService.get("logLevel"), 10) as LogLevel;
+  public static logLevel: LogLevel = LogLevel.none;
 
   public static moduleName: string = "Arc.js";
 

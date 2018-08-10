@@ -25,6 +25,13 @@ describe("Misc", () => {
     assert.equal(setting, 10);
   });
 
+  it("can update logLevel via config", async () => {
+    assert.equal(LoggingService.logLevel, 9);
+    ConfigService.set("logLevel", 5);
+    await helpers.sleep(50);
+    assert.equal(LoggingService.logLevel, 5);
+  });
+
   it("can check correct wrapper", async () => {
     const contractNameShouldBe = "GenesisProtocol";
     const contractNameDontWant = "AbsoluteVote";
