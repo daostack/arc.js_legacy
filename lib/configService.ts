@@ -6,7 +6,7 @@ export class ConfigService {
   public static data: any;
 
   public static get(setting: string): any {
-    const parts = setting.split('.');
+    const parts = setting.split(".");
     let result;
     if (parts.length) {
       result = ConfigService.data;
@@ -18,8 +18,8 @@ export class ConfigService {
   }
 
   public static set(setting: string, value: any): void {
-    const parts = setting.split('.');
-    let count = parts.length - 1;
+    const parts = setting.split(".");
+    const count = parts.length - 1;
     let section = ConfigService.data;
     if (count > 0) {
       for (let i = 0; i < count; ++i) {
