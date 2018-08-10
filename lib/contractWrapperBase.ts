@@ -80,6 +80,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
       // rather than the incomplete one returned by truffle.
       this.contract = await this.solidityContract.new(...rest)
         .then((contract: any) => contract, (error: any) => { throw error; });
+      Utils.setTruffleTimeout(this.contract);
       this.hydrated();
     } catch (ex) {
       LoggingService.error(`hydrateFromNew failing: ${ex}`);
@@ -99,6 +100,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
       // rather than the incomplete one returned by truffle.
       this.contract = await this.solidityContract.at(address)
         .then((contract: any) => contract, (error: any) => { throw error; });
+      Utils.setTruffleTimeout(this.contract);
       this.hydrated();
     } catch (ex) {
       LoggingService.error(`hydrateFromAt failing: ${ex}`);
@@ -117,6 +119,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
       // rather than the incomplete one returned by truffle.
       this.contract = await this.solidityContract.deployed()
         .then((contract: any) => contract, (error: any) => { throw error; });
+      Utils.setTruffleTimeout(this.contract);
       this.hydrated();
     } catch (ex) {
       LoggingService.error(`hydrateFromDeployed failing: ${ex}`);

@@ -7,6 +7,9 @@ Automatically approve token transfers for operations that require the sender pay
 **defaultVotingMachine**
 The voting machine used by default by `Dao.new` when creating new DAOs.  Default is "AbsoluteVote".
 
+**estimateGas**
+If `true` Arc.js will, for every call that generates a transaction, call `estimateGas` to propose a minimum value.  See [Estimate Gas](Transactions#estimateGas).
+
 **foundersConfigurationLocation**
 The location of a custom founders json configuration file, including the name of the file.  The default points to `founders.json` located in arc.js/migrations which defines default founders for ganache. If the value is given as a relative path, then it must be relative to arc.js/dist/migrations.  Refer here for [more about how to define founders](Migration).
 
@@ -30,6 +33,9 @@ The port to use when connecting to the blockchain network at runtime.  Default i
 
 **providerUrl**
 The url to use when connecting to the blockchain network at runtime.  Default is http://127.0.0.1.
+
+**truffleTimeout**
+The number in milliseconds that truffle waits to return a mined transaction, where 0 means no timeout.  Undefined (absent) to use truffle's default value.
 
 ### Obtain a configuration setting at runtime
 
