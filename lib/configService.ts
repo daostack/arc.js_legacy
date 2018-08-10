@@ -1,3 +1,5 @@
+import { PubSubEventService } from "./pubSubEventService";
+
 /**
  * get and set global Arc.js settings
  */
@@ -27,6 +29,7 @@ export class ConfigService {
       }
     }
     section[parts[count]] = value;
+    PubSubEventService.publish(`ConfigService.settingChanged.${setting}`, value);
   }
 
   constructor() {

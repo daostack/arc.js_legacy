@@ -49,6 +49,7 @@ import { Web3 } from "web3";
 import { AccountService } from "./accountService";
 import { ConfigService } from "./configService";
 import { LoggingService, LogLevel } from "./loggingService";
+import { PubSubEventService } from "./pubSubEventService";
 import { Utils } from "./utils";
 import { WrapperService, WrapperServiceInitializeOptions } from "./wrapperService";
 
@@ -75,6 +76,17 @@ export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
 export async function InitializeArcJs(options?: InitializeArcOptions): Promise<Web3> {
   LoggingService.info("Initializing Arc.js");
   try {
+
+    /**
+     * Initialize LoggingService here to avoid cirular dependency involving ConfigService and PubSubService
+     */
+    LoggingService.logLevel = parseInt(ConfigService.get("logLevel"), 10) as LogLevel;
+    /**
+     * Watch for changes in logLevel via ConfigService.
+     */
+    PubSubEventService.subscribe(`ConfigService.settingChanged.logLevel`, (topics: string, value: number): void => {
+      LoggingService.logLevel = parseInt(value as any, 10) as LogLevel;
+    });
 
     if (options && options.useNetworkDefaultsFor) {
       const networkDefaults = ConfigService.get("networkDefaults")[options.useNetworkDefaultsFor];
