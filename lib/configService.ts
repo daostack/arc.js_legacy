@@ -6,11 +6,27 @@ export class ConfigService {
   public static data: any;
 
   public static get(setting: string): any {
-    return ConfigService.data[setting];
+    const parts = setting.split(".");
+    let result;
+    if (parts.length) {
+      result = ConfigService.data;
+      parts.forEach((part: any): void => {
+        result = result[part];
+      });
+    }
+    return result;
   }
 
   public static set(setting: string, value: any): void {
-    ConfigService.data[setting] = value;
+    const parts = setting.split(".");
+    const count = parts.length - 1;
+    let section = ConfigService.data;
+    if (count > 0) {
+      for (let i = 0; i < count; ++i) {
+        section = section[parts[i]];
+      }
+    }
+    section[parts[count]] = value;
   }
 
   constructor() {
