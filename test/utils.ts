@@ -11,6 +11,20 @@ import * as helpers from "./helpers";
 
 describe("Misc", () => {
 
+  it("can set/get txDepthRequiredForConfirmation", async () => {
+
+    let setting = ConfigService.get("logLevel");
+    assert.equal(setting, 9);
+
+    setting = ConfigService.get("txDepthRequiredForConfirmation.live");
+    assert.equal(setting, 20);
+
+    setting = ConfigService.set("txDepthRequiredForConfirmation.live", 10);
+
+    setting = ConfigService.get("txDepthRequiredForConfirmation.live");
+    assert.equal(setting, 10);
+  });
+
   it("can check correct wrapper", async () => {
     const contractNameShouldBe = "GenesisProtocol";
     const contractNameDontWant = "AbsoluteVote";
