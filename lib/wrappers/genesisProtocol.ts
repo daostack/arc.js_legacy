@@ -353,6 +353,21 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   }
 
   /**
+   * Returna a promise of the number of boosted proposals, not including those
+   * that have expired but have not yet been executed so as to update their status.
+   */
+  public async getBoostedProposalsCount(avatar: Address): Promise<BigNumber> {
+
+    if (!avatar) {
+      throw new Error("avatar is not defined");
+    }
+
+    this.logContractFunctionCall("GenesisProtocol.getBoostedProposalsCount", { avatar });
+
+    return this.contract.getBoostedProposalsCount(avatar);
+  }
+
+  /**
    * Return the current balances on this GenesisProtocol's staking and the given avatar's native tokens.
    * This can be useful, for example, if you want to know in advance whether the avatar has enough funds
    * at the moment to payout rewards to stakers and voters.
