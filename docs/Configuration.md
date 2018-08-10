@@ -35,7 +35,7 @@ The port to use when connecting to the blockchain network at runtime.  Default i
 The url to use when connecting to the blockchain network at runtime.  Default is http://127.0.0.1.
 
 **truffleTimeout**
-The number in seconds that truffle waits to return a mined transaction, where 0 means no timeout.  Undefined (absent) to use truffle's default value.
+The number in milliseconds that truffle waits to return a mined transaction, where 0 means no timeout.  Undefined (absent) to use truffle's default value.
 
 ### Obtain a configuration setting at runtime
 

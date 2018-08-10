@@ -294,15 +294,15 @@ export class Utils {
   }
 
   /**
-   * The number in seconds that truffle waits to return a mined transaction, where 0 means no timeout.
-   * Undefined (absent) to use truffle's default value.
+   * The number in millseconds that truffle waits to return a mined transaction,
+   * where 0 means no timeout and `undefined` (absent) means use truffle's default value.
    * @hidden - for internal use only
    * @param contract
    */
   public static setTruffleTimeout(contract: any): void {
     const truffleTimeout = ConfigService.get("truffleTimeout");
     if (typeof truffleTimeout !== "undefined") {
-      // number in seconds where 0 means no timeout
+      // number in milliseconds where 0 means no timeout
       contract.constructor.synchronization_timeout = truffleTimeout;
     }
   }
