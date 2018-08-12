@@ -4,7 +4,7 @@ import { Address } from "./commonTypes";
 import { IContractWrapperBase } from "./iContractWrapperBase";
 import { LoggingService } from "./loggingService";
 import { EventSubscription, IEventSubscription, PubSubEventService } from "./pubSubEventService";
-import { TransactionService, TransactionReceiptTruffle } from "./transactionService";
+import { TransactionReceiptTruffle, TransactionService } from "./transactionService";
 import { Utils } from "./utils";
 import { UtilsInternal } from "./utilsInternal";
 
@@ -154,20 +154,26 @@ export class AggregateEventService {
     const web3 = await Utils.getWeb3();
     const requestedContractbyAddress = new Map<Address, any>();
 
+    /**
+     * Map the contract address to the truffle contract
+     */
     events.forEach((event: EventToAggregate) => {
       requestedContractbyAddress.set(event.contract.address, event.contract.contract);
     });
 
     const eventSpecsByContractAddress = new Map<Address, Map<string, EventToAggregate>>();
 
+    /**
+     * Map the contract address to a Map of event name to EventToAggregate
+     */
     events.forEach((event: EventToAggregate) => {
       let namesMap = eventSpecsByContractAddress.get(event.contract.address);
       if (!namesMap) {
         namesMap = new Map<string, EventToAggregate>();
-        events.filter((e) => e.contract.address === event.contract.address)
-          .forEach((eventSpecWithAddress) => {
+        events.filter((e: EventToAggregate): boolean => e.contract.address === event.contract.address)
+          .forEach((eventSpecWithAddress: EventToAggregate): void => {
             namesMap.set(eventSpecWithAddress.eventName, eventSpecWithAddress);
-          })
+          });
         eventSpecsByContractAddress.set(event.contract.address, namesMap);
       }
     });
@@ -215,8 +221,9 @@ export class AggregateEventService {
             const eventSpecsByName = eventSpecsByContractAddress.get(log.address);
             const eventSpec = eventSpecsByName.get(decodedEvent.event);
 
-            if (eventSpec)
+            if (eventSpec) {
               foundEvents.set(eventSpec, decodedEvent);
+            }
           }
         }
         if (foundEvents.size) {
