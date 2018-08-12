@@ -85,6 +85,32 @@ export class AggregateEventService {
 
     let mutex = false;
 
+    const requestedContractbyAddress = new Map<Address, any>();
+
+    /**
+     * Map the contract address to the truffle contract
+     */
+    events.forEach((event: EventToAggregate) => {
+      requestedContractbyAddress.set(event.contract.address, event.contract.contract);
+    });
+
+    const eventSpecsByContractAddress = new Map<Address, Map<string, EventToAggregate>>();
+
+    /**
+     * Map the contract address to a Map of event name to EventToAggregate
+     */
+    events.forEach((event: EventToAggregate) => {
+      let namesMap = eventSpecsByContractAddress.get(event.contract.address);
+      if (!namesMap) {
+        namesMap = new Map<string, EventToAggregate>();
+        events.filter((e: EventToAggregate): boolean => e.contract.address === event.contract.address)
+          .forEach((eventSpecWithAddress: EventToAggregate): void => {
+            namesMap.set(eventSpecWithAddress.eventName, eventSpecWithAddress);
+          });
+        eventSpecsByContractAddress.set(event.contract.address, namesMap);
+      }
+    });
+
     const handler = async (): Promise<boolean> => {
 
       if (!mutex) {
@@ -92,7 +118,8 @@ export class AggregateEventService {
         mutex = true;
 
         lastBlockComplete = await this.handleAggregateEventNewBlock(
-          events,
+          requestedContractbyAddress,
+          eventSpecsByContractAddress,
           eventTopic,
           filter,
           lastBlockComplete
@@ -146,37 +173,13 @@ export class AggregateEventService {
   }
 
   private async handleAggregateEventNewBlock(
-    events: Array<EventToAggregate>,
+    requestedContractbyAddress: Map<Address, any>,
+    eventSpecsByContractAddress: Map<Address, Map<string, EventToAggregate>>,
     eventTopic: string,
     filter: AggregateEventsFilter,
     lastBlockCompleteNumber: number): Promise<number> {
 
     const web3 = await Utils.getWeb3();
-    const requestedContractbyAddress = new Map<Address, any>();
-
-    /**
-     * Map the contract address to the truffle contract
-     */
-    events.forEach((event: EventToAggregate) => {
-      requestedContractbyAddress.set(event.contract.address, event.contract.contract);
-    });
-
-    const eventSpecsByContractAddress = new Map<Address, Map<string, EventToAggregate>>();
-
-    /**
-     * Map the contract address to a Map of event name to EventToAggregate
-     */
-    events.forEach((event: EventToAggregate) => {
-      let namesMap = eventSpecsByContractAddress.get(event.contract.address);
-      if (!namesMap) {
-        namesMap = new Map<string, EventToAggregate>();
-        events.filter((e: EventToAggregate): boolean => e.contract.address === event.contract.address)
-          .forEach((eventSpecWithAddress: EventToAggregate): void => {
-            namesMap.set(eventSpecWithAddress.eventName, eventSpecWithAddress);
-          });
-        eventSpecsByContractAddress.set(event.contract.address, namesMap);
-      }
-    });
 
     const toBlockNumber = await this.getFeasibleDestinationBlockNumber(filter);
     /**
