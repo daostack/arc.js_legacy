@@ -1,9 +1,10 @@
 import { promisify } from "es6-promisify";
 import { BlockWithoutTransactionData, DecodedLogEntryEvent, TransactionReceipt } from "web3";
+import { Address } from "./commonTypes";
 import { IContractWrapperBase } from "./iContractWrapperBase";
 import { LoggingService } from "./loggingService";
 import { EventSubscription, IEventSubscription, PubSubEventService } from "./pubSubEventService";
-import { TransactionService } from "./transactionService";
+import { TransactionService, TransactionReceiptTruffle } from "./transactionService";
 import { Utils } from "./utils";
 import { UtilsInternal } from "./utilsInternal";
 
@@ -151,6 +152,25 @@ export class AggregateEventService {
     lastBlockCompleteNumber: number): Promise<number> {
 
     const web3 = await Utils.getWeb3();
+    const requestedContractbyAddress = new Map<Address, any>();
+
+    events.forEach((event: EventToAggregate) => {
+      requestedContractbyAddress.set(event.contract.address, event.contract.contract);
+    });
+
+    const eventSpecsByContractAddress = new Map<Address, Map<string, EventToAggregate>>();
+
+    events.forEach((event: EventToAggregate) => {
+      let namesMap = eventSpecsByContractAddress.get(event.contract.address);
+      if (!namesMap) {
+        namesMap = new Map<string, EventToAggregate>();
+        events.filter((e) => e.contract.address === event.contract.address)
+          .forEach((eventSpecWithAddress) => {
+            namesMap.set(eventSpecWithAddress.eventName, eventSpecWithAddress);
+          })
+        eventSpecsByContractAddress.set(event.contract.address, namesMap);
+      }
+    });
 
     const toBlockNumber = await this.getFeasibleDestinationBlockNumber(filter);
     /**
@@ -168,27 +188,35 @@ export class AggregateEventService {
         const foundEvents = new Map<EventToAggregate, DecodedLogEntryEvent<any>>();
 
         for (const log of txReceipt.logs) {
-          const contractAddress = log.address;
           /**
            * see if a contract of interest generated this log
            */
-          for (const eventSpec of events) {
+          const foundContract = requestedContractbyAddress.get(log.address);
 
-            // IContractWrapperBase
-            const foundContract = (contractAddress === eventSpec.contract.address) ? eventSpec.contract : null;
+          if (foundContract) {
+            /**
+             * get the decoded events for this contract.
+             * Note each log can come from a different contract, so have to redecode each time.
+             * TODO:  seems like truffle would have a way to decode all the log entries just knowing
+             * the contract that generated the transaction??  Find out.
+             */
+            (txReceipt as any).receipt = null; // force it to redo
+            const txReceiptDecoded = await TransactionService.toTxTruffle(txReceipt, foundContract);
 
-            if (foundContract) {
-              /**
-               * get the decoded events for this contract
-               */
-              (txReceipt as any).receipt = null; // force it to redo
-              const txReceiptDecoded = await TransactionService.toTxTruffle(txReceipt, foundContract.contract);
-              const decodedEvent =
-                txReceiptDecoded.logs.filter((l: DecodedLogEntryEvent<any>) => l.logIndex === log.logIndex)[0];
-              if (eventSpec.eventName === decodedEvent.event) {
-                foundEvents.set(eventSpec, decodedEvent);
-              }
-            }
+            /**
+             * get the decoded log corresponding to the undecoded log we are at
+             */
+            const decodedEvent =
+              txReceiptDecoded.logs.filter((l: DecodedLogEntryEvent<any>) => l.logIndex === log.logIndex)[0];
+
+            /**
+             * determine whether the log is from a requested event, by name
+             */
+            const eventSpecsByName = eventSpecsByContractAddress.get(log.address);
+            const eventSpec = eventSpecsByName.get(decodedEvent.event);
+
+            if (eventSpec)
+              foundEvents.set(eventSpec, decodedEvent);
           }
         }
         if (foundEvents.size) {
