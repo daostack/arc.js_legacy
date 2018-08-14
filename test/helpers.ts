@@ -27,7 +27,7 @@ import {
 
 import {
   IntVoteInterfaceWrapper,
-} from "../lib/wrappers/IntVoteInterface";
+} from "../lib/wrappers/intVoteInterface";
 
 import {
   ProposalGeneratorBase,

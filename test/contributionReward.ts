@@ -6,7 +6,7 @@ import { DAO } from "../lib/dao";
 import { ArcTransactionProposalResult, DecodedLogEntryEvent } from "../lib/iContractWrapperBase";
 import {
   Utils
-} from "../lib/Utils";
+} from "../lib/utils";
 import { UtilsInternal } from "../lib/utilsInternal";
 import {
   RedeemEventResult
