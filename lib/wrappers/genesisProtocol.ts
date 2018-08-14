@@ -829,7 +829,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     return this._getSchemeParameters(avatarAddress);
   }
 
-  public async getParameters(paramsHash: Hash): Promise<Partial<GenesisProtocolParams>> {
+  public async getParameters(paramsHash: Hash): Promise<GetGenesisProtocolParamsResult> {
     const params = await this.getParametersArray(paramsHash);
     return {
       boostedVotePeriodLimit: params[2].toNumber(),
