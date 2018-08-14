@@ -21,6 +21,7 @@ export * from "./wrappers/genesisProtocol";
 export * from "./wrappers/globalConstraintRegistrar";
 export * from "./wrappers/iBurnableToken";
 export * from "./wrappers/iErc827Token";
+export * from "./iConfigService";
 export * from "./wrappers/iIntVoteInterface";
 export * from "./wrappers/intVoteInterface";
 export * from "./wrappers/mintableToken";

@@ -1,4 +1,4 @@
-import { IConfigService } from "./IConfigService";
+import { IConfigService } from "./iConfigService";
 import { PubSubEventService } from "./pubSubEventService";
 
 /**
