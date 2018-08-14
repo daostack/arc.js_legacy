@@ -77,7 +77,7 @@
     "tslib": "^1.9.0"
   },
   "devDependencies": {
-    "@daostack/arc": "file:../arc/daostack-arc-0.0.0-alpha.48.tgz",
+    "@daostack/arc": "0.0.0-alpha.49",
     "@types/chai": "^4.1.2",
     "@types/circular-json": "^0.4.0",
     "@types/es6-promisify": "^6.0.0",
