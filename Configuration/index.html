@@ -1881,78 +1881,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../api/interfaces/GetRedeemableReputationProposerConfig/" title="GetRedeemableReputationProposerConfig" class="md-nav__link">
-      GetRedeemableReputationProposerConfig
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/interfaces/GetRedeemableReputationStakerConfig/" title="GetRedeemableReputationStakerConfig" class="md-nav__link">
-      GetRedeemableReputationStakerConfig
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/interfaces/GetRedeemableReputationVoterConfig/" title="GetRedeemableReputationVoterConfig" class="md-nav__link">
-      GetRedeemableReputationVoterConfig
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/interfaces/GetRedeemableRewardsStakerConfig/" title="GetRedeemableRewardsStakerConfig" class="md-nav__link">
-      GetRedeemableRewardsStakerConfig
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/interfaces/GetRedeemableTokensVoterConfig/" title="GetRedeemableTokensVoterConfig" class="md-nav__link">
-      GetRedeemableTokensVoterConfig
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/interfaces/GetRedemptionOptions/" title="GetRedemptionOptions" class="md-nav__link">
-      GetRedemptionOptions
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../api/interfaces/GetScoreConfig/" title="GetScoreConfig" class="md-nav__link">
       GetScoreConfig
     </a>
@@ -2087,18 +2015,6 @@
   <li class="md-nav__item">
     <a href="../api/interfaces/GetVoterInfoResult/" title="GetVoterInfoResult" class="md-nav__link">
       GetVoterInfoResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/interfaces/GetVoteStakeConfig/" title="GetVoteStakeConfig" class="md-nav__link">
-      GetVoteStakeConfig
     </a>
   </li>
 
@@ -2637,6 +2553,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/interfaces/RedeeemableResult/" title="RedeeemableResult" class="md-nav__link">
+      RedeeemableResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/interfaces/RedeemConfig/" title="RedeemConfig" class="md-nav__link">
       RedeemConfig
     </a>
@@ -2675,18 +2603,6 @@
   <li class="md-nav__item">
     <a href="../api/interfaces/RedeemEventResult/" title="RedeemEventResult" class="md-nav__link">
       RedeemEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/interfaces/RedemptionResult/" title="RedemptionResult" class="md-nav__link">
-      RedemptionResult
     </a>
   </li>
 
@@ -3353,7 +3269,7 @@ The voting machine used by default by <code>Dao.new</code> when creating new DAO
 <p><strong>foundersConfigurationLocation</strong>
 The location of a custom founders json configuration file, including the name of the file.  The default points to <code>founders.json</code> located in arc.js/migrations which defines default founders for ganache. If the value is given as a relative path, then it must be relative to arc.js/dist/migrations.  Refer here for <a href="../Migration">more about how to define founders</a>.</p>
 <p><strong>logLevel</strong>
-The level of logging.  Default is 9 (error | info).  The available log levels, which may be combined, are:</p>
+The level of logging.  Default is 9 (<code>LogLevel.error | LogLevel.info</code>).  The available log levels, which may be combined, are:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3

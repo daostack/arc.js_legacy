@@ -1963,78 +1963,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../../interfaces/GetRedeemableReputationProposerConfig/" title="GetRedeemableReputationProposerConfig" class="md-nav__link">
-      GetRedeemableReputationProposerConfig
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/GetRedeemableReputationStakerConfig/" title="GetRedeemableReputationStakerConfig" class="md-nav__link">
-      GetRedeemableReputationStakerConfig
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/GetRedeemableReputationVoterConfig/" title="GetRedeemableReputationVoterConfig" class="md-nav__link">
-      GetRedeemableReputationVoterConfig
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/GetRedeemableRewardsStakerConfig/" title="GetRedeemableRewardsStakerConfig" class="md-nav__link">
-      GetRedeemableRewardsStakerConfig
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/GetRedeemableTokensVoterConfig/" title="GetRedeemableTokensVoterConfig" class="md-nav__link">
-      GetRedeemableTokensVoterConfig
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/GetRedemptionOptions/" title="GetRedemptionOptions" class="md-nav__link">
-      GetRedemptionOptions
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../../interfaces/GetScoreConfig/" title="GetScoreConfig" class="md-nav__link">
       GetScoreConfig
     </a>
@@ -2169,18 +2097,6 @@
   <li class="md-nav__item">
     <a href="../../interfaces/GetVoterInfoResult/" title="GetVoterInfoResult" class="md-nav__link">
       GetVoterInfoResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/GetVoteStakeConfig/" title="GetVoteStakeConfig" class="md-nav__link">
-      GetVoteStakeConfig
     </a>
   </li>
 
@@ -2719,6 +2635,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../interfaces/RedeeemableResult/" title="RedeeemableResult" class="md-nav__link">
+      RedeeemableResult
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../interfaces/RedeemConfig/" title="RedeemConfig" class="md-nav__link">
       RedeemConfig
     </a>
@@ -2757,18 +2685,6 @@
   <li class="md-nav__item">
     <a href="../../interfaces/RedeemEventResult/" title="RedeemEventResult" class="md-nav__link">
       RedeemEventResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../interfaces/RedemptionResult/" title="RedemptionResult" class="md-nav__link">
-      RedemptionResult
     </a>
   </li>
 
@@ -3524,7 +3440,7 @@
 <h2 id="constructors_1">Constructors<a class="headerlink" href="#constructors_1" title="Permanent link">&para;</a></h2>
 <p><a id="constructor"></a></p>
 <h3 id="new-proposalserviceweb3eventservice-web3eventservice-proposalservice">⊕ <strong>new ProposalService</strong>(web3EventService: <em><a href="../Web3EventService/">Web3EventService</a></em>): <a href="./">ProposalService</a><a class="headerlink" href="#new-proposalserviceweb3eventservice-web3eventservice-proposalservice" title="Permanent link">&para;</a></h3>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1cb3367d/lib/proposalService.ts#L25">proposalService.ts:25</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f205aaa6/lib/proposalService.ts#L25">proposalService.ts:25</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -3548,7 +3464,7 @@
 <p><a id="getExecutedProposals"></a></p>
 <h3 id="getexecutedproposals">getExecutedProposals<a class="headerlink" href="#getexecutedproposals" title="Permanent link">&para;</a></h3>
 <p>► <strong>getExecutedProposals</strong>(votingMachine: <em><a href="../IntVoteInterfaceWrapper/">IntVoteInterfaceWrapper</a></em>): <a href="../../#EntityFetcherFactory">EntityFetcherFactory</a><a href="../../interfaces/ExecutedProposal/">ExecutedProposal</a>, <a href="../../interfaces/ExecuteProposalEventResult/">ExecuteProposalEventResult</a></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1cb3367d/lib/proposalService.ts#L116">proposalService.ts:116</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f205aaa6/lib/proposalService.ts#L116">proposalService.ts:116</a></em></p>
 <p>Returns promise of an EntityFetcherFactory for fetching executed proposals from the given <code>IntVoteInterfaceWrapper</code>. The proposals are returned as promises of instances of <code>ExecutedProposal</code>.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3572,7 +3488,7 @@
 <p><a id="getProposalEvents"></a></p>
 <h3 id="getproposalevents">getProposalEvents<a class="headerlink" href="#getproposalevents" title="Permanent link">&para;</a></h3>
 <p>► <strong>getProposalEvents</strong>TProposal,TEventArgs(options: <em><a href="../../interfaces/GetProposalEventsOptions/">GetProposalEventsOptions</a><code>TProposal</code>, <code>TEventArgs</code></em>): <a href="../../#EntityFetcherFactory">EntityFetcherFactory</a><code>TProposal</code>⎮<code>TProposal</code><a href="../../interfaces/ProposalEntity/">ProposalEntity</a>, <code>TEventArgs</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1cb3367d/lib/proposalService.ts#L41">proposalService.ts:41</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f205aaa6/lib/proposalService.ts#L41">proposalService.ts:41</a></em></p>
 <p>Returns an EntityFetcherFactory for fetching proposal-related events. Can take any EventFetcherFactory whose event args supply <code>_proposalId</code>. Returns events as a promise of <code>TProposal</code>. You must supply an <code>EventFetcherFactory</code> for fetching the events and a callback to transform <code>TEventArgs</code> to a promise of <code>TProposal</code>. Each entity, when the associated proposal is votable and options.votingMachine is supplied, will also contain a <code>votingMachine</code> property of type <code>IntVoteInterfaceWrapper</code>.
 <em><strong>type</strong></em>: TEventArgs The type of the <code>args</code> object in the event.</p>
 <p><em><strong>type</strong></em>: TProposal The type of object returned as a transformation of the <code>args</code> information in each event.</p>
@@ -3601,7 +3517,7 @@
 <p><a id="getVotableProposals"></a></p>
 <h3 id="getvotableproposals">getVotableProposals<a class="headerlink" href="#getvotableproposals" title="Permanent link">&para;</a></h3>
 <p>► <strong>getVotableProposals</strong>(votingMachine: <em><a href="../IntVoteInterfaceWrapper/">IntVoteInterfaceWrapper</a></em>): <a href="../../#EntityFetcherFactory">EntityFetcherFactory</a><a href="../../interfaces/VotableProposal/">VotableProposal</a>, <a href="../../interfaces/NewProposalEventResult/">NewProposalEventResult</a></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1cb3367d/lib/proposalService.ts#L91">proposalService.ts:91</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f205aaa6/lib/proposalService.ts#L91">proposalService.ts:91</a></em></p>
 <p>Returns promise of an EntityFetcherFactory for fetching votable proposals from the given <code>IntVoteInterfaceWrapper</code>. The proposals are returned as promises of instances of <code>VotableProposal</code>.</p>
 <p><strong>Parameters:</strong></p>
 <table>
