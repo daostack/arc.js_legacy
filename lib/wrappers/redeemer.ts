@@ -79,8 +79,8 @@ export class RedeemerWrapper extends ContractWrapperBase {
       contributionRewardExternalToken: result[3][3],
       contributionRewardNativeToken: result[3][1],
       contributionRewardReputation: result[3][0],
-      daoBountyPotentialReward: result[1][1],
-      daoBountyReward: result[1][0],
+      daoStakingBountyPotentialReward: result[1][1],
+      daoStakingBountyReward: result[1][0],
       proposalExecuted: result[2],
       proposalId: options.proposalId,
       proposerReputationAmount: result[0][4],
@@ -115,8 +115,8 @@ export interface RedeeemableResult {
   contributionRewardExternalToken: boolean;
   contributionRewardNativeToken: boolean;
   contributionRewardReputation: boolean;
-  daoBountyReward: BigNumber;
-  daoBountyPotentialReward: BigNumber;
+  daoStakingBountyReward: BigNumber;
+  daoStakingBountyPotentialReward: BigNumber;
   proposalExecuted: boolean;
   proposalId: Hash;
   proposerReputationAmount: BigNumber;

@@ -78,6 +78,9 @@ describe("Redeemer", () => {
 
     await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.Yes, accounts[1]);
 
+    /**
+     * expire out of the GP boosting phase. 259200 is the default boosting phase length.
+     */
     await helpers.increaseTime(259200);
 
     // give the avatar some eth to pay out
@@ -103,7 +106,7 @@ describe("Redeemer", () => {
     assert.equal(redeemable.contributionRewardReputation, true);
     assert.equal(web3.fromWei(redeemable.stakerTokenAmount).toNumber(), 5);
     assert.equal(web3.fromWei(redeemable.stakerReputationAmount).toNumber(), 1);
-    assert.equal(web3.fromWei(redeemable.daoBountyPotentialReward).toNumber(), 7.5);
+    assert.equal(web3.fromWei(redeemable.daoStakingBountyPotentialReward).toNumber(), 7.5);
     assert.equal(web3.fromWei(redeemable.voterReputationAmount).toNumber(), 0);
     assert.equal(web3.fromWei(redeemable.proposerReputationAmount).toNumber(), 15);
 
