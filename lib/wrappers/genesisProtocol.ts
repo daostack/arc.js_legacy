@@ -36,10 +36,8 @@ import {
 } from "./iIntVoteInterface";
 
 import { promisify } from "es6-promisify";
-import { UtilsInternal } from "../utilsInternal.js";
-import { WrapperService } from "../wrapperService.js";
+import { UtilsInternal } from "../utilsInternal";
 import { IntVoteInterfaceWrapper } from "./intVoteInterface";
-import { RedeemerOptions } from "./redeemer.js";
 import { StandardTokenFactory, StandardTokenWrapper } from "./standardToken";
 
 export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements SchemeWrapper {
