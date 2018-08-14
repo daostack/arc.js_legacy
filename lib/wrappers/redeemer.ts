@@ -1,4 +1,5 @@
 "use strict";
+import { BigNumber } from "../../node_modules/bignumber.js";
 import { Address, Hash } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
@@ -41,6 +42,49 @@ export class RedeemerWrapper extends ContractWrapperBase {
       [options.proposalId, options.avatarAddress, options.beneficiaryAddress]
     );
   }
+
+  /**
+   * Returns the amounts that would be redeemed if `Redeemer.redeem` were invoked right now,
+   * as if the proposal were executed and redeemed.
+   * @param options
+   */
+  public async redeemables(options: RedeemerOptions)
+    : Promise<RedeeemableResult> {
+
+    if (!options.avatarAddress) {
+      throw new Error("avatarAddress is not defined");
+    }
+
+    if (!options.beneficiaryAddress) {
+      throw new Error("beneficiaryAddress is not defined");
+    }
+
+    if (!options.proposalId) {
+      throw new Error("proposalId is not defined");
+    }
+
+    this.logContractFunctionCall("Redeemer.redeem.call", options);
+
+    const result = await this.contract.redeem.call(
+      options.proposalId,
+      options.avatarAddress,
+      options.beneficiaryAddress);
+
+    return {
+      contributionRewardEther: result[3][2],
+      contributionRewardExternalToken: result[3][3],
+      contributionRewardNativeToken: result[3][1],
+      contributionRewardReputation: result[3][0],
+      daoBountyReward: result[1],
+      proposalExecuted: result[2],
+      proposalId: options.proposalId,
+      proposerReputationAmount: result[0][4],
+      stakerReputationAmount: result[0][1],
+      stakerTokenAmount: result[0][0],
+      voterReputationAmount: result[0][3],
+      voterTokenAmount: result[0][2],
+    };
+  }
 }
 
 /**
@@ -61,23 +105,22 @@ export const RedeemerFactory =
     RedeemerWrapper,
     new Web3EventService()) as RedeemerFactoryType;
 
-export interface GetRedemptionOptions {
-  proposalId: Hash;
-  executed?: boolean;
-}
-
-export interface RedemptionResult {
+export interface RedeeemableResult {
   contributionRewardEther: boolean;
   contributionRewardExternalToken: boolean;
   contributionRewardNativeToken: boolean;
   contributionRewardReputation: boolean;
+  daoBountyReward: BigNumber;
   proposalExecuted: boolean;
-  genesisProtocolRedeem: boolean;
-  genesisProtocolDaoBounty: boolean;
   proposalId: Hash;
+  proposerReputationAmount: BigNumber;
+  stakerReputationAmount: BigNumber;
+  stakerTokenAmount: BigNumber;
+  voterReputationAmount: BigNumber;
+  voterTokenAmount: BigNumber;
 }
 
-export interface RedeemerOptions extends TxGeneratingFunctionOptions {
+export interface RedeemerOptions {
   avatarAddress: Address;
   beneficiaryAddress: Address;
   proposalId: Hash;

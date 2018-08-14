@@ -101,7 +101,9 @@ export class UpgradeSchemeWrapper extends ProposalGeneratorBase implements Schem
     );
   }
 
-  public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
+  public setParameters(
+    params: StandardSchemeParams & TxGeneratingFunctionOptions)
+    : Promise<ArcTransactionDataResult<Hash>> {
 
     this.validateStandardSchemeParams(params);
 

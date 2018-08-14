@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import { BinaryVoteResult, IntVoteInterfaceWrapper, RedeemEventResult, Utils } from "../lib";
+import { BinaryVoteResult, IntVoteInterfaceWrapper, RedeemEventResult, Utils, WrapperService } from "../lib";
 import { DAO } from "../lib/dao";
 import { ArcTransactionProposalResult, DecodedLogEntryEvent } from "../lib/iContractWrapperBase";
 import { UtilsInternal } from "../lib/utilsInternal";
@@ -167,6 +167,18 @@ describe("ContributionReward scheme", () => {
     // this will mine a block, allowing the award to be redeemed
     await helpers.increaseTime(1);
 
+    const redeemer = WrapperService.wrappers.Redeemer;
+
+    const redeemable = (await redeemer.redeemables(
+      {
+        avatarAddress: dao.avatar.address,
+        beneficiaryAddress: account1,
+        proposalId,
+      }
+    ));
+
+    assert(redeemable.contributionRewardReputation);
+
     // now try to redeem some native tokens
     const result = await scheme.redeemReputation({
       avatar: dao.avatar.address,
@@ -177,7 +189,9 @@ describe("ContributionReward scheme", () => {
 
     const eventProposalId = await result.getValueFromMinedTx("_proposalId", "RedeemReputation");
     const amount = await result.getValueFromMinedTx("_amount", "RedeemReputation");
+    const beneficiary = await result.getValueFromMinedTx("_beneficiary", "RedeemReputation");
     assert.equal(eventProposalId, proposalId);
+    assert.equal(beneficiary, account1);
     assert(helpers.fromWei(amount).eq(1));
   });
 

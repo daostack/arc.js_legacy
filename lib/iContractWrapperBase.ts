@@ -167,7 +167,7 @@ export class ArcTransactionDataResult<TData> extends ArcTransactionResult {
 /**
  * Common scheme parameters for schemes that are able to create proposals.
  */
-export interface StandardSchemeParams extends TxGeneratingFunctionOptions {
+export interface StandardSchemeParams {
   /**
    * Hash of the voting machine parameters to use when voting on a proposal.
    */

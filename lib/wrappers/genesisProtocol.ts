@@ -353,172 +353,6 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   }
 
   /**
-   * Return the reputation amount to which the proposal proposer is entitled in the event that the proposal is approved.
-   * @param {GetRedeemableReputationProposerConfig} options
-   * @returns Promise<BigNumber>
-   */
-  public async getRedeemableReputationProposer(
-    options: GetRedeemableReputationProposerConfig = {} as GetRedeemableReputationProposerConfig)
-    : Promise<BigNumber> {
-
-    if (!options.proposalId) {
-      throw new Error("proposalId is not defined");
-    }
-
-    if (!await this.validateRedemptionRequest(options.proposalId)) {
-      return new BigNumber(0);
-    }
-
-    this.logContractFunctionCall("GenesisProtocol.getRedeemableReputationProposer", options);
-
-    return this.contract.getRedeemableReputationProposer(options.proposalId);
-  }
-
-  /**
-   * Return the token amount to which the voter is entitled in the event that the proposal is approved.
-   * @param {GetRedeemableTokensVoterConfig} options
-   * @returns Promise<BigNumber>
-   */
-  public async getRedeemableTokensVoter(
-    options: GetRedeemableTokensVoterConfig = {} as GetRedeemableTokensVoterConfig)
-    : Promise<BigNumber> {
-
-    if (!options.proposalId) {
-      throw new Error("proposalId is not defined");
-    }
-
-    if (!options.beneficiaryAddress) {
-      throw new Error("beneficiaryAddress is not defined");
-    }
-
-    if (!await this.validateRedemptionRequest(options.proposalId)) {
-      return new BigNumber(0);
-    }
-
-    this.logContractFunctionCall("GenesisProtocol.getRedeemableTokensVoter", options);
-
-    return this.contract.getRedeemableTokensVoter(
-      options.proposalId,
-      options.beneficiaryAddress
-    );
-  }
-
-  /**
-   * Return the reputation amount to which the voter is entitled in the event that the proposal is approved.
-   * @param {GetRedeemableReputationVoterConfig} options
-   * @returns Promise<BigNumber>
-   */
-  public async getRedeemableReputationVoter(
-    options: GetRedeemableReputationVoterConfig = {} as GetRedeemableReputationVoterConfig)
-    : Promise<BigNumber> {
-
-    if (!options.proposalId) {
-      throw new Error("proposalId is not defined");
-    }
-
-    if (!options.beneficiaryAddress) {
-      throw new Error("beneficiaryAddress is not defined");
-    }
-
-    if (!await this.validateRedemptionRequest(options.proposalId)) {
-      return new BigNumber(0);
-    }
-
-    this.logContractFunctionCall("GenesisProtocol.getRedeemableReputationVoter", options);
-
-    return this.contract.getRedeemableReputationVoter(
-      options.proposalId,
-      options.beneficiaryAddress);
-  }
-
-  /**
-   * Return the token amount to which the given staker is entitled in the event that the proposal is approved.
-   * @param {GetRedeemableRewardsStakerConfig} opts
-   * @returns Promise<BigNumber>
-   */
-  public async getRedeemableTokensStaker(
-    options: GetRedeemableRewardsStakerConfig = {} as GetRedeemableRewardsStakerConfig)
-    : Promise<BigNumber> {
-
-    if (!options.proposalId) {
-      throw new Error("proposalId is not defined");
-    }
-
-    if (!options.beneficiaryAddress) {
-      throw new Error("beneficiaryAddress is not defined");
-    }
-
-    if (!await this.validateRedemptionRequest(options.proposalId)) {
-      return new BigNumber(0);
-    }
-
-    this.logContractFunctionCall("GenesisProtocol.getRedeemableTokensStaker", options);
-
-    return this.contract.getRedeemableTokensStaker(
-      options.proposalId,
-      options.beneficiaryAddress
-    );
-  }
-
-  /**
-   * Return the token amount of bounty to which the given staker is entitled in the event that the proposal is approved.
-   * @param {GetRedeemableRewardsStakerConfig} opts
-   * @returns Promise<BigNumber>
-   */
-  public async getRedeemableTokensStakerBounty(
-    options: GetRedeemableRewardsStakerConfig = {} as GetRedeemableRewardsStakerConfig)
-    : Promise<BigNumber> {
-
-    if (!options.proposalId) {
-      throw new Error("proposalId is not defined");
-    }
-
-    if (!options.beneficiaryAddress) {
-      throw new Error("beneficiaryAddress is not defined");
-    }
-
-    if (!await this.validateRedemptionRequest(options.proposalId)) {
-      return new BigNumber(0);
-    }
-
-    this.logContractFunctionCall("GenesisProtocol.getRedeemableTokensStakerBounty", options);
-
-    return this.contract.getRedeemableTokensStakerBounty(
-      options.proposalId,
-      options.beneficiaryAddress
-    );
-  }
-
-  /**
-   * Return the reputation amount to which the staker is entitled in the event that the proposal is approved.
-   * @param {GetRedeemableReputationStakerConfig} options
-   * @returns Promise<BigNumber>
-   */
-  public async getRedeemableReputationStaker(
-    options: GetRedeemableReputationStakerConfig = {} as GetRedeemableReputationStakerConfig)
-    : Promise<BigNumber> {
-
-    if (!options.proposalId) {
-      throw new Error("proposalId is not defined");
-    }
-
-    if (!options.beneficiaryAddress) {
-      throw new Error("beneficiaryAddress is not defined");
-    }
-
-    if (!await this.validateRedemptionRequest(options.proposalId)) {
-      return new BigNumber(0);
-    }
-
-    this.logContractFunctionCall("GenesisProtocol.getRedeemableReputationStaker", options);
-
-    return this.contract.getRedeemableReputationStaker(
-      options.proposalId,
-      options.beneficiaryAddress
-    );
-  }
-
-  /**
    * Return the current balances on this GenesisProtocol's staking and the given avatar's native tokens.
    * This can be useful, for example, if you want to know in advance whether the avatar has enough funds
    * at the moment to payout rewards to stakers and voters.
@@ -648,10 +482,12 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
     );
 
     return {
-      totalStaked: result[2],
-      totalStakerStakes: result[1],
-      totalVoterStakes: result[3],
-      totalVotes: result[0],
+      preBoostedVotesNo: result[1],
+      preBoostedVotesYes: result[0],
+      stakesNo: result[5],
+      stakesYes: result[4],
+      totalStaked: result[3],
+      totalStakerStakes: result[2],
     };
   }
 
@@ -724,29 +560,6 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       stake: result[1],
       vote: result[0].toNumber(),
     };
-  }
-
-  /**
-   * Return the amount stakes behind a given proposal and vote.
-   * @param {GetVoteStakeConfig} options
-   * @returns Promise<BigNumber>
-   */
-  public async getVoteStake(
-    options: GetVoteStakeConfig = {} as GetVoteStakeConfig)
-    : Promise<BigNumber> {
-
-    if (!options.proposalId) {
-      throw new Error("proposalId is not defined");
-    }
-
-    await this._validateVote(options.vote, options.proposalId);
-
-    this.logContractFunctionCall("GenesisProtocol.voteStake", options);
-
-    return this.contract.voteStake(
-      options.proposalId,
-      options.vote
-    );
   }
 
   /**
@@ -895,7 +708,8 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
    * @param {GenesisProtocolParams} params
    * @returns parameters hash
    */
-  public async setParameters(params: GenesisProtocolParams): Promise<ArcTransactionDataResult<Hash>> {
+  public async setParameters(
+    params: GenesisProtocolParams & TxGeneratingFunctionOptions): Promise<ArcTransactionDataResult<Hash>> {
 
     params = Object.assign({},
       await GetDefaultGenesisProtocolParameters(),
@@ -1095,26 +909,20 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   private convertProposalPropsArrayToObject(proposalArray: Array<any>, proposalId: Hash): GenesisProtocolProposal {
     return {
       avatarAddress: proposalArray[0],
-      boostedPhaseTime: proposalArray[7].toNumber(),
-      currentBoostedVotePeriodLimit: proposalArray[11].toNumber(),
-      daoBountyRemain: proposalArray[13],
+      boostedPhaseTime: proposalArray[5].toNumber(),
+      currentBoostedVotePeriodLimit: proposalArray[9].toNumber(),
+      daoBountyRemain: proposalArray[11],
       executable: proposalArray[2],
       lostReputation: proposalArray[5],
       numOfChoices: proposalArray[1].toNumber(),
-      paramsHash: proposalArray[12],
+      paramsHash: proposalArray[10],
       proposalId,
-      proposer: proposalArray[10],
-      state: proposalArray[8].toNumber(),
-      submittedTime: proposalArray[6].toNumber(),
-      totalVotes: proposalArray[3],
-      votersStakes: proposalArray[4],
-      winningVote: proposalArray[9].toNumber(),
+      proposer: proposalArray[8],
+      state: proposalArray[6].toNumber(),
+      submittedTime: proposalArray[4].toNumber(),
+      votersStakes: proposalArray[3],
+      winningVote: proposalArray[7].toNumber(),
     };
-  }
-
-  private async validateRedemptionRequest(proposalId: Hash): Promise<boolean> {
-    const proposalState = await this.getState({ proposalId });
-    return ((proposalState === ProposalState.Executed) || (proposalState === ProposalState.Closed));
   }
 }
 
@@ -1155,7 +963,7 @@ export interface StakeEventResult {
   _staker: Address;
 }
 
-export interface GenesisProtocolParams extends TxGeneratingFunctionOptions {
+export interface GenesisProtocolParams {
   /**
    * The time limit in seconds for a proposal to be in relative voting mode.
    * Default is 259200 (three days).
@@ -1189,14 +997,12 @@ export interface GenesisProtocolParams extends TxGeneratingFunctionOptions {
   preBoostedVoteRequiredPercentage: number;
   /**
    * Constant A in the calculation of the proposer's reward.
-   * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
    * Must be between 0 and 100000000.
    * Default is 5.
    */
   proposingRepRewardConstA: number;
   /**
    * Constant B in the calculation of the proposer's reward.
-   * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
    * Must be between 0 and 100000000.
    * Default is 5.
    */
@@ -1268,12 +1074,10 @@ export interface GetGenesisProtocolParamsResult {
   preBoostedVoteRequiredPercentage: number;
   /**
    * Constant A in the calculation of the proposer's reward.
-   * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
    */
   proposingRepRewardConstA: number;
   /**
    * Constant B in the calculation of the proposer's reward.
-   * See [[GenesisProtocolWrapper.getRedeemableReputationProposer]].
    */
   proposingRepRewardConstB: number;
   /**
@@ -1312,21 +1116,29 @@ export interface GetVoterInfoResult {
 
 export interface GetProposalStatusResult {
   /**
-   * Amount of reputation voted
+   * Number of preboosted votes against
    */
-  totalVotes: BigNumber;
+  preBoostedVotesNo: BigNumber;
   /**
-   * Number of staked tokens currently redeemable by stakers
+   * Number of preboosted votes for
+   */
+  preBoostedVotesYes: BigNumber;
+  /**
+   * Number of staking tokens staked against
+   */
+  stakesNo: BigNumber;
+  /**
+   * Number of staking tokens staked for
+   */
+  stakesYes: BigNumber;
+  /**
+   * Number of staking tokens currently redeemable by stakers
    */
   totalStakerStakes: BigNumber;
   /**
-   * Total number of staked tokens currently redeemable by everyone
+   * Total number of staking tokens currently redeemable by everyone
    */
   totalStaked: BigNumber;
-  /**
-   * Number of staked tokens set aside and redeemable for all voters (via the staking fee)
-   */
-  totalVoterStakes: BigNumber;
 }
 
 export interface GetScoreThresholdParamsResult {
@@ -1386,72 +1198,6 @@ export interface GetThresholdConfig {
   avatar: Address;
 }
 
-/**
- * return the amount of bounty or staked tokens to which the staker will be entitled as an outcome of the proposal
- */
-export interface GetRedeemableRewardsStakerConfig {
-  /**
-   * unique hash of proposal index
-   */
-  proposalId: string;
-  /**
-   * the staker
-   */
-  beneficiaryAddress: Address;
-}
-
-/**
- * return the amount of reputation to which the proposer will be entitled as an outcome of the proposal
- */
-export interface GetRedeemableReputationProposerConfig {
-  /**
-   * unique hash of proposal index
-   */
-  proposalId: string;
-}
-
-/**
- * return the amount of tokens to which the voter will be entitled as an outcome of the proposal
- */
-export interface GetRedeemableTokensVoterConfig {
-  /**
-   * unique hash of proposal index
-   */
-  proposalId: string;
-  /**
-   * the voter
-   */
-  beneficiaryAddress: Address;
-}
-
-/**
- * return the amount of reputation to which the voter will be entitled as an outcome of the proposal
- */
-export interface GetRedeemableReputationVoterConfig {
-  /**
-   * unique hash of proposal index
-   */
-  proposalId: string;
-  /**
-   * the voter
-   */
-  beneficiaryAddress: Address;
-}
-
-/**
- * return the amount of reputation to which the staker will be entitled as an outcome of the proposal
- */
-export interface GetRedeemableReputationStakerConfig {
-  /**
-   * unique hash of proposal index
-   */
-  proposalId: string;
-  /**
-   * the staker
-   */
-  beneficiaryAddress: Address;
-}
-
 export interface GetVoterInfoConfig {
   /**
    * unique hash of proposal index
@@ -1497,17 +1243,6 @@ export interface GetStakerInfoConfig {
    * address of the staking agent
    */
   staker: string;
-}
-
-export interface GetVoteStakeConfig {
-  /**
-   * unique hash of proposal index
-   */
-  proposalId: string;
-  /**
-   * the choice of vote. Can be 1 (YES) or 2 (NO).
-   */
-  vote: number;
 }
 
 export interface GetWinningVoteConfig {
@@ -1627,7 +1362,6 @@ export interface GenesisProtocolProposal {
    * in seconds
    */
   submittedTime: number;
-  totalVotes: BigNumber;
   votersStakes: BigNumber;
   winningVote: number;
 }
