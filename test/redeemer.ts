@@ -123,7 +123,9 @@ describe("Redeemer", () => {
     assert.equal(redeemable.contributionRewardExternalToken, true);
     assert.equal(redeemable.contributionRewardReputation, true);
     assert.equal(web3.fromWei(redeemable.stakerTokenAmount).toNumber(), 0);
+    assert.equal(web3.fromWei(redeemable.stakerReputationAmount).toNumber(), 0);
     assert.equal(web3.fromWei(redeemable.voterReputationAmount).toNumber(), 0);
+    assert.equal(web3.fromWei(redeemable.voterTokenAmount).toNumber(), 0);
 
     /**
      * losing preboosted voter

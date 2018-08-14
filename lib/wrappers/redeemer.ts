@@ -68,7 +68,12 @@ export class RedeemerWrapper extends ContractWrapperBase {
     const result = await this.contract.redeem.call(
       options.proposalId,
       options.avatarAddress,
-      options.beneficiaryAddress);
+      options.beneficiaryAddress)
+      // correct for fake truffle promises
+      .then((_result: any): any => _result)
+      .catch((ex: Error) => {
+        throw new Error(ex.message);
+      });
 
     return {
       contributionRewardEther: result[3][2],

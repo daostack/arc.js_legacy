@@ -39,6 +39,8 @@ import { promisify } from "es6-promisify";
 import { UtilsInternal } from "../utilsInternal.js";
 import { IntVoteInterfaceWrapper } from "./intVoteInterface";
 import { StandardTokenFactory, StandardTokenWrapper } from "./standardToken";
+import { RedeemerOptions } from './redeemer.js';
+import { WrapperService } from '../wrapperService.js';
 
 export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements SchemeWrapper {
 
@@ -549,9 +551,9 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
       throw new Error("staker is not defined");
     }
 
-    this.logContractFunctionCall("GenesisProtocol.staker", options);
+    this.logContractFunctionCall("GenesisProtocol.getStaker", options);
 
-    const result = await this.contract.staker(
+    const result = await this.contract.getStaker(
       options.proposalId,
       options.staker
     );
