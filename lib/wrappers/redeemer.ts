@@ -44,8 +44,7 @@ export class RedeemerWrapper extends ContractWrapperBase {
   }
 
   /**
-   * Returns the amounts that would be redeemed if `Redeemer.redeem` were invoked right now,
-   * as if the proposal were executed and redeemed.
+   * Returns the amounts that would be redeemed if `Redeemer.redeem` were invoked right now.
    * @param options
    */
   public async redeemables(options: RedeemerOptions)
@@ -70,7 +69,7 @@ export class RedeemerWrapper extends ContractWrapperBase {
       options.avatarAddress,
       options.beneficiaryAddress)
       // correct for fake truffle promises
-      .then((_result: any): any => _result)
+      .then((r: any): any => r)
       .catch((ex: Error) => {
         throw new Error(ex.message);
       });
@@ -80,8 +79,8 @@ export class RedeemerWrapper extends ContractWrapperBase {
       contributionRewardExternalToken: result[3][3],
       contributionRewardNativeToken: result[3][1],
       contributionRewardReputation: result[3][0],
-      daoBountyReward: result[1][0],
       daoBountyPotentialReward: result[1][1],
+      daoBountyReward: result[1][0],
       proposalExecuted: result[2],
       proposalId: options.proposalId,
       proposerReputationAmount: result[0][4],

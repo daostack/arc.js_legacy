@@ -37,10 +37,10 @@ import {
 
 import { promisify } from "es6-promisify";
 import { UtilsInternal } from "../utilsInternal.js";
+import { WrapperService } from "../wrapperService.js";
 import { IntVoteInterfaceWrapper } from "./intVoteInterface";
+import { RedeemerOptions } from "./redeemer.js";
 import { StandardTokenFactory, StandardTokenWrapper } from "./standardToken";
-import { RedeemerOptions } from './redeemer.js';
-import { WrapperService } from '../wrapperService.js';
 
 export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements SchemeWrapper {
 
