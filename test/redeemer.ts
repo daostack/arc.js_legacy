@@ -1,9 +1,11 @@
 "use strict";
 import { assert } from "chai";
-import { BinaryVoteResult, GenesisProtocolWrapper, WrapperService } from "../lib";
-import { UtilsInternal } from "../lib/utilsInternal";
+import { BinaryVoteResult } from "../lib/commonTypes";
 import { ContributionRewardFactory, ContributionRewardWrapper } from "../lib/wrappers/contributionReward";
+import { WrapperService } from "../lib/wrapperService";
 import * as helpers from "./helpers";
+import { GenesisProtocolWrapper } from '../lib/wrappers/genesisProtocol';
+import { UtilsInternal } from '../lib/utilsInternal';
 
 describe("Redeemer", () => {
 

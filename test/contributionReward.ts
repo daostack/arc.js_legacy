@@ -1,14 +1,25 @@
 import { assert } from "chai";
-import { BinaryVoteResult, IntVoteInterfaceWrapper, RedeemEventResult, Utils } from "../lib";
+import {
+  BinaryVoteResult
+} from "../lib/commonTypes";
 import { DAO } from "../lib/dao";
 import { ArcTransactionProposalResult, DecodedLogEntryEvent } from "../lib/iContractWrapperBase";
+import {
+  Utils
+} from "../lib/Utils";
 import { UtilsInternal } from "../lib/utilsInternal";
+import {
+  RedeemEventResult
+} from "../lib/wrappers/commonEventInterfaces";
 import {
   ContributionProposal,
   ContributionRewardFactory,
   ContributionRewardWrapper,
   ProposalRewards
 } from "../lib/wrappers/contributionReward";
+import {
+  IntVoteInterfaceWrapper
+} from "../lib/wrappers/intVoteInterface";
 import * as helpers from "./helpers";
 
 describe("ContributionReward scheme", () => {

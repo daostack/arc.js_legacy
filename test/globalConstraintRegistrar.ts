@@ -1,8 +1,7 @@
 import { assert } from "chai";
-import { TransactionReceipt } from "web3";
-import { TransactionReceiptTruffle } from "../lib";
 import { Address, DefaultSchemePermissions, Hash } from "../lib/commonTypes";
 import { DAO } from "../lib/dao";
+import { TransactionReceiptTruffle } from "../lib/transactionService";
 import {
   GlobalConstraintRegistrarFactory,
   GlobalConstraintRegistrarWrapper

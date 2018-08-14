@@ -1,6 +1,7 @@
 {
   "autoApproveTokenTransfers": true,
   "defaultVotingMachine": "AbsoluteVote",
+  "cacheContractWrappers": false,
   "logLevel": 9,
   "estimateGas": false,
   "txDepthRequiredForConfirmation": {

@@ -1,14 +1,18 @@
 import { assert } from "chai";
 import { TransactionReceipt } from "web3";
-import {
-  AbsoluteVoteWrapper,
-  GlobalConstraintRegistrarFactory,
-  GlobalConstraintRegistrarWrapper,
-  WrapperService
-} from "../lib";
 import { BinaryVoteResult, fnVoid } from "../lib/commonTypes";
 import { TransactionReceiptsEventInfo, TransactionService, TransactionStage } from "../lib/transactionService";
 import { UtilsInternal } from "../lib/utilsInternal";
+import {
+  AbsoluteVoteWrapper
+} from "../lib/wrappers/absoluteVote";
+import {
+  GlobalConstraintRegistrarFactory,
+  GlobalConstraintRegistrarWrapper
+} from "../lib/wrappers/globalConstraintRegistrar";
+import {
+  WrapperService
+} from "../lib/wrapperService";
 import * as helpers from "./helpers";
 
 describe("TransactionService", () => {

@@ -1,10 +1,11 @@
+import { IConfigService } from "./IConfigService";
 import { PubSubEventService } from "./pubSubEventService";
 
 /**
  * get and set global Arc.js settings
  */
 export class ConfigService {
-  public static instance: ConfigService;
+  public static instance: IConfigService;
   public static data: any;
 
   public static get(setting: string): any {
@@ -51,6 +52,14 @@ export class ConfigService {
       ConfigService.instance = this;
     }
     return ConfigService.instance;
+  }
+
+  public get(setting: string): any {
+    return ConfigService.instance.get(setting);
+  }
+
+  public set(setting: string, value: any): void {
+    ConfigService.set(setting, value);
   }
 }
 
