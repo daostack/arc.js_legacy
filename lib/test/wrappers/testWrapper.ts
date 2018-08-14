@@ -3,6 +3,7 @@ import { DefaultSchemePermissions, Hash, SchemePermissions } from "../../commonT
 import { ContractWrapperBase } from "../../contractWrapperBase";
 import { ContractWrapperFactory } from "../../contractWrapperFactory";
 import { ArcTransactionDataResult, IContractWrapperFactory } from "../../iContractWrapperBase";
+import { TxGeneratingFunctionOptions } from "../../transactionService";
 import { Web3EventService } from "../../web3EventService";
 import { AbsoluteVoteParams } from "../../wrappers/absoluteVote";
 
@@ -20,7 +21,8 @@ export class TestWrapperWrapper extends ContractWrapperBase {
     return "abc";
   }
 
-  public setParameters(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>> {
+  public setParameters(
+    params: AbsoluteVoteParams & TxGeneratingFunctionOptions): Promise<ArcTransactionDataResult<Hash>> {
     params = Object.assign({},
       {
         ownerVote: true,

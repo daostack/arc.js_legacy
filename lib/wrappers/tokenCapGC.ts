@@ -19,7 +19,8 @@ export class TokenCapGCWrapper extends ContractWrapperBase {
       params.cap || 0
     );
   }
-  public setParameters(params: TokenCapGcParams): Promise<ArcTransactionDataResult<Hash>> {
+  public setParameters(
+    params: TokenCapGcParams & TxGeneratingFunctionOptions): Promise<ArcTransactionDataResult<Hash>> {
 
     if (!params.token) {
       throw new Error("token must be set");
@@ -58,7 +59,7 @@ export class TokenCapGCWrapper extends ContractWrapperBase {
 export const TokenCapGCFactory =
   new ContractWrapperFactory("TokenCapGC", TokenCapGCWrapper, new Web3EventService());
 
-export interface TokenCapGcParams extends TxGeneratingFunctionOptions {
+export interface TokenCapGcParams {
   cap: BigNumber | string;
   token: Address;
 }

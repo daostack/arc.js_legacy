@@ -358,18 +358,6 @@ describe("GenesisProtocol", () => {
     assert.equal(result, false);
   });
 
-  it("can call getVoteStake", async () => {
-    const proposalId = await createProposal();
-
-    await stakeProposalVote(proposalId, 1, 10);
-
-    const result = await genesisProtocol.getVoteStake({
-      proposalId,
-      vote: 1,
-    });
-    assert.equal(helpers.fromWei(result).toNumber(), 10);
-  });
-
   it("can call getVoteStatus", async () => {
     const proposalId = await createProposal();
 
@@ -399,9 +387,12 @@ describe("GenesisProtocol", () => {
     });
 
     assert.isOk(result);
-    assert.equal(helpers.fromWei(result.totalVotes).toNumber(), 1000);
-    assert.equal(result.totalStaked.toNumber(), 0);
-    assert.equal(result.totalVoterStakes.toNumber(), 0);
+    assert.equal(web3.fromWei(result.preBoostedVotesYes).toNumber(), 1000);
+    assert.equal(web3.fromWei(result.preBoostedVotesNo).toNumber(), 0);
+    assert.equal(web3.fromWei(result.totalStaked).toNumber(), 0);
+    assert.equal(web3.fromWei(result.totalStakerStakes).toNumber(), 0);
+    assert.equal(web3.fromWei(result.stakesNo).toNumber(), 0);
+    assert.equal(web3.fromWei(result.stakesYes).toNumber(), 0);
   });
 
   it("can call getStakerInfo", async () => {
@@ -467,6 +458,17 @@ describe("GenesisProtocol", () => {
       const result = await (await stakeProposalVote(proposalId, 1, 10)).watchForTxMined();
       assert.isOk(result);
       assert.isOk(result.transactionHash);
+
+      const resultStatus = await genesisProtocol.getProposalStatus({
+        proposalId,
+      });
+
+      assert.isOk(resultStatus);
+      assert.equal(web3.fromWei(resultStatus.totalStaked).toNumber(), 10);
+      assert.equal(web3.fromWei(resultStatus.totalStakerStakes).toNumber(), 5);
+      assert.equal(web3.fromWei(resultStatus.stakesNo).toNumber(), 0);
+      assert.equal(web3.fromWei(resultStatus.stakesYes).toNumber(), 10);
+
     } finally {
       await subscription.unsubscribe(0);
     }
@@ -547,65 +549,6 @@ describe("GenesisProtocol", () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getThreshold({
       avatar: dao.avatar.address,
-    });
-    assert(typeof result !== "undefined");
-  });
-
-  it("can call getRedeemableTokensStaker", async () => {
-    const proposalId = await createProposal();
-    const result = await genesisProtocol.getRedeemableTokensStaker({
-      beneficiaryAddress: accounts[0],
-      proposalId,
-    });
-    assert(typeof result !== "undefined");
-  });
-
-  it("can call getRedeemableTokensStakerBounty", async () => {
-    const proposalId = await createProposal();
-    const result = await genesisProtocol.getRedeemableTokensStakerBounty({
-      beneficiaryAddress: accounts[0],
-      proposalId,
-    });
-    assert(typeof result !== "undefined");
-  });
-
-  it("can call getRedeemableReputationProposer", async () => {
-    const proposalId = await createProposal();
-    const redeemable = await genesisProtocol.getRedeemableReputationProposer({ proposalId });
-    assert.equal(web3.fromWei(redeemable).toNumber(), 0);
-  });
-
-  it("can call getRedeemableTokensVoter", async () => {
-    const proposalId = await createProposal();
-    const result = await genesisProtocol.getRedeemableTokensVoter({
-      beneficiaryAddress: accounts[0],
-      proposalId,
-    });
-    assert(typeof result !== "undefined");
-  });
-
-  it("can call getRedeemableReputationVoter", async () => {
-    const proposalId = await createProposal();
-    let redeemable = await genesisProtocol.getRedeemableReputationVoter({
-      beneficiaryAddress: accounts[0],
-      proposalId,
-    });
-
-    assert.equal(web3.fromWei(redeemable).toNumber(), 0);
-
-    await voteProposal(proposalId, 1);
-
-    // should be executed now
-    redeemable = await genesisProtocol.getRedeemableReputationVoter({ proposalId, beneficiaryAddress: accounts[0] });
-    assert.equal(web3.fromWei(redeemable).toNumber(), 18);
-
-  });
-
-  it("can call getRedeemableReputationStaker", async () => {
-    const proposalId = await createProposal();
-    const result = await genesisProtocol.getRedeemableReputationStaker({
-      beneficiaryAddress: accounts[0],
-      proposalId,
     });
     assert(typeof result !== "undefined");
   });

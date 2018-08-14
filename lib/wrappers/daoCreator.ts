@@ -414,7 +414,7 @@ export interface NewDaoVotingMachineConfig {
 /**
  * options for DaoCreator.forgeOrg
  */
-export interface ForgeOrgConfig extends TxGeneratingFunctionOptions {
+export interface ForgeOrgConfig {
   /**
    * The name of the new DAO.
    */

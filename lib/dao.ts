@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js";
 import { AvatarService } from "./avatarService";
 import { Address, fnVoid, Hash } from "./commonTypes";
 import { DecodedLogEntryEvent, IContractWrapperBase } from "./iContractWrapperBase";
-import { TransactionService } from "./transactionService";
+import { TransactionService, TxGeneratingFunctionOptions } from "./transactionService";
 import { Utils } from "./utils";
 import { EntityFetcherFactory, EventFetcherFilterObject, Web3EventService } from "./web3EventService";
 import { DaoCreatorFactory, DaoCreatorWrapper } from "./wrappers/daoCreator";
@@ -21,7 +21,7 @@ export class DAO {
    * Returns the promise of a new DAO
    * @param {NewDaoConfig} options Configuration of the new DAO
    */
-  public static async new(options: NewDaoConfig): Promise<DAO> {
+  public static async new(options: NewDaoConfig & TxGeneratingFunctionOptions): Promise<DAO> {
 
     let daoCreator: DaoCreatorWrapper;
 

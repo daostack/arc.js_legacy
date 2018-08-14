@@ -75,7 +75,9 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper {
       params.ownerVote);
   }
 
-  public setParameters(params: AbsoluteVoteParams): Promise<ArcTransactionDataResult<Hash>> {
+  public setParameters(
+    params: AbsoluteVoteParams & TxGeneratingFunctionOptions)
+    : Promise<ArcTransactionDataResult<Hash>> {
 
     params = Object.assign({},
       {
@@ -164,7 +166,7 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper {
 export const AbsoluteVoteFactory =
   new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper, new Web3EventService());
 
-export interface AbsoluteVoteParams extends TxGeneratingFunctionOptions {
+export interface AbsoluteVoteParams {
   ownerVote?: boolean;
   reputation: string;
   votePerc?: number;

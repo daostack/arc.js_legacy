@@ -10,6 +10,7 @@ import {
   StandardSchemeParams,
 } from "../iContractWrapperBase";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";
+import { TxGeneratingFunctionOptions } from "../transactionService";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
   ProposalDeletedEventResult,
@@ -175,7 +176,8 @@ export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase impl
     );
   }
 
-  public setParameters(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
+  public setParameters(
+    params: StandardSchemeParams & TxGeneratingFunctionOptions): Promise<ArcTransactionDataResult<Hash>> {
 
     this.validateStandardSchemeParams(params);
 
