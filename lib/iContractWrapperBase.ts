@@ -179,6 +179,7 @@ export interface StandardSchemeParams {
 }
 
 export interface SchemeWrapper {
+  getParameters(paramsHash: Hash): Promise<any>;
   setParameters(params: any): Promise<ArcTransactionDataResult<Hash>>;
   getSchemeParameters(avatarAddress: Address): Promise<any>;
   getDefaultPermissions(): SchemePermissions;
