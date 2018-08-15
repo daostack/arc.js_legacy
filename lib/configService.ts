@@ -59,7 +59,7 @@ export class ConfigService {
   }
 
   public set(setting: string, value: any): void {
-    ConfigService.set(setting, value);
+    ConfigService.instance.set(setting, value);
   }
 }
 
