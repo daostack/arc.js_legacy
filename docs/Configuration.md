@@ -22,6 +22,9 @@ The level of logging.  Default is 9 (`LogLevel.error | LogLevel.info`).  The ava
   all = 15
 ```
 
+**cacheContractWrappers**
+`true` to cache contract wrappers obtained using the contract wrapper factory methods `.at` and `.new`.  The cache is local, it does not persist across application instances.  The default is `false`.
+
 **network**
 Name of the blockchain network used during Arc contract migration.  Other information like url and port come from Arc.js's truffle.js file.  Default is "ganache".
 
