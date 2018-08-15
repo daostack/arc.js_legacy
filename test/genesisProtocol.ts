@@ -537,6 +537,16 @@ describe("GenesisProtocol", () => {
     assert.isOk(result.tx);
   });
 
+  it("can call getBoostedProposalsCount", async () => {
+    const proposalId = await createProposal();
+
+    await stakeProposalVote(proposalId, BinaryVoteResult.Yes, 10);
+
+    const count = await genesisProtocol.getBoostedProposalsCount(dao.avatar.address);
+    assert(typeof count !== "undefined");
+    assert(count.eq(1));
+  });
+
   it("can call getScore", async () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getScore({
@@ -546,7 +556,6 @@ describe("GenesisProtocol", () => {
   });
 
   it("can call getThreshold", async () => {
-    const proposalId = await createProposal();
     const result = await genesisProtocol.getThreshold({
       avatar: dao.avatar.address,
     });
