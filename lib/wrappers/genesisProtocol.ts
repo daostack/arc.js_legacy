@@ -354,7 +354,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
 
   /**
    * Returns a promise of the number of boosted proposals, not including those
-   * that have expired but have not yet been executed so as to update their status.
+   * that have expired but have not yet been executed to update their status.
    */
   public async getBoostedProposalsCount(avatar: Address): Promise<BigNumber> {
 
