@@ -463,7 +463,8 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements S
   }
 
   /**
-   * Return the total votes, total staked, voter stakes and staker stakes for a given proposal
+   * Return the preBoosted votes, amount staked per vote, total staked and
+   * total staked net voters' take for a given proposal
    * @param {GetProposalStatusConfig} options
    * @returns Promise<GetProposalStatusResult>
    */
