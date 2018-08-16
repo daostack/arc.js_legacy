@@ -64,21 +64,7 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
       return new this.wrapper(this.solidityContract, this.web3EventService).hydrateFromAt(address);
     };
 
-    let hydratedWrapper: TWrapper;
-
-    if (ContractWrapperFactory.configService.get("cacheContractWrappers")) {
-      hydratedWrapper = this.getCachedContract(this.solidityContractName, address) as TWrapper;
-      if (!hydratedWrapper) {
-        hydratedWrapper = await getWrapper();
-        if (hydratedWrapper) {
-          this.setCachedContract(this.solidityContractName, hydratedWrapper);
-        }
-      }
-    } else {
-      hydratedWrapper = await getWrapper();
-    }
-
-    return hydratedWrapper;
+    return this.getHydratedWrapper(getWrapper, address);
   }
 
   /**
@@ -94,10 +80,27 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
       return new this.wrapper(this.solidityContract, this.web3EventService).hydrateFromDeployed();
     };
 
-    let hydratedWrapper: TWrapper;
+    return this.getHydratedWrapper(getWrapper);
+  }
 
+  private async getHydratedWrapper(
+    getWrapper: () => Promise<TWrapper>,
+    address?: Address): Promise<TWrapper> {
+
+    let hydratedWrapper: TWrapper;
     if (ContractWrapperFactory.configService.get("cacheContractWrappers")) {
-      hydratedWrapper = this.getCachedContract(this.solidityContractName, this.solidityContract.address) as TWrapper;
+      if (!address) {
+        try {
+          address = this.solidityContract.address;
+        } catch {
+          // the contract has not been deployed, so can't get it's address
+        }
+      }
+
+      if (address) {
+        hydratedWrapper = this.getCachedContract(this.solidityContractName, address) as TWrapper;
+      }
+
       if (!hydratedWrapper) {
         hydratedWrapper = await getWrapper();
         if (hydratedWrapper) {
