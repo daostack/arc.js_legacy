@@ -30,6 +30,7 @@ export class Utils {
       const myWeb3 = await Utils.getWeb3();
 
       contract.setProvider(myWeb3.currentProvider);
+      contract.setNetwork(await Utils.getNetworkId());
       contract.defaults({
         from: await Utils.getDefaultAccount(),
         gas: gasLimitsConfig.gasLimit_runtime,

@@ -46,9 +46,8 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
     const hydratedWrapper =
       await new this.wrapper(this.solidityContract, this.web3EventService).hydrateFromNew(...rest);
 
-    if (ContractWrapperFactory.configService.get("cacheContractWrappers")) {
-      // in case anyone does a `.at` on this new address
-      this.setCachedContract(this.solidityContractName, hydratedWrapper, hydratedWrapper.address);
+    if (hydratedWrapper && ContractWrapperFactory.configService.get("cacheContractWrappers")) {
+      this.setCachedContract(this.solidityContractName, hydratedWrapper);
     }
     return hydratedWrapper;
   }
@@ -71,7 +70,9 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
       hydratedWrapper = this.getCachedContract(this.solidityContractName, address) as TWrapper;
       if (!hydratedWrapper) {
         hydratedWrapper = await getWrapper();
-        this.setCachedContract(this.solidityContractName, hydratedWrapper, address);
+        if (hydratedWrapper) {
+          this.setCachedContract(this.solidityContractName, hydratedWrapper);
+        }
       }
     } else {
       hydratedWrapper = await getWrapper();
@@ -96,11 +97,12 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
     let hydratedWrapper: TWrapper;
 
     if (ContractWrapperFactory.configService.get("cacheContractWrappers")) {
-      hydratedWrapper = this.getCachedContract(this.solidityContractName) as TWrapper;
+      hydratedWrapper = this.getCachedContract(this.solidityContractName, this.solidityContract.address) as TWrapper;
       if (!hydratedWrapper) {
         hydratedWrapper = await getWrapper();
-        // this'll cache for both `.at` and `.deployed`
-        this.setCachedContract(this.solidityContractName, hydratedWrapper);
+        if (hydratedWrapper) {
+          this.setCachedContract(this.solidityContractName, hydratedWrapper);
+        }
       }
     } else {
       hydratedWrapper = await getWrapper();
@@ -108,30 +110,31 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
     return hydratedWrapper;
   }
 
-  private getCachedContract(name: string, at?: string): IContractWrapperBase | undefined {
+  private getCachedContract(name: string, at: string): IContractWrapperBase | undefined {
+    if (!at) {
+      return undefined;
+    }
     const addressMap = ContractWrapperFactory.contractCache.get(name);
     if (!addressMap) {
       return undefined;
     }
-    return addressMap.get(at ? at : `${name}_deployed`);
+    return addressMap.get(at);
   }
 
   private setCachedContract(
     name: string,
-    wrapper: IContractWrapperBase,
-    at?: string): void {
+    wrapper: IContractWrapperBase): void {
 
-    let addressMap = ContractWrapperFactory.contractCache.get(name);
-    if (!addressMap) {
-      addressMap = new Map<Address, IContractWrapperBase>();
-      ContractWrapperFactory.contractCache.set(name, addressMap);
-    }
-    addressMap.set(wrapper.address, wrapper);
-    if (!at) {
-      // so we can also get the deployed version of this contract without the address
-      addressMap.set(`${name}_deployed`, wrapper);
+    if (wrapper) {
+      let addressMap = ContractWrapperFactory.contractCache.get(name);
+      if (!addressMap) {
+        addressMap = new Map<Address, IContractWrapperBase>();
+        ContractWrapperFactory.contractCache.set(name, addressMap);
+      }
+      addressMap.set(wrapper.address, wrapper);
     }
   }
+
   private async ensureSolidityContract(): Promise<void> {
     if (!this.solidityContract) {
       this.solidityContract = await Utils.requireContract(this.solidityContractName);
