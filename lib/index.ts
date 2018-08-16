@@ -21,6 +21,7 @@ export * from "./wrappers/genesisProtocol";
 export * from "./wrappers/globalConstraintRegistrar";
 export * from "./wrappers/iBurnableToken";
 export * from "./wrappers/iErc827Token";
+export * from "./iConfigService";
 export * from "./wrappers/iIntVoteInterface";
 export * from "./wrappers/intVoteInterface";
 export * from "./wrappers/mintableToken";
@@ -48,6 +49,7 @@ export const computeForgeOrgGasLimit: any = require("../gasLimits.js").computeFo
 import { Web3 } from "web3";
 import { AccountService } from "./accountService";
 import { ConfigService } from "./configService";
+import { ContractWrapperFactory } from "./contractWrapperFactory";
 import { LoggingService, LogLevel } from "./loggingService";
 import { PubSubEventService } from "./pubSubEventService";
 import { Utils } from "./utils";
@@ -77,6 +79,10 @@ export async function InitializeArcJs(options?: InitializeArcOptions): Promise<W
   LoggingService.info("Initializing Arc.js");
   try {
 
+    /**
+     * simulate dependency injection, avoid circular dependencies
+     */
+    ContractWrapperFactory.setConfigService(ConfigService);
     /**
      * Initialize LoggingService here to avoid cirular dependency involving ConfigService and PubSubService
      */

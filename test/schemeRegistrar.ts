@@ -1,13 +1,14 @@
 import { assert } from "chai";
-import { AbsoluteVoteWrapper, DecodedLogEntryEvent, SchemeProposalExecutedEventResult, WrapperService } from "../lib";
 import { BinaryVoteResult, DefaultSchemePermissions } from "../lib/commonTypes";
 import { Utils } from "../lib/utils";
+import { AbsoluteVoteWrapper } from "../lib/wrappers/absoluteVote";
 import {
   SchemeRegistrarFactory,
   SchemeRegistrarProposalType,
   SchemeRegistrarWrapper
 } from "../lib/wrappers/schemeRegistrar";
 import { UpgradeSchemeFactory, UpgradeSchemeWrapper } from "../lib/wrappers/upgradeScheme";
+import { WrapperService } from "../lib/wrapperService";
 import * as helpers from "./helpers";
 
 describe("SchemeRegistrar", () => {

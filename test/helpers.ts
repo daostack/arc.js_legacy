@@ -4,18 +4,35 @@ import { Address, Hash } from "../lib/commonTypes";
 import { DAO, NewDaoConfig } from "../lib/dao";
 import {
   ArcTransactionResult,
-  ConfigService,
-  ContributionRewardWrapper,
   DecodedLogEntryEvent,
-  ExecuteProposalEventResult,
   IContractWrapperBase,
   IContractWrapperFactory,
-  IIntVoteInterface,
-  InitializeArcJs,
-  IntVoteInterfaceWrapper,
-  ProposalGeneratorBase,
   SchemeWrapper
-} from "../lib/index";
+} from "../lib/iContractWrapperBase";
+
+import {
+  ContributionRewardWrapper,
+} from "../lib/wrappers/contributionReward";
+
+import {
+  ConfigService
+} from "../lib/configService";
+
+import { InitializeArcJs } from "../lib/index";
+
+import {
+  ExecuteProposalEventResult,
+  IIntVoteInterface
+} from "../lib/wrappers/iIntVoteInterface";
+
+import {
+  IntVoteInterfaceWrapper,
+} from "../lib/wrappers/intVoteInterface";
+
+import {
+  ProposalGeneratorBase,
+} from "../lib/proposalGeneratorBase";
+
 import { LoggingService, LogLevel } from "../lib/loggingService";
 import { Utils } from "../lib/utils";
 import { UtilsInternal } from "../lib/utilsInternal";
@@ -35,6 +52,7 @@ export const DefaultLogLevel = LogLevel.error | LogLevel.info;
 
 LoggingService.logLevel = DefaultLogLevel;
 ConfigService.set("estimateGas", true);
+ConfigService.set("cacheContractWrappers", true);
 
 let testWeb3;
 let network;

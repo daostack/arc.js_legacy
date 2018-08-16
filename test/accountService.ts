@@ -1,7 +1,8 @@
 import { assert } from "chai";
 import { AccountService } from "../lib/accountService";
 import { Address, fnVoid } from "../lib/commonTypes";
-import { InitializeArcJs, Utils } from "../lib/index";
+import { InitializeArcJs } from "../lib/index";
+import { Utils } from "../lib/utils";
 import * as helpers from "./helpers";
 
 describe("AccountService", async () => {

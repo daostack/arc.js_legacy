@@ -1,16 +1,18 @@
 import { assert } from "chai";
 import {
-  ContractWrapperFactories,
-  ContractWrappers,
-  ContractWrappersByAddress,
-  ContractWrappersByType,
   IContractWrapperBase
-} from "../lib/index";
+} from "../lib/iContractWrapperBase";
 import { LoggingService, LogLevel } from "../lib/loggingService";
 import { GenesisProtocolWrapper } from "../lib/wrappers/genesisProtocol";
 import { UpgradeSchemeWrapper } from "../lib/wrappers/upgradeScheme";
+import {
+  ContractWrapperFactories,
+  ContractWrappers,
+  ContractWrappersByAddress,
+  ContractWrappersByType
+} from "../lib/wrapperService";
 import { WrapperService } from "../lib/wrapperService";
-import { DefaultLogLevel, NULL_ADDRESS } from "./helpers";
+import { DefaultLogLevel, SOME_ADDRESS } from "./helpers";
 
 describe("WrapperService", () => {
 
@@ -75,7 +77,7 @@ describe("WrapperService", () => {
 
   it("getContractWrapper() function handles bad address", async () => {
     LoggingService.logLevel = LogLevel.none;
-    const wrapper = await WrapperService.getContractWrapper("UpgradeScheme", NULL_ADDRESS);
+    const wrapper = await WrapperService.getContractWrapper("UpgradeScheme", SOME_ADDRESS);
     LoggingService.logLevel = DefaultLogLevel;
     assert.equal(wrapper, undefined);
   });

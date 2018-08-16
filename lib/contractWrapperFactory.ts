@@ -1,12 +1,27 @@
+import { Address } from "./commonTypes";
+import { IConfigService } from "./iConfigService";
 import { IContractWrapperBase, IContractWrapperFactory } from "./iContractWrapperBase";
 import { Utils } from "./utils";
 import { Web3EventService } from "./web3EventService";
+import { LoggingService } from './loggingService';
 
 /**
  * Generic class factory for all of the contract wrapper classes.
  */
 export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
   implements IContractWrapperFactory<TWrapper> {
+
+  public static setConfigService(configService: IConfigService): void {
+    ContractWrapperFactory.configService = configService;
+  }
+
+  /**
+   * this is a Map keyed by contract name of a Map keyed by address to an `IContractWrapperBase`
+   */
+  private static contractCache: Map<string, Map<Address, IContractWrapperBase>>
+    = new Map<string, Map<Address, IContractWrapperBase>>();
+
+  private static configService: IConfigService;
 
   private solidityContract: any;
 
@@ -28,7 +43,14 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
    */
   public async new(...rest: Array<any>): Promise<TWrapper> {
     await this.ensureSolidityContract();
-    return new this.wrapper(this.solidityContract, this.web3EventService).hydrateFromNew(...rest);
+
+    const hydratedWrapper =
+      await new this.wrapper(this.solidityContract, this.web3EventService).hydrateFromNew(...rest);
+
+    if (hydratedWrapper && ContractWrapperFactory.configService.get("cacheContractWrappers")) {
+      this.setCachedContract(this.solidityContractName, hydratedWrapper);
+    }
+    return hydratedWrapper;
   }
 
   /**
@@ -38,7 +60,12 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
    */
   public async at(address: string): Promise<TWrapper> {
     await this.ensureSolidityContract();
-    return new this.wrapper(this.solidityContract, this.web3EventService).hydrateFromAt(address);
+
+    const getWrapper = (): Promise<TWrapper> => {
+      return new this.wrapper(this.solidityContract, this.web3EventService).hydrateFromAt(address);
+    };
+
+    return this.getHydratedWrapper(getWrapper, address);
   }
 
   /**
@@ -49,7 +76,70 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
    */
   public async deployed(): Promise<TWrapper> {
     await this.ensureSolidityContract();
-    return new this.wrapper(this.solidityContract, this.web3EventService).hydrateFromDeployed();
+
+    const getWrapper = (): Promise<TWrapper> => {
+      return new this.wrapper(this.solidityContract, this.web3EventService).hydrateFromDeployed();
+    };
+
+    return this.getHydratedWrapper(getWrapper);
+  }
+
+  private async getHydratedWrapper(
+    getWrapper: () => Promise<TWrapper>,
+    address?: Address): Promise<TWrapper> {
+
+    let hydratedWrapper: TWrapper;
+    if (ContractWrapperFactory.configService.get("cacheContractWrappers")) {
+      if (!address) {
+        try {
+          address = this.solidityContract.address;
+        } catch {
+          // the contract has not been deployed, so can't get it's address
+        }
+      }
+
+      if (address) {
+        hydratedWrapper = this.getCachedContract(this.solidityContractName, address) as TWrapper;
+        if (hydratedWrapper) {
+          LoggingService.debug(`ContractWrapperFactory: obtained wrapper from cache: ${hydratedWrapper.address}`);
+        }
+      }
+
+      if (!hydratedWrapper) {
+        hydratedWrapper = await getWrapper();
+        if (hydratedWrapper) {
+          this.setCachedContract(this.solidityContractName, hydratedWrapper);
+        }
+      }
+    } else {
+      hydratedWrapper = await getWrapper();
+    }
+    return hydratedWrapper;
+  }
+
+  private getCachedContract(name: string, at: string): IContractWrapperBase | undefined {
+    if (!at) {
+      return undefined;
+    }
+    const addressMap = ContractWrapperFactory.contractCache.get(name);
+    if (!addressMap) {
+      return undefined;
+    }
+    return addressMap.get(at);
+  }
+
+  private setCachedContract(
+    name: string,
+    wrapper: IContractWrapperBase): void {
+
+    if (wrapper) {
+      let addressMap = ContractWrapperFactory.contractCache.get(name);
+      if (!addressMap) {
+        addressMap = new Map<Address, IContractWrapperBase>();
+        ContractWrapperFactory.contractCache.set(name, addressMap);
+      }
+      addressMap.set(wrapper.address, wrapper);
+    }
   }
 
   private async ensureSolidityContract(): Promise<void> {

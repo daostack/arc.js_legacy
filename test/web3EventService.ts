@@ -1,8 +1,17 @@
 "use strict";
 import { assert } from "chai";
-import { ApprovalEventResult, DecodedLogEntryEvent, StandardTokenFactory, Web3EventService } from "../lib/index";
+import {
+  DecodedLogEntryEvent,
+} from "web3";
 import { Utils } from "../lib/utils";
 import { UtilsInternal } from "../lib/utilsInternal";
+import {
+  Web3EventService
+} from "../lib/web3EventService";
+import {
+  ApprovalEventResult,
+  StandardTokenFactory,
+} from "../lib/wrappers/standardToken";
 import "./helpers";
 
 describe("Web3EventService", () => {

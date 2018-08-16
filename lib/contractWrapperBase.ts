@@ -74,7 +74,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
    * This will migrate a new instance of the contract to the net.
    * @returns this
    */
-  public async hydrateFromNew(...rest: Array<any>): Promise<any> {
+  public async hydrateFromNew(...rest: Array<any>): Promise<IContractWrapperBase> {
     try {
       // Note that because we are using `.then`, we are returning a true promise
       // rather than the incomplete one returned by truffle.
@@ -93,7 +93,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
    * @param address of the deployed contract
    * @returns this or undefined if not found
    */
-  public async hydrateFromAt(address: string): Promise<any> {
+  public async hydrateFromAt(address: string): Promise<IContractWrapperBase> {
     try {
       // Note that because we are using `.then`, we are returning a true promise
       // rather than the incomplete one returned by truffle.
@@ -111,7 +111,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
    * Initialize as it was migrated by Arc.js on the current network.
    * @returns this or undefined if not found
    */
-  public async hydrateFromDeployed(): Promise<any> {
+  public async hydrateFromDeployed(): Promise<IContractWrapperBase> {
     try {
       // Note that because we are using `.then`, we are returning a true promise
       // rather than the incomplete one returned by truffle.
