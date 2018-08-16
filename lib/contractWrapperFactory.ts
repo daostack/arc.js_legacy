@@ -3,6 +3,7 @@ import { IConfigService } from "./iConfigService";
 import { IContractWrapperBase, IContractWrapperFactory } from "./iContractWrapperBase";
 import { Utils } from "./utils";
 import { Web3EventService } from "./web3EventService";
+import { LoggingService } from './loggingService';
 
 /**
  * Generic class factory for all of the contract wrapper classes.
@@ -99,6 +100,9 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
 
       if (address) {
         hydratedWrapper = this.getCachedContract(this.solidityContractName, address) as TWrapper;
+        if (hydratedWrapper) {
+          LoggingService.debug(`ContractWrapperFactory: obtained wrapper from cache: ${hydratedWrapper.address}`);
+        }
       }
 
       if (!hydratedWrapper) {
