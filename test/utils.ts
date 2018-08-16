@@ -31,6 +31,7 @@ describe("Misc", () => {
     ConfigService.set("logLevel", 5);
     await helpers.sleep(50);
     assert.equal(LoggingService.logLevel, 5);
+    ConfigService.set("logLevel", helpers.DefaultLogLevel);
   });
 
   it("can check correct wrapper", async () => {
