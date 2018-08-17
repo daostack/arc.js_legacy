@@ -1,29 +1,52 @@
-import BigNumber from "bignumber.js";
-import { Address, HasContract, Hash, SchemePermissions } from "./commonTypes";
+import { Address, Hash, SchemePermissions } from "./commonTypes";
 import {
   TransactionReceiptTruffle,
-  TransactionService,
-  TxGeneratingFunctionOptions
+  TransactionService
 } from "./transactionService";
 import { IIntVoteInterface } from "./wrappers/iIntVoteInterface";
 
-export interface IContractWrapperBase extends HasContract {
+export interface IContractWrapper {
   factory: IContractWrapperFactory<any>;
   name: string;
   friendlyName: string;
   address: Address;
+  contract: any;
   hydrateFromNew(...rest: Array<any>): Promise<any>;
   hydrateFromAt(address: string): Promise<any>;
   hydrateFromDeployed(): Promise<any>;
-  setParameters(...params: Array<any>): Promise<ArcTransactionDataResult<Hash>>;
+}
+
+/**
+ * The minimum requirements for a scheme that can be registered with a DAO/controller.
+ */
+export interface ISchemeWrapper extends IContractWrapper {
+  getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
+  getDefaultPermissions(): SchemePermissions;
+}
+
+/**
+ * The minimum requirements for a universal scheme.
+ */
+export interface IUniversalSchemeWrapper extends ISchemeWrapper {
   getParameters(paramsHash: Hash): Promise<any>;
-  getSchemeParametersHash(avatarAddress: Address): Promise<Hash>;
   getParametersHash(params: any): Promise<Hash>;
+  setParameters(params: any): Promise<ArcTransactionDataResult<Hash>>;
+  getSchemeParameters(avatarAddress: Address): Promise<any>;
   getParametersArray(paramsHash: Hash): Promise<Array<any>>;
   getController(avatarAddress: Address): Promise<any>;
 }
 
-export interface IContractWrapperFactory<TWrapper extends IContractWrapperBase> {
+/**
+ * The minimum requirements for a voting machine wrapper.
+ */
+export interface IVotingMachineWrapper extends IContractWrapper {
+  getParameters(paramsHash: Hash): Promise<any>;
+  getParametersHash(params: any): Promise<Hash>;
+  setParameters(params: any): Promise<ArcTransactionDataResult<Hash>>;
+  getParametersArray(paramsHash: Hash): Promise<Array<any>>;
+}
+
+export interface IContractWrapperFactory<TWrapper extends IContractWrapper> {
   new: (...rest: Array<any>) => Promise<TWrapper>;
   at: (address: string) => Promise<TWrapper>;
   deployed: () => Promise<TWrapper>;
@@ -177,14 +200,6 @@ export interface StandardSchemeParams {
    * Address of the voting machine to use when voting on a proposal.
    */
   votingMachineAddress: Address;
-}
-
-export interface SchemeWrapper {
-  getParameters(paramsHash: Hash): Promise<any>;
-  setParameters(params: any): Promise<ArcTransactionDataResult<Hash>>;
-  getSchemeParameters(avatarAddress: Address): Promise<any>;
-  getDefaultPermissions(): SchemePermissions;
-  getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions>;
 }
 
 export { DecodedLogEntryEvent, TransactionReceipt } from "web3";

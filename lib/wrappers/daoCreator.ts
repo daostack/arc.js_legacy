@@ -6,7 +6,13 @@ import { Address, Hash, SchemePermissions } from "../commonTypes";
 import { ConfigService } from "../configService";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
-import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
+import {
+  ArcTransactionResult,
+  IContractWrapperFactory,
+  ISchemeWrapper,
+  IUniversalSchemeWrapper,
+  IVotingMachineWrapper
+} from "../iContractWrapperBase";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
@@ -160,126 +166,201 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       votingMachineName: configuredVotingMachineName,
     }, options.votingMachineParams || {});
 
-    const defaultVotingMachine = await WrapperService.getContractWrapper(
-      defaultVotingMachineParams.votingMachineName,
-      defaultVotingMachineParams.votingMachineAddress);
-
-    // in case it wasn't supplied in order to get the default
-    defaultVotingMachineParams.votingMachineAddress = defaultVotingMachine.address;
-
     let tx;
 
+    let defaultVotingMachine: IVotingMachineWrapper;
+    let defaultVoteParametersHash: Hash;
+
     /**
-     * each voting machine applies its own default values in setParameters
+     * The default voting machine name can only be missing if the DAO is going to have
+     * no universal schemes or each universal scheme has specified its voting machine.
      */
-    let txResult = await defaultVotingMachine.setParameters(
-      Object.assign(defaultVotingMachineParams, { txEventContext: eventContext }));
+    const hasDefaultVotingMachine = !!defaultVotingMachineParams.votingMachineName;
+    if (hasDefaultVotingMachine) {
+      /**
+       * At this time, if you're going to supply a default voting machine, it has to be an Arc contract,
+       * and it must be wrapped.
+       */
+      defaultVotingMachine = await WrapperService.getContractWrapper(
+        defaultVotingMachineParams.votingMachineName,
+        defaultVotingMachineParams.votingMachineAddress) as IVotingMachineWrapper;
 
-    const defaultVoteParametersHash = txResult.result;
-    paramsHashCacheSet(defaultVotingMachine.address, defaultVoteParametersHash);
+      if (!defaultVotingMachine) {
+        throw new Error(`voting machine ${defaultVotingMachineParams.votingMachineName} was not found`);
+      }
 
-    // avoid nonce collisions
-    await txResult.watchForTxMined();
+      // in case the address wasn't supplied, in order to get the default
+      defaultVotingMachineParams.votingMachineAddress = defaultVotingMachine.address;
+
+      /**
+       * each wrapped voting machine applies its own default values in `setParameters`
+       */
+      const txResult = await defaultVotingMachine.setParameters(
+        Object.assign(defaultVotingMachineParams, { txEventContext: eventContext }));
+
+      defaultVoteParametersHash = txResult.result;
+      paramsHashCacheSet(defaultVotingMachine.address, defaultVoteParametersHash);
+
+      // avoid nonce collisions
+      await txResult.watchForTxMined();
+    }
 
     const initialSchemesSchemes = [];
     const initialSchemesParams = [];
     const initialSchemesPermissions = [];
 
+    /**
+     * enumerate all the schemes
+     */
     for (const schemeOptions of options.schemes) {
 
+      /**
+       * We're not supporting non-arc schemes here.
+       */
       if (!schemeOptions.name) {
-        throw new Error("options.schemes[n].name is not defined");
+        throw new Error("SchemeConfig.name is required. Use SchemeRegistrar to register non-Arc schemes");
       }
+
+      let scheme: ISchemeWrapper | IUniversalSchemeWrapper;
+      let truffleContract: any;
 
       const wrapperFactory = WrapperService.factories[schemeOptions.name];
 
-      if (!wrapperFactory) {
-        /* tslint:disable-next-line:max-line-length */
-        throw new Error("Non-arc schemes are not currently supported here.  You can add them later in your workflow.");
+      if (wrapperFactory) {
+
+        scheme = schemeOptions.address ?
+          await wrapperFactory.at(schemeOptions.address) :
+          WrapperService.wrappers[schemeOptions.name] as IUniversalSchemeWrapper;
+
+        if (!scheme && schemeOptions.address) {
+          throw new Error(`An instance of '${schemeOptions.name}' could not be found at ${schemeOptions.address}`);
+        }
+        /**
+         * else there is a factory but no address was given and no deployed scheme was found,
+         * so the scheme is wrapped but hasn't been deployed by Arc.js.
+         * (is most likely a wrapped non-universal scheme -- these aren't deployed).
+         */
+        if (scheme) {
+          truffleContract = scheme.contract;
+        }
       }
 
       /**
-       * scheme will be a contract wrapper
+       * If no factory (not wrapped) or couldn't get it from the factory (not deployed),
+       * then get the scheme from Truffle.
        */
-      const scheme = schemeOptions.address ?
-        await wrapperFactory.at(schemeOptions.address) : WrapperService.wrappers[schemeOptions.name];
+      if (!scheme) {
 
-      let schemeVotingMachineParams = schemeOptions.votingMachineParams;
-      let schemeVoteParametersHash;
-      let schemeVotingMachine;
-
-      if (schemeVotingMachineParams) {
-        Object.assign(schemeOptions.votingMachineParams, { txEventContext: eventContext });
-        const schemeVotingMachineName = schemeVotingMachineParams.votingMachineName;
-        const schemeVotingMachineAddress = schemeVotingMachineParams.votingMachineAddress;
-        /**
-         * get the voting machine contract
-         */
-        if (!schemeVotingMachineAddress &&
-          (!schemeVotingMachineName ||
-            (schemeVotingMachineName === defaultVotingMachineParams.votingMachineName))) {
-          /**
-           *  scheme is using the default voting machine
-           */
-          schemeVotingMachine = defaultVotingMachine;
-        } else {
-          /**
-           * scheme has its own voting machine. Go get it.
-           */
-          if (!schemeVotingMachineName) {
-            schemeVotingMachineParams.votingMachineName = defaultVotingMachineParams.votingMachineName;
-          }
-          /**
-           * Note we are not supporting non-Arc voting machines here, and it must have a wrapper class.
-           */
-          schemeVotingMachine = await WrapperService.getContractWrapper(
-            schemeVotingMachineParams.votingMachineName,
-            schemeVotingMachineParams.votingMachineAddress);
-
-          // in case it wasn't supplied in order to get the default
-          schemeVotingMachineParams.votingMachineAddress = schemeVotingMachine.address;
+        if (!schemeOptions.address) {
+          throw new Error(
+            `A scheme that has no contract wrapper or has not been deployed by Arc.js must supply an address`);
         }
 
-        schemeVotingMachineParams = Object.assign({}, defaultVotingMachineParams, schemeVotingMachineParams);
-        /**
-         * get the voting machine parameters
-         */
-        schemeVoteParametersHash = await schemeVotingMachine.getParametersHash(schemeVotingMachineParams);
+        const artifactContract = await Utils.requireContract(schemeOptions.name);
 
-        // avoid nonce collisions and avoid unnecessary transactions
-        if (!paramsHashCacheHasHash(schemeVotingMachine.address, schemeVoteParametersHash)) {
-          txResult = await schemeVotingMachine.setParameters(schemeVotingMachineParams);
-          // avoid nonce collisions
-          await txResult.watchForTxMined();
-          paramsHashCacheSet(schemeVotingMachine.address, schemeVoteParametersHash);
+        truffleContract = await artifactContract.at(schemeOptions.address) as ISchemeWrapper;
+
+        if (!truffleContract) {
+          throw new Error(`An instance of '${schemeOptions.name}' could not be found at ${schemeOptions.address}`);
         }
-      } else {
-        // using the defaults
-        schemeVotingMachineParams = Object.assign({}, defaultVotingMachineParams, { txEventContext: eventContext });
-        schemeVoteParametersHash = defaultVoteParametersHash;
       }
 
-      const schemeParameters = Object.assign(
-        {
-          txEventContext: eventContext,
-          voteParametersHash: schemeVoteParametersHash,
-          votingMachineAddress: schemeVotingMachineParams.votingMachineAddress,
-        },
-        schemeOptions
-      );
+      /**
+       * Heuristic for determining whether this is a universal scheme.  Could also
+       * assume that any universal scheme would have been deployed by Arc.js.
+       */
+      const isUniversal = !!(scheme as any).contract.getParametersFromController;
 
-      const schemeParamsHash = await scheme.getParametersHash(schemeParameters);
+      let schemeVotingMachineParams = schemeOptions.votingMachineParams;
+      let schemeVoteParametersHash: Hash;
+      let schemeVotingMachine: IVotingMachineWrapper;
 
-      // avoid nonce collisions and avoid unnecessary transactions
-      if (!paramsHashCacheHasHash(scheme.address, schemeParamsHash)) {
-        /**
-         * This is the set of all possible parameters from which the current scheme
-         * will choose just the ones it requires
-         */
-        txResult = await scheme.setParameters(schemeParameters);
-        // avoid nonce collisions
-        await txResult.watchForTxMined();
-        paramsHashCacheSet(scheme.address, schemeParamsHash);
+      if (!isUniversal && schemeVotingMachineParams) {
+        throw new Error(`SchemeConfig.votingMachineParams on non-universal schemes is not supported`);
+      }
+
+      let schemeParamsHash;
+
+      if (isUniversal) {
+        if (schemeVotingMachineParams) {
+          Object.assign(schemeOptions.votingMachineParams, { txEventContext: eventContext });
+          const schemeVotingMachineName = schemeVotingMachineParams.votingMachineName;
+          const schemeVotingMachineAddress = schemeVotingMachineParams.votingMachineAddress;
+
+          if (!schemeVotingMachineAddress && !schemeVotingMachineName && !hasDefaultVotingMachine) {
+            throw new Error("universal scheme requires a voting machine, but none was supplied");
+          }
+          /**
+           * get the voting machine contract
+           */
+          if (!schemeVotingMachineAddress &&
+            (!schemeVotingMachineName ||
+              (schemeVotingMachineName === defaultVotingMachineParams.votingMachineName))) {
+            /**
+             *  scheme is using the default voting machine
+             */
+            schemeVotingMachine = defaultVotingMachine;
+          } else {
+            /**
+             * scheme has its own voting machine. Go get it.
+             */
+            if (!schemeVotingMachineName) {
+              schemeVotingMachineParams.votingMachineName = defaultVotingMachineParams.votingMachineName;
+            }
+            /**
+             * Note we are not supporting non-Arc voting machines here, and it must have a wrapper class.
+             */
+            schemeVotingMachine = await WrapperService.getContractWrapper(
+              schemeVotingMachineParams.votingMachineName,
+              schemeVotingMachineParams.votingMachineAddress) as IVotingMachineWrapper;
+
+            // in case it wasn't supplied in order to get the default
+            schemeVotingMachineParams.votingMachineAddress = schemeVotingMachine.address;
+          }
+
+          schemeVotingMachineParams = Object.assign({}, defaultVotingMachineParams, schemeVotingMachineParams);
+          /**
+           * get the voting machine parameters
+           */
+          schemeVoteParametersHash = await schemeVotingMachine.getParametersHash(schemeVotingMachineParams);
+
+          // avoid nonce collisions and avoid unnecessary transactions
+          if (!paramsHashCacheHasHash(schemeVotingMachine.address, schemeVoteParametersHash)) {
+            const txResult = await schemeVotingMachine.setParameters(schemeVotingMachineParams);
+            // avoid nonce collisions
+            await txResult.watchForTxMined();
+            paramsHashCacheSet(schemeVotingMachine.address, schemeVoteParametersHash);
+          }
+        } else {
+          // using the defaults
+          schemeVotingMachineParams = Object.assign({}, defaultVotingMachineParams, { txEventContext: eventContext });
+          schemeVoteParametersHash = defaultVoteParametersHash;
+        }
+
+        const schemeParameters = Object.assign(
+          {
+            txEventContext: eventContext,
+            voteParametersHash: schemeVoteParametersHash,
+            votingMachineAddress: schemeVotingMachineParams.votingMachineAddress,
+          },
+          schemeOptions
+        );
+
+        schemeParamsHash = await (scheme as IUniversalSchemeWrapper).getParametersHash(schemeParameters);
+
+        // avoid nonce collisions and avoid unnecessary transactions
+        if (!paramsHashCacheHasHash(scheme.address, schemeParamsHash)) {
+          /**
+           * This is the set of all possible parameters from which the current scheme
+           * will choose just the ones it requires
+           */
+          const txResult = await (scheme as IUniversalSchemeWrapper).setParameters(schemeParameters);
+          // avoid nonce collisions
+          await txResult.watchForTxMined();
+          paramsHashCacheSet(scheme.address, schemeParamsHash);
+        }
+      } else {
+        schemeParamsHash = Utils.NULL_HASH;
       }
 
       initialSchemesSchemes.push(scheme.address);

@@ -59,10 +59,6 @@ export namespace SchemePermissions {
 }
 /*tslint:enable:no-namespace */
 
-export interface HasContract {
-  contract: any;
-}
-
 export interface TruffleContract {
   /**
    * Migrate a new instance of the contract.  Returns promise of being

@@ -9,7 +9,7 @@ import {
   ArcTransactionResult,
   DecodedLogEntryEvent,
   IContractWrapperFactory,
-  SchemeWrapper,
+  IUniversalSchemeWrapper,
   StandardSchemeParams,
 } from "../iContractWrapperBase";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";
@@ -20,7 +20,7 @@ import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../
 import { SchemeProposalExecuted, SchemeProposalExecutedEventResult } from "./commonEventInterfaces";
 import { StandardTokenFactory } from "./standardToken";
 
-export class VestingSchemeWrapper extends ProposalGeneratorBase implements SchemeWrapper {
+export class VestingSchemeWrapper extends ProposalGeneratorBase implements IUniversalSchemeWrapper {
 
   public name: string = "VestingScheme";
   public friendlyName: string = "Vesting Scheme";

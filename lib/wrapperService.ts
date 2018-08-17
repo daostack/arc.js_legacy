@@ -1,6 +1,6 @@
 import { promisify } from "es6-promisify";
 import { Address } from "./commonTypes";
-import { IContractWrapperBase, IContractWrapperFactory } from "./iContractWrapperBase";
+import { IContractWrapper, IContractWrapperFactory, IUniversalSchemeWrapper } from "./iContractWrapperBase";
 import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
 import {
@@ -117,27 +117,27 @@ export interface ArcWrappersByType {
   /**
    * All wrapped contracts
    */
-  allWrappers: Array<IContractWrapperBase>;
+  allWrappers: Array<IContractWrapper>;
   /**
-   * All wrapped schemes
+   * All wrapped non-universal schemes
    */
-  schemes: Array<IContractWrapperBase>;
+  nonUniversalSchemes: Array<IContractWrapper>;
   /**
-   * All wrapped schemes that can generate proposals
+   * All wrapped universal schemes
    */
-  proposalGeneratingSchemes: Array<IContractWrapperBase>;
+  universalSchemes: Array<IUniversalSchemeWrapper>;
   /**
    * All wrapped voting machines
    */
-  votingMachines: Array<IContractWrapperBase>;
+  votingMachines: Array<IContractWrapper>;
   /**
    * All wrapped global constraints
    */
-  globalConstraints: Array<IContractWrapperBase>;
+  globalConstraints: Array<IContractWrapper>;
   /**
    * Other types of wrappers
    */
-  other: Array<IContractWrapperBase>;
+  other: Array<IContractWrapper>;
 }
 
 /**
@@ -168,7 +168,7 @@ export class WrapperService {
    * Currently only returns the wrappers for contracts that were deployed by the running
    * version of Arc.js.
    */
-  public static wrappersByAddress: Map<Address, IContractWrapperBase> = new Map<Address, IContractWrapperBase>();
+  public static wrappersByAddress: Map<Address, IContractWrapper> = new Map<Address, IContractWrapper>();
 
   /**
    * initialize() must be called before any of the static properties will have values.
@@ -202,7 +202,7 @@ export class WrapperService {
     /**
      * Contract wrappers grouped by type
      */
-    WrapperService.wrappersByType.allWrappers = Object.values(WrapperService.wrappers) as Array<IContractWrapperBase>;
+    WrapperService.wrappersByType.allWrappers = Object.values(WrapperService.wrappers) as Array<IContractWrapper>;
     WrapperService.wrappersByType.globalConstraints = [
       WrapperService.wrappers.TokenCapGC,
     ];
@@ -210,16 +210,10 @@ export class WrapperService {
       WrapperService.wrappers.DaoCreator,
       WrapperService.wrappers.Redeemer,
     ];
-    WrapperService.wrappersByType.schemes = [
-      WrapperService.wrappers.ContributionReward,
-      WrapperService.wrappers.GenesisProtocol,
-      WrapperService.wrappers.GlobalConstraintRegistrar,
-      WrapperService.wrappers.SchemeRegistrar,
-      WrapperService.wrappers.UpgradeScheme,
-      WrapperService.wrappers.VestingScheme,
-      WrapperService.wrappers.VoteInOrganizationScheme,
+    WrapperService.wrappersByType.nonUniversalSchemes = [
     ];
-    WrapperService.wrappersByType.proposalGeneratingSchemes = [
+
+    WrapperService.wrappersByType.universalSchemes = [
       WrapperService.wrappers.ContributionReward,
       WrapperService.wrappers.GlobalConstraintRegistrar,
       WrapperService.wrappers.SchemeRegistrar,
@@ -282,7 +276,7 @@ export class WrapperService {
    * @param address - optional
    */
   public static async getContractWrapper(contractName: string, address?: string)
-    : Promise<IContractWrapperBase | undefined> {
+    : Promise<IContractWrapper | undefined> {
     const factories = await WrapperService.factories;
     const factory = factories[contractName];
     if (!factory) {
@@ -290,7 +284,7 @@ export class WrapperService {
     }
     if (address) {
       return factory.at(address)
-        .then((resultingContract: IContractWrapperBase) => resultingContract, () => undefined);
+        .then((resultingContract: IContractWrapper) => resultingContract, () => undefined);
     } else {
       return Promise.resolve(WrapperService.wrappers[contractName]);
     }
@@ -389,4 +383,4 @@ export const ContractWrappersByType: ArcWrappersByType = WrapperService.wrappers
 /**
  * for quicker access to the contract wrappers by address
  */
-export const ContractWrappersByAddress: Map<Address, IContractWrapperBase> = WrapperService.wrappersByAddress;
+export const ContractWrappersByAddress: Map<Address, IContractWrapper> = WrapperService.wrappersByAddress;
