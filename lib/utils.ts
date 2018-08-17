@@ -85,7 +85,7 @@ export class Utils {
       }
       /* tslint:disable-next-line:max-line-length */
       LoggingService.debug(`Utils.getWeb3: instantiating web3 with configured provider at ${url}`);
-      // No web3 is injected, look for a provider at providerUrl:providerPort (which defaults to localhost)
+      // No web3 is injected, look for a provider at providerUrl:providerPort (which defaults to http://127.0.0.1)
       // This happens when running tests, or in a browser that is not running MetaMask
       preWeb3 = new webConstructor(new Web3Providers.HttpProvider(url));
     }

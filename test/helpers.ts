@@ -153,13 +153,17 @@ export async function forgeDao(opts: Partial<NewDaoConfig> = {}): Promise<DAO> {
     { name: "GlobalConstraintRegistrar" },
   ];
 
-  return DAO.new(Object.assign({
-    founders: defaultFounders,
-    name: opts.name || "ArcJsTestDao",
-    schemes: defaultSchemes,
-    tokenName: opts.tokenName || "Tokens of ArcJsTestDao",
-    tokenSymbol: opts.tokenSymbol || "ATD",
-  }, opts));
+  try {
+    return await DAO.new(Object.assign({
+      founders: defaultFounders,
+      name: opts.name || "ArcJsTestDao",
+      schemes: defaultSchemes,
+      tokenName: opts.tokenName || "Tokens of ArcJsTestDao",
+      tokenSymbol: opts.tokenSymbol || "ATD",
+    }, opts));
+  } catch (ex) {
+    throw new Error(`error creating DAO: ${ex.message ? ex.message : ex}`);
+  }
 }
 
 /**

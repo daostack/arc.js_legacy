@@ -16,6 +16,7 @@ describe("ConfigService", () => {
   it("doesn't reload default values when imported again", () => {
     const newConfigService = require("../lib/configService").ConfigService;
     assert.equal(newConfigService.get("providerUrl"), "http://localhost");
+    ConfigService.set("providerUrl", "http://127.0.0.1");
   });
 
   it("can specify gasPrice", async () => {

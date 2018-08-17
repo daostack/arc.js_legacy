@@ -269,7 +269,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
        * Heuristic for determining whether this is a universal scheme.  Could also
        * assume that any universal scheme would have been deployed by Arc.js.
        */
-      const isUniversal = !!(scheme as any).contract.getParametersFromController;
+      const isUniversal = !!(scheme as any).contract.updateParameters;
 
       let schemeVotingMachineParams = schemeOptions.votingMachineParams;
       let schemeVoteParametersHash: Hash;
