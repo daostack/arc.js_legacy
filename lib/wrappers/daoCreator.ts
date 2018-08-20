@@ -269,7 +269,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
        * Heuristic for determining whether this is a universal scheme.  Could also
        * assume that any universal scheme would have been deployed by Arc.js.
        */
-      const isUniversal = !!(scheme as any).contract.updateParameters;
+      const isUniversal = !!truffleContract.updateParameters;
 
       let schemeVotingMachineParams = schemeOptions.votingMachineParams;
       let schemeVoteParametersHash: Hash;
@@ -280,6 +280,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       }
 
       let schemeParamsHash;
+      let requiredPermissions;
 
       if (isUniversal) {
         if (schemeVotingMachineParams) {
@@ -358,18 +359,20 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
           // avoid nonce collisions
           await txResult.watchForTxMined();
           paramsHashCacheSet(scheme.address, schemeParamsHash);
+          requiredPermissions = scheme.getDefaultPermissions();
+
         }
       } else {
         schemeParamsHash = Utils.NULL_HASH;
+        requiredPermissions = SchemePermissions.None;
       }
 
-      initialSchemesSchemes.push(scheme.address);
+      initialSchemesSchemes.push(truffleContract.address);
       initialSchemesParams.push(schemeParamsHash);
       /**
        * Make sure the scheme has at least its required permissions, regardless of what the caller
        * passes in.
        */
-      const requiredPermissions = scheme.getDefaultPermissions();
       const additionalPermissions = schemeOptions.permissions;
       /* tslint:disable-next-line:no-bitwise */
       initialSchemesPermissions.push(SchemePermissions.toString(requiredPermissions | additionalPermissions));
