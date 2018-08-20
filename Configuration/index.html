@@ -2085,6 +2085,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/interfaces/IConfigService/" title="IConfigService" class="md-nav__link">
+      IConfigService
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/interfaces/IContractWrapperBase/" title="IContractWrapperBase" class="md-nav__link">
       IContractWrapperBase
     </a>
@@ -3284,6 +3296,8 @@ The level of logging.  Default is 9 (<code>LogLevel.error | LogLevel.info</code>
 </pre></div>
 </td></tr></table>
 
+<p><strong>cacheContractWrappers</strong>
+<code>true</code> to cache contract wrappers obtained using the contract wrapper factory methods <code>.at</code> and <code>.new</code>.  The cache is local, it does not persist across application instances.  The default is <code>false</code>.</p>
 <p><strong>network</strong>
 Name of the blockchain network used during Arc contract migration.  Other information like url and port come from Arc.js's truffle.js file.  Default is "ganache".</p>
 <p><strong>providerPort</strong>
