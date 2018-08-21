@@ -494,10 +494,7 @@ export class TransactionService extends PubSubEventService {
     } else if (typeof index === "undefined") {
       index = tx.logs.length - 1;
     }
-    if (tx.logs[index].type !== "mined") {
-      // TODO: log  `getValueFromLogs: transaction has not been mined: ${tx.logs[index].event}`
-      return undefined;
-    }
+
     const result = tx.logs[index].args[arg];
 
     if (!result) {
