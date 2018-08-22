@@ -5,7 +5,6 @@ import {
 } from "web3";
 import { Utils } from "../lib/utils";
 import { UtilsInternal } from "../lib/utilsInternal";
-<<<<<<< master
 import {
   Web3EventService
 } from "../lib/web3EventService";
@@ -13,10 +12,7 @@ import {
   ApprovalEventResult,
   StandardTokenFactory,
 } from "../lib/wrappers/standardToken";
-import "./helpers";
-=======
 import * as helpers from "./helpers";
->>>>>>> make requiredDepth work
 
 describe("Web3EventService", () => {
 

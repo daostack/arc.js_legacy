@@ -207,7 +207,7 @@ export class AggregateEventService {
             /**
              * get the decoded events for this contract.
              * Note each log can come from a different contract, so have to redecode each time.
-             * 
+             *
              * TODO:  seems like truffle would have a way to decode all the log entries just knowing
              * the contract that generated the transaction??  Find out.
              */

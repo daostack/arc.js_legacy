@@ -100,11 +100,10 @@ export class RedeemerWrapper extends ContractWrapperBase {
     };
   }
 
-
   /**
-   * Obtain an `EntityFetcherFactory` that enables you to get, watch and subscribe to events that
-   * return a `RedeemerRewardEventsResult` when rewards are rewarded, either via `Redeemer.redeem`
-   * or directly via `GenesisProtocol` and `ContributionReward`.
+   * Set up a PubSub event with the given topic that will be published
+   * whenever rewards are rewarded either via `Redeemer.redeem` or
+   * directly via `GenesisProtocol` and `ContributionReward`.
    *
    * The payload of the event,`RedeemerRewardsEventPayload`, provides information about the redemptions.
    *
