@@ -315,6 +315,10 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
               schemeVotingMachineParams.votingMachineName,
               schemeVotingMachineParams.votingMachineAddress) as IVotingMachineWrapper;
 
+            if (!schemeVotingMachine) {
+              throw new Error(`wrapped voting machine '${schemeVotingMachineParams.votingMachineName}' was not found`);
+            }
+
             // in case it wasn't supplied in order to get the default
             schemeVotingMachineParams.votingMachineAddress = schemeVotingMachine.address;
           }
