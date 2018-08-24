@@ -28,6 +28,29 @@ describe("DAO", () => {
     }, options));
   };
 
+  it("can register non-Arc scheme", async () => {
+
+    const dao = await getNewDao({
+      founders: [
+        {
+          address: accounts[0],
+          reputation: web3.toWei(10),
+          tokens: web3.toWei(100),
+        },
+      ],
+      schemes: [
+        {
+          address: helpers.SOME_ADDRESS,
+        },
+      ],
+    });
+
+    const schemes = await dao.getSchemes();
+    assert.equal(schemes.length, 1);
+    assert.equal(schemes[0].address, helpers.SOME_ADDRESS);
+    assert.equal(schemes[0].wrapper, undefined);
+  });
+
   it("can register non-wrapped, non-deployed scheme", async () => {
 
     const contractName = "Auction4Reputation";
