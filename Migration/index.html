@@ -3245,7 +3245,7 @@
                 
                 
                 <h1 id="migrations">Migrations<a class="headerlink" href="#migrations" title="Permanent link">&para;</a></h1>
-<p>To deploy contracts to a specified network, follow these steps:</p>
+<p>Arc.js ships with contracts already migrated to Kovan and MainNet.  But you may wish to deploy contracts to a specified network, particularly Ganache.  Migrating to Ganache is simple, described <a href="../Home#migratetoganache">here</a>.  Migrating to other networks involves a little more effort, as follows.</p>
 <ol>
 <li>
 <p>Set the environment variable <code>arcjs_network</code> to the name of the network ("ganache", "kovan", "ropsten", "live"). The default is "ganache".  Truffle will use this setting to find the specified settings in truffle.js in the Arc.js package.</p>
@@ -3256,18 +3256,22 @@
 2
 3
 4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>{
-  &quot;name&quot; : &quot;name of the network&quot;
-  &quot;mnemonic&quot; : &quot;a 12-word BIP39-compliant account mnemonic&quot;,
-  &quot;providerUrl&quot; : &quot;examples: http://127.0.0.1:8545 or https://[network].infura.io/[token]&quot;
-}
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;name of the network, like \&quot;ganache\&quot;, \&quot;kovan\&quot;, \&quot;live\&quot;&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;mnemonic&quot;</span> <span class="p">:</span> <span class="s2">&quot;a 12-word BIP39-compliant account mnemonic&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;providerUrl&quot;</span> <span class="p">:</span> <span class="s2">&quot;examples: http://127.0.0.1:8545 or https://[network].infura.io/[token]&quot;</span>
+<span class="p">}</span>
 </pre></div>
 </td></tr></table>
 
 <p>An account generated from the mnemonic will be unlocked for signing and accepting the transactions that are generated during the migration.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Migrating to Ropsten is not currently supported.</p>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The mnemonic won't work unless it confirms to <a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">BIP39</a>.  You can generate a conformant mnemonic <a href="https://iancoleman.io/bip39/">here</a>.</p>
+<p>The mnemonic won't work unless it confirms to <a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">BIP39</a>.  You can generate examples of conformant mnemonics <a href="https://iancoleman.io/bip39/">here</a>.</p>
 </div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
@@ -3292,6 +3296,7 @@
 </div>
 </li>
 </ol>
+<p><a name="founders"></a></p>
 <h2 id="configuring-founders">Configuring Founders<a class="headerlink" href="#configuring-founders" title="Permanent link">&para;</a></h2>
 <p>When migrating to any network besides ganache you will need to supply a list of founders for the Genesis DAO that is created by the Arc.js migration script.  You must define an environment variable named <code>arcjs_foundersConfigurationLocation</code> that contains the path to a JSON file containing specifications for your founders. This JSON file defines a list of founders for one or more networks in a format that looks like the following (but with real addresses):</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -3344,7 +3349,7 @@
 
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>The <code>tokens</code> amounts are in GDT for testnets, or GEN for "live", and the <code>reputation</code> are in units of the Genesis Reputation system.</p>
+<p>Do not supply values in Wei.  The <code>tokens</code> amounts are in GDT for testnets, or GEN for "live", and the <code>reputation</code> are in units of the Genesis Reputation system.  The script will automatically convert the values to Wei.</p>
 </div>
                 
                   
