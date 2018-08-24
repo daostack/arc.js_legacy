@@ -3396,6 +3396,8 @@
                 
                 <p><a href="../../README/">API Reference</a> &gt; <a href="./">AccountService</a></p>
 <h1 id="class-accountservice">Class: AccountService<a class="headerlink" href="#class-accountservice" title="Permanent link">&para;</a></h1>
+<p>Watch for changes in the default account.</p>
+<p>For more information, see <a href="../Configuration#accountchanges">Account Changes</a>.</p>
 <h2 id="index">Index<a class="headerlink" href="#index" title="Permanent link">&para;</a></h2>
 <h3 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h3>
 <ul>
@@ -3412,20 +3414,20 @@
 <p><a id="AccountChangedEventTopic"></a></p>
 <h3 id="static-accountchangedeventtopic">«Static» AccountChangedEventTopic<a class="headerlink" href="#static-accountchangedeventtopic" title="Permanent link">&para;</a></h3>
 <p><strong>●  AccountChangedEventTopic</strong>:  <em><code>string</code></em>  = "AccountService.account.changed"</p>
-<p><em>Defined in accountService.ts:8</em></p>
+<p><em>Defined in accountService.ts:13</em></p>
 <hr />
 <h2 id="methods_1">Methods<a class="headerlink" href="#methods_1" title="Permanent link">&para;</a></h2>
 <p><a id="endAccountWatch"></a></p>
 <h3 id="static-endaccountwatch">«Static» endAccountWatch<a class="headerlink" href="#static-endaccountwatch" title="Permanent link">&para;</a></h3>
 <p>► <strong>endAccountWatch</strong>(): <code>void</code></p>
-<p><em>Defined in accountService.ts:64</em></p>
+<p><em>Defined in accountService.ts:69</em></p>
 <p>Turn off the system that watches for default account changes.</p>
 <p><strong>Returns:</strong> <code>void</code></p>
 <hr />
 <p><a id="initiateAccountWatch"></a></p>
 <h3 id="static-initiateaccountwatch">«Static» initiateAccountWatch<a class="headerlink" href="#static-initiateaccountwatch" title="Permanent link">&para;</a></h3>
 <p>► <strong>initiateAccountWatch</strong>(): <code>Promise</code>.&lt;<code>void</code>&gt;</p>
-<p><em>Defined in accountService.ts:22</em></p>
+<p><em>Defined in accountService.ts:27</em></p>
 <p>Initializes the system that watches for default account changes.</p>
 <p><code>initiateAccountWatch</code> is called automatically by Arc.js when you pass <code>true</code> for <code>watchForAccountChanges</code> to <code>InitializeArcJs</code>. You may also call it manually yourself.</p>
 <p>Then you may request to be notified whenever the current account changes by calling <a href="../../../api/classes/AccountService#subscribeToAccountChanges">AccountService.subscribeToAccountChanges</a></p>
@@ -3434,9 +3436,9 @@
 <p><a id="subscribeToAccountChanges"></a></p>
 <h3 id="static-subscribetoaccountchanges">«Static» subscribeToAccountChanges<a class="headerlink" href="#static-subscribetoaccountchanges" title="Permanent link">&para;</a></h3>
 <p>► <strong>subscribeToAccountChanges</strong>(callback: <em><code>function</code></em>): <a href="../../interfaces/IEventSubscription/">IEventSubscription</a></p>
-<p><em>Defined in accountService.ts:79</em></p>
+<p><em>Defined in accountService.ts:85</em></p>
 <p>Subscribe to be notified whenever the current account changes, like this:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nt">AccountService</span><span class="p">.</span><span class="nc">subscribeToAccountChanges</span><span class="o">((</span><span class="nt">account</span><span class="o">:</span> <span class="nt">Address</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="err">...</span> <span class="p">}</span><span class="o">);</span><span class="err">`</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nt">AccountService</span><span class="p">.</span><span class="nc">subscribeToAccountChanges</span><span class="o">((</span><span class="nt">account</span><span class="o">:</span> <span class="nt">Address</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="err">...</span> <span class="p">}</span><span class="o">);</span>
 </pre></div>
 </td></tr></table>
 

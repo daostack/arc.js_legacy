@@ -3549,7 +3549,10 @@
                 <p><a href="../../README/">API Reference</a> &gt; <a href="./">AvatarService</a></p>
 <h1 id="class-avatarservice">Class: AvatarService<a class="headerlink" href="#class-avatarservice" title="Permanent link">&para;</a></h1>
 <p>Methods for querying information about an Avatar. Use it by:</p>
-<p>let avatarService = new AvatarService(avatarAddress);</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>const avatarService = new AvatarService(avatarAddress);
+</pre></div>
+</td></tr></table>
+
 <h2 id="index">Index<a class="headerlink" href="#index" title="Permanent link">&para;</a></h2>
 <h3 id="constructors">Constructors<a class="headerlink" href="#constructors" title="Permanent link">&para;</a></h3>
 <ul>
@@ -3576,7 +3579,7 @@
 <h2 id="constructors_1">Constructors<a class="headerlink" href="#constructors_1" title="Permanent link">&para;</a></h2>
 <p><a id="constructor"></a></p>
 <h3 id="new-avatarserviceavataraddress-address-avatarservice">⊕ <strong>new AvatarService</strong>(avatarAddress: <em><a href="../../#Address">Address</a></em>): <a href="./">AvatarService</a><a class="headerlink" href="#new-avatarserviceavataraddress-address-avatarservice" title="Permanent link">&para;</a></h3>
-<p><em>Defined in avatarService.ts:25</em></p>
+<p><em>Defined in avatarService.ts:27</em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -3600,75 +3603,75 @@
 <p><a id="controllerService"></a></p>
 <h3 id="controllerservice">controllerService<a class="headerlink" href="#controllerservice" title="Permanent link">&para;</a></h3>
 <p><strong>●  controllerService</strong>:  <em><a href="../ControllerService/">ControllerService</a></em> </p>
-<p><em>Defined in avatarService.ts:19</em></p>
+<p><em>Defined in avatarService.ts:21</em></p>
 <hr />
 <h2 id="methods_1">Methods<a class="headerlink" href="#methods_1" title="Permanent link">&para;</a></h2>
 <p><a id="getAvatar"></a></p>
 <h3 id="getavatar">getAvatar<a class="headerlink" href="#getavatar" title="Permanent link">&para;</a></h3>
 <p>► <strong>getAvatar</strong>(): <code>Promise</code>.&lt;<code>any</code>&gt;</p>
-<p><em>Defined in avatarService.ts:36</em></p>
+<p><em>Defined in avatarService.ts:38</em></p>
 <p>Returns promise of the Avatar Truffle contract wrapper. Returns undefined if not found.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>any</code>&gt;</p>
 <hr />
 <p><a id="getController"></a></p>
 <h3 id="getcontroller">getController<a class="headerlink" href="#getcontroller" title="Permanent link">&para;</a></h3>
 <p>► <strong>getController</strong>(): <code>Promise</code>.&lt;<code>any</code>&gt;</p>
-<p><em>Defined in avatarService.ts:66</em></p>
+<p><em>Defined in avatarService.ts:68</em></p>
 <p>Returns promise of a Truffle contract wrapper for the controller. Could be either UController or Controller. You can know which one by called <code>getIsUController</code>.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>any</code>&gt;</p>
 <hr />
 <p><a id="getControllerAddress"></a></p>
 <h3 id="getcontrolleraddress">getControllerAddress<a class="headerlink" href="#getcontrolleraddress" title="Permanent link">&para;</a></h3>
 <p>► <strong>getControllerAddress</strong>(): <code>Promise</code>.&lt;<code>string</code>&gt;</p>
-<p><em>Defined in avatarService.ts:57</em></p>
+<p><em>Defined in avatarService.ts:59</em></p>
 <p>Returns promise of the address of the controller</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>string</code>&gt;</p>
 <hr />
 <p><a id="getEthBalance"></a></p>
 <h3 id="getethbalance">getEthBalance<a class="headerlink" href="#getethbalance" title="Permanent link">&para;</a></h3>
 <p>► <strong>getEthBalance</strong>(): <code>Promise</code>.&lt;<code>BigNumber</code>&gt;</p>
-<p><em>Defined in avatarService.ts:145</em></p>
+<p><em>Defined in avatarService.ts:147</em></p>
 <p>Return the current ETH balance for this avatar, in Wei.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>BigNumber</code>&gt;</p>
 <hr />
 <p><a id="getIsUController"></a></p>
 <h3 id="getisucontroller">getIsUController<a class="headerlink" href="#getisucontroller" title="Permanent link">&para;</a></h3>
 <p>► <strong>getIsUController</strong>(): <code>Promise</code>.&lt;<code>boolean</code>&gt;</p>
-<p><em>Defined in avatarService.ts:50</em></p>
+<p><em>Defined in avatarService.ts:52</em></p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>boolean</code>&gt;</p>
 <hr />
 <p><a id="getNativeReputation"></a></p>
 <h3 id="getnativereputation">getNativeReputation<a class="headerlink" href="#getnativereputation" title="Permanent link">&para;</a></h3>
 <p>► <strong>getNativeReputation</strong>(): <code>Promise</code>.&lt;<a href="../ReputationWrapper/">ReputationWrapper</a>&gt;</p>
-<p><em>Defined in avatarService.ts:86</em></p>
+<p><em>Defined in avatarService.ts:88</em></p>
 <p>Returns promise of the avatar's native reputation Truffle contract wrapper.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<a href="../ReputationWrapper/">ReputationWrapper</a>&gt;</p>
 <hr />
 <p><a id="getNativeReputationAddress"></a></p>
 <h3 id="getnativereputationaddress">getNativeReputationAddress<a class="headerlink" href="#getnativereputationaddress" title="Permanent link">&para;</a></h3>
 <p>► <strong>getNativeReputationAddress</strong>(): <code>Promise</code>.&lt;<code>string</code>&gt;</p>
-<p><em>Defined in avatarService.ts:73</em></p>
+<p><em>Defined in avatarService.ts:75</em></p>
 <p>Returns promise of the address of the avatar's native reputation.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>string</code>&gt;</p>
 <hr />
 <p><a id="getNativeToken"></a></p>
 <h3 id="getnativetoken">getNativeToken<a class="headerlink" href="#getnativetoken" title="Permanent link">&para;</a></h3>
 <p>► <strong>getNativeToken</strong>(): <code>Promise</code>.&lt;<a href="../DaoTokenWrapper/">DaoTokenWrapper</a>&gt;</p>
-<p><em>Defined in avatarService.ts:113</em></p>
+<p><em>Defined in avatarService.ts:115</em></p>
 <p>Returns promise of the avatar's native token Truffle contract wrapper. Assumes the token is a <code>DAOToken</code>.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<a href="../DaoTokenWrapper/">DaoTokenWrapper</a>&gt;</p>
 <hr />
 <p><a id="getNativeTokenAddress"></a></p>
 <h3 id="getnativetokenaddress">getNativeTokenAddress<a class="headerlink" href="#getnativetokenaddress" title="Permanent link">&para;</a></h3>
 <p>► <strong>getNativeTokenAddress</strong>(): <code>Promise</code>.&lt;<code>string</code>&gt;</p>
-<p><em>Defined in avatarService.ts:99</em></p>
+<p><em>Defined in avatarService.ts:101</em></p>
 <p>Returns promise of the address of the avatar's native token.</p>
 <p><strong>Returns:</strong> <code>Promise</code>.&lt;<code>string</code>&gt;</p>
 <hr />
 <p><a id="getTokenBalance"></a></p>
 <h3 id="gettokenbalance">getTokenBalance<a class="headerlink" href="#gettokenbalance" title="Permanent link">&para;</a></h3>
 <p>► <strong>getTokenBalance</strong>(tokenAddress?: <em><a href="../../#Address">Address</a></em>): <code>Promise</code>.&lt;<code>BigNumber</code>&gt;</p>
-<p><em>Defined in avatarService.ts:127</em></p>
+<p><em>Defined in avatarService.ts:129</em></p>
 <p>Return a current token balance for this avatar, in Wei. If tokenAddress is not supplied, then uses native token.</p>
 <p><strong>Parameters:</strong></p>
 <table>

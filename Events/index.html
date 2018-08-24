@@ -95,7 +95,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <a href="#events" tabindex="1" class="md-skip">
+      <a href="#working-with-events" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -3380,7 +3380,7 @@
                   <a href="https://github.com/daostack/arc.js/edit/master/docs/Events.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="events">Events<a class="headerlink" href="#events" title="Permanent link">&para;</a></h1>
+                <h1 id="working-with-events">Working with Events<a class="headerlink" href="#working-with-events" title="Permanent link">&para;</a></h1>
 <p>Arc.js offers two types of event systems:  <a href="#pubsubevents">Pub/Sub</a> and <a href="../web3events">Web3</a>.  The Pub/Sub system enables you to subscribe to various events published by Arc.js itself.  The Web3 system enables you to get and watch events as they originate from Arc contracts.</p>
 <p>The Web3 events system also contains a hybrid of the two systems, enabling you to watch a Web3 event by subscribing to a Pub/Sub event.</p>
 <p><a name="pubsubevents"></a></p>
@@ -3565,7 +3565,7 @@
 <p>See more about how to use Pub/Sub events <a href="#subscribing">here</a>.</p>
 <p><a name="accountchanges"></a></p>
 <h3 id="account-changes">Account Changes<a class="headerlink" href="#account-changes" title="Permanent link">&para;</a></h3>
-<p>You can be notified whenever the current account changes by setting <a href="../api/interfaces/InitializeArcOptions#watchForAccountChanges">InitializeArcOptions.watchForAccountChanges</a> to <code>true</code> when you call <a href="../api/README/#initializearcjs">InitializeArcJs</a>, and then by calling <a href="../api/classes/AccountService#subscribeToAccountChanges">subscribeToAccountChanges</a>. For more information, see <a href="../api/classes/AccountService">AccountService</a>.</p>
+<p>You can be notified whenever the current account changes.  See <a href="../Configuration#accountchanges">Account Changes</a>.</p>
 <h2 id="comparing-enhanced-web3-with-entity-for-web3-event-fetchers">Comparing Enhanced Web3 with Entity for Web3 Event Fetchers<a class="headerlink" href="#comparing-enhanced-web3-with-entity-for-web3-event-fetchers" title="Permanent link">&para;</a></h2>
 <p>Enhanced Web3 (<a href="../api/README/#eventfetcherfactory">EventFetcherFactory</a>) and entity (<a href="../api/README/#entityfetcherfactory">EntityFetcherFactory</a>) events each have relative pros and cons.  </p>
 <p>Enhanced Web3 events give you all of the information that Web3 provides about an event.  These events closely match what you may be accustomed-to if you have been working with Web3 and Truffle.</p>

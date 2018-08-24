@@ -277,6 +277,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#available-configuration-settings" title="Available Configuration Settings" class="md-nav__link">
+    Available Configuration Settings
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#obtain-a-configuration-setting-at-runtime" title="Obtain a configuration setting at runtime" class="md-nav__link">
     Obtain a configuration setting at runtime
   </a>
@@ -293,6 +300,27 @@
         <li class="md-nav__item">
   <a href="#environment-variables" title="Environment variables" class="md-nav__link">
     Environment variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-configuration" title="Network Configuration" class="md-nav__link">
+    Network Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimized-contract-loading" title="Optimized contract loading" class="md-nav__link">
+    Optimized contract loading
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#account-changes" title="Account Changes" class="md-nav__link">
+    Account Changes
   </a>
   
 </li>
@@ -3233,6 +3261,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#available-configuration-settings" title="Available Configuration Settings" class="md-nav__link">
+    Available Configuration Settings
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#obtain-a-configuration-setting-at-runtime" title="Obtain a configuration setting at runtime" class="md-nav__link">
     Obtain a configuration setting at runtime
   </a>
@@ -3249,6 +3284,27 @@
         <li class="md-nav__item">
   <a href="#environment-variables" title="Environment variables" class="md-nav__link">
     Environment variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-configuration" title="Network Configuration" class="md-nav__link">
+    Network Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimized-contract-loading" title="Optimized contract loading" class="md-nav__link">
+    Optimized contract loading
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#account-changes" title="Account Changes" class="md-nav__link">
+    Account Changes
   </a>
   
 </li>
@@ -3273,14 +3329,16 @@
                 
                 
                 <h1 id="configuring-arcjs">Configuring Arc.js<a class="headerlink" href="#configuring-arcjs" title="Permanent link">&para;</a></h1>
-<p>The default configuration settings for Arc.js can be found in its <code>config/default.json</code> file.  Here is a description of the settings:</p>
+<p>The default configuration settings for Arc.js can be found in its <code>config/default.json</code> file.  The following section describes available settings and their default values.</p>
+<h2 id="available-configuration-settings">Available Configuration Settings<a class="headerlink" href="#available-configuration-settings" title="Permanent link">&para;</a></h2>
 <p><strong>autoApproveTokenTransfers</strong>
 Automatically approve token transfers for operations that require the sender pay tokens to the scheme.  Examples: <a href="../api/classes/VestingSchemeWrapper#create">VestingScheme.create</a>, <a href="../api/classes/GenesisProtocolWrapper#stake">GenesisProtocol.stake</a>, and <a href="../api/classes/ContributionRewardWrapper#proposeContributionReward">ContributionReward.proposeContributionReward</a>.  Default is true.</p>
 <p><strong>defaultVotingMachine</strong>
 The voting machine used by default by <code>Dao.new</code> when creating new DAOs.  Default is "AbsoluteVote".</p>
 <p><strong>foundersConfigurationLocation</strong>
 The location of a custom founders json configuration file, including the name of the file.  The default points to <code>founders.json</code> located in arc.js/migrations which defines default founders for ganache. If the value is given as a relative path, then it must be relative to arc.js/dist/migrations.  Refer here for <a href="../Migration">more about how to define founders</a>.</p>
-<p><strong>logLevel</strong>
+<p><a name="logging"></a>
+<strong>logLevel</strong>
 The level of logging.  Default is 9 (<code>LogLevel.error | LogLevel.info</code>).  The available log levels, which may be combined, are:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -3304,22 +3362,139 @@ Name of the blockchain network used during Arc contract migration.  Other inform
 The port to use when connecting to the blockchain network at runtime.  Default is 8545.</p>
 <p><strong>providerUrl</strong>
 The url to use when connecting to the blockchain network at runtime.  Default is http://127.0.0.1.</p>
-<h3 id="obtain-a-configuration-setting-at-runtime">Obtain a configuration setting at runtime<a class="headerlink" href="#obtain-a-configuration-setting-at-runtime" title="Permanent link">&para;</a></h3>
+<h2 id="obtain-a-configuration-setting-at-runtime">Obtain a configuration setting at runtime<a class="headerlink" href="#obtain-a-configuration-setting-at-runtime" title="Permanent link">&para;</a></h2>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">ConfigService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@daostack/arc.js&#39;</span><span class="p">;</span>
 <span class="nx">ConfigService</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;network&#39;</span><span class="p">);</span>
 </pre></div>
 </td></tr></table>
 
-<h3 id="override-a-configuration-setting-at-runtime">Override a configuration setting at runtime<a class="headerlink" href="#override-a-configuration-setting-at-runtime" title="Permanent link">&para;</a></h3>
+<h2 id="override-a-configuration-setting-at-runtime">Override a configuration setting at runtime<a class="headerlink" href="#override-a-configuration-setting-at-runtime" title="Permanent link">&para;</a></h2>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">ConfigService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@daostack/arc.js&#39;</span><span class="p">;</span>
 <span class="nx">ConfigService</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;network&#39;</span><span class="p">,</span> <span class="s1">&#39;kovan&#39;</span><span class="p">);</span>
 </pre></div>
 </td></tr></table>
 
-<h3 id="environment-variables">Environment variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h3>
+<h2 id="environment-variables">Environment variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
 <p>You can override the default configuration settings by setting values on properties of <code>node.env</code> (see <a href="https://nodejs.org/dist/latest-v9.x/docs/api/process.html#process-process-env">here</a>) with the same name as the corresponding arc.js configuration setting, <strong>but with "arcjs_" prepended to the name</strong>.  This enables you to use environment variables to control the arc.js configuration.</p>
+<p><a name="networksettings"></a></p>
+<h2 id="network-configuration">Network Configuration<a class="headerlink" href="#network-configuration" title="Permanent link">&para;</a></h2>
+<p>Arc.js will automatically detect which network it is running against because MetaMask will inject an appropriate instance of <code>Web3</code>.  In the case where your application is not using MetaMask, then Arc.js must instantiate <code>Web3</code> itself.  In this case Arc.js will need a url, including port number, to use to configure the provider for <code>Web3</code>.  It will construct this url from values give in the Arc.js <a href="../Configuration">global configuration service</a> where default values are given.</p>
+<p>You can override the default url and port values in two ways:</p>
+<p>1) tell <code>InitializeArcJs</code> to use the default values for a given network.  Here is an example of telling Arc.js to use the  default settings for Kovan:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">InitializeArcJs</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+
+<span class="nx">await</span> <span class="nx">InitializeArcJs</span><span class="p">({</span>
+  <span class="s2">&quot;useNetworkDefaultsFor&quot;</span><span class="o">:</span> <span class="s2">&quot;Kovan&quot;</span>
+  <span class="p">});</span>
+</pre></div>
+</td></tr></table>
+
+<p>2) configure the url and port values directly before you call <code>InitializeArcJs</code>:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">InitializeArcJs</span><span class="p">,</span> <span class="nx">ConfigService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+
+<span class="nx">ConfigService</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;providerUrl&quot;</span><span class="p">,</span> <span class="s2">&quot;http://my.custom.node&quot;</span><span class="p">);</span>
+<span class="nx">ConfigService</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;providerPort&quot;</span><span class="p">,</span> <span class="mi">8550</span><span class="p">);</span>
+
+<span class="nx">await</span> <span class="nx">InitializeArcJs</span><span class="p">();</span>
+</pre></div>
+</td></tr></table>
+
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>For safety, by default Arc.js specifies a different HTTP port for each network.  If you want to use the default network settings you need to make sure that the testnet your application is using is listening on the correct port.  The default port values are:</p>
+<p><table style="margin-left:2.5rem">
+<tr style="text-align:left"><th>Network</th><th>Port</th></tr>
+<tr><td>Ganache</td><td>8545</td></tr>
+<tr><td>Kovan</td><td>8547</td></tr>
+<tr><td>Ropsten</td><td>8548</td></tr>
+<tr><td>Live (MainNet)</td><td>8546</td></tr>
+</table></p>
+</div>
+<p><a name="optimizedcontractloading"></a></p>
+<h2 id="optimized-contract-loading">Optimized contract loading<a class="headerlink" href="#optimized-contract-loading" title="Permanent link">&para;</a></h2>
+<p>By default, <a href="../api/README/#initializearcjs">InitializeArcJs</a> will load all of the wrapped Arc contracts as deployed by the running version of Arc.js.  The is perfectly fine.  But as a performance consideration you may consider this to be too time-consuming, so you may want to tell <code>InitializeArcJs</code> to only load the contracts that you expect to use.  The following is enough to create a new DAO with no schemes:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">await</span> <span class="nx">InitializeArcJs</span><span class="p">({</span>
+    <span class="nx">filter</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;AbsoluteVote&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">&quot;DaoCreator&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+</pre></div>
+</td></tr></table>
+
+<p>If you want to add schemes to your DAO, you would include each scheme in the filter:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">await</span> <span class="nx">InitializeArcJs</span><span class="p">({</span>
+    <span class="nx">filter</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;AbsoluteVote&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">&quot;DaoCreator&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">&quot;SchemeRegistrar&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+</pre></div>
+</td></tr></table>
+
+<p>If you are not creating DAOs and only want to use some schemes, then reference the schemes as well as whichever voting machine(s) the schemes are using:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">await</span> <span class="nx">InitializeArcJs</span><span class="p">({</span>
+    <span class="nx">filter</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;GenesisProtocol&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="s2">&quot;ContributionReward&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+</pre></div>
+</td></tr></table>
+
+<p><a name="accountchanges"></a></p>
+<h2 id="account-changes">Account Changes<a class="headerlink" href="#account-changes" title="Permanent link">&para;</a></h2>
+<p>You can be notified whenever the current account changes by subscribing to a PubSub event.  First tell <code>InitializeArcJs</code> you want this feature turned on:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">InitializeArcJs</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+
+<span class="nx">await</span> <span class="nx">InitializeArcJs</span><span class="p">({</span>
+  <span class="nx">watchForAccountChanges</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">});</span>
+</pre></div>
+</td></tr></table>
+
+<p>Then subscribe to the Pub/Sub event, providing a callback:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">AccountService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack/arc.js&quot;</span><span class="p">;</span>
+
+<span class="nx">AccountService</span><span class="p">.</span><span class="nx">subscribeToAccountChanges</span><span class="p">((</span><span class="nx">account</span>: <span class="kt">Address</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="p">...</span> <span class="p">});</span>
+</pre></div>
+</td></tr></table>
+
+<p>For more information, see <a href="../api/classes/AccountService">AccountService</a>.</p>
                 
                   
                 
