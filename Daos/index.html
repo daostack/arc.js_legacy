@@ -3387,32 +3387,35 @@
 <h2 id="about-daos">About DAOs<a class="headerlink" href="#about-daos" title="Permanent link">&para;</a></h2>
 <p>Every DAO in DAOstack includes an avatar, a controller, a token, a reputation system, and zero or more schemes and global constraints.</p>
 <p><strong>The avatar</strong> is a public-facing part of the DAO that handles the interaction of the DAO with the rest of the world, for example interacting with other DAOs or paying third party agents.  A DAO is always referenced by the address of its avatar.</p>
-<p><strong>The controller</strong> is a central internal hub for all of the components of the DAO.  DAOstack documentation often refers to the various DAO components as "organs".</p>
+<p><strong>The controller</strong> is a central internal hub for all of the components of the DAO.  DAOstack documentation often refers to the various DAO components as "organs".  A controller can be "universal" or not.  If universal then a single instance can be used by multiple DAOs.  If not universal, then each DAO gets its own instance.  The API is the same for both types of controllers.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Any contract or agent's address can be registered like a scheme with the controller and thus work directly with the controller.</p>
 </div>
-<p><strong>The token</strong> is used as currency in operations like staking in <code>GenesisProtocol</code>, vesting agreements in <code>VestingScheme</code> and rewards in <code>ContributionReward</code>.</p>
-<p><strong>The reputation system</strong> provides a kind of currency of influence. Reputation conveys influence in the DAO commenserate with the rules 
-of the DAO, such as when voting and the nature of what causes it to be gained or lost.  Like tokens, reputation can be minted, but it cannot be transferred between agents.</p>
-<p><strong>Schemes</strong> are public-facing contracts that any agent can use when they want perform primary functions relating to the DAOstack environment or respecting the domain of a particular DAO.  Refer here to <a href="../Proposals#schemes">more about schemes</a>.</p>
-<p><strong>Global constraints</strong> use configured criteria to block actions attempted by the Controller that would violate a given constraint.  An example is <a href="../api/classes/TokenCapGCWrapper">TokenCapGC</a> that limits the total supply of a given token to a certain maximum number.</p>
+<p><strong>The token</strong> is used as currency in operations like staking in <code>GenesisProtocol</code>, vesting agreements in <code>VestingScheme</code> and rewards in <code>ContributionReward</code>.  Typically two tokens are most in play:  The global GEN token created by DAOstack, and a "native" token that is specific to every DAO.  The GEN token is used by the default GenesisProtocol voting machine for staking.</p>
+<p><strong>The reputation system</strong> provides a kind of currency of influence. Reputation conveys influence in the DAO commenserate with the rules of the DAO, such as when proposing, voting or staking, and via proposals approved to grant or remove an agent's reputation.  Reputation can be minted and burned, but it cannot be transferred between agents.  Every DAO gets its own instance of an Arc <code>Reputation</code> contract.</p>
+<p><strong>Schemes</strong> are public-facing contracts that any agent can use when they want perform primary functions relating to the DAOstack environment or respecting the domain of a particular DAO.  Schemes that have the ability to create proposals will require that a configured voting machine be specified in the scheme's parameters.</p>
+<p><strong>Global constraints</strong> use parameterized constraint criteria to block actions attempted by the Controller that would violate a given constraint.  An example is <a href="../api/classes/TokenCapGCWrapper">TokenCapGC</a> that limits the total supply of a given token to a certain maximum number.</p>
 <p>DAOs are extensible beyond the reusability of all Arc contracts: You can provide your own implementation of the controller, token, and any global constraints, voting machines and schemes you want.</p>
 <div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>Refer here for <a href="https://daostack.github.io/arc/README/#the-structure-of-a-dao">more information about the architecture of DAOs</a>.</p>
+<p class="admonition-title">More About DAOs</p>
+<p>For more information about DAOs, refer to <a href="https://daostack.github.io/arc/README/#the-structure-of-a-dao">Structure of a DAO</a>.</p>
 </div>
 <div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>Refer here for <a href="../Proposals">more information about proposals</a>.</p>
+<p class="admonition-title">More About Schemes</p>
+<p>For more information about schemes, refer to <a href="../Proposals#schemes">Schemes</a>.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">More About Proposals</p>
+<p>For more information about proposals, refer to <a href="../Proposals#proposals">Proposals</a>.</p>
 </div>
 <h2 id="creating-a-new-dao">Creating a new DAO<a class="headerlink" href="#creating-a-new-dao" title="Permanent link">&para;</a></h2>
 <p><a name="creatingDAOs"></a></p>
-<p>When creating a DAO you can configure its name, token, founders and schemes.  For schemes you configure their parameters, permissions and their voting machine.</p>
+<p>When creating a DAO you can configure its name, token, founders and schemes.  For schemes you configure their parameters and controller permissions.</p>
 <p>You can call <a href="../api/classes/DAO#new">DAO.new</a> to create a new DAO, passing it a <a href="../api/interfaces/NewDaoConfig">configuration object</a>.</p>
 <p>Almost everything in the configuration has a default.  The following sections describe how to supply custom configurations.</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>Under the hood, <code>Dao.new</code> uses the <a href="../api/classes/DaoCreatorWrapper">DaoCreatorWrapper</a> class.</p>
 </div>
 <h3 id="creating-a-new-dao-with-founders">Creating a new DAO with founders<a class="headerlink" href="#creating-a-new-dao-with-founders" title="Permanent link">&para;</a></h3>
@@ -3466,13 +3469,14 @@ of the DAO, such as when voting and the nature of what causes it to be gained or
 </td></tr></table>
 
 <p>And voilà, you have created a new DAO with three founders in the DAO stack on Ethereum.  The returned object <code>newDao</code> is an instance of <a href="../api/classes/DAO">DAO</a>.</p>
-<p>But though this DAO has founders with tokens and reputation who can thus make proposals and vote on them, there is still no way to make proposals, that is, no schemes, and thus nothing on which to vote.  The DAO needs some schemes, at minimum a <a href="../api/classes/SchemeRegistrarWrapper">SchemeRegistrar</a> with which you can propose to add, modify or remove other schemes.</p>
+<p>But though this DAO has founders with tokens and reputation who can thus make proposals and vote on them, there is still no way to <em>create</em> proposals and thus nothing on which to vote.</p>
 <div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>It is not possible to add or remove founders.  In fact, there is no retained sense of who they even were.  They are simply addresses you supply when you create a DAO and to whom will immediately be minted tokens and reputation.  You can later mint reputation or tokens to others... this would effectively be like adding them as founders.</p>
+<p class="admonition-title">On Founders</p>
+<p>It is not possible to add or remove founders.  In fact, there is no retained sense of who they even were
+other than events that record their interactions with the DAO.  They are simply addresses you supply when you create a DAO and to whom will immediately and optionally be minted tokens and reputation.  By virtue of their reputation with the DAO, founders are the first "participants" in a DAO (also sometimes referred-to as "members" of a DAO).  The set of participants in a DAO will change as agents gain and lose reputation with the DAO.</p>
 </div>
 <h3 id="creating-a-new-dao-with-schemes">Creating a new DAO with schemes<a class="headerlink" href="#creating-a-new-dao-with-schemes" title="Permanent link">&para;</a></h3>
-<p>Create a new DAO with schemes by including a "schemes" array.  The following example registers the schemes with all default parameters, permissions and voting machines.</p>
+<p>You can create a new DAO with schemes that enable DAO participants to create proposals and vote by including a "schemes" array in the <code>DAO.new</code> JSON.  The following example registers three schemes with all default parameters, permissions and voting machines.</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -3496,10 +3500,6 @@ of the DAO, such as when voting and the nature of what causes it to be gained or
 </td></tr></table>
 
 <p>Put the last two examples together and you have a DAO with founders and schemes and can start to realize the potential of a DAO in the DAOstack ecosystem.</p>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>Refer here to <a href="../Proposals#schemes">more about schemes</a>.</p>
-</div>
 <p>What if we want to configure how voting will proceed when someone submits a proposal?</p>
 <h3 id="creating-a-new-dao-overriding-the-default-voting-machine">Creating a new DAO overriding the default voting machine<a class="headerlink" href="#creating-a-new-dao-overriding-the-default-voting-machine" title="Permanent link">&para;</a></h3>
 <p>By default, <code>DAO.new</code> configures each scheme with the <a href="../api/classes/AbsoluteVoteWrapper">AbsoluteVote</a> voting machine and default voting parameter values.  The following example retains the default voting machine while overriding its parameters:</p>
@@ -3604,10 +3604,10 @@ of the DAO, such as when voting and the nature of what causes it to be gained or
 </div>
 <div class="admonition note">
 <p class="admonition-title">Important</p>
-<p>If you want to use <a href="../api/classes/GenesisProtocolWrapper">GenesisProtocol</a> on <em>any</em> scheme, you must also add it as scheme on the DAO itself (see <a href="#creating-a-new-dao-with-schemes">Creating a new DAO with schemes</a>).</p>
+<p>If you want to use <a href="../api/classes/GenesisProtocolWrapper">GenesisProtocol</a> on <em>any</em> scheme, you must also add it as a scheme in its own right on the DAO itself.  When you supply the GenesisProtocol parameters, you must do so on the GenesisProtocol scheme itself -- unlike with AbsoluteVote and QuorumVote, any GenesisProtocol params sent directly to the scheme that uses it are ignored.</p>
 </div>
 <h3 id="creating-a-new-dao-with-a-non-universal-controller">Creating a new DAO with a non-Universal Controller<a class="headerlink" href="#creating-a-new-dao-with-a-non-universal-controller" title="Permanent link">&para;</a></h3>
-<p>There are two types of DAO controller: universal and non-universal.  The default is universal.  You can create a DAO using the DAOstack <code>Controller</code> contract by passing <code>false</code> for <code>universalController</code>:</p>
+<p>As mentioned above, there are two types of DAO controller: universal and non-universal.  The default is universal.  You can create a DAO using the DAOstack <code>Controller</code> contract by passing <code>false</code> for <code>universalController</code>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -3701,7 +3701,7 @@ of the DAO, such as when voting and the nature of what causes it to be gained or
 </pre></div>
 </td></tr></table>
 
-<p>You can also watch as DAOs are, or have been, created using the <a href="../api/README/#eventfetcherfactory">EventFetcherFactory</a> mechanism:</p>
+<p>You can also watch as DAOs are, or have been, created using the <a href="../Events">EventFetcherFactory</a> mechanism:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
