@@ -3307,13 +3307,8 @@
 <p>It all starts with "scheme" contracts that generate proposals and supply a voting machine for each proposal.</p>
 <p><a name="schemes"></a></p>
 <h2 id="schemes">Schemes<a class="headerlink" href="#schemes" title="Permanent link">&para;</a></h2>
-<p>Schemes are public-facing contracts that any agent can use to interact with the DAOstack ecosystem and individual DAOs. You can use schemes for various tasks like creating a new DAO (<a href="../api/classes/DaoCreatorWrapper">DaoCreatorWrapper</a>), running an ICO (<code>SimpleICO</code>) or managing a DAO registry (<code>OrganizationRegister</code>).</p>
-<p>Schemes can be registered with a DAO's controller to enable them to access the controller's functionality.  Schemes can be "universal", which means that a single contract instance can serve multiple DAOs by storing DAO-specific parameters with the DAO's controller.  The implementation of a certain interface is what makes a scheme "universal".  Schemes that have the ability to create proposals will require that a configured voting machine be specified in the scheme's parameters.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><code>SimpleICO</code> and <code>OrganizationRegister</code> do not yet have <a href="../Wrappers">wrapper classes</a> in Arc.js.</p>
-</div>
-<p>Most Arc schemes are specifically designed to generate proposals.</p>
+<p>are public-facing contracts that any agent use when they want perform primary functions relating to a particular DAO.</p>
+<p>Schemes are registered with a DAO's controller which enables them to access the controller's functionality.  Schemes can be "universal", which means that a single contract instance can serve multiple DAOs by storing DAO-specific parameters with the DAO's controller.  The implementation of a certain interface is what makes a scheme "universal".  Some schemes have the ability to create proposals and thus require that a configured voting machine be specified in the scheme's parameters.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>More information about schemes:</p>
