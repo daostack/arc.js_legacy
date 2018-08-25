@@ -346,6 +346,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#get-all-the-daos" title="Get all the DAOs" class="md-nav__link">
+    Get all the DAOs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-information-about-a-dao" title="Get information about a DAO" class="md-nav__link">
+    Get information about a DAO
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#get-all-the-schemes-registered-to-the-dao" title="Get all the schemes registered to the DAO" class="md-nav__link">
     Get all the schemes registered to the DAO
   </a>
@@ -353,8 +367,50 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#get-all-the-daos" title="Get all the DAOs" class="md-nav__link">
-    Get all the DAOs
+  <a href="#check-whether-a-given-scheme-is-registered-to-the-dao" title="Check whether a given scheme is registered to the DAO" class="md-nav__link">
+    Check whether a given scheme is registered to the DAO
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-all-the-participants-in-a-dao" title="Get all the participants in a DAO" class="md-nav__link">
+    Get all the participants in a DAO
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-all-the-globalconstraints-in-a-dao" title="Get all the globalConstraints in a DAO" class="md-nav__link">
+    Get all the globalConstraints in a DAO
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-whether-a-given-global-constraint-is-registered-to-the-dao" title="Check whether a given global constraint is registered to the DAO" class="md-nav__link">
+    Check whether a given global constraint is registered to the DAO
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-the-native-token-balance-of-an-account" title="Get the native token balance of an account" class="md-nav__link">
+    Get the native token balance of an account
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-the-name-of-the-daos-native-token" title="Get the name of the DAO's native token" class="md-nav__link">
+    Get the name of the DAO's native token
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-the-daos-native-token-symbol" title="Get the DAO's native token symbol" class="md-nav__link">
+    Get the DAO's native token symbol
   </a>
   
 </li>
@@ -3345,6 +3401,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#get-all-the-daos" title="Get all the DAOs" class="md-nav__link">
+    Get all the DAOs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-information-about-a-dao" title="Get information about a DAO" class="md-nav__link">
+    Get information about a DAO
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#get-all-the-schemes-registered-to-the-dao" title="Get all the schemes registered to the DAO" class="md-nav__link">
     Get all the schemes registered to the DAO
   </a>
@@ -3352,8 +3422,50 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#get-all-the-daos" title="Get all the DAOs" class="md-nav__link">
-    Get all the DAOs
+  <a href="#check-whether-a-given-scheme-is-registered-to-the-dao" title="Check whether a given scheme is registered to the DAO" class="md-nav__link">
+    Check whether a given scheme is registered to the DAO
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-all-the-participants-in-a-dao" title="Get all the participants in a DAO" class="md-nav__link">
+    Get all the participants in a DAO
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-all-the-globalconstraints-in-a-dao" title="Get all the globalConstraints in a DAO" class="md-nav__link">
+    Get all the globalConstraints in a DAO
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-whether-a-given-global-constraint-is-registered-to-the-dao" title="Check whether a given global constraint is registered to the DAO" class="md-nav__link">
+    Check whether a given global constraint is registered to the DAO
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-the-native-token-balance-of-an-account" title="Get the native token balance of an account" class="md-nav__link">
+    Get the native token balance of an account
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-the-name-of-the-daos-native-token" title="Get the name of the DAO's native token" class="md-nav__link">
+    Get the name of the DAO's native token
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-the-daos-native-token-symbol" title="Get the DAO's native token symbol" class="md-nav__link">
+    Get the DAO's native token symbol
   </a>
   
 </li>
@@ -3656,40 +3768,7 @@ other than events that record their interactions with the DAO.  They are simply 
 <p class="admonition-title">Info</p>
 <p><code>DAO.at</code> will throw an exception if there is any problem loading the DAO.</p>
 </div>
-<h3 id="get-all-the-schemes-registered-to-the-dao">Get all the schemes registered to the DAO<a class="headerlink" href="#get-all-the-schemes-registered-to-the-dao" title="Permanent link">&para;</a></h3>
-<p><a name="gettingDaoSchemes"></a></p>
-<p>You can obtain the addresses of all of the schemes that are registered with a DAO using <a href="../api/classes/DAO/#getSchemes">DAO.getSchemes</a>.  You will also get a contract wrapper if the scheme happens to be the one deployed by the running version of Arc.js:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6
-7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">daoSchemeInfos</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">myDao</span><span class="p">.</span><span class="nx">getSchemes</span><span class="p">();</span>
-<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">schemeInfo</span> <span class="k">of</span> <span class="nx">daoSchemeInfos</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`scheme address: </span><span class="si">${</span><span class="nx">schemeInfo</span><span class="p">.</span><span class="nx">address</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">schemeInfo</span><span class="p">.</span><span class="nx">wrapper</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`scheme name: </span><span class="si">${</span><span class="nx">schemeInfo</span><span class="p">.</span><span class="nx">wrapper</span><span class="p">.</span><span class="nx">name</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</td></tr></table>
-
-<p>Or info about a single scheme:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">daoSchemeInfos</span> <span class="o">=</span>  <span class="o">=</span> <span class="nx">await</span> <span class="nx">myDao</span><span class="p">.</span><span class="nx">getSchemes</span><span class="p">(</span><span class="s2">&quot;UpgradeScheme&quot;</span><span class="p">);</span>
-<span class="kr">const</span> <span class="nx">upgradeSchemeInfo</span> <span class="o">=</span> <span class="nx">daoSchemeInfos</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`scheme address: </span><span class="si">${</span><span class="nx">upgradeSchemeInfo</span><span class="p">.</span><span class="nx">address</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
-<span class="k">if</span> <span class="p">(</span><span class="nx">upgradeSchemeInfo</span><span class="p">.</span><span class="nx">wrapper</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`scheme name: </span><span class="si">${</span><span class="nx">upgradeSchemeInfo</span><span class="p">.</span><span class="nx">wrapper</span><span class="p">.</span><span class="nx">name</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</td></tr></table>
-
+<p>See <a href="#daoinformation">Get information about a DAO</a></p>
 <h3 id="get-all-the-daos">Get all the DAOs<a class="headerlink" href="#get-all-the-daos" title="Permanent link">&para;</a></h3>
 <p>You can obtain all of the DAOs that have been created by the DaoCreator that was deployed by the currently-running version of Arc.js:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">avatarAddresses</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAO</span><span class="p">.</span><span class="nx">getDaos</span><span class="p">();</span>
@@ -3726,6 +3805,180 @@ other than events that record their interactions with the DAO.  They are simply 
 <p class="admonition-title">Note</p>
 <p>Like with <code>DAO.getDaos</code> you can supply a <code>daoCreatorAddress</code> in the options of <code>getDaoCreationEvents</code>.</p>
 </div>
+<p><a name="daoinformation"></a></p>
+<h3 id="get-information-about-a-dao">Get information about a DAO<a class="headerlink" href="#get-information-about-a-dao" title="Permanent link">&para;</a></h3>
+<p>Once you have an instance of DAO you can obtain lots of information about it.  First, you will find it has several helpful member variables:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>string name of the DAO</td>
+</tr>
+<tr>
+<td>avatar</td>
+<td>Truffle contract of the DAO's avatar</td>
+</tr>
+<tr>
+<td>controller</td>
+<td>Truffle contract of the DAO's controller</td>
+</tr>
+<tr>
+<td>hasUController</td>
+<td>boolean true if the DAO's controller is universal</td>
+</tr>
+<tr>
+<td>token</td>
+<td><code>DaoTokenWrapper</code> of the DAO's native token</td>
+</tr>
+<tr>
+<td>reputation</td>
+<td><code>ReputationWrapper</code> of the DAO's reputation contract</td>
+</tr>
+</tbody>
+</table>
+<p>Further, there are a number of other informational methods, all described in the following sections.</p>
+<p><a name="gettingDaoSchemes"></a></p>
+<h3 id="get-all-the-schemes-registered-to-the-dao">Get all the schemes registered to the DAO<a class="headerlink" href="#get-all-the-schemes-registered-to-the-dao" title="Permanent link">&para;</a></h3>
+<p>You can obtain the addresses of all of the schemes that are registered with a DAO using <a href="../api/classes/DAO/#getSchemes">DAO.getSchemes</a>.  You will also get a contract wrapper if the scheme happens to be the one deployed by the running version of Arc.js:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">daoSchemeInfos</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">myDao</span><span class="p">.</span><span class="nx">getSchemes</span><span class="p">();</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">schemeInfo</span> <span class="k">of</span> <span class="nx">daoSchemeInfos</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`scheme address: </span><span class="si">${</span><span class="nx">schemeInfo</span><span class="p">.</span><span class="nx">address</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">schemeInfo</span><span class="p">.</span><span class="nx">wrapper</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`scheme name: </span><span class="si">${</span><span class="nx">schemeInfo</span><span class="p">.</span><span class="nx">wrapper</span><span class="p">.</span><span class="nx">name</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p>Or info about a single scheme:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">daoSchemeInfos</span> <span class="o">=</span>  <span class="o">=</span> <span class="nx">await</span> <span class="nx">myDao</span><span class="p">.</span><span class="nx">getSchemes</span><span class="p">(</span><span class="s2">&quot;UpgradeScheme&quot;</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">upgradeSchemeInfo</span> <span class="o">=</span> <span class="nx">daoSchemeInfos</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`scheme address: </span><span class="si">${</span><span class="nx">upgradeSchemeInfo</span><span class="p">.</span><span class="nx">address</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">upgradeSchemeInfo</span><span class="p">.</span><span class="nx">wrapper</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`scheme name: </span><span class="si">${</span><span class="nx">upgradeSchemeInfo</span><span class="p">.</span><span class="nx">wrapper</span><span class="p">.</span><span class="nx">name</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<h3 id="check-whether-a-given-scheme-is-registered-to-the-dao">Check whether a given scheme is registered to the DAO<a class="headerlink" href="#check-whether-a-given-scheme-is-registered-to-the-dao" title="Permanent link">&para;</a></h3>
+<p>You can check whether a given scheme is registered to the DAO:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">isRegistered</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">myDao</span><span class="p">.</span><span class="nx">isSchemeRegistered</span><span class="p">(</span><span class="nx">schemeAddress</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<h3 id="get-all-the-participants-in-a-dao">Get all the participants in a DAO<a class="headerlink" href="#get-all-the-participants-in-a-dao" title="Permanent link">&para;</a></h3>
+<p>A DAO participant (often also referred-to as a "member") is any agent with reputation with the DAO.</p>
+<p>You can obtain the address and reputation of all of the participants in a DAO using <a href="../api/classes/DAO/#getParticipants">DAO.getParticipants</a> like this:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">daoParticipants</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">myDao</span><span class="p">.</span><span class="nx">getParticipants</span><span class="p">({</span>
+  <span class="nx">returnReputations</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">});</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">participant</span> <span class="k">of</span> <span class="nx">daoParticipants</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`address: </span><span class="si">${</span><span class="nx">participant</span><span class="p">.</span><span class="nx">address</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`  reputation: </span><span class="si">${</span><span class="nx">web3</span><span class="p">.</span><span class="nx">fromWei</span><span class="p">(</span><span class="nx">participant</span><span class="p">.</span><span class="nx">reputation</span><span class="p">)</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p>Or for a single participant:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">daoParticipants</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">myDao</span><span class="p">.</span><span class="nx">getParticipants</span><span class="p">({</span>
+  <span class="nx">returnReputations</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nx">participantAddress</span><span class="o">:</span> <span class="nx">anAddress</span>
+<span class="p">});</span>
+
+<span class="kr">const</span> <span class="nx">participant</span> <span class="o">=</span> <span class="nx">daoParticipants</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`address: </span><span class="si">${</span><span class="nx">participant</span><span class="p">.</span><span class="nx">address</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`  reputation: </span><span class="si">${</span><span class="nx">web3</span><span class="p">.</span><span class="nx">fromWei</span><span class="p">(</span><span class="nx">participant</span><span class="p">.</span><span class="nx">reputation</span><span class="p">)</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<h3 id="get-all-the-globalconstraints-in-a-dao">Get all the globalConstraints in a DAO<a class="headerlink" href="#get-all-the-globalconstraints-in-a-dao" title="Permanent link">&para;</a></h3>
+<p>You can obtain information about all of the global constraints registered with a DAO, using <a href="../api/classes/DAO/#getGlobalConstraints">DAO.getGlobalConstraints</a> like this:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">constraints</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">myDao</span><span class="p">.</span><span class="nx">getGlobalConstraints</span><span class="p">();</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">constraint</span> <span class="k">of</span> <span class="nx">constraints</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`address: </span><span class="si">${</span><span class="nx">constraint</span><span class="p">.</span><span class="nx">address</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`  paramsHash: </span><span class="si">${</span><span class="nx">constraint</span><span class="p">.</span><span class="nx">paramsHash</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`  wrapper: </span><span class="si">${</span><span class="nx">constraint</span><span class="p">.</span><span class="nx">wrapper</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p>Or for a single constraint that is wrapped by the running version of Arc.js, by passing the contract name of the constraint:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">constraints</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">myDao</span><span class="p">.</span><span class="nx">getGlobalConstraints</span><span class="p">(</span><span class="nx">contractName</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">constraint</span> <span class="o">=</span> <span class="nx">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`address: </span><span class="si">${</span><span class="nx">constraint</span><span class="p">.</span><span class="nx">address</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`  paramsHash: </span><span class="si">${</span><span class="nx">constraint</span><span class="p">.</span><span class="nx">paramsHash</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`  wrapper: </span><span class="si">${</span><span class="nx">constraint</span><span class="p">.</span><span class="nx">wrapper</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<h3 id="check-whether-a-given-global-constraint-is-registered-to-the-dao">Check whether a given global constraint is registered to the DAO<a class="headerlink" href="#check-whether-a-given-global-constraint-is-registered-to-the-dao" title="Permanent link">&para;</a></h3>
+<p>You can check whether a given global constraint, given by its address, is registered to the DAO:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">isRegistered</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">myDao</span><span class="p">.</span><span class="nx">isGlobalConstraintRegistered</span><span class="p">(</span><span class="nx">gcAddress</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<h3 id="get-the-native-token-balance-of-an-account">Get the native token balance of an account<a class="headerlink" href="#get-the-native-token-balance-of-an-account" title="Permanent link">&para;</a></h3>
+<p>You can get the native token balance of an account:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">balance</span> <span class="o">=</span> <span class="nx">web3</span><span class="p">.</span><span class="nx">fromWei</span><span class="p">((</span><span class="nx">await</span> <span class="nx">myDao</span><span class="p">.</span><span class="nx">getTokenBalance</span><span class="p">(</span><span class="nx">agentAddress</span><span class="p">)));</span>
+</pre></div>
+</td></tr></table>
+
+<h3 id="get-the-name-of-the-daos-native-token">Get the name of the DAO's native token<a class="headerlink" href="#get-the-name-of-the-daos-native-token" title="Permanent link">&para;</a></h3>
+<p>A shortcut to <code>myDao.token.getTokenName()</code>, you can get the name of the DAO's native token:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">tokenName</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">myDao</span><span class="p">.</span><span class="nx">getTokenName</span><span class="p">();</span>
+</pre></div>
+</td></tr></table>
+
+<h3 id="get-the-daos-native-token-symbol">Get the DAO's native token symbol<a class="headerlink" href="#get-the-daos-native-token-symbol" title="Permanent link">&para;</a></h3>
+<p>A shortcut to <code>myDao.token.getTokenSymbol()</code>, you can get the symbol of the DAO's native token:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">tokenSymbol</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">myDao</span><span class="p">.</span><span class="nx">getTokenSymbol</span><span class="p">();</span>
+</pre></div>
+</td></tr></table>
                 
                   
                 
