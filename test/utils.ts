@@ -1,11 +1,9 @@
 "use strict";
 import { assert } from "chai";
-import { DefaultSchemePermissions } from "../lib/commonTypes";
 import { ConfigService } from "../lib/configService";
 import { InitializeArcJs } from "../lib/index";
 import { LoggingService } from "../lib/loggingService";
 import { PubSubEventService } from "../lib/pubSubEventService";
-import { TestWrapperFactory } from "../lib/test/wrappers/testWrapper";
 import { Utils } from "../lib/utils";
 import { WrapperService } from "../lib/wrapperService";
 import * as helpers from "./helpers";
