@@ -1,9 +1,9 @@
 import { Address } from "./commonTypes";
 import { IConfigService } from "./iConfigService";
 import { IContractWrapperBase, IContractWrapperFactory } from "./iContractWrapperBase";
+import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
 import { Web3EventService } from "./web3EventService";
-import { LoggingService } from './loggingService';
 
 /**
  * Generic class factory for all of the contract wrapper classes.

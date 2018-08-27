@@ -1,3 +1,5 @@
+import { BigNumber } from "bignumber.js";
+import { promisify } from "es6-promisify";
 import { computeMaxGasLimit } from "../gasLimits.js";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { ConfigService } from "./configService";
@@ -5,6 +7,7 @@ import { ControllerService } from "./controllerService";
 import {
   ArcTransactionDataResult,
   ArcTransactionResult,
+  GasPriceAdjustor,
   IContractWrapperBase,
   IContractWrapperFactory,
   StandardSchemeParams
@@ -335,6 +338,19 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
 
     try {
       let error;
+
+      const gasPriceComputer = ConfigService.get("gasPriceAdjustment") as GasPriceAdjustor;
+
+      if (gasPriceComputer && !web3Params.gasPrice) {
+        const web3 = await Utils.getWeb3();
+        if (gasPriceComputer) {
+          const defaultGasPrice =
+            await promisify((callback: any): void => { web3.eth.getGasPrice(callback); })() as BigNumber;
+          web3Params.gasPrice = await gasPriceComputer(defaultGasPrice);
+        }
+        LoggingService.debug(
+          `invoking function with configured gasPrice: ${web3.fromWei(web3Params.gasPrice, "gwei")}`);
+      }
 
       if (ConfigService.get("estimateGas") && !web3Params.gas) {
         await this.estimateGas(func, params)
