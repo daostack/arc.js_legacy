@@ -333,8 +333,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#subscribing-to-events" title="Subscribing to Events" class="md-nav__link">
-    Subscribing to Events
+  <a href="#subscribing-to-pubsub-events" title="Subscribing to Pub/Sub Events" class="md-nav__link">
+    Subscribing to Pub/Sub Events
   </a>
   
 </li>
@@ -353,13 +353,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#tracking-transactions" title="Tracking Transactions" class="md-nav__link">
-    Tracking Transactions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#enhanced-web3-events" title="Enhanced Web3 Events" class="md-nav__link">
     Enhanced Web3 Events
   </a>
@@ -376,13 +369,6 @@
           <li class="md-nav__item">
   <a href="#pubsub-web3-events" title="Pub/Sub Web3 Events" class="md-nav__link">
     Pub/Sub Web3 Events
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#account-changes" title="Account Changes" class="md-nav__link">
-    Account Changes
   </a>
   
 </li>
@@ -3295,8 +3281,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#subscribing-to-events" title="Subscribing to Events" class="md-nav__link">
-    Subscribing to Events
+  <a href="#subscribing-to-pubsub-events" title="Subscribing to Pub/Sub Events" class="md-nav__link">
+    Subscribing to Pub/Sub Events
   </a>
   
 </li>
@@ -3315,13 +3301,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#tracking-transactions" title="Tracking Transactions" class="md-nav__link">
-    Tracking Transactions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#enhanced-web3-events" title="Enhanced Web3 Events" class="md-nav__link">
     Enhanced Web3 Events
   </a>
@@ -3338,13 +3317,6 @@
           <li class="md-nav__item">
   <a href="#pubsub-web3-events" title="Pub/Sub Web3 Events" class="md-nav__link">
     Pub/Sub Web3 Events
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#account-changes" title="Account Changes" class="md-nav__link">
-    Account Changes
   </a>
   
 </li>
@@ -3381,26 +3353,27 @@
                 
                 
                 <h1 id="working-with-events">Working with Events<a class="headerlink" href="#working-with-events" title="Permanent link">&para;</a></h1>
-<p>Arc.js offers two types of event systems:  <a href="#pubsubevents">Pub/Sub</a> and <a href="../web3events">Web3</a>.  The Pub/Sub system enables you to subscribe to various events published by Arc.js itself.  The Web3 system enables you to get and watch events as they originate from Arc contracts.</p>
+<p>Arc.js offers two types of event systems:  <a href="#pubsubevents">Pub/Sub</a> and <a href="../web3events">Web3</a>.  The Pub/Sub system enables you to subscribe to various events published by Arc.js itself (or even by your own application if you want).</p>
+<p>The Web3 system enables you to get and watch events as they originate from Web3 and Arc contracts.</p>
 <p>The Web3 events system also contains a hybrid of the two systems, enabling you to watch a Web3 event by subscribing to a Pub/Sub event.</p>
 <p><a name="pubsubevents"></a></p>
 <h2 id="pubsub-events">Pub/Sub Events<a class="headerlink" href="#pubsub-events" title="Permanent link">&para;</a></h2>
-<p>The <a href="../api/classes/PubSubEventService">PubSubEventService</a> provides a Pub/Sub event system that enables you to subscribe to various events published by Arc.js.</p>
+<p>The <a href="../api/classes/PubSubEventService">PubSubEventService</a> provides a Pub/Sub event system that enables you to subscribe to various events published by Arc.js (or even by your own application if you want).</p>
 <p>Uses of pub/sub events:</p>
 <ul>
 <li>
 <p>Tracking transactions as they complete  (see <a href="../Transactions">Transactions</a>).</p>
 </li>
 <li>
-<p>Be notified whenever the current account changes (see <a href="#accountchanges">Account Changes</a>).</p>
+<p>Being notified whenever the current account changes (see <a href="../Configuration#accountchanges">Account Changes</a>).</p>
 </li>
 <li>
-<p>Watch events in the Web3 event system using the <code>subscribe</code> function implemented by <a href="../api/interfaces/EventFetcher/">EventFetcher</a> and <a href="../api/interfaces/EntityFetcher/">EntityFetcher</a> (see <a href="#pubsubweb3">Pub/Sub Web3 Events</a>)</p>
+<p>Watching events in the Web3 event system using the <code>subscribe</code> function implemented by <a href="../api/interfaces/EventFetcher/">EventFetcher</a> and <a href="../api/interfaces/EntityFetcher/">EntityFetcher</a> (see <a href="#pubsubweb3">Pub/Sub Web3 Events</a>)</p>
 </li>
 </ul>
 <p>The following section describes how to subscribe to events.</p>
 <p><a name="subscribing"></a></p>
-<h3 id="subscribing-to-events">Subscribing to Events<a class="headerlink" href="#subscribing-to-events" title="Permanent link">&para;</a></h3>
+<h3 id="subscribing-to-pubsub-events">Subscribing to Pub/Sub Events<a class="headerlink" href="#subscribing-to-pubsub-events" title="Permanent link">&para;</a></h3>
 <p>You specify the event to which you want to subscribe using a string called the event "topic".</p>
 <p>Event topics may be hierachically scoped by levels separated by periods ('.'). So for example: </p>
 <ul>
@@ -3449,22 +3422,10 @@
 
 <p><a name="web3events"></a></p>
 <h2 id="web3-events">Web3 Events<a class="headerlink" href="#web3-events" title="Permanent link">&para;</a></h2>
-<p>We refer to "Web3 events" as the events that originate from Arc contracts and are served up by Web3. (see the <a href="https://github.com/ethereum/wiki/wiki/JavaScript-API#contract-events">Web3 documentation on contract events</a>).</p>
-<p>Arc.js exposes Web3 events in an format virtually the same as Web3, but with enhancements, or alternatively as entities that are simpler to use and may provide more information and functionality than the raw event.</p>
-<p>Arc.js has a pub/sub event system accessible using the <a href="../api/classes/PubSubEventService">PubSubEventService</a>.</p>
-<p>Uses of pub/sub events:</p>
-<ul>
-<li>
-<p>Track transactions as they complete  (see <a href="#tracktxs">Tracking Transactions</a>).</p>
-</li>
-<li>
-<p>Be notified whenever the current account changes (see <a href="#accountchanges">Account Changes</a>).</p>
-</li>
-</ul>
-<p><a name="tracktxs"></a></p>
-<h3 id="tracking-transactions">Tracking Transactions<a class="headerlink" href="#tracking-transactions" title="Permanent link">&para;</a></h3>
-<p>You can be notified about the phases in the lifecycle of Transactions. For more information, see <a href="../Transactions">Tracking Transactions</a>.</p>
-<p><a name="almostrawevents"></a></p>
+<p>We refer to "Web3 events" as the events that originate from blockchain events, especially events from Arc contracts, and are served up by Web3. (see the <a href="https://github.com/ethereum/wiki/wiki/JavaScript-API#contract-events">Web3 documentation on contract events</a>). Web3 events map directly to events emitted by contracts on the blockchain and thus allow you to filter by event parameters and ranges of block numbers.</p>
+<p>Arc.js exposes Web3 events in an format virtually the same as Web3 and Truffle, but with enhancements.  In some cases Arc.js exposes Web3 event arguments as entities (objects) that are simpler to use and may provide more information and functionality than the original raw event.</p>
+<p>The following sections describe enhanced Web3 events, entity events, and how to subscribe to Web3 events as Pub/Sub events.</p>
+<p><a name="enhancedweb3events"></a></p>
 <h3 id="enhanced-web3-events">Enhanced Web3 Events<a class="headerlink" href="#enhanced-web3-events" title="Permanent link">&para;</a></h3>
 <p>Every Arc contract wrapper in Arc.js exposes all of the events fired by the wrapped contract,  events look just like those exposed by <a href="https://github.com/ethereum/wiki/wiki/JavaScript-API#contract-events">Web3</a>, so you can get, watch and filter these events in the same way you would using Web3 or Truffle.</p>
 <p>Arc.js enhances these events in several ways:</p>
@@ -3473,9 +3434,9 @@
 <li>The callback to <code>get</code> is invoked once for the entire array of fired events, always returning an array.  The callback to <code>watch</code> is invoked once for each value, always returning the event.</li>
 <li>The <code>get</code> method directly returns a promise of an array containing every event fetched, bypassing the need for a callback.</li>
 <li>Optionally you can use <code>subscribe</code> instead of <code>watch</code> to use the Pub/Sub event mechanism as an alternate means of watching events as they fire. See <a href="#pubsubweb3">Pub/Sub Web3 Events</a>.</li>
-<li>You need not worry about duplicate events, Arc.js eliminates them.  (Duplicate events can occur while the chain is in the process of settling down, a feature that can be suppressed if desired).</li>
+<li>You need not worry about duplicate events, Arc.js eliminates them.  (Duplicate events can occur while the chain is still in the process of reorganizing, a feature that can be suppressed if desired).</li>
 </ul>
-<p>This enhanced event functionality is provided by <a href="../api/classes/Web3EventService#createEventFetcherFactory">Web3EventService.createEventFetcherFactory(...)</a> which returns an <a href="../api/README/#eventfetcherfactory">EventFetcherFactory</a> function which returns an <a href="../api/interfaces/eventfetcher">EventFetcher</a> which gives you the <code>get</code>, <code>watch</code> and <code>subscribe</code> methods.</p>
+<p>The enhanced event functionality is provided by <a href="../api/classes/Web3EventService#createEventFetcherFactory">Web3EventService.createEventFetcherFactory(...)</a> which returns an <a href="../api/README/#eventfetcherfactory">EventFetcherFactory</a> function which returns an <a href="../api/interfaces/eventfetcher">EventFetcher</a> which gives you the <code>get</code>, <code>watch</code> and <code>subscribe</code> methods.</p>
 <p>Here is an example of the above flow, resulting in calling <code>get</code> without a callback to get all <code>ChangeUpgradeSchemeProposal</code> events pertaining to a given DAO:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
@@ -3501,7 +3462,7 @@
 </pre></div>
 </td></tr></table>
 
-<p>All of Arc.js contract wrappers already provide an <code>EventFetcherFactory</code> method for each of the Arc events in the contract they wrap.  So the code example given above becomes simpler:</p>
+<p>All of Arc.js contract wrappers already provide an <code>EventFetcherFactory</code> method for each of the Arc events in the contract they wrap.  So the code example given above is simplified:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -3518,10 +3479,11 @@
 
 <p><a name="entityevents"></a></p>
 <h3 id="entities-for-web3-events">Entities for Web3 Events<a class="headerlink" href="#entities-for-web3-events" title="Permanent link">&para;</a></h3>
+<p>In some cases Arc.js exposes Web3 event arguments as entities (objects) that are cleaner to use and may provide more information and functionality than the original raw event.  Web3 event entities can include any parts of the raw Web3 event information as well as additional relevant information and useful functions.</p>
+<p>Making extensive use of this feature, <a href="../Proposals#proposalevents">Proposal-related events</a> return entities instead of the raw Web3 event data.</p>
+<p>That is really all you need to know about entities for Web3 events, so the following is optional reading in case you find yourself wanting to convert for yourself a regular enhanced Web3 event into an entity event.</p>
 <p>You can use <a href="../api/classes/Web3EventService">Web3EventService</a> to turn any <a href="../api/README/#eventfetcherfactory">EventFetcherFactory</a> into an <a href="../api/README/#entityfetcherfactory">EntityFetcherFactory</a> providing cleaner and potentially richer entities than what you get from Web3 and <a href="../api/README/#eventfetcherfactory">EventFetcherFactory</a>.</p>
 <p>The <a href="../api/README/#entityfetcherfactory">EntityFetcherFactory</a> creates an <a href="../api/interfaces/entityfetcher">EntityFetcher</a> which gives you the <code>get</code>, <code>watch</code> and <code>subscribe</code> methods.</p>
-<p>Making extensive use of this feature, <a href="../Proposals#proposalevents">Proposal-related events</a> return custom object types ("entities") instead of the raw Web3 event data.</p>
-<p>Web3 event entities can include any parts of the raw Web3 event information as well as additional relevant information and useful functions.</p>
 <p>Here is how you can turn <code>ChangeUpgradeSchemeProposal</code> into an <code>EntityFetcherFactory</code> whose events give you the promise of an object ("entity") with a single <code>avatarAddress</code> property:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
@@ -3553,7 +3515,7 @@
 </pre></div>
 </td></tr></table>
 
-<p>When you are done with fetching these events you can stop watching:</p>
+<p>Just like regular events, when you are done with fetching entity events you can stop watching:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">eventFetcher</span><span class="p">.</span><span class="nx">stopWatching</span><span class="p">();</span>
 </pre></div>
 </td></tr></table>
@@ -3563,9 +3525,6 @@
 <p>Both <code>EventFetcher</code> and <code>EntityFetcher</code> provide a <code>subscribe</code> function, sibling to <code>get</code> and <code>watch</code>, that enables you specify the topic of a Pub/Sub event that will be published whenever the underlying Web3 event is fired.</p>
 <p>When you specify the topic for such a subscription you are effectively creating your own Pub/Sub event.  This gives you wide flexibility in scoping your event handling across different Arc.js contract wrappers and events, including leveraging the hierarchical structure that you can build into your topic strings.  Further, any number of your code components can use <a href="../api/classes/PubSubEventService#subscribe">PubSubEventService.subscribe</a> to subscribe to a single Pub/Sub Web3 event.  You just need to have called <code>EntityFetcher.subscribe</code> once to initiate fetching of the Web3 event and subsequent publishing to the given Pub/Sub topic.</p>
 <p>See more about how to use Pub/Sub events <a href="#subscribing">here</a>.</p>
-<p><a name="accountchanges"></a></p>
-<h3 id="account-changes">Account Changes<a class="headerlink" href="#account-changes" title="Permanent link">&para;</a></h3>
-<p>You can be notified whenever the current account changes.  See <a href="../Configuration#accountchanges">Account Changes</a>.</p>
 <h2 id="comparing-enhanced-web3-with-entity-for-web3-event-fetchers">Comparing Enhanced Web3 with Entity for Web3 Event Fetchers<a class="headerlink" href="#comparing-enhanced-web3-with-entity-for-web3-event-fetchers" title="Permanent link">&para;</a></h2>
 <p>Enhanced Web3 (<a href="../api/README/#eventfetcherfactory">EventFetcherFactory</a>) and entity (<a href="../api/README/#entityfetcherfactory">EntityFetcherFactory</a>) events each have relative pros and cons.  </p>
 <p>Enhanced Web3 events give you all of the information that Web3 provides about an event.  These events closely match what you may be accustomed-to if you have been working with Web3 and Truffle.</p>

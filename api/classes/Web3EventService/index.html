@@ -3407,7 +3407,7 @@
 <p><a id="createEntityFetcherFactory"></a></p>
 <h3 id="createentityfetcherfactory">createEntityFetcherFactory<a class="headerlink" href="#createentityfetcherfactory" title="Permanent link">&para;</a></h3>
 <p>► <strong>createEntityFetcherFactory</strong>TEntity,TEventArgs(eventFetcherFactory: <em><a href="../../#EventFetcherFactory">EventFetcherFactory</a><code>TEventArgs</code></em>, transformEventCallback: <em><a href="../../#TransformEventCallback">TransformEventCallback</a><code>TEntity</code>, <code>TEventArgs</code></em>, baseArgFilter?: <em><code>any</code></em>): <a href="../../#EntityFetcherFactory">EntityFetcherFactory</a><code>TEntity</code>, <code>TEventArgs</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/98c35331/lib/web3EventService.ts#L154">web3EventService.ts:154</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/9063ecdf/lib/web3EventService.ts#L154">web3EventService.ts:154</a></em></p>
 <p>Converts a <code>EventFetcherFactory&lt;TEventArgs&gt;</code> into a <code>EntityFetcherFactory&lt;TEntity, TEventArgs&gt;</code>. So whenever a web3 event is received by the given <code>EventFetcherFactory</code>, we transform the <code>TEventArgs</code> into <code>TEntities</code>.</p>
 <p>Note that the callback parameter of <code>EntityFetcher.get</code> is optional; you may alternatively obtain the promise of a <code>Array&lt;TEntity&gt;</code> from the return value of <code>get</code>.</p>
 <p>See <a href="../../../Events#web3events">Arc Web3 Events in Arc.js</a>.</p>
@@ -3450,7 +3450,7 @@
 <p><a id="createEventFetcherFactory"></a></p>
 <h3 id="createeventfetcherfactory">createEventFetcherFactory<a class="headerlink" href="#createeventfetcherfactory" title="Permanent link">&para;</a></h3>
 <p>► <strong>createEventFetcherFactory</strong>TEventArgs(baseEvent: <em><code>any</code></em>, preProcessEvent?: <em><a href="../../#PreProcessEventCallback">PreProcessEventCallback</a><code>TEventArgs</code></em>, baseArgFilter?: <em><code>any</code></em>): <a href="../../#EventFetcherFactory">EventFetcherFactory</a><code>TEventArgs</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/98c35331/lib/web3EventService.ts#L32">web3EventService.ts:32</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/9063ecdf/lib/web3EventService.ts#L32">web3EventService.ts:32</a></em></p>
 <p>Returns a function that creates an EventFetcher<teventargs>. For subclasses to use to create their event handlers. This is identical to what you get with Truffle, except with enhancements.</teventargs></p>
 <p>Note that the callback parameter of <code>EventFetcher.get</code> is optional; you may alternatively obtain the promise of a <code>Array&lt;TEventArgs&gt;</code> from the return value of <code>get</code>.</p>
 <p>For more information, see <a href="../../../Events#web3events">Web3 Events</a>.

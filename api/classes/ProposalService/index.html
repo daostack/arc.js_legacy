@@ -3453,7 +3453,7 @@
 <h2 id="constructors_1">Constructors<a class="headerlink" href="#constructors_1" title="Permanent link">&para;</a></h2>
 <p><a id="constructor"></a></p>
 <h3 id="new-proposalserviceweb3eventservice-web3eventservice-proposalservice">⊕ <strong>new ProposalService</strong>(web3EventService: <em><a href="../Web3EventService/">Web3EventService</a></em>): <a href="./">ProposalService</a><a class="headerlink" href="#new-proposalserviceweb3eventservice-web3eventservice-proposalservice" title="Permanent link">&para;</a></h3>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/98c35331/lib/proposalService.ts#L27">proposalService.ts:27</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/9063ecdf/lib/proposalService.ts#L27">proposalService.ts:27</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -3477,7 +3477,7 @@
 <p><a id="getExecutedProposals"></a></p>
 <h3 id="getexecutedproposals">getExecutedProposals<a class="headerlink" href="#getexecutedproposals" title="Permanent link">&para;</a></h3>
 <p>► <strong>getExecutedProposals</strong>(votingMachine: <em><a href="../IntVoteInterfaceWrapper/">IntVoteInterfaceWrapper</a></em>): <a href="../../#EntityFetcherFactory">EntityFetcherFactory</a><a href="../../interfaces/ExecutedProposal/">ExecutedProposal</a>, <a href="../../interfaces/ExecuteProposalEventResult/">ExecuteProposalEventResult</a></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/98c35331/lib/proposalService.ts#L118">proposalService.ts:118</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/9063ecdf/lib/proposalService.ts#L118">proposalService.ts:118</a></em></p>
 <p>Returns promise of an EntityFetcherFactory for fetching executed proposals from the given <code>IntVoteInterfaceWrapper</code>. The proposals are returned as promises of instances of <code>ExecutedProposal</code>.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3501,7 +3501,7 @@
 <p><a id="getProposalEvents"></a></p>
 <h3 id="getproposalevents">getProposalEvents<a class="headerlink" href="#getproposalevents" title="Permanent link">&para;</a></h3>
 <p>► <strong>getProposalEvents</strong>TProposal,TEventArgs(options: <em><a href="../../interfaces/GetProposalEventsOptions/">GetProposalEventsOptions</a><code>TProposal</code>, <code>TEventArgs</code></em>): <a href="../../#EntityFetcherFactory">EntityFetcherFactory</a><code>TProposal</code>⎮<code>TProposal</code><a href="../../interfaces/ProposalEntity/">ProposalEntity</a>, <code>TEventArgs</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/98c35331/lib/proposalService.ts#L43">proposalService.ts:43</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/9063ecdf/lib/proposalService.ts#L43">proposalService.ts:43</a></em></p>
 <p>Returns an EntityFetcherFactory for fetching proposal-related events. Can take any EventFetcherFactory whose event args supply <code>_proposalId</code>. Returns events as a promise of <code>TProposal</code>. You must supply an <code>EventFetcherFactory</code> for fetching the events and a callback to transform <code>TEventArgs</code> to a promise of <code>TProposal</code>. Each entity, when the associated proposal is votable and options.votingMachine is supplied, will also contain a <code>votingMachine</code> property of type <code>IntVoteInterfaceWrapper</code>.
 <em><strong>type</strong></em>: TEventArgs The type of the <code>args</code> object in the event.</p>
 <p><em><strong>type</strong></em>: TProposal The type of object returned as a transformation of the <code>args</code> information in each event.</p>
@@ -3530,7 +3530,7 @@
 <p><a id="getVotableProposals"></a></p>
 <h3 id="getvotableproposals">getVotableProposals<a class="headerlink" href="#getvotableproposals" title="Permanent link">&para;</a></h3>
 <p>► <strong>getVotableProposals</strong>(votingMachine: <em><a href="../IntVoteInterfaceWrapper/">IntVoteInterfaceWrapper</a></em>): <a href="../../#EntityFetcherFactory">EntityFetcherFactory</a><a href="../../interfaces/VotableProposal/">VotableProposal</a>, <a href="../../interfaces/NewProposalEventResult/">NewProposalEventResult</a></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/98c35331/lib/proposalService.ts#L93">proposalService.ts:93</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/9063ecdf/lib/proposalService.ts#L93">proposalService.ts:93</a></em></p>
 <p>Returns promise of an EntityFetcherFactory for fetching votable proposals from the given <code>IntVoteInterfaceWrapper</code>. The proposals are returned as promises of instances of <code>VotableProposal</code>.</p>
 <p><strong>Parameters:</strong></p>
 <table>

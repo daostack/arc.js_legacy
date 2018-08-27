@@ -3299,19 +3299,22 @@
                 
                 
                 <h1 id="working-with-proposals-and-schemes">Working with Proposals and Schemes<a class="headerlink" href="#working-with-proposals-and-schemes" title="Permanent link">&para;</a></h1>
-<p>The ability to create proposals, vote one's reputation and stake one's reputation and tokens on an outcome of a vote are fundamental to promoting coherence and collaboration within and between DAOs in the DAOstack ecosystem.</p>
+<p>The ability to create proposals, vote one's reputation and stake one's reputation and tokens on the outcome of a vote are fundamental to promoting coherence and collaboration within DAOs in the DAOstack ecosystem.</p>
 <div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>Refer here for more <a href="../Daos">about DAOs in Arc.js</a> and <a href="https://daostack.io/">about DAOstack's vision for a DAO ecosystem</a>.</p>
+<p class="admonition-title">More about DAOs</p>
+<ul>
+<li><a href="../Daos">Working with DAOs in Arc.js</a></li>
+<li><a href="https://medium.com/daostack/the-arc-platform-2353229a32fc">The Arc Platform</a></li>
+<li><a href="https://daostack.io/">About DAOstack's vision for a DAO ecosystem</a></li>
+</ul>
 </div>
-<p>It all starts with "scheme" contracts that generate proposals and supply a voting machine for each proposal.</p>
+<p>It all starts with "scheme" contracts that can generate proposals and supply a voting machine for each proposal.</p>
 <p><a name="schemes"></a></p>
 <h2 id="schemes">Schemes<a class="headerlink" href="#schemes" title="Permanent link">&para;</a></h2>
-<p>are public-facing contracts that any agent use when they want perform primary functions relating to a particular DAO.</p>
-<p>Schemes are registered with a DAO's controller which enables them to access the controller's functionality.  Schemes can be "universal", which means that a single contract instance can serve multiple DAOs by storing DAO-specific parameters with the DAO's controller.  The implementation of a certain interface is what makes a scheme "universal".  Some schemes have the ability to create proposals and thus require that a configured voting machine be specified in the scheme's parameters.</p>
+<p>Schemes are public-facing contracts that any agent may use when they want perform primary functions relating to a particular DAO.</p>
+<p>Schemes are registered with a DAO's controller enabling them to access the controller's functionality.  Schemes can be "universal", which means that a single contract instance can serve multiple DAOs by storing DAO-specific parameters with the DAO's controller.  The implementation of a certain interface is what identifies a scheme as "universal".  Some schemes have the ability to create proposals and thus require that a configured voting machine be specified in the scheme's parameters.</p>
 <div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>More information about schemes:</p>
+<p class="admonition-title">More Information about Schemes</p>
 <ul>
 <li><a href="../Wrappers#wrappersByContractType">All the schemes wrapped in Arc.js</a></li>
 <li><a href="../Daos#gettingDaoSchemes">Obtaining a list of schemes registered with a DAO</a></li>
@@ -3320,10 +3323,10 @@
 </div>
 <p><a name="proposals"></a></p>
 <h2 id="proposals">Proposals<a class="headerlink" href="#proposals" title="Permanent link">&para;</a></h2>
-<p>Proposals are emergent ideas put up for a vote by a DAO. Voting on a proposal proceeds according to rules and parameters of <a href="#votingmachines">voting machines</a>.  We use proposal-generating schemes to create proposals and supply them with a voting machine configured when the scheme was registered with the DAO's controller.</p>
+<p>As ideas emerge from a DAO's community they can be submitted as proposals to the DAO using a DAO scheme. Proposals are then subject to a vote that proceeds according to the rules of the scheme's <a href="#votingmachines">voting machine</a>. The voting machine and its configuration were supplied to the scheme when the scheme was registered with the DAO's controller.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Any scheme that works with proposals must be registered with a DAO's controller, either when you <a href="../Daos#creatingDAOs">create the DAO</a> or afterwards using the <a href="../api/classes/SchemeRegistrarWrapper">SchemeRegistrar</a>.</p>
+<p>Schemes are registered with a DAO's controller either when the DAO <a href="../Daos#creatingDAOs">is created</a> or afterwards using the <a href="../api/classes/SchemeRegistrarWrapper">SchemeRegistrar</a>.</p>
 </div>
 <p>The following table describes the various proposals you can create using scheme contract wrappers in Arc.js:</p>
 <p><a name="proposalschemestable"></a></p>
@@ -3388,11 +3391,11 @@
 <li><code>proposalId</code> - a Hash value that uniquely identifies a proposal, used to identify proposals everywhere where we refer to a proposal.</li>
 <li><code>votingMachine</code> - the voting machine for the proposal, as an <a href="../api/classes/IntVoteInterfaceWrapper">IntVoteInterfaceWrapper</a>, facilitating operations such as voting on the proposal. (see <a href="#votingmachines">Voting Machines</a>).</li>
 </ul>
-<p>Proposals follow a lifecycle of creation and execution (execution is whatever happens when the voting process concludes). <code>GenesisProtocal</code> votes can expire.  You may find yourself wanting to keep track of a proposal's lifecycle, and for that you use events. The following section describes how.</p>
+<p>Proposals follow a lifecycle of creation and execution (execution is whatever happens when the voting process concludes). <code>GenesisProtocal</code> votes can also expire.  You may find yourself wanting to keep track of a proposal's lifecycle, and for that you use events. The following section describes how.</p>
 <p><a name="proposalevents"></a></p>
 <h3 id="proposal-events">Proposal Events<a class="headerlink" href="#proposal-events" title="Permanent link">&para;</a></h3>
 <p>Each scheme responsible for creating proposals enables you to track important events during a proposal's lifecycle (see the <a href="#proposalschemestable">table of proposal types above</a>).  Voting machines do the same (see <a href="#votingmachines">Voting Machines</a>).</p>
-<p>Every scheme provides <code>EventFetcherFactory</code>s that correspond directly to the events thrown by the scheme's Arc contract.  Proposal-generating schemes also provide special <code>EntityFetcherFactory</code>s that fetch entities about:</p>
+<p>Every scheme provides instances of <code>EventFetcherFactory</code> that correspond directly to the events thrown by the scheme's Arc contract.  Proposal-generating schemes also provide special instances of <code>EntityFetcherFactory</code> that fetch information about:</p>
 <ul>
 <li>
 <p><strong>Votable proposals</strong> - For each proposal type, the fetched entity will contain information about the proposal, plus an instance of <a href="../api/classes/IntVoteInterfaceWrapper">IntVoteInterfaceWrapper</a> for the proposal's voting machine, facilitating operations such as voting on the proposal.  See <code>getVotable[*]Proposals</code> in each scheme.</p>
@@ -3402,24 +3405,22 @@
 </li>
 </ul>
 <div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>See <a href="../Events#almostrawevents">Enhanced Web3 Events</a> and <a href="../Events#entityevents">Entities for Web3 Events</a> for more information about these event-fetching interfaces.</p>
+<p class="admonition-title">More on Events</p>
+<p>See <a href="../Events#enhancedweb3events">Enhanced Web3 Events</a> and <a href="../Events#entityevents">Entities for Web3 Events</a> for more information about these event-fetching interfaces.</p>
 </div>
-<p>Like the schemes, the <code>GenesisProtocol</code> voting machine provides special <code>EntityFetcherFactory</code>s for fetching events about votable and executed proposals.  The fetched entity will contain additional information relevant to the proposal that you will not get via the scheme or <code>IntVoteInterface</code> events. See <a href="../api/classes/GenesisProtocolWrapper#VotableGenesisProtocolProposals">VotableGenesisProtocolProposals</a> and <a href="../api/classes/GenesisProtocolWrapper#ExecutedProposals">ExecutedProposals</a>.</p>
+<p>Like the schemes, the <code>GenesisProtocolWrapper</code> voting machine provides special instances of <code>EntityFetcherFactory</code> to be used for fetching events about votable and executed proposals.  The fetched entity will contain additional information relevant to the proposal that you will not get via the scheme or <code>IntVoteInterface</code> events. See <a href="../api/classes/GenesisProtocolWrapper#VotableGenesisProtocolProposals">VotableGenesisProtocolProposals</a> and <a href="../api/classes/GenesisProtocolWrapper#ExecutedProposals">ExecutedProposals</a>.</p>
 <p>See more about voting machines below.</p>
 <p><a name="votingmachines"></a></p>
 <h2 id="voting-machines">Voting Machines<a class="headerlink" href="#voting-machines" title="Permanent link">&para;</a></h2>
-<p>Voting machines play an integral part in promoting coherence and collaboration within and between DAOs in the DAOstack ecosystem.  Which voting machine you choose to use for your DAO or DAO scheme, and how you configure it, can profoundly affect the emergent qualities of your organization.</p>
-<p>Every proposal-generating scheme has an associated voting machine with appropriate configurations for the scheme.  Every proposal created by the scheme will use the scheme's voting machine.  </p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>Find more information about Arc voting machines in the <a href="https://daostack.github.io/arc/contracts/VotingMachines/README/">Arc documentation</a>.</p>
-</div>
-<p>Arc.js wraps two Arc voting machines: <a href="../api/classes/AbsoluteVoteWrapper">AbsoluteVote</a> and <a href="../api/classes/GenesisProtocolWrapper">GenesisProtocol</a>.  While each of these voting machines have their own individual API, they both implement a common Arc interface called <code>IntVoteInterface</code>.  </p>
+<p>Voting machines play an integral part in promoting coherence and collaboration within and between DAOs in the DAOstack ecosystem.  Which voting machine you choose to use for your DAO or DAO scheme, and how you configure it, can profoundly affect the emergent behavior of your DAO and the community that is using it.</p>
+<p>Every proposal-generating scheme has an associated voting machine with a configuration that is registered with the controller.  Every proposal created by the scheme will use the scheme's voting machine.  </p>
 <div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>Each of the Arc.js voting machine contract wrapper classes implement a common base class called <a href="../api/classes/IntVoteInterfaceWrapper">IntVoteInterfaceWrapper</a>.</p>
+<p class="admonition-title">More about Voting Machines</p>
+<ul>
+<li><a href="https://daostack.github.io/arc/contracts/VotingMachines/README/">Voting Machines in Arc</a>.</li>
+</ul>
 </div>
+<p>Arc.js wraps two Arc voting machines: <a href="../api/classes/AbsoluteVoteWrapper">AbsoluteVote</a> and <a href="../api/classes/GenesisProtocolWrapper">GenesisProtocol</a>.  While each of these voting machines have their own individual API, they both implement a common Arc interface called <code>IntVoteInterface</code> which Arc.js wraps in <a href="../api/classes/IntVoteInterfaceWrapper">IntVoteInterfaceWrapper</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Arc has another voting machine contract called <code>QuorumVote</code> that Arc.js does not yet wrap.</p>
