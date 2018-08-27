@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import {
   TransactionReceiptTruffle,
