@@ -250,8 +250,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../Configuration/" title="Configuration" class="md-nav__link">
-      Configuration
+    <a href="../Configuration/" title="Configuration and Special Features" class="md-nav__link">
+      Configuration and Special Features
     </a>
   </li>
 
@@ -3200,8 +3200,8 @@
                 
                 
                 <h1 id="running-arcjs-scripts">Running Arc.js Scripts<a class="headerlink" href="#running-arcjs-scripts" title="Permanent link">&para;</a></h1>
-<p>Arc.js contains a set of scripts for building, publishing, running tests and migrating contracts to any network.  These scripts are meant to be accessible and readily usable by client applications.</p>
-<p>Typically an application will run an Arc.js script by prefixing "<code>npm explore @daostack/arc.js --</code>" to the name Arc.js script command.  For example, to run the Arc.js script <code>npm start ganache</code> from your application, you would run:</p>
+<p>Arc.js contains a set of scripts for building, publishing, running tests and migrating contracts to any network.  These scripts are meant to be accessible to and readily usable by client applications.</p>
+<p>Typically an application that has installed the Arc.js <code>npm</code> package will run an Arc.js script by prefixing "<code>npm explore @daostack/arc.js --</code>" to the name Arc.js script command.  For example, to run the Arc.js script <code>npm start ganache</code> from your application, you would run:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm explore @daostack/arc.js -- npm start ganache
 </pre></div>
 </td></tr></table>
@@ -3212,13 +3212,16 @@
 </td></tr></table>
 
 <div class="admonition info">
-<p class="admonition-title">NPS</p>
-<p>More scripts than are described here are defined in the <code>package-scripts.js</code> file.  The Arc.js package uses <code>nps</code> run these scripts. If you install <code>nps</code> globally you can substitute <code>npm start</code> with <code>nps</code>, so, at the root of an Arc.js repo, it looks like this:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>nps ganache
+<p class="admonition-title">nps</p>
+</div>
+<p>Other scripts not described here are defined in <code>package-scripts.js</code> that is used to configure a tool called <a href="https://www.npmjs.com/package/nps">nps</a>. Arc.js uses <code>nps</code> run all of its scripts. While <code>nps</code> is installed locally by Arc.js, you can also install it globally and then substitute <code>npm start</code> with <code>nps</code>, so, when running scripts from the root of an Arc.js repo, it looks like this:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>```script
+nps ganache
+```
 </pre></div>
 </td></tr></table>
-
-</div>
                 
                   
                 
