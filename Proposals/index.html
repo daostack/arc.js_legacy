@@ -317,6 +317,19 @@
     Schemes
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#obtain-a-schemes-parameters" title="Obtain a scheme's parameters" class="md-nav__link">
+    Obtain a scheme's parameters
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3250,6 +3263,19 @@
     Schemes
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#obtain-a-schemes-parameters" title="Obtain a scheme's parameters" class="md-nav__link">
+    Obtain a scheme's parameters
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3321,6 +3347,20 @@
 <li><a href="https://daostack.github.io/arc/contracts/universalSchemes/README/">Universal Schemes in Arc</a></li>
 </ul>
 </div>
+<h3 id="obtain-a-schemes-parameters">Obtain a scheme's parameters<a class="headerlink" href="#obtain-a-schemes-parameters" title="Permanent link">&para;</a></h3>
+<p>If you want to obtain a DAO scheme's parameters, you can do it like this:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">schemeParameters</span> <span class="o">=</span> <span class="nx">schemeWrapper</span><span class="p">.</span><span class="nx">getSchemeParameters</span><span class="p">(</span><span class="nx">avatarAddress</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<p>This will return an object containing the scheme's parameter values.  The object will be the same as that which one passes to <code>schemeWrapper.setParameters</code> when setting parameters on any contract.</p>
+<p>For example, to obtain the voting machine address for a scheme that has <code>votingMachineAddress</code> as a parameter:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">schemeParameters</span> <span class="o">=</span> <span class="nx">schemeWrapper</span><span class="p">.</span><span class="nx">getSchemeParameters</span><span class="p">(</span><span class="nx">avatarAddress</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">votingMachineAddress</span> <span class="o">=</span> <span class="nx">schemeParameters</span><span class="p">.</span><span class="nx">votingMachineAddress</span><span class="p">;</span>
+</pre></div>
+</td></tr></table>
+
 <p><a name="proposals"></a></p>
 <h2 id="proposals">Proposals<a class="headerlink" href="#proposals" title="Permanent link">&para;</a></h2>
 <p>As ideas emerge from a DAO's community they can be submitted as proposals to the DAO using a DAO scheme. Proposals are then subject to a vote that proceeds according to the rules of the scheme's <a href="#votingmachines">voting machine</a>. The voting machine and its configuration were supplied to the scheme when the scheme was registered with the DAO's controller.</p>

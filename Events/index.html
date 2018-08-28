@@ -325,26 +325,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pubsub-events" title="Pub/Sub Events" class="md-nav__link">
-    Pub/Sub Events
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#subscribing-to-pubsub-events" title="Subscribing to Pub/Sub Events" class="md-nav__link">
-    Subscribing to Pub/Sub Events
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#web3-events" title="Web3 Events" class="md-nav__link">
     Web3 Events
   </a>
@@ -367,6 +347,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#comparing-enhanced-web3-with-entity-for-web3-events" title="Comparing Enhanced Web3 with Entity for Web3 Events" class="md-nav__link">
+    Comparing Enhanced Web3 with Entity for Web3 Events
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pubsub-web3-events" title="Pub/Sub Web3 Events" class="md-nav__link">
     Pub/Sub Web3 Events
   </a>
@@ -379,8 +366,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#comparing-enhanced-web3-with-entity-for-web3-event-fetchers" title="Comparing Enhanced Web3 with Entity for Web3 Event Fetchers" class="md-nav__link">
-    Comparing Enhanced Web3 with Entity for Web3 Event Fetchers
+  <a href="#pubsub-events" title="Pub/Sub Events" class="md-nav__link">
+    Pub/Sub Events
   </a>
   
 </li>
@@ -3273,26 +3260,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pubsub-events" title="Pub/Sub Events" class="md-nav__link">
-    Pub/Sub Events
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#subscribing-to-pubsub-events" title="Subscribing to Pub/Sub Events" class="md-nav__link">
-    Subscribing to Pub/Sub Events
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#web3-events" title="Web3 Events" class="md-nav__link">
     Web3 Events
   </a>
@@ -3315,6 +3282,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#comparing-enhanced-web3-with-entity-for-web3-events" title="Comparing Enhanced Web3 with Entity for Web3 Events" class="md-nav__link">
+    Comparing Enhanced Web3 with Entity for Web3 Events
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pubsub-web3-events" title="Pub/Sub Web3 Events" class="md-nav__link">
     Pub/Sub Web3 Events
   </a>
@@ -3327,8 +3301,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#comparing-enhanced-web3-with-entity-for-web3-event-fetchers" title="Comparing Enhanced Web3 with Entity for Web3 Event Fetchers" class="md-nav__link">
-    Comparing Enhanced Web3 with Entity for Web3 Event Fetchers
+  <a href="#pubsub-events" title="Pub/Sub Events" class="md-nav__link">
+    Pub/Sub Events
   </a>
   
 </li>
@@ -3353,77 +3327,20 @@
                 
                 
                 <h1 id="working-with-events">Working with Events<a class="headerlink" href="#working-with-events" title="Permanent link">&para;</a></h1>
-<p>Arc.js offers two types of event systems:  <a href="#pubsubevents">Pub/Sub</a> and <a href="../web3events">Web3</a>.  The Pub/Sub system enables you to subscribe to various events published by Arc.js itself (or even by your own application if you want).</p>
-<p>The Web3 system enables you to get and watch events as they originate from Web3 and Arc contracts.</p>
-<p>The Web3 events system also contains a hybrid of the two systems, enabling you to watch a Web3 event by subscribing to a Pub/Sub event.</p>
-<p><a name="pubsubevents"></a></p>
-<h2 id="pubsub-events">Pub/Sub Events<a class="headerlink" href="#pubsub-events" title="Permanent link">&para;</a></h2>
-<p>The <a href="../api/classes/PubSubEventService">PubSubEventService</a> provides a Pub/Sub event system that enables you to subscribe to various events published by Arc.js (or even by your own application if you want).</p>
-<p>Uses of pub/sub events:</p>
+<p>Arc.js offers two types of event systems, <a href="../web3events">Web3</a> and <a href="#pubsubevents">Pub/Sub</a>:</p>
 <ul>
 <li>
-<p>Tracking transactions as they complete  (see <a href="../Transactions">Transactions</a>).</p>
+<p><strong>Web3 Events</strong> enable you to get and watch events as they originate from Web3 and Arc contracts.    The Web3 events system also contains a hybrid of the two systems, enabling you to watch a Web3 event by subscribing to a <a href="#pubsubevents">Pub/Sub event</a>.</p>
 </li>
 <li>
-<p>Being notified whenever the current account changes (see <a href="../Configuration#accountchanges">Account Changes</a>).</p>
-</li>
-<li>
-<p>Watching events in the Web3 event system using the <code>subscribe</code> function implemented by <a href="../api/interfaces/EventFetcher/">EventFetcher</a> and <a href="../api/interfaces/EntityFetcher/">EntityFetcher</a> (see <a href="#pubsubweb3">Pub/Sub Web3 Events</a>)</p>
+<p><strong>Pub/Sub Events</strong> enable you to subscribe to various events published by Arc.js itself (or even by your own application if you want).</p>
 </li>
 </ul>
-<p>The following section describes how to subscribe to events.</p>
-<p><a name="subscribing"></a></p>
-<h3 id="subscribing-to-pubsub-events">Subscribing to Pub/Sub Events<a class="headerlink" href="#subscribing-to-pubsub-events" title="Permanent link">&para;</a></h3>
-<p>You specify the event to which you want to subscribe using a string called the event "topic".</p>
-<p>Event topics may be hierachically scoped by levels separated by periods ('.'). So for example: </p>
-<ul>
-<li>"A.B.C" subscribes to all "A.B.C" events</li>
-<li>"A.B" subscribes to all events prefixed by "A.B"</li>
-<li>"A" subscribes to all events prefixed by "A"</li>
-</ul>
-<p>Use <code>PubSubEventService</code> like this:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">subscription</span> <span class="o">=</span> <span class="nx">PubSubEventService</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s2">&quot;aTopic&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nx">topic</span><span class="p">,</span> <span class="nx">payload</span><span class="p">)</span> <span class="p">=&gt;</span>
-<span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`received event </span><span class="si">${</span><span class="nx">topic</span><span class="si">}</span><span class="sb">`</span> <span class="kd">with</span><span class="o">:</span> <span class="nx">$</span><span class="p">{</span><span class="nx">payload</span><span class="p">.</span><span class="nx">someImportantProperty</span><span class="p">});</span>
-<span class="p">})</span>
-</pre></div>
-</td></tr></table>
-
-<p>You can subscribe to multiple events at once by passing the topics in an array:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">subscription</span> <span class="o">=</span> <span class="nx">PubSubEventService</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span>
-  <span class="p">[</span><span class="s2">&quot;aTopic 1&quot;</span><span class="p">,</span> <span class="s2">&quot;aTopic 2&quot;</span><span class="p">],</span> <span class="p">(</span><span class="nx">topic</span><span class="p">,</span> <span class="nx">payload</span><span class="p">)</span> <span class="p">=&gt;</span>
-<span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`received event </span><span class="si">${</span><span class="nx">topic</span><span class="si">}</span><span class="sb">`</span> <span class="kd">with</span><span class="o">:</span> <span class="nx">$</span><span class="p">{</span><span class="nx">payload</span><span class="p">.</span><span class="nx">someImportantProperty</span><span class="p">});</span>
-<span class="p">})</span>
-</pre></div>
-</td></tr></table>
-
-<p>When you are done, be sure to unsubscribe to the event(s) or you risk memory leaks and excessive CPU usage:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">subscription</span><span class="p">.</span><span class="nx">unsubscribe</span><span class="p">();</span>
-</pre></div>
-</td></tr></table>
-
-<p>Or unsubscribe by topic: </p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">PubSubEventService</span><span class="p">.</span><span class="nx">unsubscribe</span><span class="p">(</span><span class="s2">&quot;aTopic&quot;</span><span class="p">);</span>
-</pre></div>
-</td></tr></table>
-
-<p>Or by the callback you passed in when you subscribed:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">PubSubEventService</span><span class="p">.</span><span class="nx">unsubscribe</span><span class="p">(</span><span class="nx">aCallback</span><span class="p">);</span>
-</pre></div>
-</td></tr></table>
-
+<p>The following sections describe how you can use these two types of events.</p>
 <p><a name="web3events"></a></p>
 <h2 id="web3-events">Web3 Events<a class="headerlink" href="#web3-events" title="Permanent link">&para;</a></h2>
-<p>We refer to "Web3 events" as the events that originate from blockchain events, especially events from Arc contracts, and are served up by Web3. (see the <a href="https://github.com/ethereum/wiki/wiki/JavaScript-API#contract-events">Web3 documentation on contract events</a>). Web3 events map directly to events emitted by contracts on the blockchain and thus allow you to filter by event parameters and ranges of block numbers.</p>
-<p>Arc.js exposes Web3 events in an format virtually the same as Web3 and Truffle, but with enhancements.  In some cases Arc.js exposes Web3 event arguments as entities (objects) that are simpler to use and may provide more information and functionality than the original raw event.</p>
+<p>We refer to "Web3 events" as the events that originate from blockchain events (especially events from Arc contracts) and that are served up by Web3. (see the <a href="https://github.com/ethereum/wiki/wiki/JavaScript-API#contract-events">Web3 documentation on contract events</a>). Web3 events map directly to events emitted by contracts on the blockchain and thus allow you to filter by event parameters and ranges of block numbers.</p>
+<p>Arc.js exposes Web3 events in an format virtually the same as Web3 and Truffle, but with enhancements.  In some cases Arc.js goes further by exposing Web3 event arguments as entities (objects) that are simpler to use and may provide more information and functionality than the original raw event.</p>
 <p>The following sections describe enhanced Web3 events, entity events, and how to subscribe to Web3 events as Pub/Sub events.</p>
 <p><a name="enhancedweb3events"></a></p>
 <h3 id="enhanced-web3-events">Enhanced Web3 Events<a class="headerlink" href="#enhanced-web3-events" title="Permanent link">&para;</a></h3>
@@ -3520,12 +3437,7 @@
 </pre></div>
 </td></tr></table>
 
-<p><a name="pubsubweb3"></a></p>
-<h3 id="pubsub-web3-events">Pub/Sub Web3 Events<a class="headerlink" href="#pubsub-web3-events" title="Permanent link">&para;</a></h3>
-<p>Both <code>EventFetcher</code> and <code>EntityFetcher</code> provide a <code>subscribe</code> function, sibling to <code>get</code> and <code>watch</code>, that enables you specify the topic of a Pub/Sub event that will be published whenever the underlying Web3 event is fired.</p>
-<p>When you specify the topic for such a subscription you are effectively creating your own Pub/Sub event.  This gives you wide flexibility in scoping your event handling across different Arc.js contract wrappers and events, including leveraging the hierarchical structure that you can build into your topic strings.  Further, any number of your code components can use <a href="../api/classes/PubSubEventService#subscribe">PubSubEventService.subscribe</a> to subscribe to a single Pub/Sub Web3 event.  You just need to have called <code>EntityFetcher.subscribe</code> once to initiate fetching of the Web3 event and subsequent publishing to the given Pub/Sub topic.</p>
-<p>See more about how to use Pub/Sub events <a href="#subscribing">here</a>.</p>
-<h2 id="comparing-enhanced-web3-with-entity-for-web3-event-fetchers">Comparing Enhanced Web3 with Entity for Web3 Event Fetchers<a class="headerlink" href="#comparing-enhanced-web3-with-entity-for-web3-event-fetchers" title="Permanent link">&para;</a></h2>
+<h3 id="comparing-enhanced-web3-with-entity-for-web3-events">Comparing Enhanced Web3 with Entity for Web3 Events<a class="headerlink" href="#comparing-enhanced-web3-with-entity-for-web3-events" title="Permanent link">&para;</a></h3>
 <p>Enhanced Web3 (<a href="../api/README/#eventfetcherfactory">EventFetcherFactory</a>) and entity (<a href="../api/README/#entityfetcherfactory">EntityFetcherFactory</a>) events each have relative pros and cons.  </p>
 <p>Enhanced Web3 events give you all of the information that Web3 provides about an event.  These events closely match what you may be accustomed-to if you have been working with Web3 and Truffle.</p>
 <p>Entity events only give you an entity, a javascript object providing information about the event, but the event entities can include additional relevant information and useful functions that you won't get from the enhanced Web3 events.</p>
@@ -3534,6 +3446,72 @@
 <p class="admonition-title">Note</p>
 <p>If you prefer to use the unenhanced events supplied by Web3 via Truffle, you can access them via the contract handler property <code>contract</code>, which is the original <a href="http://truffleframework.com/docs/getting_started/contracts">Truffle contract</a>.</p>
 </div>
+<p><a name="pubsubweb3"></a></p>
+<h3 id="pubsub-web3-events">Pub/Sub Web3 Events<a class="headerlink" href="#pubsub-web3-events" title="Permanent link">&para;</a></h3>
+<p>Both <code>EventFetcher</code> and <code>EntityFetcher</code> provide a <code>subscribe</code> function, sibling to <code>get</code> and <code>watch</code>, that enables you specify the topic of a <a href="#pubsubevents">Pub/Sub event</a> that will be published whenever the underlying Web3 event is fired.</p>
+<p>When you specify the topic for such a subscription you are effectively creating your own Pub/Sub event.  This gives you wide flexibility in scoping your event handling across different Arc.js contract wrappers and events, including leveraging the hierarchical structure that you can build into your topic strings.  Further, any number of your code components can use <a href="../api/classes/PubSubEventService#subscribe">PubSubEventService.subscribe</a> to subscribe to a single Pub/Sub Web3 event.  You just need to have called <code>EntityFetcher.subscribe</code> once to initiate fetching of the Web3 event and subsequent publishing to the given Pub/Sub topic.</p>
+<p><a name="pubsubevents"></a></p>
+<h2 id="pubsub-events">Pub/Sub Events<a class="headerlink" href="#pubsub-events" title="Permanent link">&para;</a></h2>
+<p>The <a href="../api/classes/PubSubEventService">PubSubEventService</a> provides a Pub/Sub event system that enables you to subscribe to various events published by Arc.js (or even by your own application if you want).</p>
+<p>Uses of pub/sub events:</p>
+<ul>
+<li>
+<p>Tracking transactions as they complete  (see <a href="../Transactions">Transactions</a>).</p>
+</li>
+<li>
+<p>Being notified whenever the current account changes (see <a href="../Configuration#accountchanges">Account Changes</a>).</p>
+</li>
+<li>
+<p>Watching events in the Web3 event system using the <code>subscribe</code> function implemented by <a href="../api/interfaces/EventFetcher/">EventFetcher</a> and <a href="../api/interfaces/EntityFetcher/">EntityFetcher</a> (see <a href="#pubsubweb3">Pub/Sub Web3 Events</a>)</p>
+</li>
+<li>
+<p>Any other custom purpose for which you wish to apply the <code>PubSubEventService</code> in publishing and subscribing to events in the context of your own application</p>
+</li>
+</ul>
+<p>When subscribing to a Pub/Sub event we specify the event to which we want to subscribe using a string called the event "topic". Event topics may be hierachically scoped by levels separated by periods ('.'). So for example: </p>
+<ul>
+<li>"A.B.C" subscribes to all "A.B.C" events</li>
+<li>"A.B" subscribes to all events prefixed by "A.B"</li>
+<li>"A" subscribes to all events prefixed by "A"</li>
+</ul>
+<p>You can subscribe to a Pub/Sub event using  <code>PubSubEventService</code>, like this:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">subscription</span> <span class="o">=</span> <span class="nx">PubSubEventService</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s2">&quot;aTopic&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nx">topic</span><span class="p">,</span> <span class="nx">payload</span><span class="p">)</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`received event </span><span class="si">${</span><span class="nx">topic</span><span class="si">}</span><span class="sb">`</span> <span class="kd">with</span><span class="o">:</span> <span class="nx">$</span><span class="p">{</span><span class="nx">payload</span><span class="p">.</span><span class="nx">someImportantProperty</span><span class="p">});</span>
+<span class="p">})</span>
+</pre></div>
+</td></tr></table>
+
+<p>You can subscribe to multiple events at once by passing the topics in an array:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">subscription</span> <span class="o">=</span> <span class="nx">PubSubEventService</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span>
+  <span class="p">[</span><span class="s2">&quot;aTopic 1&quot;</span><span class="p">,</span> <span class="s2">&quot;aTopic 2&quot;</span><span class="p">],</span> <span class="p">(</span><span class="nx">topic</span><span class="p">,</span> <span class="nx">payload</span><span class="p">)</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`received event </span><span class="si">${</span><span class="nx">topic</span><span class="si">}</span><span class="sb">`</span> <span class="kd">with</span><span class="o">:</span> <span class="nx">$</span><span class="p">{</span><span class="nx">payload</span><span class="p">.</span><span class="nx">someImportantProperty</span><span class="p">});</span>
+<span class="p">})</span>
+</pre></div>
+</td></tr></table>
+
+<p>When you are done, be sure to unsubscribe to the event(s) or you risk memory leaks and excessive CPU usage:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">subscription</span><span class="p">.</span><span class="nx">unsubscribe</span><span class="p">();</span>
+</pre></div>
+</td></tr></table>
+
+<p>Or unsubscribe by topic: </p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">PubSubEventService</span><span class="p">.</span><span class="nx">unsubscribe</span><span class="p">(</span><span class="s2">&quot;aTopic&quot;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<p>Or by the callback you passed in when you subscribed:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">PubSubEventService</span><span class="p">.</span><span class="nx">unsubscribe</span><span class="p">(</span><span class="nx">aCallback</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
                 
                   
                 
