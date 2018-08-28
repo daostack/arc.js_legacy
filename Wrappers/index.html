@@ -3610,10 +3610,13 @@ and may or may not have an address and wish to most efficiently return the assoc
 <h2 id="cant-find-what-you-need">Can't Find What You Need?<a class="headerlink" href="#cant-find-what-you-need" title="Permanent link">&para;</a></h2>
 <p>Arc.js doesn't wrap every Arc contact nor give you a helper class for everything, but it does give you some more options described in the following sections.</p>
 <h3 id="truffle-contracts-and-web3">Truffle Contracts and Web3<a class="headerlink" href="#truffle-contracts-and-web3" title="Permanent link">&para;</a></h3>
-<p>Under the hood Arc.js uses Truffle contracts and Web3, and when you find that Arc.js doesn't directly provide you a piece of information or functionality that you need, you might be able to use them to find what you want.  You can get Web3 via <a href="../api/classes/Utils#getWeb3">Utils.getWeb3</a> and Truffle contract associated with each contract wrapper instance via the <code>contract</code> property on each wrapper class.</p>
+<p>Under the hood Arc.js uses Truffle contracts and <code>Web3</code>. When you find that Arc.js doesn't directly provide you a piece of information or functionality that you need, you might be able to use them to find what you want.  You can obtain <code>Web3</code> via <a href="../api/classes/Utils#getWeb3">Utils.getWeb3</a> and the Truffle contract associated with each contract wrapper instance via the <code>contract</code> property on each wrapper class.</p>
 <div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>Read more about <a href="https://github.com/trufflesuite/truffle-contract">Truffle Contracts</a> and <a href="https://github.com/ethereum/wiki/wiki/JavaScript-API">Web3</a></p>
+<p class="admonition-title">More on <code>Web3</code> and Truffle contracts</p>
+<ul>
+<li><a href="https://github.com/ethereum/wiki/wiki/JavaScript-API">Web3</a></li>
+<li><a href="https://github.com/trufflesuite/truffle-contract">Truffle contracts</a></li>
+</ul>
 </div>
 <h3 id="undeployed-arc-contracts">Undeployed Arc Contracts<a class="headerlink" href="#undeployed-arc-contracts" title="Permanent link">&para;</a></h3>
 <p>Some Arc contracts are wrapped but not deployed by Arc.js, for example <code>DaoToken</code> and others.  <code>ContractWrappers</code> (<code>WrapperService.wrappers</code>) will not contain entries for these wrappers since they are not deployed.  But you will find their factories where you can use <code>.at</code>. or <code>.new</code>.</p>
