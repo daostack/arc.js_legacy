@@ -3420,6 +3420,9 @@ Name of the blockchain network used during Arc contract migration.  Other inform
 The port to use when connecting to the blockchain network at runtime.  Default is 8545.</p>
 <p><strong>providerUrl</strong>
 The url to use when connecting to the blockchain network at runtime.  Default is http://127.0.0.1.</p>
+<p><a name="txDepthRequiredForConfirmation"></a>
+<strong>txDepthRequiredForConfirmation</strong>
+The default required depth, in terms of the number of blocks that have been added to the chain since a transaction has been mined, used by certain functions in <code>TransactionService</code>.  For more information, see <a href="../Transactions#transactiondepth">Transaction Depth</a>.</p>
 <h2 id="obtain-a-configuration-setting-at-runtime">Obtain a Configuration Setting at Runtime<a class="headerlink" href="#obtain-a-configuration-setting-at-runtime" title="Permanent link">&para;</a></h2>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">ConfigService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@daostack/arc.js&#39;</span><span class="p">;</span>

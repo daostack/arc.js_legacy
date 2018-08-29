@@ -343,6 +343,27 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#getting-information-about-transactions" title="Getting Information About Transactions" class="md-nav__link">
+    Getting Information About Transactions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wrapper-functions-that-generate-a-transaction" title="Wrapper Functions that Generate a Transaction" class="md-nav__link">
+    Wrapper Functions that Generate a Transaction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transaction-depth" title="Transaction Depth" class="md-nav__link">
+    Transaction Depth
+  </a>
+  
+</li>
+      
       
       
       
@@ -3225,6 +3246,27 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#getting-information-about-transactions" title="Getting Information About Transactions" class="md-nav__link">
+    Getting Information About Transactions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wrapper-functions-that-generate-a-transaction" title="Wrapper Functions that Generate a Transaction" class="md-nav__link">
+    Wrapper Functions that Generate a Transaction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transaction-depth" title="Transaction Depth" class="md-nav__link">
+    Transaction Depth
+  </a>
+  
+</li>
+      
       
       
       
@@ -3351,6 +3393,61 @@
 </ol>
 <p>You can identify the stage of the event using the <code>topic</code> parameter of the callback, or by the <code>txStage</code> property of the payload (<code>txEventInfo</code>) parameter of the callback (see the example code given in the previous section).</p>
 <p>Errors may occur at any point in the lifecycle.  When they do you will receive an event with ".failed" appended to the <code>topic</code> parameter of the callback, and the <code>error</code> property of the payload will contain the <code>Error</code> that describes what happened.  <code>txStage</code> will represent the stage at which the error occurred, and you will receive no further events on the transaction.</p>
+<p><a name="gettingtxinfo"></a></p>
+<h2 id="getting-information-about-transactions">Getting Information About Transactions<a class="headerlink" href="#getting-information-about-transactions" title="Permanent link">&para;</a></h2>
+<p>The <code>TransactionService</code> provides several static functions you can use to obtain information about a transaction:</p>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../api/classes/TransactionService#getMinedTransaction">getMinedTransaction</a></td>
+<td>Returns a promise of a <code>TransactionReceipt</code> if the given transaction has been mined according to the optional <code>requiredDepth</code> (default <code>requiredDepth</code> is 0)</td>
+</tr>
+<tr>
+<td><a href="../api/classes/TransactionService#watchForMinedTransaction">watchForMinedTransaction</a></td>
+<td>Returns a promise of a <code>TransactionReceipt</code> once the given transaction has been mined according to the optional <code>requiredDepth</code> (default <code>requiredDepth</code> is 0)</td>
+</tr>
+<tr>
+<td><a href="../api/classes/TransactionService#getConfirmedTransaction">getConfirmedTransaction</a></td>
+<td>Returns a promise of a <code>TransactionReceipt</code> if the given transaction has been confirmed according to the optional <code>requiredDepth</code> (default <code>requiredDepth</code> comes from the <code>ConfigService</code>)</td>
+</tr>
+<tr>
+<td><a href="../api/classes/TransactionService#watchForConfirmedTransaction">watchForConfirmedTransaction</a></td>
+<td>Returns a promise of a <code>TransactionReceipt</code> once the given transaction has been confirmed according to the optional <code>requiredDepth</code> (default <code>requiredDepth</code> comes from the <code>ConfigService</code>)</td>
+</tr>
+<tr>
+<td><a href="../api/classes/TransactionService#getTransactionDepth">getTransactionDepth</a></td>
+<td>Returns a promise of the number of blocks that have been added to the chain since the given transaction was mined.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="wrapper-functions-that-generate-a-transaction">Wrapper Functions that Generate a Transaction<a class="headerlink" href="#wrapper-functions-that-generate-a-transaction" title="Permanent link">&para;</a></h2>
+<p>Contract wrapper functions that generate a promise of a transaction will return the promise of an <a href="../api/classes/ArcTransactionResult">ArcTransactionResult</a> that contains methods giving you access to the functions described in <a href="#gettingtxinfo">Getting Information About Transactions</a> without having to supply the transaction hash.  For example:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">ArcTransactionResult</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">&quot;@daostack.arc.js&quot;</span><span class="p">;</span>
+
+  <span class="kr">const</span> <span class="nx">txResult</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">someWrapper</span><span class="p">.</span><span class="nx">aTxGeneratingFunction</span><span class="p">();</span>
+
+  <span class="kr">const</span> <span class="nx">confirmedTransactionReceipt</span> <span class="o">=</span> <span class="nx">txResult</span><span class="p">.</span><span class="nx">watchForTxConfirmed</span><span class="p">();</span>
+</pre></div>
+</td></tr></table>
+
+<p><a name="transactiondepth"></a></p>
+<h2 id="transaction-depth">Transaction Depth<a class="headerlink" href="#transaction-depth" title="Permanent link">&para;</a></h2>
+<p>As described in the previous sections, you can obtain information about a transaction on the condition that it has reached a desired depth in terms of the number of blocks that have been added to the chain since the given transaction was mined.</p>
+<p>You can supply the required depth as a parameter to the function that returns the transaction information, or you can rely on the default depth that is defined by the global setting "<a href="../Configuration#txDepthRequiredForConfirmation">txDepthRequiredForConfirmation</a>".</p>
+<p>The <code>txDepthRequiredForConfirmation</code> setting is defined individually for each network.  For example, if you want to set the value for the "live" network:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">ConfigService</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;txDepthRequiredForConfirmation.live&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
                 
                   
                 
