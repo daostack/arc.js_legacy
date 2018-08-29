@@ -364,6 +364,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#transaction-logs" title="Transaction Logs" class="md-nav__link">
+    Transaction Logs
+  </a>
+  
+</li>
+      
       
       
       
@@ -3267,6 +3274,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#transaction-logs" title="Transaction Logs" class="md-nav__link">
+    Transaction Logs
+  </a>
+  
+</li>
+      
       
       
       
@@ -3436,7 +3450,7 @@
 
   <span class="kr">const</span> <span class="nx">txResult</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">someWrapper</span><span class="p">.</span><span class="nx">aTxGeneratingFunction</span><span class="p">();</span>
 
-  <span class="kr">const</span> <span class="nx">confirmedTransactionReceipt</span> <span class="o">=</span> <span class="nx">txResult</span><span class="p">.</span><span class="nx">watchForTxConfirmed</span><span class="p">();</span>
+  <span class="kr">const</span> <span class="nx">confirmedTransactionReceipt</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">txResult</span><span class="p">.</span><span class="nx">watchForTxConfirmed</span><span class="p">();</span>
 </pre></div>
 </td></tr></table>
 
@@ -3446,6 +3460,20 @@
 <p>You can supply the required depth as a parameter to the function that returns the transaction information, or you can rely on the default depth that is defined by the global setting "<a href="../Configuration#txDepthRequiredForConfirmation">txDepthRequiredForConfirmation</a>".</p>
 <p>The <code>txDepthRequiredForConfirmation</code> setting is defined individually for each network.  For example, if you want to set the value for the "live" network:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">ConfigService</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;txDepthRequiredForConfirmation.live&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<h2 id="transaction-logs">Transaction Logs<a class="headerlink" href="#transaction-logs" title="Permanent link">&para;</a></h2>
+<p>You can obtain information from a <code>TransactionReceiptTruffle</code> or <code>TransactionReceipt</code> using <a href="../api/classes/TransactionService#getValueFromLogs">TransactionService.getValueFromLogs</a>:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>const txResult = await someWrapper.aTxGeneratingFunction();
+
+const minedTransactionReceipt = await txResult.watchForTxMined();
+
+const avatarAddress = TransactionService.getValueFromLogs(minedTransactionReceipt, &quot;_avatar&quot;, &quot;eventName&quot;);
 </pre></div>
 </td></tr></table>
                 
