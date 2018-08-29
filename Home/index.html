@@ -3446,6 +3446,7 @@
 <li>optionally migrating the Arc contracts to the testnet, necessary for Ganache but not for Kovan or MainNet.</li>
 <li>using the Arc.js code in your application</li>
 </ol>
+<p>We'll continue by assuming you want to run your application against Ganache.</p>
 <p><a name="migratetoganache"></a></p>
 <h2 id="set-up-ganache-with-arc-contracts">Set up Ganache with Arc Contracts<a class="headerlink" href="#set-up-ganache-with-arc-contracts" title="Permanent link">&para;</a></h2>
 <p>Arc.js runs against an Ethereum network where it assumes that the Arc contracts have been migrated.  Out of the box, Arc.js gives you the Arc contracts already-migrated to the MainNet and to Kovan, so your web application may use MetaMask to connect to these networks and Arc.js will automatically find the migrated contracts. For any other testnet, particularly Ganache, or to re-migrate for any reason, you will need to fire up your testnet and tell Arc.js to migrate the Arc contracts to it.  Arc.js provides a migration script that you can run from the context of your own application.</p>
