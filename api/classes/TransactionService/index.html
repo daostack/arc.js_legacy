@@ -3538,21 +3538,21 @@
 <h3 id="static-clearallsubscriptions">«Static» clearAllSubscriptions<a class="headerlink" href="#static-clearallsubscriptions" title="Permanent link">&para;</a></h3>
 <p>► <strong>clearAllSubscriptions</strong>(): <code>void</code></p>
 <p><em>Inherited from <a href="../PubSubEventService/">PubSubEventService</a>.<a href="../PubSubEventService/#clearAllSubscriptions">clearAllSubscriptions</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/695c2c29/lib/pubSubEventService.ts#L38">pubSubEventService.ts:38</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/50ac0351/lib/pubSubEventService.ts#L38">pubSubEventService.ts:38</a></em></p>
 <p>Remove all subscriptions</p>
 <p><strong>Returns:</strong> <code>void</code></p>
 <hr />
 <p><a id="generateInvocationKey"></a></p>
 <h3 id="static-generateinvocationkey">«Static» generateInvocationKey<a class="headerlink" href="#static-generateinvocationkey" title="Permanent link">&para;</a></h3>
 <p>► <strong>generateInvocationKey</strong>(): <code>number</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/695c2c29/lib/transactionService.ts#L22">transactionService.ts:22</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/50ac0351/lib/transactionService.ts#L22">transactionService.ts:22</a></em></p>
 <p>Generate a new invocation key.</p>
 <p><strong>Returns:</strong> <code>number</code></p>
 <hr />
 <p><a id="getConfirmedTransaction"></a></p>
 <h3 id="static-getconfirmedtransaction">«Static» getConfirmedTransaction<a class="headerlink" href="#static-getconfirmedtransaction" title="Permanent link">&para;</a></h3>
 <p>► <strong>getConfirmedTransaction</strong>(txHash: <em><a href="../../#Hash">Hash</a></em>, contract?: <em><code>string</code>⎮<code>any</code></em>, requiredDepth?: <em><code>number</code></em>): <code>Promise</code>.&lt;<code>TransactionReceipt</code>⎮<a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a>⎮<code>null</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/695c2c29/lib/transactionService.ts#L344">transactionService.ts:344</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/50ac0351/lib/transactionService.ts#L344">transactionService.ts:344</a></em></p>
 <p>Returns a promise of a TransactionReceipt for a confirmed transaction, or null if it hasn't yet been confirmed according to the requiredDepth.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3590,7 +3590,7 @@
 <p><a id="getDefaultDepth"></a></p>
 <h3 id="static-getdefaultdepth">«Static» getDefaultDepth<a class="headerlink" href="#static-getdefaultdepth" title="Permanent link">&para;</a></h3>
 <p>► <strong>getDefaultDepth</strong>(requiredDepth?: <em><code>number</code></em>): <code>Promise</code>.&lt;<code>number</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/695c2c29/lib/transactionService.ts#L522">transactionService.ts:522</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/50ac0351/lib/transactionService.ts#L522">transactionService.ts:522</a></em></p>
 <p>Returns the default value for required block depth defined for the current network in the Arc.js global configuration "<a href="../Configuration#txDepthRequiredForConfirmation">txDepthRequiredForConfirmation</a>".</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3614,7 +3614,7 @@
 <p><a id="getMinedTransaction"></a></p>
 <h3 id="static-getminedtransaction">«Static» getMinedTransaction<a class="headerlink" href="#static-getminedtransaction" title="Permanent link">&para;</a></h3>
 <p>► <strong>getMinedTransaction</strong>(txHash: <em><a href="../../#Hash">Hash</a></em>, contract?: <em><code>string</code>⎮<code>any</code></em>, requiredDepth?: <em><code>number</code></em>): <code>Promise</code>.&lt;<code>TransactionReceipt</code>⎮<a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a>⎮<code>null</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/695c2c29/lib/transactionService.ts#L313">transactionService.ts:313</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/50ac0351/lib/transactionService.ts#L313">transactionService.ts:313</a></em></p>
 <p>Returns a promise of a TransactionReceipt for a mined transaction, or null if it hasn't yet been mined.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3654,7 +3654,7 @@ or null if not found.</p>
 <p><a id="getTransactionDepth"></a></p>
 <h3 id="static-gettransactiondepth">«Static» getTransactionDepth<a class="headerlink" href="#static-gettransactiondepth" title="Permanent link">&para;</a></h3>
 <p>► <strong>getTransactionDepth</strong>(tx: <em><a href="../../#Hash">Hash</a>⎮<code>TransactionReceipt</code></em>): <code>Promise</code>.&lt;<code>number</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/695c2c29/lib/transactionService.ts#L281">transactionService.ts:281</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/50ac0351/lib/transactionService.ts#L281">transactionService.ts:281</a></em></p>
 <p>Returns a promise of the number of blocks that have been added to the chain since the given transaction appeared. Use this to decide whether a transaction is sufficiently secure (confirmed).</p>
 <p>See also <a href="../../../api/classes/TransactionService#getConfirmedTransaction">getConfirmedTransaction</a> and <a href="../../../api/classes/TransactionService#watchForConfirmedTransaction">watchForConfirmedTransaction</a>.</p>
 <p><strong>Parameters:</strong></p>
@@ -3680,7 +3680,7 @@ Promise of the depth or -1 if the transaction cannot be found</p>
 <p><a id="getValueFromLogs"></a></p>
 <h3 id="static-getvaluefromlogs">«Static» getValueFromLogs<a class="headerlink" href="#static-getvaluefromlogs" title="Permanent link">&para;</a></h3>
 <p>► <strong>getValueFromLogs</strong>(tx: <em><a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a>⎮<code>TransactionReceipt</code></em>, arg: <em><code>string</code></em>, eventName?: <em><code>string</code></em>, index?: <em><code>number</code></em>): <code>any</code>⎮<code>undefined</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/695c2c29/lib/transactionService.ts#L462">transactionService.ts:462</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/50ac0351/lib/transactionService.ts#L462">transactionService.ts:462</a></em></p>
 <p>Returns a value from the given transaction log. Undefined if not found for any reason.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3725,7 +3725,7 @@ Promise of the depth or -1 if the transaction cannot be found</p>
 <h3 id="static-istopicspecifiedby">«Static» isTopicSpecifiedBy<a class="headerlink" href="#static-istopicspecifiedby" title="Permanent link">&para;</a></h3>
 <p>► <strong>isTopicSpecifiedBy</strong>(matchTemplates: <em><code>Array</code>.&lt;<code>string</code>&gt;⎮<code>string</code></em>, topic: <em><code>string</code></em>): <code>boolean</code></p>
 <p><em>Inherited from <a href="../PubSubEventService/">PubSubEventService</a>.<a href="../PubSubEventService/#isTopicSpecifiedBy">isTopicSpecifiedBy</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/695c2c29/lib/pubSubEventService.ts#L91">pubSubEventService.ts:91</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/50ac0351/lib/pubSubEventService.ts#L91">pubSubEventService.ts:91</a></em></p>
 <p>Return whether topic is specified by matchTemplates.</p>
 <p>Examples:</p>
 <p>matchTemplates: ["foo"] topic: "foo.bar" result: true</p>
@@ -3760,7 +3760,7 @@ Promise of the depth or -1 if the transaction cannot be found</p>
 <h3 id="static-publish">«Static» publish<a class="headerlink" href="#static-publish" title="Permanent link">&para;</a></h3>
 <p>► <strong>publish</strong>(topic: <em><code>string</code></em>, payload: <em><code>any</code></em>): <code>boolean</code></p>
 <p><em>Inherited from <a href="../PubSubEventService/">PubSubEventService</a>.<a href="../PubSubEventService/#publish">publish</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/695c2c29/lib/pubSubEventService.ts#L18">pubSubEventService.ts:18</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/50ac0351/lib/pubSubEventService.ts#L18">pubSubEventService.ts:18</a></em></p>
 <p>Send the given payload to subscribers of the given topic.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3790,7 +3790,7 @@ True if there are any subscribers</p>
 <p><a id="publishTxFailed"></a></p>
 <h3 id="static-publishtxfailed">«Static» publishTxFailed<a class="headerlink" href="#static-publishtxfailed" title="Permanent link">&para;</a></h3>
 <p>► <strong>publishTxFailed</strong>(eventContext: <em><code>TxEventContext</code></em>, atStage: <em><a href="../../enums/TransactionStage/">TransactionStage</a></em>, error?: <em><code>Error</code></em>, tx?: <em><a href="../../#Hash">Hash</a></em>, txReceipt?: <em><a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a></em>): <code>void</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/695c2c29/lib/transactionService.ts#L120">transactionService.ts:120</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/50ac0351/lib/transactionService.ts#L120">transactionService.ts:120</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -3840,7 +3840,7 @@ True if there are any subscribers</p>
 <h3 id="static-subscribe">«Static» subscribe<a class="headerlink" href="#static-subscribe" title="Permanent link">&para;</a></h3>
 <p>► <strong>subscribe</strong>(topics: <em><code>string</code>⎮<code>Array</code>.&lt;<code>string</code>&gt;</em>, callback: <em><a href="../../#EventSubscriptionCallback">EventSubscriptionCallback</a></em>): <a href="../../interfaces/IEventSubscription/">IEventSubscription</a></p>
 <p><em>Inherited from <a href="../PubSubEventService/">PubSubEventService</a>.<a href="../PubSubEventService/#subscribe">subscribe</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/695c2c29/lib/pubSubEventService.ts#L29">pubSubEventService.ts:29</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/50ac0351/lib/pubSubEventService.ts#L29">pubSubEventService.ts:29</a></em></p>
 <p>Subscribe to the given topic or array of topics.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3871,7 +3871,7 @@ An interface with <code>.unsubscribe()</code>.  Be sure to call it!</p>
 <h3 id="static-unsubscribe">«Static» unsubscribe<a class="headerlink" href="#static-unsubscribe" title="Permanent link">&para;</a></h3>
 <p>► <strong>unsubscribe</strong>(key: <em><a href="../../#EventSubscriptionKey">EventSubscriptionKey</a></em>, milliseconds?: <em><code>number</code></em>): <code>Promise</code>.&lt;<code>void</code>&gt;</p>
 <p><em>Inherited from <a href="../PubSubEventService/">PubSubEventService</a>.<a href="../PubSubEventService/#unsubscribe">unsubscribe</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/695c2c29/lib/pubSubEventService.ts#L52">pubSubEventService.ts:52</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/50ac0351/lib/pubSubEventService.ts#L52">pubSubEventService.ts:52</a></em></p>
 <p>Unsubscribes after optional timeout. When passed a token, removes a specific subscription, when passed a callback, removes all subscriptions for that callback, when passed a topic, removes all subscriptions for the topic hierarchy.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3903,7 +3903,7 @@ An interface with <code>.unsubscribe()</code>.  Be sure to call it!</p>
 <p><a id="watchForConfirmedTransaction"></a></p>
 <h3 id="static-watchforconfirmedtransaction">«Static» watchForConfirmedTransaction<a class="headerlink" href="#static-watchforconfirmedtransaction" title="Permanent link">&para;</a></h3>
 <p>► <strong>watchForConfirmedTransaction</strong>(txHash: <em><a href="../../#Hash">Hash</a></em>, contract?: <em><code>string</code>⎮<code>any</code></em>, requiredDepth?: <em><code>number</code></em>): <code>Promise</code>.&lt;<code>TransactionReceipt</code>⎮<a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/695c2c29/lib/transactionService.ts#L254">transactionService.ts:254</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/50ac0351/lib/transactionService.ts#L254">transactionService.ts:254</a></em></p>
 <p>Returns a promise of a TransactionReceipt once the given transaction has been confirmed according to the optional <code>requiredDepth</code>.</p>
 <p>See also <a href="../../../api/classes/TransactionService#getConfirmedTransaction">getConfirmedTransaction</a> and <a href="../../../api/classes/TransactionService#getTransactionDepth">getTransactionDepth</a>.</p>
 <p><strong>Parameters:</strong></p>
@@ -3942,7 +3942,7 @@ An interface with <code>.unsubscribe()</code>.  Be sure to call it!</p>
 <p><a id="watchForMinedTransaction"></a></p>
 <h3 id="static-watchforminedtransaction">«Static» watchForMinedTransaction<a class="headerlink" href="#static-watchforminedtransaction" title="Permanent link">&para;</a></h3>
 <p>► <strong>watchForMinedTransaction</strong>(txHash: <em><a href="../../#Hash">Hash</a></em>, contract?: <em><code>string</code>⎮<code>any</code></em>, requiredDepth?: <em><code>number</code></em>): <code>Promise</code>.&lt;<code>TransactionReceipt</code>⎮<a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/695c2c29/lib/transactionService.ts#L188">transactionService.ts:188</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/50ac0351/lib/transactionService.ts#L188">transactionService.ts:188</a></em></p>
 <p>Returns a promise of a TransactionReceipt once the given transaction has been mined.</p>
 <p>See also <a href="../../../api/classes/TransactionService#getMinedTransaction">getMinedTransaction</a> and <a href="../../../api/classes/TransactionService#getTransactionDepth">getTransactionDepth</a>.</p>
 <p><strong>Parameters:</strong></p>

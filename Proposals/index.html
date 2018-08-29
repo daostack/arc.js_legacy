@@ -3471,7 +3471,7 @@
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
-4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">paramsHash</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">await</span> <span class="nx">upgradeSchemeWrapper</span><span class="p">.</span><span class="nx">setParameters</span><span class="p">({</span>
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">paramsHash</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">upgradeSchemeWrapper</span><span class="p">.</span><span class="nx">setParameters</span><span class="p">({</span>
   <span class="nx">voteParametersHash</span><span class="o">:</span> <span class="nx">aHash</span><span class="p">,</span>
   <span class="nx">votingMachineAddress</span><span class="o">:</span> <span class="nx">anAddress</span>
 <span class="p">});</span>
@@ -3482,7 +3482,7 @@
 <h2 id="get-a-universal-schemes-parameters">Get a Universal Scheme's Parameters<a class="headerlink" href="#get-a-universal-schemes-parameters" title="Permanent link">&para;</a></h2>
 <p>If you want to obtain a universal scheme's parameters as registered against a given DAO's controller, use <code>getSchemeParameters</code>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">schemeParameters</span> <span class="o">=</span> <span class="nx">upgradeSchemeWrapper</span><span class="p">.</span><span class="nx">getSchemeParameters</span><span class="p">(</span><span class="nx">avatarAddress</span><span class="p">);</span>
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">schemeParameters</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">upgradeSchemeWrapper</span><span class="p">.</span><span class="nx">getSchemeParameters</span><span class="p">(</span><span class="nx">avatarAddress</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">votingMachineAddress</span> <span class="o">=</span> <span class="nx">schemeParameters</span><span class="p">.</span><span class="nx">votingMachineAddress</span><span class="p">;</span>
 </pre></div>
 </td></tr></table>

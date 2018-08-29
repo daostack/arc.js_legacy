@@ -3469,11 +3469,11 @@
 2
 3
 4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>const txResult = await someWrapper.aTxGeneratingFunction();
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">txResult</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">someWrapper</span><span class="p">.</span><span class="nx">aTxGeneratingFunction</span><span class="p">();</span>
 
-const minedTransactionReceipt = await txResult.watchForTxMined();
+<span class="kr">const</span> <span class="nx">minedTransactionReceipt</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">txResult</span><span class="p">.</span><span class="nx">watchForTxMined</span><span class="p">();</span>
 
-const avatarAddress = TransactionService.getValueFromLogs(minedTransactionReceipt, &quot;_avatar&quot;, &quot;eventName&quot;);
+<span class="kr">const</span> <span class="nx">avatarAddress</span> <span class="o">=</span> <span class="nx">TransactionService</span><span class="p">.</span><span class="nx">getValueFromLogs</span><span class="p">(</span><span class="nx">minedTransactionReceipt</span><span class="p">,</span> <span class="s2">&quot;_avatar&quot;</span><span class="p">,</span> <span class="s2">&quot;eventName&quot;</span><span class="p">);</span>
 </pre></div>
 </td></tr></table>
                 
