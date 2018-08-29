@@ -3351,7 +3351,7 @@
 <li>The callback to <code>get</code> is invoked once for the entire array of fired events, always returning an array.  The callback to <code>watch</code> is invoked once for each value, always returning the event.</li>
 <li>The <code>get</code> method directly returns a promise of an array containing every event fetched, bypassing the need for a callback.</li>
 <li>Optionally you can use <code>subscribe</code> instead of <code>watch</code> to use the Pub/Sub event mechanism as an alternate means of watching events as they fire. See <a href="#pubsubweb3">Pub/Sub Web3 Events</a>.</li>
-<li>You need not worry about duplicate events, Arc.js eliminates them.  (Duplicate events can occur while the chain is still in the process of reorganizing, a feature that can be suppressed if desired).</li>
+<li>You need not worry about duplicate events, Arc.js eliminates them.  (Duplicate events can occur while the chain is still in the process of reorganizing). This feature can be suppressed if desired when you create an <code>EventFetcher</code> (see <a href="../api/interfaces/EventFetcherFilterObject">EventFetcherFilterObject</a>).</li>
 </ul>
 <p>The enhanced event functionality is provided by <a href="../api/classes/Web3EventService#createEventFetcherFactory">Web3EventService.createEventFetcherFactory(...)</a> which returns an <a href="../api/README/#eventfetcherfactory">EventFetcherFactory</a> function which returns an <a href="../api/interfaces/eventfetcher">EventFetcher</a> which gives you the <code>get</code>, <code>watch</code> and <code>subscribe</code> methods.</p>
 <p>Here is an example of the above flow, resulting in calling <code>get</code> without a callback to get all <code>ChangeUpgradeSchemeProposal</code> events pertaining to a given DAO:</p>
