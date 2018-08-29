@@ -3414,6 +3414,8 @@ The level of logging.  Default is 9 (<code>LogLevel.error | LogLevel.info</code>
 
 <p><strong>gasPriceAdjustor</strong>
 Use this setting to supply Arc.js with the gas price for transactions. See <a href="#gasprice">Setting the Gas Price</a>.</p>
+<p><strong>globalGenTokenAddresses</strong>
+Specifies the address of the GEN token on each network.  "globalGenTokenAddresses.ganache" for Ganache, "globalGenTokenAddresses.default" for all other networks.</p>
 <p><strong>network</strong>
 Name of the blockchain network used during Arc contract migration.  Other information like url and port come from Arc.js's truffle.js file.  Default is "ganache".</p>
 <p><strong>providerPort</strong>
@@ -3570,8 +3572,8 @@ The default required depth, in terms of the number of blocks that have been adde
 <p>And you may similarly disable it at any time.</p>
 <p><a name="gasprice"></a></p>
 <h3 id="setting-the-gas-price">Setting the Gas Price<a class="headerlink" href="#setting-the-gas-price" title="Permanent link">&para;</a></h3>
-<p>Arc.js enables you to set the gas price on transactions. At any time, set the value of this gasPriceAdjustor to a function with the signature <a href="../api/README/#gaspriceadjustor">GasPriceAdjustor</a>.  This function takes as an argument the current default gas price which will be determined by the <code>x</code> latest blocks median gas price, where <code>x</code> is determined by the node you are using.</p>
-<p>This is disabled by default.</p>
+<p>Arc.js enables you to set the gas price on transactions. At any time, set the value of this gasPriceAdjustor to a function with the signature <a href="../api/README/#gaspriceadjustor">GasPriceAdjustor</a>.  This function takes as an argument a value for price that is computed as the median gas price across the <code>x</code> latest blocks, where <code>x</code> is determined by the node you are using.</p>
+<p>This feature is disabled by default.</p>
                 
                   
                 
