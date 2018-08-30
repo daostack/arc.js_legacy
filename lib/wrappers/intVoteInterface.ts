@@ -328,7 +328,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
 
     const voteTotals = new Array<BigNumber>(numChoices);
 
-    for (let choice = 0; choice < numChoices; ++choice) {
+    for (let choice = 0; choice <= numChoices; ++choice) {
       const voteTotal = await this.voteStatus(
         { vote: choice, proposalId });
       voteTotals[choice] = voteTotal;
