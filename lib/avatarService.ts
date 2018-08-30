@@ -11,7 +11,9 @@ import { ReputationFactory, ReputationWrapper } from "./wrappers/reputation";
  * Methods for querying information about an Avatar.
  * Use it by:
  *
- * let avatarService = new AvatarService(avatarAddress);
+ * ```javascript
+ * const avatarService = new AvatarService(avatarAddress);
+ * ```
  *
  */
 export class AvatarService {

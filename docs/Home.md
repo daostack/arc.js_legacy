@@ -26,57 +26,70 @@ You can find a [detailed reference for the entire Arc.js API here](/api/README.m
 
 The following sections describe the basic steps for setting up Arc.js in your application. These steps basically involve:
 
-1. running a blockchain node.  We will use the ganache testnet as an example.
-2. deploying the Arc contracts to the net
+1. optionally running a blockchain node.  We will use the Ganache testnet as an example.
+2. optionally migrating the Arc contracts to the testnet, necessary for Ganache but not for Kovan or MainNet.
 3. using the Arc.js code in your application
 
-!!! note
-    All of the script examples assume you are running the scripts in the root folder of your application.  If you happen to be running the scripts in the context of a cloned Arc.js repository, omit the prefix `npm explore @daostack/arc.js -- `. See [Working with Arc Contracts](#work-with-arc-contracts).
+We'll continue by assuming you want to run your application against Ganache.
 
-## Set up a Testnet with Arc Contracts
+<a name="migratetoganache"></a>
+## Set up Ganache with Arc Contracts
 
-Arc.js runs against an Ethereum network where it assumes that the Arc contracts have been migrated.  Out of the box, Arc.js can find contracts migrated to the mainnet and to kovan. But for any other testnet, or to redeploy, you will need to tell it to migrate the Arc contracts to a testnet of your choice.  You can do this by running a few Arc.js scripts from the context of your application.
+Arc.js runs against an Ethereum network where it assumes that the Arc contracts have been migrated.  Out of the box, Arc.js gives you the Arc contracts already-migrated to the MainNet and to Kovan, so your web application may use MetaMask to connect to these networks and Arc.js will automatically find the migrated contracts. For any other testnet, particularly Ganache, or to re-migrate for any reason, you will need to fire up your testnet and tell Arc.js to migrate the Arc contracts to it.  Arc.js provides a migration script that you can run from the context of your own application.
 
-To deploy contracts to a Ganache testnet, run the following scripts:
+!!! note "Please Review First"
+    Please review [Running Arc.js Scripts](Scripts) before proceeding.
 
-In a separate shell window:
+To deploy contracts to a Ganache testnet, in a separate shell window start up Ganache:
+
 ```script
-npm explore @daostack/arc.js -- npm start ganache
+npm explore @daostack/arc.js -- npm start Ganache
 ```
 
-Now migrate the Arc contracts to Ganache:
+And migrate the Arc contracts to Ganache:
 
 ```script
 npm explore @daostack/arc.js -- npm start migrateContracts
 ```
 
-Now when your app uses Arc.js, it will be running against Ganache and the contracts you just migrated.
+Now when your app uses Arc.js, it will by default be running against Ganache and the Arc contracts you just migrated.  Since Ganache is running, you don't need MetaMask, though you could point MetaMask to this Ganache instance if you wanted.
 
-!!! note
-    See [Work with Arc Contracts](#work-with-arc-contracts) and [Deploy to Other Testnets](#deploy-to-other-testnets).
+!!! info "Related Information"
+    Find related information at [Migrations](Migration), [Network Configuration](Configuration#networksettings) and [Running against a Ganache Db](GanacheDb).
+
+!!! tip "Wrong Nonce?"
+    Arc.js always starts Ganache with the same network id and set of accounts, and with a fake GEN token.  If you ever find MetaMask complaining about the nonce when generating a transaction, take the following steps:
+
+    1. In the MetaMask home window, click the properties icon in the upper right.
+    2. Select "Settings" in the dropdown menu
+    3. Scroll to the bottom and select "Reset Account"
 
 ## Use the Arc.js Library in your Code
 
-### Typescript
-Arc.js itself is written using Typescript. The Arc.js library includes Typescript type definitions defined in an index.d.ts.
-
-### JavaScript
-The javascript included in the Arc.js library is ES6 in a commonjs module format.
+### Language
+Arc.js itself is written using Typescript. The Arc.js library includes Typescript type definitions defined in index.d.ts.  The javascript included in the Arc.js library is ES6 in a commonjs module format.  Your application may thus be written in any language that knows how to work with JavaScript coming from an NPM module in ES6 commonjs module format.
 
 ### Import Arc.js
 
-Import everything from ArcJs as follows:
+In your code, import everything from Arc.js as follows:
 
 ```javascript
 import * as ArcJs from '@daostack/arc.js';
 ```
+
+Or import specific bits like this:
+
+```javascript
+import { WrapperService } from '@daostack/arc.js';
+```
+
 ### Configure Arc.js
 
-Refer here for [complete documentation on Arc.js configuration settings](Configuration.md).
+You may optionally reconfigure certain default aspects of Arc.js functionality. For more information, refer to [Configuring Arc.js](Configuration).
 
-### Initialize Arc.js at Runtime
+### Initialize Arc.js
 
-Your application must invoke `InitializeArcJs` once at runtime before doing anything else.
+To take advantage of the full functionality of Arc.js, your application must invoke [InitializeArcJs](/api/README/#initializearcjs) once at runtime.
 
 ```javascript
 import { InitializeArcJs } from "@daostack/arc.js";
@@ -84,80 +97,41 @@ import { InitializeArcJs } from "@daostack/arc.js";
 await InitializeArcJs();
 ```
 
-#### Minimize contract loading
+!!! note "Options"
+    `InitializeArcJs` takes [optional arguments](/api/interfaces/InitializeArcOptions/) allowing you to configure certain aspects of Arc.js, including [optimized contract loading](Configuration#optimizedcontractloading), [network settings](Configuration#networksettings) and [Account Changes](Configuration#accountchanges).
 
-By default, `InitializeArcJs` will load all of the wrapped Arc contracts as deployed by the running version of Arc.js.  As this operation can be time-consuming, you may want to tell `InitializeArcJs` to only load the contracts that you expect to use.  The following is enough to create a new DAO with no schemes:
+### Work with Arc Contracts
+Now that you've got Arc.js plugged into your application and contracts migrated to a running testnet, you are ready to start coding against DAOs and Arc contracts.
 
-```javascript
-await InitializeArcJs({
-    filter: {
-      "AbsoluteVote": true,
-      "DaoCreator": true,
-    }
-  });
-```
-   
-If you want to add schemes to your DAO, you would include each scheme in the filter:
+You may start by creating or referencing one or more DAOs.  Arc.js provides a class called [DAO](api/classes/DAO) that facilitates creating and working with DAOs.  For more information, refer to [Working With DAOs](Daos).
 
-```javascript
-await InitializeArcJs({
-    filter: {
-      "AbsoluteVote": true,
-      "DaoCreator": true,
-      "SchemeRegistrar": true,
-    }
-  });
-```
+Once you have a DAO or set of DAOs, you can work with proposals, schemes and other entities such as events, global constraints and voting machines using the  contract "wrapper" classes provided by Arc.js.  For more information, refer to [Arc Contract Wrappers](Wrappers).
 
-If you are not creating DAOs and only want to use some schemes, then reference the schemes as well as whichever voting machine(s) the schemes are using:
+### Work with Events
 
-```javascript
-await InitializeArcJs({
-    filter: {
-      "GenesisProtocol": true,
-      "ContributionReward": true,
-    }
-  });
-```
+A significant aspect of working with Arc contracts, and the Ethereum blockchain in general, involves working with the events that they emit.  Arc.js provides plenty of support for working with events. For more information, refer to [Working with Events](Events).
 
-#### Use default network settings
+## Logging
 
-You can use the Arc.js [ConfigService](Configuration) to set the provider host and port that web3 uses to connect your applicaton to the net when not using MetaMask.  You can also tell `InitializeArcJs` to just use default Arc.js settings for mainnet (live), kovan, ropsten and ganache.  Here is an example of telling Arc.js to use its default settings for Kovan:
+Arc.js can emit console messages that can be helpful in understanding what is going on under the hood.  There are various or-able "LogLevels".  The default is to emit "info" and "error" information.  For more information, see the [LoggingService](/api/classes/LoggingService).
 
-```javascript
-await InitializeArcJs({
-  "useNetworkDefaultsFor": "kovan"
-  });
-```
+!!! tip "Custom Loggers"
+    You can plugin custom loggers to send output elsewhere besides the javascript console.
 
-!!! info
-    For safety, by default Arc.js specifies a different HTTP port for each network.  You will need to make sure that the testnet your application is using is listening on that port.  The port values are:
+## Service Classes
 
-    <table style="margin-left:2.5rem">
-    <tr style="text-align:left"><th>Network</th><th>Port</th></tr>
-    <tr><td>Ganache</td><td>8545</td></tr>
-    <tr><td>Kovan</td><td>8547</td></tr>
-    <tr><td>Ropsten</td><td>8548</td></tr>
-    <tr><td>Live (Mainnet)</td><td>8546</td></tr>
-    </table>
+Arc.js provides a variety of helpful "service" classes, including:
 
-### Working with Arc Contracts
-Now that you've got Arc.js plugged into your application, configured, and contracts migrated to a running testnet, you are ready to start coding against DAOs and other Arc entities.
 
-You will likely start by creating or referencing one or more DAOs.  Arc.js provides a class called [DAO](api/classes/DAO) that facilitates creating and working with DAOs.  Refer here for [all about the DAO class](Daos).
-
-Once you have a DAO or set of DAOs, you can start working with them, most often using schemes to work with proposals. Arc.js facilitates working with proposals, schemes and other entities such as events, global constraints and voting machines by providing contract "wrapper" classes.  Refer here for [all about Arc.js contract wrapper classes](Wrappers).
-
-### Working with Events
-
-Arc.js supports events of various types that you can handle, including events from Arc contracts and events that enable you to track transaction as they occur.  Refer here for [all about events in Arc.js](Events).
-
-### Other Service Classes
-
-Arc.js provides a few "service" classes that can be helpful, including:
-
-- [ConfigService](api/classes/ConfigService) - for working with Arc.js configuration settings. [Read more here](Configuration.md).
-- [LoggingService](api/classes/LoggingService) - for logging.  See also the [`logLevel` configuration setting](Configuration.md).
-- [AvatarService](api/classes/AvatarService) - handy functions for getting information about an avatar (DAO).
-- [AccountService](api/classes/AccountService) - for working with accounts, such as being notified when the default account changes (see [Account Changes](Events#accountchanges))
-- [Utils](api/classes/Utils) - miscellaneous API for working with web3, truffle contracts and transactions.
+Service | Description
+---------|----------
+ [AccountService](api/classes/AccountService) | for working with accounts, such as being notified when the default account changes (see [Account Changes](Configuration/#accountchanges))
+[AvatarService](api/classes/AvatarService) | handy functions for getting information about an avatar (DAO)
+[ConfigService](api/classes/ConfigService) | for working with Arc.js configuration settings. [Read more here](Configuration)
+[ControllerService](api/classes/ControllerService) | handy functions for getting information about an avatar's controller.
+[LoggingService](api/classes/LoggingService) | for logging.  See also the [`logLevel` configuration setting](Configuration#logging)
+[ProposalService](api/classes/ProposalService) | helper functions relating to proposals. [Read more here](Proposals/#proposals)
+[PubSubEventService](api/classes/PubSubEventService) | helper functions relating to PubSub Events. [Read more here](Events/#pubsub-events)
+[TransactionService](api/classes/TransactionService) | helper functions relating to transactions. [Read more here](Transactions)
+[Utils](api/classes/Utils) | miscellaneous helper function for working with Arc.js, Truffle contracts and Web3.
+[Web3EventService](api/classes/Web3EventService) | helper functions relating to Web3 events. [Read more here](Events/#web3-events)

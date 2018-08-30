@@ -29,7 +29,7 @@ extra:
 
 pages:
 - 'Overview': Home.md
-- 'Configuration': 'Configuration.md'
+- 'Configuration and Special Features': 'Configuration.md'
 - 'DAOs': 'Daos.md'
 - 'Contract Wrappers': 'Wrappers.md'
 - 'Schemes, Proposals and Voting Machines': 'Proposals.md'

@@ -266,7 +266,7 @@ describe("DAO", () => {
 
     // check if the two orgs are indeed the same
     assert.equal(org1.avatar.address, org2.avatar.address);
-    assert.equal(await org1.getName(), await org2.getName());
+    assert.equal(org1.name, org2.name);
     assert.equal(await org1.getTokenName(), await org2.getTokenName());
     const schemeRegistrar1 = await helpers.getDaoScheme(org1, "SchemeRegistrar", SchemeRegistrarFactory);
     const schemeRegistrar2 = await helpers.getDaoScheme(org2, "SchemeRegistrar", SchemeRegistrarFactory);

@@ -9,7 +9,7 @@ import { UtilsInternal } from "./utilsInternal";
  * Support for working with events that originate from Arc contracts
  * and are served up by Web3.
  *
- * See [Arc Web3 Events in Arc.js](/Events#web3events).
+ * For more information, see [Web3 Events](/Events#web3events).
  */
 export class Web3EventService {
   /**
@@ -21,7 +21,7 @@ export class Web3EventService {
    * may alternatively obtain the promise of a `Array<TEventArgs>` from the return value
    * of `get`.
    *
-   * See [Arc Web3 Events in Arc.js](/Events#web3events).
+   * For more information, see [Web3 Events](/Events#web3events).
    *
    * @param baseEvent - the event from the Truffle contract.
    * @param preProcessEvent - optionally supply this to modify the err and log arguments before they are
@@ -81,7 +81,7 @@ export class Web3EventService {
           return new Promise<Array<DecodedLogEntryEvent<TEventArgs>>>(
             (resolve: (
               result: Array<DecodedLogEntryEvent<TEventArgs>>) => void,
-             reject: (error: Error) => void): void => {
+              reject: (error: Error) => void): void => {
 
               baseFetcher.get(
                 async (
@@ -184,9 +184,9 @@ export class Web3EventService {
       // handler that takes the events and issues givenCallback appropriately
       const handleEvent =
         (error: Error,
-         log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>,
+          log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>,
           // singly true to issue callback on every arg rather than on the array
-         singly: boolean,
+          singly: boolean,
           /*
            * invoke this callback on every event (watch)
            * or on the array of events (get), depending on the value of singly.
@@ -195,7 +195,7 @@ export class Web3EventService {
            * when not singly, callback gets a promise of the array of entities.
            * get is not singly.  so get gets a promise of an array.
            */
-         callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
+          callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
           Promise<Array<TEntity>> => {
 
           const promiseOfEntities: Promise<Array<TEntity>> =
@@ -564,11 +564,11 @@ export interface Web3EventFetcher {
 
 /**
  * Haven't figured out how to export EventFetcherFilterObject that extends FilterObject from web3.
- * Maybe will be easier with web3 v1.0, perhaps using typescript's module augmentation feature.
+ * Maybe will be easier with web3 v1.0, or perhaps using typescript's module augmentation feature.
  */
 
 /**
- * Options supplied to `EventFetcherFactory` and thence to `get and `watch`.
+ * Options supplied to `EventFetcherFactory` and thence to `get` and `watch`.
  */
 export interface EventFetcherFilterObject {
   fromBlock?: number | string;

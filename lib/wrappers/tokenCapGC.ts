@@ -5,6 +5,7 @@ import { ArcTransactionDataResult, IContractWrapperFactory } from "../iContractW
 
 import BigNumber from "bignumber.js";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
+import { ControllerService } from "../controllerService";
 import { TxGeneratingFunctionOptions } from "../transactionService";
 import { Web3EventService } from "../web3EventService";
 
@@ -47,7 +48,8 @@ export class TokenCapGCWrapper extends ContractWrapperBase {
   }
 
   public async getSchemeParametersHash(avatarAddress: Address): Promise<Hash> {
-    const controller = await this.getController(avatarAddress);
+    const controllerService = new ControllerService(avatarAddress);
+    const controller = await controllerService.getController();
     return controller.getGlobalConstraintParameters(this.address, avatarAddress);
   }
 

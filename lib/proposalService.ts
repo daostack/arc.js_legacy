@@ -21,6 +21,8 @@ import {
  * When constructing a ProposalService we pass to the constructor a `ProposalMaker<TProposal, TEventArgs>`
  * that provides functions enabling ProposalService to do its job with respect to the given TProposal.
  * Note it is not scoped to a particular Avatar.
+ *
+ * For more information, see [Proposals](Proposals#proposals).
  */
 export class ProposalService {
 

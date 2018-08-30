@@ -5,7 +5,7 @@ import { UtilsInternal } from "./utilsInternal";
 
 /**
  * A Pub/Sub event system that enables you to subscribe to various events published by Arc.js.
- * See [Events](/Events).
+ * For more information, see [Pub/Sub Events](Events#pubsubevents).
  */
 export class PubSubEventService {
 
