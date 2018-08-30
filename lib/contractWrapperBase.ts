@@ -8,7 +8,7 @@ import {
   ArcTransactionDataResult,
   ArcTransactionResult,
   GasPriceAdjustor,
-  IContractWrapperBase,
+  IContractWrapper,
   IContractWrapperFactory,
   StandardSchemeParams
 } from "./iContractWrapperBase";
@@ -21,8 +21,9 @@ import {
 } from "./transactionService";
 import { Utils } from "./utils";
 import { EventFetcherFactory, Web3EventService } from "./web3EventService";
+
 /**
- * Abstract base class for all Arc contract wrapper classes
+ * Abstract base class for all Arc contract wrapper classes.
  *
  * Example of how to define a wrapper:
  *
@@ -40,7 +41,7 @@ import { EventFetcherFactory, Web3EventService } from "./web3EventService";
  *  new Web3EventService());
  * ```
  */
-export abstract class ContractWrapperBase implements IContractWrapperBase {
+export abstract class ContractWrapperBase implements IContractWrapper {
 
   /**
    * The wrapper factor class providing static methods `at(someAddress)`, `new()` and `deployed()`.
@@ -77,7 +78,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
    * This will migrate a new instance of the contract to the net.
    * @returns this
    */
-  public async hydrateFromNew(...rest: Array<any>): Promise<IContractWrapperBase> {
+  public async hydrateFromNew(...rest: Array<any>): Promise<IContractWrapper> {
     try {
       // Note that because we are using `.then`, we are returning a true promise
       // rather than the incomplete one returned by truffle.
@@ -96,7 +97,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
    * @param address of the deployed contract
    * @returns this or undefined if not found
    */
-  public async hydrateFromAt(address: string): Promise<IContractWrapperBase> {
+  public async hydrateFromAt(address: string): Promise<IContractWrapper> {
     try {
       // Note that because we are using `.then`, we are returning a true promise
       // rather than the incomplete one returned by truffle.
@@ -114,7 +115,7 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
    * Initialize as it was migrated by Arc.js on the current network.
    * @returns this or undefined if not found
    */
-  public async hydrateFromDeployed(): Promise<IContractWrapperBase> {
+  public async hydrateFromDeployed(): Promise<IContractWrapper> {
     try {
       // Note that because we are using `.then`, we are returning a true promise
       // rather than the incomplete one returned by truffle.
@@ -129,31 +130,11 @@ export abstract class ContractWrapperBase implements IContractWrapperBase {
   }
 
   /**
-   * Call setParameters on this.contract.
-   * Returns promise of ArcTransactionDataResult<Hash> where Result is the parameters hash.
-   *
-   * @param {any} params -- parameters as the contract.setParameters function expects them.
-   */
-  public setParameters(...params: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
-    throw new Error("setParameters has not been not implemented by the contract wrapper");
-  }
-
-  /**
    * Given a hash, returns the associated parameters as an object.
    * @param paramsHash
    */
   public getParameters(paramsHash: Hash): Promise<any> {
     throw new Error("getParameters has not been not implemented by the contract wrapper");
-  }
-
-  /**
-   * Given an object containing the contract's parameters, return the hash
-   * that would be used to represent them in Arc.  Note this doesn't indicate
-   * whether the parameters have been registered with the contract.
-   * @param params
-   */
-  public getParametersHash(params: any): Promise<Hash> {
-    throw new Error("getParametersHash has not been not implemented by the contract wrapper");
   }
 
   /**

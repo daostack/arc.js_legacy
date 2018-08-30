@@ -7,7 +7,8 @@ import {
   ArcTransactionProposalResult,
   ArcTransactionResult,
   DecodedLogEntryEvent,
-  IContractWrapperFactory
+  IContractWrapperFactory,
+  IVotingMachineWrapper
 } from "../iContractWrapperBase";
 import { ProposalService, VotableProposal } from "../proposalService";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
@@ -24,7 +25,8 @@ import {
 import { BigNumber } from "bignumber.js";
 import { IntVoteInterfaceWrapper } from "./intVoteInterface";
 
-export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper {
+export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper
+  implements IVotingMachineWrapper {
 
   public name: string = "AbsoluteVote";
   public friendlyName: string = "Absolute Vote";

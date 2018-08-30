@@ -6,7 +6,7 @@ import {
   ArcTransactionProposalResult,
   DecodedLogEntryEvent,
   IContractWrapperFactory,
-  SchemeWrapper,
+  IUniversalSchemeWrapper,
   StandardSchemeParams,
 } from "../iContractWrapperBase";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";
@@ -18,7 +18,7 @@ import {
   SchemeProposalExecutedEventResult
 } from "./commonEventInterfaces";
 
-export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase implements SchemeWrapper {
+export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase implements IUniversalSchemeWrapper {
 
   public name: string = "GlobalConstraintRegistrar";
   public friendlyName: string = "Global Constraint Registrar";

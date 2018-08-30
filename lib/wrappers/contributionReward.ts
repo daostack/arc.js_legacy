@@ -16,7 +16,7 @@ import {
   ArcTransactionResult,
   DecodedLogEntryEvent,
   IContractWrapperFactory,
-  SchemeWrapper,
+  IUniversalSchemeWrapper,
   StandardSchemeParams,
 } from "../iContractWrapperBase";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";
@@ -29,7 +29,7 @@ import {
   SchemeProposalExecutedEventResult
 } from "./commonEventInterfaces";
 
-export class ContributionRewardWrapper extends ProposalGeneratorBase implements SchemeWrapper {
+export class ContributionRewardWrapper extends ProposalGeneratorBase implements IUniversalSchemeWrapper {
 
   public name: string = "ContributionReward";
   public friendlyName: string = "Contribution Reward";
