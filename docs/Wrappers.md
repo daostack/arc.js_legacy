@@ -64,8 +64,8 @@ Export | WrapperService property | Description
 ---------|----------|---------
  ContractWrappers | WrapperService.wrappers | Properties are contract names, values are the corresponding contract wrapper
  ContractWrapperFactories | WrapperService.factories | Properties are contract names, values are the corresponding contract wrapper factory
- ContractWrappersByType | WrapperService.wrappersByType | Properties are a contract category name (see [Contract Types](#contracttypes)), values are an array of `IContractWrapperBase`
- ContractWrappersByAddress | WrapperService.wrappersByAddress | a `Map` where the key is an address and the associated value is a `IContractWrapperBase` for a contract as deployed by the currently-running version of Arc.js.
+ ContractWrappersByType | WrapperService.wrappersByType | Properties are a contract category name (see [Contract Types](#contracttypes)), values are an array of `IContractWrapper`
+ ContractWrappersByAddress | WrapperService.wrappersByAddress | a `Map` where the key is an address and the associated value is a `IContractWrapper` for a contract as deployed by the currently-running version of Arc.js.
 
 The following sections describe how to obtain wrapper classes in several use cases:
 
@@ -137,17 +137,16 @@ for (var wrapper in ContractWrappers) {
 <a name="wrappersByContractType"></a>
 ## Enumerate wrappers by contract type
 
-You can enumerate the wrappers by contract category, for example, schemes:
+You can enumerate the wrappers by contract category, for example, universalSchemes:
 
 ```javascript
 import { ContractWrappersByType } from "@daostack/arc.js";
-for (var schemeWrapper of ContractWrappersByType.schemes) {
+for (var schemeWrapper of ContractWrappersByType.universalSchemes) {
   console.log(`${schemeWrapper.friendlyName} is at ${schemeWrapper.address}`);
 }
 ```
 
-!!! tip
-    `ContractWrappersByType.allWrappers` is an array of all of wrappers.
+The set of contract categories is defined in [ArcWrappersByType](/api/interfaces/ArcWrappersByType).
 
 ## Can't Find What You Need?
 

@@ -97,9 +97,83 @@ const newDao = await DAO.new({
 });
 ```
 
+!!! note
+    It doesn't matter whether or not the scheme contracts have wrappers in Arc.js. See also [Creating a new DAO with a non-Arc scheme](#nonarcschemes) and [Creating a new DAO with non-universal schemes](#nonuniversalschemes)
+
 Put the last two examples together and you have a DAO with founders and schemes and can start to realize the potential of a DAO in the DAOstack ecosystem.
 
 What if we want to configure how voting will proceed when someone submits a proposal?
+
+<a name="nonuniversalschemes"></a>
+### Creating a new DAO with non-universal schemes
+
+You can register to a new DAO Arc schemes that are not universal.  The scheme may have a wrapper in Arc.js or not, if doesn't matter, but realize that, being non-universal, the contract will not have been deployed by Arc.js -- you will have to have deployed an instance of the contract yourself.
+
+To register a non-universal scheme, you should:
+
+1. include the Arc scheme contract name
+2. supply the address of the scheme
+
+For example, for the non-universal Arc scheme `Auction4Reputation`:
+
+```javascript
+const newDao = await DAO.new({
+  name: "My New DAO",
+  tokenName: "My new Token",
+  tokenSymbol: "MNT",
+  schemes: [
+    { name: "Auction4Reputation", address: theContractAddress  },
+  ]
+});
+```
+
+!!! tip "Deploying the contract yourself"
+    If the non-universal contract has a wrapper factory in Arc.js, you can use the factory's `.new` method to deploy an instance of the contract.  Otherwise you must use `.new` on the Truffle contract method that you can obtain from Arc.js [Utils.requireContract](/api/classes/Utils/#static-requirecontract).
+
+<a name="nonarcschemes"></a>
+### Creating a new DAO with non-Arc schemes
+
+You can register non-Arc schemes to a new DAO.  To do this you should:
+
+1. omit the scheme contract name
+2. supply the address of the scheme
+3. if it is a universal scheme, supply the hash of the scheme parameters
+
+For example, for a universal non-Arc scheme:
+
+```javascript
+const newDao = await DAO.new({
+  name: "My New DAO",
+  tokenName: "My new Token",
+  tokenSymbol: "MNT",
+  schemes: [
+    { address: theContractAddress, parametersHash: paramsHash },
+  ]
+});
+```
+
+!!! note "What defines a universal scheme?"
+    A scheme contract is judged to be universal if it supports the method `updateParameters`.
+
+!!! tip "Hashing the parameters"
+    You should hash your scheme parameters however the non-Arc scheme does.  Arc schemes use `keccak256`.  If the non-Arc scheme uses the same method, you can use [Utils.keccak256](/api/classes/Utils/#static-keccak256). You should sequence the given types and values in the same order that they would appear when hashed by the universal non-Arc contract itself.
+
+### Creating a new DAO with a non-Universal Controller
+
+As mentioned above, there are two types of DAO controller: universal and non-universal.  The default is universal.  You can create a DAO using the DAOstack `Controller` contract by passing `false` for `universalController`:
+
+```javascript
+const newDao = await DAO.new({
+  name: "My New DAO",
+  tokenName: "My new Token",
+  tokenSymbol: "MNT",
+  universalController: false
+});
+```
+
+!!! info
+    For more information about choosing between universal and non-universal controllers, see [this article](https://daostack.github.io/arc/contracts/controller/UController/).
+
 
 ### Creating a new DAO overriding the default voting machine
 
@@ -172,22 +246,6 @@ const newDao = await DAO.new({
 <a name="gpExplanation"></a>
 !!! note "Important"
     If you want to use [GenesisProtocol](api/classes/GenesisProtocolWrapper) on _any_ scheme, you must also add it as a scheme in its own right on the DAO itself.  When you supply the GenesisProtocol parameters, you must do so on the GenesisProtocol scheme itself -- unlike with AbsoluteVote and QuorumVote, any GenesisProtocol params sent directly to the scheme that uses it are ignored.
-
-### Creating a new DAO with a non-Universal Controller
-
-As mentioned above, there are two types of DAO controller: universal and non-universal.  The default is universal.  You can create a DAO using the DAOstack `Controller` contract by passing `false` for `universalController`:
-
-```javascript
-const newDao = await DAO.new({
-  name: "My New DAO",
-  tokenName: "My new Token",
-  tokenSymbol: "MNT",
-  universalController: false
-});
-```
-
-!!! info
-    For more information about choosing between universal and non-universal controllers, see [this article](https://daostack.github.io/arc/contracts/controller/UController/).
 
 ### Creating a new DAO using a custom DaoCreator scheme
 
