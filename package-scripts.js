@@ -208,8 +208,8 @@ module.exports = {
           "nps docs.api.build",
           "nps docs.website.build",
         ),
-        andPreview: series("nps docs.build", "nps docs.website.preview"),
-        andPublish: series("nps docs.build", "nps docs.website.publish")
+        andPreview: series("nps docs.website.preview"),
+        andPublish: series("nps docs.website.publish")
       },
       clean: series(
         rimraf(joinPath(".", "docs", "api")),
