@@ -322,7 +322,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
     let numChoices = await this.getNumberOfChoices({ proposalId });
     const abstainAllowed = await this.isAbstainAllow();
     // when abstaining is not allowed, numChoices doesn't include it, but we always return it here, even if always zero
-    if (!abstainAllowed) {
+    if (abstainAllowed) {
       ++numChoices;
     }
 
