@@ -65,7 +65,7 @@ for (var wrapper in ContractWrappers) {
 
 Arc contracts and associated Arc.js contract wrapper classes can be categorized as follows:
 
-**Schemes**
+**Universal Schemes**
 
 * ContributionReward
 * GenesisProtocol

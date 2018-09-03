@@ -1,6 +1,6 @@
 import { assert } from "chai";
 import {
-  IContractWrapperBase
+  IContractWrapper
 } from "../lib/iContractWrapperBase";
 import { LoggingService, LogLevel } from "../lib/loggingService";
 import { GenesisProtocolWrapper } from "../lib/wrappers/genesisProtocol";
@@ -47,7 +47,7 @@ describe("WrapperService", () => {
   });
 
   it("Can enumerate allWrappers", () => {
-    ContractWrappersByType.allWrappers.forEach((wrapper: IContractWrapperBase) => {
+    ContractWrappersByType.allWrappers.forEach((wrapper: IContractWrapper) => {
       assert.isOk(wrapper);
       assert(wrapper.name.length > 0);
     });
@@ -59,7 +59,8 @@ describe("WrapperService", () => {
     assert.isOk(ContractWrapperFactories);
     assert.isOk(ContractWrapperFactories.UpgradeScheme);
     assert.isOk(ContractWrappersByType);
-    assert.isOk(ContractWrappersByType.schemes);
+    assert.isOk(ContractWrappersByType.universalSchemes);
+    assert.isOk(ContractWrappersByType.nonUniversalSchemes);
     assert.isOk(ContractWrappersByAddress);
     assert.isOk(ContractWrappersByAddress.get(ContractWrappers.UpgradeScheme.address));
   });

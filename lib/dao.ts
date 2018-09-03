@@ -2,7 +2,7 @@
 import BigNumber from "bignumber.js";
 import { AvatarService } from "./avatarService";
 import { Address, fnVoid, Hash } from "./commonTypes";
-import { DecodedLogEntryEvent, IContractWrapperBase } from "./iContractWrapperBase";
+import { DecodedLogEntryEvent, IContractWrapper } from "./iContractWrapperBase";
 import { TransactionService, TxGeneratingFunctionOptions } from "./transactionService";
 import { Utils } from "./utils";
 import { EntityFetcherFactory, EventFetcherFilterObject, Web3EventService } from "./web3EventService";
@@ -403,7 +403,7 @@ export interface DaoSchemeInfo {
   /**
    * Wrapper class for the scheme if it was deployed by the running version of Arc.js
    */
-  wrapper?: IContractWrapperBase;
+  wrapper?: IContractWrapper;
 }
 
 /********************************
@@ -417,7 +417,7 @@ export interface DaoGlobalConstraintInfo {
   /**
    * Wrapper class for the constraint if it was deployed by the running version of Arc.js
    */
-  wrapper: IContractWrapperBase;
+  wrapper: IContractWrapper;
   /**
    * hash of the constraint parameters
    */

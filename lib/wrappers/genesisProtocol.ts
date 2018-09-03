@@ -18,7 +18,8 @@ import {
   ArcTransactionResult,
   DecodedLogEntryEvent,
   IContractWrapperFactory,
-  SchemeWrapper
+  IUniversalSchemeWrapper,
+  IVotingMachineWrapper
 } from "../iContractWrapperBase";
 import { ProposalService } from "../proposalService";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
@@ -40,7 +41,8 @@ import { UtilsInternal } from "../utilsInternal";
 import { IntVoteInterfaceWrapper } from "./intVoteInterface";
 import { StandardTokenFactory, StandardTokenWrapper } from "./standardToken";
 
-export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper implements SchemeWrapper {
+export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
+  implements IUniversalSchemeWrapper, IVotingMachineWrapper {
 
   public name: string = "GenesisProtocol";
   public friendlyName: string = "Genesis Protocol";

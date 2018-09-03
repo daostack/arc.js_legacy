@@ -7,7 +7,7 @@ import {
   ArcTransactionProposalResult,
   DecodedLogEntryEvent,
   IContractWrapperFactory,
-  SchemeWrapper,
+  IUniversalSchemeWrapper,
   StandardSchemeParams,
 } from "../iContractWrapperBase";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";
@@ -19,7 +19,7 @@ import {
   SchemeProposalExecutedEventResult
 } from "./commonEventInterfaces";
 
-export class VoteInOrganizationSchemeWrapper extends ProposalGeneratorBase implements SchemeWrapper {
+export class VoteInOrganizationSchemeWrapper extends ProposalGeneratorBase implements IUniversalSchemeWrapper {
 
   public name: string = "VoteInOrganizationScheme";
   public friendlyName: string = "Vote In Organization Scheme";

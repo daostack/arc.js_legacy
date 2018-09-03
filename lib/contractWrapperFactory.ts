@@ -1,6 +1,6 @@
 import { Address } from "./commonTypes";
 import { IConfigService } from "./iConfigService";
-import { IContractWrapperBase, IContractWrapperFactory } from "./iContractWrapperBase";
+import { IContractWrapper, IContractWrapperFactory } from "./iContractWrapperBase";
 import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
 import { Web3EventService } from "./web3EventService";
@@ -8,7 +8,7 @@ import { Web3EventService } from "./web3EventService";
 /**
  * Generic class factory for all of the contract wrapper classes.
  */
-export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
+export class ContractWrapperFactory<TWrapper extends IContractWrapper>
   implements IContractWrapperFactory<TWrapper> {
 
   public static setConfigService(configService: IConfigService): void {
@@ -16,10 +16,10 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
   }
 
   /**
-   * this is a Map keyed by contract name of a Map keyed by address to an `IContractWrapperBase`
+   * this is a Map keyed by contract name of a Map keyed by address to an `IContractWrapper`
    */
-  private static contractCache: Map<string, Map<Address, IContractWrapperBase>>
-    = new Map<string, Map<Address, IContractWrapperBase>>();
+  private static contractCache: Map<string, Map<Address, IContractWrapper>>
+    = new Map<string, Map<Address, IContractWrapper>>();
 
   private static configService: IConfigService;
 
@@ -117,7 +117,7 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
     return hydratedWrapper;
   }
 
-  private getCachedContract(name: string, at: string): IContractWrapperBase | undefined {
+  private getCachedContract(name: string, at: string): IContractWrapper | undefined {
     if (!at) {
       return undefined;
     }
@@ -130,12 +130,12 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapperBase>
 
   private setCachedContract(
     name: string,
-    wrapper: IContractWrapperBase): void {
+    wrapper: IContractWrapper): void {
 
     if (wrapper) {
       let addressMap = ContractWrapperFactory.contractCache.get(name);
       if (!addressMap) {
-        addressMap = new Map<Address, IContractWrapperBase>();
+        addressMap = new Map<Address, IContractWrapper>();
         ContractWrapperFactory.contractCache.set(name, addressMap);
       }
       addressMap.set(wrapper.address, wrapper);

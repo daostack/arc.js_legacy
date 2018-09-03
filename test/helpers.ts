@@ -5,9 +5,9 @@ import { DAO, NewDaoConfig } from "../lib/dao";
 import {
   ArcTransactionResult,
   DecodedLogEntryEvent,
-  IContractWrapperBase,
+  IContractWrapper,
   IContractWrapperFactory,
-  SchemeWrapper
+  IUniversalSchemeWrapper
 } from "../lib/iContractWrapperBase";
 
 import {
@@ -153,13 +153,17 @@ export async function forgeDao(opts: Partial<NewDaoConfig> = {}): Promise<DAO> {
     { name: "GlobalConstraintRegistrar" },
   ];
 
-  return DAO.new(Object.assign({
-    founders: defaultFounders,
-    name: opts.name || "ArcJsTestDao",
-    schemes: defaultSchemes,
-    tokenName: opts.tokenName || "Tokens of ArcJsTestDao",
-    tokenSymbol: opts.tokenSymbol || "ATD",
-  }, opts));
+  try {
+    return await DAO.new(Object.assign({
+      founders: defaultFounders,
+      name: opts.name || "ArcJsTestDao",
+      schemes: defaultSchemes,
+      tokenName: opts.tokenName || "Tokens of ArcJsTestDao",
+      tokenSymbol: opts.tokenSymbol || "ATD",
+    }, opts));
+  } catch (ex) {
+    throw new Error(`error creating DAO: ${ex.message ? ex.message : ex}`);
+  }
 }
 
 /**
@@ -193,11 +197,11 @@ export async function addProposeContributionReward(dao: DAO): Promise<Contributi
   return contributionReward;
 }
 
-export function wrapperForContract(contractName: string, address?: Address): Promise<IContractWrapperBase> {
+export function wrapperForContract(contractName: string, address?: Address): Promise<IContractWrapper> {
   return WrapperService.getContractWrapper(contractName, address);
 }
 
-export async function getSchemeVotingMachineParametersHash(dao: DAO, scheme: SchemeWrapper): Promise<Hash> {
+export async function getSchemeVotingMachineParametersHash(dao: DAO, scheme: IUniversalSchemeWrapper): Promise<Hash> {
   return (await scheme.getSchemeParameters(dao.avatar.address)).voteParametersHash;
 }
 
@@ -231,9 +235,9 @@ export function vote(
   return (votingMachine as any).contract.vote(proposalId, theVote, { from: voter });
 }
 
-export function wrapperForVotingMachine(votingMachine: IntVoteInterfaceWrapper): IContractWrapperBase {
+export function wrapperForVotingMachine(votingMachine: IntVoteInterfaceWrapper): IUniversalSchemeWrapper {
   // Only works if the votingMachine is an instance originally deployed by DAOstack
-  return WrapperService.wrappersByAddress.get(votingMachine.address);
+  return WrapperService.wrappersByAddress.get(votingMachine.address) as IUniversalSchemeWrapper;
 }
 
 export async function voteWasExecuted(votingMachine: IntVoteInterfaceWrapper, proposalId: Hash): Promise<boolean> {
@@ -289,7 +293,7 @@ export async function waitForBlocks(blocks: number): Promise<void> {
 export async function getDaoScheme(
   dao: DAO,
   schemeName: string,
-  factory: IContractWrapperFactory<any>): Promise<IContractWrapperBase> {
+  factory: IContractWrapperFactory<any>): Promise<IContractWrapper> {
   return factory.at((await dao.getSchemes(schemeName))[0].address);
 }
 
