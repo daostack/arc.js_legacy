@@ -1,4 +1,5 @@
 import { Web3 } from "web3";
+import { AvatarService } from "../avatarService";
 import { DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
 import { Address } from "../commonTypes";
 import { Utils } from "../utils";
@@ -113,8 +114,8 @@ export class GenesisDaoCreator {
     while (!avatarInst) {
 
       await Avatar.at(txForgeOrg.logs[0].args._avatar)
-        .then((address: Address) => {
-          avatarInst = address;
+        .then((contract: any) => {
+          avatarInst = contract;
         })
         /* tslint:disable-next-line:no-empty */
         .catch(() => {
@@ -149,6 +150,7 @@ export class GenesisDaoCreator {
     const GlobalConstraintRegistrar = await Utils.requireContract("GlobalConstraintRegistrar");
     const SchemeRegistrar = await Utils.requireContract("SchemeRegistrar");
     const UpgradeScheme = await Utils.requireContract("UpgradeScheme");
+    const AbsoluteVote = await Utils.requireContract("AbsoluteVote");
     const GenesisProtocol = await Utils.requireContract("GenesisProtocol");
 
     /**
@@ -169,11 +171,27 @@ export class GenesisDaoCreator {
     const upgradeSchemeInst = await UpgradeScheme.deployed();
     const globalConstraintRegistrarInst = await GlobalConstraintRegistrar.deployed();
     const contributionRewardInst = await ContributionReward.deployed();
+    const absoluteVoteInst = await AbsoluteVote.deployed();
+    const avatarService = new AvatarService(forgedDaoInfo.avatarAddress);
+    const daoReputationAddress = await avatarService.getNativeReputationAddress();
+
+    const absoluteVoteParamsHash = await absoluteVoteInst.getParametersHash(
+      daoReputationAddress,
+      50,
+      true
+    );
+
+    await absoluteVoteInst.setParameters(
+      daoReputationAddress,
+      50,
+      true
+    );
+
     /**
      * Set/get the GenesisProtocol voting parameters that will be used as defaults
      * for the schemes' voting machine as we add the schemes to the Genesis DAO, below.
      */
-    const genesisProtocolParams = await genesisProtocolInst.getParametersHash(
+    const genesisProtocolParamsHash = await genesisProtocolInst.getParametersHash(
       [
         defaultVotingMachineParams.preBoostedVoteRequiredPercentage,
         defaultVotingMachineParams.preBoostedVotePeriodLimit,
@@ -215,17 +233,17 @@ export class GenesisDaoCreator {
      * Set/get the Genesis DAO's scheme parameters, using the GenesisProtocol voting machine
      * parameters that we just obtained above.
      */
-    await schemeRegistrarInst.setParameters(genesisProtocolParams, genesisProtocolParams, genesisProtocolInst.address);
-    const schemeRegisterParams = await schemeRegistrarInst.getParametersHash(genesisProtocolParams, genesisProtocolParams, genesisProtocolInst.address);
+    await schemeRegistrarInst.setParameters(absoluteVoteParamsHash, absoluteVoteParamsHash, absoluteVoteInst.address);
+    const schemeRegisterParams = await schemeRegistrarInst.getParametersHash(absoluteVoteParamsHash, absoluteVoteParamsHash, absoluteVoteInst.address);
 
-    await globalConstraintRegistrarInst.setParameters(genesisProtocolParams, genesisProtocolInst.address);
-    const schemeGCRegisterParams = await globalConstraintRegistrarInst.getParametersHash(genesisProtocolParams, genesisProtocolInst.address);
+    await globalConstraintRegistrarInst.setParameters(absoluteVoteParamsHash, absoluteVoteInst.address);
+    const schemeGCRegisterParams = await globalConstraintRegistrarInst.getParametersHash(absoluteVoteParamsHash, absoluteVoteInst.address);
 
-    await upgradeSchemeInst.setParameters(genesisProtocolParams, genesisProtocolInst.address);
-    const schemeUpgradeParams = await upgradeSchemeInst.getParametersHash(genesisProtocolParams, genesisProtocolInst.address);
+    await upgradeSchemeInst.setParameters(absoluteVoteParamsHash, absoluteVoteInst.address);
+    const schemeUpgradeParams = await upgradeSchemeInst.getParametersHash(absoluteVoteParamsHash, absoluteVoteInst.address);
 
-    await contributionRewardInst.setParameters(orgNativeTokenFee, genesisProtocolParams, genesisProtocolInst.address);
-    const contributionRewardParams = await contributionRewardInst.getParametersHash(orgNativeTokenFee, genesisProtocolParams, genesisProtocolInst.address);
+    await contributionRewardInst.setParameters(orgNativeTokenFee, genesisProtocolParamsHash, genesisProtocolInst.address);
+    const contributionRewardParams = await contributionRewardInst.getParametersHash(orgNativeTokenFee, genesisProtocolParamsHash, genesisProtocolInst.address);
 
     /**
      * Register the schemes with the Genesis DAO
@@ -242,7 +260,7 @@ export class GenesisDaoCreator {
       schemeGCRegisterParams,
       schemeUpgradeParams,
       contributionRewardParams,
-      genesisProtocolParams];
+      genesisProtocolParamsHash];
 
     const permissionArray = [
       schemeRegistrarPermissions,
