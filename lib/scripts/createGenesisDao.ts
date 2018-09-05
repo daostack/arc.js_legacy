@@ -52,12 +52,11 @@ export class GenesisDaoCreator {
    */
   public async forge(foundersConfigurationLocation: string): Promise<ForgedDaoInfo> {
 
-    const live = this.network === "live";
     /**
      * Genesis DAO parameters
      */
-    const orgName = live ? "Genesis Alpha" : "Genesis Alpha";
-    const tokenName = live ? "Genesis Alpha" : "Genesis Alpha";
+    const orgName = "Genesis Test";
+    const tokenName = "Genesis Test";
     const tokenSymbol = "GDT";
 
     /**
