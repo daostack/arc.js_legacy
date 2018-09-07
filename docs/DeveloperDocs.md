@@ -4,15 +4,13 @@ The following is a brief sketch of the primary structures of the code in Arc.js.
 
 Git repository is [here](https://github.com/daostack/arc.js).
 
-User documentation is [here](https://daostack.github.io/arc.js/Home/).
+User documentation is [here](https://daostack.github.io/arc.js).
 
 Both code and automated tests are written in TypeScript.
 
 Code standards are enforced by TsLint rules defined in [tslint.json](https://github.com/daostack/arc.js/blob/master/tslint.json).
 
 User documentation is generated using [TypeDoc](http://typedoc.org/) and [MkDocs](https://www.mkdocs.org/).  Typedocs is configured and executed using [typedoc.js](https://github.com/daostack/arc.js/blob/master/package-scripts/typedoc.js).  MkDocs is configured in [mkdocs.yml](https://github.com/daostack/arc.js/blob/master/mkdocs.yml).
-
-(The user documentation is a little sketchy in how it addresses users versus developers.  There is [a ticket to clean this up](https://github.com/daostack/arc.js/issues/238).)
 
 While some scripts are available in package.json, all are defined in [package-scripts.js](https://github.com/daostack/arc.js/blob/master/package-scripts.js).  Package-script.js leverages [nps](https://github.com/kentcdodds/nps) and defers to several custom javascript node scripts contained [here](https://github.com/daostack/arc.js/tree/master/package-scripts).
 
@@ -89,8 +87,7 @@ npm start lint.andFix
 
 ### Tests
 
-To run the Arc.js tests, run the following script in the Arc.js root folder, assuming you have already
-[installed all the npm packages](Home#installation), and are [running a testnet with migrated Arc contracts](Home#set-up-a-testnet-with-arc-contracts):
+To run the Arc.js tests, run the following script in the Arc.js root folder, assuming you have already run `npm install`, and are running a ganache with migrated Arc contracts (see "Getting Started" in the [Arc.js Documentation](https://daostack.github.io/arc.js)):
 
 ```script
 npm start test
