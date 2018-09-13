@@ -44,7 +44,7 @@ Name of the blockchain network used during Arc contract migration.  Other inform
 The port to use when connecting to the blockchain network at runtime.  Default is 8545.
 
 **providerUrl**
-The url to use when connecting to the blockchain network at runtime.  Default is http://127.0.0.1.
+The url to use when connecting to the blockchain network at runtime.  Default is "127.0.0.1".
 
 <a name="txDepthRequiredForConfirmation"></a>
 **txDepthRequiredForConfirmation**
