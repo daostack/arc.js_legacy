@@ -142,7 +142,8 @@ export abstract class ContractWrapperBase implements IContractWrapper {
    * @param avatarAddress
    */
   public async getSchemeParametersHash(avatarAddress: Address): Promise<Hash> {
-    const controller = await this.getController(avatarAddress);
+    const controllerService = new ControllerService(avatarAddress);
+    const controller = await controllerService.getController();
     return controller.getSchemeParameters(this.address, avatarAddress);
   }
 
@@ -153,15 +154,6 @@ export abstract class ContractWrapperBase implements IContractWrapper {
    */
   public getParametersArray(paramsHash: Hash): Promise<Array<any>> {
     return this.contract.parameters(paramsHash);
-  }
-
-  /**
-   * Returns the controller associated with the given avatar
-   * @param avatarAddress
-   */
-  public getController(avatarAddress: Address): Promise<any> {
-    const controllerService = new ControllerService(avatarAddress);
-    return controllerService.getController();
   }
 
   /**
@@ -230,8 +222,9 @@ export abstract class ContractWrapperBase implements IContractWrapper {
    * @param avatarAddress
    */
   protected async _getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
-    const permissions = await (await this.getController(avatarAddress))
-      .getSchemePermissions(this.address, avatarAddress) as string;
+    const controllerService = new ControllerService(avatarAddress);
+    const controller = await controllerService.getController();
+    const permissions = await controller.getSchemePermissions(this.address, avatarAddress) as string;
 
     return SchemePermissions.fromString(permissions);
   }

@@ -6,7 +6,9 @@ import { Utils } from "./utils";
  * Methods for querying information about an Avatar's controller.
  * Use it by:
  *
- * let controllerService = new ControllerService(avatarAddress);
+ * ```javascript
+ * const controllerService = new ControllerService(avatarAddress);
+ * ```
  *
  */
 export class ControllerService {

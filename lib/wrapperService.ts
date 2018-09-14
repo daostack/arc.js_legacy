@@ -269,7 +269,7 @@ export class WrapperService {
   /**
    * Returns the promise of an Arc.js contract wrapper or undefined if not found.
    *
-   * Most useful when you have both contract name and address and wish to most
+   * Most useful when you have both contract name and maybe the address and wish to most
    * efficiently return the associated wrapper, or undefined when not found.
    *
    * @param contractName - name of an Arc contract, like "SchemeRegistrar"
@@ -359,11 +359,12 @@ export interface WrapperFilter {
 
 export interface WrapperServiceInitializeOptions {
   /**
-   * Option filter to only initialize the contracts whose name is set to true.
-   * Any that are omitted or set to false here will appear as `null` in
-   * WrapperService.wrappers and WrapperService.wrappersByType,
-   * and will not be available in WrapperService.wrappersByAddress.
-   * But their factories will still be available in WrapperService.factories.
+   * Optional filter to only initialize the contracts whose name is set to `true`.
+   * Any contracts that are omitted or set to `false` here will appear as `null` in
+   * `WrapperService.wrappers` and `WrapperService.wrappersByType`,
+   * and will not be available in `WrapperService.wrappersByAddress`.
+   * But their factories will still be available in `WrapperService.factories`.
+   * See [Optimized Contract Loading](Wrappers#optimizedcontractloading) for more information.
    */
   filter?: WrapperFilter;
 }

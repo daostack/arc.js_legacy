@@ -77,9 +77,11 @@ export class DAO {
       dao.hasUController = await avatarService.getIsUController();
       dao.token = await avatarService.getNativeToken();
       dao.reputation = await avatarService.getNativeReputation();
-
-      return dao;
+      const web3 = await Utils.getWeb3();
+      dao.name = web3.toUtf8(await dao.avatar.orgName());
     }
+
+    return dao;
   }
 
   /**
@@ -140,6 +142,10 @@ export class DAO {
    * Truffle contract wrapper for the DAO's native reputation (Reputation)
    */
   public reputation: ReputationWrapper;
+  /**
+   * the name of the DAO
+   */
+  public name: string;
 
   /**
    * Returns the promise of all of the schemes registered into this DAO, as Array<DaoSchemeInfo>
@@ -219,15 +225,6 @@ export class DAO {
    */
   public async isGlobalConstraintRegistered(gc: Address): Promise<boolean> {
     return await this.controller.isGlobalConstraintRegistered(gc, this.avatar.address);
-  }
-
-  /**
-   * Returns the promise of the name of the DAO as stored in the Avatar
-   * @return {Promise<string>}
-   */
-  public async getName(): Promise<string> {
-    const web3 = await Utils.getWeb3();
-    return web3.toUtf8(await this.avatar.orgName());
   }
 
   /**
@@ -415,13 +412,13 @@ export interface DaoGlobalConstraintInfo {
    */
   address: string;
   /**
-   * Wrapper class for the constraint if it was deployed by the running version of Arc.js
-   */
-  wrapper: IContractWrapper;
-  /**
    * hash of the constraint parameters
    */
   paramsHash: string;
+  /**
+   * Wrapper class for the constraint if it was deployed by the running version of Arc.js
+   */
+  wrapper: IContractWrapper;
 }
 
 export interface ControllerAddGlobalConstraintsEventLogEntry {

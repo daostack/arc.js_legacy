@@ -1,69 +1,30 @@
-# Using Arc Contract Wrappers
+# Arc Contract Wrappers
 
 ## Overview
 
-Arc.js wraps several Arc contracts in a "contract wrapper" JavaScript class.  Every wrapper class inherits from [ContractWrapperBase](api/classes/ContractWrapperBase) providing a common set of functions and properties and specific helper functions for operations specific to the contract it wraps.
+Arc.js wraps several Arc contracts in a "contract wrapper" JavaScript class.  Every wrapper class inherits ultimately from [ContractWrapperBase](api/classes/ContractWrapperBase) providing a common set of functions and properties and specific helper functions for operations specific to the contract it wraps.
 
-Each wrapper contains a `contract` property which is the original "wrapped" [Truffle contract](https://github.com/trufflesuite/truffle-contract) that you can use to access all of the Truffle functionality of the specific Arc contract being wrapped.
+Each wrapper contains some basic properties:
 
-Each wrapper also contains a `factory` property.  This is the static instance of the wrapper factory class which is based on [ContractWrapperFactory<TWrapper>](api/classes/ContractWrapperFactory) (where `TWrapper` is the type (class) of the wrapper).  Each factory contains the static methods `at(someAddress)`, `new()` and `deployed()` that you can use to instantiate the associated wrapper class.
+- `name` - the name of the wrapped Arc contract
+- `friendlyName` - a more friendly name of the Arc contract
+- `address` - the address of the wrapped Arc contract
+- `contract` - the original "wrapped" [Truffle contract](https://github.com/trufflesuite/truffle-contract) that you can use to access all of the Truffle and Web3 functionality of the specific Arc contract being wrapped.
+- `factory` - a static instance of a wrapper factory class based on [ContractWrapperFactory&lt;TWrapper&gt;](api/classes/ContractWrapperFactory) (where `TWrapper` is the type (class) of the wrapper).  Each factory contains static methods:
+    - `at(someAddress)`
+    - `new()`
+    - `deployed()`
 
-Each wrapper includes the contract's events.  Refer here for more information about [how Arc.js wraps contract events](Events).
+    ... that you can use to instantiate the associated wrapper class.
 
-Arc.js provides multiple ways to obtain contract wrappers, each optimal in particular use cases:
+### Events
+Each wrapper includes the wrapped contract's events as properties that give you enhanced capabilities over the straight Truffle/Web3 event API.  For more information about wrapped contract events, see [Web3 Events](web3events).
 
-* [get a deployed wrapper by the Arc contract name](Home/#get-a-deployed-wrapper-by-name)
-* [enumerate all of the deployed wrappers](Home/#enumerate-all-of-the-deployed-wrappers)
-* [enumerate wrappers by contract type](Home/#enumerate-wrappers-by-contract-type)
-* [get a wrapper at a given address](Home/#get-a-wrapper-at-a-given-address)
-* [deploy a new contract](Home/#deploy-a-new-contract)
 
-The following sections describe what to do in each of the above use cases.
+<a name="contracttypes"></a>
+### Types of Wrappers
 
-!!! note "Keep in mind"
-    In Arc.js all token and reputation amounts should be expressed in Wei.
-
-## Get a deployed wrapper by name
-
-You can obtain, by its Arc contract name, any wrapper deployed by the running version of Arc.js:
-
-```javascript
-import { ContractWrappers } from "@daostack/arc.js";
-const upgradeScheme = ContractWrappers.UpgradeScheme;
-```
-
-!!! tip
-    `ContractWrappers` is an alias for [WrapperService.wrappers](api/classes/WrapperService/#wrappers)
-    ```javascript
-    import { WrapperService } from "@daostack/arc.js";
-    const upgradeScheme = WrapperService.wrappers.UpgradeScheme;
-    ```
-
-## Enumerate all of the deployed wrappers
-
-You can enumerate all of the wrappers of contracts deployed by the running version of Arc.js:
-
-```javascript
-import { ContractWrappers } from "@daostack/arc.js";
-for (var wrapper in ContractWrappers) {
-  console.log(`${wrapper.friendlyName} is at ${wrapper.address}`);
-}
-```
-
-!!! tip
-    `ContractWrappers` is an alias for [WrapperService.wrappers](api/classes/WrapperService/#wrappers)
-    ```javascript
-    import { WrapperService } from "@daostack/arc.js";
-    for (var wrapperName in WrapperService.wrappers) {
-      const wrapper = WrapperService.wrappers[wrapperName];
-      console.log(`${wrapper.friendlyName} is at ${wrapper.address}`);
-    }
-    ```
-
-<a name="wrappersByContractType"></a>
-## Enumerate wrappers by contract type
-
-Arc contracts and associated Arc.js contract wrapper classes can be categorized as follows:
+Arc contracts and associated Arc.js contract wrapper classes are categorized as follows:
 
 **Universal Schemes**
 
@@ -89,29 +50,46 @@ Arc contracts and associated Arc.js contract wrapper classes can be categorized 
 * DaoCreator
 * Redeemer
 
-You can enumerate the wrappers in each category, for example, schemes:
+!!! note
+    `GenesisProtocol` is both scheme and voting machine. This is explained [here](Daos#gpExplanation)
+
+See more at [Enumerate wrappers by contract type](wrappersByContractType).
+
+### Obtaining Wrappers
+
+Arc.js provides multiple ways to obtain contract wrappers, each optimal for particular use cases. It all starts with the  [WrapperService](/api/classes/WrapperService) which provides means of organizing and obtaining contract wrappers. The `WrapperService` API is primarily in the form of four static properties, each of which are exported for easy import in your code:
+
+
+Export | WrapperService property | Description
+---------|----------|---------
+ ContractWrappers | WrapperService.wrappers | Properties are contract names, values are the corresponding contract wrapper
+ ContractWrapperFactories | WrapperService.factories | Properties are contract names, values are the corresponding contract wrapper factory
+ ContractWrappersByType | WrapperService.wrappersByType | Properties are a contract category name (see [Contract Types](#contracttypes)), values are an array of `IContractWrapper`
+ ContractWrappersByAddress | WrapperService.wrappersByAddress | a `Map` where the key is an address and the associated value is a `IContractWrapper` for a contract as deployed by the currently-running version of Arc.js.
+
+The following sections describe how to obtain wrapper classes in several use cases:
+
+- [get a deployed wrapper by the Arc contract name](#get-a-deployed-wrapper-by-name)
+- [get a wrapper at a given address](#get-a-wrapper-at-a-given-address)
+- [deploy a new contract](#deploy-a-new-contract)
+- [enumerate all of the deployed wrappers](#enumerate-all-of-the-deployed-wrappers)
+- [enumerate wrappers by contract type](#wrappersByContractType)
+
+
+!!! note "Keep in mind"
+    In Arc.js all token and reputation amounts should always be expressed in Wei, either as a `string` or a `BigNumber`.
+
+<a name="get-a-deployed-wrapper-by-name"></a>
+## Get a deployed wrapper by Arc contract name
+
+You can obtain, by its Arc contract name, any wrapper deployed by the running version of Arc.js:
 
 ```javascript
-import { ContractWrappersByType } from "@daostack/arc.js";
-for (var schemeWrapper of ContractWrappersByType.schemes) {
-  console.log(`${schemeWrapper.friendlyName} is at ${schemeWrapper.address}`);
-}
+import { ContractWrappers } from "@daostack/arc.js";
+const upgradeScheme = ContractWrappers.UpgradeScheme;
 ```
 
-!!! tip
-    `ContractWrappersByType` is an alias for [WrapperService.wrappersByType](api/classes/WrapperService/#wrappersByType)
-    ```javascript
-    import { WrapperService} from '@daostack/arc.js';
-    const wrapperTypes = WrapperService.wrappersByType;
-
-    for (var schemeWrapper of wrapperTypes.schemes) {
-      console.log(`${schemeWrapper.friendlyName} is at ${schemeWrapper.address}`);
-    }
-    ```
-
-!!! tip
-    `ContractWrappersByType.allWrappers` is an array of all of wrappers.
-
+<a name="get-a-wrapper-at-a-given-address"></a>
 ## Get a wrapper at a given address
 
 You can use a wrapper's factory class to obtain a wrapper for a contract deployed to any given address:
@@ -122,26 +100,19 @@ const upgradeScheme = await UpgradeSchemeFactory.at(someAddress);
 ```
 
 !!! info
-    `.at` will throw an exception if it can't find the contract at the given address.
+    `.at` will return `undefined` if it can't find the contract at the given address.
 
-!!! tip
-    `ContractWrapperFactories` is an alias for [WrapperService.factories](api/classes/WrapperService/#factories)
-    ```javascript
-    import { ContractWrapperFactories } from "@daostack/arc.js";
-    const upgradeScheme = await ContractWrapperFactories.UpgradeScheme.at(someAddress);
-    }
-    ```
-
-Another way to get a wrapper at a given address is using [WrapperService.getContractWrapper](api/classes/WrapperService/#getContractWrapper).  This is most useful when you have both contract name
-and address and wish to most efficiently return the associated wrapper, or undefined when not found:
+Another way to get a wrapper at a given address is using [WrapperService.getContractWrapper](api/classes/WrapperService/#getContractWrapper).  This is most useful when you have a contract name
+and may or may not have an address and wish to most efficiently return the associated wrapper, or undefined when not found:
 
 ```javascript
 import { WrapperService } from "@daostack/arc.js";
 // returns undefined when not found, unlike the factory `.at` which throws an exception 
-const upgradeScheme = await WrapperService.getContractWrapper("UpgradeScheme", someAddress);
+const upgradeScheme = await WrapperService.getContractWrapper("UpgradeScheme", someAddressThatMayBeUndefined);
 }
 ```
 
+<a name="deploy-a-new-contract"></a>
 ## Deploy a new contract
 
 You can use a wrapper's factory class to deploy a new instance of a contract and obtain a wrapper for it:
@@ -151,35 +122,31 @@ import { UpgradeSchemeFactory} from "@daostack/arc.js";
 const newUpgradeScheme = await UpgradeSchemeFactory.new();
 ```
 
-!!! tip
-    `ContractWrapperFactories` is an alias for [WrapperService.factories](api/classes/WrapperService/#factories)
-    ```javascript
-    import { ContractWrapperFactories } from "@daostack/arc.js";
-    const newUpgradeScheme = await ContractWrapperFactories.UpgradeScheme.new();
-    }
-    ```
+<a name="enumerate-all-of-the-deployed-wrappers"></a>
+## Enumerate all of the deployed wrappers
 
-## Obtain a DAO scheme's parameters
-
-Although you can always register your own schemes with a DAO, whether they be totally custom non-Arc schemes, or redeployed Arc schemes, by default a DAO is created with Arc schemes that are universal in the sense that the scheme's code is usable by any DAO with which the scheme can be registered.  But every scheme registered with a DAO is configured with a particular set of parameter values, and references such as proposals. All of these are stored in the DAO's own controller where each universal scheme is able to find them.  (If the controller is the Universal Controller then the parameters and data are keyed by the DAO's avatar address.)
-
-If you want to obtain a DAO scheme's parameters, you can do it like this:
+You can enumerate all of the wrappers of contracts deployed by the running version of Arc.js:
 
 ```javascript
-const schemeParameters = schemeWrapper.getSchemeParameters(avatarAddress);
+import { ContractWrappers } from "@daostack/arc.js";
+for (var wrapper in ContractWrappers) {
+  console.log(`${wrapper.friendlyName} is at ${wrapper.address}`);
+}
 ```
 
-This will return an object containing the scheme's parameter values.  The object will be the same as that which one passes to `schemeWrapper.setParameters` when setting parameters on any contract.
+<a name="wrappersByContractType"></a>
+## Enumerate wrappers by contract type
 
-For example, to obtain the voting machine address for a scheme that has one as a parameter:
+You can enumerate the wrappers by contract category, for example, universalSchemes:
 
 ```javascript
-const schemeParameters = schemeWrapper.getSchemeParameters(avatarAddress);
-const votingMachineAddress = schemeParameters.votingMachineAddress;
+import { ContractWrappersByType } from "@daostack/arc.js";
+for (var schemeWrapper of ContractWrappersByType.universalSchemes) {
+  console.log(`${schemeWrapper.friendlyName} is at ${schemeWrapper.address}`);
+}
 ```
 
-## Working with Events
-All Arc.js wrappers publish events of various types that you can handle, including events from Arc contracts and events that enable you to track transaction as they occur.  Refer here for [all about events in Arc.js](Events).
+The set of contract categories is defined in [ArcWrappersByType](/api/interfaces/ArcWrappersByType).
 
 ## Can't Find What You Need?
 
@@ -187,10 +154,15 @@ Arc.js doesn't wrap every Arc contact nor give you a helper class for everything
 
 ### Truffle Contracts and Web3
 
- Under the hood Arc.js uses Truffle contracts and Web3, and when you find that Arc.js doesn't directly provide you a piece of information or functionality that you need, you might be able to use them to find what you want.  You can get Web3 via [Utils.getWeb3](/api/classes/Utils#getWeb3) and Truffle contract associated with each contract wrapper instance via the `contract` property on each wrapper class.
+ Under the hood Arc.js uses Truffle contracts and `Web3`. When you find that Arc.js doesn't directly provide you a piece of information or functionality that you need, you might be able to use them to find what you want.  You can obtain `Web3` via [Utils.getWeb3](/api/classes/Utils#getWeb3) and the Truffle contract associated with each contract wrapper instance via the `contract` property on each wrapper class.
 
-!!! info
-    Read more about [Truffle Contracts](https://github.com/trufflesuite/truffle-contract) and [Web3](https://github.com/ethereum/wiki/wiki/JavaScript-API)
+!!! info "More on `Web3` and Truffle contracts"
+    - [Web3](https://github.com/ethereum/wiki/wiki/JavaScript-API)
+    - [Truffle contracts](https://github.com/trufflesuite/truffle-contract)
+
+### Undeployed Arc Contracts
+
+Some Arc contracts are wrapped but not deployed by Arc.js, for example `DaoToken` and others.  `ContractWrappers` (`WrapperService.wrappers`) will not contain entries for these wrappers since they are not deployed.  But you will find their factories where you can use `.at`. or `.new`.
 
 ### Unwrapped Arc Contracts
 
@@ -203,3 +175,4 @@ const avatarTruffleContract = await Utils.requireContract("Avatar");
 
 !!! info
     `Utils.requireContract` throws an exception when there is any problem creating the truffle contract object.
+

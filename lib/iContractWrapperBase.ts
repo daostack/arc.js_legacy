@@ -34,7 +34,6 @@ export interface IUniversalSchemeWrapper extends ISchemeWrapper {
   setParameters(params: any): Promise<ArcTransactionDataResult<Hash>>;
   getSchemeParameters(avatarAddress: Address): Promise<any>;
   getParametersArray(paramsHash: Hash): Promise<Array<any>>;
-  getController(avatarAddress: Address): Promise<any>;
 }
 
 /**
@@ -88,7 +87,7 @@ export class ArcTransactionResult {
    * Returns null if the transaction is not yet found at the required depth.
    *
    * @param requiredDepth Optional minimum block depth required to resolve the promise.
-   * Default comes from the `ConfigurationService`.
+   * Default comes from the `ConfigService`.
    */
   public async getTxConfirmed(requiredDepth?: number): Promise<TransactionReceiptTruffle | null> {
     if (!this.tx) {
@@ -119,7 +118,7 @@ export class ArcTransactionResult {
    * according to the optional `requiredDepth`.
    *
    * @param requiredDepth Optional minimum block depth required to resolve the promise.
-   * Default comes from the `ConfigurationService`.
+   * Default comes from the `ConfigService`.
    */
   public async watchForTxConfirmed(requiredDepth?: number): Promise<TransactionReceiptTruffle> {
     if (!this.tx) {
@@ -206,7 +205,7 @@ export interface StandardSchemeParams {
 export { DecodedLogEntryEvent, TransactionReceipt } from "web3";
 
 /**
- * The value of the global config setting `gasPriceAdjustment`
+ * The value of the global config setting `gasPriceAdjustor`
  * This function will be invoked to obtain promise of a desired gas price
  * given the current default gas price which will be determined by the x latest blocks
  * median gas price.

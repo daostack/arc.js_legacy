@@ -131,6 +131,15 @@ export class TransactionService extends PubSubEventService {
    * Return a new event stack with the given one pushed onto it.
    * Will take obj.txEventContext, else create a new one.
    *
+   * Every transaction-generating function must invoke `newTxEventContext` to
+   * define its own context. Whenever a transaction-generating function invokes
+   * another transaction-generating function, it must add its `TxEventContext`
+   * to the `options` object that it passes to the "nested" call
+   * (see `TxGeneratingFunctionOptions`).
+   *
+   * Every transaction-generating function must assume that it may be a nested call,
+   * that is, that the `options` object passed-into it may conform to `TxGeneratingFunctionOptions`
+   *
    * @hidden - for internal use only
    * @param obj
    * @param eventSpec
@@ -172,7 +181,7 @@ export class TransactionService extends PubSubEventService {
    *
    * @param txHash the transaction hash
    * @param contract Optional contract instance or contract name of the contract that generated the transaction.
-   * Supply this if you want decoded events (or else call `TransactionService.toTxTruffle` manually yourself)
+   * Supply this if you want decoded events.
    * @param requiredDepth Optional minimum block depth required to resolve the promise.  Default is 0.
    * @returns Promise of `TransactionReceiptTruffle` if contract is given, else `TransactionReceipt`
    */
@@ -238,9 +247,9 @@ export class TransactionService extends PubSubEventService {
    *
    * @param txHash The transaction hash to watch
    * @param contract Optional contract instance or contract name of the contract that generated the transaction.
-   * Supply this if you want decoded events (or else call `TransactionService.toTxTruffle` manually yourself)
+   * Supply this if you want decoded events.
    * @param requiredDepth Optional minimum block depth required to resolve the promise.
-   * Default comes from the `ConfigurationService`.
+   * Default comes from the `ConfigService`.
    */
   public static async watchForConfirmedTransaction(
     txHash: Hash,
@@ -297,7 +306,7 @@ export class TransactionService extends PubSubEventService {
    * @param txHash
    * @param requiredDepth Optional minimum block depth required to resolve the promise.  Default is 0.
    * @param contract Optional contract instance or contract name of the contract that generated the transaction.
-   * Supply this if you want decoded events (or else call `TransactionService.toTxTruffle` manually yourself)
+   * Supply this if you want decoded events.
    * @returns Promise of `TransactionReceiptTruffle` if contract is given, else `TransactionReceipt`,
    * or null if not found.
    */
@@ -328,9 +337,9 @@ export class TransactionService extends PubSubEventService {
    * according to the requiredDepth.
    * @param txHash
    * @param requiredDepth Optional minimum block depth required to resolve the promise.
-   * Default comes from the `ConfigurationService`.
+   * Default comes from the `ConfigService`.
    * @param contract Optional contract instance or contract name of the contract that generated the transaction.
-   * Supply this if you want decoded events (or else call `TransactionService.toTxTruffle` manually yourself)
+   * Supply this if you want decoded events.
    */
   public static async getConfirmedTransaction(
     txHash: Hash,
@@ -506,7 +515,8 @@ export class TransactionService extends PubSubEventService {
 
   /**
    * Returns the default value for required block depth defined for the current network
-   * in the Arc.js global configuration ("txDepthRequiredForConfirmation").
+   * in the Arc.js global configuration
+   * "[txDepthRequiredForConfirmation](Configuration#txDepthRequiredForConfirmation)".
    * @param requiredDepth Overrides the default if given
    */
   public static async getDefaultDepth(requiredDepth?: number): Promise<number> {
@@ -647,6 +657,9 @@ export class TxEventContext {
 }
 
 /**
+ * Arc.js inserts this into the `options` object that the
+ * user has passed into the transaction-generating wrapper function.
+ *
  * @hidden - for internal use only
  */
 export class TxEventSpec {

@@ -187,14 +187,14 @@ export class Utils {
    * passed to Solidity's `keccak256` function.
    *
    * Type names can be:
-   *   "bytes[N]' - fails if (N < 1 || N > 32)
-   *   "string'
-   *   "bool'
-   *   "address'
-   *   "uint[N]'  - fails if ((N % 8) || (N < 8) || (N > 256))
-   *   "int[N]'   - fails if ((N % 8) || (N < 8) || (N > 256))
+   *   - `bytes[N]` - fails if (N < 1 || N > 32)
+   *   - `string`
+   *   - `bool`
+   *   - `address`
+   *   - `uint[N]`  - fails if ((N % 8) || (N < 8) || (N > 256))
+   *   - `int[N]`   - fails if ((N % 8) || (N < 8) || (N > 256))
    *
-   * Use "bytes32" for a Hash value
+   * Use `bytes32` for a Hash value
    *
    * See: https://github.com/ethereumjs/ethereumjs-abi
    *

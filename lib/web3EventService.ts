@@ -9,7 +9,7 @@ import { UtilsInternal } from "./utilsInternal";
  * Support for working with events that originate from Arc contracts
  * and are served up by Web3.
  *
- * See [Arc Web3 Events in Arc.js](/Events#web3events).
+ * For more information, see [Web3 Events](/Events#web3events).
  */
 export class Web3EventService {
   /**
@@ -21,7 +21,7 @@ export class Web3EventService {
    * may alternatively obtain the promise of a `Array<TEventArgs>` from the return value
    * of `get`.
    *
-   * See [Arc Web3 Events in Arc.js](/Events#web3events).
+   * For more information, see [Web3 Events](/Events#web3events).
    *
    * @param baseEvent - the event from the Truffle contract.
    * @param preProcessEvent - optionally supply this to modify the err and log arguments before they are
@@ -564,11 +564,11 @@ export interface Web3EventFetcher {
 
 /**
  * Haven't figured out how to export EventFetcherFilterObject that extends FilterObject from web3.
- * Maybe will be easier with web3 v1.0, perhaps using typescript's module augmentation feature.
+ * Maybe will be easier with web3 v1.0, or perhaps using typescript's module augmentation feature.
  */
 
 /**
- * Options supplied to `EventFetcherFactory` and thence to `get and `watch`.
+ * Options supplied to `EventFetcherFactory` and thence to `get` and `watch`.
  */
 export interface EventFetcherFilterObject {
   fromBlock?: number | string;

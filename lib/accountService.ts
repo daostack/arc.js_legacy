@@ -3,6 +3,11 @@ import { LoggingService } from "./loggingService";
 import { IEventSubscription, PubSubEventService } from "./pubSubEventService";
 import { Utils } from "./utils";
 
+/**
+ * Watch for changes in the default account.
+ *
+ * For more information, see [Account Changes](Configuration#accountchanges).
+ */
 export class AccountService {
 
   public static AccountChangedEventTopic: string = "AccountService.account.changed";
@@ -70,8 +75,9 @@ export class AccountService {
 
   /**
    * Subscribe to be notified whenever the current account changes, like this:
-   * ```typescript
-   * AccountService.subscribeToAccountChanges((account: Address) => { ... });`
+   *
+   * ```javascript
+   * AccountService.subscribeToAccountChanges((account: Address) => { ... });
    * ```
    * @param callback
    * @returns A subscription to the event.  Unsubscribe by calling `[theSubscription].unsubscribe()`.
