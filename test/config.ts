@@ -8,15 +8,15 @@ import "./helpers";
 
 describe("ConfigService", () => {
   it("can get and set configuration values", () => {
-    assert.equal(ConfigService.get("providerUrl"), "http://127.0.0.1");
-    ConfigService.set("providerUrl", "http://localhost");
-    assert.equal(ConfigService.get("providerUrl"), "http://localhost");
+    assert.equal(ConfigService.get("providerUrl"), "127.0.0.1");
+    ConfigService.set("providerUrl", "localhost");
+    assert.equal(ConfigService.get("providerUrl"), "localhost");
   });
 
   it("doesn't reload default values when imported again", () => {
     const newConfigService = require("../lib/configService").ConfigService;
-    assert.equal(newConfigService.get("providerUrl"), "http://localhost");
-    ConfigService.set("providerUrl", "http://127.0.0.1");
+    assert.equal(newConfigService.get("providerUrl"), "localhost");
+    ConfigService.set("providerUrl", "127.0.0.1");
   });
 
   it("can specify gasPrice", async () => {

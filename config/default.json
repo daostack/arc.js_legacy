@@ -11,7 +11,7 @@
     "live": 20
   },
   "providerPort": 8545,
-  "providerUrl": "http://127.0.0.1",
+  "providerUrl": "127.0.0.1",
   "globalGenTokenAddresses": {
     "default": "0x543Ff227F64Aa17eA132Bf9886cAb5DB55DCAddf",
     "ganache": "0xdcf22b53f327b4f7f3ac42d957834bd962637555"

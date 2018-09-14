@@ -102,7 +102,7 @@ export async function InitializeArcJs(options?: InitializeArcOptions): Promise<W
       }
 
       ConfigService.set("providerPort", networkDefaults.port);
-      ConfigService.set("providerUrl", `http://${networkDefaults.host}`);
+      ConfigService.set("providerUrl", `${networkDefaults.host}`);
     }
 
     const web3 = await Utils.getWeb3();
