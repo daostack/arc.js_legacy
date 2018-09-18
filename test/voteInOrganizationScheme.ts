@@ -209,7 +209,7 @@ describe("VoteInOrganizationScheme", () => {
           /**
            * expect a vote 'for'
            */
-          assert.equal(event.args._vote, 1);
+          assert.equal(event.args._vote.toNumber(), 1);
           /**
            * expect the vote to have been cast on behalf of the DAO
            */

@@ -931,7 +931,6 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
       currentBoostedVotePeriodLimit: proposalArray[9].toNumber(),
       daoBountyRemain: proposalArray[11],
       executable: proposalArray[2],
-      lostReputation: proposalArray[5],
       numOfChoices: proposalArray[1].toNumber(),
       paramsHash: proposalArray[10],
       proposalId,
@@ -974,7 +973,10 @@ export interface StakeEventResult {
    * indexed
    */
   _proposalId: Hash;
-  _vote: number;
+  /**
+   * The choice of vote
+   */
+  _vote: BigNumber;
   /**
    * indexed
    */
@@ -1343,7 +1345,6 @@ export interface GenesisProtocolProposal {
   currentBoostedVotePeriodLimit: number;
   daoBountyRemain: BigNumber;
   executable: Address;
-  lostReputation: BigNumber;
   numOfChoices: number;
   paramsHash: Hash;
   proposalId: Hash;
