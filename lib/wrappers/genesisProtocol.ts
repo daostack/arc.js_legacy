@@ -1,7 +1,6 @@
 "use strict";
 import { BigNumber } from "bignumber.js";
 import ethereumjs = require("ethereumjs-abi");
-import { gasLimitsConfig } from "../../gasLimits.js";
 import { AvatarService } from "../avatarService";
 import {
   Address,
@@ -37,6 +36,7 @@ import {
 } from "./iIntVoteInterface";
 
 import { promisify } from "es6-promisify";
+import { LoggingService } from "../loggingService";
 import { UtilsInternal } from "../utilsInternal";
 import { IntVoteInterfaceWrapper } from "./intVoteInterface";
 import { StandardTokenFactory, StandardTokenWrapper } from "./standardToken";
@@ -953,7 +953,15 @@ export class GenesisProtocolFactoryType extends ContractWrapperFactory<GenesisPr
    * is the token of the DAO that is going to use this GenesisProtocol.
    */
   public async new(stakingTokenAddress: Address): Promise<GenesisProtocolWrapper> {
-    return super.new(stakingTokenAddress, { gas: gasLimitsConfig.gasLimit_arc });
+    /**
+     * We always have to estimate gas here, regardless of the "estimateGas" config setting,
+     * because truffle's default gas limit does not suffice
+     */
+    const estimate = await super.estimateConstructorGas(stakingTokenAddress);
+
+    LoggingService.debug(`Instantiating GenesisProtocol with gas: ${estimate}`);
+
+    return super.new(stakingTokenAddress, { gas: estimate });
   }
 }
 

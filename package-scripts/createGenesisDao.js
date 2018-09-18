@@ -34,20 +34,8 @@ if (env.arcjs_providerConfig) {
 
 Utils.getWeb3()
   .then((web3) => {
-
     const createGenesisDao = new GenesisDaoCreator(web3, env.arcjs_network || "ganache");
-
-    return createGenesisDao.forge(env.arcjs_foundersConfigurationLocation)
-      .then((daoCreationState) => {
-        return createGenesisDao.setSchemes(daoCreationState).then(() => {
-          console.log(`Successfully created ${daoCreationState.orgName}`);
-          exit();
-        })
-          .catch((ex) => {
-            console.log(`Error setting schemes: ${daoCreationState.orgName}: ${ex}`);
-            exit();
-          });
-      })
+    return createGenesisDao.run()
       .catch((ex) => {
         console.log(`Error forging org: ${ex}`);
         exit();

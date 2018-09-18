@@ -44,7 +44,6 @@ export * from "./proposalGeneratorBase";
 export * from "./loggingService";
 export * from "./transactionService";
 export * from "./utils";
-export const computeForgeOrgGasLimit: any = require("../gasLimits.js").computeForgeOrgGasLimit;
 
 import { Web3 } from "web3";
 import { AccountService } from "./accountService";
@@ -85,7 +84,7 @@ export async function InitializeArcJs(options?: InitializeArcOptions): Promise<W
      */
     ContractWrapperFactory.setConfigService(ConfigService);
     /**
-     * Initialize LoggingService here to avoid cirular dependency involving ConfigService and PubSubService
+     * Initialize LoggingService here to avoid circular dependency involving ConfigService and PubSubService
      */
     LoggingService.logLevel = parseInt(ConfigService.get("logLevel"), 10) as LogLevel;
     /**

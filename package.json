@@ -16,9 +16,7 @@
     "config/",
     "package-scripts.js",
     "package-scripts/",
-    "truffle.js",
-    "gasLimits.js",
-    "arcConstants.js"
+    "truffle.js"
   ],
   "scripts": {
     "start": "nps",

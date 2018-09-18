@@ -42,4 +42,16 @@ export class UtilsInternal {
   public static getWeb3Sync(): Web3 {
     return (Utils as any).web3;
   }
+
+  /**
+   * Returns promise of the maximum gasLimit that we dare to ever use, given the
+   * current state of the chain.
+   */
+  public static async computeMaxGasLimit(): Promise<number> {
+    const web3 = await Utils.getWeb3();
+    return promisify((callback: any) => web3.eth.getBlock("latest", false, callback))()
+      .then((block: any) => {
+        return block.gasLimit - 100000;
+      });
+  }
 }

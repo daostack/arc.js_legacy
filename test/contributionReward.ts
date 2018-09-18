@@ -7,7 +7,6 @@ import { ArcTransactionProposalResult, DecodedLogEntryEvent } from "../lib/iCont
 import {
   Utils
 } from "../lib/utils";
-import { UtilsInternal } from "../lib/utilsInternal";
 import {
   RedeemEventResult
 } from "../lib/wrappers/commonEventInterfaces";

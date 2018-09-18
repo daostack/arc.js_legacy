@@ -1,6 +1,5 @@
 import { BigNumber } from "bignumber.js";
 import { promisify } from "es6-promisify";
-import { computeMaxGasLimit } from "../gasLimits.js";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { ConfigService } from "./configService";
 import { ControllerService } from "./controllerService";
@@ -20,6 +19,7 @@ import {
   TxGeneratingFunctionOptions
 } from "./transactionService";
 import { Utils } from "./utils";
+import { UtilsInternal } from "./utilsInternal";
 import { EventFetcherFactory, Web3EventService } from "./web3EventService";
 
 /**
@@ -176,9 +176,7 @@ export abstract class ContractWrapperBase implements IContractWrapper {
 
     const currentNetwork = await Utils.getNetworkName();
 
-    const web3 = await Utils.getWeb3();
-
-    const maxGasLimit = await computeMaxGasLimit(web3);
+    const maxGasLimit = await UtilsInternal.computeMaxGasLimit();
 
     if (currentNetwork === "Ganache") {
       return maxGasLimit; // because who cares with ganache and we can't get good estimates from it
@@ -313,14 +311,14 @@ export abstract class ContractWrapperBase implements IContractWrapper {
     try {
       let error;
 
-      const gasPriceComputer = ConfigService.get("gasPriceAdjustment") as GasPriceAdjustor;
+      const gasPriceComputed = ConfigService.get("gasPriceAdjustment") as GasPriceAdjustor;
+      const web3 = await Utils.getWeb3();
 
-      if (gasPriceComputer && !web3Params.gasPrice) {
-        const web3 = await Utils.getWeb3();
-        if (gasPriceComputer) {
+      if (gasPriceComputed && !web3Params.gasPrice) {
+        if (gasPriceComputed) {
           const defaultGasPrice =
             await promisify((callback: any): void => { web3.eth.getGasPrice(callback); })() as BigNumber;
-          web3Params.gasPrice = await gasPriceComputer(defaultGasPrice);
+          web3Params.gasPrice = await gasPriceComputed(defaultGasPrice);
         }
         LoggingService.debug(
           `invoking function with configured gasPrice: ${web3.fromWei(web3Params.gasPrice, "gwei")}`);
@@ -337,6 +335,9 @@ export abstract class ContractWrapperBase implements IContractWrapper {
             LoggingService.error(`estimateGas failed: ${ex}`);
             error = ex;
           });
+      } else if (web3Params.gas) {
+        // cap any already-given gas limit
+        web3Params.gas = Math.min(web3Params.gas, await UtilsInternal.computeMaxGasLimit());
       }
 
       if (error) {

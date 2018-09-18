@@ -12,4 +12,3 @@ yarn.lock
 test-build/
 site/
 docs/api/
-arcConstants.js

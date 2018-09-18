@@ -1,7 +1,7 @@
 import { Web3 } from "web3";
 import { Utils } from "../utils";
+import { UtilsInternal } from "../utilsInternal";
 /* tslint:disable-next-line:no-var-requires */
-const computeMaxGasLimit: any = require("../../gasLimits.js").computeMaxGasLimit;
 /* tslint:disable-next-line:no-var-requires */
 const env = require("env-variable")();
 
@@ -53,7 +53,7 @@ export const arcJsDeployer = (
     console.log(`Deploying schemes to ${network}`);
 
     const DAOToken = await Utils.requireContract("DAOToken");
-    const gasLimit = await computeMaxGasLimit(web3);
+    const gasLimit = await UtilsInternal.computeMaxGasLimit();
     const gasPrice = 10000000000; // 10 Gwei
     let genTokenAddress;
 
