@@ -135,7 +135,7 @@ export interface VoteProposalEventResult {
   /**
    * The choice of vote
    */
-  _vote: number;
+  _vote: BigNumber;
   /**
    * indexed
    */

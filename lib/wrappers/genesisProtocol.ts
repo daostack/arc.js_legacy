@@ -974,7 +974,10 @@ export interface StakeEventResult {
    * indexed
    */
   _proposalId: Hash;
-  _vote: number;
+  /**
+   * The choice of vote
+   */
+  _vote: BigNumber;
   /**
    * indexed
    */
