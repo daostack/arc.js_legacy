@@ -9,6 +9,9 @@ Automatically approve token transfers for operations that require the sender pay
 **cacheContractWrappers**
 `true` to cache contract wrappers obtained using the contract wrapper factory methods `.at` and `.new`.  The cache is local, it does not persist across application instances.  The default is `false`.
 
+**defaultGasLimit**
+The default gas limit used for most operations when "estimateGas" is false.
+
 **defaultVotingMachine**
 The voting machine used by default by `Dao.new` when creating new DAOs.  Default is "AbsoluteVote".
 

@@ -21,6 +21,11 @@ describe("DAO", () => {
           reputation: web3.toWei(1000),
           tokens: web3.toWei(100),
         },
+        {
+          address: accounts[1],
+          reputation: web3.toWei(1000),
+          tokens: web3.toWei(100),
+        },
       ],
       name: "ArcJsTestDao",
       tokenName: "Tokens of ArcJsTestDao",

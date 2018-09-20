@@ -1,8 +1,11 @@
+import { promisify } from "es6-promisify";
 import { Address } from "./commonTypes";
+import { ConfigService } from "./configService";
 import { IConfigService } from "./iConfigService";
 import { IContractWrapper, IContractWrapperFactory } from "./iContractWrapperBase";
 import { LoggingService } from "./loggingService";
 import { Utils } from "./utils";
+import { UtilsInternal } from "./utilsInternal";
 import { Web3EventService } from "./web3EventService";
 
 /**
@@ -44,6 +47,17 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
   public async new(...rest: Array<any>): Promise<TWrapper> {
     await this.ensureSolidityContract();
 
+    let gas;
+
+    if (ConfigService.get("estimateGas") && (!rest || !rest.length || (!rest[rest.length - 1].gas))) {
+      gas = await this.estimateConstructorGas(...rest);
+      LoggingService.debug(`Instantiating ${this.solidityContractName} with gas: ${gas}`);
+    }
+
+    if (gas) {
+      rest = [...rest, { gas }];
+    }
+
     const hydratedWrapper =
       await new this.wrapper(this.solidityContract, this.web3EventService).hydrateFromNew(...rest);
 
@@ -82,6 +96,28 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
     };
 
     return this.getHydratedWrapper(getWrapper);
+  }
+
+  protected async estimateConstructorGas(...params: Array<any>): Promise<number> {
+    const web3 = await Utils.getWeb3();
+    await this.ensureSolidityContract();
+    const callData = (web3.eth.contract(this.solidityContract.abi).new as any).getData(
+      ...params,
+      {
+        data: this.solidityContract.bytecode,
+      });
+
+    const currentNetwork = await Utils.getNetworkName();
+
+    const maxGasLimit = await UtilsInternal.computeMaxGasLimit();
+
+    if (currentNetwork === "Ganache") {
+      return maxGasLimit; // because who cares with ganache and we can't get good estimates from it
+    }
+
+    const gas = await promisify((callback: any) => web3.eth.estimateGas({ data: callData }, callback))() as number;
+
+    return Math.max(Math.min(gas, maxGasLimit), 21000);
   }
 
   private async getHydratedWrapper(

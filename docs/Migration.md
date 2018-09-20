@@ -23,9 +23,6 @@ Arc.js ships with contracts already migrated to Kovan and MainNet.  But you may 
     !!! warning
         The mnemonic won't work unless it confirms to [BIP39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).  You can generate examples of conformant mnemonics [here](https://iancoleman.io/bip39/).
 
-    !!! info
-        The migration script will use the gas settings defined in the Arc.js file `arc.js/gasLimits.js`.  The gas limit when migrating/creating Daos is computed dynamically as a function of the number of founders.
-
 3. Provide a list of Genesis DAO founders as described in [configuring founders](#configuring-founders).
 
 4. If deploying to ganache, then run `npm start ganache`, or from your application: `npm explore @daostack/arc.js -- npm start ganache`.

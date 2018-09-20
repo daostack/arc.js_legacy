@@ -100,8 +100,6 @@ module.exports = {
           "nps test.build.clean",
           mkdirp(joinPath(pathArcTestBuild, "config")),
           copy(`${joinPath(".", "config", "**", "*")} ${joinPath(pathArcTestBuild, "config")}`),
-          copy(`${joinPath(".", "gasLimits.js")} ${pathArcTestBuild}`),
-          copy(`${joinPath(".", "arcConstants.js")} ${pathArcTestBuild}`),
           copy(`${joinPath(pathArcJsContracts, "**", "*")} ${joinPath(pathArcTestBuild, "migrated_contracts")}`),
           mkdirp(pathArcTestBuild),
           `node ${pathTypeScript} --outDir ${pathArcTestBuild} --project ${pathArcTest}`
@@ -180,9 +178,7 @@ module.exports = {
        * the proper version of Arc sibling to the Arc.js package.
        */
       fetchFromArc: series(
-        copy(`${joinPath(pathDaostackArcRepo, "build", "contracts", "*")}  ${pathArcJsContracts}`),
-        // write Arc's gasLimit into a file where we can grab it when needed
-        `node ${joinPath(".", "package-scripts", "importArcGasLimit.js")}`
+        copy(`${joinPath(pathDaostackArcRepo, "build", "contracts", "*")}  ${pathArcJsContracts}`)
       ),
     },
     docs: {

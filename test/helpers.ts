@@ -50,7 +50,7 @@ export const SOME_ADDRESS = "0x1000000000000000000000000000000000000000";
 /* tslint:disable-next-line:no-bitwise */
 export const DefaultLogLevel = LogLevel.error | LogLevel.info;
 
-LoggingService.logLevel = DefaultLogLevel;
+ConfigService.set("logLevel", DefaultLogLevel);
 ConfigService.set("estimateGas", true);
 ConfigService.set("cacheContractWrappers", true);
 

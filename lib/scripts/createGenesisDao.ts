@@ -1,19 +1,9 @@
 import { Web3 } from "web3";
-import { DefaultSchemePermissions, SchemePermissions } from "../commonTypes";
-import { Address } from "../commonTypes";
-import { Utils } from "../utils";
-import { UtilsInternal } from "../utilsInternal";
-import { GetDefaultGenesisProtocolParameters } from "../wrappers/genesisProtocol";
-
-/* tslint:disable-next-line:no-var-requires */
-const gasLimits: any = require("../../gasLimits.js");
-const computeForgeOrgGasLimit: any = gasLimits.computeForgeOrgGasLimit;
-const computeMaxGasLimit: any = gasLimits.computeMaxGasLimit;
-
-/* tslint:disable:no-var-requires */
+import { ConfigService, DAO, InitializeArcJs } from "../index";
 
 /* tslint:disable:no-console */
 /* tslint:disable:max-line-length */
+
 interface FounderSpec {
   /**
    * Founders' address
@@ -30,12 +20,6 @@ interface FounderSpec {
   reputation: string | number;
 }
 
-export interface ForgedDaoInfo {
-  avatarAddress: Address;
-  orgName: string;
-  daoCreatorInst: any;
-}
-
 /**
  * Migration callback
  */
@@ -46,218 +30,92 @@ export class GenesisDaoCreator {
     private network: string) {
   }
 
-  /**
-   * Forge the Genesis DAO.  Note this does not set the schemes.
-   */
-  public async forge(foundersConfigurationLocation: string): Promise<ForgedDaoInfo> {
+  public async run(foundersConfigurationLocation: string): Promise<void> {
 
-    const live = this.network === "live";
-    /**
-     * Genesis DAO parameters
-     */
-    const orgName = live ? "Genesis Alpha" : "Genesis Alpha";
-    const tokenName = live ? "Genesis Alpha" : "Genesis Alpha";
-    const tokenSymbol = "GDT";
+    const spec = {
+      founders: [
+        {
+          address: "0xb0c908140fe6fd6fbd4990a5c2e35ca6dc12bfb2",
+          reputation: "1000",
+          tokens: "1000",
+        },
+        {
+          address: "0x9c7f9f45a22ad3d667a5439f72b563df3aa70aae",
+          reputation: "1000",
+          tokens: "1000",
+        },
+        {
+          address: "0xa2a064b3b22fc892dfb71923a6d844b953aa247c",
+          reputation: "1000",
+          tokens: "1000",
+        },
+        {
+          address: "0xdeeaa92e025ca7fe34679b0b92cd4ffa162c8de8",
+          reputation: "1000",
+          tokens: "1000",
+        },
+        {
+          address: "0x81cfdaf70273745a291a7cf9af801a4cffa87a95",
+          reputation: "1000",
+          tokens: "1000",
+        },
+        {
+          address: "0x8ec400484deb5330bcd0bc005c13a557c5247727",
+          reputation: "1000",
+          tokens: "1000",
+        },
+      ],
+      name: "Genesis Test",
+      schemes: [
+        {
+          name: "SchemeRegistrar",
+          votingMachineParams: {
+            votingMachineName: "AbsoluteVote",
+          },
+        },
+        {
+          name: "GlobalConstraintRegistrar",
+          votingMachineParams: {
+            votingMachineName: "AbsoluteVote",
+          },
+        },
+        {
+          name: "UpgradeScheme",
+          votingMachineParams: {
+            votingMachineName: "AbsoluteVote",
+          },
+        },
+        {
+          name: "ContributionReward",
+          votingMachineParams: {
+            votingMachineName: "GenesisProtocol",
+          },
+        },
+        {
+          name: "GenesisProtocol",
+        },
+      ],
+      tokenName: "Genesis Test",
+      tokenSymbol: "GDT",
+    };
 
-    /**
-     * Truffle Solidity artifact wrappers
-     */
-    const Avatar = await Utils.requireContract("Avatar");
+    await InitializeArcJs();
 
-    const DaoCreator = await Utils.requireContract("DaoCreator");
-    const daoCreatorInst = await DaoCreator.deployed();
-    const UController = await Utils.requireContract("UController");
-    const universalControllerInst = await UController.deployed();
+    spec.founders = spec.founders.map((f: FounderSpec) => {
+      return {
+        address: f.address,
+        reputation: this.web3.toWei(f.reputation),
+        tokens: this.web3.toWei(f.tokens),
+      };
+    });
 
-    const internalFoundersConfigLocation = "../../migrations/founders.json";
-    const foundersConfig = require(internalFoundersConfigLocation).founders;
+    console.log(`Genesis Test DAO with ${spec.founders.length} founders...`);
 
-    const customFoundersConfigLocation = foundersConfigurationLocation || internalFoundersConfigLocation;
+    const dao = await DAO.new(spec);
 
-    if (internalFoundersConfigLocation !== customFoundersConfigLocation) {
-      console.log(`merging custom founders from ${customFoundersConfigLocation}`);
-      const customFoundersConfig = require(customFoundersConfigLocation).founders;
-      // merge the two
-      Object.assign(foundersConfig, customFoundersConfig);
-    }
+    console.log(`new DAO created at: ${dao.avatar.address}`);
+    console.log(`native token: ${dao.token.address}`);
 
-    const founders = foundersConfig[this.network];
-
-    if (!founders || (founders.length === 0)) {
-      throw new Error(`no founders were given for the network: ${this.network}`);
-    }
-
-    let gasLimit = computeForgeOrgGasLimit(founders.length);
-    const maxGasLimit = await computeMaxGasLimit(this.web3);
-
-    gasLimit = Math.min(gasLimit, maxGasLimit);
-
-    console.log(`Forging ${orgName} to ${this.network}, gasLimit: ${gasLimit} and ${founders.length} founders...`);
-
-    /**
-     * Create the Genesis DAO
-     */
-    const txForgeOrg = await daoCreatorInst.forgeOrg(
-      orgName,
-      tokenName,
-      tokenSymbol,
-      founders.map((f: FounderSpec) => f.address),
-      founders.map((f: FounderSpec) => this.web3.toWei(f.tokens)),
-      founders.map((f: FounderSpec) => this.web3.toWei(f.reputation)),
-      universalControllerInst.address,
-      this.web3.toWei(100000000), // token cap of one hundred million GEN, in Wei
-      { gas: gasLimit });
-
-    let avatarInst;
-
-    while (!avatarInst) {
-
-      await Avatar.at(txForgeOrg.logs[0].args._avatar)
-        .then((address: Address) => {
-          avatarInst = address;
-        })
-        /* tslint:disable-next-line:no-empty */
-        .catch(() => {
-        });
-
-      if (!avatarInst) {
-        console.log("sleeping until Avatar is available...");
-        /**
-         * Sleep and retry until avatarInst is mined.  This is necessary
-         * virtually every time we run against mainnet.
-         */
-        await UtilsInternal.sleep(2000);
-      }
-    }
-
-    console.log(`Avatar forged at: ${avatarInst.address}`);
-
-    /** for use by setSchemes */
-    return {
-      avatarAddress: avatarInst.address,
-      daoCreatorInst,
-      orgName,
-    } as ForgedDaoInfo;
-  }
-
-  public async setSchemes(forgedDaoInfo: ForgedDaoInfo): Promise<void> {
-
-    /**
-     * Truffle Solidity artifact wrappers
-     */
-    const ContributionReward = await Utils.requireContract("ContributionReward");
-    const GlobalConstraintRegistrar = await Utils.requireContract("GlobalConstraintRegistrar");
-    const SchemeRegistrar = await Utils.requireContract("SchemeRegistrar");
-    const UpgradeScheme = await Utils.requireContract("UpgradeScheme");
-    const GenesisProtocol = await Utils.requireContract("GenesisProtocol");
-
-    /**
-     *  Genesis DAO parameters
-     */
-    const orgNativeTokenFee = 0;
-    const defaultVotingMachineParams = await GetDefaultGenesisProtocolParameters();
-    const schemeRegistrarPermissions = SchemePermissions.toString(DefaultSchemePermissions.SchemeRegistrar);
-    const globalConstraintRegistrarPermissions = SchemePermissions.toString(DefaultSchemePermissions.GlobalConstraintRegistrar);
-    const upgradeSchemePermissions = SchemePermissions.toString(DefaultSchemePermissions.UpgradeScheme);
-    const contributionRewardPermissions = SchemePermissions.toString(DefaultSchemePermissions.ContributionReward);
-    const genesisProtocolPermissions = SchemePermissions.toString(DefaultSchemePermissions.GenesisProtocol);
-
-    console.log(`Setting schemes for ${forgedDaoInfo.orgName} on ${this.network}...`);
-
-    const genesisProtocolInst = await GenesisProtocol.deployed();
-    const schemeRegistrarInst = await SchemeRegistrar.deployed();
-    const upgradeSchemeInst = await UpgradeScheme.deployed();
-    const globalConstraintRegistrarInst = await GlobalConstraintRegistrar.deployed();
-    const contributionRewardInst = await ContributionReward.deployed();
-    /**
-     * Set/get the GenesisProtocol voting parameters that will be used as defaults
-     * for the schemes' voting machine as we add the schemes to the Genesis DAO, below.
-     */
-    const genesisProtocolParams = await genesisProtocolInst.getParametersHash(
-      [
-        defaultVotingMachineParams.preBoostedVoteRequiredPercentage,
-        defaultVotingMachineParams.preBoostedVotePeriodLimit,
-        defaultVotingMachineParams.boostedVotePeriodLimit,
-        defaultVotingMachineParams.thresholdConstA,
-        defaultVotingMachineParams.thresholdConstB,
-        defaultVotingMachineParams.minimumStakingFee,
-        defaultVotingMachineParams.quietEndingPeriod,
-        defaultVotingMachineParams.proposingRepRewardConstA,
-        defaultVotingMachineParams.proposingRepRewardConstB,
-        defaultVotingMachineParams.stakerFeeRatioForVoters,
-        defaultVotingMachineParams.votersReputationLossRatio,
-        defaultVotingMachineParams.votersGainRepRatioFromLostRep,
-        defaultVotingMachineParams.daoBountyConst,
-        defaultVotingMachineParams.daoBountyLimit,
-      ]
-    );
-
-    await genesisProtocolInst.setParameters(
-      [
-        defaultVotingMachineParams.preBoostedVoteRequiredPercentage,
-        defaultVotingMachineParams.preBoostedVotePeriodLimit,
-        defaultVotingMachineParams.boostedVotePeriodLimit,
-        defaultVotingMachineParams.thresholdConstA,
-        defaultVotingMachineParams.thresholdConstB,
-        defaultVotingMachineParams.minimumStakingFee,
-        defaultVotingMachineParams.quietEndingPeriod,
-        defaultVotingMachineParams.proposingRepRewardConstA,
-        defaultVotingMachineParams.proposingRepRewardConstB,
-        defaultVotingMachineParams.stakerFeeRatioForVoters,
-        defaultVotingMachineParams.votersReputationLossRatio,
-        defaultVotingMachineParams.votersGainRepRatioFromLostRep,
-        defaultVotingMachineParams.daoBountyConst,
-        defaultVotingMachineParams.daoBountyLimit,
-      ]
-    );
-
-    /**
-     * Set/get the Genesis DAO's scheme parameters, using the GenesisProtocol voting machine
-     * parameters that we just obtained above.
-     */
-    await schemeRegistrarInst.setParameters(genesisProtocolParams, genesisProtocolParams, genesisProtocolInst.address);
-    const schemeRegisterParams = await schemeRegistrarInst.getParametersHash(genesisProtocolParams, genesisProtocolParams, genesisProtocolInst.address);
-
-    await globalConstraintRegistrarInst.setParameters(genesisProtocolParams, genesisProtocolInst.address);
-    const schemeGCRegisterParams = await globalConstraintRegistrarInst.getParametersHash(genesisProtocolParams, genesisProtocolInst.address);
-
-    await upgradeSchemeInst.setParameters(genesisProtocolParams, genesisProtocolInst.address);
-    const schemeUpgradeParams = await upgradeSchemeInst.getParametersHash(genesisProtocolParams, genesisProtocolInst.address);
-
-    await contributionRewardInst.setParameters(orgNativeTokenFee, genesisProtocolParams, genesisProtocolInst.address);
-    const contributionRewardParams = await contributionRewardInst.getParametersHash(orgNativeTokenFee, genesisProtocolParams, genesisProtocolInst.address);
-
-    /**
-     * Register the schemes with the Genesis DAO
-     */
-    const schemesArray = [
-      schemeRegistrarInst.address,
-      globalConstraintRegistrarInst.address,
-      upgradeSchemeInst.address,
-      contributionRewardInst.address,
-      genesisProtocolInst.address];
-
-    const paramsArray = [
-      schemeRegisterParams,
-      schemeGCRegisterParams,
-      schemeUpgradeParams,
-      contributionRewardParams,
-      genesisProtocolParams];
-
-    const permissionArray = [
-      schemeRegistrarPermissions,
-      globalConstraintRegistrarPermissions,
-      upgradeSchemePermissions,
-      contributionRewardPermissions,
-      genesisProtocolPermissions,
-    ];
-
-    const daoCreatorInst = forgedDaoInfo.daoCreatorInst;
-
-    return daoCreatorInst.setSchemes(
-      forgedDaoInfo.avatarAddress,
-      schemesArray,
-      paramsArray,
-      permissionArray);
+    return Promise.resolve();
   }
 }

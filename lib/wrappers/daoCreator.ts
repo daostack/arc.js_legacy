@@ -1,7 +1,6 @@
 "use strict";
 import * as BigNumber from "bignumber.js";
 import { promisify } from "es6-promisify";
-import { computeForgeOrgGasLimit } from "../../gasLimits.js";
 import { AvatarService } from "../avatarService";
 import { Address, Hash, SchemePermissions } from "../commonTypes";
 import { ConfigService } from "../configService";
@@ -99,7 +98,22 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       controllerAddress = 0;
     }
 
-    const totalGas = computeForgeOrgGasLimit(options.founders.length);
+    const paramsArray = [
+      options.name,
+      options.tokenName,
+      options.tokenSymbol,
+      options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.address)),
+      options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.tokens)),
+      options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.reputation)),
+      controllerAddress,
+      options.tokenCap];
+
+    /**
+     * The default gas limit will be insufficient when using non-universal controller,
+     * so we do a proper estimate here.  We're estimating even when universal since
+     * the value will be optimial for the user in any case.
+     */
+    const totalGas = await this.estimateGas(this.contract.forgeOrg, paramsArray);
 
     this.logContractFunctionCall("DaoCreator.forgeOrg (options)", options);
 
@@ -118,14 +132,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     return this.wrapTransactionInvocation("DaoCreator.forgeOrg",
       options,
       this.contract.forgeOrg,
-      [options.name,
-      options.tokenName,
-      options.tokenSymbol,
-      options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.address)),
-      options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.tokens)),
-      options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.reputation)),
-        controllerAddress,
-      options.tokenCap],
+      paramsArray,
       { gas: totalGas }
     );
   }

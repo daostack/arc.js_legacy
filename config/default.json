@@ -4,6 +4,7 @@
   "cacheContractWrappers": true,
   "logLevel": 9,
   "estimateGas": false,
+  "defaultGasLimit": 4543760,
   "gasPriceAdjustor": null,
   "txDepthRequiredForConfirmation": {
     "default": 7,
