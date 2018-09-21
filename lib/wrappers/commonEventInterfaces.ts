@@ -1,4 +1,4 @@
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "../utils";
 import { Address, Hash } from "../commonTypes";
 
 export interface ProposalDeletedEventResult {

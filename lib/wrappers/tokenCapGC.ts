@@ -3,7 +3,7 @@ import { Address, Hash } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ArcTransactionDataResult, IContractWrapperFactory } from "../iContractWrapperBase";
 
-import BigNumber from "bignumber.js";
+import { BigNumber } from "../utils";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ControllerService } from "../controllerService";
 import { TxGeneratingFunctionOptions } from "../transactionService";
@@ -28,7 +28,7 @@ export class TokenCapGCWrapper extends ContractWrapperBase {
     }
     const cap = new BigNumber(params.cap);
 
-    if (cap.lt(0)) {
+    if (cap.ltn(0)) {
       throw new Error("cap must be greater than or equal to zero");
     }
 

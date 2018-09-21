@@ -2,7 +2,7 @@
 import { assert } from "chai";
 import {
   DecodedLogEntryEvent,
-} from "web3";
+} from "ethereum-types";
 import { Utils } from "../lib/utils";
 import { UtilsInternal } from "../lib/utilsInternal";
 import {
@@ -23,7 +23,7 @@ describe("Web3EventService", () => {
       await web3.eth.sendTransaction({
         from: accounts[0],
         to: accounts[3],
-        value: web3.toWei(0.00001, "ether"),
+        value: web3.utils.toWei(0.00001, "ether"),
       });
     }
   };
@@ -47,7 +47,7 @@ describe("Web3EventService", () => {
         return Promise.resolve({ blockNumber: event.blockNumber });
       })({ spender: accounts[0], owner: accounts[4] }, { fromBlock: initialBlockNumber });
 
-    const amount = web3.toWei(1);
+    const amount = web3.utils.toWei(1);
     const result = await token.approve({
       amount,
       owner: accounts[4],
@@ -106,7 +106,7 @@ describe("Web3EventService", () => {
       }, 2);
     });
 
-    const amount = web3.toWei(1);
+    const amount = web3.utils.toWei(1);
     const result = await token.approve({
       amount,
       owner: accounts[4],
@@ -157,7 +157,7 @@ describe("Web3EventService", () => {
       }, 2);
     });
 
-    const amount = web3.toWei(1);
+    const amount = web3.utils.toWei(1);
     const result = await token.approve({
       amount,
       owner: accounts[4],
@@ -199,7 +199,7 @@ describe("Web3EventService", () => {
     }, 4);
 
     const result = await token.approve({
-      amount: web3.toWei(1),
+      amount: web3.utils.toWei(1),
       owner: accounts[4],
       spender: accounts[0],
     });

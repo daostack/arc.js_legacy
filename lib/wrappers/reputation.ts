@@ -2,7 +2,7 @@
 import { Address } from "../commonTypes";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "../utils";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { LoggingService } from "../loggingService";
@@ -30,7 +30,7 @@ export class ReputationWrapper extends ContractWrapperBase {
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.eq(0)) {
+    if (amount.eqn(0)) {
       LoggingService.warn("Reputation.mint: amount is zero.  Doing nothing.");
       return new ArcTransactionResult(null, this.contract);
     }
@@ -57,7 +57,7 @@ export class ReputationWrapper extends ContractWrapperBase {
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.eq(0)) {
+    if (amount.eqn(0)) {
       LoggingService.warn("Reputation.burn: amount is zero.  Doing nothing.");
       return new ArcTransactionResult(null, this.contract);
     }

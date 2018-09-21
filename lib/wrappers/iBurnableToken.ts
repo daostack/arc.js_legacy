@@ -1,5 +1,5 @@
 "use strict";
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "../utils";
 import { Address } from "../commonTypes";
 import { ArcTransactionResult } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";

@@ -1,5 +1,5 @@
 "use strict";
-import * as BigNumber from "bignumber.js";
+import { BigNumber } from "../utils";
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
 import { ConfigService } from "../configService";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
@@ -85,7 +85,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements IUniv
       [options.beneficiaryAddress,
       options.returnOnCancelAddress,
       options.startingBlock,
-      web3.toBigNumber(options.amountPerPeriod),
+      web3.utils.toBN(options.amountPerPeriod),
       options.periodLength,
       options.numOfAgreedPeriods,
       options.cliffInPeriods,
@@ -117,7 +117,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements IUniv
 
     const web3 = await Utils.getWeb3();
 
-    const amountPerPeriod = web3.toBigNumber(options.amountPerPeriod);
+    const amountPerPeriod = web3.utils.toBN(options.amountPerPeriod);
     const autoApproveTransfer = ConfigService.get("autoApproveTokenTransfers");
     const functionName = "VestingScheme.create";
 
@@ -135,7 +135,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements IUniv
       const token = await StandardTokenFactory.at(options.token) as any;
 
       const result = await token.approve({
-        amount: amountPerPeriod.mul(options.numOfAgreedPeriods),
+        amount: amountPerPeriod.muln(options.numOfAgreedPeriods),
         spender: this.address,
         txEventContext: eventContext,
       });
@@ -386,7 +386,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements IUniv
 
     const web3 = await Utils.getWeb3();
 
-    if (await web3.toBigNumber(options.amountPerPeriod).lte(0)) {
+    if (await web3.utils.toBN(options.amountPerPeriod).lten(0)) {
       throw new Error("amountPerPeriod must be greater than zero");
     }
 
@@ -457,14 +457,14 @@ export interface NewVestedAgreementEventResult {
   /**
    * indexed
    */
-  _agreementId: BigNumber.BigNumber;
+  _agreementId: BigNumber;
 }
 
 export interface ProposedVestedAgreementEventResult {
   /**
    * indexed
    */
-  _agreementId: BigNumber.BigNumber;
+  _agreementId: BigNumber;
   /**
    * indexed
    */
@@ -475,7 +475,7 @@ export interface SignToCancelAgreementEventResult {
   /**
    * indexed
    */
-  _agreementId: BigNumber.BigNumber;
+  _agreementId: BigNumber;
   /**
    * indexed
    */
@@ -486,7 +486,7 @@ export interface RevokeSignToCancelAgreementEventResult {
   /**
    * indexed
    */
-  _agreementId: BigNumber.BigNumber;
+  _agreementId: BigNumber;
   /**
    * indexed
    */
@@ -497,14 +497,14 @@ export interface AgreementCancelEventResult {
   /**
    * indexed
    */
-  _agreementId: BigNumber.BigNumber;
+  _agreementId: BigNumber;
 }
 
 export interface CollectEventResult {
   /**
    * indexed
    */
-  _agreementId: BigNumber.BigNumber;
+  _agreementId: BigNumber;
 }
 
 export interface CommonVestingAgreementConfig {
@@ -528,7 +528,7 @@ export interface CommonVestingAgreementConfig {
    * Should be expressed in Wei.
    * Must be greater than zero.
    */
-  amountPerPeriod: BigNumber.BigNumber | string;
+  amountPerPeriod: BigNumber | string;
   /**
    * number of blocks in a period.
    * Must be greater than zero.
@@ -616,15 +616,15 @@ export interface Agreement extends AgreementBase {
 }
 
 export interface AgreementBase {
-  amountPerPeriod: BigNumber.BigNumber;
+  amountPerPeriod: BigNumber;
   beneficiaryAddress: Address;
-  cliffInPeriods: BigNumber.BigNumber;
-  collectedPeriods: BigNumber.BigNumber;
-  numOfAgreedPeriods: BigNumber.BigNumber;
-  periodLength: BigNumber.BigNumber;
+  cliffInPeriods: BigNumber;
+  collectedPeriods: BigNumber;
+  numOfAgreedPeriods: BigNumber;
+  periodLength: BigNumber;
   returnOnCancelAddress: Address;
-  signaturesReqToCancel: BigNumber.BigNumber;
-  startingBlock: BigNumber.BigNumber;
+  signaturesReqToCancel: BigNumber;
+  startingBlock: BigNumber;
   tokenAddress: Address;
 }
 

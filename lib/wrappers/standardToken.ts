@@ -1,5 +1,5 @@
 "use strict";
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "../utils";
 import { Address } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
@@ -29,7 +29,7 @@ export class StandardTokenWrapper extends ContractWrapperBase {
     }
     const amount = new BigNumber(options.amount);
 
-    if (amount.eq(0)) {
+    if (amount.eqn(0)) {
       LoggingService.warn("StandardToken.approve: amount is zero.  Doing nothing.");
       return new ArcTransactionResult(null, this.contract);
     }
@@ -61,7 +61,7 @@ export class StandardTokenWrapper extends ContractWrapperBase {
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.eq(0)) {
+    if (amount.eqn(0)) {
       LoggingService.warn("StandardToken.transfer: amount is zero.  Doing nothing.");
       return new ArcTransactionResult(null, this.contract);
     }
@@ -96,7 +96,7 @@ export class StandardTokenWrapper extends ContractWrapperBase {
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.eq(0)) {
+    if (amount.eqn(0)) {
       LoggingService.warn("StandardToken.transferFrom: amount is zero.  Doing nothing.");
       return new ArcTransactionResult(null, this.contract);
     }
@@ -124,7 +124,7 @@ export class StandardTokenWrapper extends ContractWrapperBase {
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.eq(0)) {
+    if (amount.eqn(0)) {
       LoggingService.warn("StandardToken.increaseApproval: amount is zero.  Doing nothing.");
       return new ArcTransactionResult(null, this.contract);
     }
@@ -153,7 +153,7 @@ export class StandardTokenWrapper extends ContractWrapperBase {
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.eq(0)) {
+    if (amount.eqn(0)) {
       LoggingService.warn("StandardToken.decreaseApproval: amount is zero.  Doing nothing.");
       return new ArcTransactionResult(null, this.contract);
     }

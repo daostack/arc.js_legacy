@@ -22,7 +22,7 @@ import {
   VoteWithSpecifiedAmountsOptions
 } from "./iIntVoteInterface";
 
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "../utils";
 import { IntVoteInterfaceWrapper } from "./intVoteInterface";
 
 export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper

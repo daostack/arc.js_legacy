@@ -1,4 +1,4 @@
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "./utils";
 import { promisify } from "es6-promisify";
 import { Address } from "./commonTypes";
 import { ControllerService } from "./controllerService";

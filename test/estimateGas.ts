@@ -1,4 +1,4 @@
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "../lib/utils";
 import { assert } from "chai";
 import { BinaryVoteResult, Hash } from "../lib/commonTypes";
 import { DAO } from "../lib/dao";
@@ -27,7 +27,7 @@ describe("estimate gas", () => {
     }
 
     web3 = await Utils.getWeb3();
-    stakingAmount = web3.toWei("10");
+    stakingAmount = web3.utils.toWei("10");
 
     if (!dao) {
       if (network !== "Ganache") {

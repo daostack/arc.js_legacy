@@ -1,10 +1,9 @@
 "use strict";
-import BigNumber from "bignumber.js";
 import { AvatarService } from "./avatarService";
 import { Address, fnVoid, Hash } from "./commonTypes";
 import { DecodedLogEntryEvent, IContractWrapper } from "./iContractWrapperBase";
 import { TransactionService, TxGeneratingFunctionOptions } from "./transactionService";
-import { Utils } from "./utils";
+import { Utils, BigNumber } from "./utils";
 import { EntityFetcherFactory, EventFetcherFilterObject, Web3EventService } from "./web3EventService";
 import { DaoCreatorFactory, DaoCreatorWrapper } from "./wrappers/daoCreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult, SchemesConfig } from "./wrappers/daoCreator";

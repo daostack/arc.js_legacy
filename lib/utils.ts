@@ -1,15 +1,10 @@
-import { BigNumber } from "bignumber.js";
-import { promisify } from "es6-promisify";
+import BigNumber = require("bn.js");
 import abi = require("ethereumjs-abi");
 import Contract = require("truffle-contract");
-import { providers as Web3Providers, Web3 } from "web3";
+import { Web3 } from "web3";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { ConfigService } from "./configService";
 import { LoggingService } from "./loggingService";
-// haven't figured out how to get web3 typings to properly expose the Web3 constructor.
-// v1.0 may improve on this entire Web3 typings experience
-/* tslint:disable-next-line:no-var-requires */
-const webConstructor = require("web3");
 
 export class Utils {
 
@@ -80,7 +75,7 @@ export class Utils {
       // Instead of using the injected Web3.js directly best practice is to use the version of web3.js we have bundled
       /* tslint:disable-next-line:max-line-length */
       // see https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#partly_sunny-web3---ethereum-browser-environment-check
-      preWeb3 = new webConstructor(globalWeb3.currentProvider);
+      preWeb3 = new Web3(globalWeb3.currentProvider);
     } else if (Utils.alreadyTriedAndFailed) {
       // then avoid time-consuming and futile retry
       throw new Error("Utils.getWeb3: already tried and failed");
@@ -94,13 +89,10 @@ export class Utils {
       LoggingService.debug(`Utils.getWeb3: instantiating web3 with configured provider at ${url}`);
       // No web3 is injected, look for a provider at providerUrl:providerPort (which defaults to 127.0.0.1)
       // This happens when running tests, or in a browser that is not running MetaMask
-      preWeb3 = new webConstructor(new Web3Providers.HttpProvider(url));
+      preWeb3 = new Web3(new Web3.providers.HttpProvider(url));
     }
 
-    const connected = await promisify(preWeb3.net.getListening)()
-      .then((isListening: boolean) => {
-        return isListening;
-      })
+    const connected = await preWeb3.eth.net.isListening()
       .catch((error: Error) => {
         return false;
       });
@@ -115,7 +107,9 @@ export class Utils {
       (window as any).web3 = preWeb3;
     }
 
-    Utils.networkId = await promisify(preWeb3.version.getNetwork)() as string;
+    Utils.networkId = await preWeb3.eth.net.getId();
+
+    LoggingService.info(`Using Web3 version ${preWeb3.version}, networkId ${Utils.networkId}`);
 
     return (Utils.web3 = preWeb3);
   }
@@ -130,15 +124,16 @@ export class Utils {
   public static async getDefaultAccount(): Promise<string> {
     const localWeb3 = await Utils.getWeb3();
 
-    return promisify(localWeb3.eth.getAccounts)().then((accounts: Array<any>) => {
-      const defaultAccount = localWeb3.eth.defaultAccount = accounts[0];
+    return localWeb3.eth.getAccounts()
+      .then((accounts: Array<any>) => {
+        const defaultAccount = localWeb3.eth.defaultAccount = accounts[0];
 
-      if (!defaultAccount) {
-        throw new Error("accounts[0] is not set");
-      }
+        if (!defaultAccount) {
+          throw new Error("accounts[0] is not set");
+        }
 
-      return defaultAccount;
-    });
+        return defaultAccount;
+      });
   }
 
   /**
@@ -171,9 +166,9 @@ export class Utils {
     }
 
     const web3 = await Utils.getWeb3();
-    return promisify((callback: any) => web3.eth.getBalance(agentAddress, web3.eth.defaultBlock, callback))()
-      .then((balance: BigNumber) => {
-        return balance;
+    return web3.eth.getBalance(agentAddress, web3.eth.defaultBlock)
+      .then((balance) => {
+        return new BigNumber(balance);
       });
   }
 
@@ -305,4 +300,4 @@ export class Utils {
   private static networkId: string;
 }
 
-export { Web3 } from "web3";
+export { Web3, BigNumber };

@@ -101,8 +101,8 @@ export class GenesisDaoCreator {
     spec.founders = spec.founders.map((f: FounderSpec) => {
       return {
         address: f.address,
-        reputation: this.web3.toWei(f.reputation),
-        tokens: this.web3.toWei(f.tokens),
+        reputation: this.web3.utils.toWei(f.reputation),
+        tokens: this.web3.utils.toWei(f.tokens),
       };
     });
 

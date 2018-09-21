@@ -26,7 +26,8 @@
     "lint": "npm start lint",
     "ganache": "npm start ganache",
     "migrateContracts": "npm start migrateContracts",
-    "createGenesisDao": "npm start createGenesisDao"
+    "createGenesisDao": "npm start createGenesisDao",
+    "postinstall": "npm start postInstall"
   },
   "repository": {
     "type": "git",
@@ -52,26 +53,26 @@
   },
   "homepage": "https://github.com/daostack/arc.js#readme",
   "dependencies": {
+    "@types/web3": "^1.0.6",
     "archiver": "^2.1.0",
-    "bignumber.js": "^5.0.0",
     "circular-json": "^0.5.4",
     "color-convert": "^1.9.1",
     "cwd": "^0.10.0",
     "decompress": "^4.2.0",
     "env-variable": "0.0.3",
     "es6-promisify": "^6.0.0",
+    "ethereum-types": "^1.0.6",
     "ethereumjs-abi": "^0.6.5",
     "ethjs-abi": "0.1.8",
     "fs-extra": "^5.0.0",
-    "ganache-cli": "^6.1.6",
+    "ganache-cli": "^6.1.8",
     "node-glob": "^1.2.0",
     "nps": "^5.7.1",
     "nps-utils": "^1.5.0",
     "path.join": "^1.0.0",
     "pubsub-js": "^1.6.0",
-    "truffle-contract": "^3.0.1",
-    "truffle-core-migrate-without-compile": "^4.0.7",
-    "truffle-hdwallet-provider": "^0.0.6",
+    "truffle-contract": "^4.0.0-beta.0",
+    "truffle-hdwallet-provider": "^1.0.0-web3one.0",
     "tslib": "^1.9.0"
   },
   "devDependencies": {

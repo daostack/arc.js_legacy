@@ -1,6 +1,5 @@
 "use strict";
-import * as BigNumber from "bignumber.js";
-import { promisify } from "es6-promisify";
+import { BigNumber } from "../utils";
 import { AvatarService } from "../avatarService";
 import { Address, Hash, SchemePermissions } from "../commonTypes";
 import { ConfigService } from "../configService";
@@ -32,10 +31,10 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       DaoCreatorWrapper.uniSchemeUpdateParametersCallData = contract.updateParameters.getData("0x1");
     }
 
-    return await (promisify((callback: any): void => web3.eth.call({
+    return await web3.eth.call({
       data: DaoCreatorWrapper.uniSchemeUpdateParametersCallData,
-      to: contractAddress,
-    }, callback)))()
+      to: contractAddress
+    })
       .then((result: string): boolean => {
         return result === "0x0";
       })
@@ -67,7 +66,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
      * See these properties in ForgeOrgConfig
      */
     const defaults = {
-      tokenCap: web3.toBigNumber(0),
+      tokenCap: web3.utils.toBN(0),
       universalController: true,
     };
 
@@ -102,9 +101,9 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       options.name,
       options.tokenName,
       options.tokenSymbol,
-      options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.address)),
-      options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.tokens)),
-      options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.reputation)),
+      options.founders.map((founder: FounderConfig) => new BigNumber(founder.address)),
+      options.founders.map((founder: FounderConfig) => new BigNumber(founder.tokens)),
+      options.founders.map((founder: FounderConfig) => new BigNumber(founder.reputation)),
       controllerAddress,
       options.tokenCap];
 
@@ -119,9 +118,9 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
     this.logContractFunctionCall("DaoCreator.forgeOrg", {
       controllerAddress,
-      founderAddresses: options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.address)),
-      founderReputation: options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.reputation)),
-      founderTokens: options.founders.map((founder: FounderConfig) => web3.toBigNumber(founder.tokens)),
+      founderAddresses: options.founders.map((founder: FounderConfig) => web3.utils.toBN(founder.address)),
+      founderReputation: options.founders.map((founder: FounderConfig) => web3.utils.toBN(founder.reputation)),
+      founderTokens: options.founders.map((founder: FounderConfig) => web3.utils.toBN(founder.tokens)),
       gas: { gas: totalGas },
       name: options.name,
       tokenCap: options.tokenCap,
@@ -515,12 +514,12 @@ export interface FounderConfig {
    * string | BigNumber token amount to be awarded to each founder.
    * Should be given in Wei.
    */
-  tokens: string | BigNumber.BigNumber;
+  tokens: string | BigNumber;
   /**
    * string | BigNumber reputation amount to be awarded to each founder.
    * Should be given in Wei.
    */
-  reputation: string | BigNumber.BigNumber;
+  reputation: string | BigNumber;
 }
 
 export interface NewDaoVotingMachineConfig {
@@ -551,7 +550,7 @@ export interface ForgeOrgConfig {
   /**
    * Optional cap on the number of tokens, in the DAO's token.  Default is zero, which means no cap.
    */
-  tokenCap?: BigNumber.BigNumber | string;
+  tokenCap?: BigNumber | string;
   /**
    * The name of the token to be associated with the DAO
    */

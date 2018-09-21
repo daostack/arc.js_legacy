@@ -1,4 +1,4 @@
-import BigNumber from "bignumber.js";
+import { BigNumber } from "./utils";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import {
   TransactionReceiptTruffle,
@@ -203,7 +203,7 @@ export interface StandardSchemeParams {
   votingMachineAddress: Address;
 }
 
-export { DecodedLogEntryEvent, TransactionReceipt } from "web3";
+export { TransactionReceipt, DecodedLogEntryEvent } from "ethereum-types";
 
 /**
  * The value of the global config setting `gasPriceAdjustor`

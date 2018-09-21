@@ -1,8 +1,7 @@
-import { DecodedLogEntryEvent, LogTopic } from "web3";
+import { DecodedLogEntryEvent, LogTopic } from "ethereum-types";
 import { fnVoid, Hash } from "./commonTypes";
 import { IEventSubscription, PubSubEventService } from "./pubSubEventService";
 import { TransactionService } from "./transactionService";
-import { Utils } from "./utils";
 import { UtilsInternal } from "./utilsInternal";
 
 /**
@@ -81,7 +80,7 @@ export class Web3EventService {
           return new Promise<Array<DecodedLogEntryEvent<TEventArgs>>>(
             (resolve: (
               result: Array<DecodedLogEntryEvent<TEventArgs>>) => void,
-             reject: (error: Error) => void): void => {
+              reject: (error: Error) => void): void => {
 
               baseFetcher.get(
                 async (
@@ -184,9 +183,9 @@ export class Web3EventService {
       // handler that takes the events and issues givenCallback appropriately
       const handleEvent =
         async (error: Error,
-               log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>,
+          log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>,
           // singly true to issue callback on every arg rather than on the array
-               singly: boolean,
+          singly: boolean,
           /*
            * invoke this callback on every event (watch)
            * or on the array of events (get), depending on the value of singly.
@@ -195,7 +194,7 @@ export class Web3EventService {
            * when not singly, callback gets a promise of the array of entities.
            * get is not singly.  so get gets a promise of an array.
            */
-               callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
+          callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
           Promise<Array<TEntity>> => {
 
           const promiseOfEntities: Promise<Array<TEntity>> =

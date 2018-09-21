@@ -1,6 +1,5 @@
 /* tslint:disable:no-var-requires */
 /* tslint:disable-next-line:no-reference */
-/// <reference path="../custom_typings/web3.d.ts" />
 export * from "./accountService";
 export * from "./avatarService";
 export * from "./commonTypes";
@@ -51,13 +50,12 @@ export * from "./loggingService";
 export * from "./transactionService";
 export * from "./utils";
 
-import { Web3 } from "web3";
 import { AccountService } from "./accountService";
 import { ConfigService } from "./configService";
 import { ContractWrapperFactory } from "./contractWrapperFactory";
 import { LoggingService, LogLevel } from "./loggingService";
 import { PubSubEventService } from "./pubSubEventService";
-import { Utils } from "./utils";
+import { Web3, Utils } from "./utils";
 import { WrapperService, WrapperServiceInitializeOptions } from "./wrapperService";
 
 /**

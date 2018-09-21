@@ -55,18 +55,18 @@ const newDao = await DAO.new({
     {
       // the current user account
       address: accounts[0],
-      reputation: web3.toWei(1000),
-      tokens: web3.toWei(40)
+      reputation: web3.utils.toWei(1000),
+      tokens: web3.utils.toWei(40)
     },
     {
       address: founder1Address,
-      reputation: web3.toWei(1000),
-      tokens: web3.toWei(40)
+      reputation: web3.utils.toWei(1000),
+      tokens: web3.utils.toWei(40)
     },
     {
       address: founder2Address,
-      reputation: web3.toWei(1000),
-      tokens: web3.toWei(40)
+      reputation: web3.utils.toWei(1000),
+      tokens: web3.utils.toWei(40)
     }
   ]
 });
@@ -367,7 +367,7 @@ const daoParticipants = await myDao.getParticipants({
 
 for (let participant of daoParticipants) {
   console.log(`address: ${participant.address}`);
-  console.log(`  reputation: ${web3.fromWei(participant.reputation)}`);
+  console.log(`  reputation: ${web3.utils.fromWei(participant.reputation)}`);
 }
 ```
 
@@ -381,7 +381,7 @@ const daoParticipants = await myDao.getParticipants({
 
 const participant = daoParticipants[0];
 console.log(`address: ${participant.address}`);
-console.log(`  reputation: ${web3.fromWei(participant.reputation)}`);
+console.log(`  reputation: ${web3.utils.fromWei(participant.reputation)}`);
 ```
 
 ### Get all the globalConstraints in a DAO
@@ -422,7 +422,7 @@ const isRegistered = await myDao.isGlobalConstraintRegistered(gcAddress);
 You can get the native token balance of an account:
 
 ```javascript
-const balance = web3.fromWei((await myDao.getTokenBalance(agentAddress)));
+const balance = web3.utils.fromWei((await myDao.getTokenBalance(agentAddress)));
 ```
 
 ### Get the name of the DAO's native token

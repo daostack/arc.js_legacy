@@ -1,5 +1,5 @@
 "use strict";
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "../utils";
 import ethereumjs = require("ethereumjs-abi");
 import { Address } from "../commonTypes";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
@@ -60,7 +60,7 @@ export class DaoTokenWrapper
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.eq(0)) {
+    if (amount.eqn(0)) {
       LoggingService.warn("DaoToken.mint: amount is zero.  Doing nothing.");
       return new ArcTransactionResult(null, this.contract);
     }
@@ -83,7 +83,7 @@ export class DaoTokenWrapper
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.eq(0)) {
+    if (amount.eqn(0)) {
       LoggingService.warn("DaoToken.burn: amount is zero.  Doing nothing.");
       return new ArcTransactionResult(null, this.contract);
     }
@@ -116,7 +116,7 @@ export class DaoTokenWrapper
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.eq(0)) {
+    if (amount.eqn(0)) {
       LoggingService.warn("DaoToken.approveAndCall: amount is zero.  Doing nothing.");
       return new ArcTransactionResult(null, this.contract);
     }
@@ -153,7 +153,7 @@ export class DaoTokenWrapper
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.eq(0)) {
+    if (amount.eqn(0)) {
       LoggingService.warn("DaoToken.transferAndCall: amount is zero.  Doing nothing.");
       return new ArcTransactionResult(null, this.contract);
     }
@@ -193,7 +193,7 @@ export class DaoTokenWrapper
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.eq(0)) {
+    if (amount.eqn(0)) {
       LoggingService.warn("DaoToken.transferFromAndCall: amount is zero.  Doing nothing.");
       return new ArcTransactionResult(null, this.contract);
     }
@@ -226,7 +226,7 @@ export class DaoTokenWrapper
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.eq(0)) {
+    if (amount.eqn(0)) {
       LoggingService.warn("DaoToken.increaseApprovalAndCall: amount is zero.  Doing nothing.");
       return new ArcTransactionResult(null, this.contract);
     }
@@ -260,7 +260,7 @@ export class DaoTokenWrapper
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.eq(0)) {
+    if (amount.eqn(0)) {
       LoggingService.warn("DaoToken.decreaseApprovalAndCall: amount is zero.  Doing nothing.");
       return new ArcTransactionResult(null, this.contract);
     }

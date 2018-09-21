@@ -64,8 +64,8 @@ describe("Misc", () => {
   });
 
   it("has GEN token balance", async () => {
-    const balance = web3.fromWei(await Utils.getGenTokenBalance(accounts[0]));
-    assert(balance.gt(0));
+    const balance = web3.utils.fromWei(await Utils.getGenTokenBalance(accounts[0]));
+    assert(balance.gtn(0));
   });
 
   it("LoggingService can stringify circular object", async () => {

@@ -390,10 +390,8 @@ export class WrapperService {
 
     const deployedWrapperWant = WrapperService.wrappers[contractNameWant];
 
-    const byteCodeWant = await promisify(
-      (callback: any): void => web3.eth.getCode(deployedWrapperWant.address, callback))();
-    const byteCodeFound = await promisify(
-      (callback: any): void => web3.eth.getCode(contractWrapperFound.address, callback))();
+    const byteCodeWant = await web3.eth.getCode(deployedWrapperWant.address);
+    const byteCodeFound = await web3.eth.getCode(contractWrapperFound.address);
 
     return byteCodeWant === byteCodeFound;
   }

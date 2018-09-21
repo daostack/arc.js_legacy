@@ -1,5 +1,5 @@
 "use strict";
-import BigNumber from "bignumber.js";
+import { BigNumber } from "../lib/utils";
 import { assert } from "chai";
 import { ConfigService } from "../lib/configService";
 import { TestWrapperFactory } from "../lib/test/wrappers/testWrapper";
@@ -20,7 +20,7 @@ describe("ConfigService", () => {
   });
 
   it("can specify gasPrice", async () => {
-    let gasPrice = new BigNumber(web3.toWei(40, "gwei"));
+    let gasPrice = new BigNumber(web3.utils.toWei(40, "gwei"));
 
     ConfigService.set("gasPriceAdjustment", (): Promise<BigNumber> => Promise.resolve(gasPrice));
 
@@ -30,17 +30,17 @@ describe("ConfigService", () => {
 
     let txInfo = await web3.eth.getTransaction(txResult.tx);
 
-    assert(txInfo.gasPrice.eq(gasPrice));
+    assert(new BigNumber(txInfo.gasPrice).eq(gasPrice));
 
     ConfigService.set("gasPriceAdjustment",
       (defaultGasPrice: BigNumber): Promise<BigNumber> => Promise.resolve(
-        gasPrice = defaultGasPrice.mul(1.25).add(web3.toWei(2, "gwei"))));
+        gasPrice = defaultGasPrice.muln(1.25).add(web3.utils.toWei(new BigNumber(2), "gwei"))));
 
     txResult = await testWrapper.setParameters({} as AbsoluteVoteParams);
 
     txInfo = await web3.eth.getTransaction(txResult.tx);
 
-    assert(txInfo.gasPrice.eq(gasPrice));
+    assert(new BigNumber(txInfo.gasPrice).eq(gasPrice));
 
     ConfigService.set("gasPriceAdjustment", null);
   });

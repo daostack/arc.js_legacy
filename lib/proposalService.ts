@@ -1,4 +1,4 @@
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "./utils";
 import { Address, Hash } from "./commonTypes";
 import {
   EntityFetcherFactory,
@@ -10,7 +10,7 @@ import {
   IntVoteInterfaceWrapper,
 } from "./wrappers/intVoteInterface";
 
-import { DecodedLogEntryEvent } from "web3";
+import { DecodedLogEntryEvent } from "ethereum-types";
 import {
   ExecuteProposalEventResult,
   NewProposalEventResult

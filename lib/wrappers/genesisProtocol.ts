@@ -1,5 +1,5 @@
 "use strict";
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "../utils";
 import ethereumjs = require("ethereumjs-abi");
 import { AvatarService } from "../avatarService";
 import {
@@ -76,7 +76,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.lte(0)) {
+    if (amount.lten(0)) {
       throw new Error("amount must be > 0");
     }
 
@@ -137,7 +137,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.lte(0)) {
+    if (amount.lten(0)) {
       throw new Error("amount must be > 0");
     }
 
@@ -189,7 +189,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
         },
       ];
 
-      const result: any = await promisify((callback: any) => web3.currentProvider.sendAsync(
+      const result: any = await promisify((callback: any) => web3.currentProvider.send(
         {
           from: staker,
           method: "eth_signTypedData",
@@ -728,11 +728,11 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
       params);
 
     // in Wei
-    const maxEthValue = new BigNumber(10).pow(26);
+    const maxEthValue = new BigNumber(10).pow(new BigNumber(26));
 
     const minimumStakingFee = new BigNumber(params.minimumStakingFee);
 
-    if (minimumStakingFee.lt(0)) {
+    if (minimumStakingFee.ltn(0)) {
       throw new Error("minimumStakingFee must be greater than or equal to 0");
     }
 
@@ -756,7 +756,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
 
     const thresholdConstA = new BigNumber(params.thresholdConstA);
 
-    if (thresholdConstA.lt(0)) {
+    if (thresholdConstA.ltn(0)) {
       throw new Error("thresholdConstA must be greater than or equal to 0");
     }
 
@@ -803,7 +803,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
 
     const daoBountyLimit = new BigNumber(params.daoBountyLimit);
 
-    if (daoBountyLimit.lt(0)) {
+    if (daoBountyLimit.ltn(0)) {
       throw new Error("daoBountyLimit must be greater than or equal to 0");
     }
 
@@ -1326,15 +1326,15 @@ export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProt
   return {
     boostedVotePeriodLimit: 259200,
     daoBountyConst: 75,
-    daoBountyLimit: web3.toWei(100),
-    minimumStakingFee: web3.toWei(0),
+    daoBountyLimit: web3.utils.toWei(100),
+    minimumStakingFee: web3.utils.toWei(0),
     preBoostedVotePeriodLimit: 1814400,
     preBoostedVoteRequiredPercentage: 50,
     proposingRepRewardConstA: 5,
     proposingRepRewardConstB: 5,
     quietEndingPeriod: 86400,
     stakerFeeRatioForVoters: 50,
-    thresholdConstA: web3.toWei(7),
+    thresholdConstA: web3.utils.toWei(7),
     thresholdConstB: 3,
     voteOnBehalf: Utils.NULL_ADDRESS,
     votersGainRepRatioFromLostRep: 80,
