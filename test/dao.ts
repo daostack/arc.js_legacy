@@ -23,8 +23,8 @@ describe("DAO", () => {
         },
         {
           address: accounts[1],
-          reputation: web3.toWei(1000),
-          tokens: web3.toWei(100),
+          reputation: web3.utils.toWei(1000),
+          tokens: web3.utils.toWei(100),
         },
       ],
       name: "ArcJsTestDao",
