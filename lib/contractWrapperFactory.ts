@@ -108,7 +108,7 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
   protected async estimateConstructorGas(...params: Array<any>): Promise<number> {
     const web3 = await Utils.getWeb3();
     await this.ensureSolidityContract();
-    const callData = (web3.eth.contract(this.solidityContract.abi).new as any).getData(
+    const callData = (new web3.eth.Contract(this.solidityContract.abi) as any).getData(
       ...params,
       {
         data: this.solidityContract.bytecode,
