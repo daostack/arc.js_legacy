@@ -77,8 +77,7 @@ export class DAO {
       dao.hasUController = await avatarService.getIsUController();
       dao.token = await avatarService.getNativeToken();
       dao.reputation = await avatarService.getNativeReputation();
-      const web3 = await Utils.getWeb3();
-      dao.name = web3.toUtf8(await dao.avatar.orgName());
+      dao.name = await dao.avatar.orgName();
     }
 
     return dao;
