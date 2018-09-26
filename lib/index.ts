@@ -18,6 +18,8 @@ export * from "./wrappers/contributionReward";
 export * from "./wrappers/daoCreator";
 export * from "./wrappers/daoToken";
 export * from "./wrappers/locking4Reputation";
+export * from "./wrappers/lockingEth4Reputation";
+export * from "./wrappers/lockingToken4Reputation";
 export * from "./wrappers/genesisProtocol";
 export * from "./wrappers/globalConstraintRegistrar";
 export * from "./wrappers/iBurnableToken";

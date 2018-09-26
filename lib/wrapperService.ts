@@ -36,6 +36,14 @@ import {
   Locking4ReputationWrapper
 } from "./wrappers/locking4Reputation";
 import {
+  LockingEth4ReputationFactory,
+  LockingEth4ReputationWrapper
+} from "./wrappers/lockingEth4Reputation";
+import {
+  LockingToken4ReputationFactory,
+  LockingToken4ReputationWrapper
+} from "./wrappers/lockingToken4Reputation";
+import {
   MintableTokenFactory,
   MintableTokenWrapper
 } from "./wrappers/mintableToken";
@@ -85,6 +93,8 @@ export interface ArcWrapperFactories {
   GlobalConstraintRegistrar: IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
   IntVoteInterface: IContractWrapperFactory<IntVoteInterfaceWrapper>;
   Locking4Reputation: IContractWrapperFactory<Locking4ReputationWrapper>;
+  LockingEth4Reputation: IContractWrapperFactory<LockingEth4ReputationWrapper>;
+  LockingToken4Reputation: IContractWrapperFactory<LockingToken4ReputationWrapper>;
   MintableToken: IContractWrapperFactory<MintableTokenWrapper>;
   Redeemer: IContractWrapperFactory<RedeemerWrapper>;
   Reputation: IContractWrapperFactory<ReputationWrapper>;
@@ -249,6 +259,10 @@ export class WrapperService {
       IContractWrapperFactory<IntVoteInterfaceWrapper>;
     WrapperService.factories.Locking4Reputation = Locking4ReputationFactory as
       IContractWrapperFactory<Locking4ReputationWrapper>;
+    WrapperService.factories.LockingEth4Reputation = LockingEth4ReputationFactory as
+      IContractWrapperFactory<LockingEth4ReputationWrapper>;
+    WrapperService.factories.LockingToken4Reputation = LockingToken4ReputationFactory as
+      IContractWrapperFactory<LockingToken4ReputationWrapper>;
     WrapperService.factories.MintableToken = MintableTokenFactory as IContractWrapperFactory<MintableTokenWrapper>;
     WrapperService.factories.Redeemer =
       RedeemerFactory as IContractWrapperFactory<RedeemerWrapper>;

@@ -1,13 +1,12 @@
-import { ContractWrapperBase } from '../contractWrapperBase';
-import { ContractWrapperFactory } from '../contractWrapperFactory';
-import { IContractWrapperFactory, ArcTransactionResult } from '../iContractWrapperBase';
-import { Web3EventService, EventFetcherFactory } from '../web3EventService';
-import { Hash, Address } from '../commonTypes';
-import BigNumber from 'bignumber.js';
-import { TxGeneratingFunctionOptions } from '../transactionService';
-import { GetDefaultGenesisProtocolParameters } from './genesisProtocol';
-
 "use strict";
+import BigNumber from "bignumber.js";
+import { Address, Hash } from "../commonTypes";
+import { ContractWrapperBase } from "../contractWrapperBase";
+import { ContractWrapperFactory } from "../contractWrapperFactory";
+import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
+import { TxGeneratingFunctionOptions } from "../transactionService";
+import { EventFetcherFactory, Web3EventService } from "../web3EventService";
+
 export class Locking4ReputationWrapper extends ContractWrapperBase {
   public name: string = "Locking4Reputation";
   public friendlyName: string = "Locking For Reputation";
@@ -69,18 +68,16 @@ export class Locking4ReputationWrapper extends ContractWrapperBase {
     return this.wrapTransactionInvocation("Locking4Reputation.initialize",
       options,
       this.contract.inizialize,
-      [options.avatarAddress, options.reputationReward, options.lockingStartTime.getTime(), options.lockingEndTime.getTime(), options.maxLockingPeriod]
+      [options.avatarAddress,
+      options.reputationReward,
+      options.lockingStartTime.getTime(),
+      options.lockingEndTime.getTime(),
+      options.maxLockingPeriod]
     );
   }
 
-  public redeem(options: RedeemOptions): Promise<ArcTransactionResult> {
-    if (!options.lockerAddress) {
-      throw new Error("lockerAddress is not defined");
-    }
-
-    if (!options.lockingId) {
-      throw new Error("lockingId is not defined");
-    }
+  public redeem(options: RedeemOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+    this._redeem(options);
 
     this.logContractFunctionCall("Locking4Reputation.redeem", options);
 
@@ -91,14 +88,8 @@ export class Locking4ReputationWrapper extends ContractWrapperBase {
     );
   }
 
-  public release(options: ReleaseOptions): Promise<ArcTransactionResult> {
-    if (!options.lockerAddress) {
-      throw new Error("lockerAddress is not defined");
-    }
-
-    if (!options.lockingId) {
-      throw new Error("lockingId is not defined");
-    }
+  public release(options: ReleaseOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+    this._release(options);
 
     this.logContractFunctionCall("Locking4Reputation.release", options);
 
@@ -109,34 +100,8 @@ export class Locking4ReputationWrapper extends ContractWrapperBase {
     );
   }
 
-  public async lock(options: LockingOptions): Promise<ArcTransactionResult> {
-    if (!options.lockerAddress) {
-      throw new Error("lockerAddress is not defined");
-    }
-
-    if (!options.period) {
-      throw new Error("lockingId is not defined");
-    }
-
-    const amount = new BigNumber(options.amount);
-
-    if (amount.lte(0)) {
-      throw new Error("amount must be greater then zero");
-    }
-
-    if (!Number.isInteger(options.period)) {
-      throw new Error("period is not an integer");
-    }
-
-    if (options.period <= 0) {
-      throw new Error("period must be greater then zero");
-    }
-
-    const maxLockingPeriod = await this.getMaxLockingPeriod();
-
-    if (options.period > maxLockingPeriod) {
-      throw new Error("period must be less than or equal to maxLockingPeriod");
-    }
+  public async lock(options: LockingOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+    await this._lock(options);
 
     this.logContractFunctionCall("Locking4Reputation.lock", options);
 
@@ -193,25 +158,71 @@ export class Locking4ReputationWrapper extends ContractWrapperBase {
 
   /**
    * Returns promise of information about a locked amount for the given locker and lockerId.
-   * @param lockerAddress 
-   * @param lockerId 
+   * @param lockerAddress
+   * @param lockerId
    */
   public async getLockInfo(lockerAddress: Address, lockerId: Hash): Promise<Locker> {
     const lockInfo = await this.contract.lockers(lockerAddress, lockerId);
     return {
       amount: lockInfo.amount,
-      releaseTime: new Date(lockInfo.releaseTime)
-    }
+      releaseTime: new Date(lockInfo.releaseTime),
+    };
   }
 
   /**
    * Returns promise of the score for a given locker.  Score determine the proportion of total reputation
    * that can be redeemed by the locker.
-   * 
-   * @param lockerAddress 
+   *
+   * @param lockerAddress
    */
   public getLockerScore(lockerAddress: Address): Promise<BigNumber> {
     return this.contract.scores(lockerAddress);
+  }
+
+  protected _redeem(options: RedeemOptions & TxGeneratingFunctionOptions): void {
+    if (!options.lockerAddress) {
+      throw new Error("lockerAddress is not defined");
+    }
+
+    if (!options.lockingId) {
+      throw new Error("lockingId is not defined");
+    }
+  }
+
+  protected _release(options: ReleaseOptions & TxGeneratingFunctionOptions): void {
+    if (!options.lockerAddress) {
+      throw new Error("lockerAddress is not defined");
+    }
+
+    if (!options.lockingId) {
+      throw new Error("lockingId is not defined");
+    }
+  }
+
+  protected async _lock(options: LockingOptions & TxGeneratingFunctionOptions): Promise<void> {
+    if (!options.lockerAddress) {
+      throw new Error("lockerAddress is not defined");
+    }
+
+    const amount = new BigNumber(options.amount);
+
+    if (amount.lte(0)) {
+      throw new Error("amount must be greater then zero");
+    }
+
+    if (!Number.isInteger(options.period)) {
+      throw new Error("period is not an integer");
+    }
+
+    if (options.period <= 0) {
+      throw new Error("period must be greater then zero");
+    }
+
+    const maxLockingPeriod = await this.getMaxLockingPeriod();
+
+    if (options.period > maxLockingPeriod) {
+      throw new Error("period must be less than or equal to maxLockingPeriod");
+    }
   }
 
   protected hydrated(): void {
