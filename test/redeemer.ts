@@ -76,7 +76,9 @@ describe("Redeemer", () => {
     await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.No, accounts[2]);
     await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.Yes, accounts[3]);
 
-    await (await gp.stakeWithApproval({ amount: web3.toWei(10), vote: 1, proposalId })).getTxMined();
+    const stakeAmount = (await gp.getThreshold(proposalId)).add(web3.toWei(10));
+
+    await (await gp.stakeWithApproval({ amount: stakeAmount, vote: 1, proposalId })).getTxMined();
 
     await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.Yes, accounts[1]);
 
@@ -106,9 +108,10 @@ describe("Redeemer", () => {
     assert.equal(web3.fromWei(redeemable.contributionRewardNativeToken).toNumber(), nativeTokenAmount);
     assert.equal(web3.fromWei(redeemable.contributionRewardExternalToken).toNumber(), externalTokenAmount);
     assert.equal(web3.fromWei(redeemable.contributionRewardReputation).toNumber(), repAmount);
-    assert.equal(web3.fromWei(redeemable.stakerTokenAmount).toNumber(), 5);
+    assert(redeemable.stakerTokenAmount.eq(stakeAmount.div(2)), `wrong stakerTokenAmount`);
     assert.equal(web3.fromWei(redeemable.stakerReputationAmount).toNumber(), 1);
-    assert.equal(web3.fromWei(redeemable.daoStakingBountyPotentialReward).toNumber(), 7.5);
+    assert(redeemable.daoStakingBountyPotentialReward.eq(stakeAmount.mul(.75)),
+      `wrong daoStakingBountyPotentialReward`);
     assert.equal(web3.fromWei(redeemable.voterReputationAmount).toNumber(), 0);
     assert.equal(web3.fromWei(redeemable.proposerReputationAmount).toNumber(), 15);
 
@@ -147,7 +150,7 @@ describe("Redeemer", () => {
     assert.equal(web3.fromWei(redeemable.contributionRewardNativeToken).toNumber(), nativeTokenAmount);
     assert.equal(web3.fromWei(redeemable.contributionRewardExternalToken).toNumber(), externalTokenAmount);
     assert.equal(web3.fromWei(redeemable.contributionRewardReputation).toNumber(), repAmount);
-    assert.equal(web3.fromWei(redeemable.voterTokenAmount).toNumber(), 2.5);
+    assert(redeemable.voterTokenAmount.eq(stakeAmount.mul(.25)), `wrong voterTokenAmount`);
     assert.equal(web3.fromWei(redeemable.voterReputationAmount).toNumber(), 0);
 
     /**
@@ -165,7 +168,7 @@ describe("Redeemer", () => {
     assert.equal(web3.fromWei(redeemable.contributionRewardNativeToken).toNumber(), nativeTokenAmount);
     assert.equal(web3.fromWei(redeemable.contributionRewardExternalToken).toNumber(), externalTokenAmount);
     assert.equal(web3.fromWei(redeemable.contributionRewardReputation).toNumber(), repAmount);
-    assert.equal(web3.fromWei(redeemable.voterTokenAmount).toNumber(), 2.5);
+    assert(redeemable.voterTokenAmount.eq(stakeAmount.mul(.25)), `wrong voterTokenAmount`);
     assert.equal(web3.fromWei(redeemable.voterReputationAmount).toNumber(), 7);
 
     const latestBlock = await UtilsInternal.lastBlock();
@@ -185,6 +188,6 @@ describe("Redeemer", () => {
     const events = await fetcher.get();
 
     assert.equal(events.length, 1);
-    assert.equal(web3.fromWei(events[0].args._amount).toNumber(), 5);
+    assert(events[0].args._amount.eq(stakeAmount.mul(.5)), `wrong gp _beneficiary redeemed tokens`);
   });
 });
