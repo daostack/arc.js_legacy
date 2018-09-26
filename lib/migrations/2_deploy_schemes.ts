@@ -34,8 +34,6 @@ export const arcJsDeployer = (
     const ContributionReward = artifacts.require("ContributionReward.sol");
     const ControllerCreator = artifacts.require("ControllerCreator.sol");
     const DaoCreator = artifacts.require("DaoCreator.sol");
-    // ExecutableTest is used only by tests
-    const ExecutableTest = artifacts.require("ExecutableTest.sol");
     const GenesisProtocol = artifacts.require("GenesisProtocol.sol");
     const GlobalConstraintRegistrar = artifacts.require("GlobalConstraintRegistrar.sol");
     const QuorumVote = artifacts.require("QuorumVote.sol");
@@ -118,9 +116,5 @@ export const arcJsDeployer = (
       contributionRewardInstance.address,
       genesisProtocolInstance.address,
       { gas: gasLimit, gasPrice: gasPrice * 2 });
-
-    if (network !== "live") {
-      await deployer.deploy(ExecutableTest, { gas: gasLimit, gasPrice });
-    }
   });
 };
