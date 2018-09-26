@@ -72,18 +72,47 @@ export class ReputationWrapper extends ContractWrapperBase {
   }
 
   public getTotalSupply(): Promise<BigNumber> {
+    this.logContractFunctionCall("Reputation.totalSupply");
     return this.contract.totalSupply();
   }
 
-  public reputationOf(accountAddress: Address): Promise<BigNumber> {
+  /**
+   * Total amount of reputation at the given `blockNumber`.
+   */
+  public getTotalSupplyAt(blockNumber: number): Promise<BigNumber> {
+    this.logContractFunctionCall("Reputation.totalSupplyAt");
+    return this.contract.totalSupply();
+  }
+
+  public getBalanceOf(accountAddress: Address): Promise<BigNumber> {
 
     if (!accountAddress) {
       throw new Error("accountAddress is not defined");
     }
 
-    this.logContractFunctionCall("Reputation.reputationOf", accountAddress);
+    this.logContractFunctionCall("Reputation.balanceOf", accountAddress);
 
-    return this.contract.reputationOf(accountAddress);
+    return this.contract.balanceOf(accountAddress);
+  }
+
+  /**
+   * Queries the balance of `accountAddress` at the given `blockNumber`
+   * @param accountAddress
+   * @param blockNumber
+   */
+  public getBalanceOfAt(accountAddress: Address, blockNumber: number): Promise<BigNumber> {
+
+    if (!accountAddress) {
+      throw new Error("accountAddress is not defined");
+    }
+
+    if (typeof (blockNumber) === "undefined") {
+      throw new Error("blockNumber is not defined");
+    }
+
+    this.logContractFunctionCall("Reputation.balanceOfAt", { accountAddress, blockNumber });
+
+    return this.contract.balanceOfAt(accountAddress, blockNumber);
   }
 
   protected hydrated(): void {

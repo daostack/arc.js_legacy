@@ -29,7 +29,6 @@ Arc contracts and associated Arc.js contract wrapper classes are categorized as 
 **Universal Schemes**
 
 * ContributionReward
-* GenesisProtocol
 * GlobalConstraintRegistrar
 * SchemeRegistrar
 * UpgradeScheme
@@ -49,9 +48,6 @@ Arc contracts and associated Arc.js contract wrapper classes are categorized as 
 
 * DaoCreator
 * Redeemer
-
-!!! note
-    `GenesisProtocol` is both scheme and voting machine. This is explained [here](Daos#gpExplanation)
 
 See more at [Enumerate wrappers by contract type](wrappersByContractType).
 

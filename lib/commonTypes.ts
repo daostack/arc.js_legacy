@@ -36,7 +36,6 @@ export class DefaultSchemePermissions {
   public static MinimumPermissions: SchemePermissions = SchemePermissions.IsRegistered;
   public static AllPermissions: SchemePermissions = SchemePermissions.All;
   public static ContributionReward: SchemePermissions = SchemePermissions.IsRegistered;
-  public static GenesisProtocol: SchemePermissions = SchemePermissions.IsRegistered;
   public static GlobalConstraintRegistrar: SchemePermissions = SchemePermissions.IsRegistered | SchemePermissions.CanAddRemoveGlobalConstraints;
   /**
    * Has all permissions so that it can register/unregister all schemes

@@ -8,13 +8,11 @@ import {
   Utils
 } from "../lib/utils";
 import {
-  RedeemEventResult
-} from "../lib/wrappers/commonEventInterfaces";
-import {
   ContributionProposal,
   ContributionRewardFactory,
   ContributionRewardWrapper,
-  ProposalRewards
+  ProposalRewards,
+  RedeemEventResult
 } from "../lib/wrappers/contributionReward";
 import {
   IntVoteInterfaceWrapper

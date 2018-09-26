@@ -84,14 +84,6 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
    */
   public async propose(options: ProposeOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionProposalResult> {
 
-    if (!options.avatarAddress) {
-      throw new Error(`avatar is not defined`);
-    }
-
-    if (!options.executable) {
-      throw new Error(`executatable is not defined`);
-    }
-
     const numChoiceBounds = await this.getAllowedRangeOfChoices();
 
     if (!Number.isInteger(options.numOfChoices)) {
@@ -107,7 +99,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
     }
 
     if (!options.proposalParameters) {
-      options.proposalParameters = Utils.NULL_HASH;
+      throw new Error(`proposalParameters is not set`);
     }
 
     if (!options.proposerAddress) {
@@ -121,8 +113,6 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
       this.contract.propose,
       [options.numOfChoices,
       options.proposalParameters,
-      options.avatarAddress,
-      options.executable,
       options.proposerAddress]
     );
 
@@ -156,8 +146,9 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
       throw new Error(`proposalId is not defined`);
     }
     await this._validateVote(options.vote, options.proposalId);
-    if (!options.voterAddress) {
-      throw new Error(`voterAddress is not defined`);
+
+    if (!options.voter) {
+      throw new Error(`voter is not defined`);
     }
 
     this.logContractFunctionCall("IntVoteInterface.ownerVote", options);
@@ -167,12 +158,12 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
       this.contract.ownerVote,
       [options.proposalId,
       options.vote,
-      options.voterAddress]
+      options.voter]
     );
   }
 
   /**
-   * Vote on behalf of the current account.
+   * Vote on behalf of the current account or the given voter.
    * @param options
    */
   public async vote(options: VoteOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
@@ -186,12 +177,12 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
     return this.wrapTransactionInvocation("IntVoteInterface.vote",
       options,
       this.contract.vote,
-      [options.proposalId, options.vote]
+      [options.proposalId, options.vote, options.voter || 0]
     );
   }
 
   /**
-   * Vote specified reputation amount
+   * Vote specified reputation amount on behalf of the current account or the given voter.
    * @param options
    */
 
@@ -212,7 +203,8 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
       [options.proposalId,
       options.vote,
       options.reputation,
-      new BigNumber(0)]
+      new BigNumber(0),
+      options.voter || Utils.NULL_ADDRESS]
     );
   }
 

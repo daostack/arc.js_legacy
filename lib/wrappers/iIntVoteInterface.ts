@@ -31,25 +31,25 @@ export interface IIntVoteInterface {
 }
 
 export interface ProposeOptions {
-  avatarAddress: Address;
-  executable: Address;
   numOfChoices: number;
   proposerAddress?: Address;
-  proposalParameters?: Hash;
+  proposalParameters: Hash;
 }
 
 export interface OwnerVoteOptions extends ProposalIdOption {
   vote: number;
-  voterAddress: Address;
+  voter: Address;
 }
 
 export interface VoteOptions extends ProposalIdOption {
   vote: number;
+  voter?: Address;
 }
 
 export interface VoteWithSpecifiedAmountsOptions extends ProposalIdOption {
   reputation: BigNumber | string;
   vote: number;
+  voter?: Address;
 }
 
 export interface VoteStatusOptions extends ProposalIdOption {

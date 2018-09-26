@@ -12,7 +12,6 @@ describe("AbsoluteVote", () => {
 
     const params = await {
       ownerVote: true,
-      reputation: helpers.SOME_ADDRESS,
       votePerc: 50,
     };
 

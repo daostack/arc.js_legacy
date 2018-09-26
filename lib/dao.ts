@@ -202,7 +202,7 @@ export class DAO {
       participants = new Array<Participant>();
 
       for (const account of addresses) {
-        const balance = await this.reputation.reputationOf(account);
+        const balance = await this.reputation.getBalanceOf(account);
         if (balance.gt(0)) {
           participants.push({ address: account, reputation: balance });
         }

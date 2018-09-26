@@ -189,12 +189,8 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       return hashes && hashes.has(hash);
     };
 
-    const avatarService = new AvatarService(options.avatar);
-    const reputationAddress = await avatarService.getNativeReputationAddress();
     const configuredVotingMachineName = ConfigService.get("defaultVotingMachine");
     const defaultVotingMachineParams = Object.assign({
-      // voting machines can't supply reputation as a default -- they don't know what it is
-      reputation: reputationAddress,
       votingMachineName: configuredVotingMachineName,
     }, options.votingMachineParams || {});
 
@@ -529,11 +525,6 @@ export interface FounderConfig {
 
 export interface NewDaoVotingMachineConfig {
   /**
-   * Optional Reputation address.
-   * Default is the new DAO's native reputation.
-   */
-  reputation?: string;
-  /**
    * Optional VotingMachine name
    * Default is AbsoluteVote
    */
@@ -605,7 +596,7 @@ export interface SchemeConfig {
    * Optional votingMachine parameters if you have not supplied them in ForgeOrgConfig or want to override them.
    * Note it costs more gas to add them here.
    *
-   * New schemes will be created with these voting machine parameters and the DAO's native reputation contract.
+   * New schemes will be created with these voting machine parameters.
    * This is only relevant to schemes that can create proposals upon which there can be a vote.
    * Other schemes will ignore these parameters.
    *

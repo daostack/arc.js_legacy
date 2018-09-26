@@ -27,26 +27,6 @@ export interface ProposalExecutedEventResult {
   _proposalId: Hash;
 }
 
-export interface RedeemEventResult {
-  /**
-   * the amount redeemed
-   */
-  _amount: BigNumber;
-  /**
-   * avatar address
-   * indexed
-   */
-  _avatar: Address;
-  /**
-   * indexed
-   */
-  _beneficiary: Address;
-  /**
-   * indexed
-   */
-  _proposalId: Hash;
-}
-
 /**
  * fired by schemes
  */

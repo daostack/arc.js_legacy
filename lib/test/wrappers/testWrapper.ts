@@ -26,7 +26,6 @@ export class TestWrapperWrapper extends ContractWrapperBase {
     params = Object.assign({},
       {
         ownerVote: true,
-        reputation: "0x1000000000000000000000000000000000000000",
         votePerc: 50,
       },
       params);
@@ -34,7 +33,6 @@ export class TestWrapperWrapper extends ContractWrapperBase {
     return super._setParameters(
       "AbsoluteVote.setParameters",
       params.txEventContext,
-      params.reputation,
       params.votePerc,
       params.ownerVote
     );
