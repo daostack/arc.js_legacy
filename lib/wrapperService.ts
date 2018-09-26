@@ -32,6 +32,10 @@ import {
   IntVoteInterfaceWrapper
 } from "./wrappers/intVoteInterface";
 import {
+  Locking4ReputationFactory,
+  Locking4ReputationWrapper
+} from "./wrappers/locking4Reputation";
+import {
   MintableTokenFactory,
   MintableTokenWrapper
 } from "./wrappers/mintableToken";
@@ -80,6 +84,7 @@ export interface ArcWrapperFactories {
   GenesisProtocol: IContractWrapperFactory<GenesisProtocolWrapper>;
   GlobalConstraintRegistrar: IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
   IntVoteInterface: IContractWrapperFactory<IntVoteInterfaceWrapper>;
+  Locking4Reputation: IContractWrapperFactory<Locking4ReputationWrapper>;
   MintableToken: IContractWrapperFactory<MintableTokenWrapper>;
   Redeemer: IContractWrapperFactory<RedeemerWrapper>;
   Reputation: IContractWrapperFactory<ReputationWrapper>;
@@ -242,6 +247,8 @@ export class WrapperService {
       IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
     WrapperService.factories.IntVoteInterface = IntVoteInterfaceFactory as
       IContractWrapperFactory<IntVoteInterfaceWrapper>;
+    WrapperService.factories.Locking4Reputation = Locking4ReputationFactory as
+      IContractWrapperFactory<Locking4ReputationWrapper>;
     WrapperService.factories.MintableToken = MintableTokenFactory as IContractWrapperFactory<MintableTokenWrapper>;
     WrapperService.factories.Redeemer =
       RedeemerFactory as IContractWrapperFactory<RedeemerWrapper>;
