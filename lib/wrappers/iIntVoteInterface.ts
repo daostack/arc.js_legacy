@@ -38,7 +38,7 @@ export interface ProposeOptions {
 
 export interface OwnerVoteOptions extends ProposalIdOption {
   vote: number;
-  voterAddress: Address;
+  voter: Address;
 }
 
 export interface VoteOptions extends ProposalIdOption {
