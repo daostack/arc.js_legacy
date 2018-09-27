@@ -22,7 +22,6 @@
       true,
       "allow-fast-null-checks"
     ],
-    "no-unused-variable": true,
     "trailing-comma": [
       true,
       {

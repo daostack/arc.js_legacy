@@ -5,11 +5,14 @@ import { DAO, DaoSchemeInfo } from "../lib/dao";
 import { ArcTransactionResult } from "../lib/iContractWrapperBase";
 import { TransactionReceiptsEventInfo, TransactionService } from "../lib/transactionService";
 import { Utils } from "../lib/utils";
+import { UtilsInternal } from "../lib/utilsInternal";
 import { Web3EventService } from "../lib/web3EventService";
+import { ContributionRewardWrapper } from "../lib/wrappers/contributionReward";
 import {
   ExecutedGenesisProposal,
   ExecutionState,
   GenesisProtocolFactory,
+  GenesisProtocolParams,
   GenesisProtocolProposal,
   GenesisProtocolWrapper,
   GetDefaultGenesisProtocolParameters,
@@ -22,21 +25,30 @@ import * as helpers from "./helpers";
 describe("GenesisProtocol", () => {
   let dao: DAO;
   let genesisProtocol: GenesisProtocolWrapper;
-  let executableTest: any;
-  let ExecutableTest;
+  let gpParams: GenesisProtocolParams;
+  let gpParamsHash: Hash;
+  let contributionReward: ContributionRewardWrapper;
+
+  const sufficientStake = async (proposalId: Hash, amount: number): Promise<BigNumber> => {
+    return (await genesisProtocol.getThreshold(proposalId)).add(web3.toWei(amount));
+  };
 
   const createProposal = async (): Promise<Hash> => {
 
-    const result = await genesisProtocol.propose({
-      avatarAddress: dao.avatar.address,
-      executable: executableTest.address,
-      numOfChoices: 2,
+    const result = await contributionReward.proposeContributionReward({
+      avatar: dao.avatar.address,
+      beneficiaryAddress: helpers.SOME_ADDRESS,
+      description: "A new contribution",
+      numberOfPeriods: 1,
+      periodLength: 1,
+      reputationChange: "1",
     });
 
     assert.isOk(result);
-    assert.isOk(await result.getProposalIdFromMinedTx());
+    const proposalId = await result.getProposalIdFromMinedTx();
+    assert.isOk(proposalId);
 
-    return await result.getProposalIdFromMinedTx();
+    return proposalId;
   };
 
   const voteProposal = (proposalId: Hash, how: number): Promise<ArcTransactionResult> => {
@@ -47,17 +59,16 @@ describe("GenesisProtocol", () => {
   };
 
   const stakeProposalVote =
-    (proposalId: Hash, how: number, amount: number): Promise<ArcTransactionResult> => {
+    async (proposalId: Hash, how: number, amount: BigNumber | string): Promise<ArcTransactionResult> => {
+
       return genesisProtocol.stake({
-        amount: web3.toWei(amount),
+        amount,
         proposalId,
         vote: how,
       });
     };
 
   beforeEach(async () => {
-
-    ExecutableTest = await Utils.requireContract("ExecutableTest");
 
     dao = await helpers.forgeDao({
       founders: [{
@@ -67,30 +78,38 @@ describe("GenesisProtocol", () => {
       },
       ],
       schemes: [
-        { name: "GenesisProtocol" },
+        {
+          name: "ContributionReward",
+          votingMachineParams: {
+            votingMachineName: "GenesisProtocol",
+          },
+        },
       ],
     });
 
-    const scheme = await dao.getSchemes("GenesisProtocol") as Array<DaoSchemeInfo>;
+    const scheme = await dao.getSchemes("ContributionReward") as Array<DaoSchemeInfo>;
 
     assert.isOk(scheme);
     assert.equal(scheme.length, 1);
-    assert.equal(scheme[0].wrapper.name, "GenesisProtocol");
+    assert.equal(scheme[0].wrapper.name, "ContributionReward");
 
-    genesisProtocol = await GenesisProtocolFactory.at(scheme[0].address);
+    contributionReward = scheme[0].wrapper as ContributionRewardWrapper;
+
+    const gpAddress = await (contributionReward).getVotingMachineAddress(dao.avatar.address);
+
+    genesisProtocol = await WrapperService.factories.GenesisProtocol.at(gpAddress);
+
+    gpParams = await GetDefaultGenesisProtocolParameters();
+    gpParamsHash = await genesisProtocol.getParametersHash(gpParams);
 
     assert.isOk(genesisProtocol);
-
-    executableTest = await ExecutableTest.deployed();
   });
 
   it("can get params hash", async () => {
 
-    const params = await GetDefaultGenesisProtocolParameters();
+    const paramsHashSet = (await genesisProtocol.setParameters(gpParams)).result;
 
-    const paramsHashSet = (await genesisProtocol.setParameters(params)).result;
-
-    const paramsHashGet = await genesisProtocol.getParametersHash(params);
+    const paramsHashGet = await genesisProtocol.getParametersHash(gpParams);
 
     assert.equal(paramsHashGet, paramsHashSet, "Hashes are not the same");
   });
@@ -114,9 +133,11 @@ describe("GenesisProtocol", () => {
         eventsReceived.push(topic);
       });
 
+    const stakeAmount = await sufficientStake(proposalId, 1);
+
     try {
       const result = await (await genesisProtocol.stakeWithApproval({
-        amount: web3.toWei(1),
+        amount: stakeAmount,
         proposalId,
         vote: BinaryVoteResult.Yes,
       })).watchForTxMined();
@@ -130,7 +151,7 @@ describe("GenesisProtocol", () => {
     transferEvents = await transferFetcher.get();
     const transfersAfter = transferEvents.length;
     assert.equal(transfersBefore + 1, transfersAfter, "should be one more transfer event");
-    assert.equal(transferEvents[transfersAfter - 1].args.value.toString(), web3.toWei(1));
+    assert(transferEvents[transfersAfter - 1].args.value.eq(stakeAmount));
     assert.equal(transferEvents[transfersAfter - 1].args.to.toString(), genesisProtocol.address);
 
     const stakeFetcher = genesisProtocol.Stake({ _proposalId: proposalId }, { fromBlock: 0 });
@@ -143,8 +164,10 @@ describe("GenesisProtocol", () => {
   it("can call stakeWithApproval a second time", async () => {
     const proposalId = await createProposal();
 
+    const stakeAmount = await sufficientStake(proposalId, 1);
+
     const result = await genesisProtocol.stakeWithApproval({
-      amount: web3.toWei(1),
+      amount: stakeAmount,
       proposalId,
       vote: BinaryVoteResult.Yes,
     });
@@ -157,32 +180,6 @@ describe("GenesisProtocol", () => {
     const result = await await genesisProtocol.getAllowedRangeOfChoices();
     assert.equal(result.minVote, 2);
     assert.equal(result.maxVote, 2);
-  });
-
-  it("can set boostedVotePeriodLimit in dao.new", async () => {
-    dao = await helpers.forgeDao({
-      founders: [{
-        address: accounts[0],
-        reputation: web3.toWei(1000),
-        tokens: web3.toWei(1000),
-      },
-      ],
-      schemes: [
-        {
-          boostedVotePeriodLimit: 180,
-          name: "GenesisProtocol",
-          quietEndingPeriod: 60,
-        },
-      ],
-    });
-
-    const scheme =
-      (await helpers.getDaoScheme(dao, "GenesisProtocol", GenesisProtocolFactory)) as GenesisProtocolWrapper;
-
-    const params = await scheme.getSchemeParameters(dao.avatar.address);
-
-    assert.equal(params.boostedVotePeriodLimit, 180);
-    assert.equal(params.quietEndingPeriod, 60);
   });
 
   it("can call getTokenBalances", async () => {
@@ -205,22 +202,7 @@ describe("GenesisProtocol", () => {
 
   it("can get votable proposals", async () => {
 
-    dao = await helpers.forgeDao({
-      founders: [{
-        address: accounts[0],
-        reputation: web3.toWei(1000),
-        tokens: web3.toWei(1000),
-      },
-      ],
-      schemes: [
-        {
-          name: "GenesisProtocol",
-          votingMachineParams: {
-            ownerVote: false,
-          },
-        },
-      ],
-    });
+    const startingBlock = await UtilsInternal.lastBlock();
 
     const proposalId1 = await createProposal();
 
@@ -228,9 +210,9 @@ describe("GenesisProtocol", () => {
 
     const proposals = await genesisProtocol.VotableGenesisProtocolProposals(
       { _avatar: dao.avatar.address },
-      { fromBlock: 0 }).get();
+      { fromBlock: startingBlock }).get();
 
-    assert(proposals.length === 2, "Should have found 2 proposals");
+    assert.equal(proposals.length, 2, "Should have found 2 proposals");
     assert(proposals.filter((p: GenesisProtocolProposal) => p.proposalId === proposalId1).length,
       "proposalId1 not found");
     assert(proposals.filter((p: GenesisProtocolProposal) => p.proposalId === proposalId2).length,
@@ -242,6 +224,8 @@ describe("GenesisProtocol", () => {
 
   it("can get executed proposals", async () => {
 
+    const startingBlock = await UtilsInternal.lastBlock();
+
     const proposalId1 = await createProposal();
     await voteProposal(proposalId1, 1);
 
@@ -250,7 +234,7 @@ describe("GenesisProtocol", () => {
 
     let proposals = await genesisProtocol.ExecutedProposals(
       { _avatar: dao.avatar.address },
-      { fromBlock: 0 }).get();
+      { fromBlock: startingBlock }).get();
 
     assert(proposals.length === 2, "Should have found 2 proposals");
     assert(proposals.filter((p: ExecutedGenesisProposal) => p.proposalId === proposalId1).length,
@@ -260,7 +244,7 @@ describe("GenesisProtocol", () => {
 
     proposals = await genesisProtocol.ExecutedProposals(
       { _avatar: dao.avatar.address, _proposalId: proposalId2 },
-      { fromBlock: 0 }).get();
+      { fromBlock: startingBlock }).get();
 
     assert.equal(proposals.length, 1, "Should have found 1 proposals");
     assert(proposals[0].proposalId === proposalId2, "proposalId2 not found");
@@ -284,7 +268,6 @@ describe("GenesisProtocol", () => {
         tokens: web3.toWei(1000),
       }],
       schemes: [
-        { name: "GenesisProtocol" },
         { name: "ContributionReward" },
         {
           name: "SchemeRegistrar",
@@ -339,15 +322,6 @@ describe("GenesisProtocol", () => {
 
     assert.isTrue(await helpers.voteWasExecuted(votingMachine, proposalId), "vote was not executed");
     assert.isFalse(await votingMachine.isVotable({ proposalId }), "Should not be votable");
-  });
-
-  it("can call getScoreThresholdParams", async () => {
-    const result = await genesisProtocol.getScoreThresholdParams({
-      avatar: dao.avatar.address,
-    });
-    assert.isOk(result);
-    assert(result.thresholdConstA.eq((await GetDefaultGenesisProtocolParameters()).thresholdConstA));
-    assert.equal(result.thresholdConstB, (await GetDefaultGenesisProtocolParameters()).thresholdConstB);
   });
 
   it("can call shouldBoost", async () => {
@@ -406,11 +380,9 @@ describe("GenesisProtocol", () => {
     assert.equal(result.vote, 0);
     assert.equal(result.stake.toNumber(), 0);
 
-    await genesisProtocol.stake({
-      amount: web3.toWei(10),
-      proposalId,
-      vote: 1,
-    });
+    const amountStaked = await sufficientStake(proposalId, 10);
+
+    await stakeProposalVote(proposalId, 1, amountStaked);
 
     result = await genesisProtocol.getStakerInfo({
       proposalId,
@@ -419,7 +391,7 @@ describe("GenesisProtocol", () => {
 
     assert.isOk(result);
     assert.equal(result.vote, 1);
-    assert.equal(helpers.fromWei(result.stake).toNumber(), 10);
+    assert(result.stake.eq(amountStaked));
   });
 
   it("can call getVoterInfo", async () => {
@@ -455,7 +427,8 @@ describe("GenesisProtocol", () => {
       });
 
     try {
-      const result = await (await stakeProposalVote(proposalId, 1, 10)).watchForTxMined();
+      const amountStaked = await sufficientStake(proposalId, 10);
+      const result = await (await stakeProposalVote(proposalId, 1, amountStaked)).watchForTxMined();
       assert.isOk(result);
       assert.isOk(result.transactionHash);
 
@@ -464,10 +437,10 @@ describe("GenesisProtocol", () => {
       });
 
       assert.isOk(resultStatus);
-      assert.equal(web3.fromWei(resultStatus.totalStaked).toNumber(), 10);
-      assert.equal(web3.fromWei(resultStatus.totalStakerStakes).toNumber(), 5);
-      assert.equal(web3.fromWei(resultStatus.stakesNo).toNumber(), 0);
-      assert.equal(web3.fromWei(resultStatus.stakesYes).toNumber(), 10);
+      assert(resultStatus.totalStaked.eq(amountStaked));
+      assert(resultStatus.stakesYes.eq(amountStaked));
+      assert(resultStatus.totalStakerStakes.eq(amountStaked.div(2)));
+      assert(resultStatus.stakesNo.eq(0));
 
     } finally {
       await subscription.unsubscribe(0);
@@ -538,13 +511,20 @@ describe("GenesisProtocol", () => {
   });
 
   it("can call getBoostedProposalsCount", async () => {
+
+    const count1 = await genesisProtocol.getBoostedProposalsCount(contributionReward.address);
+    assert(typeof count1 !== "undefined");
+
     const proposalId = await createProposal();
 
-    await stakeProposalVote(proposalId, BinaryVoteResult.Yes, 10);
+    const amountStaked = await sufficientStake(proposalId, 10);
 
-    const count = await genesisProtocol.getBoostedProposalsCount(dao.avatar.address);
-    assert(typeof count !== "undefined");
-    assert(count.eq(1));
+    await stakeProposalVote(proposalId, BinaryVoteResult.Yes, amountStaked);
+
+    const count2 = await genesisProtocol.getBoostedProposalsCount(contributionReward.address);
+    assert(typeof count2 !== "undefined");
+
+    assert((count2.sub(count1)).eq(1));
   });
 
   it("can call getScore", async () => {
@@ -556,9 +536,8 @@ describe("GenesisProtocol", () => {
   });
 
   it("can call getThreshold", async () => {
-    const result = await genesisProtocol.getThreshold({
-      avatar: dao.avatar.address,
-    });
+    const proposalId = await createProposal();
+    const result = await genesisProtocol.getThreshold(proposalId);
     assert(typeof result !== "undefined");
   });
 
@@ -578,12 +557,10 @@ describe("GenesisProtocol", () => {
     assert.equal(result, true);
   });
 
-  it("can call getProposalAvatar", async () => {
+  it("can call getProposalOrganization", async () => {
     const proposalId = await createProposal();
-    const result = await genesisProtocol.getProposalAvatar({
-      proposalId,
-    });
-    assert.equal(result, dao.avatar.address);
+    const result = await genesisProtocol.getProposalCreator(proposalId);
+    assert.equal(result, contributionReward.address);
   });
 
   it("can call getWinningVote", async () => {
@@ -625,7 +602,7 @@ describe("GenesisProtocol", () => {
       await genesisProtocol.propose({} as any);
       assert(false, "Should have thrown validation exception");
     } catch (ex) {
-      assert.equal(ex, "Error: avatar is not defined");
+      assert.equal(ex, "Error: numOfChoices must be a number");
     }
   });
 
@@ -633,9 +610,9 @@ describe("GenesisProtocol", () => {
 
     try {
       await genesisProtocol.propose({
-        avatarAddress: dao.avatar.address,
-        executable: executableTest.address,
         numOfChoices: 13,
+        proposalParameters: gpParamsHash,
+        proposerAddress: helpers.SOME_ADDRESS,
       });
       assert(false, "Should have thrown validation exception");
     } catch (ex) {

@@ -1,6 +1,6 @@
 "use strict";
 import { BigNumber } from "bignumber.js";
-import { Address, Hash } from "../commonTypes";
+import { Address, BinaryVoteResult, Hash } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
@@ -75,10 +75,10 @@ export class RedeemerWrapper extends ContractWrapperBase {
       });
 
     return {
-      contributionRewardEther: result[3][2],
-      contributionRewardExternalToken: result[3][3],
-      contributionRewardNativeToken: result[3][1],
-      contributionRewardReputation: result[3][0],
+      contributionRewardEther: result[6],
+      contributionRewardExternalToken: result[7],
+      contributionRewardNativeToken: result[5],
+      contributionRewardReputation: result[4],
       daoStakingBountyPotentialReward: result[1][1],
       daoStakingBountyReward: result[1][0],
       proposalExecuted: result[2],
@@ -88,6 +88,7 @@ export class RedeemerWrapper extends ContractWrapperBase {
       stakerTokenAmount: result[0][0],
       voterReputationAmount: result[0][3],
       voterTokenAmount: result[0][2],
+      winningVote: result[3].toNumber(),
     };
   }
 }
@@ -111,10 +112,10 @@ export const RedeemerFactory =
     new Web3EventService()) as RedeemerFactoryType;
 
 export interface RedeeemableResult {
-  contributionRewardEther: boolean;
-  contributionRewardExternalToken: boolean;
-  contributionRewardNativeToken: boolean;
-  contributionRewardReputation: boolean;
+  contributionRewardEther: BigNumber;
+  contributionRewardExternalToken: BigNumber;
+  contributionRewardNativeToken: BigNumber;
+  contributionRewardReputation: BigNumber;
   daoStakingBountyReward: BigNumber;
   daoStakingBountyPotentialReward: BigNumber;
   proposalExecuted: boolean;
@@ -124,24 +125,11 @@ export interface RedeeemableResult {
   stakerTokenAmount: BigNumber;
   voterReputationAmount: BigNumber;
   voterTokenAmount: BigNumber;
+  winningVote: BinaryVoteResult;
 }
 
 export interface RedeemerOptions {
   avatarAddress: Address;
   beneficiaryAddress: Address;
   proposalId: Hash;
-}
-
-export interface RedeemerRedeemEventResult {
-  _contributionRewardEther: boolean;
-  _contributionRewardExternalToken: boolean;
-  _contributionRewardNativeToken: boolean;
-  _contributionRewardReputation: boolean;
-  /**
-   * indexed
-   */
-  _execute: boolean;
-  _genesisProtocolRedeem: boolean;
-  _genesisProtocolDaoBounty: boolean;
-  _proposalId: Hash;
 }

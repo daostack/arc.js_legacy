@@ -1,5 +1,5 @@
 import { Web3 } from "web3";
-import { ConfigService, DAO, InitializeArcJs } from "../index";
+import { DAO, InitializeArcJs } from "../index";
 
 /* tslint:disable:no-console */
 /* tslint:disable:max-line-length */
@@ -90,9 +90,6 @@ export class GenesisDaoCreator {
           votingMachineParams: {
             votingMachineName: "GenesisProtocol",
           },
-        },
-        {
-          name: "GenesisProtocol",
         },
       ],
       tokenName: "Genesis Test",

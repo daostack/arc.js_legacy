@@ -5,9 +5,7 @@ import { AvatarService } from "../avatarService";
 import {
   Address,
   BinaryVoteResult,
-  DefaultSchemePermissions,
   Hash,
-  SchemePermissions
 } from "../commonTypes";
 import { ConfigService } from "../configService";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
@@ -17,14 +15,12 @@ import {
   ArcTransactionResult,
   DecodedLogEntryEvent,
   IContractWrapperFactory,
-  IUniversalSchemeWrapper,
   IVotingMachineWrapper
 } from "../iContractWrapperBase";
 import { ProposalService } from "../proposalService";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
-import { RedeemEventResult } from "./commonEventInterfaces";
 import {
   ExecuteProposalEventResult,
   NewProposalEventResult,
@@ -42,7 +38,7 @@ import { IntVoteInterfaceWrapper } from "./intVoteInterface";
 import { StandardTokenFactory, StandardTokenWrapper } from "./standardToken";
 
 export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
-  implements IUniversalSchemeWrapper, IVotingMachineWrapper {
+  implements IVotingMachineWrapper {
 
   public name: string = "GenesisProtocol";
   public friendlyName: string = "Genesis Protocol";
@@ -53,10 +49,10 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
 
   /* tslint:disable:max-line-length */
   public GPExecuteProposal: EventFetcherFactory<GPExecuteProposalEventResult>;
-  public Stake: EventFetcherFactory<StakeEventResult>;
-  public Redeem: EventFetcherFactory<RedeemEventResult>;
-  public RedeemReputation: EventFetcherFactory<RedeemEventResult>;
-  public RedeemDaoBounty: EventFetcherFactory<RedeemEventResult>;
+  public Stake: EventFetcherFactory<GpStakeEventResult>;
+  public Redeem: EventFetcherFactory<GpRedeemEventResult>;
+  public RedeemReputation: EventFetcherFactory<GpRedeemEventResult>;
+  public RedeemDaoBounty: EventFetcherFactory<GpRedeemEventResult>;
   /* tslint:enable:max-line-length */
 
   /**
@@ -341,32 +337,34 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
    * as well as the GenesisProtocol parameters thresholdConstA and thresholdConstB.
    * @param {GetThresholdConfig} options
    */
-  public async getThreshold(options: GetThresholdConfig = {} as GetThresholdConfig): Promise<BigNumber> {
+  public async getThreshold(proposalId: Hash): Promise<BigNumber> {
 
-    if (!options.avatar) {
-      throw new Error("avatar is not defined");
+    if (!proposalId) {
+      throw new Error("proposalId is not defined");
     }
 
-    const gpParametersHash = await this.getSchemeParametersHash(options.avatar);
+    const proposal = await this.getProposal(proposalId);
+    const creator = await this.getProposalCreator(proposalId);
 
-    this.logContractFunctionCall("GenesisProtocol.threshold", options);
+    this.logContractFunctionCall("GenesisProtocol.threshold",
+      { proposalId, parametersHash: proposal.paramsHash, organization: creator });
 
-    return this.contract.threshold(gpParametersHash, options.avatar);
+    return this.contract.threshold(proposal.paramsHash, creator);
   }
 
   /**
-   * Returns a promise of the number of boosted proposals, not including those
-   * that have expired but have not yet been executed to update their status.
+   * Returns a promise of the number of boosted proposals by the given creatorAddress,
+   * not including those that have expired but have not yet been executed to update their status.
    */
-  public async getBoostedProposalsCount(avatar: Address): Promise<BigNumber> {
+  public async getBoostedProposalsCount(creatorAddress: Address): Promise<BigNumber> {
 
-    if (!avatar) {
-      throw new Error("avatar is not defined");
+    if (!creatorAddress) {
+      throw new Error("creatorAddress is not defined");
     }
 
-    this.logContractFunctionCall("GenesisProtocol.getBoostedProposalsCount", { avatar });
+    this.logContractFunctionCall("GenesisProtocol.getBoostedProposalsCount", creatorAddress);
 
-    return this.contract.getBoostedProposalsCount(avatar);
+    return this.contract.getBoostedProposalsCount(creatorAddress);
   }
 
   /**
@@ -510,44 +508,18 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
   }
 
   /**
-   * Return the DAO avatar address under which the proposal was made
-   * @param {GetProposalAvatarConfig} options
-   * @returns Promise<string>
+   * Returns a promise of the address of the contract that created the given proposal.
+   * @returns Promise<Address>
    */
-  public async getProposalAvatar(
-    options: GetProposalAvatarConfig = {} as GetProposalAvatarConfig
-  ): Promise<string> {
+  public async getProposalCreator(proposalId: Hash): Promise<Address> {
 
-    if (!options.proposalId) {
+    if (!proposalId) {
       throw new Error("proposalId is not defined");
     }
 
-    this.logContractFunctionCall("GenesisProtocol.proposalAvatar", options);
+    this.logContractFunctionCall("GenesisProtocol.getProposalOrganization", proposalId);
 
-    return this.contract.proposalAvatar(options.proposalId);
-  }
-
-  /**
-   * Return the score threshold params for the given DAO.
-   * @param {GetScoreThresholdParamsConfig} options
-   * @returns Promise<GetScoreThresholdParamsResult>
-   */
-  public async getScoreThresholdParams(
-    options: GetScoreThresholdParamsConfig = {} as GetScoreThresholdParamsConfig)
-    : Promise<GetScoreThresholdParamsResult> {
-
-    if (!options.avatar) {
-      throw new Error("avatar is not defined");
-    }
-
-    this.logContractFunctionCall("GenesisProtocol.scoreThresholdParams", options);
-
-    const result = await this.contract.scoreThresholdParams(options.avatar);
-
-    return {
-      thresholdConstA: result[0],
-      thresholdConstB: result[1].toNumber(),
-    };
+    return this.contract.getProposalOrganization(proposalId);
   }
 
   /**
@@ -718,7 +690,9 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
         params.votersGainRepRatioFromLostRep || 0,
         params.daoBountyConst || 0,
         params.daoBountyLimit || 0,
-      ]);
+      ],
+      params.voteOnBehalf
+    );
   }
 
   /**
@@ -831,39 +805,29 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
         votersGainRepRatioFromLostRep,
         daoBountyConst,
         daoBountyLimit,
-      ]
+      ],
+      params.voteOnBehalf
     );
-  }
-
-  public getDefaultPermissions(): SchemePermissions {
-    return DefaultSchemePermissions.GenesisProtocol as number;
-  }
-
-  public async getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
-    return this._getSchemePermissions(avatarAddress);
-  }
-
-  public async getSchemeParameters(avatarAddress: Address): Promise<GenesisProtocolParams> {
-    return this._getSchemeParameters(avatarAddress);
   }
 
   public async getParameters(paramsHash: Hash): Promise<GetGenesisProtocolParamsResult> {
     const params = await this.getParametersArray(paramsHash);
     return {
-      boostedVotePeriodLimit: params[2].toNumber(),
-      daoBountyConst: params[12].toNumber(),
-      daoBountyLimit: params[13],
-      minimumStakingFee: params[5].toNumber(),
-      preBoostedVotePeriodLimit: params[1].toNumber(),
-      preBoostedVoteRequiredPercentage: params[0].toNumber(),
-      proposingRepRewardConstA: params[7].toNumber(),
-      proposingRepRewardConstB: params[8].toNumber(),
-      quietEndingPeriod: params[6].toNumber(),
-      stakerFeeRatioForVoters: params[9].toNumber(),
-      thresholdConstA: params[3],
-      thresholdConstB: params[4].toNumber(),
-      votersGainRepRatioFromLostRep: params[11].toNumber(),
-      votersReputationLossRatio: params[10].toNumber(),
+      boostedVotePeriodLimit: params[0][2].toNumber(),
+      daoBountyConst: params[0][12].toNumber(),
+      daoBountyLimit: params[0][13],
+      minimumStakingFee: params[0][5].toNumber(),
+      preBoostedVotePeriodLimit: params[0][1].toNumber(),
+      preBoostedVoteRequiredPercentage: params[0][0].toNumber(),
+      proposingRepRewardConstA: params[0][7].toNumber(),
+      proposingRepRewardConstB: params[0][8].toNumber(),
+      quietEndingPeriod: params[0][6].toNumber(),
+      stakerFeeRatioForVoters: params[0][9].toNumber(),
+      thresholdConstA: params[0][3],
+      thresholdConstB: params[0][4].toNumber(),
+      voteOnBehalf: params[1],
+      votersGainRepRatioFromLostRep: params[0][11].toNumber(),
+      votersReputationLossRatio: params[0][10].toNumber(),
     };
   }
 
@@ -882,6 +846,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
    * @returns Promise<Address>
    */
   public async getStakingTokenAddress(): Promise<Address> {
+    this.logContractFunctionCall("GenesisProtocol.stakingToken");
     return await this.contract.stakingToken();
   }
 
@@ -917,28 +882,27 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
     super.hydrated();
     /* tslint:disable:max-line-length */
     this.GPExecuteProposal = this.createEventFetcherFactory<GPExecuteProposalEventResult>(this.contract.GPExecuteProposal);
-    this.Stake = this.createEventFetcherFactory<StakeEventResult>(this.contract.Stake);
-    this.Redeem = this.createEventFetcherFactory<RedeemEventResult>(this.contract.Redeem);
-    this.RedeemReputation = this.createEventFetcherFactory<RedeemEventResult>(this.contract.RedeemReputation);
-    this.RedeemDaoBounty = this.createEventFetcherFactory<RedeemEventResult>(this.contract.RedeemDaoBounty);
+    this.Stake = this.createEventFetcherFactory<GpStakeEventResult>(this.contract.Stake);
+    this.Redeem = this.createEventFetcherFactory<GpRedeemEventResult>(this.contract.Redeem);
+    this.RedeemReputation = this.createEventFetcherFactory<GpRedeemEventResult>(this.contract.RedeemReputation);
+    this.RedeemDaoBounty = this.createEventFetcherFactory<GpRedeemEventResult>(this.contract.RedeemDaoBounty);
     /* tslint:enable:max-line-length */
   }
 
   private convertProposalPropsArrayToObject(proposalArray: Array<any>, proposalId: Hash): GenesisProtocolProposal {
     return {
-      avatarAddress: proposalArray[0],
-      boostedPhaseTime: proposalArray[5].toNumber(),
-      currentBoostedVotePeriodLimit: proposalArray[9].toNumber(),
-      daoBountyRemain: proposalArray[11],
-      executable: proposalArray[2],
+      boostedPhaseTime: proposalArray[4].toNumber(),
+      creatorAddress: proposalArray[0],
+      currentBoostedVotePeriodLimit: proposalArray[8].toNumber(),
+      daoBountyRemain: proposalArray[10],
       numOfChoices: proposalArray[1].toNumber(),
-      paramsHash: proposalArray[10],
+      paramsHash: proposalArray[9],
       proposalId,
-      proposer: proposalArray[8],
-      state: proposalArray[6].toNumber(),
-      submittedTime: proposalArray[4].toNumber(),
-      votersStakes: proposalArray[3],
-      winningVote: proposalArray[7].toNumber(),
+      proposer: proposalArray[7],
+      state: proposalArray[5].toNumber(),
+      submittedTime: proposalArray[3].toNumber(),
+      votersStakes: proposalArray[2],
+      winningVote: proposalArray[6].toNumber(),
     };
   }
 }
@@ -971,12 +935,42 @@ export const GenesisProtocolFactory =
     GenesisProtocolWrapper,
     new Web3EventService()) as GenesisProtocolFactoryType;
 
-export interface StakeEventResult {
+export interface GPExecuteProposalEventResult {
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+  /**
+   * _executionState.toNumber() will give you a value from the enum `ExecutionState`
+   */
+  _executionState: BigNumber;
+}
+
+export interface GpRedeemEventResult {
+  /**
+   * the amount redeemed
+   */
   _amount: BigNumber;
   /**
    * indexed
    */
-  _avatar: Address;
+  _organization: Address;
+  /**
+   * indexed
+   */
+  _beneficiary: Address;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
+}
+
+export interface GpStakeEventResult {
+  _amount: BigNumber;
+  /**
+   * indexed
+   */
+  _organization: Address;
   /**
    * indexed
    */
@@ -1079,6 +1073,10 @@ export interface GenesisProtocolParams {
    */
   thresholdConstB: number;
   /**
+   * optional, to always vote on behalf of the given account.  Otherwise is `msg.sender`.
+   */
+  voteOnBehalf?: Address;
+  /**
    * The percentage of losing pre-boosted voters' lost reputation (see votersReputationLossRatio)
    * rewarded to winning pre-boosted voters.
    * Must be between 0 and 100.
@@ -1106,6 +1104,7 @@ export interface GetGenesisProtocolParamsResult {
   stakerFeeRatioForVoters: number;
   thresholdConstA: BigNumber | string;
   thresholdConstB: number;
+  voteOnBehalf: Address;
   votersGainRepRatioFromLostRep: number;
   votersReputationLossRatio: number;
 }
@@ -1192,13 +1191,6 @@ export interface GetScoreConfig {
   proposalId: string;
 }
 
-export interface GetThresholdConfig {
-  /**
-   * the DAO's avatar address
-   */
-  avatar: Address;
-}
-
 export interface GetVoterInfoConfig {
   /**
    * unique hash of proposal index
@@ -1219,20 +1211,6 @@ export interface GetTotalReputationSupplyConfig {
    * unique hash of proposal index
    */
   proposalId: string;
-}
-
-export interface GetProposalAvatarConfig {
-  /**
-   * unique hash of proposal index
-   */
-  proposalId: string;
-}
-
-export interface GetScoreThresholdParamsConfig {
-  /**
-   * the DAO's avatar address
-   */
-  avatar: Address;
 }
 
 export interface GetStakerInfoConfig {
@@ -1266,17 +1244,6 @@ export enum ExecutionState {
   PreBoostedBarCrossed = 2,
   BoostedTimeOut = 3,
   BoostedBarCrossed = 4,
-}
-
-export interface GPExecuteProposalEventResult {
-  /**
-   * indexed
-   */
-  _proposalId: Hash;
-  /**
-   * _executionState.toNumber() will give you a value from the enum `ExecutionState`
-   */
-  _executionState: BigNumber;
 }
 
 export enum ProposalState {
@@ -1327,6 +1294,7 @@ export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProt
     stakerFeeRatioForVoters: 50,
     thresholdConstA: web3.toWei(7),
     thresholdConstB: 3,
+    voteOnBehalf: Utils.NULL_ADDRESS,
     votersGainRepRatioFromLostRep: 80,
     votersReputationLossRatio: 1,
   };
@@ -1342,7 +1310,7 @@ export interface ExecutedGenesisProposal extends GenesisProtocolProposal {
 }
 
 export interface GenesisProtocolProposal {
-  avatarAddress: Address;
+  creatorAddress: Address;
   /**
    * in seconds
    */
@@ -1352,7 +1320,6 @@ export interface GenesisProtocolProposal {
    */
   currentBoostedVotePeriodLimit: number;
   daoBountyRemain: BigNumber;
-  executable: Address;
   numOfChoices: number;
   paramsHash: Hash;
   proposalId: Hash;

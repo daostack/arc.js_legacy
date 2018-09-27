@@ -43,9 +43,6 @@ describe("estimate gas", () => {
         dao = await helpers.forgeDao({
           schemes: [
             {
-              name: "GenesisProtocol",
-            },
-            {
               name: "ContributionReward",
               votingMachineParams: {
                 votingMachineName: "GenesisProtocol",
@@ -156,7 +153,7 @@ describe("estimate gas", () => {
 
     const gas = await scheme.estimateGas(
       votingMachine.contract.vote,
-      [proposalId, 1],
+      [proposalId, 1, helpers.NULL_ADDRESS],
       { from: accounts[0] });
 
     LoggingService.info(`estimated gas for voting: ${gas}`);
@@ -165,7 +162,7 @@ describe("estimate gas", () => {
 
     (scheme.constructor as any).synchronization_timeout = 0;
 
-    await votingMachine.contract.vote(proposalId, 1, { gas, from: accounts[0] });
+    await votingMachine.contract.vote(proposalId, 1, helpers.NULL_ADDRESS, { gas, from: accounts[0] });
   });
 
   it("can execute proposal", async () => {
@@ -200,7 +197,7 @@ describe("estimate gas", () => {
 
     const gas = await scheme.estimateGas(
       scheme.contract.redeemNativeToken,
-      [proposalId, dao.avatar.address],
+      [proposalId, dao.avatar.address, helpers.NULL_ADDRESS],
       { from: accounts[0] });
 
     LoggingService.info(`estimated gas for redeeming native token: ${gas}`);

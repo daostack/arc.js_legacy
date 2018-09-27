@@ -232,7 +232,7 @@ export function vote(
   theVote: number,
   voter: Address): Promise<ArcTransactionResult> {
   voter = (voter ? voter : accounts[0]);
-  return (votingMachine as any).contract.vote(proposalId, theVote, { from: voter });
+  return (votingMachine as any).contract.vote(proposalId, theVote, NULL_ADDRESS, { from: voter });
 }
 
 export function wrapperForVotingMachine(votingMachine: IntVoteInterfaceWrapper): IUniversalSchemeWrapper {

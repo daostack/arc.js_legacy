@@ -243,10 +243,6 @@ const newDao = await DAO.new({
 !!! tip
     If you want change the default voting machine for all calls to `DAO.new` you can do it using the [ConfigService](/api/classes/ConfigService) setting `defaultVotingMachine`. See [Arc.js Configuration Settings](Configuration.md).
 
-<a name="gpExplanation"></a>
-!!! note "Important"
-    If you want to use [GenesisProtocol](api/classes/GenesisProtocolWrapper) on _any_ scheme, you must also add it as a scheme in its own right on the DAO itself.  When you supply the GenesisProtocol parameters, you must do so on the GenesisProtocol scheme itself -- unlike with AbsoluteVote and QuorumVote, any GenesisProtocol params sent directly to the scheme that uses it are ignored.
-
 ### Creating a new DAO using a custom DaoCreator scheme
 
 Arc supplies a contract for creating DAOs called `DaoCreator`.  But you don't have to rely on  `DAOCreator` if you prefer different functionality -- you can supply your own DAO creator scheme by passing its address in `daoCreatorScheme`:

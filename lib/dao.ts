@@ -77,8 +77,7 @@ export class DAO {
       dao.hasUController = await avatarService.getIsUController();
       dao.token = await avatarService.getNativeToken();
       dao.reputation = await avatarService.getNativeReputation();
-      const web3 = await Utils.getWeb3();
-      dao.name = web3.toUtf8(await dao.avatar.orgName());
+      dao.name = await dao.avatar.orgName();
     }
 
     return dao;
@@ -202,7 +201,7 @@ export class DAO {
       participants = new Array<Participant>();
 
       for (const account of addresses) {
-        const balance = await this.reputation.reputationOf(account);
+        const balance = await this.reputation.getBalanceOf(account);
         if (balance.gt(0)) {
           participants.push({ address: account, reputation: balance });
         }

@@ -72,7 +72,6 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper
       params);
 
     return this._getParametersHash(
-      params.reputation,
       params.votePerc,
       params.ownerVote);
   }
@@ -88,14 +87,9 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper
       },
       params);
 
-    if (!params.reputation) {
-      throw new Error("reputation must be set");
-    }
-
     return super._setParameters(
       "AbsoluteVote.setParameters",
       params.txEventContext,
-      params.reputation,
       params.votePerc,
       params.ownerVote
     );
@@ -104,9 +98,8 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper
   public async getParameters(paramsHash: Hash): Promise<AbsoluteVoteParamsResult> {
     const params = await this.getParametersArray(paramsHash);
     return {
-      ownerVote: params[2],
-      reputation: params[0],
-      votePerc: params[1].toNumber(),
+      ownerVote: params[1],
+      votePerc: params[0].toNumber(),
     };
   }
 
@@ -170,13 +163,11 @@ export const AbsoluteVoteFactory =
 
 export interface AbsoluteVoteParams {
   ownerVote?: boolean;
-  reputation: string;
   votePerc?: number;
 }
 
 export interface AbsoluteVoteParamsResult {
   ownerVote: boolean;
-  reputation: string;
   votePerc: number;
 }
 

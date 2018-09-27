@@ -25,7 +25,6 @@ import { Utils } from "../utils";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
   ProposalDeletedEventResult,
-  RedeemEventResult,
   SchemeProposalExecutedEventResult
 } from "./commonEventInterfaces";
 
@@ -779,4 +778,24 @@ export interface ContributionRewardRedeemParams {
    * Default is false
    */
   externalTokens?: boolean;
+}
+
+export interface RedeemEventResult {
+  /**
+   * the amount redeemed
+   */
+  _amount: BigNumber;
+  /**
+   * avatar address
+   * indexed
+   */
+  _avatar: Address;
+  /**
+   * indexed
+   */
+  _beneficiary: Address;
+  /**
+   * indexed
+   */
+  _proposalId: Hash;
 }
