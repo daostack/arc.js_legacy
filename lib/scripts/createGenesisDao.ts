@@ -1,6 +1,5 @@
 import { Web3 } from "web3";
-import { ConfigService, DAO, InitializeArcJs } from "../index";
-import { LogLevel } from "../loggingService";
+import { DAO, InitializeArcJs } from "../index";
 
 /* tslint:disable:no-console */
 /* tslint:disable:max-line-length */

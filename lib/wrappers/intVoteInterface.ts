@@ -147,8 +147,8 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
     }
     await this._validateVote(options.vote, options.proposalId);
 
-    if (!options.voter) {
-      throw new Error(`voter is not defined`);
+    if (!options.voterAddress) {
+      throw new Error(`voterAddress is not defined`);
     }
 
     this.logContractFunctionCall("IntVoteInterface.ownerVote", options);
@@ -158,7 +158,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
       this.contract.ownerVote,
       [options.proposalId,
       options.vote,
-      options.voter]
+      options.voterAddress]
     );
   }
 
@@ -177,7 +177,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
     return this.wrapTransactionInvocation("IntVoteInterface.vote",
       options,
       this.contract.vote,
-      [options.proposalId, options.vote, options.voter || 0]
+      [options.proposalId, options.vote, options.voterAddress || 0]
     );
   }
 
@@ -204,7 +204,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
       options.vote,
       options.reputation,
       new BigNumber(0),
-      options.voter || Utils.NULL_ADDRESS]
+      options.voterAddress || 0]
     );
   }
 

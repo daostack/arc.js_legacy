@@ -38,18 +38,18 @@ export interface ProposeOptions {
 
 export interface OwnerVoteOptions extends ProposalIdOption {
   vote: number;
-  voter: Address;
+  voterAddress: Address;
 }
 
 export interface VoteOptions extends ProposalIdOption {
   vote: number;
-  voter?: Address;
+  voterAddress?: Address;
 }
 
 export interface VoteWithSpecifiedAmountsOptions extends ProposalIdOption {
   reputation: BigNumber | string;
   vote: number;
-  voter?: Address;
+  voterAddress?: Address;
 }
 
 export interface VoteStatusOptions extends ProposalIdOption {
