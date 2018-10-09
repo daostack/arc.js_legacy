@@ -98,6 +98,13 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
     return this.getHydratedWrapper(getWrapper);
   }
 
+  public async ensureSolidityContract(): Promise<any> {
+    if (!this.solidityContract) {
+      this.solidityContract = await Utils.requireContract(this.solidityContractName);
+    }
+    return this.solidityContract;
+  }
+
   protected async estimateConstructorGas(...params: Array<any>): Promise<number> {
     const web3 = await Utils.getWeb3();
     await this.ensureSolidityContract();
@@ -175,12 +182,6 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
         ContractWrapperFactory.contractCache.set(name, addressMap);
       }
       addressMap.set(wrapper.address, wrapper);
-    }
-  }
-
-  private async ensureSolidityContract(): Promise<void> {
-    if (!this.solidityContract) {
-      this.solidityContract = await Utils.requireContract(this.solidityContractName);
     }
   }
 }

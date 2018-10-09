@@ -158,7 +158,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
       this.contract.ownerVote,
       [options.proposalId,
       options.vote,
-      options.voter]
+      options.voterAddress]
     );
   }
 

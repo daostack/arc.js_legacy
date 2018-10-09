@@ -58,6 +58,40 @@ describe("DAO", () => {
 
   it("can register non-wrapped, non-deployed scheme", async () => {
 
+    const contractName = "OrganizationRegister";
+
+    let truffleContract;
+    try {
+      truffleContract = await Utils.requireContract(contractName);
+    } catch (ex) {
+      throw new Error(`can't find '${contractName}': ${ex.message ? ex.message : ex}`);
+    }
+
+    const newContract = await truffleContract.new();
+
+    const dao = await getNewDao({
+      founders: [
+        {
+          address: accounts[0],
+          reputation: web3.toWei(10),
+          tokens: web3.toWei(100),
+        },
+      ],
+      schemes: [
+        {
+          address: newContract.address,
+          name: contractName,
+        },
+      ],
+    });
+
+    const schemes = await dao.getSchemes();
+    assert.equal(schemes.length, 1);
+    assert.equal(schemes[0].address, newContract.address);
+  });
+
+  it("can register non-universal scheme", async () => {
+
     const contractName = "Auction4Reputation";
 
     let truffleContract;
@@ -67,15 +101,7 @@ describe("DAO", () => {
       throw new Error(`can't find '${contractName}': ${ex.message ? ex.message : ex}`);
     }
 
-    const newContract = await truffleContract.new(
-      helpers.SOME_HASH,
-      10,
-      1000,
-      2000,
-      100,
-      "0x4d50fa58b754fdc70feafc8b9dba0bfb27079922",
-      "0xb0c908140fe6fd6fbd4990a5c2e35ca6dc12bfb2"
-    );
+    const newContract = await truffleContract.new();
 
     const dao = await getNewDao({
       founders: [

@@ -8,6 +8,10 @@ import {
   AbsoluteVoteWrapper
 } from "./wrappers/absoluteVote";
 import {
+  Auction4ReputationFactory,
+  Auction4ReputationWrapper
+} from "./wrappers/auction4Reputation";
+import {
   ContributionRewardFactory,
   ContributionRewardWrapper
 } from "./wrappers/contributionReward";
@@ -20,6 +24,14 @@ import {
   DaoTokenWrapper
 } from "./wrappers/daoToken";
 import {
+  ExternalLocking4ReputationFactory,
+  ExternalLocking4ReputationWrapper
+} from "./wrappers/externalLocking4Reputation";
+import {
+  FixedReputationAllocationFactory,
+  FixedReputationAllocationWrapper
+} from "./wrappers/fixedReputationAllocation";
+import {
   GenesisProtocolFactory,
   GenesisProtocolWrapper
 } from "./wrappers/genesisProtocol";
@@ -31,10 +43,6 @@ import {
   IntVoteInterfaceFactory,
   IntVoteInterfaceWrapper
 } from "./wrappers/intVoteInterface";
-import {
-  Locking4ReputationFactory,
-  Locking4ReputationWrapper
-} from "./wrappers/locking4Reputation";
 import {
   LockingEth4ReputationFactory,
   LockingEth4ReputationWrapper
@@ -80,6 +88,8 @@ import {
   VoteInOrganizationSchemeWrapper
 } from "./wrappers/voteInOrganizationScheme";
 
+/* tslint:disable:max-line-length */
+
 /**
  * An object with property names being a contract key and property value as the
  * corresponding wrapper factory (IContractWrapperFactory<TWrapper).
@@ -92,9 +102,11 @@ export interface ArcWrapperFactories {
   GenesisProtocol: IContractWrapperFactory<GenesisProtocolWrapper>;
   GlobalConstraintRegistrar: IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
   IntVoteInterface: IContractWrapperFactory<IntVoteInterfaceWrapper>;
-  Locking4Reputation: IContractWrapperFactory<Locking4ReputationWrapper>;
   LockingEth4Reputation: IContractWrapperFactory<LockingEth4ReputationWrapper>;
   LockingToken4Reputation: IContractWrapperFactory<LockingToken4ReputationWrapper>;
+  Auction4Reputation: IContractWrapperFactory<Auction4ReputationWrapper>;
+  FixedReputationAllocation: IContractWrapperFactory<FixedReputationAllocationWrapper>;
+  ExternalLocking4Reputation: IContractWrapperFactory<ExternalLocking4ReputationWrapper>;
   MintableToken: IContractWrapperFactory<MintableTokenWrapper>;
   Redeemer: IContractWrapperFactory<RedeemerWrapper>;
   Reputation: IContractWrapperFactory<ReputationWrapper>;
@@ -107,9 +119,9 @@ export interface ArcWrapperFactories {
 }
 
 /**
- * An object with property names being a contract key and property value as the
+ * An object with property names being an Arc contract name and then property value being the
  * corresponding wrapper.  Only deployed wrappers are included here.  Other wrappers
- * may be obtained via their factory.
+ * may be obtained via their factory.  See also ArcSchemeWrappers.
  */
 export interface ArcWrappers {
   AbsoluteVote: AbsoluteVoteWrapper;
@@ -123,6 +135,39 @@ export interface ArcWrappers {
   UpgradeScheme: UpgradeSchemeWrapper;
   VestingScheme: VestingSchemeWrapper;
   VoteInOrganizationScheme: VoteInOrganizationSchemeWrapper;
+}
+
+/**
+ * An object with property names being an Arc contract name and the property value being the
+ * corresponding contract non-universal contract wrapper factory.
+ */
+export interface ArcNonUniversalSchemeWrapperFactories {
+  LockingEth4Reputation: IContractWrapperFactory<LockingEth4ReputationWrapper>;
+  LockingToken4Reputation: IContractWrapperFactory<LockingToken4ReputationWrapper>;
+  Auction4Reputation: IContractWrapperFactory<Auction4ReputationWrapper>;
+  FixedReputationAllocation: IContractWrapperFactory<FixedReputationAllocationWrapper>;
+  ExternalLocking4Reputation: IContractWrapperFactory<ExternalLocking4ReputationWrapper>;
+}
+
+/**
+ * An object with property names being an Arc contract name and the property value being the
+ * corresponding universal contract wrapper factory.
+ */
+export interface ArcUniversalSchemeWrapperFactories {
+  ContributionReward: IContractWrapperFactory<ContributionRewardWrapper>;
+  GlobalConstraintRegistrar: IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
+  SchemeRegistrar: IContractWrapperFactory<SchemeRegistrarWrapper>;
+  UpgradeScheme: IContractWrapperFactory<UpgradeSchemeWrapper>;
+  VestingScheme: IContractWrapperFactory<VestingSchemeWrapper>;
+  VoteInOrganizationScheme: IContractWrapperFactory<VoteInOrganizationSchemeWrapper>;
+}
+
+/**
+ * An object with property names being an Arc contract name and the property value being the
+ * corresponding contract wrapper factory.  Includes both universal and non-universal factories.
+ */
+export interface ArcSchemeWrapperFactories
+  extends ArcNonUniversalSchemeWrapperFactories, ArcUniversalSchemeWrapperFactories {
 }
 
 /**
@@ -174,6 +219,18 @@ export class WrapperService {
    * `wrappers` and `wrappersByType` properties.
    */
   public static factories: ArcWrapperFactories = {} as ArcWrapperFactories;
+  /**
+   * Universal scheme contract wrapper factories by name.
+   */
+  public static universalSchemeFactories: ArcUniversalSchemeWrapperFactories = {} as ArcUniversalSchemeWrapperFactories;
+  /**
+   * Non-universal scheme contract wrapper factories by name.
+   */
+  public static nonUniversalSchemeFactories: ArcNonUniversalSchemeWrapperFactories = {} as ArcNonUniversalSchemeWrapperFactories;
+  /**
+   * All scheme contract wrapper factories by name.
+   */
+  public static schemeFactories: ArcSchemeWrapperFactories = {} as ArcSchemeWrapperFactories;
 
   /**
    * Map of contract wrappers keyed by address.  For example:
@@ -200,7 +257,6 @@ export class WrapperService {
       Object.assign({}, WrapperService.noWrappersFilter, options.filter) :
       WrapperService.allWrappersFilter;
 
-    /* tslint:disable:max-line-length */
     WrapperService.wrappers.AbsoluteVote = filter.AbsoluteVote ? await AbsoluteVoteFactory.deployed() : null;
     WrapperService.wrappers.ContributionReward = filter.ContributionReward ? await ContributionRewardFactory.deployed() : null;
     WrapperService.wrappers.DaoCreator = filter.DaoCreator ? await DaoCreatorFactory.deployed() : null;
@@ -212,7 +268,6 @@ export class WrapperService {
     WrapperService.wrappers.UpgradeScheme = filter.UpgradeScheme ? await UpgradeSchemeFactory.deployed() : null;
     WrapperService.wrappers.VestingScheme = filter.VestingScheme ? await VestingSchemeFactory.deployed() : null;
     WrapperService.wrappers.VoteInOrganizationScheme = filter.VoteInOrganizationScheme ? await VoteInOrganizationSchemeFactory.deployed() : null;
-    /* tslint:enable:max-line-length */
 
     /**
      * Contract wrappers grouped by type
@@ -247,34 +302,42 @@ export class WrapperService {
      * unless we initialize it this way (otherwise it shows up in the "Object Literal" section).
      */
     WrapperService.factories.AbsoluteVote = AbsoluteVoteFactory as IContractWrapperFactory<AbsoluteVoteWrapper>;
-    WrapperService.factories.ContributionReward = ContributionRewardFactory as
-      IContractWrapperFactory<ContributionRewardWrapper>;
+    WrapperService.factories.ContributionReward = ContributionRewardFactory as IContractWrapperFactory<ContributionRewardWrapper>;
     WrapperService.factories.DaoCreator = DaoCreatorFactory as IContractWrapperFactory<DaoCreatorWrapper>;
     WrapperService.factories.DaoToken = DaoTokenFactory as IContractWrapperFactory<DaoTokenWrapper>;
-    WrapperService.factories.GenesisProtocol =
-      GenesisProtocolFactory as IContractWrapperFactory<GenesisProtocolWrapper>;
-    WrapperService.factories.GlobalConstraintRegistrar = GlobalConstraintRegistrarFactory as
-      IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
-    WrapperService.factories.IntVoteInterface = IntVoteInterfaceFactory as
-      IContractWrapperFactory<IntVoteInterfaceWrapper>;
-    WrapperService.factories.Locking4Reputation = Locking4ReputationFactory as
-      IContractWrapperFactory<Locking4ReputationWrapper>;
-    WrapperService.factories.LockingEth4Reputation = LockingEth4ReputationFactory as
-      IContractWrapperFactory<LockingEth4ReputationWrapper>;
-    WrapperService.factories.LockingToken4Reputation = LockingToken4ReputationFactory as
-      IContractWrapperFactory<LockingToken4ReputationWrapper>;
+    WrapperService.factories.GenesisProtocol = GenesisProtocolFactory as IContractWrapperFactory<GenesisProtocolWrapper>;
+    WrapperService.factories.GlobalConstraintRegistrar = GlobalConstraintRegistrarFactory as IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
+    WrapperService.factories.IntVoteInterface = IntVoteInterfaceFactory as IContractWrapperFactory<IntVoteInterfaceWrapper>;
+    WrapperService.factories.LockingEth4Reputation = LockingEth4ReputationFactory as IContractWrapperFactory<LockingEth4ReputationWrapper>;
+    WrapperService.factories.LockingToken4Reputation = LockingToken4ReputationFactory as IContractWrapperFactory<LockingToken4ReputationWrapper>;
+    WrapperService.factories.Auction4Reputation = Auction4ReputationFactory as IContractWrapperFactory<Auction4ReputationWrapper>;
+    WrapperService.factories.FixedReputationAllocation = FixedReputationAllocationFactory as IContractWrapperFactory<FixedReputationAllocationWrapper>;
+    WrapperService.factories.ExternalLocking4Reputation = ExternalLocking4ReputationFactory as IContractWrapperFactory<ExternalLocking4ReputationWrapper>;
     WrapperService.factories.MintableToken = MintableTokenFactory as IContractWrapperFactory<MintableTokenWrapper>;
-    WrapperService.factories.Redeemer =
-      RedeemerFactory as IContractWrapperFactory<RedeemerWrapper>;
+    WrapperService.factories.Redeemer = RedeemerFactory as IContractWrapperFactory<RedeemerWrapper>;
     WrapperService.factories.Reputation = ReputationFactory as IContractWrapperFactory<ReputationWrapper>;
-    WrapperService.factories.SchemeRegistrar =
-      SchemeRegistrarFactory as IContractWrapperFactory<SchemeRegistrarWrapper>;
+    WrapperService.factories.SchemeRegistrar = SchemeRegistrarFactory as IContractWrapperFactory<SchemeRegistrarWrapper>;
     WrapperService.factories.StandardToken = StandardTokenFactory as IContractWrapperFactory<StandardTokenWrapper>;
     WrapperService.factories.TokenCapGC = TokenCapGCFactory as IContractWrapperFactory<TokenCapGCWrapper>;
     WrapperService.factories.UpgradeScheme = UpgradeSchemeFactory as IContractWrapperFactory<UpgradeSchemeWrapper>;
     WrapperService.factories.VestingScheme = VestingSchemeFactory as IContractWrapperFactory<VestingSchemeWrapper>;
-    WrapperService.factories.VoteInOrganizationScheme = VoteInOrganizationSchemeFactory as
-      IContractWrapperFactory<VoteInOrganizationSchemeWrapper>;
+    WrapperService.factories.VoteInOrganizationScheme = VoteInOrganizationSchemeFactory as IContractWrapperFactory<VoteInOrganizationSchemeWrapper>;
+
+    WrapperService.nonUniversalSchemeFactories.LockingEth4Reputation = WrapperService.factories.LockingEth4Reputation;
+    WrapperService.nonUniversalSchemeFactories.LockingToken4Reputation = WrapperService.factories.LockingToken4Reputation;
+    WrapperService.nonUniversalSchemeFactories.Auction4Reputation = WrapperService.factories.Auction4Reputation;
+    WrapperService.nonUniversalSchemeFactories.FixedReputationAllocation = WrapperService.factories.FixedReputationAllocation;
+    WrapperService.nonUniversalSchemeFactories.ExternalLocking4Reputation = WrapperService.factories.ExternalLocking4Reputation;
+
+    WrapperService.universalSchemeFactories.ContributionReward = WrapperService.factories.ContributionReward;
+    WrapperService.universalSchemeFactories.GlobalConstraintRegistrar = WrapperService.factories.GlobalConstraintRegistrar;
+    WrapperService.universalSchemeFactories.SchemeRegistrar = WrapperService.factories.SchemeRegistrar;
+    WrapperService.universalSchemeFactories.UpgradeScheme = WrapperService.factories.UpgradeScheme;
+    WrapperService.universalSchemeFactories.VestingScheme = WrapperService.factories.VestingScheme;
+    WrapperService.universalSchemeFactories.VoteInOrganizationScheme = WrapperService.factories.VoteInOrganizationScheme;
+
+    WrapperService.schemeFactories = Object.assign({}, WrapperService.nonUniversalSchemeFactories, WrapperService.universalSchemeFactories);
+
     /**
      * TODO: this should be made aware of previously-deployed GCs
      */
@@ -402,7 +465,12 @@ export const ContractWrapperFactories: ArcWrapperFactories = WrapperService.fact
  * for quicker access to the contract wrapper types
  */
 export const ContractWrappersByType: ArcWrappersByType = WrapperService.wrappersByType;
+
 /**
  * for quicker access to the contract wrappers by address
  */
 export const ContractWrappersByAddress: Map<Address, IContractWrapper> = WrapperService.wrappersByAddress;
+
+export const UniversalSchemeFactories: ArcUniversalSchemeWrapperFactories = WrapperService.universalSchemeFactories;
+export const NonUniversalSchemeFactories: ArcNonUniversalSchemeWrapperFactories = WrapperService.nonUniversalSchemeFactories;
+export const SchemeFactories: ArcSchemeWrapperFactories = WrapperService.schemeFactories;

@@ -35,7 +35,7 @@ describe("Web3EventService", () => {
     const token = await StandardTokenFactory.at(tokenAddress);
     assert.isOk(token);
 
-    const initialBlockNumber = await UtilsInternal.lastBlock();
+    const initialBlockNumber = await UtilsInternal.lastBlockNumber();
     let currentBlockNumber = initialBlockNumber;
     let eventBlockNumber = currentBlockNumber;
 
@@ -64,7 +64,7 @@ describe("Web3EventService", () => {
       fetcher.get(async (error: Error, entitiesPromise: Promise<Array<EntityType>>) => {
         const entities = await entitiesPromise;
         for (const entity of entities) {
-          currentBlockNumber = await UtilsInternal.lastBlock();
+          currentBlockNumber = await UtilsInternal.lastBlockNumber();
           eventBlockNumber = entity.blockNumber;
         }
         resolve();
@@ -81,7 +81,7 @@ describe("Web3EventService", () => {
     const token = await StandardTokenFactory.at(tokenAddress);
     assert.isOk(token);
 
-    const initialBlockNumber = await UtilsInternal.lastBlock();
+    const initialBlockNumber = await UtilsInternal.lastBlockNumber();
     let currentBlockNumber = initialBlockNumber;
     let eventBlockNumber = currentBlockNumber;
 
@@ -99,7 +99,7 @@ describe("Web3EventService", () => {
       reject: () => void): Promise<void> => {
       fetcher.watch(async (error: Error, entity: EntityType) => {
 
-        currentBlockNumber = await UtilsInternal.lastBlock();
+        currentBlockNumber = await UtilsInternal.lastBlockNumber();
         eventBlockNumber = entity.blockNumber;
         done = true;
         resolve();
@@ -139,7 +139,7 @@ describe("Web3EventService", () => {
     const token = await StandardTokenFactory.at(tokenAddress);
     assert.isOk(token);
 
-    const initialBlockNumber = await UtilsInternal.lastBlock();
+    const initialBlockNumber = await UtilsInternal.lastBlockNumber();
     let currentBlockNumber = initialBlockNumber;
     let eventBlockNumber = currentBlockNumber;
     let done = false;
@@ -150,7 +150,7 @@ describe("Web3EventService", () => {
       resolve: () => void,
       reject: () => void): Promise<void> => {
       fetcher.watch(async (error: Error, event: DecodedLogEntryEvent<ApprovalEventResult>) => {
-        currentBlockNumber = await UtilsInternal.lastBlock();
+        currentBlockNumber = await UtilsInternal.lastBlockNumber();
         eventBlockNumber = event.blockNumber;
         done = true;
         resolve();

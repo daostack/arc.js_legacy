@@ -281,7 +281,7 @@ export class TransactionService extends PubSubEventService {
   public static async getTransactionDepth(tx: Hash | TransactionReceipt): Promise<number> {
 
     const web3 = await Utils.getWeb3();
-    const lastBlockNum = await UtilsInternal.lastBlock();
+    const lastBlockNum = await UtilsInternal.lastBlockNumber();
     let receipt: TransactionReceipt;
 
     if (typeof tx === "string") {

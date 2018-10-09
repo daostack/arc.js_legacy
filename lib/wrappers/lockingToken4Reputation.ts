@@ -1,43 +1,82 @@
 "use strict";
 import BigNumber from "bignumber.js";
+import { Address } from "../commonTypes";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { Utils } from "../utils";
 import { Web3EventService } from "../web3EventService";
-import { Locking4ReputationWrapper, ReleaseOptions } from "./Locking4Reputation";
+import { WrapperService } from "../wrapperService";
+import { InitializeOptions, Locking4ReputationWrapper, LockingOptions, ReleaseOptions } from "./locking4Reputation";
+import { StandardTokenWrapper } from "./standardToken";
 
 export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
   public name: string = "LockingToken4Reputation";
-  public friendlyName: string = "Locking Eth For Reputation";
+  public friendlyName: string = "Locking Token For Reputation";
   public factory: IContractWrapperFactory<LockingToken4ReputationWrapper> = LockingToken4ReputationFactory;
 
-  public release(options: ReleaseOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+  public async initialize(options: LockTokenInitializeOptions & TxGeneratingFunctionOptions)
+    : Promise<ArcTransactionResult> {
 
-    super._release(options);
+    await super._initialize(options);
+
+    if (!options.tokenAddress) {
+      throw new Error(`tokenAddress not supplied`);
+    }
+
+    this.logContractFunctionCall("LockingToken4Reputation.initialize", options);
+
+    return this.wrapTransactionInvocation("LockingToken4Reputation.initialize",
+      options,
+      this.contract.initialize,
+      [options.avatarAddress,
+      options.reputationReward,
+      options.lockingStartTime.getTime(),
+      options.lockingEndTime.getTime(),
+      options.maxLockingPeriod,
+      options.tokenAddress]
+    );
+  }
+
+  public async release(options: ReleaseOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+
+    await super._release(options);
 
     this.logContractFunctionCall("LockingToken4Reputation.release", options);
 
     return this.wrapTransactionInvocation("LockingToken4Reputation.release",
       options,
       this.contract.release,
-      [options.lockerAddress, options.lockingId]
+      [options.lockerAddress, options.lockId]
     );
   }
 
-  public async lock(options: Locking4TokenOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+  /**
+   * Returns reason why can't lock, else null if can lock
+   */
+  public async getLockBlocker(options: LockingOptions): Promise<string | null> {
 
-    if (!Number.isInteger(options.period)) {
-      throw new Error("period is not an integer");
+    const msg = await super.getLockBlocker(options);
+    if (msg) {
+      return msg;
     }
 
-    if (options.period <= 0) {
-      throw new Error("period must be greater then zero");
-    }
-
+    const token = await this.getToken();
+    const balance = await Utils.getTokenBalance(options.lockerAddress, token.address);
     const amount = new BigNumber(options.amount);
 
-    if (amount.lte(0)) {
-      throw new Error("amount must be greater then zero");
+    if (balance.lt(amount)) {
+      return "the account has insufficient balance to lock the requested amount";
+    }
+
+    return null;
+  }
+
+  public async lock(options: LockingOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+
+    const msg = await this.getLockBlocker(options);
+    if (msg) {
+      throw new Error(msg);
     }
 
     this.logContractFunctionCall("LockingToken4Reputation.lock", options);
@@ -45,8 +84,15 @@ export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
     return this.wrapTransactionInvocation("LockingToken4Reputation.lock",
       options,
       this.contract.lock,
-      [options.amount, options.period]
+      [options.amount, options.period],
+      { from: options.lockerAddress }
     );
+  }
+
+  public async getToken(): Promise<StandardTokenWrapper> {
+    this.logContractFunctionCall("LockingToken4Reputation.token");
+    const address = await this.contract.token();
+    return WrapperService.factories.StandardToken.at(address);
   }
 }
 
@@ -63,7 +109,6 @@ export const LockingToken4ReputationFactory =
     LockingToken4ReputationWrapper,
     new Web3EventService()) as LockingToken4ReputationType;
 
-export interface Locking4TokenOptions {
-  amount: BigNumber;
-  period: number;
+export interface LockTokenInitializeOptions extends InitializeOptions {
+  tokenAddress: Address;
 }

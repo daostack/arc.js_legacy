@@ -36,7 +36,7 @@ describe("Tokens", () => {
 
     const amount = web3.toWei(1);
 
-    let currentBlock = await UtilsInternal.lastBlock();
+    let currentBlock = await UtilsInternal.lastBlockNumber();
 
     await genToken.approve({
       amount,
@@ -53,7 +53,7 @@ describe("Tokens", () => {
     assert.equal(approvalEvents[0].args.value.toString(), amount);
     assert.equal(approvalEvents[0].args.owner.toString(), accounts[1]);
 
-    currentBlock = await UtilsInternal.lastBlock();
+    currentBlock = await UtilsInternal.lastBlockNumber();
 
     const eventsReceived = new Array<string>();
 
@@ -86,7 +86,7 @@ describe("Tokens", () => {
   it("can transfer", async () => {
 
     const amount = web3.toWei(1);
-    const currentBlock = await UtilsInternal.lastBlock();
+    const currentBlock = await UtilsInternal.lastBlockNumber();
 
     const eventsReceived = new Array<string>();
 
@@ -118,7 +118,7 @@ describe("Tokens", () => {
   it("can mint", async () => {
 
     const amount = web3.toWei(1);
-    const currentBlock = await UtilsInternal.lastBlock();
+    const currentBlock = await UtilsInternal.lastBlockNumber();
 
     const eventsReceived = new Array<string>();
 
@@ -149,7 +149,7 @@ describe("Tokens", () => {
   it("can burn", async () => {
 
     const amount = web3.toWei(1);
-    const currentBlock = await UtilsInternal.lastBlock();
+    const currentBlock = await UtilsInternal.lastBlockNumber();
 
     const eventsReceived = new Array<string>();
 
@@ -181,7 +181,7 @@ describe("Tokens", () => {
   it("can increaseApproval", async () => {
 
     const amount = web3.toWei(1);
-    const currentBlock = await UtilsInternal.lastBlock();
+    const currentBlock = await UtilsInternal.lastBlockNumber();
     const currentAllowance = await mintableToken.allowance(
       {
         owner: accounts[1],
@@ -242,7 +242,7 @@ describe("Tokens", () => {
 
     await helpers.increaseTime(1);
 
-    const currentBlock = await UtilsInternal.lastBlock();
+    const currentBlock = await UtilsInternal.lastBlockNumber();
 
     const currentAllowance = await mintableToken.allowance(
       {

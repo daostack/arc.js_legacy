@@ -1,36 +1,72 @@
 "use strict";
+import BigNumber from "bignumber.js";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { Utils } from "../utils";
 import { Web3EventService } from "../web3EventService";
-import { Locking4ReputationWrapper, ReleaseOptions } from "./Locking4Reputation";
+import { InitializeOptions, Locking4ReputationWrapper, LockingOptions, ReleaseOptions } from "./locking4Reputation";
 
 export class LockingEth4ReputationWrapper extends Locking4ReputationWrapper {
   public name: string = "LockingEth4Reputation";
   public friendlyName: string = "Locking Eth For Reputation";
   public factory: IContractWrapperFactory<LockingEth4ReputationWrapper> = LockingEth4ReputationFactory;
 
-  public release(options: ReleaseOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+  public async initialize(options: InitializeOptions & TxGeneratingFunctionOptions)
+    : Promise<ArcTransactionResult> {
 
-    super._release(options);
+    await super._initialize(options);
+
+    this.logContractFunctionCall("LockingEth4Reputation.initialize", options);
+
+    return this.wrapTransactionInvocation("LockingEth4Reputation.initialize",
+      options,
+      this.contract.initialize,
+      [options.avatarAddress,
+      options.reputationReward,
+      options.lockingStartTime.getTime(),
+      options.lockingEndTime.getTime(),
+      options.maxLockingPeriod]
+    );
+  }
+
+  public async release(options: ReleaseOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+
+    await super._release(options);
 
     this.logContractFunctionCall("LockingEth4Reputation.release", options);
 
     return this.wrapTransactionInvocation("LockingEth4Reputation.release",
       options,
       this.contract.release,
-      [options.lockerAddress, options.lockingId]
+      [options.lockerAddress, options.lockId]
     );
   }
 
-  public async lock(options: Locking4EthOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+  /**
+   * Returns reason why can't lock, else null if can lock
+   */
+  public async getLockBlocker(options: LockingOptions): Promise<string | null> {
 
-    if (!Number.isInteger(options.period)) {
-      throw new Error("period is not an integer");
+    const msg = await super.getLockBlocker(options);
+    if (msg) {
+      return msg;
     }
 
-    if (options.period <= 0) {
-      throw new Error("period must be greater then zero");
+    const balance = await Utils.getEthBalance(options.lockerAddress);
+    const amount = new BigNumber(options.amount);
+
+    if (balance.lt(amount)) {
+      return "the account has insufficient balance to lock the requested amount";
+    }
+    return null;
+  }
+
+  public async lock(options: LockingOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+
+    const msg = await this.getLockBlocker(options);
+    if (msg) {
+      throw new Error(msg);
     }
 
     this.logContractFunctionCall("LockingEth4Reputation.lock", options);
@@ -38,7 +74,8 @@ export class LockingEth4ReputationWrapper extends Locking4ReputationWrapper {
     return this.wrapTransactionInvocation("LockingEth4Reputation.lock",
       options,
       this.contract.lock,
-      [options.period]
+      [options.period],
+      { from: options.lockerAddress, value: options.amount }
     );
   }
 }
@@ -55,7 +92,3 @@ export const LockingEth4ReputationFactory =
     "LockingEth4Reputation",
     LockingEth4ReputationWrapper,
     new Web3EventService()) as LockingEth4ReputationType;
-
-export interface Locking4EthOptions {
-  period: number;
-}

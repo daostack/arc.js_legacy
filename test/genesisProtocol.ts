@@ -202,7 +202,7 @@ describe("GenesisProtocol", () => {
 
   it("can get votable proposals", async () => {
 
-    const startingBlock = await UtilsInternal.lastBlock();
+    const startingBlock = await UtilsInternal.lastBlockNumber();
 
     const proposalId1 = await createProposal();
 
@@ -224,7 +224,7 @@ describe("GenesisProtocol", () => {
 
   it("can get executed proposals", async () => {
 
-    const startingBlock = await UtilsInternal.lastBlock();
+    const startingBlock = await UtilsInternal.lastBlockNumber();
 
     const proposalId1 = await createProposal();
     await voteProposal(proposalId1, 1);
