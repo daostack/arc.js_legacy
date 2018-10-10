@@ -20,7 +20,7 @@ export * from "./wrappers/daoToken";
 export * from "./wrappers/locking4Reputation";
 export * from "./wrappers/lockingEth4Reputation";
 export * from "./wrappers/lockingToken4Reputation";
-export * from "./wrappers/fixReputationAllocation";
+export * from "./wrappers/fixedReputationAllocation";
 export * from "./wrappers/externalLocking4Reputation";
 export * from "./wrappers/auction4Reputation";
 export * from "./wrappers/genesisProtocol";

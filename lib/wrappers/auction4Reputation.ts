@@ -176,8 +176,8 @@ export class Auction4ReputationWrapper extends ContractWrapperBase {
    */
   public async getReputationReward(): Promise<BigNumber> {
     this.logContractFunctionCall("Auction4Reputation.reputationReward");
-    const getAuctionReputationReward = await this.contract.getAuctionReputationReward();
-    const numAuctions = await this.contract.getNumberOfAuctions();
+    const getAuctionReputationReward = await this.contract.auctionReputationReward();
+    const numAuctions = await this.getNumberOfAuctions();
     return getAuctionReputationReward.mul(numAuctions);
   }
   public getReputationRewardLeft(): Promise<BigNumber> {

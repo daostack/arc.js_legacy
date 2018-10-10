@@ -8,15 +8,15 @@ import { TxGeneratingFunctionOptions } from "../transactionService";
 import { UtilsInternal } from "../utilsInternal";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 
-export class FixReputationAllocationWrapper extends ContractWrapperBase {
-  public name: string = "FixReputationAllocation";
+export class FixedReputationAllocationWrapper extends ContractWrapperBase {
+  public name: string = "FixedReputationAllocation";
   public friendlyName: string = "Fixed Reputation Allocation";
-  public factory: IContractWrapperFactory<FixReputationAllocationWrapper> = FixReputationAllocationFactory;
+  public factory: IContractWrapperFactory<FixedReputationAllocationWrapper> = FixedReputationAllocationFactory;
 
-  public Redeem: EventFetcherFactory<FixReputationAllocationRedeemEventResult>;
+  public Redeem: EventFetcherFactory<FixedReputationAllocationRedeemEventResult>;
   public BeneficiaryAddressAdded: EventFetcherFactory<BeneficiaryAddressAddedEventResult>;
 
-  public async initialize(options: FixReputationAllocationInitializeOptions): Promise<ArcTransactionResult> {
+  public async initialize(options: FixedReputationAllocationInitializeOptions): Promise<ArcTransactionResult> {
 
     const avatar = await this.getAvatar();
 
@@ -42,9 +42,9 @@ export class FixReputationAllocationWrapper extends ContractWrapperBase {
       throw new Error("reputationReward must be greater than zero");
     }
 
-    this.logContractFunctionCall("FixReputationAllocation.initialize", options);
+    this.logContractFunctionCall("FixedReputationAllocation.initialize", options);
 
-    return this.wrapTransactionInvocation("FixReputationAllocation.initialize",
+    return this.wrapTransactionInvocation("FixedReputationAllocation.initialize",
       options,
       this.contract.initialize,
       [options.avatarAddress,
@@ -54,7 +54,7 @@ export class FixReputationAllocationWrapper extends ContractWrapperBase {
     );
   }
 
-  public async redeem(options: FixReputationAllocationRedeemOptions & TxGeneratingFunctionOptions)
+  public async redeem(options: FixedReputationAllocationRedeemOptions & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
 
     await this.validateEnabled(true);
@@ -70,9 +70,9 @@ export class FixReputationAllocationWrapper extends ContractWrapperBase {
       throw new Error("beneficiaryAddress is not defined");
     }
 
-    this.logContractFunctionCall("FixReputationAllocation.redeem", options);
+    this.logContractFunctionCall("FixedReputationAllocation.redeem", options);
 
-    return this.wrapTransactionInvocation("FixReputationAllocation.redeem",
+    return this.wrapTransactionInvocation("FixedReputationAllocation.redeem",
       options,
       this.contract.redeem,
       [options.beneficiaryAddress]
@@ -88,9 +88,9 @@ export class FixReputationAllocationWrapper extends ContractWrapperBase {
 
     await this.validateEnabled(false);
 
-    this.logContractFunctionCall("FixReputationAllocation.addBeneficiary", options);
+    this.logContractFunctionCall("FixedReputationAllocation.addBeneficiary", options);
 
-    return this.wrapTransactionInvocation("FixReputationAllocation.addBeneficiary",
+    return this.wrapTransactionInvocation("FixedReputationAllocation.addBeneficiary",
       options,
       this.contract.addBeneficiary,
       [options.beneficiaryAddress]
@@ -106,9 +106,9 @@ export class FixReputationAllocationWrapper extends ContractWrapperBase {
 
     await this.validateEnabled(false);
 
-    this.logContractFunctionCall("FixReputationAllocation.addBeneficiaries", options);
+    this.logContractFunctionCall("FixedReputationAllocation.addBeneficiaries", options);
 
-    return this.wrapTransactionInvocation("FixReputationAllocation.addBeneficiaries",
+    return this.wrapTransactionInvocation("FixedReputationAllocation.addBeneficiaries",
       options,
       this.contract.addBeneficiaries,
       [options.beneficiaryAddresses]
@@ -117,9 +117,9 @@ export class FixReputationAllocationWrapper extends ContractWrapperBase {
 
   public setEnabled(options: TxGeneratingFunctionOptions = {}): Promise<ArcTransactionResult> {
 
-    this.logContractFunctionCall("FixReputationAllocation.enable", options);
+    this.logContractFunctionCall("FixedReputationAllocation.enable", options);
 
-    return this.wrapTransactionInvocation("FixReputationAllocation.enable",
+    return this.wrapTransactionInvocation("FixedReputationAllocation.enable",
       options,
       this.contract.enable,
       []
@@ -130,7 +130,7 @@ export class FixReputationAllocationWrapper extends ContractWrapperBase {
    * Get a promise of the first date/time when anything can be redeemed
    */
   // public async getRedeemEnableTime(): Promise<Date> {
-  //   this.logContractFunctionCall("FixReputationAllocation.redeemEnableTime");
+  //   this.logContractFunctionCall("FixedReputationAllocation.redeemEnableTime");
   //   const seconds = await this.contract.redeemEnableTime();
   //   return new Date(seconds.toNumber() * 1000);
   // }
@@ -139,15 +139,15 @@ export class FixReputationAllocationWrapper extends ContractWrapperBase {
    * Get a promise of the total reputation potentially redeemable
    */
   public getReputationReward(): Promise<BigNumber> {
-    this.logContractFunctionCall("FixReputationAllocation.reputationReward");
+    this.logContractFunctionCall("FixedReputationAllocation.reputationReward");
     return this.contract.reputationReward();
   }
   public getIsEnable(): Promise<boolean> {
-    this.logContractFunctionCall("FixReputationAllocation.isEnable");
+    this.logContractFunctionCall("FixedReputationAllocation.isEnable");
     return this.contract.isEnable();
   }
   public async getNumberOfBeneficiaries(): Promise<number> {
-    this.logContractFunctionCall("FixReputationAllocation.numberOfBeneficiaries");
+    this.logContractFunctionCall("FixedReputationAllocation.numberOfBeneficiaries");
     const count = await this.contract.numberOfBeneficiaries();
     return count.toNumber();
   }
@@ -156,11 +156,11 @@ export class FixReputationAllocationWrapper extends ContractWrapperBase {
    * Get a promise of reputation rewardable per beneficiary
    */
   public async getBeneficiaryReward(): Promise<BigNumber> {
-    this.logContractFunctionCall("FixReputationAllocation.beneficiaryReward");
+    this.logContractFunctionCall("FixedReputationAllocation.beneficiaryReward");
     return this.contract.beneficiaryReward();
   }
   public getAvatar(): Promise<Address> {
-    this.logContractFunctionCall("FixReputationAllocation.avatar");
+    this.logContractFunctionCall("FixedReputationAllocation.avatar");
     return this.contract.avatar();
   }
 
@@ -170,7 +170,7 @@ export class FixReputationAllocationWrapper extends ContractWrapperBase {
    * @param beneficiaryAddress
    */
   public async getBeneficiaryAdded(beneficiaryAddress: Address): Promise<boolean> {
-    this.logContractFunctionCall("FixReputationAllocation.beneficiaries", { beneficiaryAddress });
+    this.logContractFunctionCall("FixedReputationAllocation.beneficiaries", { beneficiaryAddress });
     return this.contract.beneficiaries(beneficiaryAddress);
   }
 
@@ -178,7 +178,7 @@ export class FixReputationAllocationWrapper extends ContractWrapperBase {
     super.hydrated();
     /* tslint:disable:max-line-length */
     this.BeneficiaryAddressAdded = this.createEventFetcherFactory<BeneficiaryAddressAddedEventResult>(this.contract.BeneficiaryAddressAdded);
-    this.Redeem = this.createEventFetcherFactory<FixReputationAllocationRedeemEventResult>(this.contract.Redeem);
+    this.Redeem = this.createEventFetcherFactory<FixedReputationAllocationRedeemEventResult>(this.contract.Redeem);
     /* tslint:enable:max-line-length */
   }
 
@@ -191,20 +191,20 @@ export class FixReputationAllocationWrapper extends ContractWrapperBase {
   }
 }
 
-export class FixReputationAllocationType extends ContractWrapperFactory<FixReputationAllocationWrapper> {
+export class FixedReputationAllocationType extends ContractWrapperFactory<FixedReputationAllocationWrapper> {
 
-  public async deployed(): Promise<FixReputationAllocationWrapper> {
-    throw new Error("FixReputationAllocation has not been deployed");
+  public async deployed(): Promise<FixedReputationAllocationWrapper> {
+    throw new Error("FixedReputationAllocation has not been deployed");
   }
 }
 
-export const FixReputationAllocationFactory =
-  new FixReputationAllocationType(
-    "FixReputationAllocation",
-    FixReputationAllocationWrapper,
-    new Web3EventService()) as FixReputationAllocationType;
+export const FixedReputationAllocationFactory =
+  new FixedReputationAllocationType(
+    "FixedReputationAllocation",
+    FixedReputationAllocationWrapper,
+    new Web3EventService()) as FixedReputationAllocationType;
 
-export interface FixReputationAllocationInitializeOptions {
+export interface FixedReputationAllocationInitializeOptions {
   avatarAddress: Address;
   /**
    * Reputation cannot be redeemed before this time, even if redeeming has been enabled.
@@ -213,7 +213,7 @@ export interface FixReputationAllocationInitializeOptions {
   reputationReward: BigNumber | string;
 }
 
-export interface FixReputationAllocationRedeemOptions {
+export interface FixedReputationAllocationRedeemOptions {
   beneficiaryAddress: Address;
 }
 
@@ -232,7 +232,7 @@ export interface BeneficiaryAddressAddedEventResult {
   _beneficiary: Address;
 }
 
-export interface FixReputationAllocationRedeemEventResult {
+export interface FixedReputationAllocationRedeemEventResult {
   _amount: BigNumber;
   /**
    * indexed
