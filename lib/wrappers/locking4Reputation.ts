@@ -44,9 +44,9 @@ export abstract class Locking4ReputationWrapper extends ContractWrapperBase {
   }
 
   /**
-  * Returns reason why can't redeem, or else null if can redeem
-  * @param lockerAddress
-  */
+   * Returns reason why can't redeem, or else null if can redeem
+   * @param lockerAddress
+   */
   public async getRedeemBlocker(lockerAddress: Address): Promise<string | null> {
     const lockingEndTime = await this.getLockingEndTime();
     const now = await UtilsInternal.lastBlockDate();

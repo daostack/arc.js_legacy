@@ -24,8 +24,8 @@ export class LockingEth4ReputationWrapper extends Locking4ReputationWrapper {
       this.contract.initialize,
       [options.avatarAddress,
       options.reputationReward,
-      options.lockingStartTime.getTime(),
-      options.lockingEndTime.getTime(),
+      options.lockingStartTime.getTime() / 1000,
+      options.lockingEndTime.getTime() / 1000,
       options.maxLockingPeriod]
     );
   }

@@ -28,9 +28,9 @@ import {
   ExternalLocking4ReputationWrapper
 } from "./wrappers/externalLocking4Reputation";
 import {
-  FixedReputationAllocationFactory,
-  FixedReputationAllocationWrapper
-} from "./wrappers/fixedReputationAllocation";
+  FixReputationAllocationFactory,
+  FixReputationAllocationWrapper
+} from "./wrappers/fixReputationAllocation";
 import {
   GenesisProtocolFactory,
   GenesisProtocolWrapper
@@ -105,7 +105,7 @@ export interface ArcWrapperFactories {
   LockingEth4Reputation: IContractWrapperFactory<LockingEth4ReputationWrapper>;
   LockingToken4Reputation: IContractWrapperFactory<LockingToken4ReputationWrapper>;
   Auction4Reputation: IContractWrapperFactory<Auction4ReputationWrapper>;
-  FixedReputationAllocation: IContractWrapperFactory<FixedReputationAllocationWrapper>;
+  FixReputationAllocation: IContractWrapperFactory<FixReputationAllocationWrapper>;
   ExternalLocking4Reputation: IContractWrapperFactory<ExternalLocking4ReputationWrapper>;
   MintableToken: IContractWrapperFactory<MintableTokenWrapper>;
   Redeemer: IContractWrapperFactory<RedeemerWrapper>;
@@ -145,7 +145,7 @@ export interface ArcNonUniversalSchemeWrapperFactories {
   LockingEth4Reputation: IContractWrapperFactory<LockingEth4ReputationWrapper>;
   LockingToken4Reputation: IContractWrapperFactory<LockingToken4ReputationWrapper>;
   Auction4Reputation: IContractWrapperFactory<Auction4ReputationWrapper>;
-  FixedReputationAllocation: IContractWrapperFactory<FixedReputationAllocationWrapper>;
+  FixReputationAllocation: IContractWrapperFactory<FixReputationAllocationWrapper>;
   ExternalLocking4Reputation: IContractWrapperFactory<ExternalLocking4ReputationWrapper>;
 }
 
@@ -311,7 +311,7 @@ export class WrapperService {
     WrapperService.factories.LockingEth4Reputation = LockingEth4ReputationFactory as IContractWrapperFactory<LockingEth4ReputationWrapper>;
     WrapperService.factories.LockingToken4Reputation = LockingToken4ReputationFactory as IContractWrapperFactory<LockingToken4ReputationWrapper>;
     WrapperService.factories.Auction4Reputation = Auction4ReputationFactory as IContractWrapperFactory<Auction4ReputationWrapper>;
-    WrapperService.factories.FixedReputationAllocation = FixedReputationAllocationFactory as IContractWrapperFactory<FixedReputationAllocationWrapper>;
+    WrapperService.factories.FixReputationAllocation = FixReputationAllocationFactory as IContractWrapperFactory<FixReputationAllocationWrapper>;
     WrapperService.factories.ExternalLocking4Reputation = ExternalLocking4ReputationFactory as IContractWrapperFactory<ExternalLocking4ReputationWrapper>;
     WrapperService.factories.MintableToken = MintableTokenFactory as IContractWrapperFactory<MintableTokenWrapper>;
     WrapperService.factories.Redeemer = RedeemerFactory as IContractWrapperFactory<RedeemerWrapper>;
@@ -326,7 +326,7 @@ export class WrapperService {
     WrapperService.nonUniversalSchemeFactories.LockingEth4Reputation = WrapperService.factories.LockingEth4Reputation;
     WrapperService.nonUniversalSchemeFactories.LockingToken4Reputation = WrapperService.factories.LockingToken4Reputation;
     WrapperService.nonUniversalSchemeFactories.Auction4Reputation = WrapperService.factories.Auction4Reputation;
-    WrapperService.nonUniversalSchemeFactories.FixedReputationAllocation = WrapperService.factories.FixedReputationAllocation;
+    WrapperService.nonUniversalSchemeFactories.FixReputationAllocation = WrapperService.factories.FixReputationAllocation;
     WrapperService.nonUniversalSchemeFactories.ExternalLocking4Reputation = WrapperService.factories.ExternalLocking4Reputation;
 
     WrapperService.universalSchemeFactories.ContributionReward = WrapperService.factories.ContributionReward;

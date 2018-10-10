@@ -75,8 +75,8 @@ export class Auction4ReputationWrapper extends ContractWrapperBase {
       this.contract.initialize,
       [options.avatarAddress,
       options.reputationReward,
-      options.auctionsStartTime.getTime(),
-      options.auctionsEndTime.getTime(),
+      options.auctionsStartTime.getTime() / 1000,
+      options.auctionsEndTime.getTime() / 1000,
       options.numberOfAuctions,
       options.tokenAddress,
       options.walletAddress]
@@ -172,11 +172,13 @@ export class Auction4ReputationWrapper extends ContractWrapperBase {
   }
 
   /**
-   * Get a promise of  the original reward total of all the auctions
+   * Get a promise of the total reputation rewardable across all the auctions
    */
-  public getReputationReward(): Promise<BigNumber> {
+  public async getReputationReward(): Promise<BigNumber> {
     this.logContractFunctionCall("Auction4Reputation.reputationReward");
-    return this.contract.reputationReward();
+    const getAuctionReputationReward = await this.contract.getAuctionReputationReward();
+    const numAuctions = await this.contract.getNumberOfAuctions();
+    return getAuctionReputationReward.mul(numAuctions);
   }
   public getReputationRewardLeft(): Promise<BigNumber> {
     this.logContractFunctionCall("Auction4Reputation.reputationRewardLeft");
