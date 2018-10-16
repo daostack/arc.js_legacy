@@ -84,6 +84,10 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
    */
   public async propose(options: ProposeOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionProposalResult> {
 
+    if (!options.organizationAddress) {
+      throw new Error(`organizationAddress is not set`);
+    }
+
     const numChoiceBounds = await this.getAllowedRangeOfChoices();
 
     if (!Number.isInteger(options.numOfChoices)) {
@@ -359,6 +363,10 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
     if ((typeof vote !== "number") || (vote < 0)) {
       throw new Error(`vote must be a number greater than or equal to zero and less than or equal to ${numChoices}`);
     }
+  }
+
+  protected organizationIdFromProposalCreator(schemeAddress: Address, creator: Address): Hash {
+    return Utils.keccak256(["address", "address"], [schemeAddress, creator]);
   }
 }
 

@@ -33,6 +33,7 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
       options.reputationReward,
       options.lockingStartTime.getTime() / 1000,
       options.lockingEndTime.getTime() / 1000,
+      options.redeemEnableTime.getTime() / 1000,
       options.externalLockingContract,
       options.getBalanceFuncSignature]
     );
@@ -118,6 +119,10 @@ export interface ExternalLockingInitializeOptions {
   getBalanceFuncSignature: string;
   lockingEndTime: Date;
   lockingStartTime: Date;
+  /**
+   * Reputation cannot be redeemed until after this time, even if redeeming has been enabled.
+   */
+  redeemEnableTime: Date;
   reputationReward: BigNumber | string;
 }
 

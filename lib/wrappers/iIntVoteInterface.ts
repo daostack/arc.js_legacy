@@ -32,6 +32,12 @@ export interface IIntVoteInterface {
 
 export interface ProposeOptions {
   numOfChoices: number;
+  /**
+   * Typically this is the avatar address, but you can pass any address here
+   * (a common use case can be the address of a contract that is functioning
+   * outside the context of an avatar).
+   */
+  organizationAddress: Address;
   proposerAddress?: Address;
   proposalParameters: Hash;
 }
@@ -64,7 +70,7 @@ export interface CancelProposalEventResult {
   /**
    * indexed
    */
-  _avatar: Address;
+  _organization: Address;
   /**
    * indexed
    */
@@ -75,7 +81,7 @@ export interface CancelVotingEventResult {
   /**
    * indexed
    */
-  _avatar: Address;
+  _organization: Address;
   /**
    * indexed
    */
@@ -90,7 +96,7 @@ export interface NewProposalEventResult {
   /**
    * indexed
    */
-  _avatar: Address;
+  _organization: Address;
   _numOfChoices: BigNumber;
   _paramsHash: Hash;
   /**
@@ -107,7 +113,7 @@ export interface ExecuteProposalEventResult {
   /**
    * indexed
    */
-  _avatar: Address;
+  _organization: Address;
   /**
    * the vote choice that won.
    */
@@ -126,7 +132,7 @@ export interface VoteProposalEventResult {
   /**
    * indexed
    */
-  _avatar: Address;
+  _organization: Address;
   /**
    * indexed
    */

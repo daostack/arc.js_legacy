@@ -33,6 +33,7 @@ export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
       options.reputationReward,
       options.lockingStartTime.getTime() / 1000,
       options.lockingEndTime.getTime() / 1000,
+      options.redeemEnableTime.getTime() / 1000,
       options.maxLockingPeriod,
       options.tokenAddress]
     );

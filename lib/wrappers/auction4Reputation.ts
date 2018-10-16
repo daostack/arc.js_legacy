@@ -62,6 +62,10 @@ export class Auction4ReputationWrapper extends ContractWrapperBase {
       throw new Error("reputationReward is not defined");
     }
 
+    if (!options.redeemEnableTime) {
+      throw new Error("redeemEnableTime is not defined");
+    }
+
     const reputationReward = new BigNumber(options.reputationReward);
 
     if (reputationReward.lte(0)) {
@@ -73,13 +77,16 @@ export class Auction4ReputationWrapper extends ContractWrapperBase {
     return this.wrapTransactionInvocation("Auction4Reputation.initialize",
       options,
       this.contract.initialize,
-      [options.avatarAddress,
-      options.reputationReward,
-      options.auctionsStartTime.getTime() / 1000,
-      options.auctionsEndTime.getTime() / 1000,
-      options.numberOfAuctions,
-      options.tokenAddress,
-      options.walletAddress]
+      [
+        options.avatarAddress,
+        options.reputationReward,
+        options.auctionsStartTime.getTime() / 1000,
+        options.auctionsEndTime.getTime() / 1000,
+        options.numberOfAuctions,
+        options.redeemEnableTime.getTime() / 1000,
+        options.tokenAddress,
+        options.walletAddress,
+      ]
     );
   }
 
@@ -97,8 +104,14 @@ export class Auction4ReputationWrapper extends ContractWrapperBase {
       throw new Error("auctionId must be greater than or equal to zero");
     }
 
-    const endTime = await this.getAuctionsEndTime();
+    const redeemEnableTime = await this.getRedeemEnableTime();
     const now = await UtilsInternal.lastBlockDate();
+
+    if (now <= redeemEnableTime) {
+      throw new Error(`nothing can be redeemed until after ${redeemEnableTime}`);
+    }
+
+    const endTime = await this.getAuctionsEndTime();
 
     if (now < endTime) {
       throw new Error("the auction period has not passed");
@@ -172,13 +185,21 @@ export class Auction4ReputationWrapper extends ContractWrapperBase {
   }
 
   /**
+   * Get a promise of the first date/time when anything can be redeemed
+   */
+  public async getRedeemEnableTime(): Promise<Date> {
+    this.logContractFunctionCall("Auction4Reputation.redeemEnableTime");
+    const seconds = await this.contract.redeemEnableTime();
+    return new Date(seconds.toNumber() * 1000);
+  }
+  /**
    * Get a promise of the total reputation rewardable across all the auctions
    */
   public async getReputationReward(): Promise<BigNumber> {
     this.logContractFunctionCall("Auction4Reputation.reputationReward");
-    const getAuctionReputationReward = await this.contract.auctionReputationReward();
+    const auctionReputationReward = await this.contract.auctionReputationReward();
     const numAuctions = await this.getNumberOfAuctions();
-    return getAuctionReputationReward.mul(numAuctions);
+    return auctionReputationReward.mul(numAuctions);
   }
   public getReputationRewardLeft(): Promise<BigNumber> {
     this.logContractFunctionCall("Auction4Reputation.reputationRewardLeft");
@@ -201,7 +222,7 @@ export class Auction4ReputationWrapper extends ContractWrapperBase {
   /**
    * Get a promise of  the reputation reward of a single auction
    */
-  public getAuctionReputationReward(): Promise<BigNumber> {
+  public auctionReputationReward(): Promise<BigNumber> {
     this.logContractFunctionCall("Auction4Reputation.auctionReputationReward");
     return this.contract.auctionReputationReward();
   }
@@ -309,6 +330,10 @@ export interface Auction4ReputationInitializeOptions {
   auctionsEndTime: Date;
   auctionsStartTime: Date;
   numberOfAuctions: number;
+  /**
+   * Reputation cannot be redeemed until after this time, even if redeeming has been enabled.
+   */
+  redeemEnableTime: Date;
   reputationReward: BigNumber | string;
   tokenAddress: Address;
   walletAddress: Address;
@@ -333,6 +358,9 @@ export interface Auction4ReputationBidEventResult {
    * indexed
    */
   _auctionId: BigNumber;
+  /**
+   * indexed
+   */
   _bidder: Address;
 }
 

@@ -512,7 +512,11 @@ describe("GenesisProtocol", () => {
 
   it("can call getBoostedProposalsCount", async () => {
 
-    const count1 = await genesisProtocol.getBoostedProposalsCount(contributionReward.address);
+    const count1 = await genesisProtocol.getBoostedProposalsCount(
+      contributionReward.address,
+      dao.avatar.address
+    );
+
     assert(typeof count1 !== "undefined");
 
     const proposalId = await createProposal();
@@ -521,7 +525,10 @@ describe("GenesisProtocol", () => {
 
     await stakeProposalVote(proposalId, BinaryVoteResult.Yes, amountStaked);
 
-    const count2 = await genesisProtocol.getBoostedProposalsCount(contributionReward.address);
+    const count2 = await genesisProtocol.getBoostedProposalsCount(
+      contributionReward.address,
+      dao.avatar.address);
+
     assert(typeof count2 !== "undefined");
 
     assert((count2.sub(count1)).eq(1));
@@ -557,10 +564,10 @@ describe("GenesisProtocol", () => {
     assert.equal(result, true);
   });
 
-  it("can call getProposalOrganization", async () => {
+  it("can call getProposalCreator", async () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.getProposalCreator(proposalId);
-    assert.equal(result, contributionReward.address);
+    assert.equal(result, dao.avatar.address);
   });
 
   it("can call getWinningVote", async () => {
@@ -602,7 +609,7 @@ describe("GenesisProtocol", () => {
       await genesisProtocol.propose({} as any);
       assert(false, "Should have thrown validation exception");
     } catch (ex) {
-      assert.equal(ex, "Error: numOfChoices must be a number");
+      assert.equal(ex, "Error: organizationAddress is not set");
     }
   });
 
@@ -611,6 +618,7 @@ describe("GenesisProtocol", () => {
     try {
       await genesisProtocol.propose({
         numOfChoices: 13,
+        organizationAddress: helpers.SOME_ADDRESS,
         proposalParameters: gpParamsHash,
         proposerAddress: helpers.SOME_ADDRESS,
       });

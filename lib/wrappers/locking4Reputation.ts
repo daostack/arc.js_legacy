@@ -38,8 +38,7 @@ export abstract class Locking4ReputationWrapper extends ContractWrapperBase {
     return this.wrapTransactionInvocation("Locking4Reputation.redeem",
       options,
       this.contract.redeem,
-      // TODO: remove 0 when Arc fixes this
-      [options.lockerAddress, 0]
+      [options.lockerAddress]
     );
   }
 
@@ -52,6 +51,12 @@ export abstract class Locking4ReputationWrapper extends ContractWrapperBase {
     const now = await UtilsInternal.lastBlockDate();
     if (now < lockingEndTime) {
       return "the global locking period has not ended";
+    }
+
+    const redeemEnableTime = await this.getRedeemEnableTime();
+
+    if (now <= redeemEnableTime) {
+      throw new Error(`nothing can be redeemed until after ${redeemEnableTime}`);
     }
 
     const lockerInfo = await this.getLockerInfo(lockerAddress);
@@ -122,6 +127,15 @@ export abstract class Locking4ReputationWrapper extends ContractWrapperBase {
     }
 
     return null;
+  }
+
+  /**
+   * Get a promise of the first date/time when anything can be redeemed
+   */
+  public async getRedeemEnableTime(): Promise<Date> {
+    this.logContractFunctionCall("Locking4Reputation.redeemEnableTime");
+    const seconds = await this.contract.redeemEnableTime();
+    return new Date(seconds.toNumber() * 1000);
   }
 
   public getTotalLocked(): Promise<BigNumber> {
@@ -283,6 +297,10 @@ export abstract class Locking4ReputationWrapper extends ContractWrapperBase {
       throw new Error("lockingStartTime is not defined");
     }
 
+    if (!options.redeemEnableTime) {
+      throw new Error("redeemEnableTime is not defined");
+    }
+
     if (options.lockingEndTime <= options.lockingStartTime) {
       throw new Error("lockingEndTime must be greater than lockingStartTime");
     }
@@ -388,6 +406,9 @@ export interface Locking4ReputationLockEventResult {
    */
   _amount: BigNumber;
   _period: BigNumber;
+  /**
+   * indexed
+   */
   _locker: Address;
 }
 
@@ -399,6 +420,10 @@ export interface InitializeOptions {
    * maximum period length in seconds
    */
   maxLockingPeriod: number;
+  /**
+   * Reputation cannot be redeemed until after this time, even if redeeming has been enabled.
+   */
+  redeemEnableTime: Date;
   reputationReward: BigNumber | string;
 }
 

@@ -28,9 +28,9 @@ export class FixedReputationAllocationWrapper extends ContractWrapperBase {
       throw new Error("avatarAddress is not defined");
     }
 
-    // if (!options.redeemEnableTime) {
-    //   throw new Error("redeemEnableTime is not defined");
-    // }
+    if (!options.redeemEnableTime) {
+      throw new Error("redeemEnableTime is not defined");
+    }
 
     if (!options.reputationReward) {
       throw new Error("reputationReward is not defined");
@@ -47,9 +47,10 @@ export class FixedReputationAllocationWrapper extends ContractWrapperBase {
     return this.wrapTransactionInvocation("FixedReputationAllocation.initialize",
       options,
       this.contract.initialize,
-      [options.avatarAddress,
-      options.reputationReward,
-        // , options.redeemEnableTime.getTime() / 1000
+      [
+        options.avatarAddress,
+        options.reputationReward,
+        options.redeemEnableTime.getTime() / 1000,
       ]
     );
   }
@@ -59,12 +60,13 @@ export class FixedReputationAllocationWrapper extends ContractWrapperBase {
 
     await this.validateEnabled(true);
 
-    // const now = new Date();
-    // const redeemEnableTime = await this.getRedeemEnableTime();
+    const now = await UtilsInternal.lastBlockDate();
 
-    // if (now <= redeemEnableTime) {
-    //   throw new Error(`nothing can be redeemed until after ${redeemEnableTime}`);
-    // }
+    const redeemEnableTime = await this.getRedeemEnableTime();
+
+    if (now <= redeemEnableTime) {
+      throw new Error(`nothing can be redeemed until after ${redeemEnableTime}`);
+    }
 
     if (!options.beneficiaryAddress) {
       throw new Error("beneficiaryAddress is not defined");
@@ -129,11 +131,11 @@ export class FixedReputationAllocationWrapper extends ContractWrapperBase {
   /**
    * Get a promise of the first date/time when anything can be redeemed
    */
-  // public async getRedeemEnableTime(): Promise<Date> {
-  //   this.logContractFunctionCall("FixedReputationAllocation.redeemEnableTime");
-  //   const seconds = await this.contract.redeemEnableTime();
-  //   return new Date(seconds.toNumber() * 1000);
-  // }
+  public async getRedeemEnableTime(): Promise<Date> {
+    this.logContractFunctionCall("FixedReputationAllocation.redeemEnableTime");
+    const seconds = await this.contract.redeemEnableTime();
+    return new Date(seconds.toNumber() * 1000);
+  }
 
   /**
    * Get a promise of the total reputation potentially redeemable
@@ -207,9 +209,9 @@ export const FixedReputationAllocationFactory =
 export interface FixedReputationAllocationInitializeOptions {
   avatarAddress: Address;
   /**
-   * Reputation cannot be redeemed before this time, even if redeeming has been enabled.
+   * Reputation cannot be redeemed until after this time, even if redeeming has been enabled.
    */
-  // redeemEnableTime: Date;
+  redeemEnableTime: Date;
   reputationReward: BigNumber | string;
 }
 
