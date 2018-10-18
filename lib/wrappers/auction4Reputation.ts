@@ -168,6 +168,29 @@ export class Auction4ReputationWrapper extends ContractWrapperBase {
   }
 
   /**
+   * transfer bidded tokens to the wallet
+   * @param options
+   */
+  public async transferToWallet(options: TxGeneratingFunctionOptions = {})
+    : Promise<ArcTransactionResult> {
+
+    const endTime = await this.getAuctionsEndTime();
+    const now = await UtilsInternal.lastBlockDate();
+
+    if (now <= endTime) {
+      throw new Error("the bidding period has not yet expired");
+    }
+
+    this.logContractFunctionCall("Auction4Reputation.transferToWallet", options);
+
+    return this.wrapTransactionInvocation("Auction4Reputation.transferToWallet",
+      options,
+      this.contract.transferToWallet,
+      []
+    );
+  }
+
+  /**
    * get promise of the amount bid on the given auction.
    * @param bidderAddress
    * @param auctionId
