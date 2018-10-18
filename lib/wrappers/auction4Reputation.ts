@@ -113,7 +113,7 @@ export class Auction4ReputationWrapper extends ContractWrapperBase {
 
     const endTime = await this.getAuctionsEndTime();
 
-    if (now < endTime) {
+    if (now <= endTime) {
       throw new Error("the auction period has not passed");
     }
 

@@ -49,8 +49,8 @@ export abstract class Locking4ReputationWrapper extends ContractWrapperBase {
   public async getRedeemBlocker(lockerAddress: Address): Promise<string | null> {
     const lockingEndTime = await this.getLockingEndTime();
     const now = await UtilsInternal.lastBlockDate();
-    if (now < lockingEndTime) {
-      return "the global locking period has not ended";
+    if (now <= lockingEndTime) {
+      return "the locking period has not ended";
     }
 
     const redeemEnableTime = await this.getRedeemEnableTime();
@@ -81,7 +81,7 @@ export abstract class Locking4ReputationWrapper extends ContractWrapperBase {
       return "current locked amount must be greater than zero";
     }
 
-    if (now < lockInfo.releaseTime) {
+    if (now <= lockInfo.releaseTime) {
       return "the lock period has not ended";
     }
 
@@ -123,7 +123,7 @@ export abstract class Locking4ReputationWrapper extends ContractWrapperBase {
     const lockingEndTime = await this.getLockingEndTime();
 
     if ((now < lockingStartTime) || (now > lockingEndTime)) {
-      return "the global locking period has not started or has expired";
+      return "the locking period has not started or has expired";
     }
 
     return null;
