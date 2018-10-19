@@ -59,13 +59,16 @@ export class ControllerService {
          * TODO:  check for previous and future versions of UController here
          */
         const UControllerContract = await Utils.requireContract("UController");
-        const ControllerContract = await Utils.requireContract("Controller");
         const uControllerAddress = (await UControllerContract.deployed()).address;
 
         this.isUController = uControllerAddress === controllerAddress;
-        this.controller = this.isUController ?
-          await UControllerContract.at(controllerAddress) :
-          await ControllerContract.at(controllerAddress);
+
+        if (this.isUController) {
+          this.controller = await UControllerContract.at(controllerAddress);
+        } else {
+          const ControllerContract = await Utils.requireContract("Controller");
+          this.controller = await ControllerContract.at(controllerAddress);
+        }
       }
     }
     return this.controller;
