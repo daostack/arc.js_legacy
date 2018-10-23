@@ -1358,7 +1358,7 @@ export interface GenesisProtocolProposal {
    */
   boostedPhaseTime: number;
   /**
-   * The amount of time, in seconds, that the proposal can remain in the bosted phase
+   * The amount of time, in seconds, that the proposal can remain in the boosted phase
    * (assuming the proposal has reached the boosted phase).
    */
   currentBoostedVotePeriodLimit: number;
