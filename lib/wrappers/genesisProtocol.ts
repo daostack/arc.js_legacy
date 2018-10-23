@@ -519,8 +519,9 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
   }
 
   /**
-   * Returns a promise of the address of the contract that created the given proposal
-   * (which will be the avatar for proposals created by Arc universal schemes).
+   * For proposals created by Arc universal schemes, returns a promise of the address of the avatar
+   * on whose behalf the proposal was created.  For proposals created by other schemes, the value
+   * is defined by those contracts, but is expected to be an address.
    * @returns Promise<Address>
    */
   public async getProposalCreator(proposalId: Hash): Promise<Address> {
@@ -910,7 +911,10 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
 
   /**
    * Returns a promise of the `organizationId`of the proposal.  This id is unique to the
-   * contract that created of  proposal and .
+   * contract that created the proposal and, in the case of Arc schemes, the avatar in which
+   * the scheme is registered.  The value is included in `GenesisProtocolProposal`
+   * and is returned by all of the voting machine events.  So you could use this value when filtering
+   * events from a single avatar and contract registered with the avatar.
    */
   private async getProposalOrganizationId(proposalId: Hash): Promise<Hash> {
 
@@ -1354,20 +1358,43 @@ export interface GenesisProtocolProposal {
    */
   boostedPhaseTime: number;
   /**
-   * in seconds
+   * The amount of time, in seconds, that the proposal can remain in the bosted phase
+   * (assuming the proposal has reached the boosted phase).
    */
   currentBoostedVotePeriodLimit: number;
+  /**
+   * The amount of bounty remaining that can be redeemed on the given proposal.
+   */
   daoBountyRemain: BigNumber;
+  /**
+   * The number of voting choices.  For GenesisProtocol this is always 2 (YES and NO).
+   */
   numOfChoices: number;
+  /**
+   * A hash is unique to the contract that created the proposal and, in the case of Arc schemes,
+   * the avatar in which the scheme is registered.
+   */
   organizationId: Hash;
+  /**
+   * The parameters of the registered `GenesisProtocol` used to create the proposal.
+   */
   paramsHash: Hash;
   proposalId: Hash;
+  /**
+   * address of the account the submitted the proposal
+   */
   proposer: Address;
+  /**
+   * current phase in a proposal life-cycle
+   */
   state: ProposalState;
   /**
    * in seconds
    */
   submittedTime: number;
+  /**
+   * the amount of staked GEN receivable by preboosted voters
+   */
   votersStakes: BigNumber;
   winningVote: number;
 }

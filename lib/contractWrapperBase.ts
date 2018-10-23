@@ -199,7 +199,9 @@ export abstract class ContractWrapperBase implements IContractWrapper {
    */
 
   /**
-   * any scheme that has greater permissions should override this
+   * Any scheme that needs greater permissions should override this
+   * @hidden - for internal use only.
+   * This method will eventually be moved (see comment above)
    */
   public getDefaultPermissions(): SchemePermissions {
     return DefaultSchemePermissions.MinimumPermissions as number;
