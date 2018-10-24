@@ -68,6 +68,7 @@
     "nps": "^5.7.1",
     "nps-utils": "^1.5.0",
     "path.join": "^1.0.0",
+    "portis": "^1.2.15",
     "pubsub-js": "^1.6.0",
     "truffle-contract": "^3.0.1",
     "truffle-core-migrate-without-compile": "^4.0.7",

@@ -6,6 +6,7 @@ import { providers as Web3Providers, Web3 } from "web3";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { ConfigService } from "./configService";
 import { LoggingService } from "./loggingService";
+import { PortisProvider } from "portis";
 // haven't figured out how to get web3 typings to properly expose the Web3 constructor.
 // v1.0 may improve on this entire Web3 typings experience
 /* tslint:disable-next-line:no-var-requires */
@@ -47,7 +48,7 @@ export class Utils {
    * When called for the first time, web3 is initialized from the Arc.js configuration.
    * Throws an exception when web3 cannot be initialized.
    */
-  public static async getWeb3(): Promise<Web3> {
+  public static async getWeb3(portisConfig?: any): Promise<Web3> {
     if (Utils.web3) {
       return Utils.web3;
     }
@@ -77,16 +78,14 @@ export class Utils {
       // then avoid time-consuming and futile retry
       throw new Error("Utils.getWeb3: already tried and failed");
     } else {
-      let url = `http://${ConfigService.get("providerUrl")}`;
-      const port = ConfigService.get("providerPort");
-      if (port) {
-        url = `${url}:${port}`;
+      LoggingService.debug('Utils.getWeb3: instantiating web3 with Portis Provider');
+
+      if (!portisConfig) {
+        throw new Error("Utils.getWeb3: PortisProvider - portis config is undefined");
       }
-      /* tslint:disable-next-line:max-line-length */
-      LoggingService.debug(`Utils.getWeb3: instantiating web3 with configured provider at ${url}`);
-      // No web3 is injected, look for a provider at providerUrl:providerPort (which defaults to 127.0.0.1)
-      // This happens when running tests, or in a browser that is not running MetaMask
-      preWeb3 = new webConstructor(new Web3Providers.HttpProvider(url));
+
+      preWeb3 = new webConstructor(new PortisProvider(portisConfig));
+      Utils.web3 = preWeb3;
     }
 
     const connected = await promisify(preWeb3.net.getListening)()
