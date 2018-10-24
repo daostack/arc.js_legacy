@@ -3,7 +3,7 @@ import { AvatarService } from "./avatarService";
 import { Address, fnVoid, Hash } from "./commonTypes";
 import { DecodedLogEntryEvent, IContractWrapper } from "./iContractWrapperBase";
 import { TransactionService, TxGeneratingFunctionOptions } from "./transactionService";
-import { Utils, BigNumber } from "./utils";
+import { BigNumber, Utils } from "./utils";
 import { EntityFetcherFactory, EventFetcherFilterObject, Web3EventService } from "./web3EventService";
 import { DaoCreatorFactory, DaoCreatorWrapper } from "./wrappers/daoCreator";
 import { ForgeOrgConfig, InitialSchemesSetEventResult, SchemesConfig } from "./wrappers/daoCreator";
@@ -201,7 +201,7 @@ export class DAO {
 
       for (const account of addresses) {
         const balance = await this.reputation.getBalanceOf(account);
-        if (balance.gt(0)) {
+        if (balance.gtn(0)) {
           participants.push({ address: account, reputation: balance });
         }
       }

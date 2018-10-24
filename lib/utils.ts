@@ -1,7 +1,7 @@
 import BigNumber = require("bn.js");
 import abi = require("ethereumjs-abi");
 import Contract = require("truffle-contract");
-import { Web3 } from "web3";
+import Web3 = require("web3");
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { ConfigService } from "./configService";
 import { LoggingService } from "./loggingService";
@@ -166,10 +166,7 @@ export class Utils {
     }
 
     const web3 = await Utils.getWeb3();
-    return web3.eth.getBalance(agentAddress, web3.eth.defaultBlock)
-      .then((balance) => {
-        return new BigNumber(balance);
-      });
+    return web3.eth.getBalance(agentAddress, web3.eth.defaultBlock);
   }
 
   /**
@@ -232,25 +229,25 @@ export class Utils {
    * Returns promise of the name of the current or given network
    * @param id Optional id of the network
    */
-  public static async getNetworkName(id?: string): Promise<string> {
+  public static async getNetworkName(id?: number): Promise<string> {
 
     if (!id) {
       id = await Utils.getNetworkId();
     }
 
     switch (id) {
-      case "1":
+      case 1:
         return "Live";
-      case "2":
+      case 2:
         return "Morden";
-      case "3":
+      case 3:
         return "Ropsten";
-      case "4":
+      case 4:
         return "Rinkeby";
-      case "42":
+      case 42:
         return "Kovan";
       // the id that arc.js hardwires for ganache
-      case "1512051714758":
+      case 1512051714758:
         return "Ganache";
       default:
         return "Unknown";
@@ -260,7 +257,7 @@ export class Utils {
   /**
    * Returns promise of the id of the current network
    */
-  public static async getNetworkId(): Promise<string> {
+  public static async getNetworkId(): Promise<number> {
     if (!Utils.networkId) {
       await Utils.getWeb3();
     }
@@ -297,7 +294,7 @@ export class Utils {
 
   private static web3: Web3 = undefined;
   private static alreadyTriedAndFailed: boolean = false;
-  private static networkId: string;
+  private static networkId: number;
 }
 
 export { Web3, BigNumber };

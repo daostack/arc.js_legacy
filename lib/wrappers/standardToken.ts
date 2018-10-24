@@ -1,11 +1,11 @@
 "use strict";
-import { BigNumber } from "../utils";
 import { Address } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 import { LoggingService } from "../loggingService";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { BigNumber } from "../utils";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 
 export class StandardTokenWrapper extends ContractWrapperBase {

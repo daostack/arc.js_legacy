@@ -3,10 +3,10 @@ import { Address, Hash } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ArcTransactionDataResult, IContractWrapperFactory } from "../iContractWrapperBase";
 
-import { BigNumber } from "../utils";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ControllerService } from "../controllerService";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { BigNumber } from "../utils";
 import { Web3EventService } from "../web3EventService";
 
 export class TokenCapGCWrapper extends ContractWrapperBase {

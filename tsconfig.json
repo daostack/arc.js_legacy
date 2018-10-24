@@ -15,7 +15,6 @@
   },
   "include": [
     "lib/**/*",
-    "custom_typings/web3.d.ts",
     "custom_typings/system.d.ts"
   ],
   "exclude": [

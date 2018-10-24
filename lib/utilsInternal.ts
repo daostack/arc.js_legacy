@@ -1,7 +1,6 @@
 import { promisify } from "es6-promisify";
-import { BlockWithoutTransactionData } from "web3";
+import { BlockHeader } from "web3/eth/types";
 import { Address, fnVoid } from "./commonTypes";
-import { fnVoid } from "./commonTypes";
 import { Utils, Web3 } from "./utils";
 
 /**
@@ -23,7 +22,7 @@ export class UtilsInternal {
   /**
    * Returns the last mined block in the chain.
    */
-  public static async lastBlock(): Promise<BlockWithoutTransactionData> {
+  public static async lastBlock(): Promise<BlockHeader> {
     const web3 = await Utils.getWeb3();
     return promisify((callback: any): any => web3.eth.getBlock("latest", callback))() as any;
   }
@@ -34,7 +33,7 @@ export class UtilsInternal {
   public static async lastBlockDate(): Promise<Date> {
     const web3 = await Utils.getWeb3();
     const block = await promisify((callback: any): any =>
-      web3.eth.getBlock("latest", callback))() as BlockWithoutTransactionData;
+      web3.eth.getBlock("latest", callback))() as BlockHeader;
     return new Date(block.timestamp * 1000);
   }
 

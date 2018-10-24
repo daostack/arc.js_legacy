@@ -1,8 +1,8 @@
-import { BigNumber } from "./utils";
 import { promisify } from "es6-promisify";
 import { Address } from "./commonTypes";
 import { ControllerService } from "./controllerService";
 import { LoggingService } from "./loggingService";
+import { BigNumber } from "./utils";
 import { Utils } from "./utils";
 import { DaoTokenFactory, DaoTokenWrapper } from "./wrappers/daoToken";
 import { ReputationFactory, ReputationWrapper } from "./wrappers/reputation";

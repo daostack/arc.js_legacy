@@ -1,10 +1,10 @@
 "use strict";
-import BigNumber from "bignumber.js";
 import { Address } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { BigNumber } from "../utils";
 import { UtilsInternal } from "../utilsInternal";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 
@@ -38,7 +38,7 @@ export class FixedReputationAllocationWrapper extends ContractWrapperBase {
 
     const reputationReward = new BigNumber(options.reputationReward);
 
-    if (reputationReward.lte(0)) {
+    if (reputationReward.lten(0)) {
       throw new Error("reputationReward must be greater than zero");
     }
 

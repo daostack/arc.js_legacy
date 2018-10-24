@@ -55,18 +55,18 @@ const newDao = await DAO.new({
     {
       // the current user account
       address: accounts[0],
-      reputation: web3.utils.toWei(1000),
-      tokens: web3.utils.toWei(40)
+      reputation: web3.utils.toWei("1000"),
+      tokens: web3.utils.toWei("40")
     },
     {
       address: founder1Address,
-      reputation: web3.utils.toWei(1000),
-      tokens: web3.utils.toWei(40)
+      reputation: web3.utils.toWei("1000"),
+      tokens: web3.utils.toWei("40")
     },
     {
       address: founder2Address,
-      reputation: web3.utils.toWei(1000),
-      tokens: web3.utils.toWei(40)
+      reputation: web3.utils.toWei("1000"),
+      tokens: web3.utils.toWei("40")
     }
   ]
 });

@@ -1,8 +1,8 @@
 "use strict";
-import { BigNumber } from "../lib/utils";
 import { assert } from "chai";
 import { ConfigService } from "../lib/configService";
 import { TestWrapperFactory } from "../lib/test/wrappers/testWrapper";
+import { BigNumber } from "../lib/utils";
 import { AbsoluteVoteParams } from "../lib/wrappers/absoluteVote";
 import "./helpers";
 
@@ -20,7 +20,7 @@ describe("ConfigService", () => {
   });
 
   it("can specify gasPrice", async () => {
-    let gasPrice = new BigNumber(web3.utils.toWei(40, "gwei"));
+    let gasPrice = new BigNumber(web3.utils.toWei("40", "gwei"));
 
     ConfigService.set("gasPriceAdjustment", (): Promise<BigNumber> => Promise.resolve(gasPrice));
 

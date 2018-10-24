@@ -1,8 +1,7 @@
 "use strict";
-import { BigNumber } from "../lib/utils";
 import { assert } from "chai";
 import { TransactionReceiptsEventInfo, TransactionService } from "../lib/transactionService";
-import { Utils, Web3 } from "../lib/utils";
+import { BigNumber, Utils, Web3 } from "../lib/utils";
 import { UtilsInternal } from "../lib/utilsInternal";
 import { DaoTokenWrapper } from "../lib/wrappers/daoToken";
 import { MintableTokenFactory, MintableTokenWrapper } from "../lib/wrappers/mintableToken";
@@ -34,7 +33,7 @@ describe("Tokens", () => {
 
   it("can approve and transfer from", async () => {
 
-    const amount = web3.utils.toWei(1);
+    const amount = web3.utils.toWei("1");
 
     let currentBlock = await UtilsInternal.lastBlockNumber();
 
@@ -85,7 +84,7 @@ describe("Tokens", () => {
 
   it("can transfer", async () => {
 
-    const amount = web3.utils.toWei(1);
+    const amount = web3.utils.toWei("1");
     const currentBlock = await UtilsInternal.lastBlockNumber();
 
     const eventsReceived = new Array<string>();
@@ -117,7 +116,7 @@ describe("Tokens", () => {
 
   it("can mint", async () => {
 
-    const amount = web3.utils.toWei(1);
+    const amount = web3.utils.toWei("1");
     const currentBlock = await UtilsInternal.lastBlockNumber();
 
     const eventsReceived = new Array<string>();
@@ -148,7 +147,7 @@ describe("Tokens", () => {
 
   it("can burn", async () => {
 
-    const amount = web3.utils.toWei(1);
+    const amount = web3.utils.toWei("1");
     const currentBlock = await UtilsInternal.lastBlockNumber();
 
     const eventsReceived = new Array<string>();
@@ -180,7 +179,7 @@ describe("Tokens", () => {
 
   it("can increaseApproval", async () => {
 
-    const amount = web3.utils.toWei(1);
+    const amount = web3.utils.toWei(new BigNumber(1));
     const currentBlock = await UtilsInternal.lastBlockNumber();
     const currentAllowance = await mintableToken.allowance(
       {

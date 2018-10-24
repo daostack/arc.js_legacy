@@ -1,9 +1,9 @@
-import { BigNumber } from "../lib/utils";
 import { assert } from "chai";
 import { Address, BinaryVoteResult, Hash } from "../lib/commonTypes";
 import { DAO, DaoSchemeInfo } from "../lib/dao";
 import { ArcTransactionResult } from "../lib/iContractWrapperBase";
 import { TransactionReceiptsEventInfo, TransactionService } from "../lib/transactionService";
+import { BigNumber } from "../lib/utils";
 import { Utils } from "../lib/utils";
 import { UtilsInternal } from "../lib/utilsInternal";
 import { Web3EventService } from "../lib/web3EventService";
@@ -30,7 +30,7 @@ describe("GenesisProtocol", () => {
   let contributionReward: ContributionRewardWrapper;
 
   const sufficientStake = async (proposalId: Hash, amount: number): Promise<BigNumber> => {
-    return (await genesisProtocol.getThreshold(proposalId)).add(web3.toWei(amount));
+    return (await genesisProtocol.getThreshold(proposalId)).add(web3.utils.toWei(new BigNumber(amount)));
   };
 
   const createProposal = async (): Promise<Hash> => {
@@ -73,8 +73,8 @@ describe("GenesisProtocol", () => {
     dao = await helpers.forgeDao({
       founders: [{
         address: accounts[0],
-        reputation: web3.utils.toWei(1000),
-        tokens: web3.utils.toWei(1000),
+        reputation: web3.utils.toWei("1000"),
+        tokens: web3.utils.toWei("1000"),
       },
       ],
       schemes: [
@@ -259,13 +259,13 @@ describe("GenesisProtocol", () => {
     dao = await helpers.forgeDao({
       founders: [{
         address: accounts[0],
-        reputation: web3.utils.toWei(1001),
-        tokens: web3.utils.toWei(1000),
+        reputation: web3.utils.toWei("1001"),
+        tokens: web3.utils.toWei("1000"),
       },
       {
         address: accounts[1],
-        reputation: web3.utils.toWei(1000),
-        tokens: web3.utils.toWei(1000),
+        reputation: web3.utils.toWei("1000"),
+        tokens: web3.utils.toWei("1000"),
       }],
       schemes: [
         { name: "ContributionReward" },
@@ -439,8 +439,8 @@ describe("GenesisProtocol", () => {
       assert.isOk(resultStatus);
       assert(resultStatus.totalStaked.eq(amountStaked));
       assert(resultStatus.stakesYes.eq(amountStaked));
-      assert(resultStatus.totalStakerStakes.eq(amountStaked.div(2)));
-      assert(resultStatus.stakesNo.eq(0));
+      assert(resultStatus.totalStakerStakes.eq(amountStaked.divn(2)));
+      assert(resultStatus.stakesNo.eqn(0));
 
     } finally {
       await subscription.unsubscribe(0);
@@ -468,7 +468,7 @@ describe("GenesisProtocol", () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.voteWithSpecifiedAmounts({
       proposalId,
-      reputation: web3.utils.toWei(10),
+      reputation: web3.utils.toWei("10"),
       vote: 1,
     });
     assert.isOk(result);
@@ -531,7 +531,7 @@ describe("GenesisProtocol", () => {
 
     assert(typeof count2 !== "undefined");
 
-    assert((count2.sub(count1)).eq(1));
+    assert((count2.sub(count1)).eqn(1));
   });
 
   it("can call getScore", async () => {

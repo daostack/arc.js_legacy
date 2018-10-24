@@ -1,8 +1,8 @@
 "use strict";
-import { BigNumber } from "../utils";
 import { Address } from "../commonTypes";
 import { ArcTransactionResult } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { BigNumber } from "../utils";
 import { EventFetcherFactory } from "../web3EventService";
 
 export interface IBurnableTokenWrapper {

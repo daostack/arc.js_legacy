@@ -1,7 +1,7 @@
-import { BigNumber } from "../utils";
 import { Address, Hash } from "../commonTypes";
 import { ArcTransactionProposalResult, ArcTransactionResult } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { BigNumber } from "../utils";
 import { EventFetcherFactory } from "../web3EventService";
 
 /**

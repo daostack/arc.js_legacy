@@ -1,11 +1,11 @@
 "use strict";
-import { BigNumber } from "../utils";
 import ethereumjs = require("ethereumjs-abi");
 import { Address } from "../commonTypes";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 import { LoggingService } from "../loggingService";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
+import { BigNumber } from "../utils";
 import { Utils } from "../utils";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { BurnEventResult, IBurnableTokenWrapper } from "./iBurnableToken";

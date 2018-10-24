@@ -1,6 +1,7 @@
 "use strict";
 import { assert } from "chai";
 import { BinaryVoteResult } from "../lib/commonTypes";
+import { BigNumber } from "../lib/utils";
 import { UtilsInternal } from "../lib/utilsInternal";
 import { ContributionRewardFactory, ContributionRewardWrapper } from "../lib/wrappers/contributionReward";
 import { GenesisProtocolWrapper } from "../lib/wrappers/genesisProtocol";
@@ -14,23 +15,23 @@ describe("Redeemer", () => {
     const dao = await helpers.forgeDao({
       founders: [{
         address: accounts[0],
-        reputation: web3.utils.toWei(3000),
-        tokens: web3.utils.toWei(3000),
+        reputation: web3.utils.toWei("3000"),
+        tokens: web3.utils.toWei("3000"),
       },
       {
         address: accounts[1],
-        reputation: web3.utils.toWei(1000),
-        tokens: web3.utils.toWei(1000),
+        reputation: web3.utils.toWei("1000"),
+        tokens: web3.utils.toWei("1000"),
       },
       {
         address: accounts[2],
-        reputation: web3.utils.toWei(500),
-        tokens: web3.utils.toWei(500),
+        reputation: web3.utils.toWei("500"),
+        tokens: web3.utils.toWei("500"),
       },
       {
         address: accounts[3],
-        reputation: web3.utils.toWei(500),
-        tokens: web3.utils.toWei(500),
+        reputation: web3.utils.toWei("500"),
+        tokens: web3.utils.toWei("500"),
       }],
       schemes: [
         {
@@ -76,7 +77,7 @@ describe("Redeemer", () => {
     await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.No, accounts[2]);
     await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.Yes, accounts[3]);
 
-    const stakeAmount = (await gp.getThreshold(proposalId)).add(web3.utils.toWei(10));
+    const stakeAmount = (await gp.getThreshold(proposalId)).add(new BigNumber(web3.utils.toWei("10")));
 
     await (await gp.stakeWithApproval({ amount: stakeAmount, vote: 1, proposalId })).getTxMined();
 
