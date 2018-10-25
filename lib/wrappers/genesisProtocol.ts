@@ -333,8 +333,9 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
 
   /**
    * Return the threshold that is required by a proposal to it shift it into boosted state.
-   * The computation depends on the current number of boosted proposals in the DAO
-   * as well as the GenesisProtocol parameters thresholdConstA and thresholdConstB.
+   * The computation depends on the current number of boosted proposals created for
+   * this voting machine by the DAO or other contract, as well as the GenesisProtocol
+   * parameters thresholdConstA and thresholdConstB.
    * @param {GetThresholdConfig} options
    */
   public async getThreshold(proposalId: Hash): Promise<BigNumber> {
@@ -344,27 +345,37 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
     }
 
     const proposal = await this.getProposal(proposalId);
-    const creator = await this.getProposalCreator(proposalId);
 
     this.logContractFunctionCall("GenesisProtocol.threshold",
-      { proposalId, parametersHash: proposal.paramsHash, organization: creator });
+      { proposalId, parametersHash: proposal.paramsHash, organizationId: proposal.organizationId });
 
-    return this.contract.threshold(proposal.paramsHash, creator);
+    return this.contract.threshold(proposal.paramsHash, proposal.organizationId);
   }
 
   /**
-   * Returns a promise of the number of boosted proposals by the given creatorAddress,
-   * not including those that have expired but have not yet been executed to update their status.
+   * Returns a promise of the number of boosted proposals by the address of the scheme
+   * that created the proposal and the "creator address" which is typically the avatar for proposals
+   * created by the Arc universal schemes.
+   * The count does not include those that have expired but have not yet
+   * been executed to update their status.
    */
-  public async getBoostedProposalsCount(creatorAddress: Address): Promise<BigNumber> {
+  public async getBoostedProposalsCount(
+    schemeAddress: Address,
+    creatorAddress: Address): Promise<BigNumber> {
+
+    if (!schemeAddress) {
+      throw new Error("schemeAddress is not defined");
+    }
 
     if (!creatorAddress) {
       throw new Error("creatorAddress is not defined");
     }
 
+    const organizationId = this.organizationIdFromProposalCreator(schemeAddress, creatorAddress);
+
     this.logContractFunctionCall("GenesisProtocol.getBoostedProposalsCount", creatorAddress);
 
-    return this.contract.getBoostedProposalsCount(creatorAddress);
+    return this.contract.getBoostedProposalsCount(organizationId);
   }
 
   /**
@@ -508,7 +519,9 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
   }
 
   /**
-   * Returns a promise of the address of the contract that created the given proposal.
+   * For proposals created by Arc universal schemes, returns a promise of the address of the avatar
+   * on whose behalf the proposal was created.  For proposals created by other schemes, the value
+   * is defined by those contracts, but is expected to be an address.
    * @returns Promise<Address>
    */
   public async getProposalCreator(proposalId: Hash): Promise<Address> {
@@ -519,7 +532,13 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
 
     this.logContractFunctionCall("GenesisProtocol.getProposalOrganization", proposalId);
 
-    return this.contract.getProposalOrganization(proposalId);
+    const organizationId = await this.getProposalOrganizationId(proposalId);
+
+    if (!organizationId) {
+      throw new Error("the proposal is not found");
+    }
+
+    return this.contract.organizations(organizationId);
   }
 
   /**
@@ -665,7 +684,8 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
    */
   public async getProposal(proposalId: Hash): Promise<GenesisProtocolProposal> {
     const proposalParams = await this.contract.proposals(proposalId);
-    return this.convertProposalPropsArrayToObject(proposalParams, proposalId);
+    const creatorAddress = await this.getProposalCreator(proposalId);
+    return this.convertProposalPropsArrayToObject(proposalParams, proposalId, creatorAddress);
   }
 
   public async getParametersHash(params: GenesisProtocolParams): Promise<Hash> {
@@ -889,20 +909,42 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
     /* tslint:enable:max-line-length */
   }
 
-  private convertProposalPropsArrayToObject(proposalArray: Array<any>, proposalId: Hash): GenesisProtocolProposal {
+  /**
+   * Returns a promise of the `organizationId`of the proposal.  This id is unique to the
+   * contract that created the proposal and, in the case of Arc schemes, the avatar in which
+   * the scheme is registered.  The value is included in `GenesisProtocolProposal`
+   * and is returned by all of the voting machine events.  So you could use this value when filtering
+   * events from a single avatar and contract registered with the avatar.
+   */
+  private async getProposalOrganizationId(proposalId: Hash): Promise<Hash> {
+
+    if (!proposalId) {
+      throw new Error("proposalId is not defined");
+    }
+
+    this.logContractFunctionCall("GenesisProtocol.getProposalOrganization", proposalId);
+
+    return this.contract.getProposalOrganization(proposalId);
+  }
+
+  private convertProposalPropsArrayToObject(
+    proposalArray: Array<any>,
+    proposalId: Hash,
+    creatorAddress: Address): GenesisProtocolProposal {
     return {
-      boostedPhaseTime: proposalArray[4].toNumber(),
-      creatorAddress: proposalArray[0],
-      currentBoostedVotePeriodLimit: proposalArray[8].toNumber(),
-      daoBountyRemain: proposalArray[10],
-      numOfChoices: proposalArray[1].toNumber(),
-      paramsHash: proposalArray[9],
+      boostedPhaseTime: proposalArray[5].toNumber(),
+      creatorAddress,
+      currentBoostedVotePeriodLimit: proposalArray[9].toNumber(),
+      daoBountyRemain: proposalArray[11],
+      numOfChoices: proposalArray[2].toNumber(),
+      organizationId: proposalArray[0],
+      paramsHash: proposalArray[10],
       proposalId,
-      proposer: proposalArray[7],
-      state: proposalArray[5].toNumber(),
-      submittedTime: proposalArray[3].toNumber(),
-      votersStakes: proposalArray[2],
-      winningVote: proposalArray[6].toNumber(),
+      proposer: proposalArray[8],
+      state: proposalArray[6].toNumber(),
+      submittedTime: proposalArray[4].toNumber(),
+      votersStakes: proposalArray[3],
+      winningVote: proposalArray[7].toNumber(),
     };
   }
 }
@@ -1316,19 +1358,43 @@ export interface GenesisProtocolProposal {
    */
   boostedPhaseTime: number;
   /**
-   * in seconds
+   * The amount of time, in seconds, that the proposal can remain in the boosted phase
+   * (assuming the proposal has reached the boosted phase).
    */
   currentBoostedVotePeriodLimit: number;
+  /**
+   * The amount of bounty remaining that can be redeemed on the given proposal.
+   */
   daoBountyRemain: BigNumber;
+  /**
+   * The number of voting choices.  For GenesisProtocol this is always 2 (YES and NO).
+   */
   numOfChoices: number;
+  /**
+   * A hash is unique to the contract that created the proposal and, in the case of Arc schemes,
+   * the avatar in which the scheme is registered.
+   */
+  organizationId: Hash;
+  /**
+   * The parameters of the registered `GenesisProtocol` used to create the proposal.
+   */
   paramsHash: Hash;
   proposalId: Hash;
+  /**
+   * address of the account the submitted the proposal
+   */
   proposer: Address;
+  /**
+   * current phase in a proposal life-cycle
+   */
   state: ProposalState;
   /**
    * in seconds
    */
   submittedTime: number;
+  /**
+   * the amount of staked GEN receivable by preboosted voters
+   */
   votersStakes: BigNumber;
   winningVote: number;
 }

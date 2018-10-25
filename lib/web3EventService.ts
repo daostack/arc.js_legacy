@@ -183,10 +183,10 @@ export class Web3EventService {
 
       // handler that takes the events and issues givenCallback appropriately
       const handleEvent =
-        (error: Error,
-         log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>,
+        async (error: Error,
+               log: DecodedLogEntryEvent<TEventArgs> | Array<DecodedLogEntryEvent<TEventArgs>>,
           // singly true to issue callback on every arg rather than on the array
-         singly: boolean,
+               singly: boolean,
           /*
            * invoke this callback on every event (watch)
            * or on the array of events (get), depending on the value of singly.
@@ -195,7 +195,7 @@ export class Web3EventService {
            * when not singly, callback gets a promise of the array of entities.
            * get is not singly.  so get gets a promise of an array.
            */
-         callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
+               callback?: (error: Error, args: TEntity | Promise<Array<TEntity>>) => void):
           Promise<Array<TEntity>> => {
 
           const promiseOfEntities: Promise<Array<TEntity>> =
@@ -217,7 +217,7 @@ export class Web3EventService {
                   const transformedEntity = await transformEventCallback(event);
                   if (typeof transformedEntity !== "undefined") {
                     if (callback && singly) {
-                      callback(error, transformedEntity);
+                      await callback(error, transformedEntity);
                     }
                     entities.push(transformedEntity);
                   }
@@ -226,7 +226,7 @@ export class Web3EventService {
               });
           // invoke the given callback with the promise of an array of entities
           if (callback && !singly) {
-            callback(error, promiseOfEntities);
+            await callback(error, promiseOfEntities);
           }
           return promiseOfEntities;
         };

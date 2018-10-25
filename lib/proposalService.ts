@@ -98,7 +98,7 @@ export class ProposalService {
       (event: DecodedLogEntryEvent<NewProposalEventResult>): Promise<VotableProposal> => {
         return Promise.resolve(
           {
-            avatarAddress: event.args._avatar,
+            avatarAddress: event.args._organization,
             numOfChoices: event.args._numOfChoices.toNumber(),
             paramsHash: event.args._paramsHash,
             proposalId: event.args._proposalId,

@@ -15,6 +15,7 @@ export class Utils {
 
   static get NULL_ADDRESS(): Address { return "0x0000000000000000000000000000000000000000"; }
   static get NULL_HASH(): Hash { return "0x0000000000000000000000000000000000000000000000000000000000000000"; }
+  public static contractCache: Map<string, Contract> = new Map<string, string>();
   /**
    * Returns Truffle contract wrapper given the name of the contract (like "SchemeRegistrar").
    * Optimized for synchronicity issues encountered with MetaMask.
@@ -24,8 +25,14 @@ export class Utils {
    */
   public static async requireContract(contractName: string): Promise<any> {
     try {
+      let contract = Utils.contractCache.get(contractName);
+      if (contract) {
+        LoggingService.debug(`requireContract: loaded from cache ${contractName}`);
+        return contract;
+      }
+
       const artifact = require(`../migrated_contracts/${contractName}.json`);
-      const contract = new Contract(artifact);
+      contract = new Contract(artifact);
       const myWeb3 = await Utils.getWeb3();
 
       contract.setProvider(myWeb3.currentProvider);
@@ -34,6 +41,7 @@ export class Utils {
         from: await Utils.getDefaultAccount(),
         gas: ConfigService.get("defaultGasLimit"),
       });
+      Utils.contractCache.set(contractName, contract);
       LoggingService.debug(`requireContract: loaded ${contractName}`);
       return contract;
     } catch (ex) {

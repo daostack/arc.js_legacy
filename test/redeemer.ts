@@ -174,7 +174,7 @@ describe("Redeemer", () => {
     // assert(redeemable.voterTokenAmount.eq(stakeAmount.mul(.25)), `wrong voterTokenAmount`);
     assert.equal(web3.fromWei(redeemable.voterReputationAmount).toNumber(), 7);
 
-    const latestBlock = await UtilsInternal.lastBlock();
+    const latestBlock = await UtilsInternal.lastBlockNumber();
 
     const redeemed = (await redeemer.redeem({
       avatarAddress: dao.avatar.address,

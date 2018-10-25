@@ -285,9 +285,9 @@ export async function increaseTime(duration: number): Promise<void> {
 }
 
 export async function waitForBlocks(blocks: number): Promise<void> {
-  const currentBlock = await UtilsInternal.lastBlock();
+  const currentBlock = await UtilsInternal.lastBlockNumber();
   /* tslint:disable-next-line:no-empty */
-  while ((await UtilsInternal.lastBlock()) - currentBlock < blocks) { }
+  while ((await UtilsInternal.lastBlockNumber()) - currentBlock < blocks) { }
 }
 
 export async function getDaoScheme(

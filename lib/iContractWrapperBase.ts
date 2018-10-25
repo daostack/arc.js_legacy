@@ -50,6 +50,7 @@ export interface IContractWrapperFactory<TWrapper extends IContractWrapper> {
   new: (...rest: Array<any>) => Promise<TWrapper>;
   at: (address: string) => Promise<TWrapper>;
   deployed: () => Promise<TWrapper>;
+  ensureSolidityContract(): Promise<any>;
 }
 
 export class ArcTransactionResult {

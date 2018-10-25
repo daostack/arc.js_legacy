@@ -399,7 +399,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements IUniv
     }
 
     if ((typeof options.startingBlock === "undefined") || (options.startingBlock === null)) {
-      options.startingBlock = await UtilsInternal.lastBlock();
+      options.startingBlock = await UtilsInternal.lastBlockNumber();
     }
 
     if (!Number.isInteger(options.startingBlock) || (options.startingBlock < 0)) {

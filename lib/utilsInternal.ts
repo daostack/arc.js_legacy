@@ -1,6 +1,6 @@
 import { promisify } from "es6-promisify";
-import { FilterResult } from "web3";
-import { fnVoid } from "./commonTypes";
+import { BlockWithoutTransactionData, FilterResult } from "web3";
+import { Address, fnVoid } from "./commonTypes";
 import { Utils, Web3 } from "./utils";
 
 /**
@@ -22,7 +22,25 @@ export class UtilsInternal {
   /**
    * Returns the last mined block in the chain.
    */
-  public static async lastBlock(): Promise<number> {
+  public static async lastBlock(): Promise<BlockWithoutTransactionData> {
+    const web3 = await Utils.getWeb3();
+    return promisify((callback: any): any => web3.eth.getBlock("latest", callback))() as any;
+  }
+
+  /**
+   * Returns the date of the last mined block in the chain.
+   */
+  public static async lastBlockDate(): Promise<Date> {
+    const web3 = await Utils.getWeb3();
+    const block = await promisify((callback: any): any =>
+      web3.eth.getBlock("latest", callback))() as BlockWithoutTransactionData;
+    return new Date(block.timestamp * 1000);
+  }
+
+  /**
+   * Returns the last mined block in the chain.
+   */
+  public static async lastBlockNumber(): Promise<number> {
     const web3 = await Utils.getWeb3();
     return promisify(web3.eth.getBlockNumber)();
   }
@@ -41,6 +59,10 @@ export class UtilsInternal {
 
   public static getWeb3Sync(): Web3 {
     return (Utils as any).web3;
+  }
+
+  public static isNullAddress(address: Address): boolean {
+    return !address || !Number.parseInt(address, 16);
   }
 
   /**

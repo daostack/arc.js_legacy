@@ -8,6 +8,7 @@ import {
   DecodedLogEntryEvent,
   IContractWrapperFactory
 } from "../iContractWrapperBase";
+import { LoggingService } from "../loggingService";
 import { TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
@@ -83,6 +84,10 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
    * @param options
    */
   public async propose(options: ProposeOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionProposalResult> {
+
+    if (!options.organizationAddress) {
+      LoggingService.warn(`IntVoteInterface.propose: organizationAddress is not set, will be set to msg.sender`);
+    }
 
     const numChoiceBounds = await this.getAllowedRangeOfChoices();
 
@@ -359,6 +364,10 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
     if ((typeof vote !== "number") || (vote < 0)) {
       throw new Error(`vote must be a number greater than or equal to zero and less than or equal to ${numChoices}`);
     }
+  }
+
+  protected organizationIdFromProposalCreator(schemeAddress: Address, creator: Address): Hash {
+    return Utils.keccak256(["address", "address"], [schemeAddress, creator]);
   }
 }
 

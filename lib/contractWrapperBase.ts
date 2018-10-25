@@ -1,6 +1,6 @@
 import { BigNumber } from "bignumber.js";
 import { promisify } from "es6-promisify";
-import { Address, Hash, SchemePermissions } from "./commonTypes";
+import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "./commonTypes";
 import { ConfigService } from "./configService";
 import { ControllerService } from "./controllerService";
 import {
@@ -194,6 +194,20 @@ export abstract class ContractWrapperBase implements IContractWrapper {
   }
 
   /**
+   * TODO: getDefaultPermissions should be moved to a new subclass `SchemeWrapper`
+   * which itself would be a base class for a new class `UniversalScheme`
+   */
+
+  /**
+   * Any scheme that needs greater permissions should override this
+   * @hidden - for internal use only.
+   * This method will eventually be moved (see comment above)
+   */
+  public getDefaultPermissions(): SchemePermissions {
+    return DefaultSchemePermissions.MinimumPermissions as number;
+  }
+
+  /**
    * invoked to let base classes know that the `contract` is available.
    */
   /* tslint:disable-next-line:no-empty */
@@ -325,7 +339,7 @@ export abstract class ContractWrapperBase implements IContractWrapper {
       }
 
       if (ConfigService.get("estimateGas") && !web3Params.gas) {
-        await this.estimateGas(func, params)
+        await this.estimateGas(func, params, web3Params)
           .then((gas: number) => {
             // side-effect of altering web3Params allows caller to know what we used
             Object.assign(web3Params, { gas });

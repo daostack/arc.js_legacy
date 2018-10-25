@@ -51,7 +51,7 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper
       proposalsEventFetcher: this.NewProposal,
       transformEventCallback: async (event: DecodedLogEntryEvent<NewProposalEventResult>): Promise<VotableProposal> => {
         return {
-          avatarAddress: event.args._avatar,
+          avatarAddress: event.args._organization,
           numOfChoices: event.args._numOfChoices.toNumber(),
           paramsHash: event.args._paramsHash,
           proposalId: event.args._proposalId,
@@ -187,7 +187,7 @@ export interface RefreshReputationEventResult {
   /**
    * indexed
    */
-  _avatar: Address;
+  _organization: Address;
   /**
    * indexed
    */
