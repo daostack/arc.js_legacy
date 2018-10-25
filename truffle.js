@@ -31,31 +31,36 @@ module.exports = {
       },
       gas: 4543760,
       gasPrice: 10000000000,
-      network_id: 1
+      network_id: 1,
+      websockets: true
     },
     ganache: {
       host: "127.0.0.1",
       port: 8545,
       network_id: "*",
-      gas: 4543760
+      gas: 4543760,
+      websockets: true
     },
     ropsten: {
       provider: function () {
         return provider;
       },
       gas: 4543760,
-      network_id: 3
+      network_id: 3,
+      websockets: true
     },
     kovan: {
       provider: function () {
         return provider;
       },
       gas: 4543760,
-      network_id: 42
+      network_id: 42,
+      websockets: true
     }
   },
   rpc: {
     host: "127.0.0.1",
-    port: 8545
+    port: 8545,
+    websockets: true
   }
 };

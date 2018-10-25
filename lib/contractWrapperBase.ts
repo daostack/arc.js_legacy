@@ -13,9 +13,12 @@ import {
   TxEventContext,
   TxGeneratingFunctionOptions,
   IHasEstimateGasFunction,
-  TransactionStage
+  TransactionStage,
+  TransactionReceiptTruffle
 } from "./transactionService";
 import { EventFetcherFactory, Web3EventService } from "./web3EventService";
+import { TransactionReceipt } from 'web3/types';
+import PromiEvent from 'web3/promiEvent';
 
 /**
  * Abstract base class for all Arc contract wrapper classes.
@@ -252,6 +255,7 @@ export abstract class ContractWrapperBase implements IContractWrapper {
 
     try {
       const txHash = await this.sendTransaction(eventContext, func, params, web3Params);
+
       TransactionService.publishTxLifecycleEvents(eventContext, txHash, this.contract);
       return new ArcTransactionResult(txHash, this.contract);
     } catch (ex) {
@@ -276,6 +280,8 @@ export abstract class ContractWrapperBase implements IContractWrapper {
    * @param func The contract function
    * @param params The contract function parameters
    * @param web3Params Optional web params, like `from`
+   * 
+   * @returns `PromiEvent<TransactionReceipt>`
    */
   protected async sendTransaction(
     eventContext: TxEventContext,
@@ -289,7 +295,11 @@ export abstract class ContractWrapperBase implements IContractWrapper {
 
       params = params.concat(web3Params);
 
-      return func.sendTransaction(...params);
+      let txHash;
+
+      await func.sendTransaction(...params).once("transactionHash", (hash: Hash) => { txHash = hash; });
+
+      return txHash;
 
     } catch (ex) {
       TransactionService.publishTxFailed(eventContext, TransactionStage.sent, ex);
@@ -311,5 +321,5 @@ export type HasSendTransactionFunction = (args?: Array<any>) => Promise<Hash>;
  * @hidden
  */
 export interface IHasSendTransactionFunction extends HasSendTransactionFunction, IHasEstimateGasFunction {
-  sendTransaction?: (args?: Array<any>) => Promise<Hash>;
+  sendTransaction?: (args?: Array<any>) => PromiEvent<TransactionReceipt>;
 }

@@ -150,7 +150,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
 
     this.logContractFunctionCall("ContributionReward.proposeContributionReward", options);
 
-    const tx = await this.sendTransaction(
+    const txHash = await this.sendTransaction(
       eventContext,
       this.contract.proposeContributionReward,
       [options.avatar,
@@ -160,11 +160,11 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
       options.externalToken,
       options.beneficiaryAddress]);
 
-    if (tx) {
-      TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
+    if (txHash) {
+      TransactionService.publishTxLifecycleEvents(eventContext, txHash, this.contract);
     }
 
-    return new ArcTransactionProposalResult(tx, this.contract, await this.getVotingMachine(options.avatar));
+    return new ArcTransactionProposalResult(txHash, this.contract, await this.getVotingMachine(options.avatar));
   }
 
   /**

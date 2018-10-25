@@ -109,16 +109,16 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
 
     this.logContractFunctionCall("GenesisProtocol.stake", options);
 
-    const tx = await this.sendTransaction(
+    const txHash = await this.sendTransaction(
       eventContext,
       this.contract.stake,
       [options.proposalId, options.vote, amount]);
 
-    if (tx) {
-      TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
+    if (txHash) {
+      TransactionService.publishTxLifecycleEvents(eventContext, txHash, this.contract);
     }
 
-    return new ArcTransactionResult(tx, this.contract);
+    return new ArcTransactionResult(txHash, this.contract);
   }
 
   /**

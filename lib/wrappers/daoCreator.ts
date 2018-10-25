@@ -28,7 +28,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     if (!DaoCreatorWrapper.uniSchemeUpdateParametersCallData) {
       // use requireContract since no guarantee that SchemeRegistrar has been loaded
       const contract = (await (await Utils.requireContract("SchemeRegistrar")).deployed()).contract;
-      DaoCreatorWrapper.uniSchemeUpdateParametersCallData = contract.updateParameters.getData("0x1");
+      DaoCreatorWrapper.uniSchemeUpdateParametersCallData = contract.methods.updateParameters.getData("0x1");
     }
 
     return await web3.eth.call({
@@ -101,7 +101,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       options.name,
       options.tokenName,
       options.tokenSymbol,
-      options.founders.map((founder: FounderConfig) => new BigNumber(founder.address)),
+      options.founders.map((founder: FounderConfig) => founder.address),
       options.founders.map((founder: FounderConfig) => new BigNumber(founder.tokens)),
       options.founders.map((founder: FounderConfig) => new BigNumber(founder.reputation)),
       controllerAddress,
@@ -193,7 +193,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       votingMachineName: configuredVotingMachineName,
     }, options.votingMachineParams || {});
 
-    let tx;
+    let txHash: Hash;
 
     let defaultVotingMachine: IVotingMachineWrapper;
     let defaultVoteParametersHash: Hash;
@@ -438,7 +438,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       });
 
     // register the schemes with the dao
-    tx = await this.sendTransaction(
+    txHash = await this.sendTransaction(
       eventContext,
       this.contract.setSchemes,
       [options.avatar,
@@ -447,11 +447,11 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
         initialSchemesPermissions]
     );
 
-    if (tx) {
-      TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
+    if (txHash) {
+      TransactionService.publishTxLifecycleEvents(eventContext, txHash, this.contract);
     }
 
-    return new ArcTransactionResult(tx, this.contract);
+    return new ArcTransactionResult(txHash, this.contract);
   }
 
   public forgeOrgTransactionsCount(options: ForgeOrgConfig): number {
