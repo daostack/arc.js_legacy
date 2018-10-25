@@ -60,11 +60,7 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
       if (rest && rest.length) {
         const lastParam = rest[rest.length - 1];
 
-        if ((typeof (lastParam.gas) !== "undefined") ||
-          (typeof (lastParam.gasLimit) !== "undefined") ||
-          (typeof (lastParam.from) !== "undefined") ||
-          (typeof (lastParam.data) !== "undefined")) {
-
+        if (typeof (lastParam.gas) === "object") {
           web3Params = rest.splice(rest.length - 1, 1)[0];
         }
       }

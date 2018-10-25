@@ -66,7 +66,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
    * Get or watch NewProposal events, filtering out proposals that are no longer votable.
    */
   public get VotableProposals(): EventFetcherFactory<NewProposalEventResult> {
-    return this.web3EventService.createEventFetcherFactory<NewProposalEventResult>(this.contract.NewProposal,
+    return this.web3EventService.createEventFetcherFactory<NewProposalEventResult>(this.contract.events.NewProposal,
       (error: Error, log: Array<DecodedLogEntryEvent<NewProposalEventResult>>) => {
         if (!error) {
           log = log.filter(async (event: DecodedLogEntryEvent<NewProposalEventResult>) => {
@@ -347,11 +347,11 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
 
   protected hydrated(): void {
     /* tslint:disable:max-line-length */
-    this.NewProposal = this.web3EventService.createEventFetcherFactory<NewProposalEventResult>(this.contract.NewProposal);
-    this.CancelProposal = this.web3EventService.createEventFetcherFactory<CancelProposalEventResult>(this.contract.CancelProposal);
-    this.ExecuteProposal = this.web3EventService.createEventFetcherFactory<ExecuteProposalEventResult>(this.contract.ExecuteProposal);
-    this.VoteProposal = this.web3EventService.createEventFetcherFactory<VoteProposalEventResult>(this.contract.VoteProposal);
-    this.CancelVoting = this.web3EventService.createEventFetcherFactory<CancelVotingEventResult>(this.contract.CancelVoting);
+    this.NewProposal = this.web3EventService.createEventFetcherFactory<NewProposalEventResult>(this.contract.events.NewProposal);
+    this.CancelProposal = this.web3EventService.createEventFetcherFactory<CancelProposalEventResult>(this.contract.events.CancelProposal);
+    this.ExecuteProposal = this.web3EventService.createEventFetcherFactory<ExecuteProposalEventResult>(this.contract.events.ExecuteProposal);
+    this.VoteProposal = this.web3EventService.createEventFetcherFactory<VoteProposalEventResult>(this.contract.events.VoteProposal);
+    this.CancelVoting = this.web3EventService.createEventFetcherFactory<CancelVotingEventResult>(this.contract.events.CancelVoting);
     /* tslint:enable:max-line-length */
   }
 
