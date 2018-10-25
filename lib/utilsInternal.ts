@@ -1,6 +1,7 @@
 import { promisify } from "es6-promisify";
-import { BlockWithoutTransactionData, FilterResult } from "web3";
+import { BlockWithoutTransactionData } from "web3";
 import { Address, fnVoid } from "./commonTypes";
+import { fnVoid } from "./commonTypes";
 import { Utils, Web3 } from "./utils";
 
 /**
@@ -42,14 +43,14 @@ export class UtilsInternal {
    */
   public static async lastBlockNumber(): Promise<number> {
     const web3 = await Utils.getWeb3();
-    return promisify(web3.eth.getBlockNumber)();
+    return web3.eth.getBlockNumber();
   }
 
   /**
    * For environments that don't allow synchronous functions
    * @param filter
    */
-  public static stopWatchingAsync(filter: FilterResult): Promise<any> {
+  public static stopWatchingAsync(filter: EventWatcher): Promise<any> {
     return promisify((callback: any): any => filter.stopWatching(callback))();
   }
 
@@ -71,9 +72,13 @@ export class UtilsInternal {
    */
   public static async computeMaxGasLimit(): Promise<number> {
     const web3 = await Utils.getWeb3();
-    return promisify((callback: any) => web3.eth.getBlock("latest", false, callback))()
+    return await web3.eth.getBlock("latest", false)
       .then((block: any) => {
         return block.gasLimit - 100000;
       });
   }
+}
+
+export interface EventWatcher {
+  stopWatching(callback?: () => void): void;
 }

@@ -25,8 +25,8 @@ describe("VestingScheme scheme", () => {
     dao = await helpers.forgeDao({
       founders: [{
         address: accounts[0],
-        reputation: web3.toWei(1000),
-        tokens: web3.toWei(1000),
+        reputation: web3.utils.toWei(1000),
+        tokens: web3.utils.toWei(1000),
       }],
       schemes: [{
         name: "VestingScheme",
@@ -51,7 +51,7 @@ describe("VestingScheme scheme", () => {
   it("can get DAO's agreements", async () => {
 
     const options = {
-      amountPerPeriod: web3.toWei(10),
+      amountPerPeriod: web3.utils.toWei(10),
       beneficiaryAddress: accounts[1],
       cliffInPeriods: 0,
       numOfAgreedPeriods: 1,
@@ -85,7 +85,7 @@ describe("VestingScheme scheme", () => {
   it("can collect on the agreement", async () => {
 
     const options = {
-      amountPerPeriod: web3.toWei(10),
+      amountPerPeriod: web3.utils.toWei(10),
       beneficiaryAddress: accounts[0],
       cliffInPeriods: 0,
       numOfAgreedPeriods: 1,
@@ -116,7 +116,7 @@ describe("VestingScheme scheme", () => {
   it("revert sign to cancel agreement", async () => {
 
     const options = {
-      amountPerPeriod: web3.toWei(10),
+      amountPerPeriod: web3.utils.toWei(10),
       beneficiaryAddress: helpers.SOME_ADDRESS,
       cliffInPeriods: 0,
       numOfAgreedPeriods: 1,
@@ -150,7 +150,7 @@ describe("VestingScheme scheme", () => {
   it("sign to cancel agreement", async () => {
 
     const options = {
-      amountPerPeriod: web3.toWei(10),
+      amountPerPeriod: web3.utils.toWei(10),
       beneficiaryAddress: helpers.SOME_ADDRESS,
       cliffInPeriods: 0,
       numOfAgreedPeriods: 1,
@@ -174,7 +174,7 @@ describe("VestingScheme scheme", () => {
   it("create agreement", async () => {
 
     const options = {
-      amountPerPeriod: web3.toWei(10),
+      amountPerPeriod: web3.utils.toWei(10),
       beneficiaryAddress: helpers.SOME_ADDRESS,
       cliffInPeriods: 0,
       numOfAgreedPeriods: 1,
@@ -196,7 +196,7 @@ describe("VestingScheme scheme", () => {
   it("propose agreement", async () => {
 
     const options = {
-      amountPerPeriod: web3.toWei(10),
+      amountPerPeriod: web3.utils.toWei(10),
       avatar: dao.avatar.address,
       beneficiaryAddress: accounts[0],
       cliffInPeriods: 11,
@@ -238,7 +238,7 @@ describe("VestingScheme scheme", () => {
   it("propose agreement fails when no period is given", async () => {
 
     const options = {
-      amountPerPeriod: web3.toWei(10),
+      amountPerPeriod: web3.utils.toWei(10),
       beneficiaryAddress: helpers.SOME_ADDRESS,
       cliffInPeriods: 0,
       numOfAgreedPeriods: 1,

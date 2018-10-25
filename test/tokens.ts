@@ -1,5 +1,5 @@
 "use strict";
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "../lib/utils";
 import { assert } from "chai";
 import { TransactionReceiptsEventInfo, TransactionService } from "../lib/transactionService";
 import { Utils, Web3 } from "../lib/utils";
@@ -25,7 +25,7 @@ describe("Tokens", () => {
     mintableToken = await MintableTokenFactory.new();
     assert.isOk(mintableToken);
     await (await mintableToken.mint({
-      amount: web3.toWei("1000"),
+      amount: web3.utils.toWei("1000"),
       recipient: accounts[0],
     })).watchForTxMined();
     // so the mint doesn't appear in events
@@ -34,7 +34,7 @@ describe("Tokens", () => {
 
   it("can approve and transfer from", async () => {
 
-    const amount = web3.toWei(1);
+    const amount = web3.utils.toWei(1);
 
     let currentBlock = await UtilsInternal.lastBlockNumber();
 
@@ -85,7 +85,7 @@ describe("Tokens", () => {
 
   it("can transfer", async () => {
 
-    const amount = web3.toWei(1);
+    const amount = web3.utils.toWei(1);
     const currentBlock = await UtilsInternal.lastBlockNumber();
 
     const eventsReceived = new Array<string>();
@@ -117,7 +117,7 @@ describe("Tokens", () => {
 
   it("can mint", async () => {
 
-    const amount = web3.toWei(1);
+    const amount = web3.utils.toWei(1);
     const currentBlock = await UtilsInternal.lastBlockNumber();
 
     const eventsReceived = new Array<string>();
@@ -148,7 +148,7 @@ describe("Tokens", () => {
 
   it("can burn", async () => {
 
-    const amount = web3.toWei(1);
+    const amount = web3.utils.toWei(1);
     const currentBlock = await UtilsInternal.lastBlockNumber();
 
     const eventsReceived = new Array<string>();
@@ -180,7 +180,7 @@ describe("Tokens", () => {
 
   it("can increaseApproval", async () => {
 
-    const amount = web3.toWei(1);
+    const amount = web3.utils.toWei(1);
     const currentBlock = await UtilsInternal.lastBlockNumber();
     const currentAllowance = await mintableToken.allowance(
       {
@@ -223,7 +223,7 @@ describe("Tokens", () => {
 
   it("can decreaseApproval", async () => {
 
-    const amount = web3.toWei(1);
+    const amount = web3.utils.toWei(new BigNumber(1));
 
     const eventsReceived = new Array<string>();
 

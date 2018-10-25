@@ -1,4 +1,4 @@
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "./utils";
 import { promisify } from "es6-promisify";
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "./commonTypes";
 import { ConfigService } from "./configService";
@@ -335,7 +335,7 @@ export abstract class ContractWrapperBase implements IContractWrapper {
           web3Params.gasPrice = await gasPriceComputed(defaultGasPrice);
         }
         LoggingService.debug(
-          `invoking function with configured gasPrice: ${web3.fromWei(web3Params.gasPrice, "gwei")}`);
+          `invoking function with configured gasPrice: ${web3.utils.fromWei(web3Params.gasPrice, "gwei")}`);
       }
 
       if (ConfigService.get("estimateGas") && !web3Params.gas) {

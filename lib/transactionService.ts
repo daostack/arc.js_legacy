@@ -1,11 +1,12 @@
 import { promisify } from "es6-promisify";
-import { DecodedLogEntry, LogEntry, TransactionReceipt } from "web3";
+import { DecodedLogEntry, LogEntry, TransactionReceipt } from "ethereum-types";
 import { Hash } from "./commonTypes";
 import { ConfigService } from "./configService";
 import { LoggingService } from "./loggingService";
 import { PubSubEventService } from "./pubSubEventService";
 import { Utils } from "./utils";
 import { UtilsInternal } from "./utilsInternal";
+import { BlockHeader } from 'web3/eth/types';
 /* tslint:disable-next-line:no-var-requires */
 const ethJSABI = require("ethjs-abi");
 
@@ -216,22 +217,24 @@ export class TransactionService extends PubSubEventService {
         /**
          * Fires on every new block
          */
-        const filter = web3.eth.filter("latest");
+        const subscription = await (web3.eth.subscribe("newBlockHeaders"));
 
-        filter.watch(
-          async (ex: Error): Promise<void> => {
-            if (!ex) {
-              receipt = await TransactionService.getMinedTransaction(txHash, contract, requiredDepth);
-              if (receipt) {
-                await UtilsInternal.stopWatchingAsync(filter).then(() => {
-                  return resolve(receipt);
-                });
+        subscription.on('data', async (blockHeader: BlockHeader) => {
+          receipt = await TransactionService.getMinedTransaction(txHash, contract, requiredDepth);
+          if (receipt) {
+            subscription.subscription.unsubscribe(function (ex, success) {
+              if (!success) {
+                LoggingService.error(`TransactionService.watchForMinedTransaction: an error occurred trying to unsubscribe: ${ex}`);
               }
-            } else {
-              LoggingService.error(`TransactionService.watchForMinedTransaction: an error occurred: ${ex}`);
-              return reject(ex);
-            }
-          });
+            });
+            return resolve(receipt);
+          }
+        })
+
+        subscription.on("error", (ex: Error) => {
+          LoggingService.error(`TransactionService.watchForMinedTransaction: an error occurred: ${ex}`);
+          return reject(ex);
+        });
       } catch (ex) {
         return reject(ex);
       }
@@ -429,7 +432,7 @@ export class TransactionService extends PubSubEventService {
 
         // We have BN. Convert it to BigNumber
         if (val.constructor.isBN) {
-          copy.args[key] = contractInstance.constructor.web3.toBigNumber("0x" + val.toString(16));
+          copy.args[key] = contractInstance.constructor.web3.utils.toBN("0x" + val.toString(16));
         }
       });
 

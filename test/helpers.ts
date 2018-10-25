@@ -1,4 +1,4 @@
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "../lib/utils";
 import { promisify } from "es6-promisify";
 import { Address, Hash } from "../lib/commonTypes";
 import { DAO, NewDaoConfig } from "../lib/dao";
@@ -60,11 +60,11 @@ let network;
 const etherForEveryone = async (): Promise<void> => {
   const count = accounts.length - 1;
   for (let i = 0; i < count; i++) {
-    await promisify((callback: any): void => web3.eth.sendTransaction({
+    await web3.eth.sendTransaction({
       from: accounts[accounts.length - 1],
       to: accounts[i],
-      value: web3.toWei(0.1, "ether"),
-    }, callback))();
+      value: web3.utils.toWei(0.1, "ether"),
+    });
   }
 };
 
@@ -72,7 +72,7 @@ const genTokensForEveryone = async (): Promise<void> => {
   const genToken = await DaoTokenWrapper.getGenToken();
   accounts.forEach((account: Address) => {
     // 1000 is an arbitrary number we've always given to founders for tests
-    genToken.contract.mint(account, web3.toWei(1000));
+    genToken.contract.mint(account, web3.utils.toWei(1000));
   });
 };
 
@@ -132,18 +132,18 @@ export async function forgeDao(opts: Partial<NewDaoConfig> = {}): Promise<DAO> {
     [
       {
         address: accounts[0],
-        reputation: web3.toWei(1000),
-        tokens: web3.toWei(100),
+        reputation: web3.utils.toWei(1000),
+        tokens: web3.utils.toWei(100),
       },
       {
         address: accounts[1],
-        reputation: web3.toWei(1000),
-        tokens: web3.toWei(100),
+        reputation: web3.utils.toWei(1000),
+        tokens: web3.utils.toWei(100),
       },
       {
         address: accounts[2],
-        reputation: web3.toWei(1000),
-        tokens: web3.toWei(100),
+        reputation: web3.utils.toWei(1000),
+        tokens: web3.utils.toWei(100),
       },
     ];
 
@@ -264,7 +264,7 @@ export async function increaseTime(duration: number): Promise<void> {
     const id = new Date().getTime();
 
     return new Promise((resolve: (res: any) => any, reject: (err: any) => any): void => {
-      web3.currentProvider.sendAsync({
+      web3.currentProvider.send({
         id,
         jsonrpc: "2.0",
         method: "evm_increaseTime",
@@ -272,10 +272,11 @@ export async function increaseTime(duration: number): Promise<void> {
       }, (err1: any) => {
         if (err1) { return reject(err1); }
 
-        web3.currentProvider.sendAsync({
+        web3.currentProvider.send({
           id: id + 1,
           jsonrpc: "2.0",
           method: "evm_mine",
+          params: [],
         }, (err2: any, res: any): void => {
           return err2 ? reject(err2) : resolve(res);
         });
@@ -307,7 +308,7 @@ export async function getDaoScheme(
 export function transferTokensToDao(dao: DAO, amount: number, fromAddress: Address, token: any): Promise<any> {
   token = token ? token : dao.token;
   token = token.contract ? token.contract : token;
-  return token.transfer(dao.avatar.address, web3.toWei(amount), { from: fromAddress });
+  return token.transfer(dao.avatar.address, web3.utils.toWei(amount), { from: fromAddress });
 }
 
 /**
@@ -316,9 +317,12 @@ export function transferTokensToDao(dao: DAO, amount: number, fromAddress: Addre
  * @param {number} amount -- will be converted to Wei
  * @param {string} fromAddress  - optional, default is accounts[0]
  */
-export function transferEthToDao(dao: DAO, amount: number, fromAddress?: Address): Hash {
+export function transferEthToDao(dao: DAO, amount: number, fromAddress?: Address): Promise<Hash> {
   fromAddress = fromAddress || accounts[0];
-  return web3.eth.sendTransaction({ from: fromAddress, to: dao.avatar.address, value: web3.toWei(amount) });
+  let txHash;
+  return web3.eth.sendTransaction(
+    { from: fromAddress, to: dao.avatar.address, value: web3.utils.toWei(amount) })
+    .once('transactionHash', (result: Hash) => txHash = result) as Promise<Hash>;
 }
 
 export function sleep(milliseconds: number): Promise<any> {
@@ -326,6 +330,6 @@ export function sleep(milliseconds: number): Promise<any> {
 }
 
 export function fromWei(amount: string | number | BigNumber): BigNumber {
-  const result = web3.fromWei(amount as any);
-  return web3.toBigNumber(result);
+  const result = web3.utils.fromWei(amount as any);
+  return web3.utils.toBN(result);
 }

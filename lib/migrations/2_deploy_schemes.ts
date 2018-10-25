@@ -1,6 +1,5 @@
-import { Web3 } from "web3";
-import { Utils } from "../utils";
-import { UtilsInternal } from "../utilsInternal";
+import { Web3, Utils } from "../utils";
+import { UtilsInternal } from '../utilsInternal';
 /* tslint:disable-next-line:no-var-requires */
 /* tslint:disable-next-line:no-var-requires */
 const env = require("env-variable")();
@@ -80,7 +79,7 @@ export const arcJsDeployer = (
           const genToken = await DAOToken.new(
             "DAOstack",
             "GEN",
-            web3.toWei(100000000),
+            web3.utils.toWei(100000000),
             { from: "0xb0c908140fe6fd6fbd4990a5c2e35ca6dc12bfb2" });
 
           genTokenAddress = genToken.address;

@@ -1,4 +1,4 @@
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "../lib/utils";
 import { assert } from "chai";
 import { Address, BinaryVoteResult, Hash } from "../lib/commonTypes";
 import { DAO, DaoSchemeInfo } from "../lib/dao";
@@ -73,8 +73,8 @@ describe("GenesisProtocol", () => {
     dao = await helpers.forgeDao({
       founders: [{
         address: accounts[0],
-        reputation: web3.toWei(1000),
-        tokens: web3.toWei(1000),
+        reputation: web3.utils.toWei(1000),
+        tokens: web3.utils.toWei(1000),
       },
       ],
       schemes: [
@@ -194,9 +194,9 @@ describe("GenesisProtocol", () => {
 
     assert.equal(result.nativeToken.address, dao.token.address, "wrong nativeToken");
     assert.equal(result.stakingToken.address, stakingToken.address, "wrong stakingToken");
-    assert(result.nativeTokenBalance.eq(web3.toWei(15)),
+    assert(result.nativeTokenBalance.eq(web3.utils.toWei(new BigNumber(15))),
       `nativeTokenBalance is wrong: ${result.nativeTokenBalance}`);
-    assert(result.stakingTokenBalance.eq(web3.toWei(25)),
+    assert(result.stakingTokenBalance.eq(web3.utils.toWei(new BigNumber(25))),
       `stakingTokenBalance is wrong: ${result.stakingTokenBalance}`);
   });
 
@@ -259,13 +259,13 @@ describe("GenesisProtocol", () => {
     dao = await helpers.forgeDao({
       founders: [{
         address: accounts[0],
-        reputation: web3.toWei(1001),
-        tokens: web3.toWei(1000),
+        reputation: web3.utils.toWei(1001),
+        tokens: web3.utils.toWei(1000),
       },
       {
         address: accounts[1],
-        reputation: web3.toWei(1000),
-        tokens: web3.toWei(1000),
+        reputation: web3.utils.toWei(1000),
+        tokens: web3.utils.toWei(1000),
       }],
       schemes: [
         { name: "ContributionReward" },
@@ -361,12 +361,12 @@ describe("GenesisProtocol", () => {
     });
 
     assert.isOk(result);
-    assert.equal(web3.fromWei(result.preBoostedVotesYes).toNumber(), 1000);
-    assert.equal(web3.fromWei(result.preBoostedVotesNo).toNumber(), 0);
-    assert.equal(web3.fromWei(result.totalStaked).toNumber(), 0);
-    assert.equal(web3.fromWei(result.totalStakerStakes).toNumber(), 0);
-    assert.equal(web3.fromWei(result.stakesNo).toNumber(), 0);
-    assert.equal(web3.fromWei(result.stakesYes).toNumber(), 0);
+    assert.equal(web3.utils.fromWei(result.preBoostedVotesYes).toNumber(), 1000);
+    assert.equal(web3.utils.fromWei(result.preBoostedVotesNo).toNumber(), 0);
+    assert.equal(web3.utils.fromWei(result.totalStaked).toNumber(), 0);
+    assert.equal(web3.utils.fromWei(result.totalStakerStakes).toNumber(), 0);
+    assert.equal(web3.utils.fromWei(result.stakesNo).toNumber(), 0);
+    assert.equal(web3.utils.fromWei(result.stakesYes).toNumber(), 0);
   });
 
   it("can call getStakerInfo", async () => {
@@ -468,7 +468,7 @@ describe("GenesisProtocol", () => {
     const proposalId = await createProposal();
     const result = await genesisProtocol.voteWithSpecifiedAmounts({
       proposalId,
-      reputation: web3.toWei(10),
+      reputation: web3.utils.toWei(10),
       vote: 1,
     });
     assert.isOk(result);

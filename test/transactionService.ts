@@ -1,6 +1,6 @@
 import { assert } from "chai";
-import { TransactionReceipt } from "web3";
-import { BinaryVoteResult, fnVoid } from "../lib/commonTypes";
+import { TransactionReceipt } from "ethereum-types";
+import { BinaryVoteResult, fnVoid, Hash } from "../lib/commonTypes";
 import { TransactionReceiptsEventInfo, TransactionService, TransactionStage } from "../lib/transactionService";
 import { UtilsInternal } from "../lib/utilsInternal";
 import {

@@ -8,7 +8,7 @@ import {
 } from "../commonTypes";
 import { ConfigService } from "../configService";
 
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "../utils";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import {
   ArcTransactionDataResult,
@@ -85,32 +85,32 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
      * will thrown Error if not valid numbers
      */
     const web3 = await Utils.getWeb3();
-    const reputationChange = web3.toBigNumber(options.reputationChange);
-    const nativeTokenReward = web3.toBigNumber(options.nativeTokenReward);
-    const ethReward = web3.toBigNumber(options.ethReward);
-    const externalTokenReward = web3.toBigNumber(options.externalTokenReward);
+    const reputationChange = web3.utils.toBN(options.reputationChange);
+    const nativeTokenReward = web3.utils.toBN(options.nativeTokenReward);
+    const ethReward = web3.utils.toBN(options.ethReward);
+    const externalTokenReward = web3.utils.toBN(options.externalTokenReward);
 
     if (
-      (nativeTokenReward.lt(0) ||
-        ethReward.lt(0) ||
-        externalTokenReward.lt(0))
+      (nativeTokenReward.ltn(0) ||
+        ethReward.ltn(0) ||
+        externalTokenReward.ltn(0))
     ) {
       throw new Error("rewards must be greater than or equal to zero");
     }
 
     if (
       !(
-        (!reputationChange.eq(0) ||
-          nativeTokenReward.gt(0) ||
-          reputationChange.gt(0) ||
-          ethReward.gt(0) ||
-          externalTokenReward.gt(0))
+        (!reputationChange.eqn(0) ||
+          nativeTokenReward.gtn(0) ||
+          reputationChange.gtn(0) ||
+          ethReward.gtn(0) ||
+          externalTokenReward.gtn(0))
       )
     ) {
       throw new Error("no reward amount was given");
     }
 
-    if (externalTokenReward.gt(0) && !options.externalToken) {
+    if (externalTokenReward.gtn(0) && !options.externalToken) {
       throw new Error(
         "external token reward is proposed but externalToken is not defined"
       );
@@ -414,14 +414,14 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
       await this.computeRemainingReward(proposalRewards,
         proposal, "ethReward", options.avatar, RewardType.Eth);
 
-      if (proposal.ethReward.gt("0")) {
+      if (proposal.ethReward.gtn(0)) {
         proposalRewards.ethAvailableToReward = await avatarService.getEthBalance();
       }
 
       await this.computeRemainingReward(proposalRewards,
         proposal, "externalTokenReward", options.avatar, RewardType.ExternalToken);
 
-      if (proposal.externalTokenReward.gt("0")) {
+      if (proposal.externalTokenReward.gtn(0)) {
         proposalRewards.externalTokensAvailableToReward = await avatarService.getTokenBalance(proposal.externalToken);
       }
 
@@ -464,7 +464,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
 
     const orgNativeTokenFee = new BigNumber(params.orgNativeTokenFee);
 
-    if (orgNativeTokenFee.lt(0)) {
+    if (orgNativeTokenFee.ltn(0)) {
       throw new Error("orgNativeTokenFee must be greater than or equal to 0");
     }
 

@@ -1,5 +1,5 @@
 "use strict";
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "../utils";
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import {

@@ -20,7 +20,7 @@ const pathDaostackArcRepo = runningInRepo ?
   joinPath(pathNodeModules, "@daostack", "arc") :
   joinPath("..", "arc");
 
-const pathArcJsContracts = joinPath(".", "migrated_contracts");
+const pathArcJsContracts = joinPath(pathArcJsRoot, "migrated_contracts");
 const pathArcTest = joinPath(".", "test");
 const pathArcTestBuild = joinPath(".", "test-build");
 const pathArcDist = joinPath(".", "dist");
@@ -31,17 +31,19 @@ const pathTypeScript = joinPath(pathNodeModules, "typescript/bin/tsc");
 const network = env.arcjs_network || config.network || "ganache";
 
 let truffleCommand;
-if (runningInRepo) {
-  truffleCommand = "truffle"; // use global version of truffle.
-} else { // assume we are running in application context
-  truffleCommand = `node ${joinPath("..", "..", "truffle-core-migrate-without-compile", "cli")}`;
-}
+// if (runningInRepo) {
+// truffleCommand = `node ${joinPath("..", "..", "truffle-core", "cli")}`;
+truffleCommand = `truffle`;
+// } else { // assume we are running in application context
+//   truffleCommand = `node ${joinPath("..", "..", "truffle-core-migrate-without-compile", "cli")}`;
+// }
 
 const ganacheGasLimit = 8000000; // something reasonably close to live
 const ganacheCommand = `ganache-cli -l ${ganacheGasLimit}  --networkId 1512051714758 --account="0x8d4408014d165ec69d8cc9f091d8f4578ac5564f376f21887e98a6d33a6e3549,9999999999999999999999999999999999999999999" --account="0x2215f0a41dd3bb93f03049514949aaafcf136e6965f4a066d6bf42cc9f75a106,9999999999999999999999999999999999999999999" --account="0x6695c8ef58fecfc7410bf8b80c17319eaaca8b9481cc9c682fd5da116f20ef05,9999999999999999999999999999999999999999999" --account="0xb9a8635b40a60ad5b78706d4ede244ddf934dc873262449b473076de0c1e2959,9999999999999999999999999999999999999999999" --account="0x55887c2c6107237ac3b50fb17d9ff7313cad67757e44d1be5eb7bbf9fc9ca2ea,9999999999999999999999999999999999999999999" --account="0xb16a587ad59c2b3a3f47679ed2df348d6828a3bb5c6bb3797a1d5a567ce823cb,9999999999999999999999999999999999999999999"`;
 const ganacheDbCommand = `ganache-cli --db ${pathDaostackArcGanacheDb} -l ${ganacheGasLimit} --networkId 1512051714758 --mnemonic "behave pipe turkey animal voyage dial relief menu blush match jeans general"`;
 
 const migrationScriptExists = fs.existsSync(joinPath(".", "dist", "migrations", "2_deploy_schemes.js"));
+const web3TypesExist = fs.existsSync(joinPath(".", "node_modules", "web3", "index.d.ts"));
 
 module.exports = {
   scripts: {
@@ -137,7 +139,7 @@ module.exports = {
        */
       default: series(
         migrationScriptExists ? `` : `nps build`,
-        `${truffleCommand} migrate --reset --contracts_build_directory ${pathArcJsContracts} --without-compile --network ${network}`
+        `${truffleCommand} migrate --reset --contracts_build_directory ${pathArcJsContracts} --network ${network}`
       ),
       andCreateGenesisDao: series(
         `nps migrateContracts`,
@@ -178,8 +180,10 @@ module.exports = {
        * the proper version of Arc sibling to the Arc.js package.
        */
       fetchFromArc: series(
-        copy(`${joinPath(pathDaostackArcRepo, "build", "contracts", "*")}  ${pathArcJsContracts}`)
+        copy(`${joinPath(pathDaostackArcRepo, "build", "contracts", "*")}  ${pathArcJsContracts}`),
+        `nps migrateContracts.touch`, // so truffle won't try to compile them on migrate
       ),
+      touch: `node ${joinPath(".", "package-scripts", "touchContracts.js")}`
     },
     docs: {
       api: {
@@ -211,6 +215,13 @@ module.exports = {
         rimraf(joinPath(".", "docs", "api")),
         rimraf(joinPath(".", "site"))
       )
-    }
+    },
+    /**
+     * Because the web typings are defective.  Using @types/web3 instead.
+     * This is automatically invoked whenever installing arc.js.
+     * One should also manually run if you reinstall anything that requires web3,
+     * like truffle-contract or truffle-hdwallet-provider
+     */
+    postInstall: web3TypesExist ? `rimraf node_modules/web3/*.d.ts` : ''
   }
 };

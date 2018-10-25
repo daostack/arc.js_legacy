@@ -1,5 +1,5 @@
 "use strict";
-import { BigNumber } from "bignumber.js";
+import { BigNumber } from "../utils";
 import { Address } from "../commonTypes";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
@@ -35,7 +35,7 @@ export class MintableTokenWrapper extends StandardTokenWrapper {
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.eq(0)) {
+    if (amount.eqn(0)) {
       LoggingService.warn("MintableToken.mint: amount is zero.  Doing nothing.");
       return new ArcTransactionResult(null, this.contract);
     }

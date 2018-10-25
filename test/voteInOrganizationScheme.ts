@@ -23,13 +23,13 @@ const createProposal =
     const originalDao = await helpers.forgeDao({
       founders: [{
         address: accounts[0],
-        reputation: web3.toWei(30),
-        tokens: web3.toWei(100),
+        reputation: web3.utils.toWei(30),
+        tokens: web3.utils.toWei(100),
       },
       {
         address: accounts[1],
-        reputation: web3.toWei(30),
-        tokens: web3.toWei(100),
+        reputation: web3.utils.toWei(30),
+        tokens: web3.utils.toWei(100),
       }],
       name: "Original",
       schemes: [
@@ -82,18 +82,18 @@ describe("VoteInOrganizationScheme", () => {
     dao = await helpers.forgeDao({
       founders: [{
         address: accounts[0],
-        reputation: web3.toWei(30),
-        tokens: web3.toWei(100),
+        reputation: web3.utils.toWei(30),
+        tokens: web3.utils.toWei(100),
       },
       {
         address: accounts[1],
-        reputation: web3.toWei(30),
-        tokens: web3.toWei(100),
+        reputation: web3.utils.toWei(30),
+        tokens: web3.utils.toWei(100),
       },
       {
         address: accounts[2],
-        reputation: web3.toWei(30),
-        tokens: web3.toWei(100),
+        reputation: web3.utils.toWei(30),
+        tokens: web3.utils.toWei(100),
       },
       ],
       schemes: [

@@ -1,25 +1,11 @@
 {
+  "extends": "../tsconfig",
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "preserveConstEnums": true,
-    "sourceMap": true,
-    "importHelpers": true,
-    "lib": [
-      "es2015",
-      "es2017",
-      "dom",
-    ],
-    "downlevelIteration": true
+    "importHelpers": false
   },
   "include": [
-    "../custom_typings/web3_global.d.ts",
-    "../custom_typings/system.d.ts",
     "./**/*",
-  ],
-  "exclude": [
-    "../node_modules",
-    "../dist",
+    "../custom_typings/web3_global.d.ts",
+    "../custom_typings/system.d.ts"
   ]
 }

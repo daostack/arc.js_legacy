@@ -1,6 +1,6 @@
 "use strict";
-import { BigNumber } from "bignumber.js";
 import { Address, BinaryVoteResult, Hash } from "../commonTypes";
+import { BigNumber } from "../utils";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
