@@ -1,5 +1,5 @@
 import { promisify } from "es6-promisify";
-import { DecodedLogEntry, LogEntry, TransactionReceipt } from "ethereum-types";
+import { LogEntry, DecodedLogEntry } from "ethereum-types";
 import { BlockHeader } from "web3/eth/types";
 import { Hash } from "./commonTypes";
 import { ConfigService } from "./configService";
@@ -7,6 +7,7 @@ import { LoggingService } from "./loggingService";
 import { PubSubEventService } from "./pubSubEventService";
 import { Utils, BigNumber } from "./utils";
 import { UtilsInternal } from "./utilsInternal";
+import { TransactionReceipt } from 'web3/types';
 /* tslint:disable-next-line:no-var-requires */
 const ethJSABI = require("ethjs-abi");
 
@@ -56,21 +57,21 @@ export class TransactionService extends PubSubEventService {
    *
    * @hidden - for internal use only
    * @param eventContext array of TxEventSpec
-   * @param tx the transaction id.
+   * @param txHash the transaction id.
    * @param contract Truffle contract wrapper for the contract that is generating the transaction.
    */
   public static publishTxLifecycleEvents(
     eventContext: TxEventContext,
-    tx: Hash,
+    txHash: Hash,
     contract: any
   ): void {
 
-    TransactionService._publishTxEvent(eventContext.stack, tx, null, TransactionStage.sent);
+    TransactionService._publishTxEvent(eventContext.stack, txHash, null, TransactionStage.sent);
 
     /**
      * We are at the base context and should start watching for the mined and confirmed transaction stages.
      */
-    TransactionService.watchForMinedTransaction(tx, contract)
+    TransactionService.watchForMinedTransaction(txHash, contract)
       .then((txReceiptMined: TransactionReceiptTruffle): void => {
 
         if (txReceiptMined.receipt.status !== "0x1") {
@@ -78,14 +79,14 @@ export class TransactionService extends PubSubEventService {
             eventContext,
             TransactionStage.mined,
             new Error("Transaction status is 0"),
-            tx,
+            txHash,
             txReceiptMined);
         } else {
-          TransactionService._publishTxEvent(eventContext.stack, tx, txReceiptMined, TransactionStage.mined);
+          TransactionService._publishTxEvent(eventContext.stack, txHash, txReceiptMined, TransactionStage.mined);
           /**
            * now start watching for confirmation
            */
-          TransactionService.watchForConfirmedTransaction(tx, contract)
+          TransactionService.watchForConfirmedTransaction(txHash, contract)
             .then((txReceiptConfirmed: TransactionReceiptTruffle): void => {
 
               if (txReceiptConfirmed.receipt.status !== "0x1") {
@@ -93,12 +94,12 @@ export class TransactionService extends PubSubEventService {
                   eventContext,
                   TransactionStage.confirmed,
                   new Error("Transaction status is 0"),
-                  tx,
+                  txHash,
                   txReceiptConfirmed);
               } else {
                 TransactionService._publishTxEvent(
                   eventContext.stack,
-                  tx,
+                  txHash,
                   txReceiptConfirmed,
                   TransactionStage.confirmed);
               }
@@ -108,13 +109,13 @@ export class TransactionService extends PubSubEventService {
                 eventContext,
                 TransactionStage.confirmed,
                 ex,
-                tx,
+                txHash,
                 txReceiptMined);
             });
         }
       })
       .catch((ex: Error) => {
-        TransactionService.publishTxFailed(eventContext, TransactionStage.mined, ex, tx);
+        TransactionService.publishTxFailed(eventContext, TransactionStage.mined, ex, txHash);
       });
   }
 
@@ -122,10 +123,10 @@ export class TransactionService extends PubSubEventService {
     eventContext: TxEventContext,
     atStage: TransactionStage,
     error: Error = new Error("Unspecified error"),
-    tx?: Hash,
-    txReceipt?: TransactionReceiptTruffle): void {
+    txHash?: Hash,
+    txReceiptTruffle?: TransactionReceiptTruffle): void {
 
-    TransactionService._publishTxEvent(eventContext.stack, tx, txReceipt, atStage, true, error);
+    TransactionService._publishTxEvent(eventContext.stack, txHash, txReceiptTruffle, atStage, true, error);
   }
 
   /**
@@ -234,6 +235,7 @@ export class TransactionService extends PubSubEventService {
 
         subscription.on("error", (ex: Error) => {
           LoggingService.error(`TransactionService.watchForMinedTransaction: an error occurred: ${ex}`);
+          subscription.subscription.unsubscribe(); // not sure if this is necessary, but 'once' is not available
           return reject(ex);
         });
       } catch (ex) {
@@ -652,8 +654,9 @@ export class TransactionService extends PubSubEventService {
 
   private static _publishTxEvent(
     eventStack: Array<TxEventSpec>,
-    tx: Hash,
-    txReceipt: TransactionReceiptTruffle = null,
+    txHash: Hash = null,
+    // this is for the decoded logs
+    txReceiptTruffle: TransactionReceiptTruffle = null,
     txStage: TransactionStage,
     failed: boolean = false,
     error: Error = new Error("Unspecified error")
@@ -677,8 +680,9 @@ export class TransactionService extends PubSubEventService {
        * to be distinct.
        */
       const payload = Object.assign({}, eventSpec.payload);
-      payload.tx = tx;
-      payload.txReceipt = txReceipt;
+      payload.tx = txHash ? txHash : null;
+      // this is for the decoded logs
+      payload.txReceipt = txReceiptTruffle;
       payload.txStage = txStage;
       if (failed) {
         payload.error = error;
@@ -782,7 +786,7 @@ export interface TransactionReceiptTruffle {
   transactionHash: Hash;
 }
 
-
+export { TransactionReceipt }
 /**
  * The value of the global config setting `gasPriceAdjustor`
  * This function will be invoked to obtain promise of a desired gas price

@@ -3,7 +3,6 @@ import {
   TransactionReceiptTruffle,
   TransactionService
 } from "./transactionService";
-import { BigNumber } from "./utils";
 import { IIntVoteInterface } from "./wrappers/iIntVoteInterface";
 
 export interface IContractWrapper {
@@ -203,4 +202,4 @@ export interface StandardSchemeParams {
   votingMachineAddress: Address;
 }
 
-export { TransactionReceipt, DecodedLogEntryEvent } from "ethereum-types";
+export { DecodedLogEntryEvent } from "ethereum-types";

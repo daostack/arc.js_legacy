@@ -1,9 +1,12 @@
 import { assert } from "chai";
-import { TransactionReceipt } from "ethereum-types";
 import { BlockHeader } from "web3/eth/types";
-import { BinaryVoteResult, fnVoid, Hash } from "../lib/commonTypes";
-import { TransactionReceiptsEventInfo, TransactionService, TransactionStage } from "../lib/transactionService";
-import { UtilsInternal } from "../lib/utilsInternal";
+import { BinaryVoteResult } from "../lib/commonTypes";
+import {
+  TransactionReceiptsEventInfo,
+  TransactionService,
+  TransactionStage,
+  TransactionReceipt
+} from "../lib/transactionService";
 import {
   AbsoluteVoteWrapper
 } from "../lib/wrappers/absoluteVote";

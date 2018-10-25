@@ -6,8 +6,7 @@ import {
   DecodedLogEntryEvent,
   IContractWrapper,
   IContractWrapperFactory,
-  IUniversalSchemeWrapper,
-  TransactionReceipt
+  IUniversalSchemeWrapper
 } from "../lib/iContractWrapperBase";
 import { BigNumber } from "../lib/utils";
 
@@ -71,12 +70,9 @@ const etherForEveryone = async (): Promise<void> => {
 
 const genTokensForEveryone = async (): Promise<void> => {
   const genToken = await DaoTokenWrapper.getGenToken();
-  accounts.forEach((account: Address) => {
+  accounts.forEach(async (account: Address) => {
     // 1000 is an arbitrary number we've always given to founders for tests
-    genToken.mint({
-      amount: web3.utils.toWei("1000"),
-      recipient: account
-    });
+    await genToken.contract.mint(account, web3.utils.toWei("1000"));
   });
 };
 

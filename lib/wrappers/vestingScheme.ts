@@ -9,7 +9,7 @@ import {
   DecodedLogEntryEvent,
   IContractWrapperFactory,
   IUniversalSchemeWrapper,
-  StandardSchemeParams,
+  StandardSchemeParams
 } from "../iContractWrapperBase";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
@@ -145,7 +145,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements IUniv
 
     this.logContractFunctionCall("VestingScheme.createVestedAgreement", options);
 
-    const tx = await this.sendTransaction(
+    const txHash = await this.sendTransaction(
       eventContext,
       this.contract.createVestedAgreement,
       [options.token,
@@ -159,11 +159,11 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements IUniv
       options.signaturesReqToCancel,
       options.signers]);
 
-    if (tx) {
-      TransactionService.publishTxLifecycleEvents(eventContext, tx, this.contract);
+    if (txHash) {
+      TransactionService.publishTxLifecycleEvents(eventContext, txHash, this.contract);
     }
 
-    return new ArcTransactionAgreementResult(tx, this.contract);
+    return new ArcTransactionAgreementResult(txHash, this.contract);
   }
 
   /**
@@ -426,9 +426,9 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements IUniv
 export class ArcTransactionAgreementResult extends ArcTransactionResult {
 
   constructor(
-    tx: Hash,
+    txHash: Hash,
     contract: any) {
-    super(tx, contract);
+    super(txHash, contract);
   }
   /**
    * Returns promise of the agreement id from the logs of the mined transaction. Will watch for the mined tx,
