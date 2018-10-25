@@ -47,7 +47,7 @@ describe("Web3EventService", () => {
         return Promise.resolve({ blockNumber: event.blockNumber });
       })({ spender: accounts[0], owner: accounts[4] }, { fromBlock: initialBlockNumber });
 
-    const amount = web3.utils.toWei(1);
+    const amount = web3.utils.toWei("1");
     const result = await token.approve({
       amount,
       owner: accounts[4],
@@ -106,7 +106,7 @@ describe("Web3EventService", () => {
       }, 2);
     });
 
-    const amount = web3.utils.toWei(1);
+    const amount = web3.utils.toWei("1");
     const result = await token.approve({
       amount,
       owner: accounts[4],
@@ -157,7 +157,7 @@ describe("Web3EventService", () => {
       }, 2);
     });
 
-    const amount = web3.utils.toWei(1);
+    const amount = web3.utils.toWei("1");
     const result = await token.approve({
       amount,
       owner: accounts[4],
@@ -199,7 +199,7 @@ describe("Web3EventService", () => {
     }, 4);
 
     const result = await token.approve({
-      amount: web3.utils.toWei(1),
+      amount: web3.utils.toWei("1"),
       owner: accounts[4],
       spender: accounts[0],
     });

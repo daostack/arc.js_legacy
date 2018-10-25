@@ -1,10 +1,9 @@
 "use strict";
-import BigNumber from "bignumber.js";
 import { Address, Hash } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
-import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, DecodedLogEntryEvent, IContractWrapperFactory } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { BigNumber } from "../utils";
 import { UtilsInternal } from "../utilsInternal";
 import {
   EntityFetcherFactory,
@@ -60,7 +59,7 @@ export abstract class Locking4ReputationWrapper extends ContractWrapperBase {
     }
 
     const lockerInfo = await this.getLockerInfo(lockerAddress);
-    if (lockerInfo.score.eq(0)) {
+    if (lockerInfo.score.eqn(0)) {
       return "the reputation has already been redeemed";
     }
 
@@ -77,7 +76,7 @@ export abstract class Locking4ReputationWrapper extends ContractWrapperBase {
     const now = await UtilsInternal.lastBlockDate();
     const amount = new BigNumber(lockInfo.amount);
 
-    if (amount.lte(0)) {
+    if (amount.lten(0)) {
       return "current locked amount must be greater than zero";
     }
 
@@ -99,7 +98,7 @@ export abstract class Locking4ReputationWrapper extends ContractWrapperBase {
 
     const amount = new BigNumber(options.amount);
 
-    if (amount.lte(0)) {
+    if (amount.lten(0)) {
       return "amount must be greater than zero";
     }
 
@@ -321,7 +320,7 @@ export abstract class Locking4ReputationWrapper extends ContractWrapperBase {
 
     const reputationReward = new BigNumber(options.reputationReward);
 
-    if (reputationReward.lte(0)) {
+    if (reputationReward.lten(0)) {
       throw new Error("reputationReward must be greater than zero");
     }
   }

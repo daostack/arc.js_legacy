@@ -1,10 +1,10 @@
 "use strict";
-import BigNumber from "bignumber.js";
 import { Address, Hash } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { BigNumber } from "../utils";
 import { UtilsInternal } from "../utilsInternal";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { WrapperService } from "../wrapperService";
@@ -68,7 +68,7 @@ export class Auction4ReputationWrapper extends ContractWrapperBase {
 
     const reputationReward = new BigNumber(options.reputationReward);
 
-    if (reputationReward.lte(0)) {
+    if (reputationReward.lten(0)) {
       throw new Error("reputationReward must be greater than zero");
     }
 
@@ -132,7 +132,7 @@ export class Auction4ReputationWrapper extends ContractWrapperBase {
   public async getBidBlocker(options: Auction4ReputationBidOptions): Promise<string | null> {
     const amount = new BigNumber(options.amount);
 
-    if (amount.lte(0)) {
+    if (amount.lten(0)) {
       return "amount must be greater than zero";
     }
 

@@ -1,9 +1,9 @@
-import { BigNumber } from "./utils";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import {
   TransactionReceiptTruffle,
   TransactionService
 } from "./transactionService";
+import { BigNumber } from "./utils";
 import { IIntVoteInterface } from "./wrappers/iIntVoteInterface";
 
 export interface IContractWrapper {
@@ -204,11 +204,3 @@ export interface StandardSchemeParams {
 }
 
 export { TransactionReceipt, DecodedLogEntryEvent } from "ethereum-types";
-
-/**
- * The value of the global config setting `gasPriceAdjustor`
- * This function will be invoked to obtain promise of a desired gas price
- * given the current default gas price which will be determined by the x latest blocks
- * median gas price.
- */
-export type GasPriceAdjustor = (defaultGasPrice: BigNumber) => Promise<BigNumber | string>;

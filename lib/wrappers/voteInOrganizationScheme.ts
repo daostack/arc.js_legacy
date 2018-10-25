@@ -1,5 +1,4 @@
 "use strict";
-import { BigNumber } from "../utils";
 import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "../commonTypes";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import {
@@ -12,6 +11,7 @@ import {
 } from "../iContractWrapperBase";
 import { ProposalGeneratorBase } from "../proposalGeneratorBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { BigNumber } from "../utils";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
   ProposalDeletedEventResult,

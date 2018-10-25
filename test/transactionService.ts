@@ -1,5 +1,6 @@
 import { assert } from "chai";
 import { TransactionReceipt } from "ethereum-types";
+import { BlockHeader } from "web3/eth/types";
 import { BinaryVoteResult, fnVoid, Hash } from "../lib/commonTypes";
 import { TransactionReceiptsEventInfo, TransactionService, TransactionStage } from "../lib/transactionService";
 import { UtilsInternal } from "../lib/utilsInternal";
@@ -38,22 +39,24 @@ describe("TransactionService", () => {
 
       const result = await av.setParameters({ ownerVote: true, votePerc: 50 });
 
-      const filter = web3.eth.filter("latest");
+      const blockWatch = await (web3.eth.subscribe("newBlockHeaders"));
 
       await new Promise(async (
         resolve: () => void,
         reject: () => void): Promise<void> => {
-        filter.watch(async (ex: Error): Promise<void> => {
-          if (!ex) {
-            const receipt = await TransactionService.getConfirmedTransaction(result.tx, undefined);
-            if (receipt) {
-              UtilsInternal.stopWatchingAsync(filter).then(() => {
-                return resolve();
-              });
-            }
-          } else {
-            return reject();
+        blockWatch.on("data", async (blockHeader: BlockHeader): Promise<void> => {
+          const receipt = await TransactionService.getConfirmedTransaction(result.tx, undefined);
+          if (receipt) {
+            blockWatch.subscription.unsubscribe((ex: Error, success: boolean): void => {
+              if (!success) {
+                return reject();
+              }
+              return resolve();
+            });
           }
+        });
+        blockWatch.on("error", (ex: Error) => {
+          return reject();
         });
       });
 
@@ -88,22 +91,24 @@ describe("TransactionService", () => {
 
       const result = await av.setParameters({ ownerVote: true, votePerc: 50 });
 
-      const filter = web3.eth.filter("latest");
+      const blockWatch = await (web3.eth.subscribe("newBlockHeaders"));
 
       await new Promise(async (
         resolve: () => void,
         reject: () => void): Promise<void> => {
-        filter.watch(async (ex: Error): Promise<void> => {
-          if (!ex) {
-            const receipt = await TransactionService.getConfirmedTransaction(result.tx, undefined);
-            if (receipt) {
-              UtilsInternal.stopWatchingAsync(filter).then(() => {
-                return resolve();
-              });
-            }
-          } else {
-            return reject();
+        blockWatch.on("data", async (blockHeader: BlockHeader): Promise<void> => {
+          const receipt = await TransactionService.getConfirmedTransaction(result.tx, undefined);
+          if (receipt) {
+            blockWatch.subscription.unsubscribe((ex: Error, success: boolean): void => {
+              if (!success) {
+                return reject();
+              }
+              return resolve();
+            });
           }
+        });
+        blockWatch.on("error", (ex: Error) => {
+          return reject();
         });
       });
 
@@ -138,22 +143,25 @@ describe("TransactionService", () => {
 
       const result = await av.setParameters({ ownerVote: true, votePerc: 50 });
 
-      const filter = web3.eth.filter("latest");
+      const blockWatch = await (web3.eth.subscribe("newBlockHeaders"));
 
       await new Promise(async (
         resolve: () => void,
         reject: () => void): Promise<void> => {
-        filter.watch(async (ex: Error): Promise<void> => {
-          if (!ex) {
-            const receipt = await TransactionService.getMinedTransaction(result.tx, undefined);
-            if (receipt) {
-              UtilsInternal.stopWatchingAsync(filter).then(() => {
-                return resolve();
-              });
-            }
-          } else {
-            return reject();
+        blockWatch.on("data", async (blockHeader: BlockHeader): Promise<void> => {
+          const receipt = await TransactionService.getMinedTransaction(result.tx, undefined);
+          if (receipt) {
+            blockWatch.subscription.unsubscribe((ex: Error, success: boolean): void => {
+              if (!success) {
+                return reject();
+              }
+              return resolve();
+            });
           }
+        }
+        );
+        blockWatch.on("error", (ex: Error) => {
+          return reject();
         });
       });
 
@@ -291,11 +299,11 @@ describe("TransactionService", () => {
 
   it("can track the mining of a tx", async () => {
 
-    const txHash = web3.eth.sendTransaction({
+    const txHash = (await web3.eth.sendTransaction({
       from: accounts[0],
       to: accounts[5],
-      value: web3.toWei(0.00001, "ether"),
-    });
+      value: web3.utils.toWei(0.00001, "ether"),
+    })).transactionHash;
 
     const txReceipt = await TransactionService.watchForMinedTransaction(txHash);
 
@@ -305,11 +313,11 @@ describe("TransactionService", () => {
 
   it("can get the depth of a tx", async () => {
 
-    const txHash = web3.eth.sendTransaction({
+    const txHash = (await web3.eth.sendTransaction({
       from: accounts[0],
       to: accounts[5],
-      value: web3.toWei(0.00001, "ether"),
-    });
+      value: web3.utils.toWei(0.00001, "ether"),
+    })).transactionHash;
 
     let depth: number;
     let depth2: number;
@@ -317,14 +325,14 @@ describe("TransactionService", () => {
     await TransactionService.watchForMinedTransaction(txHash)
       .then(async (): Promise<void> => { depth = await TransactionService.getTransactionDepth(txHash); });
 
-    const txHash2 = web3.eth.sendTransaction({
+    const txHash2 = (await web3.eth.sendTransaction({
       from: accounts[0],
       to: accounts[5],
-      value: web3.toWei(0.00001, "ether"),
-    });
+      value: web3.utils.toWei(0.00001, "ether"),
+    })).transactionHash;
 
     await TransactionService.watchForMinedTransaction(txHash)
-      .then(async (): Promise<void> => { depth2 = await TransactionService.getTransactionDepth(txHash); });
+      .then(async (): Promise<void> => { depth2 = await TransactionService.getTransactionDepth(txHash2); });
 
     /**
      * ganache seems to create at least one new block for every transaction

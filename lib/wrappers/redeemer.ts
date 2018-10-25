@@ -1,10 +1,10 @@
 "use strict";
 import { Address, BinaryVoteResult, Hash } from "../commonTypes";
-import { BigNumber } from "../utils";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { BigNumber } from "../utils";
 import { Web3EventService } from "../web3EventService";
 
 export class RedeemerWrapper extends ContractWrapperBase {
@@ -68,8 +68,6 @@ export class RedeemerWrapper extends ContractWrapperBase {
       options.proposalId,
       options.avatarAddress,
       options.beneficiaryAddress)
-      // correct for fake truffle promises
-      .then((r: any): any => r)
       .catch((ex: Error) => {
         throw new Error(ex.message);
       });

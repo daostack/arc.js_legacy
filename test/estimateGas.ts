@@ -1,9 +1,9 @@
-import { BigNumber } from "../lib/utils";
 import { assert } from "chai";
 import { BinaryVoteResult, Hash } from "../lib/commonTypes";
 import { DAO } from "../lib/dao";
 import { LoggingService } from "../lib/loggingService";
 import { TransactionReceiptTruffle, TransactionService } from "../lib/transactionService";
+import { BigNumber } from "../lib/utils";
 import { Utils, Web3 } from "../lib/utils";
 import { ContributionRewardFactory, ContributionRewardWrapper } from "../lib/wrappers/contributionReward";
 import { GenesisProtocolWrapper } from "../lib/wrappers/genesisProtocol";
@@ -77,7 +77,7 @@ describe("estimate gas", () => {
   it("can create a proposal", async () => {
     // 280000
 
-    const gas = await scheme.estimateGas(
+    const gas = await TransactionService.estimateGas(
       scheme.contract.proposeContributionReward,
       [
         dao.avatar.address,
@@ -117,7 +117,7 @@ describe("estimate gas", () => {
 
     const stakingToken = await votingMachine.getStakingToken();
 
-    const gas = await scheme.estimateGas(
+    const gas = await TransactionService.estimateGas(
       stakingToken.contract.approve,
       [votingMachine.address, stakingAmount],
       { from: accounts[0] });
@@ -134,7 +134,7 @@ describe("estimate gas", () => {
   it("can stake on a proposal", async () => {
     // 298327
 
-    const gas = await scheme.estimateGas(
+    const gas = await TransactionService.estimateGas(
       votingMachine.contract.stake,
       [proposalId, 1, stakingAmount],
       { from: accounts[0] });
@@ -151,7 +151,7 @@ describe("estimate gas", () => {
   it("can vote on a proposal", async () => {
     // 235626
 
-    const gas = await scheme.estimateGas(
+    const gas = await TransactionService.estimateGas(
       votingMachine.contract.vote,
       [proposalId, 1, helpers.NULL_ADDRESS],
       { from: accounts[0] });
@@ -167,7 +167,7 @@ describe("estimate gas", () => {
 
   it("can execute proposal", async () => {
 
-    const gas = await scheme.estimateGas(
+    const gas = await TransactionService.estimateGas(
       votingMachine.contract.execute,
       [proposalId],
       { from: accounts[0] });
@@ -195,7 +195,7 @@ describe("estimate gas", () => {
       await helpers.waitForBlocks(2);
     }
 
-    const gas = await scheme.estimateGas(
+    const gas = await TransactionService.estimateGas(
       scheme.contract.redeemNativeToken,
       [proposalId, dao.avatar.address, helpers.NULL_ADDRESS],
       { from: accounts[0] });

@@ -1,4 +1,3 @@
-import { BigNumber } from "../utils";
 import { Address, Hash } from "../commonTypes";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
@@ -10,6 +9,7 @@ import {
 } from "../iContractWrapperBase";
 import { LoggingService } from "../loggingService";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { BigNumber } from "../utils";
 import { Utils } from "../utils";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {

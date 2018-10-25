@@ -1,5 +1,4 @@
 "use strict";
-import { BigNumber } from "../utils";
 import ethereumjs = require("ethereumjs-abi");
 import { AvatarService } from "../avatarService";
 import {
@@ -19,6 +18,7 @@ import {
 } from "../iContractWrapperBase";
 import { ProposalService } from "../proposalService";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
+import { BigNumber } from "../utils";
 import { Utils } from "../utils";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
@@ -963,11 +963,16 @@ export class GenesisProtocolFactoryType extends ContractWrapperFactory<GenesisPr
      * We always have to estimate gas here, regardless of the "estimateGas" config setting,
      * because truffle's default gas limit does not suffice
      */
-    const estimate = await super.estimateConstructorGas(stakingTokenAddress);
 
-    LoggingService.debug(`Instantiating GenesisProtocol with gas: ${estimate}`);
+    const solidityContract = await this.ensureSolidityContract();
 
-    return super.new(stakingTokenAddress, { gas: estimate });
+    const web3Params = await TransactionService.paramsForOptimalGasParameters(
+      solidityContract.new,
+      [stakingTokenAddress]);
+
+    LoggingService.debug(`Instantiating GenesisProtocol with gas: ${web3Params.gas}`);
+
+    return super.new(stakingTokenAddress, web3Params);
   }
 }
 
@@ -1326,15 +1331,15 @@ export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProt
   return {
     boostedVotePeriodLimit: 259200,
     daoBountyConst: 75,
-    daoBountyLimit: web3.utils.toWei(100),
-    minimumStakingFee: web3.utils.toWei(0),
+    daoBountyLimit: web3.utils.toWei("100"),
+    minimumStakingFee: web3.utils.toWei("0"),
     preBoostedVotePeriodLimit: 1814400,
     preBoostedVoteRequiredPercentage: 50,
     proposingRepRewardConstA: 5,
     proposingRepRewardConstB: 5,
     quietEndingPeriod: 86400,
     stakerFeeRatioForVoters: 50,
-    thresholdConstA: web3.utils.toWei(7),
+    thresholdConstA: web3.utils.toWei("7"),
     thresholdConstB: 3,
     voteOnBehalf: Utils.NULL_ADDRESS,
     votersGainRepRatioFromLostRep: 80,

@@ -1,5 +1,5 @@
-import { BigNumber } from "../utils";
 import { Address, Hash } from "../commonTypes";
+import { BigNumber } from "../utils";
 
 export interface ProposalDeletedEventResult {
   /**

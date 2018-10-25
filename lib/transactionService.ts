@@ -1,12 +1,12 @@
 import { promisify } from "es6-promisify";
 import { DecodedLogEntry, LogEntry, TransactionReceipt } from "ethereum-types";
+import { BlockHeader } from "web3/eth/types";
 import { Hash } from "./commonTypes";
 import { ConfigService } from "./configService";
 import { LoggingService } from "./loggingService";
 import { PubSubEventService } from "./pubSubEventService";
-import { Utils } from "./utils";
+import { Utils, BigNumber } from "./utils";
 import { UtilsInternal } from "./utilsInternal";
-import { BlockHeader } from 'web3/eth/types';
 /* tslint:disable-next-line:no-var-requires */
 const ethJSABI = require("ethjs-abi");
 
@@ -219,17 +219,18 @@ export class TransactionService extends PubSubEventService {
          */
         const subscription = await (web3.eth.subscribe("newBlockHeaders"));
 
-        subscription.on('data', async (blockHeader: BlockHeader) => {
+        subscription.on("data", async (blockHeader: BlockHeader) => {
           receipt = await TransactionService.getMinedTransaction(txHash, contract, requiredDepth);
           if (receipt) {
-            subscription.subscription.unsubscribe(function (ex, success) {
+            subscription.subscription.unsubscribe((ex: Error, success: boolean): void => {
               if (!success) {
-                LoggingService.error(`TransactionService.watchForMinedTransaction: an error occurred trying to unsubscribe: ${ex}`);
+                LoggingService.error(
+                  `TransactionService.watchForMinedTransaction: an error occurred trying to unsubscribe: ${ex}`);
               }
             });
             return resolve(receipt);
           }
-        })
+        });
 
         subscription.on("error", (ex: Error) => {
           LoggingService.error(`TransactionService.watchForMinedTransaction: an error occurred: ${ex}`);
@@ -535,6 +536,99 @@ export class TransactionService extends PubSubEventService {
     return requiredDepth;
   }
 
+
+  /**
+   * Estimate conservatively the amount of gas required to execute the given function with the given parameters.
+   * Adds 21000 to the estimate computed by web3.
+   * 
+   * @hidden -- Not meant for public consumption
+   * 
+   * @param func The function
+   * @param params The parameters to send to the function
+   * @param web3Params The web3 parameters (like "from", for example).  If it contains "gas"
+   * then that value is returned, effectively a no-op.
+   */
+  public static async estimateGas(
+    func: IHasEstimateGasFunction,
+    params: Array<any>,
+    web3Params: any = {}): Promise<number> {
+
+    if (web3Params.gas) {
+      return web3Params.gas;
+    }
+
+    const currentNetwork = await Utils.getNetworkName();
+
+    const maxGasLimit = await UtilsInternal.computeMaxGasLimit();
+
+    if (currentNetwork === "Ganache") {
+      return maxGasLimit; // because who cares with ganache and we can't get good estimates from it
+    }
+
+    /**
+     * Add the input web3 params to the params we pass to estimateGas.
+     * Include maxGasLimit just for doing the estimation.
+     * I believe estimateGas will return a value will not exceed maxGasLimit.
+     * If it returns maxGasLimit then the actual function will probably run out of gas when called for real.
+     * TODO:  Throw an exception in that case?
+     */
+    params = params.concat(Object.assign({ gas: maxGasLimit }, web3Params));
+    return Math.max(Math.min((await func.estimateGas(...params)), maxGasLimit), 21000);
+  }
+
+  /**
+   * Returns params array with optimal webParams object appended with
+   * gasLimit and gasPrice appended if needed.
+   * 
+   * Accounts for manually-supplied gas and gasPrice in the web3Params parameter.
+   * 
+   * Assumes a web3Params object is not already appended to params array.
+   * 
+   * Throws an exception on error.
+   * 
+   * @hidden -- Not meant for public consumption
+   * 
+   * @param func callback to invoke the function 
+   * @param params array of function parameters
+   * @param web3Params Optional web params, like `from`, `gas`, `gasPrice`
+   */
+  public static async paramsForOptimalGasParameters(
+    func: IHasEstimateGasFunction,
+    params: Array<any>,
+    web3Params: any = {}
+  ): Promise<any> {
+
+    const gasPriceComputed = ConfigService.get("gasPriceAdjustment") as GasPriceAdjustor;
+    const web3 = await Utils.getWeb3();
+
+    if (gasPriceComputed && !web3Params.gasPrice) {
+      if (gasPriceComputed) {
+        const defaultGasPrice = await web3.eth.getGasPrice();
+        web3Params.gasPrice = await gasPriceComputed(new BigNumber(defaultGasPrice));
+      }
+      LoggingService.debug(
+        `invoking function with configured gasPrice: ${web3.utils.fromWei(web3Params.gasPrice, "gwei")}`);
+    }
+
+    if (ConfigService.get("estimateGas") && !web3Params.gas) {
+      await TransactionService.estimateGas(func, params, web3Params)
+        .then((gas: number) => {
+          // side-effect of altering web3Params allows caller to know what we used
+          Object.assign(web3Params, { gas });
+          LoggingService.debug(`invoking function with estimated gas: ${gas}`);
+        })
+        .catch((ex: Error) => {
+          LoggingService.error(`estimateGas failed: ${ex}`);
+          throw ex;
+        });
+    } else if (web3Params.gas) {
+      // cap any already-given gas limit
+      web3Params.gas = Math.min(web3Params.gas, await UtilsInternal.computeMaxGasLimit());
+    }
+
+    return web3Params;
+  }
+
   private static createPayload(
     functionName: string,
     options: TxGeneratingFunctionOptions & any,
@@ -686,4 +780,20 @@ export interface TransactionReceiptTruffle {
   logs: Array<any>;
   receipt: TransactionReceipt;
   transactionHash: Hash;
+}
+
+
+/**
+ * The value of the global config setting `gasPriceAdjustor`
+ * This function will be invoked to obtain promise of a desired gas price
+ * given the current default gas price which will be determined by the x latest blocks
+ * median gas price.
+ */
+export type GasPriceAdjustor = (defaultGasPrice: BigNumber) => Promise<BigNumber | string>;
+
+/**
+ * @hidden
+ */
+export interface IHasEstimateGasFunction {
+  estimateGas: (args?: Array<any>) => number;
 }

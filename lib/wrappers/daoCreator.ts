@@ -1,5 +1,4 @@
 "use strict";
-import { BigNumber } from "../utils";
 import { AvatarService } from "../avatarService";
 import { Address, Hash, SchemePermissions } from "../commonTypes";
 import { ConfigService } from "../configService";
@@ -13,6 +12,7 @@ import {
   IVotingMachineWrapper
 } from "../iContractWrapperBase";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
+import { BigNumber } from "../utils";
 import { Utils } from "../utils";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { WrapperService } from "../wrapperService";
@@ -33,7 +33,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
     return await web3.eth.call({
       data: DaoCreatorWrapper.uniSchemeUpdateParametersCallData,
-      to: contractAddress
+      to: contractAddress,
     })
       .then((result: string): boolean => {
         return result === "0x0";
@@ -112,7 +112,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
      * so we do a proper estimate here.  We're estimating even when universal since
      * the value will be optimial for the user in any case.
      */
-    const totalGas = await this.estimateGas(this.contract.forgeOrg, paramsArray);
+    const totalGas = await TransactionService.estimateGas(this.contract.forgeOrg, paramsArray);
 
     this.logContractFunctionCall("DaoCreator.forgeOrg (options)", options);
 

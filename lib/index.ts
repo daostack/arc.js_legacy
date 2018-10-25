@@ -55,7 +55,7 @@ import { ConfigService } from "./configService";
 import { ContractWrapperFactory } from "./contractWrapperFactory";
 import { LoggingService, LogLevel } from "./loggingService";
 import { PubSubEventService } from "./pubSubEventService";
-import { Web3, Utils } from "./utils";
+import { Utils, Web3 } from "./utils";
 import { WrapperService, WrapperServiceInitializeOptions } from "./wrapperService";
 
 /**

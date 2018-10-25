@@ -1,4 +1,3 @@
-import { BigNumber } from "../lib/utils";
 import { promisify } from "es6-promisify";
 import { Address, Hash } from "../lib/commonTypes";
 import { DAO, NewDaoConfig } from "../lib/dao";
@@ -7,8 +6,10 @@ import {
   DecodedLogEntryEvent,
   IContractWrapper,
   IContractWrapperFactory,
-  IUniversalSchemeWrapper
+  IUniversalSchemeWrapper,
+  TransactionReceipt
 } from "../lib/iContractWrapperBase";
+import { BigNumber } from "../lib/utils";
 
 import {
   ContributionRewardWrapper,
@@ -63,7 +64,7 @@ const etherForEveryone = async (): Promise<void> => {
     await web3.eth.sendTransaction({
       from: accounts[accounts.length - 1],
       to: accounts[i],
-      value: web3.utils.toWei(0.1, "ether"),
+      value: web3.utils.toWei("0.1", "ether"),
     });
   }
 };
@@ -72,7 +73,10 @@ const genTokensForEveryone = async (): Promise<void> => {
   const genToken = await DaoTokenWrapper.getGenToken();
   accounts.forEach((account: Address) => {
     // 1000 is an arbitrary number we've always given to founders for tests
-    genToken.contract.mint(account, web3.utils.toWei(1000));
+    genToken.mint({
+      amount: web3.utils.toWei("1000"),
+      recipient: account
+    });
   });
 };
 
@@ -110,7 +114,8 @@ beforeEach(async () => {
     (global as any).web3 = testWeb3 = await InitializeArcJs();
   }
 
-  (global as any).accounts = await promisify(web3.eth.getAccounts)();
+  // (global as any).accounts = await promisify(web3.eth.getAccounts)();
+  (global as any).accounts = await web3.eth.getAccounts();
 
   if (network === "ganache") {
     await etherForEveryone();
@@ -132,18 +137,18 @@ export async function forgeDao(opts: Partial<NewDaoConfig> = {}): Promise<DAO> {
     [
       {
         address: accounts[0],
-        reputation: web3.utils.toWei(1000),
-        tokens: web3.utils.toWei(100),
+        reputation: web3.utils.toWei("1000"),
+        tokens: web3.utils.toWei("100"),
       },
       {
         address: accounts[1],
-        reputation: web3.utils.toWei(1000),
-        tokens: web3.utils.toWei(100),
+        reputation: web3.utils.toWei("1000"),
+        tokens: web3.utils.toWei("100"),
       },
       {
         address: accounts[2],
-        reputation: web3.utils.toWei(1000),
-        tokens: web3.utils.toWei(100),
+        reputation: web3.utils.toWei("1000"),
+        tokens: web3.utils.toWei("100"),
       },
     ];
 
@@ -317,12 +322,17 @@ export function transferTokensToDao(dao: DAO, amount: number, fromAddress: Addre
  * @param {number} amount -- will be converted to Wei
  * @param {string} fromAddress  - optional, default is accounts[0]
  */
-export function transferEthToDao(dao: DAO, amount: number, fromAddress?: Address): Promise<Hash> {
+export async function transferEthToDao(dao: DAO, amount: number, fromAddress?: Address): Promise<Hash> {
+
   fromAddress = fromAddress || accounts[0];
+
   let txHash;
-  return web3.eth.sendTransaction(
+
+  await web3.eth.sendTransaction(
     { from: fromAddress, to: dao.avatar.address, value: web3.utils.toWei(amount) })
-    .once('transactionHash', (result: Hash) => txHash = result) as Promise<Hash>;
+    .once("transactionHash", (result: Hash) => { txHash = result; });
+
+  return txHash;
 }
 
 export function sleep(milliseconds: number): Promise<any> {

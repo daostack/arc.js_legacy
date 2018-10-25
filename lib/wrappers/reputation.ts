@@ -2,11 +2,11 @@
 import { Address } from "../commonTypes";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 
-import { BigNumber } from "../utils";
 import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { LoggingService } from "../loggingService";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { BigNumber } from "../utils";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 
 export class ReputationWrapper extends ContractWrapperBase {

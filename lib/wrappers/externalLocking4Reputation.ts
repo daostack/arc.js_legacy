@@ -1,9 +1,9 @@
 "use strict";
-import BigNumber from "bignumber.js";
 import { Address } from "../commonTypes";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { BigNumber } from "../utils";
 import { Web3EventService } from "../web3EventService";
 import { Locking4ReputationWrapper } from "./locking4Reputation";
 

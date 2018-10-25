@@ -1,10 +1,10 @@
 "use strict";
-import { BigNumber } from "../utils";
 import { Address } from "../commonTypes";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 import { LoggingService } from "../loggingService";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
+import { BigNumber } from "../utils";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
   StandardTokenApproveOptions,
