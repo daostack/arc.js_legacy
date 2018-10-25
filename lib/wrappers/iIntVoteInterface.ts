@@ -33,11 +33,11 @@ export interface IIntVoteInterface {
 export interface ProposeOptions {
   numOfChoices: number;
   /**
-   * Typically this is the avatar address, but you can pass any address here
-   * (a common use case can be the address of a contract that is functioning
-   * outside the context of an avatar).
+   * Typically this is the avatar address, but you can pass any address here,
+   * or null, This argument is used to link a proposal-creating scheme with an organisation.
+   * If it is not given then it will be set to the `msg.sender`.
    */
-  organizationAddress: Address;
+  organizationAddress?: Address;
   proposerAddress?: Address;
   proposalParameters: Hash;
 }

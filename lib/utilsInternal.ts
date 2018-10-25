@@ -28,7 +28,7 @@ export class UtilsInternal {
   }
 
   /**
-   * Returns the last mined block in the chain.
+   * Returns the date of the last mined block in the chain.
    */
   public static async lastBlockDate(): Promise<Date> {
     const web3 = await Utils.getWeb3();

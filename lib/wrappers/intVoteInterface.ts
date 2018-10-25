@@ -8,6 +8,7 @@ import {
   DecodedLogEntryEvent,
   IContractWrapperFactory
 } from "../iContractWrapperBase";
+import { LoggingService } from "../loggingService";
 import { TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
@@ -85,7 +86,7 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
   public async propose(options: ProposeOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionProposalResult> {
 
     if (!options.organizationAddress) {
-      throw new Error(`organizationAddress is not set`);
+      LoggingService.warn(`IntVoteInterface.propose: organizationAddress is not set, will be set to msg.sender`);
     }
 
     const numChoiceBounds = await this.getAllowedRangeOfChoices();

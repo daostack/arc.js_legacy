@@ -353,19 +353,6 @@ export abstract class Locking4ReputationWrapper extends ContractWrapperBase {
   }
 }
 
-// export class Locking4ReputationType extends ContractWrapperFactory<Locking4ReputationWrapper> {
-
-//   public async deployed(): Promise<Locking4ReputationWrapper> {
-//     throw new Error("Locking4Reputation has not been deployed");
-//   }
-// }
-
-// export const Locking4ReputationFactory =
-//   new Locking4ReputationType(
-//     "Locking4Reputation",
-//     Locking4ReputationWrapper,
-//     new Web3EventService()) as Locking4ReputationType;
-
 export interface Locking4ReputationRedeemEventResult {
   /**
    * indexed

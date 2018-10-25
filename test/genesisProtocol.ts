@@ -609,7 +609,7 @@ describe("GenesisProtocol", () => {
       await genesisProtocol.propose({} as any);
       assert(false, "Should have thrown validation exception");
     } catch (ex) {
-      assert.equal(ex, "Error: organizationAddress is not set");
+      assert.equal(ex, "Error: numOfChoices must be a number");
     }
   });
 
