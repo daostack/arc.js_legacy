@@ -152,8 +152,8 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper
   protected hydrated(): void {
     super.hydrated();
     /* tslint:disable:max-line-length */
-    this.AVVoteProposal = this.createEventFetcherFactory<AVVoteProposalEventResult>(this.contract.AVVoteProposal);
-    this.RefreshReputation = this.createEventFetcherFactory<RefreshReputationEventResult>(this.contract.RefreshReputation);
+    this.AVVoteProposal = this.createEventFetcherFactory<AVVoteProposalEventResult>(this.contract.events.AVVoteProposal);
+    this.RefreshReputation = this.createEventFetcherFactory<RefreshReputationEventResult>(this.contract.events.RefreshReputation);
     /* tslint:enable:max-line-length */
   }
 }

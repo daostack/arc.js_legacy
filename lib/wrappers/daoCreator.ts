@@ -471,8 +471,8 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
   protected hydrated(): void {
     /* tslint:disable:max-line-length */
-    this.NewOrg = this.createEventFetcherFactory<NewOrgEventResult>(this.contract.NewOrg);
-    this.InitialSchemesSet = this.createEventFetcherFactory<InitialSchemesSetEventResult>(this.contract.InitialSchemesSet);
+    this.NewOrg = this.createEventFetcherFactory<NewOrgEventResult>(this.contract.events.NewOrg);
+    this.InitialSchemesSet = this.createEventFetcherFactory<InitialSchemesSetEventResult>(this.contract.events.InitialSchemesSet);
     /* tslint:enable:max-line-length */
   }
 }

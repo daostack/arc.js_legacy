@@ -117,8 +117,8 @@ export class ReputationWrapper extends ContractWrapperBase {
 
   protected hydrated(): void {
     /* tslint:disable:max-line-length */
-    this.Mint = this.createEventFetcherFactory<ReputationMintEventResult>(this.contract.Mint);
-    this.Burn = this.createEventFetcherFactory<ReputationBurnEventResult>(this.contract.Burn);
+    this.Mint = this.createEventFetcherFactory<ReputationMintEventResult>(this.contract.events.Mint);
+    this.Burn = this.createEventFetcherFactory<ReputationBurnEventResult>(this.contract.events.Burn);
     /* tslint:enable:max-line-length */
   }
 }

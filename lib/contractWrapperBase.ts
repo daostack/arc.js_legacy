@@ -19,6 +19,7 @@ import {
 import { EventFetcherFactory, Web3EventService } from "./web3EventService";
 import { TransactionReceipt } from 'web3/types';
 import PromiEvent from 'web3/promiEvent';
+import Contract from 'web3/eth/contract';
 
 /**
  * Abstract base class for all Arc contract wrapper classes.
@@ -56,12 +57,12 @@ export abstract class ContractWrapperBase implements IContractWrapper {
   /**
    * The address of the contract
    */
-  public get address(): Address { return this.contract.address; }
+  public get address(): Address { return this.contract.options.address; }
   /**
    * The underlying truffle contract object.  Use this to access
    * parts of the contract that aren't accessible via the wrapper.
    */
-  public contract: any;
+  public contract: Contract;
 
   /**
    * ContractWrapperFactory constructs this
@@ -151,7 +152,7 @@ export abstract class ContractWrapperBase implements IContractWrapper {
    * @param paramsHash
    */
   public getParametersArray(paramsHash: Hash): Promise<Array<any>> {
-    return this.contract.parameters(paramsHash);
+    return this.contract.methods.parameters(paramsHash);
   }
 
   /**
@@ -179,12 +180,12 @@ export abstract class ContractWrapperBase implements IContractWrapper {
     txEventContext: TxEventContext,
     ...params: Array<any>): Promise<ArcTransactionDataResult<Hash>> {
 
-    const parametersHash: Hash = await this.contract.getParametersHash(...params);
+    const parametersHash: Hash = await this.contract.methods.getParametersHash(...params);
 
     const txResult = await this.wrapTransactionInvocation(functionName,
       // typically this is supposed to be an object, but here it is an array
       Object.assign(params, { txEventContext }),
-      this.contract.setParameters,
+      this.contract.methods.setParameters,
       params);
 
     return new ArcTransactionDataResult<Hash>(txResult.tx, this.contract, parametersHash);
@@ -208,7 +209,7 @@ export abstract class ContractWrapperBase implements IContractWrapper {
   }
 
   protected _getParametersHash(...params: Array<any>): Promise<Hash> {
-    return this.contract.getParametersHash(...params);
+    return this.contract.methods.getParametersHash(...params);
   }
 
   /**

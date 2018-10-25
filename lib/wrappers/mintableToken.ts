@@ -108,8 +108,8 @@ export class MintableTokenWrapper extends StandardTokenWrapper {
   protected hydrated(): void {
     super.hydrated();
     /* tslint:disable:max-line-length */
-    this.Mint = this.createEventFetcherFactory<MintEventResult>(this.contract.Mint);
-    this.MintFinished = this.createEventFetcherFactory<MintFinishedEventResult>(this.contract.MintFinished);
+    this.Mint = this.createEventFetcherFactory<MintEventResult>(this.contract.events.Mint);
+    this.MintFinished = this.createEventFetcherFactory<MintFinishedEventResult>(this.contract.events.MintFinished);
     /* tslint:enable:max-line-length */
   }
 }

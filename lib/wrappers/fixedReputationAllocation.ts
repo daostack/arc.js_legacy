@@ -179,8 +179,8 @@ export class FixedReputationAllocationWrapper extends ContractWrapperBase {
   protected hydrated(): void {
     super.hydrated();
     /* tslint:disable:max-line-length */
-    this.BeneficiaryAddressAdded = this.createEventFetcherFactory<BeneficiaryAddressAddedEventResult>(this.contract.BeneficiaryAddressAdded);
-    this.Redeem = this.createEventFetcherFactory<FixedReputationAllocationRedeemEventResult>(this.contract.Redeem);
+    this.BeneficiaryAddressAdded = this.createEventFetcherFactory<BeneficiaryAddressAddedEventResult>(this.contract.events.BeneficiaryAddressAdded);
+    this.Redeem = this.createEventFetcherFactory<FixedReputationAllocationRedeemEventResult>(this.contract.events.Redeem);
     /* tslint:enable:max-line-length */
   }
 
