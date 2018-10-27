@@ -205,10 +205,10 @@ export class UpgradeSchemeWrapper extends ProposalGeneratorBase implements IUniv
 
   protected hydrated(): void {
     /* tslint:disable:max-line-length */
-    this.NewUpgradeProposal = this.createEventFetcherFactory<NewUpgradeProposalEventResult>(this.contract.events.NewUpgradeProposal);
-    this.ChangeUpgradeSchemeProposal = this.createEventFetcherFactory<ChangeUpgradeSchemeProposalEventResult>(this.contract.events.ChangeUpgradeSchemeProposal);
-    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.events.ProposalExecuted);
-    this.ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>(this.contract.events.ProposalDeleted);
+    this.NewUpgradeProposal = this.createEventFetcherFactory<NewUpgradeProposalEventResult>(this.contract.NewUpgradeProposal);
+    this.ChangeUpgradeSchemeProposal = this.createEventFetcherFactory<ChangeUpgradeSchemeProposalEventResult>(this.contract.ChangeUpgradeSchemeProposal);
+    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.ProposalExecuted);
+    this.ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>(this.contract.ProposalDeleted);
     /* tslint:enable:max-line-length */
   }
 

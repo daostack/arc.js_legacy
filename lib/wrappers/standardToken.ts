@@ -209,8 +209,8 @@ export class StandardTokenWrapper extends ContractWrapperBase {
 
   protected hydrated(): void {
     /* tslint:disable:max-line-length */
-    this.Approval = this.createEventFetcherFactory<ApprovalEventResult>(this.contract.events.Approval);
-    this.Transfer = this.createEventFetcherFactory<TransferEventResult>(this.contract.events.Transfer);
+    this.Approval = this.createEventFetcherFactory<ApprovalEventResult>(this.contract.Approval);
+    this.Transfer = this.createEventFetcherFactory<TransferEventResult>(this.contract.Transfer);
     /* tslint:enable:max-line-length */
   }
 }

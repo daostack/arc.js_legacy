@@ -345,9 +345,9 @@ export abstract class Locking4ReputationWrapper extends ContractWrapperBase {
   protected hydrated(): void {
     super.hydrated();
     /* tslint:disable:max-line-length */
-    this.Redeem = this.createEventFetcherFactory<Locking4ReputationRedeemEventResult>(this.contract.events.Redeem);
-    this.Release = this.createEventFetcherFactory<Locking4ReputationReleaseEventResult>(this.contract.events.Release);
-    this.Lock = this.createEventFetcherFactory<Locking4ReputationLockEventResult>(this.contract.events.Lock);
+    this.Redeem = this.createEventFetcherFactory<Locking4ReputationRedeemEventResult>(this.contract.Redeem);
+    this.Release = this.createEventFetcherFactory<Locking4ReputationReleaseEventResult>(this.contract.Release);
+    this.Lock = this.createEventFetcherFactory<Locking4ReputationLockEventResult>(this.contract.Lock);
     /* tslint:enable:max-line-length */
   }
 }

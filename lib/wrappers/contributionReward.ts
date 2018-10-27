@@ -510,12 +510,12 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase implements 
 
   protected hydrated(): void {
     /* tslint:disable:max-line-length */
-    this.NewContributionProposal = this.createEventFetcherFactory<NewContributionProposalEventResult>(this.contract.events.NewContributionProposal);
-    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.events.ProposalExecuted);
-    this.RedeemReputation = this.createEventFetcherFactory<RedeemEventResult>(this.contract.events.RedeemReputation);
-    this.RedeemEther = this.createEventFetcherFactory<RedeemEventResult>(this.contract.events.RedeemEther);
-    this.RedeemNativeToken = this.createEventFetcherFactory<RedeemEventResult>(this.contract.events.RedeemNativeToken);
-    this.RedeemExternalToken = this.createEventFetcherFactory<RedeemEventResult>(this.contract.events.RedeemExternalToken);
+    this.NewContributionProposal = this.createEventFetcherFactory<NewContributionProposalEventResult>(this.contract.NewContributionProposal);
+    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.ProposalExecuted);
+    this.RedeemReputation = this.createEventFetcherFactory<RedeemEventResult>(this.contract.RedeemReputation);
+    this.RedeemEther = this.createEventFetcherFactory<RedeemEventResult>(this.contract.RedeemEther);
+    this.RedeemNativeToken = this.createEventFetcherFactory<RedeemEventResult>(this.contract.RedeemNativeToken);
+    this.RedeemExternalToken = this.createEventFetcherFactory<RedeemEventResult>(this.contract.RedeemExternalToken);
     /* tslint:enable:max-line-length */
   }
 

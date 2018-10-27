@@ -42,8 +42,8 @@ import { WrapperService } from "../lib/wrapperService";
 /* tslint:disable-next-line:no-var-requires */
 const env = require("env-variable")();
 
-export const NULL_HASH = Utils.NULL_HASH;
-export const NULL_ADDRESS = Utils.NULL_ADDRESS;
+export const NULL_HASH = UtilsInternal.NULL_HASH;
+export const NULL_ADDRESS = UtilsInternal.NULL_ADDRESS;
 export const SOME_HASH = "0x1000000000000000000000000000000000000000000000000000000000000000";
 export const SOME_ADDRESS = "0x1000000000000000000000000000000000000000";
 

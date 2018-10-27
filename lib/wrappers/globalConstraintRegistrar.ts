@@ -211,10 +211,10 @@ export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase impl
 
   protected hydrated(): void {
     /* tslint:disable:max-line-length */
-    this.NewGlobalConstraintsProposal = this.createEventFetcherFactory<NewGlobalConstraintsProposalEventResult>(this.contract.events.NewGlobalConstraintsProposal);
-    this.RemoveGlobalConstraintsProposal = this.createEventFetcherFactory<RemoveGlobalConstraintsProposalEventResult>(this.contract.events.RemoveGlobalConstraintsProposal);
-    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.events.ProposalExecuted);
-    this.ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>(this.contract.events.ProposalDeleted);
+    this.NewGlobalConstraintsProposal = this.createEventFetcherFactory<NewGlobalConstraintsProposalEventResult>(this.contract.NewGlobalConstraintsProposal);
+    this.RemoveGlobalConstraintsProposal = this.createEventFetcherFactory<RemoveGlobalConstraintsProposalEventResult>(this.contract.RemoveGlobalConstraintsProposal);
+    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.ProposalExecuted);
+    this.ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>(this.contract.ProposalDeleted);
     /* tslint:enable:max-line-length */
 
   }

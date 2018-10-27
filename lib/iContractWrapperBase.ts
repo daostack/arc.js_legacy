@@ -10,7 +10,7 @@ export interface IContractWrapper {
   name: string;
   friendlyName: string;
   address: Address;
-  contract: any;
+  contract: TruffleContract;
   hydrateFromNew(...rest: Array<any>): Promise<any>;
   hydrateFromAt(address: string): Promise<any>;
   hydrateFromDeployed(): Promise<any>;

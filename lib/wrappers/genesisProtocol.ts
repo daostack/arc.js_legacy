@@ -901,11 +901,11 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
   protected hydrated(): void {
     super.hydrated();
     /* tslint:disable:max-line-length */
-    this.GPExecuteProposal = this.createEventFetcherFactory<GPExecuteProposalEventResult>(this.contract.events.GPExecuteProposal);
-    this.Stake = this.createEventFetcherFactory<GpStakeEventResult>(this.contract.events.Stake);
-    this.Redeem = this.createEventFetcherFactory<GpRedeemEventResult>(this.contract.events.Redeem);
-    this.RedeemReputation = this.createEventFetcherFactory<GpRedeemEventResult>(this.contract.events.RedeemReputation);
-    this.RedeemDaoBounty = this.createEventFetcherFactory<GpRedeemEventResult>(this.contract.events.RedeemDaoBounty);
+    this.GPExecuteProposal = this.createEventFetcherFactory<GPExecuteProposalEventResult>(this.contract.GPExecuteProposal);
+    this.Stake = this.createEventFetcherFactory<GpStakeEventResult>(this.contract.Stake);
+    this.Redeem = this.createEventFetcherFactory<GpRedeemEventResult>(this.contract.Redeem);
+    this.RedeemReputation = this.createEventFetcherFactory<GpRedeemEventResult>(this.contract.RedeemReputation);
+    this.RedeemDaoBounty = this.createEventFetcherFactory<GpRedeemEventResult>(this.contract.RedeemDaoBounty);
     /* tslint:enable:max-line-length */
   }
 
@@ -1341,7 +1341,7 @@ export const GetDefaultGenesisProtocolParameters = async (): Promise<GenesisProt
     stakerFeeRatioForVoters: 50,
     thresholdConstA: web3.utils.toWei("7"),
     thresholdConstB: 3,
-    voteOnBehalf: Utils.NULL_ADDRESS,
+    voteOnBehalf: UtilsInternal.NULL_ADDRESS,
     votersGainRepRatioFromLostRep: 80,
     votersReputationLossRatio: 1,
   };

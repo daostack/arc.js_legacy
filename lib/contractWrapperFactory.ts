@@ -1,5 +1,4 @@
 import { Address } from "./commonTypes";
-import { ConfigService } from "./configService";
 import { IConfigService } from "./iConfigService";
 import { IContractWrapper, IContractWrapperFactory } from "./iContractWrapperBase";
 import { LoggingService } from "./loggingService";
@@ -51,7 +50,7 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
   public async new(...rest: Array<any>): Promise<TWrapper> {
     await this.ensureSolidityContract();
 
-    if (ConfigService.get("estimateGas")) {
+    if (ContractWrapperFactory.configService.get("estimateGas")) {
       let web3Params = {};
       /**
        * if a web3Params object is sitting on the end, remove it and pass it separately

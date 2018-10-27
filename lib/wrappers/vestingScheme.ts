@@ -343,14 +343,14 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase implements IUniv
 
   protected hydrated(): void {
     /* tslint:disable:max-line-length */
-    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.events.ProposalExecuted);
-    this.AgreementProposal = this.createEventFetcherFactory<AgreementProposalEventResult>(this.contract.events.AgreementProposal);
-    this.NewVestedAgreement = this.createEventFetcherFactory<NewVestedAgreementEventResult>(this.contract.events.NewVestedAgreement);
-    this.ProposedVestedAgreement = this.createEventFetcherFactory<ProposedVestedAgreementEventResult>(this.contract.events.ProposedVestedAgreement);
-    this.SignToCancelAgreement = this.createEventFetcherFactory<SignToCancelAgreementEventResult>(this.contract.events.SignToCancelAgreement);
-    this.RevokeSignToCancelAgreement = this.createEventFetcherFactory<RevokeSignToCancelAgreementEventResult>(this.contract.events.RevokeSignToCancelAgreement);
-    this.AgreementCancel = this.createEventFetcherFactory<AgreementCancelEventResult>(this.contract.events.AgreementCancel);
-    this.Collect = this.createEventFetcherFactory<CollectEventResult>(this.contract.events.Collect);
+    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.ProposalExecuted);
+    this.AgreementProposal = this.createEventFetcherFactory<AgreementProposalEventResult>(this.contract.AgreementProposal);
+    this.NewVestedAgreement = this.createEventFetcherFactory<NewVestedAgreementEventResult>(this.contract.NewVestedAgreement);
+    this.ProposedVestedAgreement = this.createEventFetcherFactory<ProposedVestedAgreementEventResult>(this.contract.ProposedVestedAgreement);
+    this.SignToCancelAgreement = this.createEventFetcherFactory<SignToCancelAgreementEventResult>(this.contract.SignToCancelAgreement);
+    this.RevokeSignToCancelAgreement = this.createEventFetcherFactory<RevokeSignToCancelAgreementEventResult>(this.contract.RevokeSignToCancelAgreement);
+    this.AgreementCancel = this.createEventFetcherFactory<AgreementCancelEventResult>(this.contract.AgreementCancel);
+    this.Collect = this.createEventFetcherFactory<CollectEventResult>(this.contract.Collect);
     /* tslint:enable:max-line-length */
   }
 

@@ -161,10 +161,10 @@ export class VoteInOrganizationSchemeWrapper extends ProposalGeneratorBase imple
 
   protected hydrated(): void {
     /* tslint:disable:max-line-length */
-    this.NewVoteProposal = this.createEventFetcherFactory<NewVoteProposalEventResult>(this.contract.events.NewVoteProposal);
-    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.events.ProposalExecuted);
-    this.ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>(this.contract.events.ProposalDeleted);
-    this.VoteOnBehalf = this.createEventFetcherFactory<VoteOnBehalfEventResult>(this.contract.events.VoteOnBehalf);
+    this.NewVoteProposal = this.createEventFetcherFactory<NewVoteProposalEventResult>(this.contract.NewVoteProposal);
+    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.ProposalExecuted);
+    this.ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>(this.contract.ProposalDeleted);
+    this.VoteOnBehalf = this.createEventFetcherFactory<VoteOnBehalfEventResult>(this.contract.VoteOnBehalf);
     /* tslint:enable:max-line-length */
   }
 

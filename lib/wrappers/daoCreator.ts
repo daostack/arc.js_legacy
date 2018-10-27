@@ -16,6 +16,7 @@ import { BigNumber } from "../utils";
 import { Utils } from "../utils";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { WrapperService } from "../wrapperService";
+import { UtilsInternal } from '../utilsInternal';
 
 export class DaoCreatorWrapper extends ContractWrapperBase {
 
@@ -28,7 +29,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     if (!DaoCreatorWrapper.uniSchemeUpdateParametersCallData) {
       // use requireContract since no guarantee that SchemeRegistrar has been loaded
       const contract = (await (await Utils.requireContract("SchemeRegistrar")).deployed()).contract;
-      DaoCreatorWrapper.uniSchemeUpdateParametersCallData = contract.methods.updateParameters.getData("0x1");
+      DaoCreatorWrapper.uniSchemeUpdateParametersCallData = contract.methods.updateParameters(UtilsInternal.SOME_HASH).encodeABI();
     }
 
     return await web3.eth.call({
@@ -284,7 +285,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
         if (schemeOptions.name) {
           const artifactContract = await Utils.requireContract(schemeOptions.name);
 
-          truffleContract = await artifactContract.at(schemeOptions.address) as ISchemeWrapper;
+          truffleContract = await artifactContract.at(schemeOptions.address);
 
           if (!truffleContract) {
             throw new Error(`An instance of '${schemeOptions.name}' could not be found at ${schemeOptions.address}`);
@@ -416,7 +417,7 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
          * Otherwise NULL_HASH is used, appropriate for non-universal schemes that don't have
          * parameters to be registered against a controller.
          */
-        schemeParamsHash = schemeParamsHash || Utils.NULL_HASH;
+        schemeParamsHash = schemeParamsHash || UtilsInternal.NULL_HASH;
       }
 
       initialSchemesSchemes.push(contractAddress);
@@ -471,8 +472,8 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
 
   protected hydrated(): void {
     /* tslint:disable:max-line-length */
-    this.NewOrg = this.createEventFetcherFactory<NewOrgEventResult>(this.contract.events.NewOrg);
-    this.InitialSchemesSet = this.createEventFetcherFactory<InitialSchemesSetEventResult>(this.contract.events.InitialSchemesSet);
+    this.NewOrg = this.createEventFetcherFactory<NewOrgEventResult>(this.contract.NewOrg);
+    this.InitialSchemesSet = this.createEventFetcherFactory<InitialSchemesSetEventResult>(this.contract.InitialSchemesSet);
     /* tslint:enable:max-line-length */
   }
 }

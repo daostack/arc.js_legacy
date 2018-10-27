@@ -2,14 +2,12 @@ import BigNumber = require("bn.js");
 import abi = require("ethereumjs-abi");
 import Contract = require("truffle-contract");
 import Web3 = require("web3");
-import { Address, Hash, SchemePermissions } from "./commonTypes";
+import { Address, Hash, SchemePermissions, TruffleContract, TruffleContractBase } from "./commonTypes";
 import { ConfigService } from "./configService";
 import { LoggingService } from "./loggingService";
 
 export class Utils {
 
-  static get NULL_ADDRESS(): Address { return "0x0000000000000000000000000000000000000000"; }
-  static get NULL_HASH(): Hash { return "0x0000000000000000000000000000000000000000000000000000000000000000"; }
   public static contractCache: Map<string, Contract> = new Map<string, string>();
   /**
    * Returns Truffle contract wrapper given the name of the contract (like "SchemeRegistrar").
@@ -18,7 +16,7 @@ export class Utils {
    * Uses the asynchronous web.eth.getAccounts to obtain the default account (good with MetaMask).
    * @param contractName like "SchemeRegistrar"
    */
-  public static async requireContract(contractName: string): Promise<any> {
+  public static async requireContract(contractName: string): Promise<TruffleContractBase> {
     try {
       let contract = Utils.contractCache.get(contractName);
       if (contract) {

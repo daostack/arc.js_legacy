@@ -120,8 +120,9 @@ describe("GenesisProtocol", () => {
     const web3EventService = new Web3EventService();
     const stakingToken = await genesisProtocol.getStakingToken();
     const transferFetcher = web3EventService
-      .createEventFetcherFactory<{ to: Address, from: Address, value: BigNumber }>(stakingToken.Transfer)(
-        { from: accounts[0] }, { fromBlock: 0 });
+      .createEventFetcherFactory<{ to: Address, from: Address, value: BigNumber }>
+      (stakingToken.contract.Transfer)({ from: accounts[0] }, { fromBlock: 0 });
+
     let transferEvents = await transferFetcher.get();
     const transfersBefore = transferEvents.length;
 
@@ -590,7 +591,7 @@ describe("GenesisProtocol", () => {
   });
 
   it("can do new", async () => {
-    const scheme = await GenesisProtocolFactory.new(Utils.NULL_ADDRESS);
+    const scheme = await GenesisProtocolFactory.new(UtilsInternal.NULL_ADDRESS);
     assert.isOk(scheme);
   });
 

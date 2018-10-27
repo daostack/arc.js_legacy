@@ -10,6 +10,7 @@ import {
 import { UpgradeSchemeFactory, UpgradeSchemeWrapper } from "../lib/wrappers/upgradeScheme";
 import { WrapperService } from "../lib/wrapperService";
 import * as helpers from "./helpers";
+import { UtilsInternal } from "../lib/utilsInternal";
 
 describe("SchemeRegistrar", () => {
 
@@ -105,7 +106,7 @@ describe("SchemeRegistrar", () => {
       avatar: dao.avatar.address,
       schemeAddress: contributionRewardAddress,
       schemeName: "ContributionReward",
-      schemeParametersHash: Utils.NULL_HASH,
+      schemeParametersHash: UtilsInternal.NULL_HASH,
     });
 
     const proposalId = await result.getProposalIdFromMinedTx();
@@ -133,7 +134,7 @@ describe("SchemeRegistrar", () => {
       avatar: dao.avatar.address,
       schemeAddress: modifiedSchemeAddress,
       schemeName: "SchemeRegistrar",
-      schemeParametersHash: Utils.NULL_HASH,
+      schemeParametersHash: UtilsInternal.NULL_HASH,
     });
 
     const proposalId = await result.getProposalIdFromMinedTx();
@@ -148,7 +149,7 @@ describe("SchemeRegistrar", () => {
 
     const paramsHash = await dao.controller.getSchemeParameters(modifiedSchemeAddress, dao.avatar.address);
 
-    assert.equal(paramsHash, Utils.NULL_HASH, "parameters hash is not correct");
+    assert.equal(paramsHash, UtilsInternal.NULL_HASH, "parameters hash is not correct");
   });
 
   it("proposeToRemoveScheme javascript wrapper should remove scheme", async () => {
@@ -210,7 +211,7 @@ describe("SchemeRegistrar", () => {
       permissions: DefaultSchemePermissions.ContributionReward,
       schemeAddress: contributionRewardAddress,
       schemeName: "ContributionReward",
-      schemeParametersHash: Utils.NULL_HASH,
+      schemeParametersHash: UtilsInternal.NULL_HASH,
     });
 
     const proposalToAddId = await result.getProposalIdFromMinedTx();

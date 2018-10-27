@@ -1,4 +1,8 @@
 import { Utils } from "./utils";
+import Contract from 'web3/eth/contract';
+import { BlockType } from 'web3/eth/types';
+import { DecodedLogEntryEvent } from 'ethereum-types';
+import { EventLog } from 'web3/types';
 
 export type fnVoid = () => void;
 export type Hash = string;
@@ -58,24 +62,54 @@ export namespace SchemePermissions {
 }
 /*tslint:enable:no-namespace */
 
-export interface TruffleContract {
+export interface EventsOptions {
+  /**
+   * event arguments filter
+   */
+  filter?: object;
+  fromBlock?: BlockType;
+  topics?: Array<string>;
+}
+
+export interface GetPastEventsOptions extends EventsOptions {
+  toBlock?: BlockType;
+}
+
+export interface TruffleContractBase {
+  /**
+   * deployed address
+   */
+  address: Address;
+  /**
+   * Returns a promise of an existing instance of the contract.
+   * Note that the so-called promise returned by Truffle only supplies a 'then'
+   * function,  You have to call 'then' to get the real promise.
+   */
+  at: (address: string) => Promise<TruffleContract>;
+  /**
+   * Returns a promise of the deployed instance of the contract.
+   * Note that the so-called promise returned by Truffle only supplies a 'then'
+   * function,  You have to call 'then' to get the real promise.
+   */
+  deployed: () => Promise<TruffleContract>;
   /**
    * Migrate a new instance of the contract.  Returns promise of being
    * migrated.
    * Note that the so-called promise returned by Truffle only supplies a 'then'
    * function,  You have to call 'then' to get the real promise.
    */
-  new: (...rest: Array<any>) => Promise<any>;
+  new: (...rest: Array<any>) => Promise<TruffleContract>;
+}
+
+export interface TruffleContract extends TruffleContractBase {
   /**
-   * Returns a promise of an existing instance of the contract.
-   * Note that the so-called promise returned by Truffle only supplies a 'then'
-   * function,  You have to call 'then' to get the real promise.
+   * underlying web3 contract wrapper
    */
-  at: (address: string) => Promise<any>;
+  contract: Contract;
+  getPastEvents: <T>(event: string, options?: GetPastEventsOptions) => Promise<Array<DecodedLogEntryEvent<T>>>;
+  allEvents: (options?: EventsOptions) => Promise<Array<DecodedLogEntryEvent<any>>>;
   /**
-   * Returns a promise of the deployed instance of the contract.
-   * Note that the so-called promise returned by Truffle only supplies a 'then'
-   * function,  You have to call 'then' to get the real promise.
+   * contract-specific methods
    */
-  deployed: () => Promise<any>;
+  [x: string]: any;
 }

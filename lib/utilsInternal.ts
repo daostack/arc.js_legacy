@@ -1,12 +1,17 @@
 import { promisify } from "es6-promisify";
 import { BlockHeader } from "web3/eth/types";
-import { Address, fnVoid } from "./commonTypes";
+import { Address, fnVoid, Hash } from "./commonTypes";
 import { Utils, Web3 } from "./utils";
 
 /**
  * Utils not meant to be exported to the public
  */
 export class UtilsInternal {
+
+  static get NULL_ADDRESS(): Address { return "0x0000000000000000000000000000000000000000"; }
+  static get NULL_HASH(): Hash { return "0x0000000000000000000000000000000000000000000000000000000000000000"; }
+  static get SOME_HASH(): Hash { return "0x1000000000000000000000000000000000000000000000000000000000000000"; }
+  static get SOME_ADDRESS(): Address { return "0x1000000000000000000000000000000000000000"; }
 
   public static sleep(milliseconds: number): Promise<any> {
     return new Promise((resolve: fnVoid): any => setTimeout(resolve, milliseconds));

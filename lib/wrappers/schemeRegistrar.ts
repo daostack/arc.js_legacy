@@ -250,10 +250,10 @@ export class SchemeRegistrarWrapper extends ProposalGeneratorBase implements IUn
 
   protected hydrated(): void {
     /* tslint:disable:max-line-length */
-    this.NewSchemeProposal = this.createEventFetcherFactory<NewSchemeProposalEventResult>(this.contract.events.NewSchemeProposal);
-    this.RemoveSchemeProposal = this.createEventFetcherFactory<RemoveSchemeProposalEventResult>(this.contract.events.RemoveSchemeProposal);
-    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.events.ProposalExecuted);
-    this.ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>(this.contract.events.ProposalDeleted);
+    this.NewSchemeProposal = this.createEventFetcherFactory<NewSchemeProposalEventResult>(this.contract.NewSchemeProposal);
+    this.RemoveSchemeProposal = this.createEventFetcherFactory<RemoveSchemeProposalEventResult>(this.contract.RemoveSchemeProposal);
+    this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.ProposalExecuted);
+    this.ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>(this.contract.ProposalDeleted);
     /* tslint:enable:max-line-length */
   }
 

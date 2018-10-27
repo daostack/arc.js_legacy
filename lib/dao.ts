@@ -1,6 +1,6 @@
 "use strict";
 import { AvatarService } from "./avatarService";
-import { Address, fnVoid, Hash } from "./commonTypes";
+import { Address, fnVoid, Hash, TruffleContract } from "./commonTypes";
 import { DecodedLogEntryEvent, IContractWrapper } from "./iContractWrapperBase";
 import { TransactionService, TxGeneratingFunctionOptions } from "./transactionService";
 import { BigNumber, Utils } from "./utils";
@@ -123,11 +123,11 @@ export class DAO {
   /**
    * Truffle contract wrapper for the DAO's Avatar
    */
-  public avatar: any;
+  public avatar: TruffleContract;
   /**
    * Truffle contract wrapper for the DAO's controller (Controller or UController by default, see DAO.hasUController)
    */
-  public controller: any;
+  public controller: TruffleContract;
   /**
    * `true` if the DAO is using Arc's universal controller
    */
@@ -256,26 +256,10 @@ export class DAO {
     const controller = this.controller;
     const avatar = this.avatar;
 
-    const registerSchemeEvent = controller.RegisterScheme(
-      {},
-      { fromBlock: 0, toBlock: "latest" }
-    );
+    const registerSchemeEvents = await
+      controller.getPastEvents<ControllerRegisterSchemeEventLogEntry>("RegisterScheme");
 
-    await new Promise((resolve: fnVoid, reject: (error: Error) => void): void => {
-      registerSchemeEvent.get((
-        err: Error,
-        log: DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry> |
-          Array<DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry>>) => {
-        if (err) {
-          return reject(err);
-        }
-        this._handleSchemeEvent(log, foundSchemes)
-          .then((): void => {
-            resolve();
-          });
-      }
-      );
-    });
+    await this._handleSchemeEvent(registerSchemeEvents, foundSchemes);
 
     const registeredSchemes = [];
 
@@ -289,17 +273,13 @@ export class DAO {
   }
 
   private async _handleSchemeEvent(
-    log: DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry> |
-      Array<DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry>>,
+    events: Array<DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry>>,
     schemesMap: Map<string, DaoSchemeInfo>
   ): Promise<void> {
 
-    if (!Array.isArray(log)) {
-      log = [log];
-    }
-    const count = log.length;
+    const count = events.length;
     for (let i = 0; i < count; i++) {
-      const address = log[i].args._scheme;
+      const address = events[i].args._scheme;
       const wrapper = WrapperService.wrappersByAddress.get(address);
 
       const schemeInfo: DaoSchemeInfo = {

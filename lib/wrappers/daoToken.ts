@@ -333,7 +333,7 @@ export class DaoTokenWrapper
   protected hydrated(): void {
     super.hydrated();
     /* tslint:disable:max-line-length */
-    this.Burn = this.createEventFetcherFactory<BurnEventResult>(this.contract.events.Burn);
+    this.Burn = this.createEventFetcherFactory<BurnEventResult>(this.contract.Burn);
     /* tslint:enable:max-line-length */
   }
 }

@@ -284,8 +284,8 @@ export class Auction4ReputationWrapper extends ContractWrapperBase {
   protected hydrated(): void {
     super.hydrated();
     /* tslint:disable:max-line-length */
-    this.Bid = this.createEventFetcherFactory<Auction4ReputationBidEventResult>(this.contract.events.Bid);
-    this.Redeem = this.createEventFetcherFactory<Auction4ReputationRedeemEventResult>(this.contract.events.Redeem);
+    this.Bid = this.createEventFetcherFactory<Auction4ReputationBidEventResult>(this.contract.Bid);
+    this.Redeem = this.createEventFetcherFactory<Auction4ReputationRedeemEventResult>(this.contract.Redeem);
     /* tslint:enable:max-line-length */
   }
 
