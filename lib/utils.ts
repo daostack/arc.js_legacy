@@ -15,7 +15,6 @@ export class Utils {
 
   static get NULL_ADDRESS(): Address { return "0x0000000000000000000000000000000000000000"; }
   static get NULL_HASH(): Hash { return "0x0000000000000000000000000000000000000000000000000000000000000000"; }
-  public static contractCache: Map<string, Contract> = new Map<string, string>();
   /**
    * Returns Truffle contract wrapper given the name of the contract (like "SchemeRegistrar").
    * Optimized for synchronicity issues encountered with MetaMask.
@@ -54,47 +53,76 @@ export class Utils {
    * Returns the web3 object.
    * When called for the first time, web3 is initialized from the Arc.js configuration.
    * Throws an exception when web3 cannot be initialized.
+   * @param - Optional when true to refetch web3, in case the network has changed.
    */
-  public static async getWeb3(): Promise<Web3> {
-    if (Utils.web3) {
+  public static async getWeb3(refetch: boolean = false): Promise<Web3> {
+    if (!refetch && Utils.web3) {
       return Utils.web3;
     }
 
     LoggingService.debug("Utils.getWeb3: getting web3");
 
+    Utils.contractCache.clear();
+
     let preWeb3;
 
     let globalWeb3;
 
-    if ((typeof global !== "undefined") && (global as any).web3) {
+    if ((typeof global !== "undefined") &&
+      (global as any).web3 &&
+      ((typeof window === "undefined") || (global as any).web3 !== (window as any).web3)) {
+
+      /**
+       * `global.web3` is set and either `window.web3` is not set or the two values for web3 are not equal.
+       * In either case we take `global.web3` as apparently it has been provided by an application,
+       * either manually or via `InitializeArcJs`. We'll "provide" it further down.
+       */
       LoggingService.debug("Utils.getWeb3: found web3 in global");
       globalWeb3 = (global as any).web3;
-    } else if ((typeof window !== "undefined") && (window as any).web3) {
-      LoggingService.debug("Utils.getWeb3: found web3 in window");
-      globalWeb3 = (window as any).web3;
-    }
-
-    if (typeof globalWeb3 !== "undefined") {
-      LoggingService.debug("Utils.getWeb3: instantiating web3 with currentProvider");
-      // Look for injected web3 e.g. by truffle in migrations, or MetaMask in the browser window
-      // Instead of using the injected Web3.js directly best practice is to use the version of web3.js we have bundled
-      /* tslint:disable-next-line:max-line-length */
-      // see https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#partly_sunny-web3---ethereum-browser-environment-check
-      preWeb3 = new webConstructor(globalWeb3.currentProvider);
-    } else if (Utils.alreadyTriedAndFailed) {
-      // then avoid time-consuming and futile retry
-      throw new Error("Utils.getWeb3: already tried and failed");
-    } else {
-      let url = `http://${ConfigService.get("providerUrl")}`;
-      const port = ConfigService.get("providerPort");
-      if (port) {
-        url = `${url}:${port}`;
+    } else if (typeof window !== "undefined") {
+      /**
+       * we didn't take `global.web` or it wasn't available, and `window` is set
+       */
+      if ((window as any).ethereum && ConfigService.get("useMetamaskEthereumWeb3Provider")) {
+        /**
+         * `windows.ethereum`-provided web3 takes precedence if available.
+         * "Provide" it right here.
+         */
+        LoggingService.debug("Utils.getWeb3: creating Web3 using window.ethereum provider");
+        preWeb3 = (window as any).web3 = new webConstructor((window as any).ethereum);
+      } else if ((window as any).web3) {
+        /**
+         * else take `window.web3` and "provide" it further down
+         */
+        LoggingService.debug("Utils.getWeb3: found web3 in window");
+        globalWeb3 = (window as any).web3;
       }
-      /* tslint:disable-next-line:max-line-length */
-      LoggingService.debug(`Utils.getWeb3: instantiating web3 with configured provider at ${url}`);
-      // No web3 is injected, look for a provider at providerUrl:providerPort (which defaults to 127.0.0.1)
-      // This happens when running tests, or in a browser that is not running MetaMask
-      preWeb3 = new webConstructor(new Web3Providers.HttpProvider(url));
+    }
+    // else no `web` was found
+
+    if (!preWeb3) {
+      if (globalWeb3) {
+        LoggingService.debug("Utils.getWeb3: instantiating web3 with currentProvider");
+        // Look for injected web3 e.g. by truffle in migrations, or MetaMask in the browser window
+        // Instead of using the injected Web3.js directly best practice is to use the version of web3.js we have bundled
+        /* tslint:disable-next-line:max-line-length */
+        // see https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#partly_sunny-web3---ethereum-browser-environment-check
+        preWeb3 = new webConstructor(globalWeb3.currentProvider);
+      } else if (Utils.alreadyTriedAndFailed) {
+        // then avoid time-consuming and futile retry
+        throw new Error("Utils.getWeb3: already tried and failed");
+      } else {
+        // No web3 is injected, look for a provider at providerUrl:providerPort (which defaults to 127.0.0.1)
+        // This happens when running tests, or in a browser that is not running MetaMask
+        let url = `http://${ConfigService.get("providerUrl")}`;
+        const port = ConfigService.get("providerPort");
+        if (port) {
+          url = `${url}:${port}`;
+        }
+        /* tslint:disable-next-line:max-line-length */
+        LoggingService.debug(`Utils.getWeb3: instantiating web3 with configured provider at ${url}`);
+        preWeb3 = new webConstructor(new Web3Providers.HttpProvider(url));
+      }
     }
 
     const connected = await promisify(preWeb3.net.getListening)()
@@ -115,7 +143,8 @@ export class Utils {
       (window as any).web3 = preWeb3;
     }
 
-    Utils.networkId = await promisify(preWeb3.version.getNetwork)() as string;
+    Utils.networkId =
+      Number.parseInt(await promisify(preWeb3.version.getNetwork)() as string, 10) as number | undefined;
 
     return (Utils.web3 = preWeb3);
   }
@@ -237,25 +266,25 @@ export class Utils {
    * Returns promise of the name of the current or given network
    * @param id Optional id of the network
    */
-  public static async getNetworkName(id?: string): Promise<string> {
+  public static async getNetworkName(id?: number): Promise<string> {
 
     if (!id) {
       id = await Utils.getNetworkId();
     }
 
     switch (id) {
-      case "1":
+      case 1:
         return "Live";
-      case "2":
+      case 2:
         return "Morden";
-      case "3":
+      case 3:
         return "Ropsten";
-      case "4":
+      case 4:
         return "Rinkeby";
-      case "42":
+      case 42:
         return "Kovan";
       // the id that arc.js hardwires for ganache
-      case "1512051714758":
+      case 1512051714758:
         return "Ganache";
       default:
         return "Unknown";
@@ -264,8 +293,10 @@ export class Utils {
 
   /**
    * Returns promise of the id of the current network
+   * @param - Optional when true to refetch the network id, in case
+   * it has changed.
    */
-  public static async getNetworkId(): Promise<string> {
+  public static async getNetworkId(): Promise<number> {
     if (!Utils.networkId) {
       await Utils.getWeb3();
     }
@@ -299,10 +330,11 @@ export class Utils {
   public static getTruffleArtifactForContract(contractName: string): any {
     return require(`../migrated_contracts/${contractName}.json`);
   }
+  private static contractCache: Map<string, Contract> = new Map<string, string>();
 
   private static web3: Web3 = undefined;
   private static alreadyTriedAndFailed: boolean = false;
-  private static networkId: string;
+  private static networkId: number;
 }
 
 export { Web3 } from "web3";

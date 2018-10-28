@@ -248,12 +248,12 @@ export class WrapperService {
    *
    * @param options
    */
-  public static async initialize(options?: WrapperServiceInitializeOptions): Promise<void> {
+  public static async initialize(options: WrapperServiceInitializeOptions = {}): Promise<void> {
     LoggingService.debug("WrapperService: initializing");
     /**
      * Deployed contract wrappers by name.
      */
-    const filter = (options && options.filter) ?
+    const filter = (options.filter) ?
       Object.assign({}, WrapperService.noWrappersFilter, options.filter) :
       WrapperService.allWrappersFilter;
 

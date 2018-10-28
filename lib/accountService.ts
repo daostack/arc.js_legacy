@@ -1,7 +1,9 @@
+import { promisify } from "es6-promisify";
 import { Address } from "./commonTypes";
 import { LoggingService } from "./loggingService";
 import { IEventSubscription, PubSubEventService } from "./pubSubEventService";
-import { Utils } from "./utils";
+import { Utils, Web3 } from "./utils";
+import { UtilsInternal } from "./utilsInternal";
 
 /**
  * Watch for changes in the default account.
@@ -11,6 +13,7 @@ import { Utils } from "./utils";
 export class AccountService {
 
   public static AccountChangedEventTopic: string = "AccountService.account.changed";
+  public static NetworkChangedEventTopic: string = "AccountService.network.changed";
 
   /**
    * Initializes the system that watches for default account changes.
@@ -20,9 +23,6 @@ export class AccountService {
    *
    * Then you may request to be notified whenever the current account changes by calling
    * [AccountService.subscribeToAccountChanges](/api/classes/AccountService#subscribeToAccountChanges)
-   *
-   *
-   * @param web3
    */
   public static async initiateAccountWatch(): Promise<void> {
 
@@ -64,6 +64,56 @@ export class AccountService {
   }
 
   /**
+   * Initializes the system that watches for blockchain network id changes.
+   *
+   * `initiateNetworkWatch` is called automatically by Arc.js when you pass `true`
+   * for `watchForNetworkChanges` to `InitializeArcJs`.  You may also call it manually yourself.
+   *
+   * Then you may request to be notified whenever the current account changes by calling
+   * [AccountService.subscribeToNetworkChanges](/api/classes/AccountService#subscribeToNetworkChanges)
+   *
+   * When the network is found to have changed you should call `InitializeArcJs` so Arc.js will set
+   * itself up with the new network and return to you a new `Web3` object.
+   */
+  public static async initiateNetworkWatch(): Promise<void> {
+
+    if (AccountService.networkChangedTimerId) {
+      return;
+    }
+
+    LoggingService.info("Initiating account watch");
+
+    if (!AccountService.currentNetworkId) {
+      try {
+        AccountService.currentNetworkId = await AccountService.getNetworkId();
+      } catch {
+        AccountService.currentNetworkId = undefined;
+      }
+    }
+
+    AccountService.networkChangedTimerId = setInterval(async () => {
+
+      if (AccountService.networkChangedLock) {
+        return; // prevent reentrance
+      }
+
+      AccountService.networkChangedLock = true;
+
+      let currentNetworkId = AccountService.currentNetworkId;
+      try {
+        currentNetworkId = await AccountService.getNetworkId();
+      } catch {
+        currentNetworkId = undefined;
+      }
+      if (currentNetworkId !== AccountService.currentNetworkId) {
+        AccountService.currentNetworkId = currentNetworkId;
+        LoggingService.info(`Network watch: network changed: ${currentNetworkId}`);
+        PubSubEventService.publish(AccountService.NetworkChangedEventTopic, currentNetworkId);
+      }
+      AccountService.networkChangedLock = false;
+    }, 1000);
+  }
+  /**
    * Turn off the system that watches for default account changes.
    */
   public static endAccountWatch(): void {
@@ -74,10 +124,19 @@ export class AccountService {
   }
 
   /**
+   * Turn off the system that watches for default account changes.
+   */
+  public static endNetworkWatch(): void {
+    if (AccountService.networkChangedTimerId) {
+      clearInterval(AccountService.networkChangedTimerId);
+      AccountService.networkChangedTimerId = undefined;
+    }
+  }
+  /**
    * Subscribe to be notified whenever the current account changes, like this:
    *
-   * ```javascript
-   * AccountService.subscribeToAccountChanges((account: Address) => { ... });
+   * ```typescript
+   * AccountService.subscribeToAccountChanges((account: Address): void => { ... });
    * ```
    * @param callback
    * @returns A subscription to the event.  Unsubscribe by calling `[theSubscription].unsubscribe()`.
@@ -87,7 +146,30 @@ export class AccountService {
       (topic: string, address: Address): any => callback(address));
   }
 
+  /**
+   * Subscribe to be notified whenever the current network changes, like this:
+   *
+   * ```typescript
+   * AccountService.subscribeToAccountChanges((networkId: number): void => { ... });
+   * ```
+   * @param callback
+   * @returns A subscription to the event.  Unsubscribe by calling `[theSubscription].unsubscribe()`.
+   */
+  public static subscribeToNetworkChanges(callback: (networkId: number) => void): IEventSubscription {
+    return PubSubEventService.subscribe(AccountService.NetworkChangedEventTopic,
+      (topic: string, networkId: number): any => callback(networkId));
+  }
+
   private static currentAccount: Address | undefined;
+  private static currentNetworkId: number | undefined;
   private static accountChangedLock: boolean = false;
   private static accountChangedTimerId: any;
+  private static networkChangedLock: boolean = false;
+  private static networkChangedTimerId: any;
+
+  private static async getNetworkId(): Promise<number | undefined> {
+    const web3 = UtilsInternal.getWeb3Sync();
+    return web3 ?
+      Number.parseInt(await promisify(web3.version.getNetwork)() as string, 10) as number | undefined : undefined;
+  }
 }
