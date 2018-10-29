@@ -160,7 +160,8 @@ export class Utils {
     const localWeb3 = await Utils.getWeb3();
 
     return promisify(localWeb3.eth.getAccounts)().then((accounts: Array<any>) => {
-      const defaultAccount = localWeb3.eth.defaultAccount = accounts[0];
+      const defaultAccount = localWeb3.eth.defaultAccount =
+        (accounts && (accounts.length > 0)) ? accounts[0] : undefined;
 
       if (!defaultAccount) {
         throw new Error("accounts[0] is not set");
@@ -189,10 +190,15 @@ export class Utils {
       } catch {
         return Promise.resolve(false);
       }
-      return Promise.resolve(true);
     } else {
-      return Promise.resolve(true);
+      try {
+        await Utils.getDefaultAccount();
+      } catch {
+        // no accounts found
+        return Promise.resolve(false);
+      }
     }
+    return Promise.resolve(true);
   }
 
   /**
