@@ -18,6 +18,10 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
     ContractWrapperFactory.configService = configService;
   }
 
+  public static clearContractCache(): void {
+    ContractWrapperFactory.contractCache.clear();
+  }
+
   /**
    * this is a Map keyed by contract name of a Map keyed by address to an `IContractWrapper`
    */

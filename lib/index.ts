@@ -65,30 +65,57 @@ import { WrapperService, WrapperServiceInitializeOptions } from "./wrapperServic
  */
 export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
   /**
+   * If `true` and `window.ethereum` is present, instantiate Web3 using it as the provider.
+   * Ignored if `useWeb3` is given.
+   * Default is true.
+   */
+  useMetamaskEthereumWeb3Provider?: boolean;
+  /**
    * Name of the network for which to use the defaults found in Arc.js/truffle.js.
    * Overwrites config settings network, providerUrl and providerPort.
    * See [Network settings](Home#networksettings) for more information.
    */
   useNetworkDefaultsFor?: string;
   /**
+   * Optionally use the given Web3 instance, already initialized by a provider.
+   * `useMetamaskEthereumWeb3Provider` is ignored if this is given.
+   * Has the side-effect of setting `global.web3` to the given value.
+   */
+  useWeb3?: Web3;
+  /**
    * Set to true to watch for changes in the current user account.
    * Default is false.  See [AccountService.initiateAccountWatch](/api/classes/AccountService#initiateAccountWatch).
    */
   watchForAccountChanges?: boolean;
+  /**
+   * Set to true to watch for changes in the current blockchain network.
+   * Default is false.  See [AccountService.initiateNetworkWatch](/api/classes/AccountService#initiateNetworkWatch).
+   */
+  watchForNetworkChanges?: boolean;
 }
 /**
  * You must call `InitializeArcJs` before doing anything else with Arc.js.
  * Call it again whenever the current chain changes.
  * @returns Promise of the `Web3` object for the current chain.
  */
-export async function InitializeArcJs(options?: InitializeArcOptions): Promise<Web3> {
+export async function InitializeArcJs(options: InitializeArcOptions = {}): Promise<Web3> {
   LoggingService.info("Initializing Arc.js");
   try {
+
+    if (options.useWeb3) {
+      // Utils.getWeb3 will pick this up
+      (global as any).web3 = options.useWeb3;
+    } else if (typeof (options.useMetamaskEthereumWeb3Provider) === "undefined") {
+      options.useMetamaskEthereumWeb3Provider = true;
+    }
+
+    ConfigService.set("useMetamaskEthereumWeb3Provider", options.useMetamaskEthereumWeb3Provider);
 
     /**
      * simulate dependency injection, avoid circular dependencies
      */
     ContractWrapperFactory.setConfigService(ConfigService);
+    ContractWrapperFactory.clearContractCache();
     /**
      * Initialize LoggingService here to avoid circular dependency involving ConfigService and PubSubService
      */
@@ -100,7 +127,7 @@ export async function InitializeArcJs(options?: InitializeArcOptions): Promise<W
       LoggingService.logLevel = parseInt(value as any, 10) as LogLevel;
     });
 
-    if (options && options.useNetworkDefaultsFor) {
+    if (options.useNetworkDefaultsFor) {
       const networkDefaults = ConfigService.get("networkDefaults")[options.useNetworkDefaultsFor];
       if (!networkDefaults) {
         throw new Error(`truffle network defaults not found: ${options.useNetworkDefaultsFor}`);
@@ -110,11 +137,15 @@ export async function InitializeArcJs(options?: InitializeArcOptions): Promise<W
       ConfigService.set("providerUrl", `${networkDefaults.host}`);
     }
 
-    const web3 = await Utils.getWeb3();
+    const web3 = await Utils.getWeb3(true);
     await WrapperService.initialize(options);
 
-    if (options && options.watchForAccountChanges) {
+    if (options.watchForAccountChanges) {
       await AccountService.initiateAccountWatch();
+    }
+
+    if (options.watchForNetworkChanges) {
+      await AccountService.initiateNetworkWatch();
     }
 
     return web3;
