@@ -178,13 +178,20 @@ export class Utils {
    *
    * Note that this won't work if you have passed `false` for `InitializeArcOptions.useMetamaskEthereumWeb3Provider`
    * when you called `InitializeArcJs`.
+   *
+   * @returns true or false depending on whether the user approves of account sharing.
    */
-  public static async getUserApprovalForAccounts(): Promise<void> {
+  public static async getUserApprovalForAccounts(): Promise<boolean> {
     const ethereumProvider = (window as any).ethereum;
     if (ethereumProvider) {
-      return ethereumProvider.enable();
+      try {
+        await ethereumProvider.enable();
+      } catch {
+        return Promise.resolve(false);
+      }
+      return Promise.resolve(true);
     } else {
-      return Promise.resolve();
+      return Promise.resolve(true);
     }
   }
 
