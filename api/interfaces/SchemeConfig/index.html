@@ -3855,31 +3855,31 @@ You can add other scheme parameters here. For example, ContributionReward requir
 <p><a id="address"></a></p>
 <h3 id="optional-address"><code>&lt;Optional&gt;</code> address<a class="headerlink" href="#optional-address" title="Permanent link">&para;</a></h3>
 <p><strong>● address</strong>: <em><code>string</code></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/eb917dc7/lib/wrappers/daoCreator.ts#L587">wrappers/daoCreator.ts:587</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/daoCreator.ts#L587">wrappers/daoCreator.ts:587</a></em></p>
 <p>Scheme address if you don't want to use the scheme deployed in this release of Arc.js, or if it is a non-Arc scheme.</p>
 <hr />
 <p><a id="name"></a></p>
 <h3 id="optional-name"><code>&lt;Optional&gt;</code> name<a class="headerlink" href="#optional-name" title="Permanent link">&para;</a></h3>
 <p><strong>● name</strong>: <em><code>string</code></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/eb917dc7/lib/wrappers/daoCreator.ts#L582">wrappers/daoCreator.ts:582</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/daoCreator.ts#L582">wrappers/daoCreator.ts:582</a></em></p>
 <p>The name of the Arc scheme. Omit this only if it is a non-Arc scheme.</p>
 <hr />
 <p><a id="parametersHash"></a></p>
 <h3 id="optional-parametershash"><code>&lt;Optional&gt;</code> parametersHash<a class="headerlink" href="#optional-parametershash" title="Permanent link">&para;</a></h3>
 <p><strong>● parametersHash</strong>: <em><a href="../#Hash">Hash</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/eb917dc7/lib/wrappers/daoCreator.ts#L617">wrappers/daoCreator.ts:617</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/daoCreator.ts#L617">wrappers/daoCreator.ts:617</a></em></p>
 <p>Optional scheme parameters hash for schemes, particularly for schemes that are not wrapped in Arc.js. If this is supplied, then any other parameters (either in x or votingMachineParams) are ignored.</p>
 <hr />
 <p><a id="permissions"></a></p>
 <h3 id="optional-permissions"><code>&lt;Optional&gt;</code> permissions<a class="headerlink" href="#optional-permissions" title="Permanent link">&para;</a></h3>
 <p><strong>● permissions</strong>: <em><a href="../../enums/SchemePermissions/">SchemePermissions</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/eb917dc7/lib/wrappers/daoCreator.ts#L594">wrappers/daoCreator.ts:594</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/daoCreator.ts#L594">wrappers/daoCreator.ts:594</a></em></p>
 <p>Extra permissions on the scheme. The minimum permissions for the scheme will be enforced (or'd with anything you supply). See ContractWrapperBase.getDefaultPermissions for what this string should look like.</p>
 <hr />
 <p><a id="votingMachineParams"></a></p>
 <h3 id="optional-votingmachineparams"><code>&lt;Optional&gt;</code> votingMachineParams<a class="headerlink" href="#optional-votingmachineparams" title="Permanent link">&para;</a></h3>
 <p><strong>● votingMachineParams</strong>: <em><a href="../NewDaoVotingMachineConfig/">NewDaoVotingMachineConfig</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/eb917dc7/lib/wrappers/daoCreator.ts#L606">wrappers/daoCreator.ts:606</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/daoCreator.ts#L606">wrappers/daoCreator.ts:606</a></em></p>
 <p>Optional votingMachine parameters if you have not supplied them in ForgeOrgConfig or want to override them. Note it costs more gas to add them here.</p>
 <p>New schemes will be created with these voting machine parameters. This is only relevant to schemes that can create proposals upon which there can be a vote. Other schemes will ignore these parameters.</p>
 <p>Defaults are those of whatever voting machine is the default for DaoCreator. The default default VotingMachine is AbsoluteVote.</p>

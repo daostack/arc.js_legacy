@@ -672,6 +672,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#static-clearcontractcache" title="&lt;Static&gt; clearContractCache" class="md-nav__link">
+    &lt;Static&gt; clearContractCache
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#static-setconfigservice" title="&lt;Static&gt; setConfigService" class="md-nav__link">
     &lt;Static&gt; setConfigService
   </a>
@@ -3897,6 +3904,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#static-clearcontractcache" title="&lt;Static&gt; clearContractCache" class="md-nav__link">
+    &lt;Static&gt; clearContractCache
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#static-setconfigservice" title="&lt;Static&gt; setConfigService" class="md-nav__link">
     &lt;Static&gt; setConfigService
   </a>
@@ -3962,6 +3976,7 @@
 <li><a href="./#deployed">deployed</a></li>
 <li><a href="./#ensureSolidityContract">ensureSolidityContract</a></li>
 <li><a href="./#new">new</a></li>
+<li><a href="./#clearContractCache">clearContractCache</a></li>
 <li><a href="./#setConfigService">setConfigService</a></li>
 </ul>
 <hr />
@@ -3969,7 +3984,7 @@
 <p><a id="constructor"></a></p>
 <h3 id="constructor">constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h3>
 <p>⊕ <strong>new ContractWrapperFactory</strong>(solidityContractName: <em><code>string</code></em>, wrapper: <em><code>object</code></em>, web3EventService: <em><a href="../Web3EventService/">Web3EventService</a></em>): <a href="./">ContractWrapperFactory</a></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/eb917dc7/lib/contractWrapperFactory.ts#L29">contractWrapperFactory.ts:29</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/contractWrapperFactory.ts#L33">contractWrapperFactory.ts:33</a></em></p>
 <p>Connstructor to create a contract wrapper factory for the given Arc contract name and wrapper class.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4004,7 +4019,7 @@
 <p><a id="at"></a></p>
 <h3 id="at">at<a class="headerlink" href="#at" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>at</strong>(address: <em><code>string</code></em>): <code>Promise</code>&lt;<code>TWrapper</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/eb917dc7/lib/contractWrapperFactory.ts#L75">contractWrapperFactory.ts:75</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/contractWrapperFactory.ts#L79">contractWrapperFactory.ts:79</a></em></p>
 <p>Return a wrapper around the contract, hydrated from the given address. Returns undefined if not found.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4028,7 +4043,7 @@
 <p><a id="deployed"></a></p>
 <h3 id="deployed">deployed<a class="headerlink" href="#deployed" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>deployed</strong>(): <code>Promise</code>&lt;<code>TWrapper</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/eb917dc7/lib/contractWrapperFactory.ts#L91">contractWrapperFactory.ts:91</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/contractWrapperFactory.ts#L95">contractWrapperFactory.ts:95</a></em></p>
 <p>Return a wrapper around the contract as deployed by the current version of Arc.js. Note this is usually not needed as the WrapperService provides these wrappers already hydrated. Returns undefined if not found.</p>
 <p><strong>Returns:</strong> <code>Promise</code>&lt;<code>TWrapper</code>&gt;</p>
 <hr />
@@ -4036,13 +4051,13 @@
 <h3 id="ensuresoliditycontract">ensureSolidityContract<a class="headerlink" href="#ensuresoliditycontract" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>ensureSolidityContract</strong>(): <code>Promise</code>&lt;<code>any</code>&gt;</p>
 <p><em>Implementation of <a href="../../interfaces/IContractWrapperFactory/">IContractWrapperFactory</a>.<a href="../../interfaces/IContractWrapperFactory/#ensureSolidityContract">ensureSolidityContract</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/eb917dc7/lib/contractWrapperFactory.ts#L101">contractWrapperFactory.ts:101</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/contractWrapperFactory.ts#L105">contractWrapperFactory.ts:105</a></em></p>
 <p><strong>Returns:</strong> <code>Promise</code>&lt;<code>any</code>&gt;</p>
 <hr />
 <p><a id="new"></a></p>
 <h3 id="new">new<a class="headerlink" href="#new" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>new</strong>(...rest: <em><code>Array</code>&lt;<code>any</code>&gt;</em>): <code>Promise</code>&lt;<code>TWrapper</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/eb917dc7/lib/contractWrapperFactory.ts#L47">contractWrapperFactory.ts:47</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/contractWrapperFactory.ts#L51">contractWrapperFactory.ts:51</a></em></p>
 <p>Deploy a new instance of the contract and return a wrapper around it.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4063,10 +4078,16 @@
 </table>
 <p><strong>Returns:</strong> <code>Promise</code>&lt;<code>TWrapper</code>&gt;</p>
 <hr />
+<p><a id="clearContractCache"></a></p>
+<h3 id="static-clearcontractcache"><code>&lt;Static&gt;</code> clearContractCache<a class="headerlink" href="#static-clearcontractcache" title="Permanent link">&para;</a></h3>
+<p>▸ <strong>clearContractCache</strong>(): <code>void</code></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/contractWrapperFactory.ts#L21">contractWrapperFactory.ts:21</a></em></p>
+<p><strong>Returns:</strong> <code>void</code></p>
+<hr />
 <p><a id="setConfigService"></a></p>
 <h3 id="static-setconfigservice"><code>&lt;Static&gt;</code> setConfigService<a class="headerlink" href="#static-setconfigservice" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>setConfigService</strong>(configService: <em><a href="../../interfaces/IConfigService/">IConfigService</a></em>): <code>void</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/eb917dc7/lib/contractWrapperFactory.ts#L17">contractWrapperFactory.ts:17</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/contractWrapperFactory.ts#L17">contractWrapperFactory.ts:17</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
