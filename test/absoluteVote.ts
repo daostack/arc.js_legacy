@@ -1,8 +1,13 @@
 import { assert } from "chai";
+import { InitializeArcJs } from "../lib";
 import {
   AbsoluteVoteFactory,
 } from "../lib/wrappers/absoluteVote";
 import * as helpers from "./helpers";
+
+beforeEach(async () => {
+  await InitializeArcJs();
+});
 
 describe("AbsoluteVote", () => {
 

@@ -6,10 +6,6 @@ import { providers as Web3Providers, Web3 } from "web3";
 import { Address, Hash, SchemePermissions } from "./commonTypes";
 import { ConfigService } from "./configService";
 import { LoggingService } from "./loggingService";
-// haven't figured out how to get web3 typings to properly expose the Web3 constructor.
-// v1.0 may improve on this entire Web3 typings experience
-/* tslint:disable-next-line:no-var-requires */
-const webConstructor = require("web3");
 
 export class Utils {
 
@@ -62,11 +58,16 @@ export class Utils {
 
     LoggingService.debug("Utils.getWeb3: getting web3");
 
-    Utils.contractCache.clear();
+    Utils.clearContractCache();
 
     let preWeb3;
 
     let globalWeb3;
+
+    // haven't figured out how to get web3 typings to properly expose the Web3 constructor.
+    // v1.0 may improve on this entire Web3 typings experience
+    /* tslint:disable-next-line:no-var-requires */
+    const webConstructor = require("web3");
 
     if ((typeof global !== "undefined") &&
       (global as any).web3 &&
@@ -354,18 +355,15 @@ export class Utils {
     return Utils.getTokenBalance(agentAddress, genTokenAddress);
   }
 
-  /**
-   * Returns the truffle artifact json for the given contract
-   * @param contractName
-   */
-  public static getTruffleArtifactForContract(contractName: string): any {
-    return require(`../migrated_contracts/${contractName}.json`);
-  }
   private static contractCache: Map<string, Contract> = new Map<string, string>();
 
   private static web3: Web3 = undefined;
   private static alreadyTriedAndFailed: boolean = false;
   private static networkId: number;
+
+  private static clearContractCache(): void {
+    Utils.contractCache.clear();
+  }
 }
 
 export { Web3 } from "web3";

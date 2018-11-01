@@ -49,6 +49,7 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
    * @param rest Optional arguments to the Arc contracts constructor.
    */
   public async new(...rest: Array<any>): Promise<TWrapper> {
+
     await this.ensureSolidityContract();
 
     let gas;
@@ -77,6 +78,7 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
    * @param address
    */
   public async at(address: string): Promise<TWrapper> {
+
     await this.ensureSolidityContract();
 
     const getWrapper = (): Promise<TWrapper> => {
@@ -93,6 +95,7 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
    * Returns undefined if not found.
    */
   public async deployed(): Promise<TWrapper> {
+
     await this.ensureSolidityContract();
 
     const getWrapper = (): Promise<TWrapper> => {
@@ -103,15 +106,18 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
   }
 
   public async ensureSolidityContract(): Promise<any> {
-    if (!this.solidityContract) {
-      this.solidityContract = await Utils.requireContract(this.solidityContractName);
-    }
-    return this.solidityContract;
+    /**
+     * requireContract caches and uncaches the contract appropriately
+     */
+    return Utils.requireContract(this.solidityContractName)
+      .then((contract: any): any => this.solidityContract = contract);
   }
 
   protected async estimateConstructorGas(...params: Array<any>): Promise<number> {
+
     const web3 = await Utils.getWeb3();
     await this.ensureSolidityContract();
+
     const callData = (web3.eth.contract(this.solidityContract.abi).new as any).getData(
       ...params,
       {
