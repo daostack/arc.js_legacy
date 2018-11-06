@@ -3512,6 +3512,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../ThresholdSchemeInfo/" title="ThresholdSchemeInfo" class="md-nav__link">
+      ThresholdSchemeInfo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../TokenCapGcParams/" title="TokenCapGcParams" class="md-nav__link">
       TokenCapGcParams
     </a>
@@ -3987,94 +3999,94 @@
 <p><a id="boostedVotePeriodLimit"></a></p>
 <h3 id="boostedvoteperiodlimit">boostedVotePeriodLimit<a class="headerlink" href="#boostedvoteperiodlimit" title="Permanent link">&para;</a></h3>
 <p><strong>● boostedVotePeriodLimit</strong>: <em><code>number</code></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/genesisProtocol.ts#L1036">wrappers/genesisProtocol.ts:1036</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/wrappers/genesisProtocol.ts#L1094">wrappers/genesisProtocol.ts:1094</a></em></p>
 <p>The time limit in seconds for a proposal to be in the boosted phase, inclusive of the quietEndingPeriod, in seconds. Default is 259200 (three days).</p>
 <hr />
 <p><a id="daoBountyConst"></a></p>
 <h3 id="daobountyconst">daoBountyConst<a class="headerlink" href="#daobountyconst" title="Permanent link">&para;</a></h3>
 <p><strong>● daoBountyConst</strong>: <em><code>number</code></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/genesisProtocol.ts#L1042">wrappers/genesisProtocol.ts:1042</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/wrappers/genesisProtocol.ts#L1100">wrappers/genesisProtocol.ts:1100</a></em></p>
 <p>Multiple of a winning stake to be rewarded as bounty. Must be greater than stakerFeeRatioForVoters and less than 2*stakerFeeRatioForVoters. Default is 75.</p>
 <hr />
 <p><a id="daoBountyLimit"></a></p>
 <h3 id="daobountylimit">daoBountyLimit<a class="headerlink" href="#daobountylimit" title="Permanent link">&para;</a></h3>
 <p><strong>● daoBountyLimit</strong>: * <code>BigNumber</code> &#124; <code>string</code>
 *</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/genesisProtocol.ts#L1047">wrappers/genesisProtocol.ts:1047</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/wrappers/genesisProtocol.ts#L1105">wrappers/genesisProtocol.ts:1105</a></em></p>
 <p>Upper bound on the total bounty amount on a proposal. Default is 100, converted to Wei.</p>
 <hr />
 <p><a id="minimumStakingFee"></a></p>
 <h3 id="minimumstakingfee">minimumStakingFee<a class="headerlink" href="#minimumstakingfee" title="Permanent link">&para;</a></h3>
 <p><strong>● minimumStakingFee</strong>: * <code>BigNumber</code> &#124; <code>string</code>
 *</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/genesisProtocol.ts#L1053">wrappers/genesisProtocol.ts:1053</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/wrappers/genesisProtocol.ts#L1111">wrappers/genesisProtocol.ts:1111</a></em></p>
 <p>A floor on the staking fee which is normally computed using <a href="./#stakerFeeRatioForVoters">GenesisProtocolParams.stakerFeeRatioForVoters</a>, in Wei. Default is 0.</p>
 <hr />
 <p><a id="preBoostedVotePeriodLimit"></a></p>
 <h3 id="preboostedvoteperiodlimit">preBoostedVotePeriodLimit<a class="headerlink" href="#preboostedvoteperiodlimit" title="Permanent link">&para;</a></h3>
 <p><strong>● preBoostedVotePeriodLimit</strong>: <em><code>number</code></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/genesisProtocol.ts#L1061">wrappers/genesisProtocol.ts:1061</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/wrappers/genesisProtocol.ts#L1119">wrappers/genesisProtocol.ts:1119</a></em></p>
 <p>The time limit in seconds that a proposal can be in the preBoosted phase before it will be automatically closed, in seconds, with a winning vote of NO, regardless of the actual value of the winning vote at the time expiration. Note an attempt must be made to execute before the proposal state will actually change. Default is 1814400 (three weeks).</p>
 <hr />
 <p><a id="preBoostedVoteRequiredPercentage"></a></p>
 <h3 id="preboostedvoterequiredpercentage">preBoostedVoteRequiredPercentage<a class="headerlink" href="#preboostedvoterequiredpercentage" title="Permanent link">&para;</a></h3>
 <p><strong>● preBoostedVoteRequiredPercentage</strong>: <em><code>number</code></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/genesisProtocol.ts#L1070">wrappers/genesisProtocol.ts:1070</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/wrappers/genesisProtocol.ts#L1128">wrappers/genesisProtocol.ts:1128</a></em></p>
 <p>The percent of the DAO's total supply of reputation that, when exceeded by the amount of reputation behind a vote (yes or no), will result in the immediate execution of the proposal, during either the preboosted or boosted phases. Must be greater than zero and less than or equal to 100. Default is 50.</p>
 <hr />
 <p><a id="proposingRepRewardConstA"></a></p>
 <h3 id="proposingreprewardconsta">proposingRepRewardConstA<a class="headerlink" href="#proposingreprewardconsta" title="Permanent link">&para;</a></h3>
 <p><strong>● proposingRepRewardConstA</strong>: <em><code>number</code></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/genesisProtocol.ts#L1076">wrappers/genesisProtocol.ts:1076</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/wrappers/genesisProtocol.ts#L1134">wrappers/genesisProtocol.ts:1134</a></em></p>
 <p>Constant A in the calculation of the proposer's reputation reward. Must be between 0 and 100000000. Default is 5.</p>
 <hr />
 <p><a id="proposingRepRewardConstB"></a></p>
 <h3 id="proposingreprewardconstb">proposingRepRewardConstB<a class="headerlink" href="#proposingreprewardconstb" title="Permanent link">&para;</a></h3>
 <p><strong>● proposingRepRewardConstB</strong>: <em><code>number</code></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/genesisProtocol.ts#L1082">wrappers/genesisProtocol.ts:1082</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/wrappers/genesisProtocol.ts#L1140">wrappers/genesisProtocol.ts:1140</a></em></p>
 <p>Constant B in the calculation of the proposer's reputation reward. Must be between 0 and 100000000. Default is 5.</p>
 <hr />
 <p><a id="quietEndingPeriod"></a></p>
 <h3 id="quietendingperiod">quietEndingPeriod<a class="headerlink" href="#quietendingperiod" title="Permanent link">&para;</a></h3>
 <p><strong>● quietEndingPeriod</strong>: <em><code>number</code></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/genesisProtocol.ts#L1092">wrappers/genesisProtocol.ts:1092</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/wrappers/genesisProtocol.ts#L1150">wrappers/genesisProtocol.ts:1150</a></em></p>
 <p>The duration, in seconds, at the end of the boosted phase during which any vote that changes the outcome of a proposal will cause the boosted phase to be extended by the amount of the quietEndingPeriod. If the quietEndingPeriod expires then the proposal expires and may be executed. It is a moving window: If the winning vote switches during the quietEndingPeriod then it restarts at the point in time when the vote switched, thus extending the boosted period. Default is 86400 (one day).</p>
 <hr />
 <p><a id="stakerFeeRatioForVoters"></a></p>
 <h3 id="stakerfeeratioforvoters">stakerFeeRatioForVoters<a class="headerlink" href="#stakerfeeratioforvoters" title="Permanent link">&para;</a></h3>
 <p><strong>● stakerFeeRatioForVoters</strong>: <em><code>number</code></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/genesisProtocol.ts#L1100">wrappers/genesisProtocol.ts:1100</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/wrappers/genesisProtocol.ts#L1158">wrappers/genesisProtocol.ts:1158</a></em></p>
 <p>For executed proposals, the percentage of staked tokens that is rewarded to all voters, regardless of the vote outcome, the staked vote outcome, or how the voter voted. Voters share this amount in proportion to the amount of reputation they voted. Must be between 0 and 100. Default is 50.</p>
 <hr />
 <p><a id="thresholdConstA"></a></p>
 <h3 id="thresholdconsta">thresholdConstA<a class="headerlink" href="#thresholdconsta" title="Permanent link">&para;</a></h3>
 <p><strong>● thresholdConstA</strong>: * <code>BigNumber</code> &#124; <code>string</code>
 *</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/genesisProtocol.ts#L1108">wrappers/genesisProtocol.ts:1108</a></em></p>
-<p>Constant A in the threshold calculation, in Wei. See <a href="../../classes/GenesisProtocolWrapper/#getThreshold">GenesisProtocolWrapper.getThreshold</a>. If the difference between Yes and No votes exceeds the threshold, then the proposal may be boosted. Must be between 0 and 100000000 (converted to Wei). Default is 7, converted to Wei.</p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/wrappers/genesisProtocol.ts#L1166">wrappers/genesisProtocol.ts:1166</a></em></p>
+<p>Constant A in the threshold calculation, in Wei. See [[GenesisProtocolWrapper.getThreshold]]. If the difference between Yes and No votes exceeds the threshold, then the proposal may be boosted. Must be between 0 and 100000000 (converted to Wei). Default is 7, converted to Wei.</p>
 <hr />
 <p><a id="thresholdConstB"></a></p>
 <h3 id="thresholdconstb">thresholdConstB<a class="headerlink" href="#thresholdconstb" title="Permanent link">&para;</a></h3>
 <p><strong>● thresholdConstB</strong>: <em><code>number</code></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/genesisProtocol.ts#L1116">wrappers/genesisProtocol.ts:1116</a></em></p>
-<p>Constant B in the threshold calculation. See <a href="../../classes/GenesisProtocolWrapper/#getThreshold">GenesisProtocolWrapper.getThreshold</a>. If the difference between Yes and No votes exceeds the threshold, then the proposal may be boosted. Must be greater than zero and less than or equal to 100000000. Default is 3.</p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/wrappers/genesisProtocol.ts#L1174">wrappers/genesisProtocol.ts:1174</a></em></p>
+<p>Constant B in the threshold calculation. See [[GenesisProtocolWrapper.getThreshold]]. If the difference between Yes and No votes exceeds the threshold, then the proposal may be boosted. Must be greater than zero and less than or equal to 100000000. Default is 3.</p>
 <hr />
 <p><a id="voteOnBehalf"></a></p>
 <h3 id="optional-voteonbehalf"><code>&lt;Optional&gt;</code> voteOnBehalf<a class="headerlink" href="#optional-voteonbehalf" title="Permanent link">&para;</a></h3>
 <p><strong>● voteOnBehalf</strong>: <em><a href="../#Address">Address</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/genesisProtocol.ts#L1120">wrappers/genesisProtocol.ts:1120</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/wrappers/genesisProtocol.ts#L1178">wrappers/genesisProtocol.ts:1178</a></em></p>
 <p>optional, to always vote on behalf of the given account. Otherwise is <code>msg.sender</code>.</p>
 <hr />
 <p><a id="votersGainRepRatioFromLostRep"></a></p>
 <h3 id="votersgainrepratiofromlostrep">votersGainRepRatioFromLostRep<a class="headerlink" href="#votersgainrepratiofromlostrep" title="Permanent link">&para;</a></h3>
 <p><strong>● votersGainRepRatioFromLostRep</strong>: <em><code>number</code></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/genesisProtocol.ts#L1127">wrappers/genesisProtocol.ts:1127</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/wrappers/genesisProtocol.ts#L1185">wrappers/genesisProtocol.ts:1185</a></em></p>
 <p>The percentage of losing pre-boosted voters' lost reputation (see votersReputationLossRatio) rewarded to winning pre-boosted voters. Must be between 0 and 100. Default is 80.</p>
 <hr />
 <p><a id="votersReputationLossRatio"></a></p>
 <h3 id="votersreputationlossratio">votersReputationLossRatio<a class="headerlink" href="#votersreputationlossratio" title="Permanent link">&para;</a></h3>
 <p><strong>● votersReputationLossRatio</strong>: <em><code>number</code></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/4b32be46/lib/wrappers/genesisProtocol.ts#L1133">wrappers/genesisProtocol.ts:1133</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/wrappers/genesisProtocol.ts#L1191">wrappers/genesisProtocol.ts:1191</a></em></p>
 <p>The percentage of reputation deducted from losing pre-boosted voters. Must be between 0 and 100. Default is 1.</p>
 <hr />
                 
