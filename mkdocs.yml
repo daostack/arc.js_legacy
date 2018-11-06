@@ -286,6 +286,7 @@ nav:
   - StandardTokenChangeApprovalOptions : 'api/interfaces/StandardTokenChangeApprovalOptions.md'
   - StandardTokenTransferFromOptions : 'api/interfaces/StandardTokenTransferFromOptions.md'
   - StandardTokenTransferOptions : 'api/interfaces/StandardTokenTransferOptions.md'
+  - ThresholdSchemeInfo : 'api/interfaces/ThresholdSchemeInfo.md'
   - TokenCapGcParams : 'api/interfaces/TokenCapGcParams.md'
   - TransactionReceiptsEventInfo : 'api/interfaces/TransactionReceiptsEventInfo.md'
   - TransactionReceiptTruffle : 'api/interfaces/TransactionReceiptTruffle.md'
