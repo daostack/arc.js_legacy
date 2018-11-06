@@ -335,15 +335,17 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
   /**
    * Return the threshold that is required for a proposal to be shifted into the boosted state.
    * The computation depends on the current number of boosted proposals that were created for
-   * this voting machine by the scheme at `schemeInfo.address` for the given `creatorAddress`
-   * (`creatorAddress` is the `organizationAddress` given to the `propose` method),
+   * this voting machine by the scheme at `schemeInfo.address` for the given `avatarAddress`
+   * (`avatarAddress` is the `organizationAddress` given to the `propose` method),
    * and the GenesisProtocol parameters `thresholdConstA` and `thresholdConstB` which
    * are registered on behalf of the given scheme with an avatar's Controller,
-   * keyed by the given `creatorAddress`.
+   * keyed by the given `avatarAddress`.
    *
-   * Thus `creatorAddress` must be an avatar address and this function will not work if
-   * you pass for `creatorAddress` any other contract address than an avatar.
-   * Otherwise you must use `getThresholdFromProposal`.
+   * Thus `avatarAddress` must be an avatar address and this function will not work if
+   * you pass for `avatarAddress` any other contract address than an avatar, even though
+   * GenesisProtocol is capable of using those non-avatar contract addresses.
+   * In those cases, when the organization is not an avatar, you must use `getThresholdFromProposal`
+   * to obtain the threshold.
    *
    * Note that there will be a separately-scoped threshold for proposals created for this
    * voting machine by any other scheme than the one given.
@@ -352,22 +354,22 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
    */
   public async getThresholdForSchemeAndCreator(
     schemeInfo: ThresholdSchemeInfo,
-    creatorAddress: Address): Promise<BigNumber> {
+    avatarAddress: Address): Promise<BigNumber> {
 
     if (!schemeInfo) {
       throw new Error("schemeAddress is not defined");
     }
 
-    if (!creatorAddress) {
-      throw new Error("creatorAddress is not defined");
+    if (!avatarAddress) {
+      throw new Error("avatarAddress is not defined");
     }
 
-    const organizationId = this.organizationIdFromProposalCreator(schemeInfo.address, creatorAddress);
+    const organizationId = this.organizationIdFromProposalCreator(schemeInfo.address, avatarAddress);
 
-    const votingMachineInfo = await schemeInfo.getSchemeParameters(creatorAddress);
+    const votingMachineInfo = await schemeInfo.getSchemeParameters(avatarAddress);
 
     if (!votingMachineInfo) {
-      throw new Error("votingMachineInfo is null, creatorAddress may not be an avatar");
+      throw new Error("votingMachineInfo is null, avatarAddress may not be an avatar");
     }
 
     if (votingMachineInfo.votingMachineAddress !== this.address) {
@@ -377,11 +379,11 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
     const votingMachineParamsHash = votingMachineInfo.voteParametersHash;
 
     if (UtilsInternal.isNullHash(votingMachineParamsHash)) {
-      throw new Error("creatorAddress does not yield a parameters hash, may not be an avatar");
+      throw new Error("avatarAddress does not yield a parameters hash, may not be an avatar");
     }
 
     this.logContractFunctionCall("GenesisProtocol.threshold",
-      { schemeInfo, creatorAddress, votingMachineParamsHash, organizationId });
+      { schemeInfo, avatarAddress, votingMachineParamsHash, organizationId });
 
     return this.contract.threshold(votingMachineParamsHash, organizationId);
   }
