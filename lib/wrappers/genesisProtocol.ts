@@ -15,7 +15,8 @@ import {
   ArcTransactionResult,
   DecodedLogEntryEvent,
   IContractWrapperFactory,
-  IVotingMachineWrapper
+  IVotingMachineWrapper,
+  StandardSchemeParams,
 } from "../iContractWrapperBase";
 import { ProposalService } from "../proposalService";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
@@ -332,13 +333,71 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
   }
 
   /**
-   * Return the threshold that is required by a proposal to it shift it into boosted state.
-   * The computation depends on the current number of boosted proposals created for
-   * this voting machine by the DAO or other contract, as well as the GenesisProtocol
-   * parameters thresholdConstA and thresholdConstB.
-   * @param {GetThresholdConfig} options
+   * Return the threshold that is required for a proposal to be shifted into the boosted state.
+   * The computation depends on the current number of boosted proposals that were created for
+   * this voting machine by the scheme at `schemeInfo.address` for the given `avatarAddress`
+   * (`avatarAddress` is the `organizationAddress` given to the `propose` method),
+   * and the GenesisProtocol parameters `thresholdConstA` and `thresholdConstB` which
+   * are registered on behalf of the given scheme with an avatar's Controller,
+   * keyed by the given `avatarAddress`.
+   *
+   * Thus `avatarAddress` must be an avatar address and this function will not work if
+   * you pass for `avatarAddress` any other contract address than an avatar, even though
+   * GenesisProtocol is capable of using those non-avatar contract addresses.
+   * In those cases, when the organization is not an avatar, you must use `getThresholdFromProposal`
+   * to obtain the threshold.
+   *
+   * Note that there will be a separately-scoped threshold for proposals created for this
+   * voting machine by any other scheme than the one given.
+   *
+   * Note that for Arc.js schemes you can just pass an Arc.js contract wrapper for `schemeInfo`.
    */
-  public async getThreshold(proposalId: Hash): Promise<BigNumber> {
+  public async getThresholdForSchemeAndCreator(
+    schemeInfo: ThresholdSchemeInfo,
+    avatarAddress: Address): Promise<BigNumber> {
+
+    if (!schemeInfo) {
+      throw new Error("schemeAddress is not defined");
+    }
+
+    if (!avatarAddress) {
+      throw new Error("avatarAddress is not defined");
+    }
+
+    const organizationId = this.organizationIdFromProposalCreator(schemeInfo.address, avatarAddress);
+
+    const votingMachineInfo = await schemeInfo.getSchemeParameters(avatarAddress);
+
+    if (!votingMachineInfo) {
+      throw new Error("votingMachineInfo is null, avatarAddress may not be an avatar");
+    }
+
+    if (votingMachineInfo.votingMachineAddress !== this.address) {
+      throw new Error("the scheme is not using this voting machine");
+    }
+
+    const votingMachineParamsHash = votingMachineInfo.voteParametersHash;
+
+    if (UtilsInternal.isNullHash(votingMachineParamsHash)) {
+      throw new Error("avatarAddress does not yield a parameters hash, may not be an avatar");
+    }
+
+    this.logContractFunctionCall("GenesisProtocol.threshold",
+      { schemeInfo, avatarAddress, votingMachineParamsHash, organizationId });
+
+    return this.contract.threshold(votingMachineParamsHash, organizationId);
+  }
+  /**
+   * Return the threshold that is required for a proposal to be shifted into the boosted state.
+   * The computation depends on the current number of boosted proposals that were created for
+   * this voting machine by the scheme that created the given proposal,
+   * and the GenesisProtocol parameters `thresholdConstA` and `thresholdConstB` which
+   * are stored with the proposal.
+   *
+   * Note that there will be a separately-scoped threshold for proposals created for this
+   * voting machine by any other scheme than the one that created the given proposal.
+   */
+  public async getThresholdFromProposal(proposalId: Hash): Promise<BigNumber> {
 
     if (!proposalId) {
       throw new Error("proposalId is not defined");
@@ -373,7 +432,8 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
 
     const organizationId = this.organizationIdFromProposalCreator(schemeAddress, creatorAddress);
 
-    this.logContractFunctionCall("GenesisProtocol.getBoostedProposalsCount", creatorAddress);
+    this.logContractFunctionCall("GenesisProtocol.getBoostedProposalsCount",
+      { schemeAddress, creatorAddress, organizationId });
 
     return this.contract.getBoostedProposalsCount(organizationId);
   }
@@ -1352,6 +1412,12 @@ export interface ExecutedGenesisProposal extends GenesisProtocolProposal {
 }
 
 export interface GenesisProtocolProposal {
+  /**
+   * This is what will appear as `_organization` in voting machine events.
+   * It is the value passed to `propose` as the optional argument: `organizationAddress`.
+   * If this argument is set to zero in `propose` then the value will be the msg.sender.
+   * With proposals created by Arc universal schemes (like GenesisProtocol), this is the avatar address.
+   */
   creatorAddress: Address;
   /**
    * in seconds
@@ -1419,4 +1485,21 @@ export interface GetNumberOfChoicesConfig {
    * unique hash of proposal index
    */
   proposalId: string;
+}
+
+/**
+ * Input to `GenesisProtocolWrapper.getThresholdForSchemeAndCreator`.  Provides info about a
+ * proposal-creating scheme that is generating proposals using GenesisProtocol.
+ */
+export interface ThresholdSchemeInfo {
+  /**
+   * address of the scheme
+   */
+  address: Address;
+  /**
+   * Returns promise of a `StandardSchemeParams` as the referenced scheme's parameters, as registered
+   * with the given avatar address.
+   * @param avatarAddress
+   */
+  getSchemeParameters(avatarAddress: Address): Promise<StandardSchemeParams>;
 }

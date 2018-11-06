@@ -76,7 +76,7 @@ describe("Redeemer", () => {
     await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.No, accounts[2]);
     await helpers.vote(result.votingMachine, proposalId, BinaryVoteResult.Yes, accounts[3]);
 
-    const stakeAmount = (await gp.getThreshold(proposalId)).add(web3.toWei(10));
+    const stakeAmount = (await gp.getThresholdFromProposal(proposalId)).add(web3.toWei(10));
 
     await (await gp.stakeWithApproval({ amount: stakeAmount, vote: 1, proposalId })).getTxMined();
 

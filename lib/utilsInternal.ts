@@ -1,6 +1,6 @@
 import { promisify } from "es6-promisify";
 import { BlockWithoutTransactionData, FilterResult } from "web3";
-import { Address, fnVoid } from "./commonTypes";
+import { Address, fnVoid, Hash } from "./commonTypes";
 import { Utils, Web3 } from "./utils";
 
 /**
@@ -63,6 +63,10 @@ export class UtilsInternal {
 
   public static isNullAddress(address: Address): boolean {
     return !address || !Number.parseInt(address, 16);
+  }
+
+  public static isNullHash(hash: Hash): boolean {
+    return !hash || !Number.parseInt(hash, 16);
   }
 
   /**

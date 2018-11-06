@@ -30,7 +30,7 @@ describe("GenesisProtocol", () => {
   let contributionReward: ContributionRewardWrapper;
 
   const sufficientStake = async (proposalId: Hash, amount: number): Promise<BigNumber> => {
-    return (await genesisProtocol.getThreshold(proposalId)).add(web3.toWei(amount));
+    return (await genesisProtocol.getThresholdFromProposal(proposalId)).add(web3.toWei(amount));
   };
 
   const createProposal = async (): Promise<Hash> => {
@@ -542,9 +542,16 @@ describe("GenesisProtocol", () => {
     assert(typeof result !== "undefined");
   });
 
-  it("can call getThreshold", async () => {
+  it("can call getThresholdFromProposal", async () => {
     const proposalId = await createProposal();
-    const result = await genesisProtocol.getThreshold(proposalId);
+    const result = await genesisProtocol.getThresholdFromProposal(proposalId);
+    assert(typeof result !== "undefined");
+  });
+
+  it("can call getThresholdForSchemeAndCreator", async () => {
+    const result = await genesisProtocol.getThresholdForSchemeAndCreator(
+      contributionReward,
+      dao.avatar.address);
     assert(typeof result !== "undefined");
   });
 
