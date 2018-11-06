@@ -338,7 +338,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
    * this voting machine by the scheme at `schemeInfo.address` for the given `creatorAddress`
    * (`creatorAddress` is the `organizationAddress` given to the `propose` method),
    * and the GenesisProtocol parameters `thresholdConstA` and `thresholdConstB` which
-   * are registered on behalf of this GenesisProtocol contract with an avatar's Controller,
+   * are registered on behalf of the given scheme with an avatar's Controller,
    * keyed by the given `creatorAddress`.
    *
    * Thus `creatorAddress` must be an avatar address and this function will not work if
@@ -346,9 +346,9 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
    * Otherwise you must use `getThresholdFromProposal`.
    *
    * Note that there will be a separately-scoped threshold for proposals created for this
-   * voting machine by any other scheme.
+   * voting machine by any other scheme than the one given.
    *
-   * For Arc.js schemes you can just pass a scheme contract wrapper for `schemeInfo`.
+   * Note that for Arc.js schemes you can just pass an Arc.js contract wrapper for `schemeInfo`.
    */
   public async getThresholdForSchemeAndCreator(
     schemeInfo: ThresholdSchemeInfo,
@@ -393,7 +393,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
    * are stored with the proposal.
    *
    * Note that there will be a separately-scoped threshold for proposals created for this
-   * voting machine by any other scheme than the on that created the given proposal.
+   * voting machine by any other scheme than the one that created the given proposal.
    */
   public async getThresholdFromProposal(proposalId: Hash): Promise<BigNumber> {
 
