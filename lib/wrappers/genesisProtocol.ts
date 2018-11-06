@@ -338,7 +338,28 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
    * parameters thresholdConstA and thresholdConstB.
    * @param {GetThresholdConfig} options
    */
-  public async getThreshold(proposalId: Hash): Promise<BigNumber> {
+  public async getThreshold(avatarAddress: Address): Promise<BigNumber> {
+
+    if (!avatarAddress) {
+      throw new Error("proposalId is not defined");
+    }
+
+    const proposal = await this.getProposal(avatarAddress);
+
+    this.logContractFunctionCall("GenesisProtocol.threshold",
+      { avatarAddress, parametersHash: proposal.paramsHash, organizationId: proposal.organizationId });
+
+    return this.contract.threshold(proposal.paramsHash, proposal.organizationId);
+  }
+
+  /**
+   * Return the threshold that is required by a proposal to it shift it into boosted state.
+   * The computation depends on the current number of boosted proposals created for
+   * this voting machine by the DAO or other contract, as well as the GenesisProtocol
+   * parameters thresholdConstA and thresholdConstB.
+   * @param {GetThresholdConfig} options
+   */
+  public async getThresholdFromProposal(proposalId: Hash): Promise<BigNumber> {
 
     if (!proposalId) {
       throw new Error("proposalId is not defined");
@@ -1352,6 +1373,12 @@ export interface ExecutedGenesisProposal extends GenesisProtocolProposal {
 }
 
 export interface GenesisProtocolProposal {
+  /**
+   * This is what will appear as `_organization` in voting machine events.
+   * It is the value passed to `propose` as the optional argument: `organizationAddress`.
+   * If this argument is set to zero in `propose` then the value will be the msg.sender.
+   * With proposals created by Arc universal schemes (like GenesisProtocol), this is the avatar address.
+   */
   creatorAddress: Address;
   /**
    * in seconds
