@@ -3851,14 +3851,14 @@
 <p><a id="clearAllSubscriptions"></a></p>
 <h3 id="static-clearallsubscriptions"><code>&lt;Static&gt;</code> clearAllSubscriptions<a class="headerlink" href="#static-clearallsubscriptions" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>clearAllSubscriptions</strong>(): <code>void</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/pubSubEventService.ts#L38">pubSubEventService.ts:38</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/01481af2/lib/pubSubEventService.ts#L38">pubSubEventService.ts:38</a></em></p>
 <p>Remove all subscriptions</p>
 <p><strong>Returns:</strong> <code>void</code></p>
 <hr />
 <p><a id="isTopicSpecifiedBy"></a></p>
 <h3 id="static-istopicspecifiedby"><code>&lt;Static&gt;</code> isTopicSpecifiedBy<a class="headerlink" href="#static-istopicspecifiedby" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>isTopicSpecifiedBy</strong>(matchTemplates: * <code>Array</code>&lt;<code>string</code>&gt; &#124; <code>string</code><em>, topic: </em><code>string</code>*): <code>boolean</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/pubSubEventService.ts#L91">pubSubEventService.ts:91</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/01481af2/lib/pubSubEventService.ts#L91">pubSubEventService.ts:91</a></em></p>
 <p>Return whether topic is specified by matchTemplates.</p>
 <p>Examples:</p>
 <p>matchTemplates: ["foo"] topic: "foo.bar" result: true</p>
@@ -3892,7 +3892,7 @@
 <p><a id="publish"></a></p>
 <h3 id="static-publish"><code>&lt;Static&gt;</code> publish<a class="headerlink" href="#static-publish" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>publish</strong>(topic: <em><code>string</code></em>, payload: <em><code>any</code></em>): <code>boolean</code></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/pubSubEventService.ts#L18">pubSubEventService.ts:18</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/01481af2/lib/pubSubEventService.ts#L18">pubSubEventService.ts:18</a></em></p>
 <p>Send the given payload to subscribers of the given topic.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3922,7 +3922,7 @@ True if there are any subscribers</p>
 <p><a id="subscribe"></a></p>
 <h3 id="static-subscribe"><code>&lt;Static&gt;</code> subscribe<a class="headerlink" href="#static-subscribe" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>subscribe</strong>(topics: * <code>string</code> &#124; <code>Array</code>&lt;<code>string</code>&gt;<em>, callback: </em><a href="../#EventSubscriptionCallback">EventSubscriptionCallback</a>*): <a href="../../interfaces/IEventSubscription/">IEventSubscription</a></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/pubSubEventService.ts#L29">pubSubEventService.ts:29</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/01481af2/lib/pubSubEventService.ts#L29">pubSubEventService.ts:29</a></em></p>
 <p>Subscribe to the given topic or array of topics.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3952,7 +3952,7 @@ An interface with <code>.unsubscribe()</code>.  Be sure to call it!</p>
 <p><a id="unsubscribe"></a></p>
 <h3 id="static-unsubscribe"><code>&lt;Static&gt;</code> unsubscribe<a class="headerlink" href="#static-unsubscribe" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>unsubscribe</strong>(key: <em><a href="../#EventSubscriptionKey">EventSubscriptionKey</a></em>, milliseconds?: <em><code>number</code></em>): <code>Promise</code>&lt;<code>void</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/f3347b4a/lib/pubSubEventService.ts#L52">pubSubEventService.ts:52</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/01481af2/lib/pubSubEventService.ts#L52">pubSubEventService.ts:52</a></em></p>
 <p>Unsubscribes after optional timeout. When passed a token, removes a specific subscription, when passed a callback, removes all subscriptions for that callback, when passed a topic, removes all subscriptions for the topic hierarchy.</p>
 <p><strong>Parameters:</strong></p>
 <table>
