@@ -3887,7 +3887,7 @@
                 
                 <h1 id="arc-contract-wrappers">Arc Contract Wrappers<a class="headerlink" href="#arc-contract-wrappers" title="Permanent link">&para;</a></h1>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>Arc.js wraps several Arc contracts in a "contract wrapper" JavaScript class.  Every wrapper class inherits ultimately from <a href="api/classes/ContractWrapperBase">ContractWrapperBase</a> providing a common set of functions and properties and specific helper functions for operations specific to the contract it wraps.</p>
+<p>Arc.js wraps several Arc contracts in a "contract wrapper" JavaScript class.  Every wrapper class inherits ultimately from <a href="/api/classes/ContractWrapperBase">ContractWrapperBase</a> providing a common set of functions and properties and specific helper functions for operations specific to the contract it wraps.</p>
 <p>Each wrapper contains some basic properties:</p>
 <ul>
 <li><code>name</code> - the name of the wrapped Arc contract</li>
@@ -3895,7 +3895,7 @@
 <li><code>address</code> - the address of the wrapped Arc contract</li>
 <li><code>contract</code> - the original "wrapped" <a href="https://github.com/trufflesuite/truffle-contract">Truffle contract</a> that you can use to access all of the Truffle and Web3 functionality of the specific Arc contract being wrapped.</li>
 <li>
-<p><code>factory</code> - a static instance of a wrapper factory class based on <a href="api/classes/ContractWrapperFactory">ContractWrapperFactory&lt;TWrapper&gt;</a> (where <code>TWrapper</code> is the type (class) of the wrapper).  Each factory contains static methods:</p>
+<p><code>factory</code> - a static instance of a wrapper factory class based on <a href="/api/classes/ContractWrapperFactory">ContractWrapperFactory&lt;TWrapper&gt;</a> (where <code>TWrapper</code> is the type (class) of the wrapper).  Each factory contains static methods:</p>
 <ul>
 <li><code>at(someAddress)</code></li>
 <li><code>new()</code></li>
@@ -4000,7 +4000,7 @@
 <p class="admonition-title">Info</p>
 <p><code>.at</code> will return <code>undefined</code> if it can't find the contract at the given address.</p>
 </div>
-<p>Another way to get a wrapper at a given address is using <a href="api/classes/WrapperService/#getContractWrapper">WrapperService.getContractWrapper</a>.  This is most useful when you have a contract name
+<p>Another way to get a wrapper at a given address is using <a href="/api/classes/WrapperService/#getContractWrapper">WrapperService.getContractWrapper</a>.  This is most useful when you have a contract name
 and may or may not have an address and wish to most efficiently return the associated wrapper, or undefined when not found:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
