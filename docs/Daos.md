@@ -1,6 +1,6 @@
 # Working with DAOs
 
-Arc.js provides a class called [DAO](api/classes/DAO) that facilitates creating and working with DAOs.  Read on for more information about DAOs in DAOstack and the [DAO](api/classes/DAO) class.
+Arc.js provides a class called [DAO](/arc.js/api/classes/DAO) that facilitates creating and working with DAOs.  Read on for more information about DAOs in DAOstack and the [DAO](/arc.js/api/classes/DAO) class.
 
 ## About DAOs
 
@@ -19,28 +19,28 @@ Every DAO in DAOstack includes an avatar, a controller, a token, a reputation sy
 
 **Schemes** are public-facing contracts that any agent may use when they want perform primary functions relating to a particular DAO.  Some schemes are "universal" in the sense that a single instance can be reused by multiple DAOs. Some schemes have the ability to create proposals and thus require that a configured voting machine be specified in the scheme's parameters.
 
-**Global constraints** use parameterized constraint criteria to block actions attempted by a DAO's controller that would violate a given constraint.  An example is [TokenCapGC](/api/classes/TokenCapGCWrapper) that limits the total supply of a given token to a certain maximum number.
+**Global constraints** use parameterized constraint criteria to block actions attempted by a DAO's controller that would violate a given constraint.  An example is [TokenCapGC](/arc.js/api/classes/TokenCapGCWrapper) that limits the total supply of a given token to a certain maximum number.
 
 DAOs are extensible beyond the reusability of Arc contracts: You can provide your own implementation of the controller, token, and any global constraints, voting machines and schemes you want.
 
 !!! info "More About DAOs"
-    For more information about DAOs, refer to [Structure of a DAO](https://daostack.github.io/arc/README/#the-structure-of-a-dao).
+    For more information about DAOs, refer to [Structure of a DAO](https://daostack.github.io/arc/README#the-structure-of-a-dao).
 !!! info "More About Schemes"
-    For more information about schemes, refer to [Schemes](Proposals#schemes).
+    For more information about schemes, refer to [Schemes](Proposals.md#schemes).
 !!! info "More About Proposals"
-    For more information about proposals, refer to [Proposals](Proposals#proposals).
+    For more information about proposals, refer to [Proposals](Proposals.md#proposals).
     
 ## Creating a new DAO
 <a name="creatingDAOs"></a>
 
 When creating a DAO you can configure its name, token, founders and schemes.  For schemes you configure their parameters and controller permissions.
 
-You can call [DAO.new](api/classes/DAO#new) to create a new DAO, passing it a [configuration object](api/interfaces/NewDaoConfig).
+You can call [DAO.new](/arc.js/api/classes/DAO#new) to create a new DAO, passing it a [configuration object](/arc.js/api/interfaces/NewDaoConfig).
 
 Almost everything in the configuration has a default.  The following sections describe how to supply custom configurations.
 
 !!! info
-    Under the hood, `Dao.new` uses the [DaoCreatorWrapper](api/classes/DaoCreatorWrapper) class.
+    Under the hood, `Dao.new` uses the [DaoCreatorWrapper](/arc.js/api/classes/DaoCreatorWrapper) class.
 
 ### Creating a new DAO with founders
 
@@ -72,7 +72,7 @@ const newDao = await DAO.new({
 });
 ```
 
-And voilà, you have created a new DAO with three founders in the DAO stack on Ethereum.  The returned object `newDao` is an instance of [DAO](api/classes/DAO).
+And voilà, you have created a new DAO with three founders in the DAO stack on Ethereum.  The returned object `newDao` is an instance of [DAO](/arc.js/api/classes/DAO).
 
 But though this DAO has founders with tokens and reputation who can thus make proposals and vote on them, there is still no way to _create_ proposals and thus nothing on which to vote.
 
@@ -128,7 +128,7 @@ const newDao = await DAO.new({
 ```
 
 !!! tip "Deploying the contract yourself"
-    If the non-universal contract has a wrapper factory in Arc.js, you can use the factory's `.new` method to deploy an instance of the contract.  Otherwise you must use `.new` on the Truffle contract method that you can obtain from Arc.js [Utils.requireContract](/api/classes/Utils/#static-requirecontract).
+    If the non-universal contract has a wrapper factory in Arc.js, you can use the factory's `.new` method to deploy an instance of the contract.  Otherwise you must use `.new` on the Truffle contract method that you can obtain from Arc.js [Utils.requireContract](/arc.js/api/classes/Utils#static-requirecontract).
 
 <a name="nonarcschemes"></a>
 ### Creating a new DAO with non-Arc schemes
@@ -156,7 +156,7 @@ const newDao = await DAO.new({
     A scheme contract is judged to be universal if it supports the method `updateParameters`.
 
 !!! tip "Hashing the parameters"
-    You should hash your scheme parameters however the non-Arc scheme does.  Arc schemes use `keccak256`.  If the non-Arc scheme uses the same method, you can use [Utils.keccak256](/api/classes/Utils/#static-keccak256). You should sequence the given types and values in the same order that they would appear when hashed by the universal non-Arc contract itself.
+    You should hash your scheme parameters however the non-Arc scheme does.  Arc schemes use `keccak256`.  If the non-Arc scheme uses the same method, you can use [Utils.keccak256](/arc.js/api/classes/Utils#static-keccak256). You should sequence the given types and values in the same order that they would appear when hashed by the universal non-Arc contract itself.
 
 ### Creating a new DAO with a non-Universal Controller
 
@@ -177,7 +177,7 @@ const newDao = await DAO.new({
 
 ### Creating a new DAO overriding the default voting machine
 
-By default, `DAO.new` configures each scheme with the [AbsoluteVote](api/classes/AbsoluteVoteWrapper) voting machine and default voting parameter values.  The following example retains the default voting machine while overriding its parameters:
+By default, `DAO.new` configures each scheme with the [AbsoluteVote](/arc.js/api/classes/AbsoluteVoteWrapper) voting machine and default voting parameter values.  The following example retains the default voting machine while overriding its parameters:
 
 
 ```javascript
@@ -192,7 +192,7 @@ const newDao = await DAO.new({
 });
 ```
 
-Here we supply an alternate voting machine address, supplying it [AbsoluteVote](api/classes/**AbsoluteVoteWrapper**) parameters:
+Here we supply an alternate voting machine address, supplying it [AbsoluteVote](/arc.js/api/classes/**AbsoluteVoteWrapper**) parameters:
 
 ```javascript
 const newDao = await DAO.new({
@@ -207,7 +207,7 @@ const newDao = await DAO.new({
 });
 ```
 
-Here we supply a different default voting machine ([GenesisProtocol](api/classes/GenesisProtocolWrapper)), with default voting parameters:
+Here we supply a different default voting machine ([GenesisProtocol](/arc.js/api/classes/GenesisProtocolWrapper)), with default voting parameters:
 
 ```javascript
 const newDao = await DAO.new({
@@ -241,7 +241,7 @@ const newDao = await DAO.new({
 ```
 
 !!! tip
-    If you want change the default voting machine for all calls to `DAO.new` you can do it using the [ConfigService](/api/classes/ConfigService) setting `defaultVotingMachine`. See [Arc.js Configuration Settings](Configuration.md).
+    If you want change the default voting machine for all calls to `DAO.new` you can do it using the [ConfigService](/arc.js/api/classes/ConfigService) setting `defaultVotingMachine`. See [Arc.js Configuration Settings](Configuration.md).
 
 ### Creating a new DAO using a custom DaoCreator scheme
 
@@ -261,7 +261,7 @@ const newDao = await DAO.new({
 
 ### Get a previously-created DAO
 
-Use [DAO.at](api/classes/DAO#at) to get a previously-created DAO using the avatar address:
+Use [DAO.at](/arc.js/api/classes/DAO#at) to get a previously-created DAO using the avatar address:
 
 ```javascript
 const dao = await DAO.at(daoAvatarAddress);
@@ -286,7 +286,7 @@ Or all of the DAOs created by a specific DaoCreator:
 const avatarAddresses = await DAO.getDaos({"daoCreatorAddress": anAddress});
 ```
 
-You can also watch as DAOs are, or have been, created using the [EventFetcherFactory](Events) mechanism:
+You can also watch as DAOs are, or have been, created using the [EventFetcherFactory](Events.md) mechanism:
 
 ```typescript
 const daoEventFetcherFactory = await DAO.getDaoCreationEvents();
@@ -323,7 +323,7 @@ Further, there are a number of other informational methods, all described in the
 <a name="gettingDaoSchemes"></a>
 ### Get all the schemes registered to the DAO
 
-You can obtain the addresses of all of the schemes that are registered with a DAO using [DAO.getSchemes](api/classes/DAO/#getSchemes).  You will also get a contract wrapper if the scheme happens to be the one deployed by the running version of Arc.js:
+You can obtain the addresses of all of the schemes that are registered with a DAO using [DAO.getSchemes](/arc.js/api/classes/DAO#getSchemes).  You will also get a contract wrapper if the scheme happens to be the one deployed by the running version of Arc.js:
 
 ```javascript
 const daoSchemeInfos = await myDao.getSchemes();
@@ -358,7 +358,7 @@ const isRegistered = await myDao.isSchemeRegistered(schemeAddress);
 
 A DAO participant (often also referred-to as a "member") is any agent with reputation with the DAO.
 
-You can obtain the address and reputation of all of the participants in a DAO using [DAO.getParticipants](/api/classes/DAO/#getParticipants) like this:
+You can obtain the address and reputation of all of the participants in a DAO using [DAO.getParticipants](/arc.js/api/classes/DAO#getParticipants) like this:
 
 ```javascript
 const daoParticipants = await myDao.getParticipants({
@@ -386,7 +386,7 @@ console.log(`  reputation: ${web3.fromWei(participant.reputation)}`);
 
 ### Get all the globalConstraints in a DAO
 
-You can obtain information about all of the global constraints registered with a DAO, using [DAO.getGlobalConstraints](/api/classes/DAO/#getGlobalConstraints) like this:
+You can obtain information about all of the global constraints registered with a DAO, using [DAO.getGlobalConstraints](/arc.js/api/classes/DAO#getGlobalConstraints) like this:
 
 ```javascript
 const constraints = await myDao.getGlobalConstraints();

@@ -1,6 +1,6 @@
 # Working with Events
 
-Arc.js offers two types of event systems, [Web3](web3events) and [Pub/Sub](#pubsubevents):
+Arc.js offers two types of event systems, [Web3](#web3events) and [Pub/Sub](#pubsubevents):
 
 - **Web3 Events** enable you to get and watch events as they originate from Web3 and Arc contracts.    The Web3 events system also contains a hybrid of the two systems, enabling you to watch a Web3 event by subscribing to a [Pub/Sub event](#pubsubevents).
 
@@ -27,9 +27,9 @@ Arc.js enhances these events in several ways:
 - The callback to `get` is invoked once for the entire array of fired events, always returning an array.  The callback to `watch` is invoked once for each value, always returning the event.
 - The `get` method directly returns a promise of an array containing every event fetched, bypassing the need for a callback.
 - Optionally you can use `subscribe` instead of `watch` to use the Pub/Sub event mechanism as an alternate means of watching events as they fire. See [Pub/Sub Web3 Events](#pubsubweb3).
-- You need not worry about duplicate events, Arc.js eliminates them.  (Duplicate events can occur while the chain is still in the process of reorganizing). This feature can be suppressed if desired when you create an `EventFetcher` (see [EventFetcherFilterObject](/api/interfaces/EventFetcherFilterObject)).
+- You need not worry about duplicate events, Arc.js eliminates them.  (Duplicate events can occur while the chain is still in the process of reorganizing). This feature can be suppressed if desired when you create an `EventFetcher` (see [EventFetcherFilterObject](/arc.js/api/interfaces/EventFetcherFilterObject)).
 
-The enhanced event functionality is provided by [Web3EventService.createEventFetcherFactory(...)](api/classes/Web3EventService#createEventFetcherFactory) which returns an [EventFetcherFactory](api/README/#eventfetcherfactory) function which returns an [EventFetcher](api/interfaces/eventfetcher) which gives you the `get`, `watch` and `subscribe` methods.
+The enhanced event functionality is provided by [Web3EventService.createEventFetcherFactory(...)](/arc.js/api/classes/Web3EventService#createEventFetcherFactory) which returns an [EventFetcherFactory](/arc.js/api/README#eventfetcherfactory) function which returns an [EventFetcher](/arc.js/api/interfaces/eventfetcher) which gives you the `get`, `watch` and `subscribe` methods.
 
 Here is an example of the above flow, resulting in calling `get` without a callback to get all `ChangeUpgradeSchemeProposal` events pertaining to a given DAO:
 
@@ -65,13 +65,13 @@ In some cases Arc.js exposes Web3 event arguments as entities (objects) that are
 
 
 
-Making extensive use of this feature, [Proposal-related events](Proposals#proposalevents) return entities instead of the raw Web3 event data.
+Making extensive use of this feature, [Proposal-related events](Proposals.md#proposalevents) return entities instead of the raw Web3 event data.
 
 That is really all you need to know about entities for Web3 events, so the following is optional reading in case you find yourself wanting to convert for yourself a regular enhanced Web3 event into an entity event.
 
-You can use [Web3EventService](api/classes/Web3EventService) to turn any [EventFetcherFactory](api/README/#eventfetcherfactory) into an [EntityFetcherFactory](api/README/#entityfetcherfactory) providing cleaner and potentially richer entities than what you get from Web3 and [EventFetcherFactory](api/README/#eventfetcherfactory).
+You can use [Web3EventService](/arc.js/api/classes/Web3EventService) to turn any [EventFetcherFactory](/arc.js/api/README#eventfetcherfactory) into an [EntityFetcherFactory](/arc.js/api/README#entityfetcherfactory) providing cleaner and potentially richer entities than what you get from Web3 and [EventFetcherFactory](/arc.js/api/README#eventfetcherfactory).
 
-The [EntityFetcherFactory](api/README/#entityfetcherfactory) creates an [EntityFetcher](api/interfaces/entityfetcher) which gives you the `get`, `watch` and `subscribe` methods.
+The [EntityFetcherFactory](/arc.js/api/README#entityfetcherfactory) creates an [EntityFetcher](/arc.js/api/interfaces/entityfetcher) which gives you the `get`, `watch` and `subscribe` methods.
 
 Here is how you can turn `ChangeUpgradeSchemeProposal` into an `EntityFetcherFactory` whose events give you the promise of an object ("entity") with a single `avatarAddress` property:
 
@@ -100,7 +100,7 @@ eventFetcher.stopWatching();
 
 ### Comparing Enhanced Web3 with Entity for Web3 Events
 
-Enhanced Web3 ([EventFetcherFactory](api/README/#eventfetcherfactory)) and entity ([EntityFetcherFactory](api/README/#entityfetcherfactory)) events each have relative pros and cons.  
+Enhanced Web3 ([EventFetcherFactory](/arc.js/api/README#eventfetcherfactory)) and entity ([EntityFetcherFactory](/arc.js/api/README#entityfetcherfactory)) events each have relative pros and cons.  
 
 Enhanced Web3 events give you all of the information that Web3 provides about an event.  These events closely match what you may be accustomed-to if you have been working with Web3 and Truffle.
 
@@ -116,21 +116,21 @@ Otherwise there is little difference between the two.   They both enjoy the enha
 
 Both `EventFetcher` and `EntityFetcher` provide a `subscribe` function, sibling to `get` and `watch`, that enables you specify the topic of a [Pub/Sub event](#pubsubevents) that will be published whenever the underlying Web3 event is fired.
 
-When you specify the topic for such a subscription you are effectively creating your own Pub/Sub event.  This gives you wide flexibility in scoping your event handling across different Arc.js contract wrappers and events, including leveraging the hierarchical structure that you can build into your topic strings.  Further, any number of your code components can use [PubSubEventService.subscribe](/api/classes/PubSubEventService#subscribe) to subscribe to a single Pub/Sub Web3 event.  You just need to have called `EntityFetcher.subscribe` once to initiate fetching of the Web3 event and subsequent publishing to the given Pub/Sub topic.
+When you specify the topic for such a subscription you are effectively creating your own Pub/Sub event.  This gives you wide flexibility in scoping your event handling across different Arc.js contract wrappers and events, including leveraging the hierarchical structure that you can build into your topic strings.  Further, any number of your code components can use [PubSubEventService.subscribe](/arc.js/api/classes/PubSubEventService#subscribe) to subscribe to a single Pub/Sub Web3 event.  You just need to have called `EntityFetcher.subscribe` once to initiate fetching of the Web3 event and subsequent publishing to the given Pub/Sub topic.
 
 <a name="pubsubevents"></a>
 ## Pub/Sub Events
 
-The [PubSubEventService](api/classes/PubSubEventService) provides a Pub/Sub event system that enables you to subscribe to various events published by Arc.js (or even by your own application if you want).
+The [PubSubEventService](/arc.js/api/classes/PubSubEventService) provides a Pub/Sub event system that enables you to subscribe to various events published by Arc.js (or even by your own application if you want).
 
 
 Uses of pub/sub events:
 
-- Tracking transactions as they complete  (see [Transactions](Transactions)).
+- Tracking transactions as they complete  (see [Transactions](Transactions.md)).
 
-- Being notified whenever the current account changes (see [Account Changes](Configuration#accountchanges)).
+- Being notified whenever the current account changes (see [Account Changes](Configuration.md#accountchanges)).
 
-- Watching events in the Web3 event system using the `subscribe` function implemented by [EventFetcher](api/interfaces/EventFetcher/) and [EntityFetcher](api/interfaces/EntityFetcher/) (see [Pub/Sub Web3 Events](#pubsubweb3))
+- Watching events in the Web3 event system using the `subscribe` function implemented by [EventFetcher](/arc.js/api/interfaces/EventFetcher/) and [EntityFetcher](/arc.js/api/interfaces/EntityFetcher/) (see [Pub/Sub Web3 Events](#pubsubweb3))
 
 - Any other custom purpose for which you wish to apply the `PubSubEventService` in publishing and subscribing to events in the context of your own application
 

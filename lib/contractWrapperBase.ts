@@ -251,7 +251,7 @@ export abstract class ContractWrapperBase implements IContractWrapper {
   }
 
   /**
-   * See [Web3EventService.createEventFetcherFactory](Web3EventService#createEventFetcherFactory).
+   * See [Web3EventService.createEventFetcherFactory](Web3EventService.md#createEventFetcherFactory).
    *
    * @type TArgs
    * @param eventName

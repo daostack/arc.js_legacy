@@ -61,7 +61,7 @@ import { Utils } from "./utils";
 import { WrapperService, WrapperServiceInitializeOptions } from "./wrapperService";
 
 /**
- * Options for [InitializeArcJs](/api/README/#initializearcjs)
+ * Options for [InitializeArcJs](/arc.js/api/README#initializearcjs)
  */
 export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
   /**
@@ -73,7 +73,7 @@ export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
   /**
    * Name of the network for which to use the defaults found in Arc.js/truffle.js.
    * Overwrites config settings network, providerUrl and providerPort.
-   * See [Network settings](Home#networksettings) for more information.
+   * See [Network settings](/Home.md#networksettings) for more information.
    */
   useNetworkDefaultsFor?: string;
   /**
@@ -84,12 +84,12 @@ export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
   useWeb3?: Web3;
   /**
    * Set to true to watch for changes in the current user account.
-   * Default is false.  See [AccountService.initiateAccountWatch](/api/classes/AccountService#initiateAccountWatch).
+   * Default is false.  See [AccountService.initiateAccountWatch](/arc.js/api/classes/AccountService#initiateAccountWatch).
    */
   watchForAccountChanges?: boolean;
   /**
    * Set to true to watch for changes in the current blockchain network.
-   * Default is false.  See [AccountService.initiateNetworkWatch](/api/classes/AccountService#initiateNetworkWatch).
+   * Default is false.  See [AccountService.initiateNetworkWatch](/arc.js/api/classes/AccountService#initiateNetworkWatch).
    */
   watchForNetworkChanges?: boolean;
 }

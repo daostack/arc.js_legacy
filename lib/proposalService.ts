@@ -22,7 +22,7 @@ import {
  * that provides functions enabling ProposalService to do its job with respect to the given TProposal.
  * Note it is not scoped to a particular Avatar.
  *
- * For more information, see [Proposals](Proposals#proposals).
+ * For more information, see [Proposals](/Proposals.md#proposals).
  */
 export class ProposalService {
 

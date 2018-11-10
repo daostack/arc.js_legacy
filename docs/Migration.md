@@ -1,6 +1,6 @@
 # Migrations
 
-Arc.js ships with contracts already migrated to Kovan and MainNet.  But you may wish to deploy contracts to a specified network, particularly Ganache.  Migrating to Ganache is simple, described [here](Index#migratetoganache).  Migrating to other networks involves a little more effort, as follows.
+Arc.js ships with contracts already migrated to Kovan and MainNet.  But you may wish to deploy contracts to a specified network, particularly Ganache.  Migrating to Ganache is simple, described [here](index.md#migratetoganache).  Migrating to other networks involves a little more effort, as follows.
 
 1. Set the environment variable `arcjs_network` to the name of the network ("ganache", "kovan", "ropsten", "live"). The default is "ganache".  Truffle will use this setting to find the specified settings in truffle.js in the Arc.js package.
 

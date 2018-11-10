@@ -4,7 +4,7 @@ import { PubSubEventService } from "./pubSubEventService";
 /**
  * Set and set global Arc.js settings.
  *
- * For more information, refer to [Configuring Arc.js](Configuration).
+ * For more information, refer to [Configuring Arc.js](/Configuration.md).
  */
 export class ConfigService {
   public static instance: IConfigService;

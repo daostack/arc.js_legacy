@@ -3,7 +3,7 @@
 It can be very handy to run Arc.js tests or your application against a Ganache database that is a snapshot of the chain at any given point. Here's how, assuming you are running the script from your application (which is why you see "`npm explore @daostack/arc.js -- `" prepended to each script command).
 
 !!! note
-    These instructions are very similar to those you would use when [_not_ running Ganache against a database](Index#migratetoganache).
+    These instructions are very similar to those you would use when [_not_ running Ganache against a database](index.md#migratetoganache).
 
 ### Start Ganache
 

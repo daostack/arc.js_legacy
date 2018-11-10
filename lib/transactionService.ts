@@ -12,7 +12,7 @@ const ethJSABI = require("ethjs-abi");
 /**
  * Enables you to track the completion of transactions triggered by Arc.js functions.
  * You can subscribe to events that tell you how many transactions are anticipated when
- * the transactions have completed.  For more information, see [Tracking Transactions](/Transactions).
+ * the transactions have completed.  For more information, see [Tracking Transactions](/Transactions.md).
  */
 export class TransactionService extends PubSubEventService {
 
@@ -176,8 +176,8 @@ export class TransactionService extends PubSubEventService {
   /**
    * Returns a promise of a TransactionReceipt once the given transaction has been mined.
    *
-   * See also [getMinedTransaction](/api/classes/TransactionService#getMinedTransaction) and
-   * [getTransactionDepth](/api/classes/TransactionService#getTransactionDepth).
+   * See also [getMinedTransaction](/arc.js/api/classes/TransactionService#getMinedTransaction) and
+   * [getTransactionDepth](/arc.js/api/classes/TransactionService#getTransactionDepth).
    *
    * @param txHash the transaction hash
    * @param contract Optional contract instance or contract name of the contract that generated the transaction.
@@ -242,8 +242,8 @@ export class TransactionService extends PubSubEventService {
    * Returns a promise of a TransactionReceipt once the given transaction has been confirmed
    * according to the optional `requiredDepth`.
    *
-   * See also [getConfirmedTransaction](/api/classes/TransactionService#getConfirmedTransaction) and
-   * [getTransactionDepth](/api/classes/TransactionService#getTransactionDepth).
+   * See also [getConfirmedTransaction](/arc.js/api/classes/TransactionService#getConfirmedTransaction) and
+   * [getTransactionDepth](/arc.js/api/classes/TransactionService#getTransactionDepth).
    *
    * @param txHash The transaction hash to watch
    * @param contract Optional contract instance or contract name of the contract that generated the transaction.
@@ -273,8 +273,8 @@ export class TransactionService extends PubSubEventService {
    * the given transaction appeared. Use this to decide whether a transaction is
    * sufficiently secure (confirmed).
    *
-   * See also [getConfirmedTransaction](/api/classes/TransactionService#getConfirmedTransaction)
-   * and [watchForConfirmedTransaction](/api/classes/TransactionService#watchForConfirmedTransaction).
+   * See also [getConfirmedTransaction](/arc.js/api/classes/TransactionService#getConfirmedTransaction)
+   * and [watchForConfirmedTransaction](/arc.js/api/classes/TransactionService#watchForConfirmedTransaction).
    * @param tx txHash or TransactionReceipt
    * @returns Promise of the depth or -1 if the transaction cannot be found
    */
@@ -516,7 +516,7 @@ export class TransactionService extends PubSubEventService {
   /**
    * Returns the default value for required block depth defined for the current network
    * in the Arc.js global configuration
-   * "[txDepthRequiredForConfirmation](Configuration#txDepthRequiredForConfirmation)".
+   * "[txDepthRequiredForConfirmation](/Configuration.md#txDepthRequiredForConfirmation)".
    * @param requiredDepth Overrides the default if given
    */
   public static async getDefaultDepth(requiredDepth?: number): Promise<number> {
