@@ -3972,7 +3972,7 @@
                 
                 
                 <h1 id="working-with-daos">Working with DAOs<a class="headerlink" href="#working-with-daos" title="Permanent link">&para;</a></h1>
-<p>Arc.js provides a class called <a href="/api/classes/DAO">DAO</a> that facilitates creating and working with DAOs.  Read on for more information about DAOs in DAOstack and the <a href="/api/classes/DAO">DAO</a> class.</p>
+<p>Arc.js provides a class called <a href="api/classes/DAO">DAO</a> that facilitates creating and working with DAOs.  Read on for more information about DAOs in DAOstack and the <a href="api/classes/DAO">DAO</a> class.</p>
 <h2 id="about-daos">About DAOs<a class="headerlink" href="#about-daos" title="Permanent link">&para;</a></h2>
 <p>Every DAO in DAOstack includes an avatar, a controller, a token, a reputation system, and zero or more schemes and global constraints.</p>
 <p><strong>The avatar</strong> is a public-facing part of the DAO that handles the interaction of the DAO with the rest of the world, for example interacting with other DAOs or paying third party agents.  A DAO is always referenced by the address of its avatar.</p>
@@ -4001,11 +4001,11 @@
 <h2 id="creating-a-new-dao">Creating a new DAO<a class="headerlink" href="#creating-a-new-dao" title="Permanent link">&para;</a></h2>
 <p><a name="creatingDAOs"></a></p>
 <p>When creating a DAO you can configure its name, token, founders and schemes.  For schemes you configure their parameters and controller permissions.</p>
-<p>You can call <a href="/api/classes/DAO#new">DAO.new</a> to create a new DAO, passing it a <a href="/api/interfaces/NewDaoConfig">configuration object</a>.</p>
+<p>You can call <a href="api/classes/DAO#new">DAO.new</a> to create a new DAO, passing it a <a href="api/interfaces/NewDaoConfig">configuration object</a>.</p>
 <p>Almost everything in the configuration has a default.  The following sections describe how to supply custom configurations.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>Under the hood, <code>Dao.new</code> uses the <a href="/api/classes/DaoCreatorWrapper">DaoCreatorWrapper</a> class.</p>
+<p>Under the hood, <code>Dao.new</code> uses the <a href="api/classes/DaoCreatorWrapper">DaoCreatorWrapper</a> class.</p>
 </div>
 <h3 id="creating-a-new-dao-with-founders">Creating a new DAO with founders<a class="headerlink" href="#creating-a-new-dao-with-founders" title="Permanent link">&para;</a></h3>
 <p>The simplest example of how to create a new DAO adds one or more founders and no schemes. You add the founders by including a "founders" array.  This will automatically mint tokens and reputation to each founder:</p>
@@ -4057,7 +4057,7 @@
 </pre></div>
 </td></tr></table>
 
-<p>And voilà, you have created a new DAO with three founders in the DAO stack on Ethereum.  The returned object <code>newDao</code> is an instance of <a href="/api/classes/DAO">DAO</a>.</p>
+<p>And voilà, you have created a new DAO with three founders in the DAO stack on Ethereum.  The returned object <code>newDao</code> is an instance of <a href="api/classes/DAO">DAO</a>.</p>
 <p>But though this DAO has founders with tokens and reputation who can thus make proposals and vote on them, there is still no way to <em>create</em> proposals and thus nothing on which to vote.</p>
 <div class="admonition note">
 <p class="admonition-title">On Founders</p>
@@ -4181,7 +4181,7 @@ other than events that record their interactions with the DAO.  They are simply 
 <p>For more information about choosing between universal and non-universal controllers, see <a href="https://daostack.github.io/arc/contracts/controller/UController/">this article</a>.</p>
 </div>
 <h3 id="creating-a-new-dao-overriding-the-default-voting-machine">Creating a new DAO overriding the default voting machine<a class="headerlink" href="#creating-a-new-dao-overriding-the-default-voting-machine" title="Permanent link">&para;</a></h3>
-<p>By default, <code>DAO.new</code> configures each scheme with the <a href="/api/classes/AbsoluteVoteWrapper">AbsoluteVote</a> voting machine and default voting parameter values.  The following example retains the default voting machine while overriding its parameters:</p>
+<p>By default, <code>DAO.new</code> configures each scheme with the <a href="api/classes/AbsoluteVoteWrapper">AbsoluteVote</a> voting machine and default voting parameter values.  The following example retains the default voting machine while overriding its parameters:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
@@ -4202,7 +4202,7 @@ other than events that record their interactions with the DAO.  They are simply 
 </pre></div>
 </td></tr></table>
 
-<p>Here we supply an alternate voting machine address, supplying it <a href="/api/classes/**AbsoluteVoteWrapper**">AbsoluteVote</a> parameters:</p>
+<p>Here we supply an alternate voting machine address, supplying it <a href="api/classes/**AbsoluteVoteWrapper**">AbsoluteVote</a> parameters:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
@@ -4225,7 +4225,7 @@ other than events that record their interactions with the DAO.  They are simply 
 </pre></div>
 </td></tr></table>
 
-<p>Here we supply a different default voting machine (<a href="/api/classes/GenesisProtocolWrapper">GenesisProtocol</a>), with default voting parameters:</p>
+<p>Here we supply a different default voting machine (<a href="api/classes/GenesisProtocolWrapper">GenesisProtocol</a>), with default voting parameters:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
@@ -4302,7 +4302,7 @@ other than events that record their interactions with the DAO.  They are simply 
 <p>Your DAO creator contract must, at least as a subset of its functionality, implement the same ABI as the Arc <code>DaoCreator</code> contract shipped with the running version of Arc.js.</p>
 </div>
 <h3 id="get-a-previously-created-dao">Get a previously-created DAO<a class="headerlink" href="#get-a-previously-created-dao" title="Permanent link">&para;</a></h3>
-<p>Use <a href="/api/classes/DAO#at">DAO.at</a> to get a previously-created DAO using the avatar address:</p>
+<p>Use <a href="api/classes/DAO#at">DAO.at</a> to get a previously-created DAO using the avatar address:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">dao</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAO</span><span class="p">.</span><span class="nx">at</span><span class="p">(</span><span class="nx">daoAvatarAddress</span><span class="p">);</span>
 </pre></div>
 </td></tr></table>
@@ -4388,7 +4388,7 @@ other than events that record their interactions with the DAO.  They are simply 
 <p>Further, there are a number of other informational methods, all described in the following sections.</p>
 <p><a name="gettingDaoSchemes"></a></p>
 <h3 id="get-all-the-schemes-registered-to-the-dao">Get all the schemes registered to the DAO<a class="headerlink" href="#get-all-the-schemes-registered-to-the-dao" title="Permanent link">&para;</a></h3>
-<p>You can obtain the addresses of all of the schemes that are registered with a DAO using <a href="/api/classes/DAO/#getSchemes">DAO.getSchemes</a>.  You will also get a contract wrapper if the scheme happens to be the one deployed by the running version of Arc.js:</p>
+<p>You can obtain the addresses of all of the schemes that are registered with a DAO using <a href="api/classes/DAO/#getSchemes">DAO.getSchemes</a>.  You will also get a contract wrapper if the scheme happens to be the one deployed by the running version of Arc.js:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
