@@ -3780,7 +3780,7 @@
 <div class="admonition info">
 <p class="admonition-title">More about DAOs</p>
 <ul>
-<li><a href="Daos">Working with DAOs in Arc.js</a></li>
+<li><a href="/Daos">Working with DAOs in Arc.js</a></li>
 <li><a href="https://medium.com/daostack/the-arc-platform-2353229a32fc">The Arc Platform</a></li>
 <li><a href="https://daostack.io/">About DAOstack's vision for a DAO ecosystem</a></li>
 </ul>
@@ -3793,8 +3793,8 @@
 <div class="admonition info">
 <p class="admonition-title">More Information about Schemes</p>
 <ul>
-<li><a href="Wrappers#wrappersByContractType">All the schemes wrapped in Arc.js</a></li>
-<li><a href="Daos#gettingDaoSchemes">Obtaining a list of schemes registered with a DAO</a></li>
+<li><a href="/Wrappers#wrappersByContractType">All the schemes wrapped in Arc.js</a></li>
+<li><a href="/Daos#gettingDaoSchemes">Obtaining a list of schemes registered with a DAO</a></li>
 <li><a href="https://daostack.github.io/arc/contracts/universalSchemes/README/">Universal Schemes in Arc</a></li>
 </ul>
 </div>
@@ -3803,7 +3803,7 @@
 <p>As ideas emerge from a DAO's community they can be submitted as proposals to the DAO using a DAO scheme. Proposals are then subject to a vote that proceeds according to the rules of the scheme's <a href="#votingmachines">voting machine</a>. The voting machine and its configuration were supplied to the scheme when the scheme was registered with the DAO's controller.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Schemes are registered with a DAO's controller either when the DAO <a href="Daos#creatingDAOs">is created</a> or afterwards using the <a href="api/classes/SchemeRegistrarWrapper">SchemeRegistrar</a>.</p>
+<p>Schemes are registered with a DAO's controller either when the DAO <a href="/Daos#creatingDAOs">is created</a> or afterwards using the <a href="/api/classes/SchemeRegistrarWrapper">SchemeRegistrar</a>.</p>
 </div>
 <p>The following table describes the various proposals you can create using scheme contract wrappers in Arc.js:</p>
 <p><a name="proposalschemestable"></a></p>
@@ -3883,7 +3883,7 @@
 </ul>
 <div class="admonition info">
 <p class="admonition-title">More on Events</p>
-<p>See <a href="Events#enhancedweb3events">Enhanced Web3 Events</a> and <a href="Events#entityevents">Entities for Web3 Events</a> for more information about these event-fetching interfaces.</p>
+<p>See <a href="/Events#enhancedweb3events">Enhanced Web3 Events</a> and <a href="/Events#entityevents">Entities for Web3 Events</a> for more information about these event-fetching interfaces.</p>
 </div>
 <p>Like the schemes, the <code>GenesisProtocolWrapper</code> voting machine provides special instances of <code>EntityFetcherFactory</code> to be used for fetching events about votable and executed proposals.  The fetched entity will contain additional information relevant to the proposal that you will not get via the scheme or <code>IntVoteInterface</code> events. See <a href="/api/classes/GenesisProtocolWrapper#VotableGenesisProtocolProposals">VotableGenesisProtocolProposals</a> and <a href="/api/classes/GenesisProtocolWrapper#ExecutedProposals">ExecutedProposals</a>.</p>
 <p><a name="votingmachines"></a></p>
