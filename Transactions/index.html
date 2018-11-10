@@ -3844,7 +3844,7 @@
 </div>
 <div class="admonition info">
 <p class="admonition-title">More about Pub/Sub events</p>
-<p>See more about how to use the Pub/Sub event system, including how to scope your subscriptions to whole sets of events, <a href="/Events/#pubsub-events">here</a>.</p>
+<p>See more about how to use the Pub/Sub event system, including how to scope your subscriptions to whole sets of events, <a href="../Events/#pubsub-events">here</a>.</p>
 </div>
 <h2 id="transaction-lifecycle">Transaction Lifecycle<a class="headerlink" href="#transaction-lifecycle" title="Permanent link">&para;</a></h2>
 <p>All transactions proceed through three stages:  sent, mined and confirmed.  In the example above, when we subscribed to <code>TxTracking.DAO.new</code>, we are actually subscribing to four distinct events: </p>
@@ -3868,29 +3868,29 @@
 </thead>
 <tbody>
 <tr>
-<td><a href="/api/classes/TransactionService#getMinedTransaction">getMinedTransaction</a></td>
+<td><a href="/arc.js/api/classes/TransactionService#getMinedTransaction">getMinedTransaction</a></td>
 <td>Returns a promise of a <code>TransactionReceipt</code> if the given transaction has been mined according to the optional <code>requiredDepth</code> (default <code>requiredDepth</code> is 0)</td>
 </tr>
 <tr>
-<td><a href="/api/classes/TransactionService#watchForMinedTransaction">watchForMinedTransaction</a></td>
+<td><a href="/arc.js/api/classes/TransactionService#watchForMinedTransaction">watchForMinedTransaction</a></td>
 <td>Returns a promise of a <code>TransactionReceipt</code> once the given transaction has been mined according to the optional <code>requiredDepth</code> (default <code>requiredDepth</code> is 0)</td>
 </tr>
 <tr>
-<td><a href="/api/classes/TransactionService#getConfirmedTransaction">getConfirmedTransaction</a></td>
+<td><a href="/arc.js/api/classes/TransactionService#getConfirmedTransaction">getConfirmedTransaction</a></td>
 <td>Returns a promise of a <code>TransactionReceipt</code> if the given transaction has been confirmed according to the optional <code>requiredDepth</code> (default <code>requiredDepth</code> comes from the <code>ConfigService</code>)</td>
 </tr>
 <tr>
-<td><a href="/api/classes/TransactionService#watchForConfirmedTransaction">watchForConfirmedTransaction</a></td>
+<td><a href="/arc.js/api/classes/TransactionService#watchForConfirmedTransaction">watchForConfirmedTransaction</a></td>
 <td>Returns a promise of a <code>TransactionReceipt</code> once the given transaction has been confirmed according to the optional <code>requiredDepth</code> (default <code>requiredDepth</code> comes from the <code>ConfigService</code>)</td>
 </tr>
 <tr>
-<td><a href="/api/classes/TransactionService#getTransactionDepth">getTransactionDepth</a></td>
+<td><a href="/arc.js/api/classes/TransactionService#getTransactionDepth">getTransactionDepth</a></td>
 <td>Returns a promise of the number of blocks that have been added to the chain since the given transaction was mined.</td>
 </tr>
 </tbody>
 </table>
 <h2 id="wrapper-functions-that-generate-a-transaction">Wrapper Functions that Generate a Transaction<a class="headerlink" href="#wrapper-functions-that-generate-a-transaction" title="Permanent link">&para;</a></h2>
-<p>Contract wrapper functions that generate a promise of a transaction will return the promise of an <a href="/api/classes/ArcTransactionResult">ArcTransactionResult</a> that contains methods giving you access to the functions described in <a href="#gettingtxinfo">Getting Information About Transactions</a> without having to supply the transaction hash.  For example:</p>
+<p>Contract wrapper functions that generate a promise of a transaction will return the promise of an <a href="/arc.js/api/classes/ArcTransactionResult">ArcTransactionResult</a> that contains methods giving you access to the functions described in <a href="#gettingtxinfo">Getting Information About Transactions</a> without having to supply the transaction hash.  For example:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
@@ -3906,14 +3906,14 @@
 <p><a name="transactiondepth"></a></p>
 <h2 id="transaction-depth">Transaction Depth<a class="headerlink" href="#transaction-depth" title="Permanent link">&para;</a></h2>
 <p>As described in the previous sections, you can obtain information about a transaction on the condition that it has reached a desired depth in terms of the number of blocks that have been added to the chain since the given transaction was mined.</p>
-<p>You can supply the required depth as a parameter to the function that returns the transaction information, or you can rely on the default depth that is defined by the global setting "<a href="Configuration#txDepthRequiredForConfirmation">txDepthRequiredForConfirmation</a>".</p>
+<p>You can supply the required depth as a parameter to the function that returns the transaction information, or you can rely on the default depth that is defined by the global setting "<a href="../Configuration/#txDepthRequiredForConfirmation">txDepthRequiredForConfirmation</a>".</p>
 <p>The <code>txDepthRequiredForConfirmation</code> setting is defined individually for each network.  For example, if you want to set the value for the "live" network:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nx">ConfigService</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;txDepthRequiredForConfirmation.live&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
 </pre></div>
 </td></tr></table>
 
 <h2 id="transaction-logs">Transaction Logs<a class="headerlink" href="#transaction-logs" title="Permanent link">&para;</a></h2>
-<p>You can obtain information from a <code>TransactionReceiptTruffle</code> or <code>TransactionReceipt</code> using <a href="/api/classes/TransactionService#getValueFromLogs">TransactionService.getValueFromLogs</a>:</p>
+<p>You can obtain information from a <code>TransactionReceiptTruffle</code> or <code>TransactionReceipt</code> using <a href="/arc.js/api/classes/TransactionService#getValueFromLogs">TransactionService.getValueFromLogs</a>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3

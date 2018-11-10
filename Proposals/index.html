@@ -3780,7 +3780,7 @@
 <div class="admonition info">
 <p class="admonition-title">More about DAOs</p>
 <ul>
-<li><a href="Daos">Working with DAOs in Arc.js</a></li>
+<li><a href="../Daos/">Working with DAOs in Arc.js</a></li>
 <li><a href="https://medium.com/daostack/the-arc-platform-2353229a32fc">The Arc Platform</a></li>
 <li><a href="https://daostack.io/">About DAOstack's vision for a DAO ecosystem</a></li>
 </ul>
@@ -3793,8 +3793,8 @@
 <div class="admonition info">
 <p class="admonition-title">More Information about Schemes</p>
 <ul>
-<li><a href="Wrappers#wrappersByContractType">All the schemes wrapped in Arc.js</a></li>
-<li><a href="Daos#gettingDaoSchemes">Obtaining a list of schemes registered with a DAO</a></li>
+<li><a href="../Wrappers/#wrappersByContractType">All the schemes wrapped in Arc.js</a></li>
+<li><a href="../Daos/#gettingDaoSchemes">Obtaining a list of schemes registered with a DAO</a></li>
 <li><a href="https://daostack.github.io/arc/contracts/universalSchemes/README/">Universal Schemes in Arc</a></li>
 </ul>
 </div>
@@ -3803,7 +3803,7 @@
 <p>As ideas emerge from a DAO's community they can be submitted as proposals to the DAO using a DAO scheme. Proposals are then subject to a vote that proceeds according to the rules of the scheme's <a href="#votingmachines">voting machine</a>. The voting machine and its configuration were supplied to the scheme when the scheme was registered with the DAO's controller.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Schemes are registered with a DAO's controller either when the DAO <a href="Daos#creatingDAOs">is created</a> or afterwards using the <a href="/arc.js/api/classes/SchemeRegistrarWrapper">SchemeRegistrar</a>.</p>
+<p>Schemes are registered with a DAO's controller either when the DAO <a href="../Daos/#creatingDAOs">is created</a> or afterwards using the <a href="/arc.js/api/classes/SchemeRegistrarWrapper">SchemeRegistrar</a>.</p>
 </div>
 <p>The following table describes the various proposals you can create using scheme contract wrappers in Arc.js:</p>
 <p><a name="proposalschemestable"></a></p>
@@ -3818,55 +3818,55 @@
 <tbody>
 <tr>
 <td>Propose to reward an agent for contributions to the DAO</td>
-<td><a href="/api/classes/ContributionRewardWrapper">ContributionRewardWrapper</a></td>
-<td><a href="/api/classes/ContributionRewardWrapper#proposeContributionReward">proposeContributionReward</a></td>
+<td><a href="/arc.js/api/classes/ContributionRewardWrapper">ContributionRewardWrapper</a></td>
+<td><a href="/arc.js/api/classes/ContributionRewardWrapper#proposeContributionReward">proposeContributionReward</a></td>
 </tr>
 <tr>
 <td>Propose to add or modify a global constraint</td>
-<td><a href="/api/classes/GlobalConstraintRegistrarWrapper">GlobalConstraintRegistrarWrapper</a></td>
-<td><a href="/api/classes/GlobalConstraintRegistrarWrapper#proposeToAddModifyGlobalConstraint">proposeToAddModifyGlobalConstraint</a></td>
+<td><a href="/arc.js/api/classes/GlobalConstraintRegistrarWrapper">GlobalConstraintRegistrarWrapper</a></td>
+<td><a href="/arc.js/api/classes/GlobalConstraintRegistrarWrapper#proposeToAddModifyGlobalConstraint">proposeToAddModifyGlobalConstraint</a></td>
 </tr>
 <tr>
 <td>Propose to remove a global constraint</td>
-<td><a href="/api/classes/GlobalConstraintRegistrarWrapper">GlobalConstraintRegistrarWrapper</a></td>
-<td><a href="/api/classes/GlobalConstraintRegistrarWrapper#proposeToRemoveGlobalConstraint">proposeToRemoveGlobalConstraint</a></td>
+<td><a href="/arc.js/api/classes/GlobalConstraintRegistrarWrapper">GlobalConstraintRegistrarWrapper</a></td>
+<td><a href="/arc.js/api/classes/GlobalConstraintRegistrarWrapper#proposeToRemoveGlobalConstraint">proposeToRemoveGlobalConstraint</a></td>
 </tr>
 <tr>
 <td>Propose to add or modify a scheme</td>
-<td><a href="/api/classes/SchemeRegistrarWrapper">SchemeRegistrarWrapper</a></td>
-<td><a href="/api/classes/SchemeRegistrarWrapper#proposeToAddModifyScheme">proposeToAddModifyScheme</a></td>
+<td><a href="/arc.js/api/classes/SchemeRegistrarWrapper">SchemeRegistrarWrapper</a></td>
+<td><a href="/arc.js/api/classes/SchemeRegistrarWrapper#proposeToAddModifyScheme">proposeToAddModifyScheme</a></td>
 </tr>
 <tr>
 <td>Propose to remove a scheme</td>
-<td><a href="/api/classes/SchemeRegistrarWrapper">SchemeRegistrarWrapper</a></td>
-<td><a href="/api/classes/SchemeRegistrarWrapper#proposeToRemoveScheme">proposeToRemoveScheme</a></td>
+<td><a href="/arc.js/api/classes/SchemeRegistrarWrapper">SchemeRegistrarWrapper</a></td>
+<td><a href="/arc.js/api/classes/SchemeRegistrarWrapper#proposeToRemoveScheme">proposeToRemoveScheme</a></td>
 </tr>
 <tr>
 <td>Propose an alternative Controller for the DAO</td>
-<td><a href="/api/classes/UpgradeSchemeWrapper">UpgradeSchemeWrapper</a></td>
-<td><a href="/api/classes/UpgradeSchemeWrapper#proposeController">proposeController</a></td>
+<td><a href="/arc.js/api/classes/UpgradeSchemeWrapper">UpgradeSchemeWrapper</a></td>
+<td><a href="/arc.js/api/classes/UpgradeSchemeWrapper#proposeController">proposeController</a></td>
 </tr>
 <tr>
 <td>Propse an alternative UpgradeScheme</td>
-<td><a href="/api/classes/UpgradeSchemeWrapper">UpgradeSchemeWrapper</a></td>
-<td><a href="/api/classes/UpgradeSchemeWrapper#proposeUpgradingScheme">proposeUpgradingScheme</a></td>
+<td><a href="/arc.js/api/classes/UpgradeSchemeWrapper">UpgradeSchemeWrapper</a></td>
+<td><a href="/arc.js/api/classes/UpgradeSchemeWrapper#proposeUpgradingScheme">proposeUpgradingScheme</a></td>
 </tr>
 <tr>
 <td>Propose a vesting agreement</td>
-<td><a href="/api/classes/VestingSchemeWrapper">VestingSchemeWrapper</a></td>
-<td><a href="/api/classes/VestingSchemeWrapper#proposeVestingAgreement">proposeVestingAgreement</a></td>
+<td><a href="/arc.js/api/classes/VestingSchemeWrapper">VestingSchemeWrapper</a></td>
+<td><a href="/arc.js/api/classes/VestingSchemeWrapper#proposeVestingAgreement">proposeVestingAgreement</a></td>
 </tr>
 <tr>
 <td>Propose to vote for any proposal in another DAO</td>
-<td><a href="/api/classes/VoteInOrganizationSchemeWrapper">VoteInOrganizationSchemeWrapper</a></td>
-<td><a href="/api/classes/VoteInOrganizationSchemeWrapper#proposeVoteInOrganization">proposeVoteInOrganization</a></td>
+<td><a href="/arc.js/api/classes/VoteInOrganizationSchemeWrapper">VoteInOrganizationSchemeWrapper</a></td>
+<td><a href="/arc.js/api/classes/VoteInOrganizationSchemeWrapper#proposeVoteInOrganization">proposeVoteInOrganization</a></td>
 </tr>
 </tbody>
 </table>
-<p>Each of the scheme methods listed in the table above returns a promise of an <a href="/api/classes/ArcTransactionProposalResult">ArcTransactionProposalResult</a> that will contain:</p>
+<p>Each of the scheme methods listed in the table above returns a promise of an <a href="/arc.js/api/classes/ArcTransactionProposalResult">ArcTransactionProposalResult</a> that will contain:</p>
 <ul>
 <li><code>proposalId</code> - a Hash value that uniquely identifies a proposal, used to identify proposals everywhere where we refer to a proposal.</li>
-<li><code>votingMachine</code> - the voting machine for the proposal, as an <a href="/api/classes/IntVoteInterfaceWrapper">IntVoteInterfaceWrapper</a>, facilitating operations such as voting on the proposal. (see <a href="#votingmachines">Voting Machines</a>).</li>
+<li><code>votingMachine</code> - the voting machine for the proposal, as an <a href="/arc.js/api/classes/IntVoteInterfaceWrapper">IntVoteInterfaceWrapper</a>, facilitating operations such as voting on the proposal. (see <a href="#votingmachines">Voting Machines</a>).</li>
 </ul>
 <p>Proposals follow a lifecycle of creation and execution (execution is whatever happens when the voting process concludes). <code>GenesisProtocal</code> votes can also expire.  You may find yourself wanting to keep track of a proposal's lifecycle, and for that you use events. The following section describes how.</p>
 <p><a name="proposalevents"></a></p>
@@ -3875,7 +3875,7 @@
 <p>Every scheme provides instances of <code>EventFetcherFactory</code> that correspond directly to the events thrown by the scheme's Arc contract.  Proposal-generating schemes also provide special instances of <code>EntityFetcherFactory</code> that fetch information about:</p>
 <ul>
 <li>
-<p><strong>Votable proposals</strong> - For each proposal type, the fetched entity will contain information about the proposal, plus an instance of <a href="/api/classes/IntVoteInterfaceWrapper">IntVoteInterfaceWrapper</a> for the proposal's voting machine, facilitating operations such as voting on the proposal.  See <code>getVotable[*]Proposals</code> in each scheme.</p>
+<p><strong>Votable proposals</strong> - For each proposal type, the fetched entity will contain information about the proposal, plus an instance of <a href="/arc.js/api/classes/IntVoteInterfaceWrapper">IntVoteInterfaceWrapper</a> for the proposal's voting machine, facilitating operations such as voting on the proposal.  See <code>getVotable[*]Proposals</code> in each scheme.</p>
 </li>
 <li>
 <p><strong>Executed proposals</strong> - Some of the schemes provide additional information in the fetched entity, where additional information is available.  See <code>getExecutedProposals</code> in each scheme.</p>
@@ -3883,9 +3883,9 @@
 </ul>
 <div class="admonition info">
 <p class="admonition-title">More on Events</p>
-<p>See <a href="Events#enhancedweb3events">Enhanced Web3 Events</a> and <a href="Events#entityevents">Entities for Web3 Events</a> for more information about these event-fetching interfaces.</p>
+<p>See <a href="../Events/#enhancedweb3events">Enhanced Web3 Events</a> and <a href="../Events/#entityevents">Entities for Web3 Events</a> for more information about these event-fetching interfaces.</p>
 </div>
-<p>Like the schemes, the <code>GenesisProtocolWrapper</code> voting machine provides special instances of <code>EntityFetcherFactory</code> to be used for fetching events about votable and executed proposals.  The fetched entity will contain additional information relevant to the proposal that you will not get via the scheme or <code>IntVoteInterface</code> events. See <a href="/api/classes/GenesisProtocolWrapper#VotableGenesisProtocolProposals">VotableGenesisProtocolProposals</a> and <a href="/api/classes/GenesisProtocolWrapper#ExecutedProposals">ExecutedProposals</a>.</p>
+<p>Like the schemes, the <code>GenesisProtocolWrapper</code> voting machine provides special instances of <code>EntityFetcherFactory</code> to be used for fetching events about votable and executed proposals.  The fetched entity will contain additional information relevant to the proposal that you will not get via the scheme or <code>IntVoteInterface</code> events. See <a href="/arc.js/api/classes/GenesisProtocolWrapper#VotableGenesisProtocolProposals">VotableGenesisProtocolProposals</a> and <a href="/arc.js/api/classes/GenesisProtocolWrapper#ExecutedProposals">ExecutedProposals</a>.</p>
 <p><a name="votingmachines"></a></p>
 <h2 id="voting-machines">Voting Machines<a class="headerlink" href="#voting-machines" title="Permanent link">&para;</a></h2>
 <p>Voting machines play an integral part in promoting coherence and collaboration within and between DAOs in the DAOstack ecosystem.  Which voting machine you choose to use for your DAO or DAO scheme, and how you configure it, can profoundly affect the emergent behavior of your DAO and the community that is using it.</p>
@@ -3896,7 +3896,7 @@
 <li><a href="https://daostack.github.io/arc/contracts/VotingMachines/README/">Voting Machines in Arc</a>.</li>
 </ul>
 </div>
-<p>Arc.js wraps two Arc voting machines: <a href="/api/classes/AbsoluteVoteWrapper">AbsoluteVote</a> and <a href="/api/classes/GenesisProtocolWrapper">GenesisProtocol</a>.  While each of these voting machines have their own individual API, they both implement a common Arc interface called <code>IntVoteInterface</code> which Arc.js wraps in <a href="/api/classes/IntVoteInterfaceWrapper">IntVoteInterfaceWrapper</a>.</p>
+<p>Arc.js wraps two Arc voting machines: <a href="/arc.js/api/classes/AbsoluteVoteWrapper">AbsoluteVote</a> and <a href="/arc.js/api/classes/GenesisProtocolWrapper">GenesisProtocol</a>.  While each of these voting machines have their own individual API, they both implement a common Arc interface called <code>IntVoteInterface</code> which Arc.js wraps in <a href="/arc.js/api/classes/IntVoteInterfaceWrapper">IntVoteInterfaceWrapper</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Arc has another voting machine contract called <code>QuorumVote</code> that Arc.js does not yet wrap.</p>
@@ -3904,10 +3904,10 @@
 <p>The <code>IntVoteInterfaceWrapper</code> gives you the convenience of working with a voting machine wrapper without having to know which voting machine it is.  You may encounter <code>IntVoteInterfaceWrapper</code> in several places:</p>
 <ul>
 <li>
-<p>You can obtain an <a href="/api/classes/IntVoteInterfaceWrapper">IntVoteInterfaceWrapper</a> for the voting machine associated with any proposal-generating scheme using the scheme's <code>getVotingMachine</code> method.</p>
+<p>You can obtain an <a href="/arc.js/api/classes/IntVoteInterfaceWrapper">IntVoteInterfaceWrapper</a> for the voting machine associated with any proposal-generating scheme using the scheme's <code>getVotingMachine</code> method.</p>
 </li>
 <li>
-<p>Every <a href="#proposalschemestable">method that creates a proposal</a> returns an <code>IntVoteInterfaceWrapper</code> in the <a href="/api/classes/ArcTransactionProposalResult">ArcTransactionProposalResult</a>.</p>
+<p>Every <a href="#proposalschemestable">method that creates a proposal</a> returns an <code>IntVoteInterfaceWrapper</code> in the <a href="/arc.js/api/classes/ArcTransactionProposalResult">ArcTransactionProposalResult</a>.</p>
 </li>
 <li>
 <p>Every scheme's <code>EntityFetcherFactory</code> that returns votable proposals will supply an <code>IntVoteInterfaceWrapper</code> in the fetched entity.</p>

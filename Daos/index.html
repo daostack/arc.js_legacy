@@ -3984,11 +3984,11 @@
 <p><strong>The token</strong> is used as currency in operations like staking in <code>GenesisProtocol</code>, vesting agreements in <code>VestingScheme</code> and rewards in <code>ContributionReward</code>.  Typically two tokens are most in play:  The global GEN token created by DAOstack, and a "native" token that is specific to every DAO.  The GEN token is used by the default GenesisProtocol voting machine for staking.</p>
 <p><strong>The reputation system</strong> provides a kind of currency of influence. Reputation conveys influence in the DAO commenserate with the rules of the DAO, such as when proposing, voting or staking, and via proposals approved to grant or remove an agent's reputation.  Reputation can be minted and burned, but it cannot be transferred between agents.  Every DAO gets its own instance of an Arc <code>Reputation</code> contract.</p>
 <p><strong>Schemes</strong> are public-facing contracts that any agent may use when they want perform primary functions relating to a particular DAO.  Some schemes are "universal" in the sense that a single instance can be reused by multiple DAOs. Some schemes have the ability to create proposals and thus require that a configured voting machine be specified in the scheme's parameters.</p>
-<p><strong>Global constraints</strong> use parameterized constraint criteria to block actions attempted by a DAO's controller that would violate a given constraint.  An example is <a href="/api/classes/TokenCapGCWrapper">TokenCapGC</a> that limits the total supply of a given token to a certain maximum number.</p>
+<p><strong>Global constraints</strong> use parameterized constraint criteria to block actions attempted by a DAO's controller that would violate a given constraint.  An example is <a href="/arc.js/api/classes/TokenCapGCWrapper">TokenCapGC</a> that limits the total supply of a given token to a certain maximum number.</p>
 <p>DAOs are extensible beyond the reusability of Arc contracts: You can provide your own implementation of the controller, token, and any global constraints, voting machines and schemes you want.</p>
 <div class="admonition info">
 <p class="admonition-title">More About DAOs</p>
-<p>For more information about DAOs, refer to <a href="https://daostack.github.io/arc/README/#the-structure-of-a-dao">Structure of a DAO</a>.</p>
+<p>For more information about DAOs, refer to <a href="https://daostack.github.io/arc/README#the-structure-of-a-dao">Structure of a DAO</a>.</p>
 </div>
 <div class="admonition info">
 <p class="admonition-title">More About Schemes</p>
@@ -4123,7 +4123,7 @@ other than events that record their interactions with the DAO.  They are simply 
 
 <div class="admonition tip">
 <p class="admonition-title">Deploying the contract yourself</p>
-<p>If the non-universal contract has a wrapper factory in Arc.js, you can use the factory's <code>.new</code> method to deploy an instance of the contract.  Otherwise you must use <code>.new</code> on the Truffle contract method that you can obtain from Arc.js <a href="/api/classes/Utils/#static-requirecontract">Utils.requireContract</a>.</p>
+<p>If the non-universal contract has a wrapper factory in Arc.js, you can use the factory's <code>.new</code> method to deploy an instance of the contract.  Otherwise you must use <code>.new</code> on the Truffle contract method that you can obtain from Arc.js <a href="/arc.js/api/classes/Utils#static-requirecontract">Utils.requireContract</a>.</p>
 </div>
 <p><a name="nonarcschemes"></a></p>
 <h3 id="creating-a-new-dao-with-non-arc-schemes">Creating a new DAO with non-Arc schemes<a class="headerlink" href="#creating-a-new-dao-with-non-arc-schemes" title="Permanent link">&para;</a></h3>
@@ -4158,7 +4158,7 @@ other than events that record their interactions with the DAO.  They are simply 
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Hashing the parameters</p>
-<p>You should hash your scheme parameters however the non-Arc scheme does.  Arc schemes use <code>keccak256</code>.  If the non-Arc scheme uses the same method, you can use <a href="/api/classes/Utils/#static-keccak256">Utils.keccak256</a>. You should sequence the given types and values in the same order that they would appear when hashed by the universal non-Arc contract itself.</p>
+<p>You should hash your scheme parameters however the non-Arc scheme does.  Arc schemes use <code>keccak256</code>.  If the non-Arc scheme uses the same method, you can use <a href="/arc.js/api/classes/Utils#static-keccak256">Utils.keccak256</a>. You should sequence the given types and values in the same order that they would appear when hashed by the universal non-Arc contract itself.</p>
 </div>
 <h3 id="creating-a-new-dao-with-a-non-universal-controller">Creating a new DAO with a non-Universal Controller<a class="headerlink" href="#creating-a-new-dao-with-a-non-universal-controller" title="Permanent link">&para;</a></h3>
 <p>As mentioned above, there are two types of DAO controller: universal and non-universal.  The default is universal.  You can create a DAO using the DAOstack <code>Controller</code> contract by passing <code>false</code> for <code>universalController</code>:</p>
@@ -4279,7 +4279,7 @@ other than events that record their interactions with the DAO.  They are simply 
 
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>If you want change the default voting machine for all calls to <code>DAO.new</code> you can do it using the <a href="/api/classes/ConfigService">ConfigService</a> setting <code>defaultVotingMachine</code>. See <a href="../Configuration/">Arc.js Configuration Settings</a>.</p>
+<p>If you want change the default voting machine for all calls to <code>DAO.new</code> you can do it using the <a href="/arc.js/api/classes/ConfigService">ConfigService</a> setting <code>defaultVotingMachine</code>. See <a href="../Configuration/">Arc.js Configuration Settings</a>.</p>
 </div>
 <h3 id="creating-a-new-dao-using-a-custom-daocreator-scheme">Creating a new DAO using a custom DaoCreator scheme<a class="headerlink" href="#creating-a-new-dao-using-a-custom-daocreator-scheme" title="Permanent link">&para;</a></h3>
 <p>Arc supplies a contract for creating DAOs called <code>DaoCreator</code>.  But you don't have to rely on  <code>DAOCreator</code> if you prefer different functionality -- you can supply your own DAO creator scheme by passing its address in <code>daoCreatorScheme</code>:</p>
@@ -4323,7 +4323,7 @@ other than events that record their interactions with the DAO.  They are simply 
 </pre></div>
 </td></tr></table>
 
-<p>You can also watch as DAOs are, or have been, created using the <a href="Events">EventFetcherFactory</a> mechanism:</p>
+<p>You can also watch as DAOs are, or have been, created using the <a href="../Events/">EventFetcherFactory</a> mechanism:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
@@ -4388,7 +4388,7 @@ other than events that record their interactions with the DAO.  They are simply 
 <p>Further, there are a number of other informational methods, all described in the following sections.</p>
 <p><a name="gettingDaoSchemes"></a></p>
 <h3 id="get-all-the-schemes-registered-to-the-dao">Get all the schemes registered to the DAO<a class="headerlink" href="#get-all-the-schemes-registered-to-the-dao" title="Permanent link">&para;</a></h3>
-<p>You can obtain the addresses of all of the schemes that are registered with a DAO using <a href="/arc.js/api/classes/DAO/#getSchemes">DAO.getSchemes</a>.  You will also get a contract wrapper if the scheme happens to be the one deployed by the running version of Arc.js:</p>
+<p>You can obtain the addresses of all of the schemes that are registered with a DAO using <a href="/arc.js/api/classes/DAO#getSchemes">DAO.getSchemes</a>.  You will also get a contract wrapper if the scheme happens to be the one deployed by the running version of Arc.js:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
@@ -4428,7 +4428,7 @@ other than events that record their interactions with the DAO.  They are simply 
 
 <h3 id="get-all-the-participants-in-a-dao">Get all the participants in a DAO<a class="headerlink" href="#get-all-the-participants-in-a-dao" title="Permanent link">&para;</a></h3>
 <p>A DAO participant (often also referred-to as a "member") is any agent with reputation with the DAO.</p>
-<p>You can obtain the address and reputation of all of the participants in a DAO using <a href="/api/classes/DAO/#getParticipants">DAO.getParticipants</a> like this:</p>
+<p>You can obtain the address and reputation of all of the participants in a DAO using <a href="/arc.js/api/classes/DAO#getParticipants">DAO.getParticipants</a> like this:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
@@ -4467,7 +4467,7 @@ other than events that record their interactions with the DAO.  They are simply 
 </td></tr></table>
 
 <h3 id="get-all-the-globalconstraints-in-a-dao">Get all the globalConstraints in a DAO<a class="headerlink" href="#get-all-the-globalconstraints-in-a-dao" title="Permanent link">&para;</a></h3>
-<p>You can obtain information about all of the global constraints registered with a DAO, using <a href="/api/classes/DAO/#getGlobalConstraints">DAO.getGlobalConstraints</a> like this:</p>
+<p>You can obtain information about all of the global constraints registered with a DAO, using <a href="/arc.js/api/classes/DAO#getGlobalConstraints">DAO.getGlobalConstraints</a> like this:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
