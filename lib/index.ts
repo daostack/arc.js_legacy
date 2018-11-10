@@ -73,7 +73,7 @@ export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
   /**
    * Name of the network for which to use the defaults found in Arc.js/truffle.js.
    * Overwrites config settings network, providerUrl and providerPort.
-   * See [Network settings](/Home.md#networksettings) for more information.
+   * See [Network settings](/Configuration.md#networksettings) for more information.
    */
   useNetworkDefaultsFor?: string;
   /**
