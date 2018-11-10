@@ -3916,7 +3916,7 @@
                 <p><a href="../../">API Reference</a> &gt; <a href="./">AccountService</a></p>
 <h1 id="class-accountservice">Class: AccountService<a class="headerlink" href="#class-accountservice" title="Permanent link">&para;</a></h1>
 <p>Watch for changes in the default account.</p>
-<p>For more information, see <a href="Configuration#accountchanges">Account Changes</a>.</p>
+<p>For more information, see <a href="Configuration.md#accountchanges">Account Changes</a>.</p>
 <h2 id="hierarchy">Hierarchy<a class="headerlink" href="#hierarchy" title="Permanent link">&para;</a></h2>
 <p><strong>AccountService</strong></p>
 <h2 id="index">Index<a class="headerlink" href="#index" title="Permanent link">&para;</a></h2>
@@ -3967,7 +3967,7 @@
 <p><em>Defined in accountService.ts:27</em></p>
 <p>Initializes the system that watches for default account changes.</p>
 <p><code>initiateAccountWatch</code> is called automatically by Arc.js when you pass <code>true</code> for <code>watchForAccountChanges</code> to <code>InitializeArcJs</code>. You may also call it manually yourself.</p>
-<p>Then you may request to be notified whenever the current account changes by calling <a href="/api/classes/AccountService#subscribeToAccountChanges">AccountService.subscribeToAccountChanges</a></p>
+<p>Then you may request to be notified whenever the current account changes by calling <a href="/arc.js/api/classes/AccountService#subscribeToAccountChanges">AccountService.subscribeToAccountChanges</a></p>
 <p><strong>Returns:</strong> <code>Promise</code>&lt;<code>void</code>&gt;</p>
 <hr />
 <p><a id="initiateNetworkWatch"></a></p>
@@ -3976,7 +3976,7 @@
 <p><em>Defined in accountService.ts:78</em></p>
 <p>Initializes the system that watches for blockchain network id changes.</p>
 <p><code>initiateNetworkWatch</code> is called automatically by Arc.js when you pass <code>true</code> for <code>watchForNetworkChanges</code> to <code>InitializeArcJs</code>. You may also call it manually yourself.</p>
-<p>Then you may request to be notified whenever the current account changes by calling <a href="/api/classes/AccountService#subscribeToNetworkChanges">AccountService.subscribeToNetworkChanges</a></p>
+<p>Then you may request to be notified whenever the current account changes by calling <a href="/arc.js/api/classes/AccountService#subscribeToNetworkChanges">AccountService.subscribeToNetworkChanges</a></p>
 <p>When the network is found to have changed you should call <code>InitializeArcJs</code> so Arc.js will set itself up with the new network and return to you a new <code>Web3</code> object.</p>
 <p><strong>Returns:</strong> <code>Promise</code>&lt;<code>void</code>&gt;</p>
 <hr />

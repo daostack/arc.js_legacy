@@ -4040,7 +4040,7 @@
 <h3 id="static-getdefaultdepth"><code>&lt;Static&gt;</code> getDefaultDepth<a class="headerlink" href="#static-getdefaultdepth" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>getDefaultDepth</strong>(requiredDepth?: <em><code>number</code></em>): <code>Promise</code>&lt;<code>number</code>&gt;</p>
 <p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/01481af2/lib/transactionService.ts#L522">transactionService.ts:522</a></em></p>
-<p>Returns the default value for required block depth defined for the current network in the Arc.js global configuration "<a href="Configuration#txDepthRequiredForConfirmation">txDepthRequiredForConfirmation</a>".</p>
+<p>Returns the default value for required block depth defined for the current network in the Arc.js global configuration "<a href="Configuration.md#txDepthRequiredForConfirmation">txDepthRequiredForConfirmation</a>".</p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -4105,7 +4105,7 @@ or null if not found.</p>
 <p>▸ <strong>getTransactionDepth</strong>(tx: * <a href="../#Hash">Hash</a> &#124; <code>TransactionReceipt</code>*): <code>Promise</code>&lt;<code>number</code>&gt;</p>
 <p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/01481af2/lib/transactionService.ts#L281">transactionService.ts:281</a></em></p>
 <p>Returns a promise of the number of blocks that have been added to the chain since the given transaction appeared. Use this to decide whether a transaction is sufficiently secure (confirmed).</p>
-<p>See also <a href="/api/classes/TransactionService#getConfirmedTransaction">getConfirmedTransaction</a> and <a href="/api/classes/TransactionService#watchForConfirmedTransaction">watchForConfirmedTransaction</a>.</p>
+<p>See also <a href="/arc.js/api/classes/TransactionService#getConfirmedTransaction">getConfirmedTransaction</a> and <a href="/arc.js/api/classes/TransactionService#watchForConfirmedTransaction">watchForConfirmedTransaction</a>.</p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -4224,7 +4224,7 @@ Promise of the depth or -1 if the transaction cannot be found</p>
 <tr>
 <td>topic</td>
 <td><code>string</code></td>
-<td>See <a href="PubSubEventService#subscribe">subscribe</a></td>
+<td>See <a href="../PubSubEventService/#subscribe">subscribe</a></td>
 </tr>
 <tr>
 <td>payload</td>
@@ -4348,7 +4348,7 @@ An interface with <code>.unsubscribe()</code>.  Be sure to call it!</p>
 <p>▸ <strong>watchForConfirmedTransaction</strong>(txHash: <em><a href="../#Hash">Hash</a></em>, contract?: * <code>string</code> &#124; <code>any</code><em>, requiredDepth?: </em><code>number</code>*): <code>Promise</code>&lt; <code>TransactionReceipt</code> &#124; <a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a>&gt;</p>
 <p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/01481af2/lib/transactionService.ts#L254">transactionService.ts:254</a></em></p>
 <p>Returns a promise of a TransactionReceipt once the given transaction has been confirmed according to the optional <code>requiredDepth</code>.</p>
-<p>See also <a href="/api/classes/TransactionService#getConfirmedTransaction">getConfirmedTransaction</a> and <a href="/api/classes/TransactionService#getTransactionDepth">getTransactionDepth</a>.</p>
+<p>See also <a href="/arc.js/api/classes/TransactionService#getConfirmedTransaction">getConfirmedTransaction</a> and <a href="/arc.js/api/classes/TransactionService#getTransactionDepth">getTransactionDepth</a>.</p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -4387,7 +4387,7 @@ An interface with <code>.unsubscribe()</code>.  Be sure to call it!</p>
 <p>▸ <strong>watchForMinedTransaction</strong>(txHash: <em><a href="../#Hash">Hash</a></em>, contract?: * <code>string</code> &#124; <code>any</code><em>, requiredDepth?: </em><code>number</code>*): <code>Promise</code>&lt; <code>TransactionReceipt</code> &#124; <a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a>&gt;</p>
 <p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/01481af2/lib/transactionService.ts#L188">transactionService.ts:188</a></em></p>
 <p>Returns a promise of a TransactionReceipt once the given transaction has been mined.</p>
-<p>See also <a href="/api/classes/TransactionService#getMinedTransaction">getMinedTransaction</a> and <a href="/api/classes/TransactionService#getTransactionDepth">getTransactionDepth</a>.</p>
+<p>See also <a href="/arc.js/api/classes/TransactionService#getMinedTransaction">getMinedTransaction</a> and <a href="/arc.js/api/classes/TransactionService#getTransactionDepth">getTransactionDepth</a>.</p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>

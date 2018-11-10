@@ -4214,7 +4214,7 @@
 <h3 id="static-getuserapprovalforaccounts"><code>&lt;Static&gt;</code> getUserApprovalForAccounts<a class="headerlink" href="#static-getuserapprovalforaccounts" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>getUserApprovalForAccounts</strong>(): <code>Promise</code>&lt;<code>boolean</code>&gt;</p>
 <p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/01481af2/lib/utils.ts#L186">utils.ts:186</a></em></p>
-<p>Ask MetaMask to prompt the user for permission to access their wallet. MetaMask will insert the user's accounts into the existing Web3 object. If you are watching for account changes then you will receive a notification (see <a href="/api/classes/AccountService#initiateAccountWatch">AccountService.initiateAccountWatch</a>).</p>
+<p>Ask MetaMask to prompt the user for permission to access their wallet. MetaMask will insert the user's accounts into the existing Web3 object. If you are watching for account changes then you will receive a notification (see <a href="/arc.js/api/classes/AccountService#initiateAccountWatch">AccountService.initiateAccountWatch</a>).</p>
 <p>Note that this won't work if you have passed <code>false</code> for <code>InitializeArcOptions.useMetamaskEthereumWeb3Provider</code> when you called <code>InitializeArcJs</code>.</p>
 <p><strong>Returns:</strong> <code>Promise</code>&lt;<code>boolean</code>&gt;
 true or false depending on whether the user approves of account sharing.</p>
