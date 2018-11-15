@@ -176,7 +176,7 @@ export class Utils {
    * Ask MetaMask to prompt the user for permission to access their wallet. MetaMask
    * will insert the user's accounts into the existing Web3 object.  If you are watching
    * for account changes then you will receive a notification
-   * (see [AccountService.initiateAccountWatch](/api/classes/AccountService#initiateAccountWatch)).
+   * (see [AccountService.initiateAccountWatch](/arc.js/api/classes/AccountService#initiateAccountWatch)).
    *
    * Note that this won't work if you have passed `false` for `InitializeArcOptions.useMetamaskEthereumWeb3Provider`
    * when you called `InitializeArcJs`.

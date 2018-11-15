@@ -8,7 +8,7 @@ import { UtilsInternal } from "./utilsInternal";
 /**
  * Watch for changes in the default account.
  *
- * For more information, see [Account Changes](Configuration#accountchanges).
+ * For more information, see [Account Changes](/Configuration.md#accountchanges).
  */
 export class AccountService {
 
@@ -22,7 +22,7 @@ export class AccountService {
    * for `watchForAccountChanges` to `InitializeArcJs`.  You may also call it manually yourself.
    *
    * Then you may request to be notified whenever the current account changes by calling
-   * [AccountService.subscribeToAccountChanges](/api/classes/AccountService#subscribeToAccountChanges)
+   * [AccountService.subscribeToAccountChanges](/arc.js/api/classes/AccountService#subscribeToAccountChanges)
    */
   public static async initiateAccountWatch(): Promise<void> {
 
@@ -70,7 +70,7 @@ export class AccountService {
    * for `watchForNetworkChanges` to `InitializeArcJs`.  You may also call it manually yourself.
    *
    * Then you may request to be notified whenever the current account changes by calling
-   * [AccountService.subscribeToNetworkChanges](/api/classes/AccountService#subscribeToNetworkChanges)
+   * [AccountService.subscribeToNetworkChanges](/arc.js/api/classes/AccountService#subscribeToNetworkChanges)
    *
    * When the network is found to have changed you should call `InitializeArcJs` so Arc.js will set
    * itself up with the new network and return to you a new `Web3` object.

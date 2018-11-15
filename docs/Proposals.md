@@ -3,7 +3,7 @@
 The ability to create proposals, vote one's reputation and stake one's reputation and tokens on the outcome of a vote are fundamental to promoting coherence and collaboration within DAOs in the DAOstack ecosystem.
 
 !!! info "More about DAOs"
-    - [Working with DAOs in Arc.js](Daos)
+    - [Working with DAOs in Arc.js](Daos.md)
     - [The Arc Platform](https://medium.com/daostack/the-arc-platform-2353229a32fc)
     - [About DAOstack's vision for a DAO ecosystem](https://daostack.io/)
 
@@ -18,8 +18,8 @@ Schemes are registered with a DAO's controller enabling them to access the contr
 
 !!! info "More Information about Schemes"
 
-    - [All the schemes wrapped in Arc.js](Wrappers#wrappersByContractType)
-    - [Obtaining a list of schemes registered with a DAO](Daos#gettingDaoSchemes)
+    - [All the schemes wrapped in Arc.js](Wrappers.md#wrappersByContractType)
+    - [Obtaining a list of schemes registered with a DAO](Daos.md#gettingDaoSchemes)
     - [Universal Schemes in Arc](https://daostack.github.io/arc/contracts/universalSchemes/README/)
     
 <a name="proposals"></a>
@@ -27,7 +27,7 @@ Schemes are registered with a DAO's controller enabling them to access the contr
 As ideas emerge from a DAO's community they can be submitted as proposals to the DAO using a DAO scheme. Proposals are then subject to a vote that proceeds according to the rules of the scheme's [voting machine](#votingmachines). The voting machine and its configuration were supplied to the scheme when the scheme was registered with the DAO's controller.
 
 !!! note
-    Schemes are registered with a DAO's controller either when the DAO [is created](Daos#creatingDAOs) or afterwards using the [SchemeRegistrar](api/classes/SchemeRegistrarWrapper).
+    Schemes are registered with a DAO's controller either when the DAO [is created](Daos.md#creatingDAOs) or afterwards using the [SchemeRegistrar](/arc.js/api/classes/SchemeRegistrarWrapper).
 
 The following table describes the various proposals you can create using scheme contract wrappers in Arc.js:
 
@@ -35,20 +35,20 @@ The following table describes the various proposals you can create using scheme 
 
 Proposal | Scheme Wrapper Class | Scheme Method
 ---------|----------|---------
- Propose to reward an agent for contributions to the DAO | [ContributionRewardWrapper](/api/classes/ContributionRewardWrapper) | [proposeContributionReward](/api/classes/ContributionRewardWrapper#proposeContributionReward)
-Propose to add or modify a global constraint | [GlobalConstraintRegistrarWrapper](/api/classes/GlobalConstraintRegistrarWrapper) | [proposeToAddModifyGlobalConstraint](/api/classes/GlobalConstraintRegistrarWrapper#proposeToAddModifyGlobalConstraint)
-Propose to remove a global constraint | [GlobalConstraintRegistrarWrapper](/api/classes/GlobalConstraintRegistrarWrapper) | [proposeToRemoveGlobalConstraint](/api/classes/GlobalConstraintRegistrarWrapper#proposeToRemoveGlobalConstraint)
-Propose to add or modify a scheme | [SchemeRegistrarWrapper](/api/classes/SchemeRegistrarWrapper) | [proposeToAddModifyScheme](/api/classes/SchemeRegistrarWrapper#proposeToAddModifyScheme)
-Propose to remove a scheme | [SchemeRegistrarWrapper](/api/classes/SchemeRegistrarWrapper) | [proposeToRemoveScheme](/api/classes/SchemeRegistrarWrapper#proposeToRemoveScheme)
-Propose an alternative Controller for the DAO | [UpgradeSchemeWrapper](/api/classes/UpgradeSchemeWrapper) | [proposeController](/api/classes/UpgradeSchemeWrapper#proposeController)
-Propse an alternative UpgradeScheme | [UpgradeSchemeWrapper](/api/classes/UpgradeSchemeWrapper) | [proposeUpgradingScheme](/api/classes/UpgradeSchemeWrapper#proposeUpgradingScheme)
-Propose a vesting agreement | [VestingSchemeWrapper](/api/classes/VestingSchemeWrapper) | [proposeVestingAgreement](/api/classes/VestingSchemeWrapper#proposeVestingAgreement)
-Propose to vote for any proposal in another DAO | [VoteInOrganizationSchemeWrapper](/api/classes/VoteInOrganizationSchemeWrapper) | [proposeVoteInOrganization](/api/classes/VoteInOrganizationSchemeWrapper#proposeVoteInOrganization)
+ Propose to reward an agent for contributions to the DAO | [ContributionRewardWrapper](/arc.js/api/classes/ContributionRewardWrapper) | [proposeContributionReward](/arc.js/api/classes/ContributionRewardWrapper#proposeContributionReward)
+Propose to add or modify a global constraint | [GlobalConstraintRegistrarWrapper](/arc.js/api/classes/GlobalConstraintRegistrarWrapper) | [proposeToAddModifyGlobalConstraint](/arc.js/api/classes/GlobalConstraintRegistrarWrapper#proposeToAddModifyGlobalConstraint)
+Propose to remove a global constraint | [GlobalConstraintRegistrarWrapper](/arc.js/api/classes/GlobalConstraintRegistrarWrapper) | [proposeToRemoveGlobalConstraint](/arc.js/api/classes/GlobalConstraintRegistrarWrapper#proposeToRemoveGlobalConstraint)
+Propose to add or modify a scheme | [SchemeRegistrarWrapper](/arc.js/api/classes/SchemeRegistrarWrapper) | [proposeToAddModifyScheme](/arc.js/api/classes/SchemeRegistrarWrapper#proposeToAddModifyScheme)
+Propose to remove a scheme | [SchemeRegistrarWrapper](/arc.js/api/classes/SchemeRegistrarWrapper) | [proposeToRemoveScheme](/arc.js/api/classes/SchemeRegistrarWrapper#proposeToRemoveScheme)
+Propose an alternative Controller for the DAO | [UpgradeSchemeWrapper](/arc.js/api/classes/UpgradeSchemeWrapper) | [proposeController](/arc.js/api/classes/UpgradeSchemeWrapper#proposeController)
+Propse an alternative UpgradeScheme | [UpgradeSchemeWrapper](/arc.js/api/classes/UpgradeSchemeWrapper) | [proposeUpgradingScheme](/arc.js/api/classes/UpgradeSchemeWrapper#proposeUpgradingScheme)
+Propose a vesting agreement | [VestingSchemeWrapper](/arc.js/api/classes/VestingSchemeWrapper) | [proposeVestingAgreement](/arc.js/api/classes/VestingSchemeWrapper#proposeVestingAgreement)
+Propose to vote for any proposal in another DAO | [VoteInOrganizationSchemeWrapper](/arc.js/api/classes/VoteInOrganizationSchemeWrapper) | [proposeVoteInOrganization](/arc.js/api/classes/VoteInOrganizationSchemeWrapper#proposeVoteInOrganization)
 
-Each of the scheme methods listed in the table above returns a promise of an [ArcTransactionProposalResult](/api/classes/ArcTransactionProposalResult) that will contain:
+Each of the scheme methods listed in the table above returns a promise of an [ArcTransactionProposalResult](/arc.js/api/classes/ArcTransactionProposalResult) that will contain:
 
 - `proposalId` - a Hash value that uniquely identifies a proposal, used to identify proposals everywhere where we refer to a proposal.
-- `votingMachine` - the voting machine for the proposal, as an [IntVoteInterfaceWrapper](/api/classes/IntVoteInterfaceWrapper), facilitating operations such as voting on the proposal. (see [Voting Machines](#votingmachines)).
+- `votingMachine` - the voting machine for the proposal, as an [IntVoteInterfaceWrapper](/arc.js/api/classes/IntVoteInterfaceWrapper), facilitating operations such as voting on the proposal. (see [Voting Machines](#votingmachines)).
 
 Proposals follow a lifecycle of creation and execution (execution is whatever happens when the voting process concludes). `GenesisProtocal` votes can also expire.  You may find yourself wanting to keep track of a proposal's lifecycle, and for that you use events. The following section describes how.
 
@@ -60,14 +60,14 @@ Each scheme responsible for creating proposals enables you to track important ev
 
 Every scheme provides instances of `EventFetcherFactory` that correspond directly to the events thrown by the scheme's Arc contract.  Proposal-generating schemes also provide special instances of `EntityFetcherFactory` that fetch information about:
 
-- **Votable proposals** - For each proposal type, the fetched entity will contain information about the proposal, plus an instance of [IntVoteInterfaceWrapper](/api/classes/IntVoteInterfaceWrapper) for the proposal's voting machine, facilitating operations such as voting on the proposal.  See `getVotable[*]Proposals` in each scheme.
+- **Votable proposals** - For each proposal type, the fetched entity will contain information about the proposal, plus an instance of [IntVoteInterfaceWrapper](/arc.js/api/classes/IntVoteInterfaceWrapper) for the proposal's voting machine, facilitating operations such as voting on the proposal.  See `getVotable[*]Proposals` in each scheme.
 
 - **Executed proposals** - Some of the schemes provide additional information in the fetched entity, where additional information is available.  See `getExecutedProposals` in each scheme.
 
 !!! Info "More on Events"
-    See [Enhanced Web3 Events](Events#enhancedweb3events) and [Entities for Web3 Events](Events#entityevents) for more information about these event-fetching interfaces.
+    See [Enhanced Web3 Events](Events.md#enhancedweb3events) and [Entities for Web3 Events](Events.md#entityevents) for more information about these event-fetching interfaces.
 
-Like the schemes, the `GenesisProtocolWrapper` voting machine provides special instances of `EntityFetcherFactory` to be used for fetching events about votable and executed proposals.  The fetched entity will contain additional information relevant to the proposal that you will not get via the scheme or `IntVoteInterface` events. See [VotableGenesisProtocolProposals](/api/classes/GenesisProtocolWrapper#VotableGenesisProtocolProposals) and [ExecutedProposals](/api/classes/GenesisProtocolWrapper#ExecutedProposals).
+Like the schemes, the `GenesisProtocolWrapper` voting machine provides special instances of `EntityFetcherFactory` to be used for fetching events about votable and executed proposals.  The fetched entity will contain additional information relevant to the proposal that you will not get via the scheme or `IntVoteInterface` events. See [VotableGenesisProtocolProposals](/arc.js/api/classes/GenesisProtocolWrapper#VotableGenesisProtocolProposals) and [ExecutedProposals](/arc.js/api/classes/GenesisProtocolWrapper#ExecutedProposals).
 
 <a name="votingmachines"></a>
 ## Voting Machines
@@ -79,16 +79,16 @@ Every proposal-generating scheme has an associated voting machine with a configu
 !!! info "More about Voting Machines"
     - [Voting Machines in Arc](https://daostack.github.io/arc/contracts/VotingMachines/README/).
 
-Arc.js wraps two Arc voting machines: [AbsoluteVote](/api/classes/AbsoluteVoteWrapper) and [GenesisProtocol](/api/classes/GenesisProtocolWrapper).  While each of these voting machines have their own individual API, they both implement a common Arc interface called `IntVoteInterface` which Arc.js wraps in [IntVoteInterfaceWrapper](/api/classes/IntVoteInterfaceWrapper).
+Arc.js wraps two Arc voting machines: [AbsoluteVote](/arc.js/api/classes/AbsoluteVoteWrapper) and [GenesisProtocol](/arc.js/api/classes/GenesisProtocolWrapper).  While each of these voting machines have their own individual API, they both implement a common Arc interface called `IntVoteInterface` which Arc.js wraps in [IntVoteInterfaceWrapper](/arc.js/api/classes/IntVoteInterfaceWrapper).
 
 !!! note
     Arc has another voting machine contract called `QuorumVote` that Arc.js does not yet wrap.
 
 The `IntVoteInterfaceWrapper` gives you the convenience of working with a voting machine wrapper without having to know which voting machine it is.  You may encounter `IntVoteInterfaceWrapper` in several places:
 
-- You can obtain an [IntVoteInterfaceWrapper](/api/classes/IntVoteInterfaceWrapper) for the voting machine associated with any proposal-generating scheme using the scheme's `getVotingMachine` method.
+- You can obtain an [IntVoteInterfaceWrapper](/arc.js/api/classes/IntVoteInterfaceWrapper) for the voting machine associated with any proposal-generating scheme using the scheme's `getVotingMachine` method.
 
-- Every [method that creates a proposal](#proposalschemestable) returns an `IntVoteInterfaceWrapper` in the [ArcTransactionProposalResult](/api/classes/ArcTransactionProposalResult).
+- Every [method that creates a proposal](#proposalschemestable) returns an `IntVoteInterfaceWrapper` in the [ArcTransactionProposalResult](/arc.js/api/classes/ArcTransactionProposalResult).
 
 - Every scheme's `EntityFetcherFactory` that returns votable proposals will supply an `IntVoteInterfaceWrapper` in the fetched entity.
 

@@ -1,10 +1,10 @@
 # Configuring Arc.js Behavior and Special Features
-You may configure Arc.js behavior and several special features using the [ConfigService](/api/classes/ConfigService).  Default configuration settings for Arc.js are contained in the `config/default.json` file.  The following section describes available features, settings and their default values.
+You may configure Arc.js behavior and several special features using the [ConfigService](/arc.js/api/classes/ConfigService).  Default configuration settings for Arc.js are contained in the `config/default.json` file.  The following section describes available features, settings and their default values.
 
 ## Available Configuration Settings
 
 **autoApproveTokenTransfers**
-Automatically approve token transfers for operations that require the sender pay tokens to the scheme.  Examples: [VestingScheme.create](api/classes/VestingSchemeWrapper#create), [GenesisProtocol.stake](api/classes/GenesisProtocolWrapper#stake), and [ContributionReward.proposeContributionReward](api/classes/ContributionRewardWrapper#proposeContributionReward).  Default is true.
+Automatically approve token transfers for operations that require the sender pay tokens to the scheme.  Examples: [VestingScheme.create](/arc.js/api/classes/VestingSchemeWrapper#create), [GenesisProtocol.stake](/arc.js/api/classes/GenesisProtocolWrapper#stake), and [ContributionReward.proposeContributionReward](/arc.js/api/classes/ContributionRewardWrapper#proposeContributionReward).  Default is true.
 
 **cacheContractWrappers**
 `true` to cache contract wrappers obtained using the contract wrapper factory methods `.at` and `.new`.  The cache is local, it does not persist across application instances.  The default is `false`.
@@ -19,7 +19,7 @@ The voting machine used by default by `Dao.new` when creating new DAOs.  Default
 Set this to `true` to have Arc.js estimate the gas cost of each transaction.  See [Estimating Gas Limits](#gaslimits).
 
 **foundersConfigurationLocation**
-The location of a custom founders json configuration file, including the name of the file.  The default points to `founders.json` located in arc.js/migrations which defines default founders for ganache. If the value is given as a relative path, then it must be relative to arc.js/dist/migrations.  Refer here for [more about how to define founders](Migration#founders).
+The location of a custom founders json configuration file, including the name of the file.  The default points to `founders.json` located in arc.js/migrations which defines default founders for ganache. If the value is given as a relative path, then it must be relative to arc.js/dist/migrations.  Refer here for [more about how to define founders](Migration.md#founders).
 
 <a name="logging"></a>
 **logLevel**
@@ -51,7 +51,7 @@ The url to use when connecting to the blockchain network at runtime.  Default is
 
 <a name="txDepthRequiredForConfirmation"></a>
 **txDepthRequiredForConfirmation**
-The default required depth, in terms of the number of blocks that have been added to the chain since a transaction has been mined, used by certain functions in `TransactionService`.  For more information, see [Transaction Depth](Transactions#transactiondepth).
+The default required depth, in terms of the number of blocks that have been added to the chain since a transaction has been mined, used by certain functions in `TransactionService`.  For more information, see [Transaction Depth](Transactions.md#transactiondepth).
 
 ## Obtain a Configuration Setting at Runtime
 
@@ -117,7 +117,7 @@ You can enable several special features using the configuration settings, as des
 <a name="optimizedcontractloading"></a>
 ### Optimized Contract Loading
 
-By default, [InitializeArcJs](/api/README/#initializearcjs) will load all of the wrapped Arc contracts as deployed by the running version of Arc.js.  This default behavior is perfectly fine for your application.  But as a performance consideration you may consider this to be too time-consuming, so you may want to tell `InitializeArcJs` to only load the contracts that you expect to use.  The following is enough to create a new DAO with no schemes:
+By default, [InitializeArcJs](/arc.js/api/README#initializearcjs) will load all of the wrapped Arc contracts as deployed by the running version of Arc.js.  This default behavior is perfectly fine for your application.  But as a performance consideration you may consider this to be too time-consuming, so you may want to tell `InitializeArcJs` to only load the contracts that you expect to use.  The following is enough to create a new DAO with no schemes:
 
 ```javascript
 await InitializeArcJs({
@@ -153,7 +153,7 @@ await InitializeArcJs({
 
 <a name="accountchanges"></a>
 ### Account Changes
-You can be notified whenever the current account changes by subscribing to a special PubSub event published by the [AccountService](/api/classes/AccountService).  To take advantage of this feature, first tell `InitializeArcJs` you want the feature turned on:
+You can be notified whenever the current account changes by subscribing to a special PubSub event published by the [AccountService](/arc.js/api/classes/AccountService).  To take advantage of this feature, first tell `InitializeArcJs` you want the feature turned on:
 
 ```javascript
 import { InitializeArcJs } from "@daostack/arc.js";
@@ -171,7 +171,7 @@ import { AccountService } from "@daostack/arc.js";
 AccountService.subscribeToAccountChanges((account: Address) => { ... });
 ```
 
-For more information, see [AccountService](/api/classes/AccountService).
+For more information, see [AccountService](/arc.js/api/classes/AccountService).
 
 <a name="gaslimits"></a>
 ### Estimating Gas Limits
@@ -190,6 +190,6 @@ And you may similarly disable it at any time.
 <a name="gasprice"></a>
 ### Setting the Gas Price
 
-Arc.js enables you to set the gas price on transactions. At any time, set the value of this gasPriceAdjustor to a function with the signature [GasPriceAdjustor](/api/README/#gaspriceadjustor).  This function takes as an argument a value for price that is computed as the median gas price across the `x` latest blocks, where `x` is determined by the node you are using.
+Arc.js enables you to set the gas price on transactions. At any time, set the value of this gasPriceAdjustor to a function with the signature [GasPriceAdjustor](/arc.js/api/README#gaspriceadjustor).  This function takes as an argument a value for price that is computed as the median gas price across the `x` latest blocks, where `x` is determined by the node you are using.
 
 This feature is disabled by default.

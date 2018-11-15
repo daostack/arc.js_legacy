@@ -448,7 +448,7 @@ export interface WrapperServiceInitializeOptions {
    * `WrapperService.wrappers` and `WrapperService.wrappersByType`,
    * and will not be available in `WrapperService.wrappersByAddress`.
    * But their factories will still be available in `WrapperService.factories`.
-   * See [Optimized Contract Loading](Wrappers#optimizedcontractloading) for more information.
+   * See [Optimized Contract Loading](/Wrappers.md#optimizedcontractloading) for more information.
    */
   filter?: WrapperFilter;
 }

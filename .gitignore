@@ -12,3 +12,4 @@ yarn.lock
 test-build/
 site/
 docs/api/
+.vs/

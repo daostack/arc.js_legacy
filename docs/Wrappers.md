@@ -2,7 +2,7 @@
 
 ## Overview
 
-Arc.js wraps several Arc contracts in a "contract wrapper" JavaScript class.  Every wrapper class inherits ultimately from [ContractWrapperBase](api/classes/ContractWrapperBase) providing a common set of functions and properties and specific helper functions for operations specific to the contract it wraps.
+Arc.js wraps several Arc contracts in a "contract wrapper" JavaScript class.  Every wrapper class inherits ultimately from [ContractWrapperBase](/arc.js/api/classes/ContractWrapperBase) providing a common set of functions and properties and specific helper functions for operations specific to the contract it wraps.
 
 Each wrapper contains some basic properties:
 
@@ -10,7 +10,7 @@ Each wrapper contains some basic properties:
 - `friendlyName` - a more friendly name of the Arc contract
 - `address` - the address of the wrapped Arc contract
 - `contract` - the original "wrapped" [Truffle contract](https://github.com/trufflesuite/truffle-contract) that you can use to access all of the Truffle and Web3 functionality of the specific Arc contract being wrapped.
-- `factory` - a static instance of a wrapper factory class based on [ContractWrapperFactory&lt;TWrapper&gt;](api/classes/ContractWrapperFactory) (where `TWrapper` is the type (class) of the wrapper).  Each factory contains static methods:
+- `factory` - a static instance of a wrapper factory class based on [ContractWrapperFactory&lt;TWrapper&gt;](/arc.js/api/classes/ContractWrapperFactory) (where `TWrapper` is the type (class) of the wrapper).  Each factory contains static methods:
     - `at(someAddress)`
     - `new()`
     - `deployed()`
@@ -18,7 +18,7 @@ Each wrapper contains some basic properties:
     ... that you can use to instantiate the associated wrapper class.
 
 ### Events
-Each wrapper includes the wrapped contract's events as properties that give you enhanced capabilities over the straight Truffle/Web3 event API.  For more information about wrapped contract events, see [Web3 Events](web3events).
+Each wrapper includes the wrapped contract's events as properties that give you enhanced capabilities over the straight Truffle/Web3 event API.  For more information about wrapped contract events, see [Web3 Events](#web3events).
 
 
 <a name="contracttypes"></a>
@@ -49,11 +49,11 @@ Arc contracts and associated Arc.js contract wrapper classes are categorized as 
 * DaoCreator
 * Redeemer
 
-See more at [Enumerate wrappers by contract type](wrappersByContractType).
+See more at [Enumerate wrappers by contract type](#wrappersByContractType).
 
 ### Obtaining Wrappers
 
-Arc.js provides multiple ways to obtain contract wrappers, each optimal for particular use cases. It all starts with the  [WrapperService](/api/classes/WrapperService) which provides means of organizing and obtaining contract wrappers. The `WrapperService` API is primarily in the form of four static properties, each of which are exported for easy import in your code:
+Arc.js provides multiple ways to obtain contract wrappers, each optimal for particular use cases. It all starts with the  [WrapperService](/arc.js/api/classes/WrapperService) which provides means of organizing and obtaining contract wrappers. The `WrapperService` API is primarily in the form of four static properties, each of which are exported for easy import in your code:
 
 
 Export | WrapperService property | Description
@@ -98,7 +98,7 @@ const upgradeScheme = await UpgradeSchemeFactory.at(someAddress);
 !!! info
     `.at` will return `undefined` if it can't find the contract at the given address.
 
-Another way to get a wrapper at a given address is using [WrapperService.getContractWrapper](api/classes/WrapperService/#getContractWrapper).  This is most useful when you have a contract name
+Another way to get a wrapper at a given address is using [WrapperService.getContractWrapper](/arc.js/api/classes/WrapperService#getContractWrapper).  This is most useful when you have a contract name
 and may or may not have an address and wish to most efficiently return the associated wrapper, or undefined when not found:
 
 ```javascript
@@ -142,7 +142,7 @@ for (var schemeWrapper of ContractWrappersByType.universalSchemes) {
 }
 ```
 
-The set of contract categories is defined in [ArcWrappersByType](/api/interfaces/ArcWrappersByType).
+The set of contract categories is defined in [ArcWrappersByType](/arc.js/api/interfaces/ArcWrappersByType).
 
 ## Can't Find What You Need?
 
@@ -150,7 +150,7 @@ Arc.js doesn't wrap every Arc contact nor give you a helper class for everything
 
 ### Truffle Contracts and Web3
 
- Under the hood Arc.js uses Truffle contracts and `Web3`. When you find that Arc.js doesn't directly provide you a piece of information or functionality that you need, you might be able to use them to find what you want.  You can obtain `Web3` via [Utils.getWeb3](/api/classes/Utils#getWeb3) and the Truffle contract associated with each contract wrapper instance via the `contract` property on each wrapper class.
+ Under the hood Arc.js uses Truffle contracts and `Web3`. When you find that Arc.js doesn't directly provide you a piece of information or functionality that you need, you might be able to use them to find what you want.  You can obtain `Web3` via [Utils.getWeb3](/arc.js/api/classes/Utils#getWeb3) and the Truffle contract associated with each contract wrapper instance via the `contract` property on each wrapper class.
 
 !!! info "More on `Web3` and Truffle contracts"
     - [Web3](https://github.com/ethereum/wiki/wiki/JavaScript-API)
