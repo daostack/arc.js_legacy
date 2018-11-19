@@ -45,10 +45,18 @@ export class Utils {
 
       contract.setProvider(myWeb3.currentProvider);
       contract.setNetwork(await Utils.getNetworkId());
-      contract.defaults({
-        from: await Utils.getDefaultAccount(),
-        gas: ConfigService.get("defaultGasLimit"),
-      });
+
+      const contractDefaults: any = {
+        gas: ConfigService.get("defaultGasLimit")
+      };
+
+      try {
+        contractDefaults.from = await Utils.getDefaultAccount();
+      } catch {
+        LoggingService.warn('A default account was not found.  Arc.js will effectivly be in a readonly mode.');
+      }
+
+      contract.defaults(contractDefaults);
 
       /**
        * Use the supplied contract deployment addresses.
@@ -62,7 +70,6 @@ export class Utils {
             throw ex;
           });
       };
-
       Utils.contractCache.set(contractName, contract);
       LoggingService.debug(`requireContract: loaded ${contractName}`);
       return contract;
@@ -182,19 +189,14 @@ export class Utils {
    *
    * Has the side-effect of setting web3.eth.defaultAccount.
    *
-   * Throws an exception on failure.
+   * returns undefined when there is no account.
    */
-  public static async getDefaultAccount(): Promise<string> {
+  public static async getDefaultAccount(): Promise<string | undefined> {
     const localWeb3 = await Utils.getWeb3();
 
     return promisify(localWeb3.eth.getAccounts)().then((accounts: Array<any>) => {
       const defaultAccount = localWeb3.eth.defaultAccount =
         (accounts && (accounts.length > 0)) ? accounts[0] : undefined;
-
-      if (!defaultAccount) {
-        throw new Error("accounts[0] is not set");
-      }
-
       return defaultAccount;
     });
   }

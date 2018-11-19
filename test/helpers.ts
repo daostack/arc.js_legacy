@@ -98,23 +98,27 @@ const setupForNonGanacheNet = (): void => {
 
 beforeEach(async () => {
 
-  network = (env.arcjs_network || "ganache").toLowerCase();
+  const suppressArcInitialization = env.arcjs_noInitialize;
 
-  if (!testWeb3) {
+  if (!suppressArcInitialization) {
+    network = (env.arcjs_network || "ganache").toLowerCase();
 
-    if (env.arcjs_providerConfig) {
-      // note this can be ganache too
-      setupForNonGanacheNet();
+    if (!testWeb3) {
+
+      if (env.arcjs_providerConfig) {
+        // note this can be ganache too
+        setupForNonGanacheNet();
+      }
+
+      (global as any).web3 = testWeb3 = await InitializeArcJs();
     }
 
-    (global as any).web3 = testWeb3 = await InitializeArcJs();
-  }
+    (global as any).accounts = await promisify(web3.eth.getAccounts)();
 
-  (global as any).accounts = await promisify(web3.eth.getAccounts)();
-
-  if (network === "ganache") {
-    await etherForEveryone();
-    await genTokensForEveryone();
+    if (network === "ganache") {
+      await etherForEveryone();
+      await genTokensForEveryone();
+    }
   }
 });
 

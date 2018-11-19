@@ -1,15 +1,59 @@
 "use strict";
 import { assert } from "chai";
 import { ConfigService } from "../lib/configService";
-import { InitializeArcJs } from "../lib/index";
-import { LoggingService } from "../lib/loggingService";
+import { InitializeArcJs, AbsoluteVoteFactory } from "../lib/index";
+import { LoggingService, LogLevel } from "../lib/loggingService";
 import { PubSubEventService } from "../lib/pubSubEventService";
 import { Utils } from "../lib/utils";
 import { DaoTokenWrapper } from "../lib/wrappers/daoToken";
 import { WrapperService } from "../lib/wrapperService";
 import * as helpers from "./helpers";
+import { UtilsInternal } from '../lib/utilsInternal';
+const env = require("env-variable")();
 
 describe("Misc", () => {
+
+  it("Proper warning when no default account", async () => {
+    /**
+     * to run this test, set the enviroment variable "arcjs_noInitialize" to anything non-zero
+     */
+    let hasAccount: boolean = false;
+    let currentLogLevel;
+    try {
+      currentLogLevel = ConfigService.get("logLevel");
+      // throws an exception when there is no account
+      hasAccount = !!(await Utils.getDefaultAccount());
+      console.log("not running test, default account is set");
+    } catch {
+
+      /**
+       * ok, no default account, run the test
+       */
+      ConfigService.set("logLevel", LogLevel.warn);
+      let gotWarning: boolean = false;
+      LoggingService.addLogger({
+        debug() { },
+        info() { },
+        error() { },
+        warn(message: string) { gotWarning = message === "A default account was not found.  Arc.js will effectivly be in a readonly mode."; }
+      });
+
+      const absoluteVote = await AbsoluteVoteFactory.deployed();
+
+      const hash = await absoluteVote.getParametersHash({
+        ownerVote: true,
+        votePerc: 50,
+      });
+
+      assert.isTrue(gotWarning, "got no warning");
+      assert.isFalse(UtilsInternal.isNullHash(hash), "hash is null");
+    }
+    finally {
+      ConfigService.set("logLevel", currentLogLevel);
+      // make sure we ran the test
+      assert.isTrue(!hasAccount || !env.arcjs_noInitialize, "couldn't run test, default account is set");
+    }
+  });
 
   it("can set/get txDepthRequiredForConfirmation", async () => {
 

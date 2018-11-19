@@ -13,7 +13,7 @@ describe("AbsoluteVote", () => {
 
   it("can get params hash", async () => {
 
-    const absoluteVote = await AbsoluteVoteFactory.new();
+    const absoluteVote = await AbsoluteVoteFactory.at("0x951b08e74181d8d6127485af030f235865586a98");
 
     const params = await {
       ownerVote: true,

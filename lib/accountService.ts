@@ -32,13 +32,7 @@ export class AccountService {
 
     LoggingService.info("Initiating account watch");
 
-    if (!AccountService.currentAccount) {
-      try {
-        AccountService.currentAccount = await Utils.getDefaultAccount();
-      } catch {
-        AccountService.currentAccount = undefined;
-      }
-    }
+    AccountService.currentAccount = await Utils.getDefaultAccount();
 
     AccountService.accountChangedTimerId = setInterval(async () => {
 
@@ -48,12 +42,8 @@ export class AccountService {
 
       AccountService.accountChangedLock = true;
 
-      let currentAccount = AccountService.currentAccount;
-      try {
-        currentAccount = await Utils.getDefaultAccount();
-      } catch {
-        currentAccount = undefined;
-      }
+      const currentAccount = await Utils.getDefaultAccount();
+
       if (currentAccount !== AccountService.currentAccount) {
         AccountService.currentAccount = currentAccount;
         LoggingService.info(`Account watch: account changed: ${currentAccount}`);
