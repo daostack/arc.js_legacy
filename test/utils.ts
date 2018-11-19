@@ -5,6 +5,7 @@ import { InitializeArcJs } from "../lib/index";
 import { LoggingService } from "../lib/loggingService";
 import { PubSubEventService } from "../lib/pubSubEventService";
 import { Utils } from "../lib/utils";
+import { DaoTokenWrapper } from "../lib/wrappers/daoToken";
 import { WrapperService } from "../lib/wrapperService";
 import * as helpers from "./helpers";
 
@@ -64,7 +65,7 @@ describe("Misc", () => {
   });
 
   it("has GEN token balance", async () => {
-    const balance = web3.fromWei(await Utils.getGenTokenBalance(accounts[0]));
+    const balance = web3.fromWei(await DaoTokenWrapper.getGenTokenBalance(accounts[0]));
     assert(balance.gt(0));
   });
 

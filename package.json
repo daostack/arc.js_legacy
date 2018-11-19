@@ -16,7 +16,8 @@
     "config/",
     "package-scripts.js",
     "package-scripts/",
-    "truffle.js"
+    "truffle.js",
+    "migration.json"
   ],
   "scripts": {
     "start": "nps",
@@ -52,6 +53,7 @@
   },
   "homepage": "https://github.com/daostack/arc.js#readme",
   "dependencies": {
+    "@daostack/migration": "0.0.0-alpha.56-v1",
     "archiver": "^2.1.0",
     "bignumber.js": "^5.0.0",
     "circular-json": "^0.5.4",
@@ -70,8 +72,6 @@
     "path.join": "^1.0.0",
     "pubsub-js": "^1.6.0",
     "truffle-contract": "^3.0.1",
-    "truffle-core-migrate-without-compile": "^4.0.7",
-    "truffle-hdwallet-provider": "^0.0.6",
     "tslib": "^1.9.0"
   },
   "devDependencies": {
@@ -83,6 +83,7 @@
     "@types/pubsub-js": "^1.5.18",
     "chai": "^4.1.2",
     "mocha": "^4.0.1",
+    "truffle-hdwallet-provider": "0.0.6",
     "tslint": "^5.11.0",
     "typedoc": "^0.11.1",
     "typedoc-plugin-markdown": "^1.0.14",

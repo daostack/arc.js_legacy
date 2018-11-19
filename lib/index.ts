@@ -59,11 +59,30 @@ import { LoggingService, LogLevel } from "./loggingService";
 import { PubSubEventService } from "./pubSubEventService";
 import { Utils } from "./utils";
 import { WrapperService, WrapperServiceInitializeOptions } from "./wrapperService";
+const deployedContractAddresses = require("../migration.json");
 
 /**
  * Options for [InitializeArcJs](/arc.js/api/README#initializearcjs)
  */
 export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
+  /**
+   * Optionally supply addresses to be used when calling WrapperFactory `.deployed()`.
+   * The defaults come from [@daostack/migrations](https://github.com/daostack/migration).
+   *
+   * Should look like this:
+   *
+   * ```
+   * {
+   *   AbsoluteVote: "0x123...",
+   *   DaoCreator: "0x123...",
+   *   GenesisProtocol: "0x123...",
+   *   .
+   *   .
+   *   .
+   * }
+   * ```
+   */
+  deployedContractAddresses?: any;
   /**
    * If `true` and `window.ethereum` is present, instantiate Web3 using it as the provider.
    * Ignored if `useWeb3` is given.
@@ -84,12 +103,14 @@ export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
   useWeb3?: Web3;
   /**
    * Set to true to watch for changes in the current user account.
-   * Default is false.  See [AccountService.initiateAccountWatch](/arc.js/api/classes/AccountService#initiateAccountWatch).
+   * Default is false.
+   * See [AccountService.initiateAccountWatch](/arc.js/api/classes/AccountService#initiateAccountWatch).
    */
   watchForAccountChanges?: boolean;
   /**
    * Set to true to watch for changes in the current blockchain network.
-   * Default is false.  See [AccountService.initiateNetworkWatch](/arc.js/api/classes/AccountService#initiateNetworkWatch).
+   * Default is false.
+   * See [AccountService.initiateNetworkWatch](/arc.js/api/classes/AccountService#initiateNetworkWatch).
    */
   watchForNetworkChanges?: boolean;
 }
@@ -99,6 +120,7 @@ export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
  * @returns Promise of the `Web3` object for the current chain.
  */
 export async function InitializeArcJs(options: InitializeArcOptions = {}): Promise<Web3> {
+
   LoggingService.info("Initializing Arc.js");
   try {
 
@@ -137,7 +159,24 @@ export async function InitializeArcJs(options: InitializeArcOptions = {}): Promi
       ConfigService.set("providerUrl", `${networkDefaults.host}`);
     }
 
+    /**
+     * throws an exception if web3 cannot be initialized (no connection).
+     */
     const web3 = await Utils.getWeb3(true);
+    /**
+     * Addresses are coming either from the DAOstack migration package or as passed-in by the
+     * caller.  The caller may selectively override each contract address.
+     */
+    let networkName = (await Utils.getNetworkName()).toLowerCase();
+    if (networkName === "ganache") {
+      networkName = "private";
+    }
+    const addresses = Object.assign({},
+      deployedContractAddresses[networkName].base,
+      options.deployedContractAddresses || {});
+
+    Utils.setDeployedAddresses(addresses);
+
     await WrapperService.initialize(options);
 
     if (options.watchForAccountChanges) {

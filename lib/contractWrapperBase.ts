@@ -112,24 +112,6 @@ export abstract class ContractWrapperBase implements IContractWrapper {
   }
 
   /**
-   * Initialize as it was migrated by Arc.js on the current network.
-   * @returns this or undefined if not found
-   */
-  public async hydrateFromDeployed(): Promise<IContractWrapper> {
-    try {
-      // Note that because we are using `.then`, we are returning a true promise
-      // rather than the incomplete one returned by truffle.
-      this.contract = await this.solidityContract.deployed()
-        .then((contract: any) => contract, (error: any) => { throw error; });
-      this.hydrated();
-    } catch (ex) {
-      LoggingService.error(`hydrateFromDeployed failing: ${ex}`);
-      return undefined;
-    }
-    return this;
-  }
-
-  /**
    * Given a hash, returns the associated parameters as an object.
    * @param paramsHash
    */

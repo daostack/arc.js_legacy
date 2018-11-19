@@ -37,9 +37,6 @@ The level of logging.  Default is 9 (`LogLevel.error | LogLevel.info`).  The ava
 **gasPriceAdjustor**
 Use this setting to supply Arc.js with the gas price for transactions. See [Setting the Gas Price](#gasprice).
 
-**globalGenTokenAddresses**
-Specifies the address of the GEN token on each network.  "globalGenTokenAddresses.ganache" for Ganache, "globalGenTokenAddresses.default" for all other networks.
-
 **network**
 Name of the blockchain network used during Arc contract migration.  Other information like url and port come from Arc.js's truffle.js file.  Default is "ganache".
 
