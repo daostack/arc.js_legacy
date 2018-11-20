@@ -10,8 +10,6 @@
     "custom_typings/",
     "docs/",
     "test/",
-    "migrations/*.js",
-    "migrations/founders.json",
     "migrated_contracts/",
     "config/",
     "package-scripts.js",
