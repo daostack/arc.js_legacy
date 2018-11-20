@@ -171,6 +171,11 @@ export async function InitializeArcJs(options: InitializeArcOptions = {}): Promi
     if (networkName === "ganache") {
       networkName = "private";
     }
+
+    if (!deployedContractAddresses[networkName] && !options.deployedContractAddresses) {
+      throw new Error(`contracts have not been deployed to ${networkName}`);
+    }
+
     const addresses = Object.assign({},
       deployedContractAddresses[networkName].base,
       options.deployedContractAddresses || {});
