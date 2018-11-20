@@ -73,12 +73,26 @@ export interface InitializeArcOptions extends WrapperServiceInitializeOptions {
    *
    * ```
    * {
-   *   AbsoluteVote: "0x123...",
-   *   DaoCreator: "0x123...",
-   *   GenesisProtocol: "0x123...",
-   *   .
-   *   .
-   *   .
+   *  "private": {
+   *    "base": {
+   *       AbsoluteVote: "0x123...",
+   *       DaoCreator: "0x123...",
+   *       GenesisProtocol: "0x123...",
+   *       .
+   *       .
+   *       .
+   *     }
+   *  },
+   *  "kovan": {
+   *     "base": {
+   *       AbsoluteVote: "0x123...",
+   *       DaoCreator: "0x123...",
+   *       GenesisProtocol: "0x123...",
+   *       .
+   *       .
+   *       .
+   *     }
+   *   }
    * }
    * ```
    */
@@ -172,13 +186,14 @@ export async function InitializeArcJs(options: InitializeArcOptions = {}): Promi
       networkName = "private";
     }
 
-    if (!deployedContractAddresses[networkName] && !options.deployedContractAddresses) {
+    if (!deployedContractAddresses[networkName] && !options.deployedContractAddresses[networkName]) {
       throw new Error(`contracts have not been deployed to ${networkName}`);
     }
 
     const addresses = Object.assign({},
       deployedContractAddresses[networkName] ? deployedContractAddresses[networkName].base : {},
-      options.deployedContractAddresses || {});
+      options.deployedContractAddresses[networkName] ? options.deployedContractAddresses[networkName].base : {}
+    );
 
     Utils.setDeployedAddresses(addresses);
 
