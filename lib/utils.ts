@@ -378,7 +378,6 @@ export class Utils {
 
   private static clearContractCache(): void {
     Utils.contractCache.clear();
-    Utils.deployedContractAddresses = undefined;
   }
 }
 

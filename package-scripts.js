@@ -200,7 +200,7 @@ module.exports = {
          *
          * Easy Powershell command:  nps -s docs.api.createPagesList | ac .\mkdocs.yml
          */
-        createPagesList: `node ${joinPath(".", "package-scripts", "createApiPagesList.js")}./ docs api/*/**`
+        createPagesList: `node ${joinPath(".", "package-scripts", "createApiPagesList.js")} ./docs api/*/**`
       },
       website: {
         build: "mkdocs build",
