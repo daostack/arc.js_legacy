@@ -177,7 +177,7 @@ export async function InitializeArcJs(options: InitializeArcOptions = {}): Promi
     }
 
     const addresses = Object.assign({},
-      deployedContractAddresses[networkName].base,
+      deployedContractAddresses[networkName] ? deployedContractAddresses[networkName].base : {},
       options.deployedContractAddresses || {});
 
     Utils.setDeployedAddresses(addresses);
