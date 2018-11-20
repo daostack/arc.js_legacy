@@ -66,6 +66,7 @@ export class ControllerService {
            */
           UControllerContract = await Utils.requireContract("UController");
           uControllerAddress = (await UControllerContract.deployed()).address;
+          /* tslint:disable-next-line:no-empty */
         } catch { }
 
         this.isUController = uControllerAddress === controllerAddress;

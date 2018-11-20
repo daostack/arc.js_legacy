@@ -186,13 +186,15 @@ export async function InitializeArcJs(options: InitializeArcOptions = {}): Promi
       networkName = "private";
     }
 
-    if (!deployedContractAddresses[networkName] && !options.deployedContractAddresses[networkName]) {
+    const optionsDeployedContractAddresses = options.deployedContractAddresses || {};
+
+    if (!deployedContractAddresses[networkName] && !optionsDeployedContractAddresses[networkName]) {
       throw new Error(`contracts have not been deployed to ${networkName}`);
     }
 
     const addresses = Object.assign({},
       deployedContractAddresses[networkName] ? deployedContractAddresses[networkName].base : {},
-      options.deployedContractAddresses[networkName] ? options.deployedContractAddresses[networkName].base : {}
+      optionsDeployedContractAddresses[networkName] ? optionsDeployedContractAddresses[networkName].base : {}
     );
 
     Utils.setDeployedAddresses(addresses);
