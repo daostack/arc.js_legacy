@@ -58,7 +58,10 @@ Arc.js typings are available to application via [index.ts](https://github.com/da
 At runtime, applications must initialize Arc.js by calling `InitializeArcJs` which is defined in [index.ts](https://github.com/daostack/arc.js/blob/master/lib/index.ts).  This might be viewed as the entry-point to Arc.js.
 
 ## Migrations
-The [DAOstack Migrations](https://github.com/daostack/migration) package is used to migrate contracts to Ganache.  It also supplies addresses for all of the Arc contract as they have been migrated to Kovan, and as they can be migrated to Ganache after running the migration script that Arc.js provides.  These addresses are stored in "/migration.json".
+Arc.js uses the [DAOstack Migrations](https://github.com/daostack/migration) package to migrate contracts to Ganache, and as a source of Arc contract addresses as migrated to the various networks and to Ganache after running the migration script that Arc.js provides.  These addresses are stored in "/migration.json".
+
+!!! note
+    As of this writing, the DAOstack Migration package only includes Ganache addresses.
 
 ## Scripts
 
