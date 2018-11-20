@@ -23,6 +23,19 @@ Arc contract wrapper classes are all located under [lib/wrappers](https://github
 Service classes are all located in lib (though there is a [ticket to move them](https://github.com/daostack/arc.js/issues/208))
 
 More on wrappers and services follows.
+
+## Installation
+
+When you first clone the arc.js repo, run the script:
+
+```script
+npm install
+npm start migrateContracts.fetchContracts
+```
+
+This will install the Truffle artifact files from Arc and the migration.json file from [DAOstack Migrations](https://github.com/daostack/migration).
+
+
 ## Arc Contract Wrappers
 Every Arc contract wrapper class has as its root base the [ContractWrapperBase class](https://github.com/daostack/arc.js/blob/master/lib/contractWrapperBase.ts).
 
@@ -45,7 +58,7 @@ Arc.js typings are available to application via [index.ts](https://github.com/da
 At runtime, applications must initialize Arc.js by calling `InitializeArcJs` which is defined in [index.ts](https://github.com/daostack/arc.js/blob/master/lib/index.ts).  This might be viewed as the entry-point to Arc.js.
 
 ## Migrations
-A folder called "migrations" provides a structure that is expected by `truffle contract` when running migrations.  It contains a single stage that does little but invoke other  [code generated from typescript](https://github.com/daostack/arc.js/blob/master/lib/migrations/2_deploy_schemes.ts) at build time.
+The [DAOstack Migrations](https://github.com/daostack/migration) package is used to migrate contracts to Ganache.  It also supplies addresses for all of the Arc contract as they have been migrated to Kovan, and as they can be migrated to Ganache after running the migration script that Arc.js provides.  These addresses are stored in "/migration.json".
 
 ## Scripts
 

@@ -26,21 +26,26 @@ You can find a [detailed reference for the entire Arc.js API here](/arc.js/api).
 
 The following sections describe the basic steps for setting up Arc.js in your application. These steps basically involve:
 
-1. optionally running a blockchain node.  We will use the Ganache testnet as an example.
-2. optionally migrating the Arc contracts to the testnet, necessary for Ganache but not for Kovan or MainNet.
+1. optionally running the Ganache testnet.
+2. optionally migrating the Arc contracts to Ganache.
 3. using the Arc.js code in your application
 
-We'll continue by assuming you want to run your application against Ganache.
+We'll continue by setting up Ganache.
 
 <a name="migratetoganache"></a>
 ## Set up Ganache with Arc Contracts
 
-Arc.js runs against an Ethereum network where it assumes that the Arc contracts have been migrated.  Out of the box, Arc.js gives you the Arc contracts already-migrated to the MainNet and to Kovan, so your web application may use MetaMask to connect to these networks and Arc.js will automatically find the migrated contracts. For any other testnet, particularly Ganache, or to re-migrate for any reason, you will need to fire up your testnet and tell Arc.js to migrate the Arc contracts to it.  Arc.js provides a migration script that you can run from the context of your own application.
+Arc.js runs against an Ethereum network where it assumes that the Arc contracts exist, or so to speak, have been migrated.  Out of the box, Arc.js contains the addresses of all of the Arc contracts as they have been migrated to Kovan, and as they can be migrated to Ganache after running a script provided by Arc.js.
+
+!!! note 
+    Mainnet contract addresses are coming.
+
+So Arc.js provides a script that you can run from the context of your own application to migrate the Arc contracts to Ganache.
 
 !!! note "Please Review First"
     Please review [Running Arc.js Scripts](Scripts.md) before proceeding.
 
-To deploy contracts to a Ganache testnet, in a separate shell window start up Ganache:
+To deploy contracts to Ganache, start up Ganache in a separate shell window:
 
 ```script
 npm explore @daostack/arc.js -- npm start ganache
@@ -52,10 +57,10 @@ And migrate the Arc contracts to Ganache:
 npm explore @daostack/arc.js -- npm start migrateContracts
 ```
 
-Now when your app uses Arc.js, it will by default be running against Ganache and the Arc contracts you just migrated.  Since Ganache is running, you don't need MetaMask, though you could point MetaMask to this Ganache instance if you wanted.
+When your app uses Arc.js, it will by default be running against Ganache and the Arc contracts you just migrated.  Since Ganache is running, you don't need MetaMask, though you could point MetaMask to this Ganache instance if you wanted.
 
 !!! info "Related Information"
-    Find related information at [Migrations](Migration.md), [Network Configuration](Configuration.md#networksettings) and [Running against a Ganache Db](GanacheDb.md).
+    Find related information at [Network Configuration](Configuration.md#networksettings) and [Running against a Ganache Db](GanacheDb.md).
 
 !!! tip "Wrong Nonce?"
     Arc.js always starts Ganache with the same network id and set of accounts, and with a fake GEN token.  If you ever find MetaMask complaining about the nonce when generating a transaction, take the following steps:
@@ -63,6 +68,21 @@ Now when your app uses Arc.js, it will by default be running against Ganache and
     1. In the MetaMask home window, click the properties icon in the upper right.
     2. Select "Settings" in the dropdown menu
     3. Scroll to the bottom and select "Reset Account"
+
+## Create a Genesis-Like DAO
+
+Arc.js provides a script you can run to against Ganache to create a DAO that resembles the Genesis DAO, useful for testing.  Before running this script you have to have [fired up Ganache and migrated the Arc contracts to it](#migratetoganache).  Then, to create the DAO, run:
+
+```script
+npm explore @daostack/arc.js -- npm start createGenesisDao
+```
+
+This script will add all of the Ganache accounts to the new DAO as founders with rep and DAO native tokens.
+
+## Other Testnets
+If you want to deploy the Arc contracts to testnets other-than Ganache, use the [DAOstack Migrations](https://github.com/daostack/migration) package.  You will also find in that package a script for creating DAOs.
+
+The most flexible way to create a DAO from a script can be found in [DAOstack Arc-Scripts](https://github.com/daostack/arc.js-scripts) where you will find a "daoCreate" script that provides the full functionality of Arc.js's [DAO.new](/arc.js/api/classes/DAO#new).
 
 ## Use the Arc.js Library in your Code
 

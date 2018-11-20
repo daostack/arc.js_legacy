@@ -36,7 +36,6 @@ nav:
 - 'Events': 'Events.md'
 - 'Tracking Transactions': 'Transactions.md'
 - 'Scripts': 'Scripts.md'
-- 'Contract Migration': 'Migration.md'
 - 'Using GanacheDb': 'GanacheDb.md'
 - 'API Reference': 
   - Index : "api/README.md"

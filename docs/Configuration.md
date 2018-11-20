@@ -18,9 +18,6 @@ The voting machine used by default by `Dao.new` when creating new DAOs.  Default
 **estimateGas**
 Set this to `true` to have Arc.js estimate the gas cost of each transaction.  See [Estimating Gas Limits](#gaslimits).
 
-**foundersConfigurationLocation**
-The location of a custom founders json configuration file, including the name of the file.  The default points to `founders.json` located in arc.js/migrations which defines default founders for ganache. If the value is given as a relative path, then it must be relative to arc.js/dist/migrations.  Refer here for [more about how to define founders](Migration.md#founders).
-
 <a name="logging"></a>
 **logLevel**
 The level of logging.  Default is 9 (`LogLevel.error | LogLevel.info`).  The available log levels, which may be combined, are:

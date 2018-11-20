@@ -30,7 +30,7 @@ export class GenesisDaoCreator {
     private network: string) {
   }
 
-  public async run(foundersConfigurationLocation: string): Promise<void> {
+  public async run(): Promise<void> {
 
     const spec = {
       founders: [
