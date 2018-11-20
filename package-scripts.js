@@ -135,8 +135,7 @@ module.exports = {
        */
       default: series(
         migrationScriptExists ? `` : `nps build`,
-        "npm explore @daostack/migration -- npm run migrate base -- -f -s 0x8d4408014d165ec69d8cc9f091d8f4578ac5564f376f21887e98a6d33a6e3549",
-        "nps migrateContracts.fetchFromDaostack"
+        `node ${joinPath(".", "package-scripts", "migrateContracts.js")} ${joinPath(pathArcJsRoot, "migration.json")}`
       ),
       andCreateGenesisDao: series(
         `nps migrateContracts`,
@@ -201,7 +200,7 @@ module.exports = {
          *
          * Easy Powershell command:  nps -s docs.api.createPagesList | ac .\mkdocs.yml
          */
-        createPagesList: `node ${joinPath(".", "package-scripts", "createApiPagesList.js")} ./docs api/*/**`
+        createPagesList: `node ${joinPath(".", "package-scripts", "createApiPagesList.js")}./ docs api/*/**`
       },
       website: {
         build: "mkdocs build",

@@ -51,7 +51,9 @@ export class Utils {
       });
 
       /**
-       * use the supplied contract deployment addresses
+       * Use the supplied contract deployment addresses.
+       * Arc.js is not doing migrations anymore, so the truffle artifact files contain no
+       * deployment addresses.
        */
       contract.deployed = (): any => {
         return contract.at(Utils.getDeployedAddress(contractName))
