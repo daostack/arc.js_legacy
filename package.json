@@ -73,7 +73,6 @@
     "pubsub-js": "^1.6.0",
     "truffle-contract": "^3.0.1",
     "tslib": "^1.9.0",
-    "typedarray-to-buffer": "^3.1.5",
     "web3": "^0.20.7",
     "websocket": "^1.0.26"
   },
