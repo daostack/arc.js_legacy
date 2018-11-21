@@ -339,18 +339,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../../../Migration/" title="Contract Migration" class="md-nav__link">
-      Contract Migration
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
     <a href="../../../GanacheDb/" title="Using GanacheDb" class="md-nav__link">
       Using GanacheDb
     </a>
@@ -366,13 +354,13 @@
 
   <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10" checked>
     
-    <label class="md-nav__link" for="nav-11">
+    <label class="md-nav__link" for="nav-10">
       API Reference
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-11">
+      <label class="md-nav__title" for="nav-10">
         API Reference
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1223,13 +1211,6 @@
           <li class="md-nav__item">
   <a href="#hydratefromat" title="hydrateFromAt" class="md-nav__link">
     hydrateFromAt
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#hydratefromdeployed" title="hydrateFromDeployed" class="md-nav__link">
-    hydrateFromDeployed
   </a>
   
 </li>
@@ -4075,13 +4056,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#hydratefromdeployed" title="hydrateFromDeployed" class="md-nav__link">
-    hydrateFromDeployed
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#hydratefromnew" title="hydrateFromNew" class="md-nav__link">
     hydrateFromNew
   </a>
@@ -4153,7 +4127,6 @@
 <li><a href="./#getSchemeParameters">getSchemeParameters</a></li>
 <li><a href="./#getSchemeParametersHash">getSchemeParametersHash</a></li>
 <li><a href="./#hydrateFromAt">hydrateFromAt</a></li>
-<li><a href="./#hydrateFromDeployed">hydrateFromDeployed</a></li>
 <li><a href="./#hydrateFromNew">hydrateFromNew</a></li>
 <li><a href="./#setParameters">setParameters</a></li>
 </ul>
@@ -4163,7 +4136,7 @@
 <h3 id="constructor">constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h3>
 <p>⊕ <strong>new TokenCapGCWrapper</strong>(solidityContract: <em><code>any</code></em>, web3EventService: <em><a href="../Web3EventService/">Web3EventService</a></em>): <a href="./">TokenCapGCWrapper</a></p>
 <p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#constructor">constructor</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d701d2a7/lib/contractWrapperBase.ts#L66">contractWrapperBase.ts:66</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L66">contractWrapperBase.ts:66</a></em></p>
 <p>ContractWrapperFactory constructs this</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4195,7 +4168,7 @@
 <p><strong>● contract</strong>: <em><code>any</code></em></p>
 <p><em>Implementation of <a href="../../interfaces/IContractWrapper/">IContractWrapper</a>.<a href="../../interfaces/IContractWrapper/#contract">contract</a></em></p>
 <p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#contract">contract</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d701d2a7/lib/contractWrapperBase.ts#L66">contractWrapperBase.ts:66</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L66">contractWrapperBase.ts:66</a></em></p>
 <p>The underlying truffle contract object. Use this to access parts of the contract that aren't accessible via the wrapper.</p>
 <hr />
 <p><a id="factory"></a></p>
@@ -4203,28 +4176,28 @@
 <p><strong>● factory</strong>: <em><a href="../../interfaces/IContractWrapperFactory/">IContractWrapperFactory</a>&lt;<a href="./">TokenCapGCWrapper</a>&gt;</em> =  TokenCapGCFactory</p>
 <p><em>Implementation of <a href="../../interfaces/IContractWrapper/">IContractWrapper</a>.<a href="../../interfaces/IContractWrapper/#factory">factory</a></em></p>
 <p><em>Overrides <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#factory">factory</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d701d2a7/lib/wrappers/tokenCapGC.ts#L15">wrappers/tokenCapGC.ts:15</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/wrappers/tokenCapGC.ts#L15">wrappers/tokenCapGC.ts:15</a></em></p>
 <hr />
 <p><a id="friendlyName"></a></p>
 <h3 id="friendlyname">friendlyName<a class="headerlink" href="#friendlyname" title="Permanent link">&para;</a></h3>
 <p><strong>● friendlyName</strong>: <em><code>string</code></em> = "Token Cap Global Constraint"</p>
 <p><em>Implementation of <a href="../../interfaces/IContractWrapper/">IContractWrapper</a>.<a href="../../interfaces/IContractWrapper/#friendlyName">friendlyName</a></em></p>
 <p><em>Overrides <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#friendlyName">friendlyName</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d701d2a7/lib/wrappers/tokenCapGC.ts#L14">wrappers/tokenCapGC.ts:14</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/wrappers/tokenCapGC.ts#L14">wrappers/tokenCapGC.ts:14</a></em></p>
 <hr />
 <p><a id="name"></a></p>
 <h3 id="name">name<a class="headerlink" href="#name" title="Permanent link">&para;</a></h3>
 <p><strong>● name</strong>: <em><code>string</code></em> = "TokenCapGC"</p>
 <p><em>Implementation of <a href="../../interfaces/IContractWrapper/">IContractWrapper</a>.<a href="../../interfaces/IContractWrapper/#name">name</a></em></p>
 <p><em>Overrides <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#name">name</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d701d2a7/lib/wrappers/tokenCapGC.ts#L13">wrappers/tokenCapGC.ts:13</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/wrappers/tokenCapGC.ts#L13">wrappers/tokenCapGC.ts:13</a></em></p>
 <hr />
 <h2 id="accessors_1">Accessors<a class="headerlink" href="#accessors_1" title="Permanent link">&para;</a></h2>
 <p><a id="address"></a></p>
 <h3 id="address">address<a class="headerlink" href="#address" title="Permanent link">&para;</a></h3>
 <p>getaddress(): <a href="../#Address">Address</a></p>
 <p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#address">address</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d701d2a7/lib/contractWrapperBase.ts#L61">contractWrapperBase.ts:61</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L61">contractWrapperBase.ts:61</a></em></p>
 <p>The address of the contract</p>
 <p><strong>Returns:</strong> <a href="../#Address">Address</a></p>
 <hr />
@@ -4233,7 +4206,7 @@
 <h3 id="estimategas">estimateGas<a class="headerlink" href="#estimategas" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>estimateGas</strong>(func: <em><a href="../../interfaces/ITruffleContractFunction/">ITruffleContractFunction</a></em>, params: <em><code>Array</code>&lt;<code>any</code>&gt;</em>, web3Params?: <em><code>any</code></em>): <code>Promise</code>&lt;<code>number</code>&gt;</p>
 <p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#estimateGas">estimateGas</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d701d2a7/lib/contractWrapperBase.ts#L168">contractWrapperBase.ts:168</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L150">contractWrapperBase.ts:150</a></em></p>
 <p>Estimate conservatively the amount of gas required to execute the given function with the given parameters. Adds 21000 to the estimate computed by web3.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4272,7 +4245,7 @@
 <h3 id="getparameters">getParameters<a class="headerlink" href="#getparameters" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>getParameters</strong>(paramsHash: <em><a href="../#Hash">Hash</a></em>): <code>Promise</code>&lt;<code>any</code>&gt;</p>
 <p><em>Overrides <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#getParameters">getParameters</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d701d2a7/lib/wrappers/tokenCapGC.ts#L42">wrappers/tokenCapGC.ts:42</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/wrappers/tokenCapGC.ts#L42">wrappers/tokenCapGC.ts:42</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -4294,7 +4267,7 @@
 <h3 id="getparametersarray">getParametersArray<a class="headerlink" href="#getparametersarray" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>getParametersArray</strong>(paramsHash: <em><a href="../#Hash">Hash</a></em>): <code>Promise</code>&lt;<code>Array</code>&lt;<code>any</code>&gt;&gt;</p>
 <p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#getParametersArray">getParametersArray</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d701d2a7/lib/contractWrapperBase.ts#L155">contractWrapperBase.ts:155</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L137">contractWrapperBase.ts:137</a></em></p>
 <p>Given a hash, returns the associated parameters as an array, ordered by the order in which the parameters appear in the contract's Parameters struct.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4318,7 +4291,7 @@
 <p><a id="getParametersHash"></a></p>
 <h3 id="getparametershash">getParametersHash<a class="headerlink" href="#getparametershash" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>getParametersHash</strong>(params: <em><a href="../../interfaces/TokenCapGcParams/">TokenCapGcParams</a></em>): <code>Promise</code>&lt;<a href="../#Hash">Hash</a>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d701d2a7/lib/wrappers/tokenCapGC.ts#L17">wrappers/tokenCapGC.ts:17</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/wrappers/tokenCapGC.ts#L17">wrappers/tokenCapGC.ts:17</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -4339,7 +4312,7 @@
 <p><a id="getSchemeParameters"></a></p>
 <h3 id="getschemeparameters">getSchemeParameters<a class="headerlink" href="#getschemeparameters" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>getSchemeParameters</strong>(avatarAddress: <em><a href="../#Address">Address</a></em>): <code>Promise</code>&lt;<a href="../../interfaces/GetTokenCapGcParamsResult/">GetTokenCapGcParamsResult</a>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d701d2a7/lib/wrappers/tokenCapGC.ts#L56">wrappers/tokenCapGC.ts:56</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/wrappers/tokenCapGC.ts#L56">wrappers/tokenCapGC.ts:56</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -4361,7 +4334,7 @@
 <h3 id="getschemeparametershash">getSchemeParametersHash<a class="headerlink" href="#getschemeparametershash" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>getSchemeParametersHash</strong>(avatarAddress: <em><a href="../#Address">Address</a></em>): <code>Promise</code>&lt;<a href="../#Hash">Hash</a>&gt;</p>
 <p><em>Overrides <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#getSchemeParametersHash">getSchemeParametersHash</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d701d2a7/lib/wrappers/tokenCapGC.ts#L50">wrappers/tokenCapGC.ts:50</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/wrappers/tokenCapGC.ts#L50">wrappers/tokenCapGC.ts:50</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -4384,7 +4357,7 @@
 <p>▸ <strong>hydrateFromAt</strong>(address: <em><code>string</code></em>): <code>Promise</code>&lt;<a href="../../interfaces/IContractWrapper/">IContractWrapper</a>&gt;</p>
 <p><em>Implementation of <a href="../../interfaces/IContractWrapper/">IContractWrapper</a>.<a href="../../interfaces/IContractWrapper/#hydrateFromAt">hydrateFromAt</a></em></p>
 <p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#hydrateFromAt">hydrateFromAt</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d701d2a7/lib/contractWrapperBase.ts#L100">contractWrapperBase.ts:100</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L100">contractWrapperBase.ts:100</a></em></p>
 <p>Initialize from a given address on the current network.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4406,22 +4379,12 @@
 <p><strong>Returns:</strong> <code>Promise</code>&lt;<a href="../../interfaces/IContractWrapper/">IContractWrapper</a>&gt;
 this or undefined if not found</p>
 <hr />
-<p><a id="hydrateFromDeployed"></a></p>
-<h3 id="hydratefromdeployed">hydrateFromDeployed<a class="headerlink" href="#hydratefromdeployed" title="Permanent link">&para;</a></h3>
-<p>▸ <strong>hydrateFromDeployed</strong>(): <code>Promise</code>&lt;<a href="../../interfaces/IContractWrapper/">IContractWrapper</a>&gt;</p>
-<p><em>Implementation of <a href="../../interfaces/IContractWrapper/">IContractWrapper</a>.<a href="../../interfaces/IContractWrapper/#hydrateFromDeployed">hydrateFromDeployed</a></em></p>
-<p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#hydrateFromDeployed">hydrateFromDeployed</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d701d2a7/lib/contractWrapperBase.ts#L118">contractWrapperBase.ts:118</a></em></p>
-<p>Initialize as it was migrated by Arc.js on the current network.</p>
-<p><strong>Returns:</strong> <code>Promise</code>&lt;<a href="../../interfaces/IContractWrapper/">IContractWrapper</a>&gt;
-this or undefined if not found</p>
-<hr />
 <p><a id="hydrateFromNew"></a></p>
 <h3 id="hydratefromnew">hydrateFromNew<a class="headerlink" href="#hydratefromnew" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>hydrateFromNew</strong>(...rest: <em><code>Array</code>&lt;<code>any</code>&gt;</em>): <code>Promise</code>&lt;<a href="../../interfaces/IContractWrapper/">IContractWrapper</a>&gt;</p>
 <p><em>Implementation of <a href="../../interfaces/IContractWrapper/">IContractWrapper</a>.<a href="../../interfaces/IContractWrapper/#hydrateFromNew">hydrateFromNew</a></em></p>
 <p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#hydrateFromNew">hydrateFromNew</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d701d2a7/lib/contractWrapperBase.ts#L81">contractWrapperBase.ts:81</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L81">contractWrapperBase.ts:81</a></em></p>
 <p>Initialize from a newly-migrated instance. This will migrate a new instance of the contract to the net.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4444,7 +4407,7 @@ this</p>
 <p><a id="setParameters"></a></p>
 <h3 id="setparameters">setParameters<a class="headerlink" href="#setparameters" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>setParameters</strong>(params: * <a href="../../interfaces/TokenCapGcParams/">TokenCapGcParams</a> &amp; <code>TxGeneratingFunctionOptions</code>*): <code>Promise</code>&lt;<a href="../ArcTransactionDataResult/">ArcTransactionDataResult</a>&lt;<a href="../#Hash">Hash</a>&gt;&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/d701d2a7/lib/wrappers/tokenCapGC.ts#L23">wrappers/tokenCapGC.ts:23</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/wrappers/tokenCapGC.ts#L23">wrappers/tokenCapGC.ts:23</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>

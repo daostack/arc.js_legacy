@@ -446,18 +446,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../Migration/" title="Contract Migration" class="md-nav__link">
-      Contract Migration
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
     <a href="../GanacheDb/" title="Using GanacheDb" class="md-nav__link">
       Using GanacheDb
     </a>
@@ -471,13 +459,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
     
-    <label class="md-nav__link" for="nav-11">
+    <label class="md-nav__link" for="nav-10">
       API Reference
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-11">
+      <label class="md-nav__title" for="nav-10">
         API Reference
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -3844,8 +3832,6 @@ The default gas limit used for most operations when "estimateGas" is false.</p>
 The voting machine used by default by <code>Dao.new</code> when creating new DAOs.  Default is "AbsoluteVote".</p>
 <p><strong>estimateGas</strong>
 Set this to <code>true</code> to have Arc.js estimate the gas cost of each transaction.  See <a href="#gaslimits">Estimating Gas Limits</a>.</p>
-<p><strong>foundersConfigurationLocation</strong>
-The location of a custom founders json configuration file, including the name of the file.  The default points to <code>founders.json</code> located in arc.js/migrations which defines default founders for ganache. If the value is given as a relative path, then it must be relative to arc.js/dist/migrations.  Refer here for <a href="../Migration/#founders">more about how to define founders</a>.</p>
 <p><a name="logging"></a>
 <strong>logLevel</strong>
 The level of logging.  Default is 9 (<code>LogLevel.error | LogLevel.info</code>).  The available log levels, which may be combined, are:</p>
@@ -3865,8 +3851,6 @@ The level of logging.  Default is 9 (<code>LogLevel.error | LogLevel.info</code>
 
 <p><strong>gasPriceAdjustor</strong>
 Use this setting to supply Arc.js with the gas price for transactions. See <a href="#gasprice">Setting the Gas Price</a>.</p>
-<p><strong>globalGenTokenAddresses</strong>
-Specifies the address of the GEN token on each network.  "globalGenTokenAddresses.ganache" for Ganache, "globalGenTokenAddresses.default" for all other networks.</p>
 <p><strong>network</strong>
 Name of the blockchain network used during Arc contract migration.  Other information like url and port come from Arc.js's truffle.js file.  Default is "ganache".</p>
 <p><strong>providerPort</strong>

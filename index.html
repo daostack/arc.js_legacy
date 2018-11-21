@@ -298,6 +298,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#create-a-genesis-like-dao" title="Create a Genesis-Like DAO" class="md-nav__link">
+    Create a Genesis-Like DAO
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-testnets-custom-migrations" title="Other Testnets, Custom Migrations" class="md-nav__link">
+    Other Testnets, Custom Migrations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#use-the-arcjs-library-in-your-code" title="Use the Arc.js Library in your Code" class="md-nav__link">
     Use the Arc.js Library in your Code
   </a>
@@ -467,18 +481,6 @@
 
 
   <li class="md-nav__item">
-    <a href="Migration/" title="Contract Migration" class="md-nav__link">
-      Contract Migration
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
     <a href="GanacheDb/" title="Using GanacheDb" class="md-nav__link">
       Using GanacheDb
     </a>
@@ -492,13 +494,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
     
-    <label class="md-nav__link" for="nav-11">
+    <label class="md-nav__link" for="nav-10">
       API Reference
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-11">
+      <label class="md-nav__title" for="nav-10">
         API Reference
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -3786,6 +3788,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#create-a-genesis-like-dao" title="Create a Genesis-Like DAO" class="md-nav__link">
+    Create a Genesis-Like DAO
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-testnets-custom-migrations" title="Other Testnets, Custom Migrations" class="md-nav__link">
+    Other Testnets, Custom Migrations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#use-the-arcjs-library-in-your-code" title="Use the Arc.js Library in your Code" class="md-nav__link">
     Use the Arc.js Library in your Code
   </a>
@@ -3891,19 +3907,24 @@
 <h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
 <p>The following sections describe the basic steps for setting up Arc.js in your application. These steps basically involve:</p>
 <ol>
-<li>optionally running a blockchain node.  We will use the Ganache testnet as an example.</li>
-<li>optionally migrating the Arc contracts to the testnet, necessary for Ganache but not for Kovan or MainNet.</li>
+<li>optionally running the Ganache testnet.</li>
+<li>optionally migrating the Arc contracts to Ganache.</li>
 <li>using the Arc.js code in your application</li>
 </ol>
-<p>We'll continue by assuming you want to run your application against Ganache.</p>
+<p>We'll continue by setting up Ganache.</p>
 <p><a name="migratetoganache"></a></p>
 <h2 id="set-up-ganache-with-arc-contracts">Set up Ganache with Arc Contracts<a class="headerlink" href="#set-up-ganache-with-arc-contracts" title="Permanent link">&para;</a></h2>
-<p>Arc.js runs against an Ethereum network where it assumes that the Arc contracts have been migrated.  Out of the box, Arc.js gives you the Arc contracts already-migrated to the MainNet and to Kovan, so your web application may use MetaMask to connect to these networks and Arc.js will automatically find the migrated contracts. For any other testnet, particularly Ganache, or to re-migrate for any reason, you will need to fire up your testnet and tell Arc.js to migrate the Arc contracts to it.  Arc.js provides a migration script that you can run from the context of your own application.</p>
+<p>Arc.js runs against an Ethereum network where it assumes that the Arc contracts exist, or so to speak, have been migrated.  Out of the box, Arc.js contains the addresses of all of the Arc contracts as they have been migrated to Kovan, and as they can be migrated to Ganache after running a script provided by Arc.js.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Mainnet contract addresses are coming.</p>
+</div>
+<p>So Arc.js provides a script that you can run from the context of your own application to migrate the Arc contracts to Ganache.</p>
 <div class="admonition note">
 <p class="admonition-title">Please Review First</p>
 <p>Please review <a href="Scripts/">Running Arc.js Scripts</a> before proceeding.</p>
 </div>
-<p>To deploy contracts to a Ganache testnet, in a separate shell window start up Ganache:</p>
+<p>To deploy contracts to Ganache, start up Ganache in a separate shell window:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm explore @daostack/arc.js -- npm start ganache
 </pre></div>
 </td></tr></table>
@@ -3913,10 +3934,10 @@
 </pre></div>
 </td></tr></table>
 
-<p>Now when your app uses Arc.js, it will by default be running against Ganache and the Arc contracts you just migrated.  Since Ganache is running, you don't need MetaMask, though you could point MetaMask to this Ganache instance if you wanted.</p>
+<p>When your app uses Arc.js, it will by default be running against Ganache and the Arc contracts you just migrated.  Since Ganache is running, you don't need MetaMask, though you could point MetaMask to this Ganache instance if you wanted.</p>
 <div class="admonition info">
 <p class="admonition-title">Related Information</p>
-<p>Find related information at <a href="Migration/">Migrations</a>, <a href="Configuration/#networksettings">Network Configuration</a> and <a href="GanacheDb/">Running against a Ganache Db</a>.</p>
+<p>Find related information at <a href="Configuration/#networksettings">Network Configuration</a> and <a href="GanacheDb/">Running against a Ganache Db</a>.</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Wrong Nonce?</p>
@@ -3927,6 +3948,17 @@
 <li>Scroll to the bottom and select "Reset Account"</li>
 </ol>
 </div>
+<h2 id="create-a-genesis-like-dao">Create a Genesis-Like DAO<a class="headerlink" href="#create-a-genesis-like-dao" title="Permanent link">&para;</a></h2>
+<p>Arc.js provides a script you can run to against Ganache to create a DAO that resembles the Genesis DAO, useful for testing.  Before running this script you have to have <a href="#migratetoganache">fired up Ganache and migrated the Arc contracts to it</a>.  Then, to create the DAO, run:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm explore @daostack/arc.js -- npm start createGenesisDao
+</pre></div>
+</td></tr></table>
+
+<p>This script will add all of the Ganache accounts to the new DAO as founders with rep and DAO native tokens.</p>
+<h2 id="other-testnets-custom-migrations">Other Testnets, Custom Migrations<a class="headerlink" href="#other-testnets-custom-migrations" title="Permanent link">&para;</a></h2>
+<p>If you want to deploy the Arc contracts to testnets other-than Ganache, use the <a href="https://github.com/daostack/migration">DAOstack Migrations</a> package.  You will also find in that package a script for creating DAOs.</p>
+<p>The most flexible way to create a DAO from a script can be found in <a href="https://github.com/daostack/arc.js-scripts">DAOstack Arc-Scripts</a> where you will find a "daoCreate" script that provides the full functionality of Arc.js's <a href="/arc.js/api/classes/DAO#new">DAO.new</a>.</p>
+<p>If you want to run Arc.js against networks other than Ganache and Kovan, or you want to supply addresses of your own deployedment, you may <a href="/arc.js/api/#initializearcjs">supply those addresses to InitializeArcJs</a> when you fire up Arc.js. </p>
 <h2 id="use-the-arcjs-library-in-your-code">Use the Arc.js Library in your Code<a class="headerlink" href="#use-the-arcjs-library-in-your-code" title="Permanent link">&para;</a></h2>
 <h3 id="language">Language<a class="headerlink" href="#language" title="Permanent link">&para;</a></h3>
 <p>Arc.js itself is written using Typescript. The Arc.js library includes Typescript type definitions defined in index.d.ts.  The javascript included in the Arc.js library is ES6 in a commonjs module format.  Your application may thus be written in any language that knows how to work with JavaScript coming from an NPM module in ES6 commonjs module format.</p>

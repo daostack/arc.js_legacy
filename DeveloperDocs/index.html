@@ -339,18 +339,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../Migration/" title="Contract Migration" class="md-nav__link">
-      Contract Migration
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
     <a href="../GanacheDb/" title="Using GanacheDb" class="md-nav__link">
       Using GanacheDb
     </a>
@@ -364,13 +352,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
     
-    <label class="md-nav__link" for="nav-11">
+    <label class="md-nav__link" for="nav-10">
       API Reference
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-11">
+      <label class="md-nav__title" for="nav-10">
         API Reference
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -3630,6 +3618,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#installation" title="Installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#arc-contract-wrappers" title="Arc Contract Wrappers" class="md-nav__link">
     Arc Contract Wrappers
   </a>
@@ -3750,6 +3745,15 @@
 <p>Arc contract wrapper classes are all located under <a href="https://github.com/daostack/arc.js/tree/master/lib/wrappers">lib/wrappers</a>.</p>
 <p>Service classes are all located in lib (though there is a <a href="https://github.com/daostack/arc.js/issues/208">ticket to move them</a>)</p>
 <p>More on wrappers and services follows.</p>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<p>When you first clone the arc.js repo, run the script:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>npm install
+npm start migrateContracts.fetchContracts
+</pre></div>
+</td></tr></table>
+
+<p>This will install the Truffle artifact files from Arc and the migration.json file from <a href="https://github.com/daostack/migration">DAOstack Migrations</a>.</p>
 <h2 id="arc-contract-wrappers">Arc Contract Wrappers<a class="headerlink" href="#arc-contract-wrappers" title="Permanent link">&para;</a></h2>
 <p>Every Arc contract wrapper class has as its root base the <a href="https://github.com/daostack/arc.js/blob/master/lib/contractWrapperBase.ts">ContractWrapperBase class</a>.</p>
 <p>Each wrapper can be instantiated and hydrated using the <a href="https://github.com/daostack/arc.js/blob/master/lib/contractWrapperFactory.ts">ContractWrapperFactory class</a>.  The word “hydrated” means to initialize a wrapper instance with information from the chain using <code>.new</code>, <code>.at</code> or <code>.deployed</code>.</p>
@@ -3762,7 +3766,11 @@
 <p>Arc.js typings are available to application via <a href="https://github.com/daostack/arc.js/blob/master/lib/index.ts">index.ts</a>.</p>
 <p>At runtime, applications must initialize Arc.js by calling <code>InitializeArcJs</code> which is defined in <a href="https://github.com/daostack/arc.js/blob/master/lib/index.ts">index.ts</a>.  This might be viewed as the entry-point to Arc.js.</p>
 <h2 id="migrations">Migrations<a class="headerlink" href="#migrations" title="Permanent link">&para;</a></h2>
-<p>A folder called "migrations" provides a structure that is expected by <code>truffle contract</code> when running migrations.  It contains a single stage that does little but invoke other  <a href="https://github.com/daostack/arc.js/blob/master/lib/migrations/2_deploy_schemes.ts">code generated from typescript</a> at build time.</p>
+<p>Arc.js uses the <a href="https://github.com/daostack/migration">DAOstack Migrations</a> package to migrate contracts to Ganache, and as a source of Arc contract addresses as migrated to the various networks and to Ganache after running the migration script that Arc.js provides.  These addresses are stored in "/migration.json".</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As of this writing, the DAOstack Migration package only includes Ganache addresses.</p>
+</div>
 <h2 id="scripts">Scripts<a class="headerlink" href="#scripts" title="Permanent link">&para;</a></h2>
 <h3 id="build">Build<a class="headerlink" href="#build" title="Permanent link">&para;</a></h3>
 <p>Build the distributable code like this:</p>
