@@ -79,7 +79,7 @@ npm explore @daostack/arc.js -- npm start createGenesisDao
 
 This script will add all of the Ganache accounts to the new DAO as founders with rep and DAO native tokens.
 
-## Other Testnets, Other Contracts
+## Other Testnets, Custom Migrations
 If you want to deploy the Arc contracts to testnets other-than Ganache, use the [DAOstack Migrations](https://github.com/daostack/migration) package.  You will also find in that package a script for creating DAOs.
 
 The most flexible way to create a DAO from a script can be found in [DAOstack Arc-Scripts](https://github.com/daostack/arc.js-scripts) where you will find a "daoCreate" script that provides the full functionality of Arc.js's [DAO.new](/arc.js/api/classes/DAO#new).
