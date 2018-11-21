@@ -383,7 +383,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
     }
 
     this.logContractFunctionCall("GenesisProtocol.threshold",
-      { schemeInfo, avatarAddress, votingMachineParamsHash, organizationId });
+      { address: schemeInfo.address, avatarAddress, votingMachineParamsHash, organizationId });
 
     return this.contract.threshold(votingMachineParamsHash, organizationId);
   }
