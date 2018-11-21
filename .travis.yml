@@ -16,7 +16,7 @@ before_install:
 install:
   - npm install
   - nohup npm start ganache &
-  - npm start migrateContracts.fetchFromArc
+  - npm start migrateContracts.fetchContracts
   - npm start migrateContracts
   
 script:

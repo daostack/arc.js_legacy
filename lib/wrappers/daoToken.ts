@@ -34,11 +34,27 @@ export class DaoTokenWrapper
   implements IErc827TokenWrapper, IBurnableTokenWrapper {
 
   /**
+   * Returns address of the global GEN token.
+   */
+  public static getGenTokenAddress(): string {
+    return Utils.getGenTokenAddress();
+  }
+
+  /**
    * Returns promise of DaoTokenWrapper on the global GEN token.
    */
   public static async getGenToken(): Promise<DaoTokenWrapper> {
-    const address = await Utils.getGenTokenAddress();
+    const address = await this.getGenTokenAddress();
     return DaoTokenFactory.at(address);
+  }
+
+  /**
+   * Returns a promise of the given account's GEN token balance.
+   * @param agentAddress
+   */
+  public static async getGenTokenBalance(agentAddress: Address): Promise<BigNumber> {
+    const genTokenAddress = await this.getGenTokenAddress();
+    return Utils.getTokenBalance(agentAddress, genTokenAddress);
   }
 
   public name: string = "DAOToken";

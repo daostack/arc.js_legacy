@@ -56,10 +56,18 @@ export class ControllerService {
       const controllerAddress = await this.getControllerAddress();
       if (controllerAddress) {
         /**
-         * TODO:  check for previous and future versions of UController here
+         * anticipate case where UController hasn't been deployed
          */
-        const UControllerContract = await Utils.requireContract("UController");
-        const uControllerAddress = (await UControllerContract.deployed()).address;
+        let uControllerAddress;
+        let UControllerContract;
+        try {
+          /**
+           * TODO:  check for previous and future versions of UController here
+           */
+          UControllerContract = await Utils.requireContract("UController");
+          uControllerAddress = (await UControllerContract.deployed()).address;
+          /* tslint:disable-next-line:no-empty */
+        } catch { }
 
         this.isUController = uControllerAddress === controllerAddress;
 

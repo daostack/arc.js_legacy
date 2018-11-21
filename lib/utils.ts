@@ -11,6 +11,19 @@ export class Utils {
 
   static get NULL_ADDRESS(): Address { return "0x0000000000000000000000000000000000000000"; }
   static get NULL_HASH(): Hash { return "0x0000000000000000000000000000000000000000000000000000000000000000"; }
+
+  public static setDeployedAddresses(addresses: any): void {
+    this.deployedContractAddresses = addresses;
+    for (const name of Object.keys(this.deployedContractAddresses)) {
+      // be consistent with Truffle which returns all lowercase
+      this.deployedContractAddresses[name] = `0x${this.deployedContractAddresses[name].substring(2).toLowerCase()}`;
+    }
+  }
+
+  public static getDeployedAddress(contractName: string): Address | undefined {
+    return Utils.deployedContractAddresses[contractName];
+  }
+
   /**
    * Returns Truffle contract wrapper given the name of the contract (like "SchemeRegistrar").
    * Optimized for synchronicity issues encountered with MetaMask.
@@ -36,6 +49,20 @@ export class Utils {
         from: await Utils.getDefaultAccount(),
         gas: ConfigService.get("defaultGasLimit"),
       });
+
+      /**
+       * Use the supplied contract deployment addresses.
+       * Arc.js is not doing migrations anymore, so the truffle artifact files contain no
+       * deployment addresses.
+       */
+      contract.deployed = (): any => {
+        return contract.at(Utils.getDeployedAddress(contractName))
+          .then((result: any) => result)
+          .catch((ex: Error) => {
+            throw ex;
+          });
+      };
+
       Utils.contractCache.set(contractName, contract);
       LoggingService.debug(`requireContract: loaded ${contractName}`);
       return contract;
@@ -295,6 +322,13 @@ export class Utils {
   }
 
   /**
+   * Returns address of the global GEN token.
+   */
+  public static getGenTokenAddress(): string {
+    return this.deployedContractAddresses.DAOToken;
+  }
+
+  /**
    * Returns promise of the name of the current or given network
    * @param id Optional id of the network
    */
@@ -319,7 +353,7 @@ export class Utils {
       case 1512051714758:
         return "Ganache";
       default:
-        return "Unknown";
+        return "Private";
     }
   }
 
@@ -335,31 +369,12 @@ export class Utils {
     return Utils.networkId;
   }
 
-  /**
-   * Returns promise of the address of the global GEN token.
-   */
-  public static async getGenTokenAddress(): Promise<string> {
-    const networkName = (await Utils.getNetworkName()).toLowerCase();
-    const addresses = ConfigService.get("globalGenTokenAddresses");
-
-    const address = addresses[networkName];
-    return address ? address : addresses.default;
-  }
-
-  /**
-   * Returns a promise of the given account's GEN token balance.
-   * @param agentAddress
-   */
-  public static async getGenTokenBalance(agentAddress: Address): Promise<BigNumber> {
-    const genTokenAddress = await Utils.getGenTokenAddress();
-    return Utils.getTokenBalance(agentAddress, genTokenAddress);
-  }
-
   private static contractCache: Map<string, Contract> = new Map<string, string>();
 
   private static web3: Web3 = undefined;
   private static alreadyTriedAndFailed: boolean = false;
   private static networkId: number;
+  private static deployedContractAddresses: any;
 
   private static clearContractCache(): void {
     Utils.contractCache.clear();

@@ -14,7 +14,6 @@ export interface IContractWrapper {
   contract: any;
   hydrateFromNew(...rest: Array<any>): Promise<any>;
   hydrateFromAt(address: string): Promise<any>;
-  hydrateFromDeployed(): Promise<any>;
 }
 
 /**

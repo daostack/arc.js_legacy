@@ -60,8 +60,8 @@ class ConsoleLogger implements ILogger {
  * Provides logging support, logging by default to the JavaScript console.  You can provide
  * alternate or additional loggers by using `LoggingService.addLogger` and `LoggingService.removeLogger`.
  *
- * You can set the `LogLevel` by setting `LoggingService.logLevel` with flags from [LogLevel](/arc.js/api/enums/LogLevel/)
- * or by using the [ConfigService](/Configuration.md#logging).
+ * You can set the `LogLevel` by setting `LoggingService.logLevel` with flags
+ * from [LogLevel](/arc.js/api/enums/LogLevel/), or by using the [ConfigService](/Configuration.md#logging).
  *
  * Logically, LogLevels are simply or'd together, there is no hierarchy to them.
  */

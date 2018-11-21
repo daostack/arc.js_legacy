@@ -15,11 +15,11 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
   implements IContractWrapperFactory<TWrapper> {
 
   public static setConfigService(configService: IConfigService): void {
-    ContractWrapperFactory.configService = configService;
+    this.configService = configService;
   }
 
   public static clearContractCache(): void {
-    ContractWrapperFactory.contractCache.clear();
+    this.contractCache.clear();
   }
 
   /**
@@ -95,14 +95,16 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
    * Returns undefined if not found.
    */
   public async deployed(): Promise<TWrapper> {
+    /**
+     * use deployed address if supplied for this contract
+     */
+    const externallyDeployedAddress = Utils.getDeployedAddress(this.solidityContractName);
 
-    await this.ensureSolidityContract();
+    if (!externallyDeployedAddress) {
+      throw new Error("ContractWrapperFactory: No deployed contract address has been supplied.");
+    }
 
-    const getWrapper = (): Promise<TWrapper> => {
-      return new this.wrapper(this.solidityContract, this.web3EventService).hydrateFromDeployed();
-    };
-
-    return this.getHydratedWrapper(getWrapper);
+    return this.at(externallyDeployedAddress);
   }
 
   public async ensureSolidityContract(): Promise<any> {
