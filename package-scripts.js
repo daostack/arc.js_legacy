@@ -132,7 +132,7 @@ module.exports = {
        * use --reset for ganacheDb if it is crashing on re-migration.
        */
       default: series(
-        `node ${joinPath(".", "package-scripts", "migrateContracts.js")} ${joinPath(pathArcJsRoot, "migration.json")}`
+        `node ${joinPath(".", "package-scripts", "migrateContracts.js")} "${joinPath(pathArcJsRoot, "migration.json")}"`
       ),
       andCreateGenesisDao: series(
         `nps migrateContracts`,
