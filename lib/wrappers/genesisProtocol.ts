@@ -893,21 +893,21 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
   public async getParameters(paramsHash: Hash): Promise<GetGenesisProtocolParamsResult> {
     const params = await this.getParametersArray(paramsHash);
     return {
-      boostedVotePeriodLimit: params[0][2].toNumber(),
-      daoBountyConst: params[0][12].toNumber(),
-      daoBountyLimit: params[0][13],
-      minimumStakingFee: params[0][5].toNumber(),
-      preBoostedVotePeriodLimit: params[0][1].toNumber(),
-      preBoostedVoteRequiredPercentage: params[0][0].toNumber(),
-      proposingRepRewardConstA: params[0][7].toNumber(),
-      proposingRepRewardConstB: params[0][8].toNumber(),
-      quietEndingPeriod: params[0][6].toNumber(),
-      stakerFeeRatioForVoters: params[0][9].toNumber(),
-      thresholdConstA: params[0][3],
-      thresholdConstB: params[0][4].toNumber(),
-      voteOnBehalf: params[1],
-      votersGainRepRatioFromLostRep: params[0][11].toNumber(),
-      votersReputationLossRatio: params[0][10].toNumber(),
+      boostedVotePeriodLimit: params[2].toNumber(),
+      daoBountyConst: params[12].toNumber(),
+      daoBountyLimit: params[13],
+      minimumStakingFee: params[5].toNumber(),
+      preBoostedVotePeriodLimit: params[1].toNumber(),
+      preBoostedVoteRequiredPercentage: params[0].toNumber(),
+      proposingRepRewardConstA: params[7].toNumber(),
+      proposingRepRewardConstB: params[8].toNumber(),
+      quietEndingPeriod: params[6].toNumber(),
+      stakerFeeRatioForVoters: params[9].toNumber(),
+      thresholdConstA: params[3],
+      thresholdConstB: params[4].toNumber(),
+      voteOnBehalf: params[14],
+      votersGainRepRatioFromLostRep: params[11].toNumber(),
+      votersReputationLossRatio: params[10].toNumber(),
     };
   }
 

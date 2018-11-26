@@ -105,20 +105,21 @@ describe("GenesisProtocol", () => {
     assert.isOk(genesisProtocol);
   });
 
-  it("can get DAOBounty", async () => {
+  it("can get parameters", async () => {
 
     const paramsHash = (await genesisProtocol.getParametersHash(gpParams));
 
     const params = await genesisProtocol.getParameters(paramsHash);
 
     assert.equal(params.daoBountyConst, 75, "daoBountyConst is not correct");
-    assert.equal(params.daoBountyLimit.toNumber(), 100, "daoBountyLimit is not correct");
+    assert.equal(web3.fromWei(params.daoBountyLimit).toNumber(), 100, "daoBountyLimit is not correct");
   });
 
   it("can set parameters", async () => {
 
     const modifiedGpParams = Object.assign(gpParams, {
       daoBountyConst: 5,
+      voteOnBehalf: helpers.SOME_ADDRESS,
     });
 
     const paramsHashSet = (await genesisProtocol.setParameters(modifiedGpParams)).result;
@@ -126,6 +127,11 @@ describe("GenesisProtocol", () => {
     const paramsHashGet = await genesisProtocol.getParametersHash(modifiedGpParams);
 
     assert.equal(paramsHashGet, paramsHashSet, "Hashes are not the same");
+
+    const params = await genesisProtocol.getParameters(paramsHashGet);
+
+    assert.equal(params.voteOnBehalf, helpers.SOME_ADDRESS, "voteOnBehalf is not correct");
+
   });
 
   it("can get params hash", async () => {
