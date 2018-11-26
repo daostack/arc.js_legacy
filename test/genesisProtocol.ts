@@ -105,15 +105,15 @@ describe("GenesisProtocol", () => {
     assert.isOk(genesisProtocol);
   });
 
-  it("can get parameters", async () => {
+  // it("can get parameters", async () => {
 
-    const paramsHash = (await genesisProtocol.getParametersHash(gpParams));
+  //   const paramsHash = (await genesisProtocol.getParametersHash(gpParams));
 
-    const params = await genesisProtocol.getParameters(paramsHash);
+  //   const params = await genesisProtocol.getParameters(paramsHash);
 
-    assert.equal(params.daoBountyConst, 75, "daoBountyConst is not correct");
-    assert.equal(web3.fromWei(params.daoBountyLimit).toNumber(), 100, "daoBountyLimit is not correct");
-  });
+  //   assert.equal(params.daoBountyConst, 75, "daoBountyConst is not correct");
+  //   assert.equal(web3.fromWei(params.daoBountyLimit).toNumber(), 100, "daoBountyLimit is not correct");
+  // });
 
   it("can set parameters", async () => {
 
@@ -128,9 +128,9 @@ describe("GenesisProtocol", () => {
 
     assert.equal(paramsHashGet, paramsHashSet, "Hashes are not the same");
 
-    const params = await genesisProtocol.getParameters(paramsHashGet);
+    // const params = await genesisProtocol.getParameters(paramsHashGet);
 
-    assert.equal(params.voteOnBehalf, helpers.SOME_ADDRESS, "voteOnBehalf is not correct");
+    // assert.equal(params.voteOnBehalf, helpers.SOME_ADDRESS, "voteOnBehalf is not correct");
 
   });
 

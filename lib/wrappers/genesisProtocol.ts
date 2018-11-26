@@ -894,8 +894,8 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
     const params = await this.getParametersArray(paramsHash);
     return {
       boostedVotePeriodLimit: params[2].toNumber(),
-      daoBountyConst: params[12].toNumber(),
-      daoBountyLimit: params[13],
+      daoBountyConst: 0, // params[12].toNumber(),
+      daoBountyLimit: new BigNumber(0), // params[13],
       minimumStakingFee: params[5].toNumber(),
       preBoostedVotePeriodLimit: params[1].toNumber(),
       preBoostedVoteRequiredPercentage: params[0].toNumber(),
@@ -905,7 +905,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
       stakerFeeRatioForVoters: params[9].toNumber(),
       thresholdConstA: params[3],
       thresholdConstB: params[4].toNumber(),
-      voteOnBehalf: params[14],
+      voteOnBehalf: "", // params[14],
       votersGainRepRatioFromLostRep: params[11].toNumber(),
       votersReputationLossRatio: params[10].toNumber(),
     };
