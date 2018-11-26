@@ -896,7 +896,7 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
       boostedVotePeriodLimit: params[2].toNumber(),
       daoBountyConst: 0, // params[12].toNumber(),
       daoBountyLimit: new BigNumber(0), // params[13],
-      minimumStakingFee: params[5].toNumber(),
+      minimumStakingFee: params[5],
       preBoostedVotePeriodLimit: params[1].toNumber(),
       preBoostedVoteRequiredPercentage: params[0].toNumber(),
       proposingRepRewardConstA: params[7].toNumber(),
@@ -1204,7 +1204,7 @@ export interface GetGenesisProtocolParamsResult {
   proposingRepRewardConstB: number;
   quietEndingPeriod: number;
   stakerFeeRatioForVoters: number;
-  thresholdConstA: BigNumber | string;
+  thresholdConstA: BigNumber;
   thresholdConstB: number;
   voteOnBehalf: Address;
   votersGainRepRatioFromLostRep: number;
