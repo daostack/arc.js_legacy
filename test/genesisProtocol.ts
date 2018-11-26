@@ -118,7 +118,7 @@ describe("GenesisProtocol", () => {
   it("can set parameters", async () => {
 
     const modifiedGpParams = Object.assign(gpParams, {
-      daoBountyConst: 5,
+      daoBountyConst: 55,
       voteOnBehalf: helpers.SOME_ADDRESS,
     });
 
