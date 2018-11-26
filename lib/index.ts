@@ -42,6 +42,8 @@ export * from "./wrappers/voteInOrganizationScheme";
 export * from "./iContractWrapperBase";
 export * from "./dao";
 export * from "./contractWrapperBase";
+export * from "./schemeWrapperBase";
+export * from "./uschemeWrapperBase";
 export * from "./contractWrapperFactory";
 export * from "./pubSubEventService";
 export * from "./web3EventService";
