@@ -18,7 +18,7 @@ import {
   SchemeProposalExecutedEventResult
 } from "./commonEventInterfaces";
 
-export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase implements IUniversalSchemeWrapper {
+export class GlobalConstraintRegistrarWrapper extends ProposalGeneratorBase {
 
   public name: string = "GlobalConstraintRegistrar";
   public friendlyName: string = "Global Constraint Registrar";

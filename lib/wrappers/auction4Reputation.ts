@@ -1,16 +1,16 @@
 "use strict";
 import BigNumber from "bignumber.js";
 import { Address, Hash } from "../commonTypes";
-import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
+import { SchemeWrapperBase } from "../schemeWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
 import { UtilsInternal } from "../utilsInternal";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { WrapperService } from "../wrapperService";
 import { StandardTokenWrapper } from "./standardToken";
 
-export class Auction4ReputationWrapper extends ContractWrapperBase {
+export class Auction4ReputationWrapper extends SchemeWrapperBase {
   public name: string = "Auction4Reputation";
   public friendlyName: string = "Auction For Reputation";
   public factory: IContractWrapperFactory<Auction4ReputationWrapper> = Auction4ReputationFactory;

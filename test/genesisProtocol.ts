@@ -105,6 +105,29 @@ describe("GenesisProtocol", () => {
     assert.isOk(genesisProtocol);
   });
 
+  it("can get DAOBounty", async () => {
+
+    const paramsHash = (await genesisProtocol.getParametersHash(gpParams));
+
+    const params = await genesisProtocol.getParameters(paramsHash);
+
+    assert.equal(params.daoBountyConst, 75, "daoBountyConst is not correct");
+    assert.equal(params.daoBountyLimit.toNumber(), 100, "daoBountyLimit is not correct");
+  });
+
+  it("can set parameters", async () => {
+
+    const modifiedGpParams = Object.assign(gpParams, {
+      daoBountyConst: 5,
+    });
+
+    const paramsHashSet = (await genesisProtocol.setParameters(modifiedGpParams)).result;
+
+    const paramsHashGet = await genesisProtocol.getParametersHash(modifiedGpParams);
+
+    assert.equal(paramsHashGet, paramsHashSet, "Hashes are not the same");
+  });
+
   it("can get params hash", async () => {
 
     const paramsHashSet = (await genesisProtocol.setParameters(gpParams)).result;

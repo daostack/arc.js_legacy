@@ -19,7 +19,7 @@ import {
   SchemeProposalExecutedEventResult
 } from "./commonEventInterfaces";
 
-export class UpgradeSchemeWrapper extends ProposalGeneratorBase implements IUniversalSchemeWrapper {
+export class UpgradeSchemeWrapper extends ProposalGeneratorBase {
 
   public name: string = "UpgradeScheme";
   public friendlyName: string = "Upgrade Scheme";

@@ -1,9 +1,8 @@
 "use strict";
 import BigNumber from "bignumber.js";
 import { Address, Hash } from "../commonTypes";
-import { ContractWrapperBase } from "../contractWrapperBase";
-import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, DecodedLogEntryEvent, IContractWrapperFactory } from "../iContractWrapperBase";
+import { SchemeWrapperBase } from "../schemeWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
 import { UtilsInternal } from "../utilsInternal";
 import {
@@ -13,7 +12,7 @@ import {
   Web3EventService
 } from "../web3EventService";
 
-export abstract class Locking4ReputationWrapper extends ContractWrapperBase {
+export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
   public name: string = "Locking4Reputation";
   public friendlyName: string = "Locking For Reputation";
   public factory: IContractWrapperFactory<Locking4ReputationWrapper> = null;

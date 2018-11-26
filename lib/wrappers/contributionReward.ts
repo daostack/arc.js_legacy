@@ -28,7 +28,7 @@ import {
   SchemeProposalExecutedEventResult
 } from "./commonEventInterfaces";
 
-export class ContributionRewardWrapper extends ProposalGeneratorBase implements IUniversalSchemeWrapper {
+export class ContributionRewardWrapper extends ProposalGeneratorBase {
 
   public name: string = "ContributionReward";
   public friendlyName: string = "Contribution Reward";

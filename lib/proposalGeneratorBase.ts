@@ -1,11 +1,18 @@
 import { Address } from "./commonTypes";
-import { ContractWrapperBase } from "./contractWrapperBase";
 import { ContractWrapperFactory } from "./contractWrapperFactory";
 import { ProposalService } from "./proposalService";
+import { USchemeWrapperBase } from "./uSchemeWrapperBase";
 import { Web3EventService } from "./web3EventService";
 import { IntVoteInterfaceFactory, IntVoteInterfaceWrapper } from "./wrappers/intVoteInterface";
 
-export abstract class ProposalGeneratorBase extends ContractWrapperBase {
+/**
+ * Methods for Arc universal schemes that can create proposals.  Note that a contract that
+ * creates proposals doesn't necessary have to be a universal scheme, nor even a plain-old scheme.
+ * But all of the Arc proposal-generating schemes currently are currently universal schemes, so
+ * for the purposes of simplicity of organizating Arc.js and implementing these methods in one
+ * place, we define this as a `USchemeWrapperBase`.
+ */
+export abstract class ProposalGeneratorBase extends USchemeWrapperBase {
   protected proposalService: ProposalService;
   protected votingMachineFactory: ContractWrapperFactory<IntVoteInterfaceWrapper>;
 
