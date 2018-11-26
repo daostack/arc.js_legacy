@@ -105,6 +105,15 @@ describe("GenesisProtocol", () => {
     assert.isOk(genesisProtocol);
   });
 
+  it("can get parameters", async () => {
+    const paramsHash = (await genesisProtocol.getParametersHash(gpParams));
+
+    const params = await genesisProtocol.getParameters(paramsHash);
+
+    assert.equal(params.preBoostedVotePeriodLimit, 1814400, "preBoostedVotePeriodLimit is not correct");
+    assert.equal(params.stakerFeeRatioForVoters, 50, "stakerFeeRatioForVoters is not correct");
+  });
+
   it("can get params hash", async () => {
 
     const paramsHashSet = (await genesisProtocol.setParameters(gpParams)).result;
