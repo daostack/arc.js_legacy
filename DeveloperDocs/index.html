@@ -958,6 +958,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/classes/SchemeWrapperBase/" title="SchemeWrapperBase" class="md-nav__link">
+      SchemeWrapperBase
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/classes/StandardTokenFactoryType/" title="StandardTokenFactoryType" class="md-nav__link">
       StandardTokenFactoryType
     </a>
@@ -1020,6 +1032,18 @@
   <li class="md-nav__item">
     <a href="../api/classes/UpgradeSchemeWrapper/" title="UpgradeSchemeWrapper" class="md-nav__link">
       UpgradeSchemeWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/classes/USchemeWrapperBase/" title="USchemeWrapperBase" class="md-nav__link">
+      USchemeWrapperBase
     </a>
   </li>
 
@@ -3755,7 +3779,14 @@ npm start migrateContracts.fetchContracts
 
 <p>This will install the Truffle artifact files from Arc and the migration.json file from <a href="https://github.com/daostack/migration">DAOstack Migrations</a>.</p>
 <h2 id="arc-contract-wrappers">Arc Contract Wrappers<a class="headerlink" href="#arc-contract-wrappers" title="Permanent link">&para;</a></h2>
-<p>Every Arc contract wrapper class has as its root base the <a href="https://github.com/daostack/arc.js/blob/master/lib/contractWrapperBase.ts">ContractWrapperBase class</a>.</p>
+<p>Every Arc contract wrapper class has as its root base the <a href="https://github.com/daostack/arc.js/blob/master/lib/contractWrapperBase.ts">ContractWrapperBase</a> class.</p>
+<p>Several classes inherit from <code>ContractWrapperBase</code>, including: </p>
+<ul>
+<li><a href="https://github.com/daostack/arc.js/blob/master/lib/intVoteInterfaceWrapper.ts">IntVoteInterfaceWrapper</a></li>
+<li><a href="https://github.com/daostack/arc.js/blob/master/lib/schemeWrapperBase.ts">SchemeWrapperBase</a></li>
+<li><a href="https://github.com/daostack/arc.js/blob/master/lib/uSchemeWrapperBase.ts">USchemeWrapperBase</a></li>
+<li><a href="https://github.com/daostack/arc.js/blob/master/lib/proposalGeneratorBase.ts">ProposalGeneratorBase</a></li>
+</ul>
 <p>Each wrapper can be instantiated and hydrated using the <a href="https://github.com/daostack/arc.js/blob/master/lib/contractWrapperFactory.ts">ContractWrapperFactory class</a>.  The word “hydrated” means to initialize a wrapper instance with information from the chain using <code>.new</code>, <code>.at</code> or <code>.deployed</code>.</p>
 <p>Not all wrapper classes inherit directly from <code>ContractWrapperBase</code>. The two voting machine classes inherit from <a href="https://github.com/daostack/arc.js/blob/master/lib/wrappers/intVoteInterface.ts">IntVoteInterfaceWrapper</a> which in turn inherits from <code>ContractWrapperBase</code>.</p>
 <h2 id="other-classes">Other classes<a class="headerlink" href="#other-classes" title="Permanent link">&para;</a></h2>

@@ -1135,6 +1135,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/classes/SchemeWrapperBase/" title="SchemeWrapperBase" class="md-nav__link">
+      SchemeWrapperBase
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/classes/StandardTokenFactoryType/" title="StandardTokenFactoryType" class="md-nav__link">
       StandardTokenFactoryType
     </a>
@@ -1197,6 +1209,18 @@
   <li class="md-nav__item">
     <a href="../api/classes/UpgradeSchemeWrapper/" title="UpgradeSchemeWrapper" class="md-nav__link">
       UpgradeSchemeWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/classes/USchemeWrapperBase/" title="USchemeWrapperBase" class="md-nav__link">
+      USchemeWrapperBase
     </a>
   </li>
 
@@ -4091,19 +4115,25 @@ other than events that record their interactions with the DAO.  They are simply 
 <li>supply the address of the scheme</li>
 </ol>
 <p>For example, for the non-universal Arc scheme <code>Auction4Reputation</code>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4
-5
-6
-7
-8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">newDao</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAO</span><span class="p">.</span><span class="k">new</span><span class="p">({</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">newDao</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAO</span><span class="p">.</span><span class="k">new</span><span class="p">({</span>
   <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;My New DAO&quot;</span><span class="p">,</span>
   <span class="nx">tokenName</span><span class="o">:</span> <span class="s2">&quot;My new Token&quot;</span><span class="p">,</span>
   <span class="nx">tokenSymbol</span><span class="o">:</span> <span class="s2">&quot;MNT&quot;</span><span class="p">,</span>
   <span class="nx">schemes</span><span class="o">:</span> <span class="p">[</span>
-    <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;Auction4Reputation&quot;</span><span class="p">,</span> <span class="nx">address</span><span class="o">:</span> <span class="nx">theContractAddress</span>  <span class="p">},</span>
+    <span class="p">{</span> 
+      <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;Auction4Reputation&quot;</span><span class="p">,</span>
+      <span class="nx">address</span><span class="o">:</span> <span class="nx">theContractAddress</span>
+    <span class="p">},</span>
   <span class="p">]</span>
 <span class="p">});</span>
 </pre></div>
@@ -4121,20 +4151,28 @@ other than events that record their interactions with the DAO.  They are simply 
 <li>supply the address of the scheme</li>
 <li>if it is a universal scheme, supply the hash of the scheme parameters</li>
 </ol>
-<p>For example, for a universal non-Arc scheme:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4
-5
-6
-7
-8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">newDao</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAO</span><span class="p">.</span><span class="k">new</span><span class="p">({</span>
+<p>For example, for a universal non-Arc scheme that requires CanCallDelegateCall permissions when interacting with the DAO's controller:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="nx">newDao</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">DAO</span><span class="p">.</span><span class="k">new</span><span class="p">({</span>
   <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;My New DAO&quot;</span><span class="p">,</span>
   <span class="nx">tokenName</span><span class="o">:</span> <span class="s2">&quot;My new Token&quot;</span><span class="p">,</span>
   <span class="nx">tokenSymbol</span><span class="o">:</span> <span class="s2">&quot;MNT&quot;</span><span class="p">,</span>
   <span class="nx">schemes</span><span class="o">:</span> <span class="p">[</span>
-    <span class="p">{</span> <span class="nx">address</span><span class="o">:</span> <span class="nx">theContractAddress</span><span class="p">,</span> <span class="nx">parametersHash</span><span class="o">:</span> <span class="nx">paramsHash</span> <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nx">address</span><span class="o">:</span> <span class="nx">theContractAddress</span><span class="p">,</span>
+      <span class="nx">parametersHash</span><span class="o">:</span> <span class="nx">paramsHash</span><span class="p">,</span>
+      <span class="nx">permissions</span><span class="o">:</span> <span class="nx">SchemePermissions</span><span class="p">.</span><span class="nx">CanCallDelegateCall</span>
+    <span class="p">},</span>
   <span class="p">]</span>
 <span class="p">});</span>
 </pre></div>

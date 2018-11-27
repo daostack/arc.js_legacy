@@ -1042,8 +1042,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#getparameters" title="getParameters" class="md-nav__link">
-    getParameters
+  <a href="#getdefaultpermissions" title="getDefaultPermissions" class="md-nav__link">
+    getDefaultPermissions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#abstract-getparameters" title="&lt;Abstract&gt; getParameters" class="md-nav__link">
+    &lt;Abstract&gt; getParameters
   </a>
   
 </li>
@@ -1056,8 +1063,29 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#abstract-getparametershash" title="&lt;Abstract&gt; getParametersHash" class="md-nav__link">
+    &lt;Abstract&gt; getParametersHash
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#abstract-getschemeparameters" title="&lt;Abstract&gt; getSchemeParameters" class="md-nav__link">
+    &lt;Abstract&gt; getSchemeParameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#getschemeparametershash" title="getSchemeParametersHash" class="md-nav__link">
     getSchemeParametersHash
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getschemepermissions" title="getSchemePermissions" class="md-nav__link">
+    getSchemePermissions
   </a>
   
 </li>
@@ -1086,6 +1114,13 @@
           <li class="md-nav__item">
   <a href="#hydratefromnew" title="hydrateFromNew" class="md-nav__link">
     hydrateFromNew
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#abstract-setparameters" title="&lt;Abstract&gt; setParameters" class="md-nav__link">
+    &lt;Abstract&gt; setParameters
   </a>
   
 </li>
@@ -1196,6 +1231,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../SchemeWrapperBase/" title="SchemeWrapperBase" class="md-nav__link">
+      SchemeWrapperBase
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../StandardTokenFactoryType/" title="StandardTokenFactoryType" class="md-nav__link">
       StandardTokenFactoryType
     </a>
@@ -1258,6 +1305,18 @@
   <li class="md-nav__item">
     <a href="../UpgradeSchemeWrapper/" title="UpgradeSchemeWrapper" class="md-nav__link">
       UpgradeSchemeWrapper
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../USchemeWrapperBase/" title="USchemeWrapperBase" class="md-nav__link">
+      USchemeWrapperBase
     </a>
   </li>
 
@@ -4007,8 +4066,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#getparameters" title="getParameters" class="md-nav__link">
-    getParameters
+  <a href="#getdefaultpermissions" title="getDefaultPermissions" class="md-nav__link">
+    getDefaultPermissions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#abstract-getparameters" title="&lt;Abstract&gt; getParameters" class="md-nav__link">
+    &lt;Abstract&gt; getParameters
   </a>
   
 </li>
@@ -4021,8 +4087,29 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#abstract-getparametershash" title="&lt;Abstract&gt; getParametersHash" class="md-nav__link">
+    &lt;Abstract&gt; getParametersHash
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#abstract-getschemeparameters" title="&lt;Abstract&gt; getSchemeParameters" class="md-nav__link">
+    &lt;Abstract&gt; getSchemeParameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#getschemeparametershash" title="getSchemeParametersHash" class="md-nav__link">
     getSchemeParametersHash
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getschemepermissions" title="getSchemePermissions" class="md-nav__link">
+    getSchemePermissions
   </a>
   
 </li>
@@ -4055,6 +4142,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#abstract-setparameters" title="&lt;Abstract&gt; setParameters" class="md-nav__link">
+    &lt;Abstract&gt; setParameters
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4081,8 +4175,9 @@
                 
                 <p><a href="../../">API Reference</a> &gt; <a href="./">ProposalGeneratorBase</a></p>
 <h1 id="class-proposalgeneratorbase">Class: ProposalGeneratorBase<a class="headerlink" href="#class-proposalgeneratorbase" title="Permanent link">&para;</a></h1>
+<p>Methods for Arc universal schemes that can create proposals. Note that a contract that creates proposals doesn't necessary have to be a universal scheme, nor even a plain-old scheme. But all of the Arc proposal-generating schemes currently are currently universal schemes, so for the purposes of simplicity of organizating Arc.js and implementing these methods in one place, we define this as a <code>USchemeWrapperBase</code>.</p>
 <h2 id="hierarchy">Hierarchy<a class="headerlink" href="#hierarchy" title="Permanent link">&para;</a></h2>
-<p><a href="../ContractWrapperBase/">ContractWrapperBase</a></p>
+<p>↳  <a href="../USchemeWrapperBase/">USchemeWrapperBase</a></p>
 <p><strong>↳ ProposalGeneratorBase</strong></p>
 <p>↳  <a href="../ContributionRewardWrapper/">ContributionRewardWrapper</a></p>
 <p>↳  <a href="../GlobalConstraintRegistrarWrapper/">GlobalConstraintRegistrarWrapper</a></p>
@@ -4093,6 +4188,7 @@
 <h2 id="implements">Implements<a class="headerlink" href="#implements" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../../interfaces/IContractWrapper/">IContractWrapper</a></li>
+<li><a href="../../interfaces/ISchemeWrapper/">ISchemeWrapper</a></li>
 </ul>
 <h2 id="index">Index<a class="headerlink" href="#index" title="Permanent link">&para;</a></h2>
 <h3 id="constructors">Constructors<a class="headerlink" href="#constructors" title="Permanent link">&para;</a></h3>
@@ -4113,13 +4209,18 @@
 <h3 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h3>
 <ul>
 <li><a href="./#estimateGas">estimateGas</a></li>
+<li><a href="./#getDefaultPermissions">getDefaultPermissions</a></li>
 <li><a href="./#getParameters">getParameters</a></li>
 <li><a href="./#getParametersArray">getParametersArray</a></li>
+<li><a href="./#getParametersHash">getParametersHash</a></li>
+<li><a href="./#getSchemeParameters">getSchemeParameters</a></li>
 <li><a href="./#getSchemeParametersHash">getSchemeParametersHash</a></li>
+<li><a href="./#getSchemePermissions">getSchemePermissions</a></li>
 <li><a href="./#getVotingMachine">getVotingMachine</a></li>
 <li><a href="./#getVotingMachineAddress">getVotingMachineAddress</a></li>
 <li><a href="./#hydrateFromAt">hydrateFromAt</a></li>
 <li><a href="./#hydrateFromNew">hydrateFromNew</a></li>
+<li><a href="./#setParameters">setParameters</a></li>
 </ul>
 <hr />
 <h2 id="constructors_1">Constructors<a class="headerlink" href="#constructors_1" title="Permanent link">&para;</a></h2>
@@ -4127,7 +4228,7 @@
 <h3 id="constructor">constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h3>
 <p>⊕ <strong>new ProposalGeneratorBase</strong>(solidityContract: <em><code>any</code></em>, web3EventService: <em><a href="../Web3EventService/">Web3EventService</a></em>): <a href="./">ProposalGeneratorBase</a></p>
 <p><em>Overrides <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#constructor">constructor</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/proposalGeneratorBase.ts#L10">proposalGeneratorBase.ts:10</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/proposalGeneratorBase.ts#L17">proposalGeneratorBase.ts:17</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -4153,33 +4254,33 @@
 <p><a id="contract"></a></p>
 <h3 id="contract">contract<a class="headerlink" href="#contract" title="Permanent link">&para;</a></h3>
 <p><strong>● contract</strong>: <em><code>any</code></em></p>
-<p><em>Implementation of <a href="../../interfaces/IContractWrapper/">IContractWrapper</a>.<a href="../../interfaces/IContractWrapper/#contract">contract</a></em></p>
+<p><em>Implementation of <a href="../../interfaces/ISchemeWrapper/">ISchemeWrapper</a>.<a href="../../interfaces/ISchemeWrapper/#contract">contract</a></em></p>
 <p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#contract">contract</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L66">contractWrapperBase.ts:66</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/contractWrapperBase.ts#L66">contractWrapperBase.ts:66</a></em></p>
 <p>The underlying truffle contract object. Use this to access parts of the contract that aren't accessible via the wrapper.</p>
 <hr />
 <p><a id="factory"></a></p>
 <h3 id="abstract-factory"><code>&lt;Abstract&gt;</code> factory<a class="headerlink" href="#abstract-factory" title="Permanent link">&para;</a></h3>
 <p><strong>● factory</strong>: <em><a href="../../interfaces/IContractWrapperFactory/">IContractWrapperFactory</a>&lt;<code>any</code>&gt;</em></p>
-<p><em>Implementation of <a href="../../interfaces/IContractWrapper/">IContractWrapper</a>.<a href="../../interfaces/IContractWrapper/#factory">factory</a></em></p>
+<p><em>Implementation of <a href="../../interfaces/ISchemeWrapper/">ISchemeWrapper</a>.<a href="../../interfaces/ISchemeWrapper/#factory">factory</a></em></p>
 <p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#factory">factory</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L49">contractWrapperBase.ts:49</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/contractWrapperBase.ts#L49">contractWrapperBase.ts:49</a></em></p>
 <p>The wrapper factor class providing static methods <code>at(someAddress)</code>, <code>new()</code> and <code>deployed()</code>.</p>
 <hr />
 <p><a id="friendlyName"></a></p>
 <h3 id="abstract-friendlyname"><code>&lt;Abstract&gt;</code> friendlyName<a class="headerlink" href="#abstract-friendlyname" title="Permanent link">&para;</a></h3>
 <p><strong>● friendlyName</strong>: <em><code>string</code></em></p>
-<p><em>Implementation of <a href="../../interfaces/IContractWrapper/">IContractWrapper</a>.<a href="../../interfaces/IContractWrapper/#friendlyName">friendlyName</a></em></p>
+<p><em>Implementation of <a href="../../interfaces/ISchemeWrapper/">ISchemeWrapper</a>.<a href="../../interfaces/ISchemeWrapper/#friendlyName">friendlyName</a></em></p>
 <p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#friendlyName">friendlyName</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L57">contractWrapperBase.ts:57</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/contractWrapperBase.ts#L57">contractWrapperBase.ts:57</a></em></p>
 <p>A more friendly name for the contract.</p>
 <hr />
 <p><a id="name"></a></p>
 <h3 id="abstract-name"><code>&lt;Abstract&gt;</code> name<a class="headerlink" href="#abstract-name" title="Permanent link">&para;</a></h3>
 <p><strong>● name</strong>: <em><code>string</code></em></p>
-<p><em>Implementation of <a href="../../interfaces/IContractWrapper/">IContractWrapper</a>.<a href="../../interfaces/IContractWrapper/#name">name</a></em></p>
+<p><em>Implementation of <a href="../../interfaces/ISchemeWrapper/">ISchemeWrapper</a>.<a href="../../interfaces/ISchemeWrapper/#name">name</a></em></p>
 <p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#name">name</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L53">contractWrapperBase.ts:53</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/contractWrapperBase.ts#L53">contractWrapperBase.ts:53</a></em></p>
 <p>The name of the contract.</p>
 <hr />
 <h2 id="accessors_1">Accessors<a class="headerlink" href="#accessors_1" title="Permanent link">&para;</a></h2>
@@ -4187,7 +4288,7 @@
 <h3 id="address">address<a class="headerlink" href="#address" title="Permanent link">&para;</a></h3>
 <p>getaddress(): <a href="../#Address">Address</a></p>
 <p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#address">address</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L61">contractWrapperBase.ts:61</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/contractWrapperBase.ts#L61">contractWrapperBase.ts:61</a></em></p>
 <p>The address of the contract</p>
 <p><strong>Returns:</strong> <a href="../#Address">Address</a></p>
 <hr />
@@ -4196,7 +4297,7 @@
 <h3 id="estimategas">estimateGas<a class="headerlink" href="#estimategas" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>estimateGas</strong>(func: <em><a href="../../interfaces/ITruffleContractFunction/">ITruffleContractFunction</a></em>, params: <em><code>Array</code>&lt;<code>any</code>&gt;</em>, web3Params?: <em><code>any</code></em>): <code>Promise</code>&lt;<code>number</code>&gt;</p>
 <p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#estimateGas">estimateGas</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L150">contractWrapperBase.ts:150</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/contractWrapperBase.ts#L150">contractWrapperBase.ts:150</a></em></p>
 <p>Estimate conservatively the amount of gas required to execute the given function with the given parameters. Adds 21000 to the estimate computed by web3.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4231,11 +4332,21 @@
 </table>
 <p><strong>Returns:</strong> <code>Promise</code>&lt;<code>number</code>&gt;</p>
 <hr />
+<p><a id="getDefaultPermissions"></a></p>
+<h3 id="getdefaultpermissions">getDefaultPermissions<a class="headerlink" href="#getdefaultpermissions" title="Permanent link">&para;</a></h3>
+<p>▸ <strong>getDefaultPermissions</strong>(): <a href="../../enums/SchemePermissions/">SchemePermissions</a></p>
+<p><em>Implementation of <a href="../../interfaces/ISchemeWrapper/">ISchemeWrapper</a>.<a href="../../interfaces/ISchemeWrapper/#getDefaultPermissions">getDefaultPermissions</a></em></p>
+<p><em>Inherited from <a href="../SchemeWrapperBase/">SchemeWrapperBase</a>.<a href="../SchemeWrapperBase/#getDefaultPermissions">getDefaultPermissions</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/schemeWrapperBase.ts#L14">schemeWrapperBase.ts:14</a></em></p>
+<p>Minimum permissions required by the scheme</p>
+<p><strong>Returns:</strong> <a href="../../enums/SchemePermissions/">SchemePermissions</a></p>
+<hr />
 <p><a id="getParameters"></a></p>
-<h3 id="getparameters">getParameters<a class="headerlink" href="#getparameters" title="Permanent link">&para;</a></h3>
+<h3 id="abstract-getparameters"><code>&lt;Abstract&gt;</code> getParameters<a class="headerlink" href="#abstract-getparameters" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>getParameters</strong>(paramsHash: <em><a href="../#Hash">Hash</a></em>): <code>Promise</code>&lt;<code>any</code>&gt;</p>
-<p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#getParameters">getParameters</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L118">contractWrapperBase.ts:118</a></em></p>
+<p><em>Inherited from <a href="../USchemeWrapperBase/">USchemeWrapperBase</a>.<a href="../USchemeWrapperBase/#getParameters">getParameters</a></em></p>
+<p><em>Overrides <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#getParameters">getParameters</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/uSchemeWrapperBase.ts#L22">uSchemeWrapperBase.ts:22</a></em></p>
 <p>Given a hash, returns the associated parameters as an object.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4259,8 +4370,9 @@
 <p><a id="getParametersArray"></a></p>
 <h3 id="getparametersarray">getParametersArray<a class="headerlink" href="#getparametersarray" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>getParametersArray</strong>(paramsHash: <em><a href="../#Hash">Hash</a></em>): <code>Promise</code>&lt;<code>Array</code>&lt;<code>any</code>&gt;&gt;</p>
-<p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#getParametersArray">getParametersArray</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L137">contractWrapperBase.ts:137</a></em></p>
+<p><em>Inherited from <a href="../USchemeWrapperBase/">USchemeWrapperBase</a>.<a href="../USchemeWrapperBase/#getParametersArray">getParametersArray</a></em></p>
+<p><em>Overrides <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#getParametersArray">getParametersArray</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/uSchemeWrapperBase.ts#L45">uSchemeWrapperBase.ts:45</a></em></p>
 <p>Given a hash, returns the associated parameters as an array, ordered by the order in which the parameters appear in the contract's Parameters struct.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4281,11 +4393,56 @@
 </table>
 <p><strong>Returns:</strong> <code>Promise</code>&lt;<code>Array</code>&lt;<code>any</code>&gt;&gt;</p>
 <hr />
+<p><a id="getParametersHash"></a></p>
+<h3 id="abstract-getparametershash"><code>&lt;Abstract&gt;</code> getParametersHash<a class="headerlink" href="#abstract-getparametershash" title="Permanent link">&para;</a></h3>
+<p>▸ <strong>getParametersHash</strong>(params: <em><code>any</code></em>): <code>Promise</code>&lt;<a href="../#Hash">Hash</a>&gt;</p>
+<p><em>Inherited from <a href="../USchemeWrapperBase/">USchemeWrapperBase</a>.<a href="../USchemeWrapperBase/#getParametersHash">getParametersHash</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/uSchemeWrapperBase.ts#L24">uSchemeWrapperBase.ts:24</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>params</td>
+<td><code>any</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Promise</code>&lt;<a href="../#Hash">Hash</a>&gt;</p>
+<hr />
+<p><a id="getSchemeParameters"></a></p>
+<h3 id="abstract-getschemeparameters"><code>&lt;Abstract&gt;</code> getSchemeParameters<a class="headerlink" href="#abstract-getschemeparameters" title="Permanent link">&para;</a></h3>
+<p>▸ <strong>getSchemeParameters</strong>(avatarAddress: <em><a href="../#Address">Address</a></em>): <code>Promise</code>&lt;<code>any</code>&gt;</p>
+<p><em>Inherited from <a href="../USchemeWrapperBase/">USchemeWrapperBase</a>.<a href="../USchemeWrapperBase/#getSchemeParameters">getSchemeParameters</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/uSchemeWrapperBase.ts#L28">uSchemeWrapperBase.ts:28</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>avatarAddress</td>
+<td><a href="../#Address">Address</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Promise</code>&lt;<code>any</code>&gt;</p>
+<hr />
 <p><a id="getSchemeParametersHash"></a></p>
 <h3 id="getschemeparametershash">getSchemeParametersHash<a class="headerlink" href="#getschemeparametershash" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>getSchemeParametersHash</strong>(avatarAddress: <em><a href="../#Address">Address</a></em>): <code>Promise</code>&lt;<a href="../#Hash">Hash</a>&gt;</p>
-<p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#getSchemeParametersHash">getSchemeParametersHash</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L126">contractWrapperBase.ts:126</a></em></p>
+<p><em>Inherited from <a href="../USchemeWrapperBase/">USchemeWrapperBase</a>.<a href="../USchemeWrapperBase/#getSchemeParametersHash">getSchemeParametersHash</a></em></p>
+<p><em>Overrides <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#getSchemeParametersHash">getSchemeParametersHash</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/uSchemeWrapperBase.ts#L34">uSchemeWrapperBase.ts:34</a></em></p>
 <p>Given an avatar address, returns the schemes parameters hash</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4306,10 +4463,36 @@
 </table>
 <p><strong>Returns:</strong> <code>Promise</code>&lt;<a href="../#Hash">Hash</a>&gt;</p>
 <hr />
+<p><a id="getSchemePermissions"></a></p>
+<h3 id="getschemepermissions">getSchemePermissions<a class="headerlink" href="#getschemepermissions" title="Permanent link">&para;</a></h3>
+<p>▸ <strong>getSchemePermissions</strong>(avatarAddress: <em><a href="../#Address">Address</a></em>): <code>Promise</code>&lt;<a href="../../enums/SchemePermissions/">SchemePermissions</a>&gt;</p>
+<p><em>Implementation of <a href="../../interfaces/ISchemeWrapper/">ISchemeWrapper</a>.<a href="../../interfaces/ISchemeWrapper/#getSchemePermissions">getSchemePermissions</a></em></p>
+<p><em>Inherited from <a href="../SchemeWrapperBase/">SchemeWrapperBase</a>.<a href="../SchemeWrapperBase/#getSchemePermissions">getSchemePermissions</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/schemeWrapperBase.ts#L22">schemeWrapperBase.ts:22</a></em></p>
+<p>Returns the scheme permissions.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>avatarAddress</td>
+<td><a href="../#Address">Address</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Promise</code>&lt;<a href="../../enums/SchemePermissions/">SchemePermissions</a>&gt;</p>
+<hr />
 <p><a id="getVotingMachine"></a></p>
 <h3 id="getvotingmachine">getVotingMachine<a class="headerlink" href="#getvotingmachine" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>getVotingMachine</strong>(avatarAddress: <em><a href="../#Address">Address</a></em>): <code>Promise</code>&lt;<a href="../IntVoteInterfaceWrapper/">IntVoteInterfaceWrapper</a>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/proposalGeneratorBase.ts#L30">proposalGeneratorBase.ts:30</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/proposalGeneratorBase.ts#L37">proposalGeneratorBase.ts:37</a></em></p>
 <p>Return IntVoteInterfaceWrapper for this scheme as registered with the given avatar.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4333,7 +4516,7 @@
 <p><a id="getVotingMachineAddress"></a></p>
 <h3 id="getvotingmachineaddress">getVotingMachineAddress<a class="headerlink" href="#getvotingmachineaddress" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>getVotingMachineAddress</strong>(avatarAddress: <em><a href="../#Address">Address</a></em>): <code>Promise</code>&lt;<a href="../#Address">Address</a>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/proposalGeneratorBase.ts#L22">proposalGeneratorBase.ts:22</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/proposalGeneratorBase.ts#L29">proposalGeneratorBase.ts:29</a></em></p>
 <p>Return the address of the voting machine for this scheme as registered with the given avatar.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4357,9 +4540,9 @@
 <p><a id="hydrateFromAt"></a></p>
 <h3 id="hydratefromat">hydrateFromAt<a class="headerlink" href="#hydratefromat" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>hydrateFromAt</strong>(address: <em><code>string</code></em>): <code>Promise</code>&lt;<a href="../../interfaces/IContractWrapper/">IContractWrapper</a>&gt;</p>
-<p><em>Implementation of <a href="../../interfaces/IContractWrapper/">IContractWrapper</a>.<a href="../../interfaces/IContractWrapper/#hydrateFromAt">hydrateFromAt</a></em></p>
+<p><em>Implementation of <a href="../../interfaces/ISchemeWrapper/">ISchemeWrapper</a>.<a href="../../interfaces/ISchemeWrapper/#hydrateFromAt">hydrateFromAt</a></em></p>
 <p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#hydrateFromAt">hydrateFromAt</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L100">contractWrapperBase.ts:100</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/contractWrapperBase.ts#L100">contractWrapperBase.ts:100</a></em></p>
 <p>Initialize from a given address on the current network.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4384,9 +4567,9 @@ this or undefined if not found</p>
 <p><a id="hydrateFromNew"></a></p>
 <h3 id="hydratefromnew">hydrateFromNew<a class="headerlink" href="#hydratefromnew" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>hydrateFromNew</strong>(...rest: <em><code>Array</code>&lt;<code>any</code>&gt;</em>): <code>Promise</code>&lt;<a href="../../interfaces/IContractWrapper/">IContractWrapper</a>&gt;</p>
-<p><em>Implementation of <a href="../../interfaces/IContractWrapper/">IContractWrapper</a>.<a href="../../interfaces/IContractWrapper/#hydrateFromNew">hydrateFromNew</a></em></p>
+<p><em>Implementation of <a href="../../interfaces/ISchemeWrapper/">ISchemeWrapper</a>.<a href="../../interfaces/ISchemeWrapper/#hydrateFromNew">hydrateFromNew</a></em></p>
 <p><em>Inherited from <a href="../ContractWrapperBase/">ContractWrapperBase</a>.<a href="../ContractWrapperBase/#hydrateFromNew">hydrateFromNew</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/889e0b02/lib/contractWrapperBase.ts#L81">contractWrapperBase.ts:81</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/contractWrapperBase.ts#L81">contractWrapperBase.ts:81</a></em></p>
 <p>Initialize from a newly-migrated instance. This will migrate a new instance of the contract to the net.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4405,6 +4588,28 @@ this or undefined if not found</p>
 </table>
 <p><strong>Returns:</strong> <code>Promise</code>&lt;<a href="../../interfaces/IContractWrapper/">IContractWrapper</a>&gt;
 this</p>
+<hr />
+<p><a id="setParameters"></a></p>
+<h3 id="abstract-setparameters"><code>&lt;Abstract&gt;</code> setParameters<a class="headerlink" href="#abstract-setparameters" title="Permanent link">&para;</a></h3>
+<p>▸ <strong>setParameters</strong>(params: <em><code>any</code></em>): <code>Promise</code>&lt;<a href="../ArcTransactionDataResult/">ArcTransactionDataResult</a>&lt;<a href="../#Hash">Hash</a>&gt;&gt;</p>
+<p><em>Inherited from <a href="../USchemeWrapperBase/">USchemeWrapperBase</a>.<a href="../USchemeWrapperBase/#setParameters">setParameters</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/uSchemeWrapperBase.ts#L26">uSchemeWrapperBase.ts:26</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>params</td>
+<td><code>any</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Promise</code>&lt;<a href="../ArcTransactionDataResult/">ArcTransactionDataResult</a>&lt;<a href="../#Hash">Hash</a>&gt;&gt;</p>
 <hr />
                 
                   
