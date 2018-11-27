@@ -122,7 +122,10 @@ const newDao = await DAO.new({
   tokenName: "My new Token",
   tokenSymbol: "MNT",
   schemes: [
-    { name: "Auction4Reputation", address: theContractAddress  },
+    { 
+      name: "Auction4Reputation",
+      address: theContractAddress
+    },
   ]
 });
 ```
@@ -139,7 +142,7 @@ You can register non-Arc schemes to a new DAO.  To do this you should:
 2. supply the address of the scheme
 3. if it is a universal scheme, supply the hash of the scheme parameters
 
-For example, for a universal non-Arc scheme:
+For example, for a universal non-Arc scheme that requires CanCallDelegateCall permissions when interacting with the DAO's controller:
 
 ```javascript
 const newDao = await DAO.new({
@@ -147,7 +150,11 @@ const newDao = await DAO.new({
   tokenName: "My new Token",
   tokenSymbol: "MNT",
   schemes: [
-    { address: theContractAddress, parametersHash: paramsHash },
+    {
+      address: theContractAddress,
+      parametersHash: paramsHash,
+      permissions: SchemePermissions.CanCallDelegateCall
+    },
   ]
 });
 ```
