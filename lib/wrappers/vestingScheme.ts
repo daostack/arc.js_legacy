@@ -20,7 +20,7 @@ import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../
 import { SchemeProposalExecuted, SchemeProposalExecutedEventResult } from "./commonEventInterfaces";
 import { StandardTokenFactory } from "./standardToken";
 
-export class VestingSchemeWrapper extends ProposalGeneratorBase implements IUniversalSchemeWrapper {
+export class VestingSchemeWrapper extends ProposalGeneratorBase {
 
   public name: string = "VestingScheme";
   public friendlyName: string = "Vesting Scheme";

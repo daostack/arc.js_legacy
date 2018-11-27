@@ -6,12 +6,11 @@ const {
   copy,
   mkdirp
 } = require("nps-utils");
-const env = require("env-variable")();
 const joinPath = require("path.join");
 const cwd = require("cwd")();
-const config = require("./config/default.json");
 
 const runningInRepo = fs.existsSync(".git");
+const migrationsExist = fs.existsSync("migration.json");
 const pathArcJsRoot = cwd;
 
 const pathNodeModules = runningInRepo ? joinPath(".", "node_modules") : joinPath("..", "..", "node_modules");
@@ -31,8 +30,6 @@ const pathArcDist = joinPath(".", "dist");
 const pathDaostackArcGanacheDb = joinPath(".", "ganacheDb");
 const pathDaostackArcGanacheDbZip = joinPath(".", "ganacheDb.zip");
 const pathTypeScript = joinPath(pathNodeModules, "typescript/bin/tsc");
-
-const network = env.arcjs_network || config.network || "ganache";
 
 const ganacheGasLimit = 8000000; // something reasonably close to live
 const ganacheCommand = `ganache-cli -l ${ganacheGasLimit}  --networkId 1512051714758 --account="0x8d4408014d165ec69d8cc9f091d8f4578ac5564f376f21887e98a6d33a6e3549,9999999999999999999999999999999999999999999" --account="0x2215f0a41dd3bb93f03049514949aaafcf136e6965f4a066d6bf42cc9f75a106,9999999999999999999999999999999999999999999" --account="0x6695c8ef58fecfc7410bf8b80c17319eaaca8b9481cc9c682fd5da116f20ef05,9999999999999999999999999999999999999999999" --account="0xb9a8635b40a60ad5b78706d4ede244ddf934dc873262449b473076de0c1e2959,9999999999999999999999999999999999999999999" --account="0x55887c2c6107237ac3b50fb17d9ff7313cad67757e44d1be5eb7bbf9fc9ca2ea,9999999999999999999999999999999999999999999" --account="0xb16a587ad59c2b3a3f47679ed2df348d6828a3bb5c6bb3797a1d5a567ce823cb,9999999999999999999999999999999999999999999"`;
@@ -112,8 +109,15 @@ module.exports = {
       clean: rimraf(pathArcDist)
     },
     deploy: {
-      pack: series("nps build", "npm pack"),
-      publish: series("nps build", "npm publish")
+      ensureMigrations: migrationsExist ? "" : `node  ${joinPath(".", "package-scripts", "fail")} "migrations.json doesn't exist"`,
+      pack: series(
+        "nps deploy.ensureMigrations",
+        "nps build",
+        "npm pack"),
+      publish: series(
+        "nps deploy.ensureMigrations",
+        "nps build",
+        "npm publish")
     },
     createGenesisDao: {
       default: `node  ${joinPath(".", "package-scripts", "createGenesisDao.js")}`

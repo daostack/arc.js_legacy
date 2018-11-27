@@ -37,7 +37,15 @@ This will install the Truffle artifact files from Arc and the migration.json fil
 
 
 ## Arc Contract Wrappers
-Every Arc contract wrapper class has as its root base the [ContractWrapperBase class](https://github.com/daostack/arc.js/blob/master/lib/contractWrapperBase.ts).
+Every Arc contract wrapper class has as its root base the [ContractWrapperBase](https://github.com/daostack/arc.js/blob/master/lib/contractWrapperBase.ts) class.
+
+Several classes inherit from `ContractWrapperBase`, including: 
+
+* [IntVoteInterfaceWrapper](https://github.com/daostack/arc.js/blob/master/lib/intVoteInterfaceWrapper.ts)
+* [SchemeWrapperBase](https://github.com/daostack/arc.js/blob/master/lib/schemeWrapperBase.ts)
+* [USchemeWrapperBase](https://github.com/daostack/arc.js/blob/master/lib/uSchemeWrapperBase.ts)
+* [ProposalGeneratorBase](https://github.com/daostack/arc.js/blob/master/lib/proposalGeneratorBase.ts)
+
 
 Each wrapper can be instantiated and hydrated using the [ContractWrapperFactory class](https://github.com/daostack/arc.js/blob/master/lib/contractWrapperFactory.ts).  The word “hydrated” means to initialize a wrapper instance with information from the chain using `.new`, `.at` or `.deployed`.
 

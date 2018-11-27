@@ -1,6 +1,6 @@
 {
   "name": "@daostack/arc.js",
-  "version": "0.0.0-alpha.90",
+  "version": "0.0.0-alpha.92",
   "description": "A JavaScript library for interacting with @daostack/arc ethereum smart contracts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -65,8 +65,8 @@
     "fs-extra": "^5.0.0",
     "ganache-cli": "^6.1.6",
     "node-glob": "^1.2.0",
-    "nps": "^5.7.1",
-    "nps-utils": "^1.5.0",
+    "nps": "^5.9.3",
+    "nps-utils": "^1.7.0",
     "path.join": "^1.0.0",
     "pubsub-js": "^1.6.0",
     "truffle-contract": "^3.0.1",

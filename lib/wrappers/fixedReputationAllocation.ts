@@ -1,14 +1,14 @@
 "use strict";
 import BigNumber from "bignumber.js";
 import { Address } from "../commonTypes";
-import { ContractWrapperBase } from "../contractWrapperBase";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
+import { SchemeWrapperBase } from "../schemeWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
 import { UtilsInternal } from "../utilsInternal";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 
-export class FixedReputationAllocationWrapper extends ContractWrapperBase {
+export class FixedReputationAllocationWrapper extends SchemeWrapperBase {
   public name: string = "FixedReputationAllocation";
   public friendlyName: string = "Fixed Reputation Allocation";
   public factory: IContractWrapperFactory<FixedReputationAllocationWrapper> = FixedReputationAllocationFactory;

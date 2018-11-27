@@ -1,6 +1,6 @@
 import { BigNumber } from "bignumber.js";
 import { promisify } from "es6-promisify";
-import { Address, DefaultSchemePermissions, Hash, SchemePermissions } from "./commonTypes";
+import { Address, Hash } from "./commonTypes";
 import { ConfigService } from "./configService";
 import { ControllerService } from "./controllerService";
 import {
@@ -176,20 +176,6 @@ export abstract class ContractWrapperBase implements IContractWrapper {
   }
 
   /**
-   * TODO: getDefaultPermissions should be moved to a new subclass `SchemeWrapper`
-   * which itself would be a base class for a new class `UniversalScheme`
-   */
-
-  /**
-   * Any scheme that needs greater permissions should override this
-   * @hidden - for internal use only.
-   * This method will eventually be moved (see comment above)
-   */
-  public getDefaultPermissions(): SchemePermissions {
-    return DefaultSchemePermissions.MinimumPermissions as number;
-  }
-
-  /**
    * invoked to let base classes know that the `contract` is available.
    */
   /* tslint:disable-next-line:no-empty */
@@ -209,18 +195,6 @@ export abstract class ContractWrapperBase implements IContractWrapper {
       params);
 
     return new ArcTransactionDataResult<Hash>(txResult.tx, this.contract, parametersHash);
-  }
-
-  /**
-   * Returns this scheme's permissions.
-   * @param avatarAddress
-   */
-  protected async _getSchemePermissions(avatarAddress: Address): Promise<SchemePermissions> {
-    const controllerService = new ControllerService(avatarAddress);
-    const controller = await controllerService.getController();
-    const permissions = await controller.getSchemePermissions(this.address, avatarAddress) as string;
-
-    return SchemePermissions.fromString(permissions);
   }
 
   protected async _getSchemeParameters(avatarAddress: Address): Promise<any> {

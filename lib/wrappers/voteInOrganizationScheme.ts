@@ -19,7 +19,7 @@ import {
   SchemeProposalExecutedEventResult
 } from "./commonEventInterfaces";
 
-export class VoteInOrganizationSchemeWrapper extends ProposalGeneratorBase implements IUniversalSchemeWrapper {
+export class VoteInOrganizationSchemeWrapper extends ProposalGeneratorBase {
 
   public name: string = "VoteInOrganizationScheme";
   public friendlyName: string = "Vote In Organization Scheme";
