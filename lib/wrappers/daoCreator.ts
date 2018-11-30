@@ -37,7 +37,11 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
       to: contractAddress,
     }, callback)))()
       .then((result: string): boolean => {
-        return result === "0x0";
+        /**
+         * odd thing that in some environments this is returned as 0x0 (like the automated tests) and
+         * others as 0x (like in more than one observed application context)
+         */
+        return (result === "0x0") || (result === "0x");
       })
       .catch((): boolean => {
         return false;
