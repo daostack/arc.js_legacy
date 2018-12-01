@@ -39,7 +39,7 @@ export class TokenCapGCWrapper extends ContractWrapperBase {
       cap);
   }
 
-  public async getParameters(paramsHash: Hash): Promise<any> {
+  public async getParameters(paramsHash: Hash): Promise<GetTokenCapGcParamsResult> {
     const params = await this.getParametersArray(paramsHash);
     return {
       cap: params[1],
@@ -47,14 +47,15 @@ export class TokenCapGCWrapper extends ContractWrapperBase {
     };
   }
 
-  public async getSchemeParametersHash(avatarAddress: Address): Promise<Hash> {
+  public async getRegisteredParametersHash(avatarAddress: Address): Promise<Hash> {
     const controllerService = new ControllerService(avatarAddress);
     const controller = await controllerService.getController();
     return controller.getGlobalConstraintParameters(this.address, avatarAddress);
   }
 
-  public async getSchemeParameters(avatarAddress: Address): Promise<GetTokenCapGcParamsResult> {
-    return this._getSchemeParameters(avatarAddress);
+  public async getRegisteredParameters(avatarAddress: Address): Promise<GetTokenCapGcParamsResult> {
+    const paramsHash = await this.getRegisteredParametersHash(avatarAddress);
+    return this.getParameters(paramsHash);
   }
 }
 

@@ -210,11 +210,11 @@ describe("GlobalConstraintRegistrar", () => {
 
     const tokenWrapper = await WrapperService.factories.TokenCapGC.at(tokenCapGC.address) as TokenCapGCWrapper;
 
-    const paramsHash = await tokenWrapper.getSchemeParametersHash(dao.avatar.address);
+    const paramsHash = await tokenWrapper.getRegisteredParametersHash(dao.avatar.address);
 
     assert.equal(paramsHash, tokenCapGCParamsHash);
 
-    const params = await tokenWrapper.getSchemeParameters(dao.avatar.address);
+    const params = await tokenWrapper.getRegisteredParameters(dao.avatar.address);
 
     assert.equal(params.cap.toString(), tokenCapParams.cap);
     assert.equal(params.token, tokenCapParams.token);

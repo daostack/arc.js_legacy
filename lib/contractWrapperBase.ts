@@ -120,16 +120,6 @@ export abstract class ContractWrapperBase implements IContractWrapper {
   }
 
   /**
-   * Given an avatar address, returns the schemes parameters hash
-   * @param avatarAddress
-   */
-  public async getSchemeParametersHash(avatarAddress: Address): Promise<Hash> {
-    const controllerService = new ControllerService(avatarAddress);
-    const controller = await controllerService.getController();
-    return controller.getSchemeParameters(this.address, avatarAddress);
-  }
-
-  /**
    * Given a hash, returns the associated parameters as an array, ordered by the order
    * in which the parameters appear in the contract's Parameters struct.
    * @param paramsHash
@@ -195,11 +185,6 @@ export abstract class ContractWrapperBase implements IContractWrapper {
       params);
 
     return new ArcTransactionDataResult<Hash>(txResult.tx, this.contract, parametersHash);
-  }
-
-  protected async _getSchemeParameters(avatarAddress: Address): Promise<any> {
-    const paramsHash = await this.getSchemeParametersHash(avatarAddress);
-    return this.getParameters(paramsHash);
   }
 
   protected _getParametersHash(...params: Array<any>): Promise<Hash> {
