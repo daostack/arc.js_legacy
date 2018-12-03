@@ -39,18 +39,16 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
     );
   }
 
-  public async getLockBlocker(options: ExternalLockingLockOptions): Promise<string | null> {
-
+  public async getLockBlocker(options: ExternalLockingClaimOptions): Promise<string | null> {
     /**
-     * stub out amount and period -- they aren't relevant to external locking validation.
+     * stub out lockerAddress, amount and period -- they aren't relevant to external locking validation.
      */
-    const msg = await super.getLockBlocker(Object.assign({}, options, { amount: "1", period: 1 }));
+    const msg = await super.getLockBlocker(Object.assign({},
+      { lockerAddress: "0x", amount: "1", period: 1 }
+    ));
+
     if (msg) {
       return msg;
-    }
-
-    if (!options.lockerAddress) {
-      return "lockerAddress is not defined";
     }
 
     const alreadyLocked = await this.getAccountHasLocked(options.lockerAddress);
@@ -59,20 +57,40 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
     }
   }
 
-  public async lock(options: ExternalLockingLockOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+  /**
+   * Claim the MGN tokens and lock them.  Provide `lockerAddress` to claim on their behalf,
+   * otherwise claims on behalf of the caller.
+   * @param options
+   */
+  public async claim(
+    options: ExternalLockingClaimOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
 
     const msg = await this.getLockBlocker(options);
     if (msg) {
       throw new Error(msg);
     }
 
-    this.logContractFunctionCall("ExternalLocking4Reputation.lock", options);
+    this.logContractFunctionCall("ExternalLocking4Reputation.claim", options);
 
-    return this.wrapTransactionInvocation("ExternalLocking4Reputation.lock",
+    return this.wrapTransactionInvocation("ExternalLocking4Reputation.claim",
       options,
-      this.contract.lock,
-      [],
-      { from: options.lockerAddress }
+      this.contract.claim,
+      [options.lockerAddress]
+    );
+  }
+
+  /**
+   * The caller is giving permission to the contract to allow someone else to claim
+   * on their behalf.
+   */
+  public async register(): Promise<ArcTransactionResult> {
+
+    this.logContractFunctionCall("ExternalLocking4Reputation.register");
+
+    return this.wrapTransactionInvocation("ExternalLocking4Reputation.register",
+      {},
+      this.contract.register,
+      []
     );
   }
 
@@ -126,6 +144,6 @@ export interface ExternalLockingInitializeOptions {
   reputationReward: BigNumber | string;
 }
 
-export interface ExternalLockingLockOptions {
-  lockerAddress: Address;
+export interface ExternalLockingClaimOptions {
+  lockerAddress?: Address;
 }

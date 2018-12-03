@@ -56,6 +56,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase {
     : Promise<ArcTransactionProposalResult> {
 
     const defaults = {
+      descriptionIsHashed: false,
       ethReward: "0",
       externalToken: "", // must have a value for solidity
       externalTokenReward: "0",
@@ -154,7 +155,7 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase {
       eventContext,
       this.contract.proposeContributionReward,
       [options.avatar,
-      Utils.SHA3(options.description),
+      options.descriptionIsHashed ? options.description : Utils.SHA3(options.description),
         reputationChange,
       [nativeTokenReward, ethReward, externalTokenReward, options.periodLength, options.numberOfPeriods],
       options.externalToken,
@@ -539,17 +540,16 @@ export class ContributionRewardWrapper extends ProposalGeneratorBase {
 
   private convertProposalPropsArrayToObject(propsArray: Array<any>, proposalId: Hash): ContributionProposal {
     return {
-      beneficiaryAddress: propsArray[6],
-      contributionDescriptionHash: propsArray[0],
-      ethReward: propsArray[3],
-      executionTime: propsArray[9],
-      externalToken: propsArray[4],
-      externalTokenReward: propsArray[5],
-      nativeTokenReward: propsArray[1],
-      numberOfPeriods: propsArray[8],
-      periodLength: propsArray[7],
+      beneficiaryAddress: propsArray[5],
+      ethReward: propsArray[2],
+      executionTime: propsArray[8],
+      externalToken: propsArray[3],
+      externalTokenReward: propsArray[4],
+      nativeTokenReward: propsArray[0],
+      numberOfPeriods: propsArray[7],
+      periodLength: propsArray[6],
       proposalId,
-      reputationChange: propsArray[2],
+      reputationChange: propsArray[1],
     };
   }
 }
@@ -587,7 +587,6 @@ export interface NewContributionProposalEventResult {
 export interface ContributionProposal {
   proposalId: Hash;
   beneficiaryAddress: Address;
-  contributionDescriptionHash: Hash;
   ethReward: BigNumber;
   executionTime: number;
   externalToken: Address;
@@ -747,6 +746,11 @@ export interface ProposeContributionRewardParams {
    *  beneficiary address
    */
   beneficiaryAddress: string;
+  /**
+   * True if description is a hashed, false if not and in which case Arc.js will hash it.
+   * The default is false.
+   */
+  descriptionIsHashed?: false;
 }
 
 export interface ContributionRewardRedeemParams {
