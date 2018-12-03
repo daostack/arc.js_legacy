@@ -22,8 +22,8 @@ export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
 
     await super._initialize(options);
 
-    if (!options.tokenAddress) {
-      throw new Error(`tokenAddress not supplied`);
+    if (!options.priceOracleContract) {
+      throw new Error(`priceOracleContract not supplied`);
     }
 
     this.logContractFunctionCall("LockingToken4Reputation.initialize", options);
@@ -37,7 +37,7 @@ export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
       options.lockingEndTime.getTime() / 1000,
       options.redeemEnableTime.getTime() / 1000,
       options.maxLockingPeriod,
-      options.tokenAddress]
+      options.priceOracleContract]
     );
   }
 
@@ -117,7 +117,7 @@ export const LockingToken4ReputationFactory =
     new Web3EventService()) as LockingToken4ReputationType;
 
 export interface LockTokenInitializeOptions extends InitializeOptions {
-  tokenAddress: Address;
+  priceOracleContract: Address;
 }
 
 export interface LockingToken4ReputationLockEventResult {
