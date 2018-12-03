@@ -4,6 +4,7 @@ import { Address } from "../commonTypes";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { Utils } from "../utils";
 import { Web3EventService } from "../web3EventService";
 import { Locking4ReputationWrapper } from "./locking4Reputation";
 
@@ -70,6 +71,14 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
       throw new Error(msg);
     }
 
+    const currentAccount = await Utils.getDefaultAccount();
+
+    if (options.lockerAddress && (options.lockerAddress !== currentAccount)) {
+      if (!this.isRegistered(options.lockerAddress)) {
+        throw new Error(`lockerAddress has not been registered for proxy claiming: ${options.lockerAddress}`);
+      }
+    }
+
     this.logContractFunctionCall("ExternalLocking4Reputation.claim", options);
 
     return this.wrapTransactionInvocation("ExternalLocking4Reputation.claim",
@@ -94,10 +103,19 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
     );
   }
 
+  /**
+   * Returns promise of a boolean indicating whether the given address has registered
+   * to have their tokens claimed for them (see `register`).
+   * @param lockerAddress
+   */
+  public isRegistered(lockerAddress: Address): Promise<boolean> {
+    this.logContractFunctionCall("ExternalLocking4Reputation.registrar", { lockerAddress });
+    return this.contract.registrar(lockerAddress);
+  }
+
   public getExternalLockingContract(): Promise<Address> {
     this.logContractFunctionCall("ExternalLocking4Reputation.externalLockingContract");
     return this.contract.externalLockingContract();
-
   }
 
   public getGetBalanceFuncSignature(): Promise<string> {
