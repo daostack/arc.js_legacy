@@ -150,26 +150,10 @@ module.exports = {
        * from scratch.  Otherwise, truffle will merge your migrations into whatever  previous
        * ones exist.
        */
-      clean: {
-        default: rimraf(joinPath(pathArcJsContracts, "*")),
-        /**
-         * clean and fetch.
-         * Run this ONLY when you want to start with fresh UNMIGRATED contracts from @daostack/arc.
-         */
-        andFetchFromArc: series(
-          "nps migrateContracts.clean",
-          "nps migrateContracts.fetchContracts"
-        ),
-        /**
-         * clean, fetch and migrate.
-         * Run this ONLY when you want to start with fresh UNMIGRATED contracts from @daostack/arc.
-         */
-        andMigrate: series(
-          "nps migrateContracts.clean.andFetchFromArc",
-          "nps migrateContracts"
-        )
-      },
+      clean: rimraf(joinPath(pathArcJsContracts, "*")),
+
       fetchContracts: series(
+        "nps migrateContracts.clean",
         "nps migrateContracts.fetchFromArc",
         "nps migrateContracts.fetchFromDaostack"
       ),
@@ -187,7 +171,8 @@ module.exports = {
        * fetch contract addresses from the DAOstack migrations package.
        */
       fetchFromDaostack: series(
-        copy(`${joinPath(pathDaostackMigrationsRepo, "migration.json")}  ${pathArcJsRoot}`)
+        copy(`${joinPath(pathDaostackMigrationsRepo, "migration.json")}  ${pathArcJsRoot}`),
+        `node ${joinPath(".", "package-scripts", "cleanMigrationJson.js")}`,
       ),
     },
     docs: {
