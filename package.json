@@ -51,7 +51,7 @@
   },
   "homepage": "https://github.com/daostack/arc.js#readme",
   "dependencies": {
-    "@daostack/migration": "0.0.0-alpha.57-v2",
+    "@daostack/migration": "0.0.0-alpha.58-v2",
     "archiver": "^2.1.0",
     "bignumber.js": "^5.0.0",
     "circular-json": "^0.5.4",
@@ -75,7 +75,7 @@
     "websocket": "^1.0.26"
   },
   "devDependencies": {
-    "@daostack/arc": "0.0.0-alpha.57",
+    "@daostack/arc": "0.0.0-alpha.58",
     "@types/chai": "^4.1.2",
     "@types/circular-json": "^0.4.0",
     "@types/es6-promisify": "^6.0.0",

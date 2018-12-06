@@ -63,7 +63,7 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
    * otherwise claims on behalf of the caller.
    * @param options
    */
-  public async claim(
+  public async lock(
     options: ExternalLockingClaimOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
 
     const msg = await this.getLockBlocker(options);
@@ -71,12 +71,15 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
       throw new Error(msg);
     }
 
-    const currentAccount = await Utils.getDefaultAccount();
+    const currentAccount = (await Utils.getDefaultAccount()).toLowerCase();
+    let lockerAddress: Address = options.lockerAddress;
 
-    if (options.lockerAddress && (options.lockerAddress !== currentAccount)) {
-      if (!this.isRegistered(options.lockerAddress)) {
-        throw new Error(`lockerAddress has not been registered for proxy claiming: ${options.lockerAddress}`);
-      }
+    if (lockerAddress && (lockerAddress.toLowerCase() === currentAccount)) {
+      lockerAddress = undefined;
+    }
+
+    if (lockerAddress && !(await this.isRegistered(lockerAddress))) {
+      throw new Error(`lockerAddress has not been registered for proxy claiming: ${lockerAddress}`);
     }
 
     this.logContractFunctionCall("ExternalLocking4Reputation.claim", options);
@@ -84,7 +87,7 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
     return this.wrapTransactionInvocation("ExternalLocking4Reputation.claim",
       options,
       this.contract.claim,
-      [options.lockerAddress]
+      [lockerAddress]
     );
   }
 

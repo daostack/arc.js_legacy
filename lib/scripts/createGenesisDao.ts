@@ -26,8 +26,7 @@ interface FounderSpec {
 export class GenesisDaoCreator {
 
   constructor(
-    private web3: Web3,
-    private network: string) {
+    private web3: Web3) {
   }
 
   public async run(): Promise<void> {

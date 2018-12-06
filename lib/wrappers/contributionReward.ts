@@ -750,7 +750,7 @@ export interface ProposeContributionRewardParams {
    * True if description is a hashed, false if not and in which case Arc.js will hash it.
    * The default is false.
    */
-  descriptionIsHashed?: false;
+  descriptionIsHashed?: boolean;
 }
 
 export interface ContributionRewardRedeemParams {
