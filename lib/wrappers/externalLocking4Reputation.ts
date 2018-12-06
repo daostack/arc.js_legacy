@@ -72,13 +72,13 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
     }
 
     const currentAccount = (await Utils.getDefaultAccount()).toLowerCase();
-    let lockerAddress: Address = options.lockerAddress;
+    let lockerAddress: Address | number = options.lockerAddress;
 
     if (lockerAddress && (lockerAddress.toLowerCase() === currentAccount)) {
-      lockerAddress = undefined;
+      lockerAddress = 0;
     }
 
-    if (lockerAddress && !(await this.isRegistered(lockerAddress))) {
+    if (lockerAddress && !(await this.isRegistered(lockerAddress as Address))) {
       throw new Error(`lockerAddress has not been registered for proxy claiming: ${lockerAddress}`);
     }
 
