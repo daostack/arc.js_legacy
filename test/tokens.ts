@@ -19,7 +19,7 @@ describe("Tokens", () => {
     genToken = await DaoTokenWrapper.getGenToken();
     assert.isOk(genToken);
     // assumes running in ganache and that ganache was started by arc.js (with the correct network id)
-    assert.equal(genToken.address, "0x7016b1a2d5f5bc5107161ef111d06dfd09843ba5");
+    assert.equal(genToken.address, "0xe78a0f7e598cc8b0bb87894b0f60dd2a88d6a8ab");
     assert.equal(await genToken.getTokenName(), "DAOstack");
     assert.equal(await genToken.getTokenSymbol(), "GEN");
     mintableToken = await MintableTokenFactory.new();
