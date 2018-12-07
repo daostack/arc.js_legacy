@@ -2106,7 +2106,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../interfaces/ExternalLockingLockOptions/" title="ExternalLockingLockOptions" class="md-nav__link">
+    <a href="../../interfaces/ExternalLockingLockOptions.md" title="ExternalLockingLockOptions" class="md-nav__link">
       ExternalLockingLockOptions
     </a>
   </li>
@@ -4010,7 +4010,7 @@
 <h3 id="constructor">constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h3>
 <p>⊕ <strong>new ArcTransactionProposalResult</strong>(tx: <em><a href="../#Hash">Hash</a></em>, contract: <em><code>any</code></em>, votingMachine: <em><a href="../../interfaces/IIntVoteInterface/">IIntVoteInterface</a></em>): <a href="./">ArcTransactionProposalResult</a></p>
 <p><em>Overrides <a href="../ArcTransactionResult/">ArcTransactionResult</a>.<a href="../ArcTransactionResult/#constructor">constructor</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/iContractWrapperBase.ts#L153">iContractWrapperBase.ts:153</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6f704389/lib/iContractWrapperBase.ts#L153">iContractWrapperBase.ts:153</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -4041,20 +4041,20 @@
 <h3 id="tx">tx<a class="headerlink" href="#tx" title="Permanent link">&para;</a></h3>
 <p><strong>● tx</strong>: <em><a href="../#Hash">Hash</a></em></p>
 <p><em>Inherited from <a href="../ArcTransactionResult/">ArcTransactionResult</a>.<a href="../ArcTransactionResult/#tx">tx</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/iContractWrapperBase.ts#L61">iContractWrapperBase.ts:61</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6f704389/lib/iContractWrapperBase.ts#L61">iContractWrapperBase.ts:61</a></em></p>
 <p>The transaction hash</p>
 <hr />
 <p><a id="votingMachine"></a></p>
 <h3 id="votingmachine">votingMachine<a class="headerlink" href="#votingmachine" title="Permanent link">&para;</a></h3>
 <p><strong>● votingMachine</strong>: <em><a href="../../interfaces/IIntVoteInterface/">IIntVoteInterface</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/iContractWrapperBase.ts#L161">iContractWrapperBase.ts:161</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6f704389/lib/iContractWrapperBase.ts#L161">iContractWrapperBase.ts:161</a></em></p>
 <p>The proposal's voting machine, as IntVoteInterface</p>
 <hr />
 <h2 id="methods_1">Methods<a class="headerlink" href="#methods_1" title="Permanent link">&para;</a></h2>
 <p><a id="getProposalIdFromMinedTx"></a></p>
 <h3 id="getproposalidfromminedtx">getProposalIdFromMinedTx<a class="headerlink" href="#getproposalidfromminedtx" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>getProposalIdFromMinedTx</strong>(): <code>Promise</code>&lt;<a href="../#Hash">Hash</a>&gt;</p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/iContractWrapperBase.ts#L170">iContractWrapperBase.ts:170</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6f704389/lib/iContractWrapperBase.ts#L170">iContractWrapperBase.ts:170</a></em></p>
 <p>Returns promise of the proposal id from the logs of the mined transaction. Will watch for the mined tx; if it hasn't yet been mined, could take a while to return.</p>
 <p><strong>Returns:</strong> <code>Promise</code>&lt;<a href="../#Hash">Hash</a>&gt;</p>
 <hr />
@@ -4062,7 +4062,7 @@
 <h3 id="gettxconfirmed">getTxConfirmed<a class="headerlink" href="#gettxconfirmed" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>getTxConfirmed</strong>(requiredDepth?: <em><code>number</code></em>): <code>Promise</code>&lt; <a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a> &#124; <code>null</code>&gt;</p>
 <p><em>Inherited from <a href="../ArcTransactionResult/">ArcTransactionResult</a>.<a href="../ArcTransactionResult/#getTxConfirmed">getTxConfirmed</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/iContractWrapperBase.ts#L92">iContractWrapperBase.ts:92</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6f704389/lib/iContractWrapperBase.ts#L92">iContractWrapperBase.ts:92</a></em></p>
 <p>Returns a promise of the transaction if it is confirmed, converted to a TransactionReceiptTruffle (with readable logs).</p>
 <p>Returns null if the transaction is not yet found at the required depth.</p>
 <p><strong>Parameters:</strong></p>
@@ -4088,7 +4088,7 @@
 <h3 id="gettxmined">getTxMined<a class="headerlink" href="#gettxmined" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>getTxMined</strong>(): <code>Promise</code>&lt; <a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a> &#124; <code>null</code>&gt;</p>
 <p><em>Inherited from <a href="../ArcTransactionResult/">ArcTransactionResult</a>.<a href="../ArcTransactionResult/#getTxMined">getTxMined</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/iContractWrapperBase.ts#L74">iContractWrapperBase.ts:74</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6f704389/lib/iContractWrapperBase.ts#L74">iContractWrapperBase.ts:74</a></em></p>
 <p>Returns a promise of the transaction if it is mined, converted to a TransactionReceiptTruffle (with readable logs).</p>
 <p>Returns null if the transaciton is not yet mined.</p>
 <p><strong>Returns:</strong> <code>Promise</code>&lt; <a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a> &#124; <code>null</code>&gt;</p>
@@ -4097,7 +4097,7 @@
 <h3 id="getvaluefromminedtx">getValueFromMinedTx<a class="headerlink" href="#getvaluefromminedtx" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>getValueFromMinedTx</strong>(valueName: <em><code>string</code></em>, eventName?: <em><code>string</code></em>, index?: <em><code>number</code></em>): <code>Promise</code>&lt; <code>any</code> &#124; <code>undefined</code>&gt;</p>
 <p><em>Inherited from <a href="../ArcTransactionResult/">ArcTransactionResult</a>.<a href="../ArcTransactionResult/#getValueFromMinedTx">getValueFromMinedTx</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/iContractWrapperBase.ts#L140">iContractWrapperBase.ts:140</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6f704389/lib/iContractWrapperBase.ts#L140">iContractWrapperBase.ts:140</a></em></p>
 <p>Returns promise of a value from the logs of the mined transaction. Will watch for the mined tx, so could take a while to return.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4136,7 +4136,7 @@
 <h3 id="watchfortxconfirmed">watchForTxConfirmed<a class="headerlink" href="#watchfortxconfirmed" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>watchForTxConfirmed</strong>(requiredDepth?: <em><code>number</code></em>): <code>Promise</code>&lt;<a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a>&gt;</p>
 <p><em>Inherited from <a href="../ArcTransactionResult/">ArcTransactionResult</a>.<a href="../ArcTransactionResult/#watchForTxConfirmed">watchForTxConfirmed</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/iContractWrapperBase.ts#L123">iContractWrapperBase.ts:123</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6f704389/lib/iContractWrapperBase.ts#L123">iContractWrapperBase.ts:123</a></em></p>
 <p>Returns a promise of a TransactionReceipt once the given transaction has been confirmed, converted to a TransactionReceiptTruffle (with readable logs), according to the optional <code>requiredDepth</code>.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -4161,7 +4161,7 @@
 <h3 id="watchfortxmined">watchForTxMined<a class="headerlink" href="#watchfortxmined" title="Permanent link">&para;</a></h3>
 <p>▸ <strong>watchForTxMined</strong>(): <code>Promise</code>&lt;<a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a>&gt;</p>
 <p><em>Inherited from <a href="../ArcTransactionResult/">ArcTransactionResult</a>.<a href="../ArcTransactionResult/#watchForTxMined">watchForTxMined</a></em></p>
-<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/1fce0790/lib/iContractWrapperBase.ts#L106">iContractWrapperBase.ts:106</a></em></p>
+<p><em>Defined in <a href="https://github.com/daostack/arc.js/blob/6f704389/lib/iContractWrapperBase.ts#L106">iContractWrapperBase.ts:106</a></em></p>
 <p>Returns promise of a mined transaction once it has been mined, converted to a TransactionReceiptTruffle (with readable logs).</p>
 <p><strong>Returns:</strong> <code>Promise</code>&lt;<a href="../../interfaces/TransactionReceiptTruffle/">TransactionReceiptTruffle</a>&gt;</p>
 <hr />
