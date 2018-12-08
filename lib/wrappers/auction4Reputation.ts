@@ -236,28 +236,28 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     return this.contract.getBid(bidderAddress, auctionId);
   }
 
-  public async getUserEarnedReputation(beneficiaryAddress: Address, auctionId: number): Promise<BigNumber> {
-    if (!beneficiaryAddress) {
+  public async getUserEarnedReputation(options: Auction4ReputationRedeemOptions): Promise<BigNumber> {
+    if (!options.beneficiaryAddress) {
       throw new Error("beneficiaryAddress is not defined");
     }
 
-    if (!Number.isInteger(auctionId)) {
+    if (!Number.isInteger(options.auctionId)) {
       throw new Error("auctionId is not an integer");
     }
 
-    if (auctionId < 0) {
+    if (options.auctionId < 0) {
       throw new Error("auctionId must be greater than or equal to zero");
     }
 
-    const errMsg = await this.getRedeemBlocker({ beneficiaryAddress, auctionId });
+    const errMsg = await this.getRedeemBlocker(options);
 
     if (errMsg) {
       throw new Error(errMsg);
     }
 
-    this.logContractFunctionCall("Locking4Reputation.redeem.call", { beneficiaryAddress });
+    this.logContractFunctionCall("Locking4Reputation.redeem.call", options);
 
-    return this.contract.redeem.call(beneficiaryAddress);
+    return this.contract.redeem.call(options.beneficiaryAddress, options.auctionId);
   }
 
   /**

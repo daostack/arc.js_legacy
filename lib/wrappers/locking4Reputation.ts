@@ -130,20 +130,21 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
     return null;
   }
 
-  public async getUserEarnedReputation(lockerAddress: Address): Promise<BigNumber> {
-    if (!lockerAddress) {
+  public async getUserEarnedReputation(options: RedeemOptions): Promise<BigNumber> {
+
+    if (!options.lockerAddress) {
       throw new Error("lockerAddress is not defined");
     }
 
-    const errMsg = await this.getRedeemBlocker(lockerAddress);
+    const errMsg = await this.getRedeemBlocker(options.lockerAddress);
 
     if (errMsg) {
       throw new Error(errMsg);
     }
 
-    this.logContractFunctionCall("Locking4Reputation.redeem.call", { lockerAddress });
+    this.logContractFunctionCall("Locking4Reputation.redeem.call", options);
 
-    return this.contract.redeem.call(lockerAddress);
+    return this.contract.redeem.call(options.lockerAddress);
   }
 
   /**
