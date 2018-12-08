@@ -46,8 +46,10 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
    * @param lockerAddress
    */
   public async getRedeemBlocker(lockerAddress: Address): Promise<string | null> {
+
     const lockingEndTime = await this.getLockingEndTime();
     const now = await UtilsInternal.lastBlockDate();
+
     if (now <= lockingEndTime) {
       return "the locking period has not ended";
     }
@@ -59,7 +61,7 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
     }
 
     const lockerInfo = await this.getLockerInfo(lockerAddress);
-    if (lockerInfo.score.eq(0)) {
+    if (lockerInfo.score.lte(0)) {
       return "the reputation has already been redeemed";
     }
 
@@ -103,7 +105,7 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
     }
 
     if (!Number.isInteger(options.period)) {
-      return "period is not an integer";
+      return "period is not a number";
     }
 
     if (options.period <= 0) {
@@ -126,6 +128,22 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
     }
 
     return null;
+  }
+
+  public async getUserEarnedReputation(lockerAddress: Address): Promise<BigNumber> {
+    if (!lockerAddress) {
+      throw new Error("lockerAddress is not defined");
+    }
+
+    const errMsg = await this.getRedeemBlocker(lockerAddress);
+
+    if (errMsg) {
+      throw new Error(errMsg);
+    }
+
+    this.logContractFunctionCall("Locking4Reputation.redeem.call", { lockerAddress });
+
+    return this.contract.redeem.call(lockerAddress);
   }
 
   /**
