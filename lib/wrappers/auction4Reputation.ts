@@ -222,26 +222,42 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
       throw new Error("bidderAddress is not defined");
     }
 
+    if (!Number.isInteger(auctionId)) {
+      throw new Error("auctionId is not an integer");
+    }
+
+    if (auctionId < 0) {
+      throw new Error("auctionId must be greater than or equal to zero");
+    }
+
     this.validateAuctionId(auctionId);
 
     this.logContractFunctionCall("Auction4Reputation.getBid", { bidderAddress, auctionId });
     return this.contract.getBid(bidderAddress, auctionId);
   }
 
-  public async getUserEarnedReputation(lockerAddress: Address): Promise<BigNumber> {
-    if (!lockerAddress) {
-      throw new Error("lockerAddress is not defined");
+  public async getUserEarnedReputation(beneficiaryAddress: Address, auctionId: number): Promise<BigNumber> {
+    if (!beneficiaryAddress) {
+      throw new Error("beneficiaryAddress is not defined");
     }
 
-    const errMsg = await this.getRedeemBlocker(lockerAddress);
+    if (!Number.isInteger(auctionId)) {
+      throw new Error("auctionId is not an integer");
+    }
+
+    if (auctionId < 0) {
+      throw new Error("auctionId must be greater than or equal to zero");
+    }
+
+    const errMsg = await this.getRedeemBlocker({ beneficiaryAddress, auctionId });
 
     if (errMsg) {
       throw new Error(errMsg);
     }
 
-    this.logContractFunctionCall("Locking4Reputation.redeem.call", { lockerAddress });
+    this.logContractFunctionCall("Locking4Reputation.redeem.call", { beneficiaryAddress });
 
-    return this.contract.redeem.call(lockerAddress);
+    return this.contract.redeem.call(beneficiaryAddress);
   }
 
   /**
