@@ -1,5 +1,6 @@
 "use strict";
 import BigNumber from "bignumber.js";
+import { DecodedLogEntry } from "web3";
 import { Address, Hash } from "../commonTypes";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
@@ -261,6 +262,29 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
   }
 
   /**
+   * get a promise of an array of auction ids and amounts in which the given account has placed a bid,
+   * or all auctions if beneficiaryAddressis not supplied
+   * @param beneficiaryAddress optional
+   */
+  public async getBids(beneficiaryAddress?: Address): Promise<Array<GetBidAuctionIdsResult>> {
+
+    if (!beneficiaryAddress) {
+      throw new Error("beneficiaryAddress is not defined");
+    }
+
+    const filter = beneficiaryAddress ? { _bidder: beneficiaryAddress } : {};
+
+    const bids = await this.Bid(filter).get();
+
+    return bids.map((bid: DecodedLogEntry<Auction4ReputationBidEventResult>): GetBidAuctionIdsResult => {
+      return {
+        amount: bid.args._amount,
+        auctionId: bid.args._auctionId.toNumber(),
+      };
+    });
+  }
+
+  /**
    * Get a promise of the first date/time when anything can be redeemed
    */
   public async getRedeemEnableTime(): Promise<Date> {
@@ -451,4 +475,9 @@ export interface Auction4ReputationRedeemEventResult {
    * indexed
    */
   _beneficiary: Address;
+}
+
+export interface GetBidAuctionIdsResult {
+  auctionId: number;
+  amount: BigNumber;
 }

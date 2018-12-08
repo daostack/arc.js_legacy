@@ -21,9 +21,19 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
   public Release: EventFetcherFactory<Locking4ReputationReleaseEventResult>;
   public Lock: EventFetcherFactory<Locking4ReputationLockEventResult>;
 
+  /**
+   * Redeem reputation
+   * @param options
+   * @returns null ArcTransactionResult if there is nothing to redeem due to locker having no score
+   */
   public async redeem(options: RedeemOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
     if (!options.lockerAddress) {
       throw new Error("lockerAddress is not defined");
+    }
+
+    const hasLocked = await this.lockerHasLocked(options.lockerAddress);
+    if (!hasLocked) {
+      return Promise.resolve(null);
     }
 
     const errMsg = await this.getRedeemBlocker(options.lockerAddress);
@@ -60,10 +70,10 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
       throw new Error(`nothing can be redeemed until after ${redeemEnableTime}`);
     }
 
-    const lockerInfo = await this.getLockerInfo(lockerAddress);
-    if (lockerInfo.score.lte(0)) {
-      return "the reputation has already been redeemed";
-    }
+    // const lockerInfo = await this.getLockerInfo(lockerAddress);
+    // if (lockerInfo.score.lte(0)) {
+    //   return "there are not locks or else the reputation has already been redeemed";
+    // }
 
     return null;
   }
@@ -136,6 +146,11 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
       throw new Error("lockerAddress is not defined");
     }
 
+    const hasLocked = await this.lockerHasLocked(options.lockerAddress);
+    if (!hasLocked) {
+      return new BigNumber(0);
+    }
+
     const errMsg = await this.getRedeemBlocker(options.lockerAddress);
 
     if (errMsg) {
@@ -145,6 +160,21 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
     this.logContractFunctionCall("Locking4Reputation.redeem.call", options);
 
     return this.contract.redeem.call(options.lockerAddress);
+  }
+
+  public async getLockerScore(lockerAddress: Address): Promise<BigNumber> {
+    if (!lockerAddress) {
+      throw new Error("lockerAddress is not defined");
+    }
+    const lockerInfo = await this.getLockerInfo(lockerAddress);
+    return lockerInfo ? lockerInfo.score : new BigNumber(0);
+  }
+
+  public async lockerHasLocked(lockerAddress: Address): Promise<boolean> {
+    if (!lockerAddress) {
+      throw new Error("lockerAddress is not defined");
+    }
+    return (await this.getLockerScore(lockerAddress)).gt(0);
   }
 
   /**
