@@ -92,6 +92,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
 
   public async redeem(options: Auction4ReputationRedeemOptions & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
+
     if (!options.beneficiaryAddress) {
       throw new Error("beneficiaryAddress is not defined");
     }
@@ -103,6 +104,27 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     if (options.auctionId < 0) {
       throw new Error("auctionId must be greater than or equal to zero");
     }
+
+    const errMsg = await this.getRedeemBlocker(options);
+
+    if (errMsg) {
+      throw new Error(errMsg);
+    }
+
+    this.logContractFunctionCall("Auction4Reputation.redeem", options);
+
+    return this.wrapTransactionInvocation("Auction4Reputation.redeem",
+      options,
+      this.contract.redeem,
+      [options.beneficiaryAddress, options.auctionId]
+    );
+  }
+
+  /**
+   * Returns reason why can't redeem, or else null if can redeem
+   * @param lockerAddress
+   */
+  public async getRedeemBlocker(options: Auction4ReputationRedeemOptions): Promise<string | null> {
 
     const redeemEnableTime = await this.getRedeemEnableTime();
     const now = await UtilsInternal.lastBlockDate();
@@ -117,13 +139,12 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
       throw new Error("the auction period has not passed");
     }
 
-    this.logContractFunctionCall("Auction4Reputation.redeem", options);
+    const bid = await this.getBid(options.beneficiaryAddress, options.auctionId);
+    if (bid.lte(0)) {
+      return "nothing has been bid in this auction";
+    }
 
-    return this.wrapTransactionInvocation("Auction4Reputation.redeem",
-      options,
-      this.contract.redeem,
-      [options.beneficiaryAddress, options.auctionId]
-    );
+    return null;
   }
 
   /**
@@ -205,6 +226,22 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
 
     this.logContractFunctionCall("Auction4Reputation.getBid", { bidderAddress, auctionId });
     return this.contract.getBid(bidderAddress, auctionId);
+  }
+
+  public async getUserEarnedReputation(lockerAddress: Address): Promise<BigNumber> {
+    if (!lockerAddress) {
+      throw new Error("lockerAddress is not defined");
+    }
+
+    const errMsg = await this.getRedeemBlocker(lockerAddress);
+
+    if (errMsg) {
+      throw new Error(errMsg);
+    }
+
+    this.logContractFunctionCall("Locking4Reputation.redeem.call", { lockerAddress });
+
+    return this.contract.redeem.call(lockerAddress);
   }
 
   /**
