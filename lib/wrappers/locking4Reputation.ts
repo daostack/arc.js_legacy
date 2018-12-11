@@ -33,6 +33,7 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
 
     const hasLocked = await this.lockerHasLocked(options.lockerAddress);
     if (!hasLocked) {
+      // because the Arc contract will revert in this case
       return Promise.resolve(null);
     }
 
@@ -69,11 +70,6 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
     if (now <= redeemEnableTime) {
       throw new Error(`nothing can be redeemed until after ${redeemEnableTime}`);
     }
-
-    // const lockerInfo = await this.getLockerInfo(lockerAddress);
-    // if (lockerInfo.score.lte(0)) {
-    //   return "there are not locks or else the reputation has already been redeemed";
-    // }
 
     return null;
   }
@@ -148,6 +144,7 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
 
     const hasLocked = await this.lockerHasLocked(options.lockerAddress);
     if (!hasLocked) {
+      // because the Arc contract will revert in this case
       return new BigNumber(0);
     }
 

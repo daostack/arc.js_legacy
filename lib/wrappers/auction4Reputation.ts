@@ -106,6 +106,12 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
       throw new Error("auctionId must be greater than or equal to zero");
     }
 
+    const bid = await this.getBid(options.beneficiaryAddress, options.auctionId);
+    if (bid.lte(0)) {
+      // because the Arc contract will revert in this case
+      return Promise.resolve(null);
+    }
+
     const errMsg = await this.getRedeemBlocker(options);
 
     if (errMsg) {
@@ -138,11 +144,6 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
 
     if (now <= endTime) {
       throw new Error("the auction period has not passed");
-    }
-
-    const bid = await this.getBid(options.beneficiaryAddress, options.auctionId);
-    if (bid.lte(0)) {
-      return "nothing has been bid in this auction";
     }
 
     return null;
@@ -250,13 +251,19 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
       throw new Error("auctionId must be greater than or equal to zero");
     }
 
+    const bid = await this.getBid(options.beneficiaryAddress, options.auctionId);
+    // because the Arc contract will revert in this case
+    if (bid.eq(0)) {
+      return Promise.resolve(new BigNumber(0));
+    }
+
     const errMsg = await this.getRedeemBlocker(options);
 
     if (errMsg) {
       throw new Error(errMsg);
     }
 
-    this.logContractFunctionCall("Locking4Reputation.redeem.call", options);
+    this.logContractFunctionCall("Auction4Reputation.redeem.call", options);
 
     return this.contract.redeem.call(options.beneficiaryAddress, options.auctionId);
   }
@@ -268,13 +275,9 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
    */
   public async getBids(beneficiaryAddress?: Address): Promise<Array<GetBidAuctionIdsResult>> {
 
-    if (!beneficiaryAddress) {
-      throw new Error("beneficiaryAddress is not defined");
-    }
-
     const filter = beneficiaryAddress ? { _bidder: beneficiaryAddress } : {};
 
-    const bids = await this.Bid(filter).get();
+    const bids = await this.Bid(filter, { fromBlock: 0 }).get();
 
     return bids.map((bid: DecodedLogEntry<Auction4ReputationBidEventResult>): GetBidAuctionIdsResult => {
       return {
