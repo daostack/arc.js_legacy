@@ -6,9 +6,11 @@ import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 import { SchemeWrapperBase } from "../schemeWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { Utils } from "../utils";
 import { UtilsInternal } from "../utilsInternal";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { WrapperService } from "../wrapperService";
+import { DaoTokenWrapper } from "./daoToken";
 import { StandardTokenWrapper } from "./standardToken";
 
 export class Auction4ReputationWrapper extends SchemeWrapperBase {
@@ -166,6 +168,13 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     if ((now > endTime) || (now < startTime)) {
       return "bidding is not within the allowed bidding period";
     }
+
+    const balance = await DaoTokenWrapper.getGenTokenBalance(await Utils.getDefaultAccount());
+
+    if (balance.lt(amount)) {
+      return "the account has insufficient GEN to bid the requested amount";
+    }
+
     return null;
   }
 

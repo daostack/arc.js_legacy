@@ -54,8 +54,27 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
 
     const alreadyLocked = await this.getAccountHasLocked(options.lockerAddress);
     if (alreadyLocked) {
-      return "this account has already executed a lock";
+      return "account has already executed a lock";
     }
+
+    const currentAccount = (await Utils.getDefaultAccount()).toLowerCase();
+    let lockerAddress: Address | number = options.lockerAddress;
+
+    if (lockerAddress && (lockerAddress.toLowerCase() === currentAccount)) {
+      lockerAddress = 0;
+    }
+
+    if (lockerAddress && !(await this.isRegistered(lockerAddress as Address))) {
+      throw new Error(`claimant has not registered for proxy claiming`);
+    }
+
+    // try {
+    //   this.contract.claim.call(lockerAddress);
+    // } catch (ex) {
+    //   if (ex.message && (ex.message === "locking amount should be > 0")) {
+    //     throw new Error(`claimant has no MGN tokens reserved to claim`);
+    //   }
+    // }
   }
 
   /**
@@ -76,10 +95,6 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
 
     if (lockerAddress && (lockerAddress.toLowerCase() === currentAccount)) {
       lockerAddress = 0;
-    }
-
-    if (lockerAddress && !(await this.isRegistered(lockerAddress as Address))) {
-      throw new Error(`lockerAddress has not been registered for proxy claiming: ${lockerAddress}`);
     }
 
     this.logContractFunctionCall("ExternalLocking4Reputation.claim", options);
