@@ -1,5 +1,6 @@
 "use strict";
 import BigNumber from "bignumber.js";
+import { promisify } from "es6-promisify";
 import { Address } from "../commonTypes";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
@@ -67,14 +68,6 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
     if (lockerAddress && !(await this.isRegistered(lockerAddress as Address))) {
       throw new Error(`claimant has not registered for proxy claiming`);
     }
-
-    // try {
-    //   this.contract.claim.call(lockerAddress);
-    // } catch (ex) {
-    //   if (ex.message && (ex.message === "locking amount should be > 0")) {
-    //     throw new Error(`claimant has no MGN tokens reserved to claim`);
-    //   }
-    // }
   }
 
   /**
@@ -119,6 +112,49 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
       this.contract.register,
       []
     );
+  }
+
+  /**
+   * Returns promise of whether the given locker has tokens that can be activated in the given MGN token contract.
+   * Assumes that MGN token API is:  `lockedTokenBalances(address)`.
+   *
+   * @param lockerAddress
+   * @param mgnTokenAddress
+   */
+  public async hasMgnToActivate(lockerAddress: Address, mgnTokenAddress: Address): Promise<boolean> {
+
+    const web3 = await Utils.getWeb3();
+
+    // tslint:disable
+    const mgnToken = await web3.eth.contract(
+      [
+        {
+          constant: true,
+          inputs: [
+            {
+              name: "",
+              type: "address"
+            },
+          ],
+          name: "lockedTokenBalances",
+          outputs: [
+            {
+              name: "",
+              type: "uint256"
+            },
+          ],
+          payable: false,
+          stateMutability: "view",
+          "type": "function",
+        }
+      ] as any
+    ).at(mgnTokenAddress);
+    // tslint:enable
+
+    const balance = await promisify((callback: any): any =>
+      mgnToken.lockedTokenBalances(lockerAddress, callback))() as any;
+
+    return balance.gt(0);
   }
 
   /**
