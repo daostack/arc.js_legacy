@@ -223,7 +223,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
   }
 
   /**
-   * get promise of the amount bid on the given auction.
+   * get promise of the amount the account has bid on the given auction.
    * @param bidderAddress
    * @param auctionId
    */
@@ -338,6 +338,15 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     this.logContractFunctionCall("Auction4Reputation.auctionReputationReward");
     return this.contract.auctionReputationReward();
   }
+
+  /**
+   * Return promise of 0-based id of the current auction
+   */
+  public async getCurrentAuctionId(): Promise<number> {
+    const auctionPeriod = (await this.getAuctionPeriod()) * 1000;
+    const auctionsStartTime = (await this.getAuctionsStartTime()).getTime();
+    return Math.floor((Date.now() - auctionsStartTime) / auctionPeriod);
+  }
   /**
    * Get a promise of the number of seconds in a single auction
    */
@@ -365,9 +374,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
   public async getAuctionTotalBid(auctionId: number): Promise<BigNumber> {
     this.validateAuctionId(auctionId);
     this.logContractFunctionCall("Auction4Reputation.auctions", { auctionId });
-    const result = (await this.contract.auctions(new BigNumber(auctionId))) as
-      { totalBid: BigNumber };
-    return result.totalBid;
+    return this.contract.auctions(new BigNumber(auctionId));
   }
 
   protected hydrated(): void {
