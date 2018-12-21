@@ -110,12 +110,16 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
 
     const amount = new BigNumber(options.amount);
 
+    if (amount.isNaN()) {
+      return "amount does not represent a number";
+    }
+
     if (amount.lte(0)) {
       return "amount must be greater than zero";
     }
 
     if (!Number.isInteger(options.period)) {
-      return "period is not a number";
+      return "period does not represent a number";
     }
 
     if (options.period <= 0) {
@@ -127,7 +131,7 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
     const maxLockingPeriod = await this.getMaxLockingPeriod();
 
     if (options.period > maxLockingPeriod) {
-      return "the locking period exceeds the maxLockingPeriod";
+      return "the locking period exceeds the maximum locking period";
     }
 
     const lockingStartTime = await this.getLockingStartTime();

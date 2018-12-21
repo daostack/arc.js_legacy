@@ -340,7 +340,8 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
   }
 
   /**
-   * Return promise of 0-based id of the current auction
+   * Return promise of 0-based id of the current auction.  Returns a negative number if the auction
+   * has not yet begun.  If auction is over then may return an id for an auction that doesn't exist.
    */
   public async getCurrentAuctionId(): Promise<number> {
     const auctionPeriod = (await this.getAuctionPeriod()) * 1000;
