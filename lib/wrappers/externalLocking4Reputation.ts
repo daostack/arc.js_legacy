@@ -121,9 +121,11 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
    * @param lockerAddress
    * @param mgnTokenAddress
    */
-  public async hasMgnToActivate(lockerAddress: Address, mgnTokenAddress: Address): Promise<boolean> {
+  public async hasMgnToActivate(lockerAddress: Address): Promise<boolean> {
 
     const web3 = await Utils.getWeb3();
+
+    const mgnTokenAddress = await this.getExternalLockingContract();
 
     // tslint:disable
     const mgnToken = await web3.eth.contract(
