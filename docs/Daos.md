@@ -199,7 +199,7 @@ const newDao = await DAO.new({
 });
 ```
 
-Here we supply an alternate voting machine address, supplying it [AbsoluteVote](/arc.js/api/classes/**AbsoluteVoteWrapper**) parameters:
+Here we supply an alternate voting machine address, supplying it [AbsoluteVote](/arc.js/api/classes/AbsoluteVoteWrapper) parameters:
 
 ```javascript
 const newDao = await DAO.new({
