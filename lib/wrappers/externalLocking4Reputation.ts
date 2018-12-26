@@ -55,7 +55,7 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
 
     const alreadyLocked = await this.getAccountHasLocked(options.lockerAddress);
     if (alreadyLocked) {
-      return "account has already executed a lock";
+      return "account has already executed a claim";
     }
 
     const currentAccount = (await Utils.getDefaultAccount()).toLowerCase();
@@ -66,7 +66,7 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
     }
 
     if (lockerAddress && !(await this.isRegistered(lockerAddress as Address))) {
-      throw new Error(`claimant has not registered for proxy claiming`);
+      throw new Error(`account does not own any MGN tokens`);
     }
   }
 

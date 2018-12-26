@@ -158,7 +158,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     const amount = new BigNumber(options.amount);
 
     if (amount.lte(0)) {
-      return "amount must be greater than zero";
+      return "amount to bid must be greater than zero";
     }
 
     const startTime = await this.getAuctionsStartTime();

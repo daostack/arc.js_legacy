@@ -115,7 +115,7 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
     }
 
     if (amount.lte(0)) {
-      return "amount must be greater than zero";
+      return "amount to lock must be greater than zero";
     }
 
     if (!Number.isInteger(options.period)) {
