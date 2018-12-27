@@ -1,13 +1,16 @@
 "use strict";
 import BigNumber from "bignumber.js";
+import { DecodedLogEntry } from "web3";
 import { Address, Hash } from "../commonTypes";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 import { SchemeWrapperBase } from "../schemeWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { Utils } from "../utils";
 import { UtilsInternal } from "../utilsInternal";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { WrapperService } from "../wrapperService";
+import { DaoTokenWrapper } from "./daoToken";
 import { StandardTokenWrapper } from "./standardToken";
 
 export class Auction4ReputationWrapper extends SchemeWrapperBase {
@@ -92,6 +95,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
 
   public async redeem(options: Auction4ReputationRedeemOptions & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
+
     if (!options.beneficiaryAddress) {
       throw new Error("beneficiaryAddress is not defined");
     }
@@ -103,6 +107,33 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     if (options.auctionId < 0) {
       throw new Error("auctionId must be greater than or equal to zero");
     }
+
+    const bid = await this.getBid(options.beneficiaryAddress, options.auctionId);
+    if (bid.lte(0)) {
+      // because the Arc contract will revert in this case
+      return Promise.resolve(null);
+    }
+
+    const errMsg = await this.getRedeemBlocker(options);
+
+    if (errMsg) {
+      throw new Error(errMsg);
+    }
+
+    this.logContractFunctionCall("Auction4Reputation.redeem", options);
+
+    return this.wrapTransactionInvocation("Auction4Reputation.redeem",
+      options,
+      this.contract.redeem,
+      [options.beneficiaryAddress, options.auctionId]
+    );
+  }
+
+  /**
+   * Returns reason why can't redeem, or else null if can redeem
+   * @param lockerAddress
+   */
+  public async getRedeemBlocker(options: Auction4ReputationRedeemOptions): Promise<string | null> {
 
     const redeemEnableTime = await this.getRedeemEnableTime();
     const now = await UtilsInternal.lastBlockDate();
@@ -117,13 +148,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
       throw new Error("the auction period has not passed");
     }
 
-    this.logContractFunctionCall("Auction4Reputation.redeem", options);
-
-    return this.wrapTransactionInvocation("Auction4Reputation.redeem",
-      options,
-      this.contract.redeem,
-      [options.beneficiaryAddress, options.auctionId]
-    );
+    return null;
   }
 
   /**
@@ -133,7 +158,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     const amount = new BigNumber(options.amount);
 
     if (amount.lte(0)) {
-      return "amount must be greater than zero";
+      return "amount to bid must be greater than zero";
     }
 
     const startTime = await this.getAuctionsStartTime();
@@ -143,6 +168,13 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     if ((now > endTime) || (now < startTime)) {
       return "bidding is not within the allowed bidding period";
     }
+
+    const balance = await DaoTokenWrapper.getGenTokenBalance(await Utils.getDefaultAccount());
+
+    if (balance.lt(amount)) {
+      return "the account has insufficient GEN to bid the requested amount";
+    }
+
     return null;
   }
 
@@ -191,7 +223,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
   }
 
   /**
-   * get promise of the amount bid on the given auction.
+   * get promise of the amount the account has bid on the given auction.
    * @param bidderAddress
    * @param auctionId
    */
@@ -201,10 +233,67 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
       throw new Error("bidderAddress is not defined");
     }
 
+    if (!Number.isInteger(auctionId)) {
+      throw new Error("auctionId is not an integer");
+    }
+
+    if (auctionId < 0) {
+      throw new Error("auctionId must be greater than or equal to zero");
+    }
+
     this.validateAuctionId(auctionId);
 
     this.logContractFunctionCall("Auction4Reputation.getBid", { bidderAddress, auctionId });
     return this.contract.getBid(bidderAddress, auctionId);
+  }
+
+  public async getUserEarnedReputation(options: Auction4ReputationRedeemOptions): Promise<BigNumber> {
+    if (!options.beneficiaryAddress) {
+      throw new Error("beneficiaryAddress is not defined");
+    }
+
+    if (!Number.isInteger(options.auctionId)) {
+      throw new Error("auctionId is not an integer");
+    }
+
+    if (options.auctionId < 0) {
+      throw new Error("auctionId must be greater than or equal to zero");
+    }
+
+    const bid = await this.getBid(options.beneficiaryAddress, options.auctionId);
+    // because the Arc contract will revert in this case
+    if (bid.eq(0)) {
+      return Promise.resolve(new BigNumber(0));
+    }
+
+    const errMsg = await this.getRedeemBlocker(options);
+
+    if (errMsg) {
+      throw new Error(errMsg);
+    }
+
+    this.logContractFunctionCall("Auction4Reputation.redeem.call", options);
+
+    return this.contract.redeem.call(options.beneficiaryAddress, options.auctionId);
+  }
+
+  /**
+   * get a promise of an array of auction ids and amounts in which the given account has placed a bid,
+   * or all auctions if beneficiaryAddressis not supplied
+   * @param beneficiaryAddress optional
+   */
+  public async getBids(beneficiaryAddress?: Address): Promise<Array<GetBidAuctionIdsResult>> {
+
+    const filter = beneficiaryAddress ? { _bidder: beneficiaryAddress } : {};
+
+    const bids = await this.Bid(filter, { fromBlock: 0 }).get();
+
+    return bids.map((bid: DecodedLogEntry<Auction4ReputationBidEventResult>): GetBidAuctionIdsResult => {
+      return {
+        amount: bid.args._amount,
+        auctionId: bid.args._auctionId.toNumber(),
+      };
+    });
   }
 
   /**
@@ -249,6 +338,16 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     this.logContractFunctionCall("Auction4Reputation.auctionReputationReward");
     return this.contract.auctionReputationReward();
   }
+
+  /**
+   * Return promise of 0-based id of the current auction.  Returns a negative number if the auction
+   * has not yet begun.  If auction is over then may return an id for an auction that doesn't exist.
+   */
+  public async getCurrentAuctionId(): Promise<number> {
+    const auctionPeriod = (await this.getAuctionPeriod()) * 1000;
+    const auctionsStartTime = (await this.getAuctionsStartTime()).getTime();
+    return Math.floor((Date.now() - auctionsStartTime) / auctionPeriod);
+  }
   /**
    * Get a promise of the number of seconds in a single auction
    */
@@ -276,9 +375,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
   public async getAuctionTotalBid(auctionId: number): Promise<BigNumber> {
     this.validateAuctionId(auctionId);
     this.logContractFunctionCall("Auction4Reputation.auctions", { auctionId });
-    const result = (await this.contract.auctions(new BigNumber(auctionId))) as
-      { totalBid: BigNumber };
-    return result.totalBid;
+    return this.contract.auctions(new BigNumber(auctionId));
   }
 
   protected hydrated(): void {
@@ -398,4 +495,9 @@ export interface Auction4ReputationRedeemEventResult {
    * indexed
    */
   _beneficiary: Address;
+}
+
+export interface GetBidAuctionIdsResult {
+  auctionId: number;
+  amount: BigNumber;
 }

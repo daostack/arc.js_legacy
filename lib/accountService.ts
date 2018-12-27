@@ -2,8 +2,7 @@ import { promisify } from "es6-promisify";
 import { Address } from "./commonTypes";
 import { LoggingService } from "./loggingService";
 import { IEventSubscription, PubSubEventService } from "./pubSubEventService";
-import { Utils, Web3 } from "./utils";
-import { UtilsInternal } from "./utilsInternal";
+import { Utils } from "./utils";
 
 /**
  * Watch for changes in the default account.
@@ -168,7 +167,7 @@ export class AccountService {
   private static networkChangedTimerId: any;
 
   private static async getNetworkId(): Promise<number | undefined> {
-    const web3 = UtilsInternal.getWeb3Sync();
+    const web3 = await Utils.getWeb3();
     return web3 ?
       Number.parseInt(await promisify(web3.version.getNetwork)() as string, 10) as number | undefined : undefined;
   }

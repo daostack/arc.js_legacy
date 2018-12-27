@@ -20,34 +20,6 @@ import { WrapperService } from "../wrapperService";
 
 export class DaoCreatorWrapper extends ContractWrapperBase {
 
-  private static uniSchemeUpdateParametersCallData: string;
-
-  private static async isUniversalScheme(contractAddress: Address): Promise<boolean> {
-
-    const web3 = await Utils.getWeb3();
-
-    if (!DaoCreatorWrapper.uniSchemeUpdateParametersCallData) {
-      // use requireContract since no guarantee that SchemeRegistrar has been loaded
-      const contract = (await (await Utils.requireContract("SchemeRegistrar")).deployed()).contract;
-      DaoCreatorWrapper.uniSchemeUpdateParametersCallData = contract.updateParameters.getData("0x1");
-    }
-
-    return await (promisify((callback: any): void => web3.eth.call({
-      data: DaoCreatorWrapper.uniSchemeUpdateParametersCallData,
-      to: contractAddress,
-    }, callback)))()
-      .then((result: string): boolean => {
-        /**
-         * odd thing that in some environments this is returned as 0x0 (like the automated tests) and
-         * others as 0x (like in more than one observed application context)
-         */
-        return (result === "0x0") || (result === "0x");
-      })
-      .catch((): boolean => {
-        return false;
-      });
-  }
-
   public name: string = "DaoCreator";
   public friendlyName: string = "Dao Creator";
   public factory: IContractWrapperFactory<DaoCreatorWrapper> = DaoCreatorFactory;
@@ -309,13 +281,9 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
         throw new Error("internal error: no contract address");
       }
 
-      /**
-       * Heuristic for determining whether this is a universal scheme.
-       * Scheme must implement the method `updateParameters`.
-       *
-       * If it is a universal scheme then we can set its parameters.
-       */
-      const isUniversal = await DaoCreatorWrapper.isUniversalScheme(contractAddress);
+      const isUniversal = schemeWrapper &&
+        !!schemeWrapper.contract.getParametersHash &&
+        !!schemeWrapper.contract.setParameters;
 
       let schemeVotingMachineParams = schemeOptions.votingMachineParams;
       let schemeVoteParametersHash: Hash;

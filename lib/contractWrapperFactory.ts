@@ -130,6 +130,7 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
 
     const maxGasLimit = await UtilsInternal.computeMaxGasLimit();
 
+    // note that Ganache is identified specifically as the one instantiated by arc.js (by the networkId)
     if (currentNetwork === "Ganache") {
       return maxGasLimit; // because who cares with ganache and we can't get good estimates from it
     }

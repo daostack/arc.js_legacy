@@ -21,9 +21,20 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
   public Release: EventFetcherFactory<Locking4ReputationReleaseEventResult>;
   public Lock: EventFetcherFactory<Locking4ReputationLockEventResult>;
 
+  /**
+   * Redeem reputation
+   * @param options
+   * @returns null ArcTransactionResult if there is nothing to redeem due to locker having no score
+   */
   public async redeem(options: RedeemOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
     if (!options.lockerAddress) {
       throw new Error("lockerAddress is not defined");
+    }
+
+    const hasLocked = await this.lockerHasLocked(options.lockerAddress);
+    if (!hasLocked) {
+      // because the Arc contract will revert in this case
+      return Promise.resolve(null);
     }
 
     const errMsg = await this.getRedeemBlocker(options.lockerAddress);
@@ -46,8 +57,10 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
    * @param lockerAddress
    */
   public async getRedeemBlocker(lockerAddress: Address): Promise<string | null> {
+
     const lockingEndTime = await this.getLockingEndTime();
     const now = await UtilsInternal.lastBlockDate();
+
     if (now <= lockingEndTime) {
       return "the locking period has not ended";
     }
@@ -56,11 +69,6 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
 
     if (now <= redeemEnableTime) {
       throw new Error(`nothing can be redeemed until after ${redeemEnableTime}`);
-    }
-
-    const lockerInfo = await this.getLockerInfo(lockerAddress);
-    if (lockerInfo.score.eq(0)) {
-      return "the reputation has already been redeemed";
     }
 
     return null;
@@ -84,6 +92,10 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
       return "the lock period has not ended";
     }
 
+    if (lockInfo.released) {
+      return "lock is already released";
+    }
+
     return null;
   }
 
@@ -98,12 +110,16 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
 
     const amount = new BigNumber(options.amount);
 
+    if (amount.isNaN()) {
+      return "amount does not represent a number";
+    }
+
     if (amount.lte(0)) {
-      return "amount must be greater than zero";
+      return "amount to lock must be greater than zero";
     }
 
     if (!Number.isInteger(options.period)) {
-      return "period is not an integer";
+      return "period does not represent a number";
     }
 
     if (options.period <= 0) {
@@ -115,7 +131,7 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
     const maxLockingPeriod = await this.getMaxLockingPeriod();
 
     if (options.period > maxLockingPeriod) {
-      return "the locking period exceeds the maxLockingPeriod";
+      return "the locking period exceeds the maximum locking period";
     }
 
     const lockingStartTime = await this.getLockingStartTime();
@@ -126,6 +142,44 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
     }
 
     return null;
+  }
+
+  public async getUserEarnedReputation(options: RedeemOptions): Promise<BigNumber> {
+
+    if (!options.lockerAddress) {
+      throw new Error("lockerAddress is not defined");
+    }
+
+    const hasLocked = await this.lockerHasLocked(options.lockerAddress);
+    if (!hasLocked) {
+      // because the Arc contract will revert in this case
+      return new BigNumber(0);
+    }
+
+    const errMsg = await this.getRedeemBlocker(options.lockerAddress);
+
+    if (errMsg) {
+      throw new Error(errMsg);
+    }
+
+    this.logContractFunctionCall("Locking4Reputation.redeem.call", options);
+
+    return this.contract.redeem.call(options.lockerAddress);
+  }
+
+  public async getLockerScore(lockerAddress: Address): Promise<BigNumber> {
+    if (!lockerAddress) {
+      throw new Error("lockerAddress is not defined");
+    }
+    const lockerInfo = await this.getLockerInfo(lockerAddress);
+    return lockerInfo ? lockerInfo.score : new BigNumber(0);
+  }
+
+  public async lockerHasLocked(lockerAddress: Address): Promise<boolean> {
+    if (!lockerAddress) {
+      throw new Error("lockerAddress is not defined");
+    }
+    return (await this.getLockerScore(lockerAddress)).gt(0);
   }
 
   /**
@@ -199,12 +253,42 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
   public async getLockInfo(lockerAddress: Address, lockId: Hash): Promise<LockInfo> {
     this.logContractFunctionCall("Locking4Reputation.lockers", { lockerAddress, lockId });
     const lockInfo = await this.contract.lockers(lockerAddress, lockId);
+    let amount = lockInfo[0];
+    let released = false;
+
+    if (amount.eq(0)) {
+      amount = await this.getReleasedAmount(lockerAddress, lockId);
+      released = amount.gt(0);  // should always be true!
+    }
+
     return {
-      amount: lockInfo[0],
+      amount,
       lockId,
       lockerAddress,
       releaseTime: new Date(lockInfo[1].toNumber() * 1000),
+      released,
     };
+  }
+
+  /**
+   * Returns the amount originally locked (which one can't obtain other than via
+   * Release events once the lock is released).  Returns 0 if not released or event otherwise
+   * not found.
+   * @param lockerAddress
+   * @param lockId
+   */
+  public async getReleasedAmount(lockerAddress: Address, lockId: Hash): Promise<BigNumber> {
+
+    let amount = new BigNumber(0);
+    const releasesFetcher = this.getReleases();
+    const releases = await releasesFetcher(
+      { _beneficiary: lockerAddress, _lockingId: lockId },
+      { fromBlock: 0 }).get();
+
+    if (releases.length) {
+      amount = releases[0].amount;
+    }
+    return amount;
   }
 
   /**
@@ -224,20 +308,33 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
 
   /**
    * Returns EntityEventFetcher that returns `LockInfo` for each `Lock` event.
+   * Note this includes released locks.
    */
-  public async getLocks():
-    Promise<EntityFetcherFactory<LockInfo, Locking4ReputationLockEventResult>> {
+  public getLocks():
+    EntityFetcherFactory<LockInfo, Locking4ReputationLockEventResult> {
 
     const web3EventService = new Web3EventService();
     return web3EventService.createEntityFetcherFactory(
       this.Lock,
       async (event: DecodedLogEntryEvent<Locking4ReputationLockEventResult>): Promise<LockInfo> => {
-        const lockInfo = await this.getLockInfo(event.args._locker, event.args._lockingId);
+        return this.getLockInfo(event.args._locker, event.args._lockingId);
+      });
+  }
+
+  /**
+   * Returns EntityEventFetcher that returns `ReleaseInfo` for each `Release` event.
+   */
+  public getReleases():
+    EntityFetcherFactory<ReleaseInfo, Locking4ReputationReleaseEventResult> {
+
+    const web3EventService = new Web3EventService();
+    return web3EventService.createEntityFetcherFactory(
+      this.Release,
+      async (event: DecodedLogEntryEvent<Locking4ReputationReleaseEventResult>): Promise<ReleaseInfo> => {
         return Promise.resolve({
-          amount: lockInfo.amount,
+          amount: event.args._amount,
           lockId: event.args._lockingId,
-          lockerAddress: event.args._locker,
-          releaseTime: lockInfo.releaseTime,
+          lockerAddress: event.args._beneficiary,
         });
       });
   }
@@ -258,7 +355,7 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
       filter._lockingId = options.lockingId;
     }
 
-    const fetcher = (await this.getLocks())(filter, options.filterObject);
+    const fetcher = this.getLocks()(filter, options.filterObject);
 
     const lockInfos = await fetcher.get();
     const foundAddresses = new Set<Address>();
@@ -418,9 +515,19 @@ export interface LockInfo {
   /**
    * in Wei
    */
-  amount: BigNumber | string;
+  amount: BigNumber;
   lockId: Hash;
+  released: boolean;
   releaseTime: Date;
+}
+
+export interface ReleaseInfo {
+  lockerAddress: Address;
+  /**
+   * in Wei
+   */
+  amount: BigNumber;
+  lockId: Hash;
 }
 
 export interface LockerInfo {

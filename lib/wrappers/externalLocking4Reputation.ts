@@ -1,9 +1,11 @@
 "use strict";
 import BigNumber from "bignumber.js";
+import { promisify } from "es6-promisify";
 import { Address } from "../commonTypes";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
+import { Utils } from "../utils";
 import { Web3EventService } from "../web3EventService";
 import { Locking4ReputationWrapper } from "./locking4Reputation";
 
@@ -39,47 +41,137 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
     );
   }
 
-  public async getLockBlocker(options: ExternalLockingLockOptions): Promise<string | null> {
-
+  public async getLockBlocker(options: ExternalLockingClaimOptions): Promise<string | null> {
     /**
-     * stub out amount and period -- they aren't relevant to external locking validation.
+     * stub out lockerAddress, amount and period -- they aren't relevant to external locking validation.
      */
-    const msg = await super.getLockBlocker(Object.assign({}, options, { amount: "1", period: 1 }));
+    const msg = await super.getLockBlocker(Object.assign({},
+      { lockerAddress: "0x", amount: "1", period: 1 }
+    ));
+
     if (msg) {
       return msg;
     }
 
-    if (!options.lockerAddress) {
-      return "lockerAddress is not defined";
-    }
-
     const alreadyLocked = await this.getAccountHasLocked(options.lockerAddress);
     if (alreadyLocked) {
-      return "this account has already executed a lock";
+      return "account has already executed a claim";
+    }
+
+    const currentAccount = (await Utils.getDefaultAccount()).toLowerCase();
+    let lockerAddress: Address | number = options.lockerAddress;
+
+    if (lockerAddress && (lockerAddress.toLowerCase() === currentAccount)) {
+      lockerAddress = 0;
+    }
+
+    if (lockerAddress && !(await this.isRegistered(lockerAddress as Address))) {
+      throw new Error(`account does not own any MGN tokens`);
     }
   }
 
-  public async lock(options: ExternalLockingLockOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
+  /**
+   * Claim the MGN tokens and lock them.  Provide `lockerAddress` to claim on their behalf,
+   * otherwise claims on behalf of the caller.
+   * @param options
+   */
+  public async lock(
+    options: ExternalLockingClaimOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
 
     const msg = await this.getLockBlocker(options);
     if (msg) {
       throw new Error(msg);
     }
 
-    this.logContractFunctionCall("ExternalLocking4Reputation.lock", options);
+    const currentAccount = (await Utils.getDefaultAccount()).toLowerCase();
+    let lockerAddress: Address | number = options.lockerAddress;
 
-    return this.wrapTransactionInvocation("ExternalLocking4Reputation.lock",
+    if (lockerAddress && (lockerAddress.toLowerCase() === currentAccount)) {
+      lockerAddress = 0;
+    }
+
+    this.logContractFunctionCall("ExternalLocking4Reputation.claim", options);
+
+    return this.wrapTransactionInvocation("ExternalLocking4Reputation.claim",
       options,
-      this.contract.lock,
-      [],
-      { from: options.lockerAddress }
+      this.contract.claim,
+      [lockerAddress]
     );
+  }
+
+  /**
+   * The caller is giving permission to the contract to allow someone else to claim
+   * on their behalf.
+   */
+  public async register(): Promise<ArcTransactionResult> {
+
+    this.logContractFunctionCall("ExternalLocking4Reputation.register");
+
+    return this.wrapTransactionInvocation("ExternalLocking4Reputation.register",
+      {},
+      this.contract.register,
+      []
+    );
+  }
+
+  /**
+   * Returns promise of whether the given locker has tokens that can be activated in the given MGN token contract.
+   * Assumes that MGN token API is:  `lockedTokenBalances(address)`.
+   *
+   * @param lockerAddress
+   * @param mgnTokenAddress
+   */
+  public async hasMgnToActivate(lockerAddress: Address): Promise<boolean> {
+
+    const web3 = await Utils.getWeb3();
+
+    const mgnTokenAddress = await this.getExternalLockingContract();
+
+    // tslint:disable
+    const mgnToken = await web3.eth.contract(
+      [
+        {
+          constant: true,
+          inputs: [
+            {
+              name: "",
+              type: "address"
+            },
+          ],
+          name: "lockedTokenBalances",
+          outputs: [
+            {
+              name: "",
+              type: "uint256"
+            },
+          ],
+          payable: false,
+          stateMutability: "view",
+          "type": "function",
+        }
+      ] as any
+    ).at(mgnTokenAddress);
+    // tslint:enable
+
+    const balance = await promisify((callback: any): any =>
+      mgnToken.lockedTokenBalances(lockerAddress, callback))() as any;
+
+    return balance.gt(0);
+  }
+
+  /**
+   * Returns promise of a boolean indicating whether the given address has registered
+   * to have their tokens claimed for them (see `register`).
+   * @param lockerAddress
+   */
+  public isRegistered(lockerAddress: Address): Promise<boolean> {
+    this.logContractFunctionCall("ExternalLocking4Reputation.registrar", { lockerAddress });
+    return this.contract.registrar(lockerAddress);
   }
 
   public getExternalLockingContract(): Promise<Address> {
     this.logContractFunctionCall("ExternalLocking4Reputation.externalLockingContract");
     return this.contract.externalLockingContract();
-
   }
 
   public getGetBalanceFuncSignature(): Promise<string> {
@@ -126,6 +218,6 @@ export interface ExternalLockingInitializeOptions {
   reputationReward: BigNumber | string;
 }
 
-export interface ExternalLockingLockOptions {
-  lockerAddress: Address;
+export interface ExternalLockingClaimOptions {
+  lockerAddress?: Address;
 }

@@ -891,24 +891,28 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
   }
 
   public async getParameters(paramsHash: Hash): Promise<GetGenesisProtocolParamsResult> {
-    const params = await this.getParametersArray(paramsHash);
-    return {
-      boostedVotePeriodLimit: params[2].toNumber(),
-      daoBountyConst: 0, // params[12].toNumber(),
-      daoBountyLimit: new BigNumber(0), // params[13],
-      minimumStakingFee: params[5],
-      preBoostedVotePeriodLimit: params[1].toNumber(),
-      preBoostedVoteRequiredPercentage: params[0].toNumber(),
-      proposingRepRewardConstA: params[7].toNumber(),
-      proposingRepRewardConstB: params[8].toNumber(),
-      quietEndingPeriod: params[6].toNumber(),
-      stakerFeeRatioForVoters: params[9].toNumber(),
-      thresholdConstA: params[3],
-      thresholdConstB: params[4].toNumber(),
-      voteOnBehalf: "", // params[14],
-      votersGainRepRatioFromLostRep: params[11].toNumber(),
-      votersReputationLossRatio: params[10].toNumber(),
-    };
+    const paramsArray = await this.getParametersArray(paramsHash);
+    const params = {
+      boostedVotePeriodLimit: paramsArray[2].toNumber(),
+      minimumStakingFee: paramsArray[5],
+      preBoostedVotePeriodLimit: paramsArray[1].toNumber(),
+      preBoostedVoteRequiredPercentage: paramsArray[0].toNumber(),
+      proposingRepRewardConstA: paramsArray[7].toNumber(),
+      proposingRepRewardConstB: paramsArray[8].toNumber(),
+      quietEndingPeriod: paramsArray[6].toNumber(),
+      stakerFeeRatioForVoters: paramsArray[9].toNumber(),
+      thresholdConstA: paramsArray[3],
+      thresholdConstB: paramsArray[4].toNumber(),
+      voteOnBehalf: paramsArray[12],
+      votersGainRepRatioFromLostRep: paramsArray[11].toNumber(),
+      votersReputationLossRatio: paramsArray[10].toNumber(),
+    } as GetGenesisProtocolParamsResult;
+
+    const bountyParamsArray = await this.contract.getDaoBountyParams(paramsHash);
+    params.daoBountyConst = bountyParamsArray[0].toNumber();
+    params.daoBountyLimit = bountyParamsArray[1];
+
+    return params;
   }
 
   /**

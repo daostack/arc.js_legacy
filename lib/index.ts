@@ -188,6 +188,14 @@ export async function InitializeArcJs(options: InitializeArcOptions = {}): Promi
       networkName = "private";
     }
 
+    if (options.watchForAccountChanges) {
+      await AccountService.initiateAccountWatch();
+    }
+
+    if (options.watchForNetworkChanges) {
+      await AccountService.initiateNetworkWatch();
+    }
+
     const optionsDeployedContractAddresses = options.deployedContractAddresses || {};
 
     if (!deployedContractAddresses[networkName] && !optionsDeployedContractAddresses[networkName]) {
@@ -202,14 +210,6 @@ export async function InitializeArcJs(options: InitializeArcOptions = {}): Promi
     Utils.setDeployedAddresses(addresses);
 
     await WrapperService.initialize(options);
-
-    if (options.watchForAccountChanges) {
-      await AccountService.initiateAccountWatch();
-    }
-
-    if (options.watchForNetworkChanges) {
-      await AccountService.initiateNetworkWatch();
-    }
 
     return web3;
   } catch (ex) {

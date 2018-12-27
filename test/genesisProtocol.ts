@@ -113,8 +113,8 @@ describe("GenesisProtocol", () => {
     assert.equal(params.preBoostedVotePeriodLimit, 1814400, "preBoostedVotePeriodLimit is not correct");
     assert.equal(params.stakerFeeRatioForVoters, 50, "stakerFeeRatioForVoters is not correct");
     assert.equal(params.boostedVotePeriodLimit, 259200, "boostedVotePeriodLimit is not correct");
-    assert.equal(params.daoBountyConst, 0, "daoBountyConst is not correct");
-    assert(params.daoBountyLimit.eq(web3.toWei(0)), "daoBountyLimit is not correct");
+    assert.equal(params.daoBountyConst, 75, "daoBountyConst is not correct");
+    assert(params.daoBountyLimit.eq(web3.toWei(100)), "daoBountyLimit is not correct");
     assert(params.minimumStakingFee.eq(web3.toWei(0)), "minimumStakingFee is not correct");
     assert.equal(params.preBoostedVoteRequiredPercentage, 50, "preBoostedVoteRequiredPercentage is not correct");
     assert.equal(params.proposingRepRewardConstA, 5, "proposingRepRewardConstA is not correct");
@@ -122,7 +122,7 @@ describe("GenesisProtocol", () => {
     assert.equal(params.quietEndingPeriod, 86400, "quietEndingPeriod is not correct");
     assert(params.thresholdConstA.eq(web3.toWei(7)), "thresholdConstA is not correct");
     assert.equal(params.thresholdConstB, 3, "thresholdConstB is not correct");
-    assert.equal(params.voteOnBehalf, "", "voteOnBehalf is not correct");
+    assert.equal(params.voteOnBehalf, helpers.NULL_ADDRESS, "voteOnBehalf is not correct");
     assert.equal(params.votersGainRepRatioFromLostRep, 80, "votersGainRepRatioFromLostRep is not correct");
     assert.equal(params.votersReputationLossRatio, 1, "votersReputationLossRatio is not correct");
   });
@@ -140,9 +140,9 @@ describe("GenesisProtocol", () => {
 
     assert.equal(paramsHashGet, paramsHashSet, "Hashes are not the same");
 
-    // const params = await genesisProtocol.getParameters(paramsHashGet);
+    const params = await genesisProtocol.getParameters(paramsHashGet);
 
-    // assert.equal(params.voteOnBehalf, helpers.SOME_ADDRESS, "voteOnBehalf is not correct");
+    assert.equal(params.voteOnBehalf, helpers.SOME_ADDRESS, "voteOnBehalf is not correct");
 
   });
 

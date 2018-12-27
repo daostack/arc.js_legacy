@@ -32,8 +32,8 @@ const pathDaostackArcGanacheDbZip = joinPath(".", "ganacheDb.zip");
 const pathTypeScript = joinPath(pathNodeModules, "typescript/bin/tsc");
 
 const ganacheGasLimit = 8000000; // something reasonably close to live
-const ganacheCommand = `ganache-cli -l ${ganacheGasLimit}  --networkId 1512051714758 --account="0x8d4408014d165ec69d8cc9f091d8f4578ac5564f376f21887e98a6d33a6e3549,9999999999999999999999999999999999999999999" --account="0x2215f0a41dd3bb93f03049514949aaafcf136e6965f4a066d6bf42cc9f75a106,9999999999999999999999999999999999999999999" --account="0x6695c8ef58fecfc7410bf8b80c17319eaaca8b9481cc9c682fd5da116f20ef05,9999999999999999999999999999999999999999999" --account="0xb9a8635b40a60ad5b78706d4ede244ddf934dc873262449b473076de0c1e2959,9999999999999999999999999999999999999999999" --account="0x55887c2c6107237ac3b50fb17d9ff7313cad67757e44d1be5eb7bbf9fc9ca2ea,9999999999999999999999999999999999999999999" --account="0xb16a587ad59c2b3a3f47679ed2df348d6828a3bb5c6bb3797a1d5a567ce823cb,9999999999999999999999999999999999999999999"`;
-const ganacheDbCommand = `ganache-cli --db ${pathDaostackArcGanacheDb} -l ${ganacheGasLimit} --networkId 1512051714758 --mnemonic "behave pipe turkey animal voyage dial relief menu blush match jeans general"`;
+const ganacheCommand = `ganache-cli -l ${ganacheGasLimit} --networkId 1512051714758 --defaultBalanceEther 999999999999999 --deterministic`;
+const ganacheDbCommand = `ganache-cli --db ${pathDaostackArcGanacheDb} --networkId 1512051714758 -l ${ganacheGasLimit} --defaultBalanceEther 999999999999999 --deterministic`;
 
 module.exports = {
   scripts: {
@@ -150,26 +150,10 @@ module.exports = {
        * from scratch.  Otherwise, truffle will merge your migrations into whatever  previous
        * ones exist.
        */
-      clean: {
-        default: rimraf(joinPath(pathArcJsContracts, "*")),
-        /**
-         * clean and fetch.
-         * Run this ONLY when you want to start with fresh UNMIGRATED contracts from @daostack/arc.
-         */
-        andFetchFromArc: series(
-          "nps migrateContracts.clean",
-          "nps migrateContracts.fetchContracts"
-        ),
-        /**
-         * clean, fetch and migrate.
-         * Run this ONLY when you want to start with fresh UNMIGRATED contracts from @daostack/arc.
-         */
-        andMigrate: series(
-          "nps migrateContracts.clean.andFetchFromArc",
-          "nps migrateContracts"
-        )
-      },
+      clean: rimraf(joinPath(pathArcJsContracts, "*")),
+
       fetchContracts: series(
+        "nps migrateContracts.clean",
         "nps migrateContracts.fetchFromArc",
         "nps migrateContracts.fetchFromDaostack"
       ),
@@ -187,7 +171,8 @@ module.exports = {
        * fetch contract addresses from the DAOstack migrations package.
        */
       fetchFromDaostack: series(
-        copy(`${joinPath(pathDaostackMigrationsRepo, "migration.json")}  ${pathArcJsRoot}`)
+        copy(`${joinPath(pathDaostackMigrationsRepo, "migration.json")}  ${pathArcJsRoot}`),
+        `node ${joinPath(".", "package-scripts", "cleanMigrationJson.js")}`,
       ),
     },
     docs: {

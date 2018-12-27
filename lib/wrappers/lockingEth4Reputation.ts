@@ -58,7 +58,7 @@ export class LockingEth4ReputationWrapper extends Locking4ReputationWrapper {
     const amount = new BigNumber(options.amount);
 
     if (balance.lt(amount)) {
-      return "the account has insufficient balance to lock the requested amount";
+      return "the account has insufficient balance";
     }
     return null;
   }

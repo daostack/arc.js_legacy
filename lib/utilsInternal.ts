@@ -32,8 +32,13 @@ export class UtilsInternal {
    */
   public static async lastBlockDate(): Promise<Date> {
     const web3 = await Utils.getWeb3();
-    const block = await promisify((callback: any): any =>
-      web3.eth.getBlock("latest", callback))() as BlockWithoutTransactionData;
+    let block;
+    do {
+      block = await promisify((callback: any): any =>
+        web3.eth.getBlock("latest", callback))() as BlockWithoutTransactionData;
+    }
+    while (!block);
+
     return new Date(block.timestamp * 1000);
   }
 
