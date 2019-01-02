@@ -7,8 +7,17 @@ import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapp
 import { LoggingService } from "../loggingService";
 import { TxGeneratingFunctionOptions } from "../transactionService";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
+import {
+  ApprovalEventResult,
+  IErc20TokenWrapper,
+  StandardTokenAllowanceOptions,
+  StandardTokenApproveOptions,
+  StandardTokenChangeApprovalOptions,
+  StandardTokenTransferFromOptions,
+  StandardTokenTransferOptions,
+  TransferEventResult } from "./iErc20Token";
 
-export class StandardTokenWrapper extends ContractWrapperBase {
+export class StandardTokenWrapper extends ContractWrapperBase implements IErc20TokenWrapper {
   public name: string = "StandardToken";
   public friendlyName: string = "Standard Token";
   public factory: IContractWrapperFactory<StandardTokenWrapper> = StandardTokenFactory;
@@ -229,91 +238,3 @@ export const StandardTokenFactory =
     "StandardToken",
     StandardTokenWrapper,
     new Web3EventService()) as StandardTokenFactoryType;
-
-export interface StandardTokenApproveOptions {
-  /**
-   * Amount to approve to transfer.
-   */
-  amount: BigNumber | string;
-  /**
-   * The account that has the tokens to spend.
-   * Default is msg.sender.
-   */
-  owner?: Address;
-  /**
-   * The account that will initiate the transfer of tokens on behalf
-   * of the owner.
-   */
-  spender: Address;
-}
-
-export interface ApprovalEventResult {
-  /**
-   * The account from which the tokens originated.
-   * indexed
-   */
-  owner: Address;
-  /**
-   * The account that was approved-to and initiated the transfer on behalf of owner.
-   * indexed
-   */
-  spender: Address;
-  /**
-   * When the event is emitted by `approve`, then this is the amount that was requested
-   * for approval from spender by owner by the specific function call.
-   * When the event is emitted by `increaseApproval` or `decreaseApproval`, then
-   * this is the current net amount approved to transfer from spender by owner.
-   */
-  value: BigNumber;
-}
-
-export interface TransferEventResult {
-  /**
-   * `msg.sender` for `transfer`, `from` for `transferFrom`
-   * indexed
-   */
-  from: Address;
-  /**
-   * the recipient of the tokens
-   * indexed
-   */
-  to: Address;
-  value: BigNumber;
-}
-
-export interface StandardTokenTransferOptions {
-  amount: BigNumber | string;
-  to: Address;
-}
-
-export interface StandardTokenTransferFromOptions {
-  amount: BigNumber | string;
-  from: Address;
-  to: Address;
-}
-
-export interface StandardTokenAllowanceOptions {
-  /**
-   * The account that has the tokens to spend.
-   */
-  owner: Address;
-  /**
-   * The account that will initiate the transfer of tokens on behalf
-   * of the owner.
-   */
-  spender: Address;
-}
-
-export interface StandardTokenChangeApprovalOptions {
-  amount: BigNumber | string;
-  /**
-   * The account that has the tokens to spend.
-   * Default is msg.sender.
-   */
-  owner?: Address;
-  /**
-   * The account that will initiate the transfer of tokens on behalf
-   * of the owner.
-   */
-  spender: Address;
-}

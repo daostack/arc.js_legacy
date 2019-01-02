@@ -10,7 +10,8 @@ import {
   StandardTokenApproveOptions,
   StandardTokenChangeApprovalOptions,
   StandardTokenTransferFromOptions,
-  StandardTokenTransferOptions,
+  StandardTokenTransferOptions } from "./iErc20Token";
+import {
   StandardTokenWrapper
 } from "./standardToken";
 

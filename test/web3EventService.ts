@@ -8,8 +8,8 @@ import { UtilsInternal } from "../lib/utilsInternal";
 import {
   Web3EventService
 } from "../lib/web3EventService";
+import { ApprovalEventResult } from "../lib/wrappers/iErc20Token";
 import {
-  ApprovalEventResult,
   StandardTokenFactory,
 } from "../lib/wrappers/standardToken";
 import "./helpers";

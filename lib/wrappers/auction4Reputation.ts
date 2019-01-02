@@ -41,16 +41,8 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
       throw new Error("walletAddress is not defined");
     }
 
-    if (!options.auctionsEndTime) {
-      throw new Error("auctionsEndTime is not defined");
-    }
-
-    if (!options.auctionsStartTime) {
-      throw new Error("auctionsStartTime is not defined");
-    }
-
-    if (options.auctionsEndTime <= options.auctionsStartTime) {
-      throw new Error("auctionsEndTime must be greater than auctionsStartTime");
+    if (!Number.isInteger(options.auctionPeriod)  || (options.auctionPeriod <= 15)) {
+      throw new Error("auctionPeriod must be a number > 15");
     }
 
     if (!Number.isInteger(options.numberOfAuctions)) {
@@ -69,6 +61,17 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
       throw new Error("redeemEnableTime is not defined");
     }
 
+    const auctionsEndTime = (options.auctionsStartTime.getTime() / 1000) +
+      (options.auctionPeriod * options.numberOfAuctions);
+
+    if ((options.redeemEnableTime.getTime() / 1000) < auctionsEndTime) {
+      throw new Error("redeemEnableTime cannot occur before the last auction has completed");
+    }
+
+    if (!options.auctionsStartTime) {
+      throw new Error("auctionsStartTime is not defined");
+    }
+
     const reputationReward = new BigNumber(options.reputationReward);
 
     if (reputationReward.lte(0)) {
@@ -84,7 +87,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
         options.avatarAddress,
         options.reputationReward,
         options.auctionsStartTime.getTime() / 1000,
-        options.auctionsEndTime.getTime() / 1000,
+        options.auctionPeriod,
         options.numberOfAuctions,
         options.redeemEnableTime.getTime() / 1000,
         options.tokenAddress,
@@ -447,7 +450,13 @@ export interface Auction4ReputationReleaseEventResult {
 
 export interface Auction4ReputationInitializeOptions {
   avatarAddress: Address;
-  auctionsEndTime: Date;
+  /**
+   * number of seconds in a single auction period.
+   */
+  auctionPeriod: number;
+  /**
+   * start of the first auction
+   */
   auctionsStartTime: Date;
   numberOfAuctions: number;
   /**

@@ -5,8 +5,7 @@ import {
   StandardTokenApproveOptions,
   StandardTokenChangeApprovalOptions,
   StandardTokenTransferFromOptions,
-  StandardTokenTransferOptions
-} from "./standardToken";
+  StandardTokenTransferOptions } from "./iErc20Token";
 
 export interface IErc827TokenWrapper {
 

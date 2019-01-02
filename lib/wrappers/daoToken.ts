@@ -10,6 +10,11 @@ import { Utils } from "../utils";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { BurnEventResult, IBurnableTokenWrapper } from "./iBurnableToken";
 import {
+  StandardTokenApproveOptions,
+  StandardTokenChangeApprovalOptions,
+  StandardTokenTransferFromOptions,
+  StandardTokenTransferOptions } from "./iErc20Token";
+import {
   ApproveAndCallOptions,
   ChangeApprovalAndCallOptions,
   IErc827TokenWrapper,
@@ -17,12 +22,6 @@ import {
   TransferFromAndCallOptions
 } from "./iErc827Token";
 import { MintableTokenWrapper } from "./mintableToken";
-import {
-  StandardTokenApproveOptions,
-  StandardTokenChangeApprovalOptions,
-  StandardTokenTransferFromOptions,
-  StandardTokenTransferOptions
-} from "./standardToken";
 
 export class DaoTokenWrapper
   /**
