@@ -15,10 +15,6 @@ const pathArcJsRoot = cwd;
 
 const pathNodeModules = runningInRepo ? joinPath(".", "node_modules") : joinPath("..", "..", "node_modules");
 
-const pathDaostackArcRepo = runningInRepo ?
-  joinPath(pathNodeModules, "@daostack", "arc") :
-  joinPath("..", "arc");
-
 const pathDaostackMigrationsRepo = runningInRepo ?
   joinPath(pathNodeModules, "@daostack", "migration") :
   joinPath("..", "migration");
@@ -47,7 +43,7 @@ module.exports = {
         mkdirp(pathDaostackArcGanacheDb),
         ganacheDbCommand,
       ),
-      clean: rimraf(pathDaostackArcGanacheDb),
+      clean: rimraf(joinPath(pathDaostackArcGanacheDb, "**")),
       zip: `node ./package-scripts/archiveGanacheDb.js ${pathDaostackArcGanacheDbZip} ${pathDaostackArcGanacheDb}`,
       unzip: series(
         `node ./package-scripts/unArchiveGanacheDb.js  ${pathDaostackArcGanacheDbZip} ${pathArcJsRoot}`
@@ -97,7 +93,7 @@ module.exports = {
           mkdirp(pathArcTestBuild),
           `node ${pathTypeScript} --outDir ${pathArcTestBuild} --project ${pathArcTest}`
         ),
-        clean: rimraf(joinPath(pathArcTestBuild, "*"))
+        clean: rimraf(joinPath(pathArcTestBuild, "**"))
       },
     },
     build: {
@@ -106,7 +102,7 @@ module.exports = {
         mkdirp(pathArcDist),
         `node ${pathTypeScript} --outDir ${pathArcDist}`
       ),
-      clean: rimraf(pathArcDist)
+      clean: rimraf(joinPath(pathArcDist, "**"))
     },
     deploy: {
       ensureMigrations: migrationsExist ? "" : `node  ${joinPath(".", "package-scripts", "fail")} "migrations.json doesn't exist"`,
@@ -150,11 +146,11 @@ module.exports = {
        * from scratch.  Otherwise, truffle will merge your migrations into whatever  previous
        * ones exist.
        */
-      clean: rimraf(joinPath(pathArcJsContracts, "*")),
+      clean: rimraf(joinPath(pathArcJsContracts, "**")),
 
       fetchContracts: series(
         "nps migrateContracts.clean",
-        "nps migrateContracts.fetchFromArc",
+        "nps migrateContracts.fetchAbis",
         "nps migrateContracts.fetchFromDaostack"
       ),
       /**
@@ -164,8 +160,9 @@ module.exports = {
        * If run from the context of an application, then the application must have installed
        * the proper version of Arc sibling to the Arc.js package.
        */
-      fetchFromArc: series(
-        copy(`${joinPath(pathDaostackArcRepo, "build", "contracts", "*")}  ${pathArcJsContracts}`)
+      fetchAbis: series(
+        `npm explore @daostack/migration -- npm run generate-abis`,
+        copy(`${joinPath(pathDaostackMigrationsRepo, "abis", "*")}  ${pathArcJsContracts}`)
       ),
       /**
        * fetch contract addresses from the DAOstack migrations package.
