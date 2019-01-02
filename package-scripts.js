@@ -97,7 +97,7 @@ module.exports = {
           mkdirp(pathArcTestBuild),
           `node ${pathTypeScript} --outDir ${pathArcTestBuild} --project ${pathArcTest}`
         ),
-        clean: rimraf(joinPath(pathArcTestBuild, "*"))
+        clean: rimraf(joinPath(pathArcTestBuild, "**/*"))
       },
     },
     build: {
@@ -150,7 +150,7 @@ module.exports = {
        * from scratch.  Otherwise, truffle will merge your migrations into whatever  previous
        * ones exist.
        */
-      clean: rimraf(joinPath(pathArcJsContracts, "*")),
+      clean: rimraf(joinPath(pathArcJsContracts, "**/*")),
 
       fetchContracts: series(
         "nps migrateContracts.clean",

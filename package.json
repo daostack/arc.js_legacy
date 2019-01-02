@@ -1,6 +1,6 @@
 {
   "name": "@daostack/arc.js",
-  "version": "0.0.0-alpha.105",
+  "version": "0.0.0-alpha.106",
   "description": "A JavaScript library for interacting with @daostack/arc ethereum smart contracts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -54,7 +54,7 @@
     "ganache-cli": "^6.2.3"
   },
   "dependencies": {
-    "@daostack/migration": "0.0.0-alpha.58-v6",
+    "@daostack/migration": "0.0.1-rc.3-v1",
     "archiver": "^2.1.0",
     "bignumber.js": "^5.0.0",
     "circular-json": "^0.5.4",
@@ -78,7 +78,7 @@
     "websocket": "^1.0.26"
   },
   "devDependencies": {
-    "@daostack/arc": "0.0.0-alpha.58",
+    "@daostack/arc": "0.0.1-rc.3",
     "@types/chai": "^4.1.2",
     "@types/circular-json": "^0.4.0",
     "@types/es6-promisify": "^6.0.0",
