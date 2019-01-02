@@ -43,7 +43,7 @@ module.exports = {
         mkdirp(pathDaostackArcGanacheDb),
         ganacheDbCommand,
       ),
-      clean: rimraf(joinPath(pathDaostackArcGanacheDb, "**")),
+      clean: rimraf(joinPath(pathDaostackArcGanacheDb, "**/*")),
       zip: `node ./package-scripts/archiveGanacheDb.js ${pathDaostackArcGanacheDbZip} ${pathDaostackArcGanacheDb}`,
       unzip: series(
         `node ./package-scripts/unArchiveGanacheDb.js  ${pathDaostackArcGanacheDbZip} ${pathArcJsRoot}`
@@ -93,7 +93,7 @@ module.exports = {
           mkdirp(pathArcTestBuild),
           `node ${pathTypeScript} --outDir ${pathArcTestBuild} --project ${pathArcTest}`
         ),
-        clean: rimraf(joinPath(pathArcTestBuild, "**"))
+        clean: rimraf(joinPath(pathArcTestBuild, "**/*"))
       },
     },
     build: {
@@ -102,7 +102,7 @@ module.exports = {
         mkdirp(pathArcDist),
         `node ${pathTypeScript} --outDir ${pathArcDist}`
       ),
-      clean: rimraf(joinPath(pathArcDist, "**"))
+      clean: rimraf(joinPath(pathArcDist, "**/*"))
     },
     deploy: {
       ensureMigrations: migrationsExist ? "" : `node  ${joinPath(".", "package-scripts", "fail")} "migrations.json doesn't exist"`,
@@ -146,7 +146,7 @@ module.exports = {
        * from scratch.  Otherwise, truffle will merge your migrations into whatever  previous
        * ones exist.
        */
-      clean: rimraf(joinPath(pathArcJsContracts, "**")),
+      clean: rimraf(joinPath(pathArcJsContracts, "**/*")),
 
       fetchContracts: series(
         "nps migrateContracts.clean",
