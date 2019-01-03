@@ -8,10 +8,10 @@ import { UtilsInternal } from "../lib/utilsInternal";
 import {
   Web3EventService
 } from "../lib/web3EventService";
-import { ApprovalEventResult } from "../lib/wrappers/iErc20Token";
 import {
-  StandardTokenFactory,
-} from "../lib/wrappers/standardToken";
+  ApprovalEventResult,
+  Erc20Factory,
+} from "../lib/wrappers/erc20";
 import "./helpers";
 
 describe("Web3EventService", () => {
@@ -32,7 +32,7 @@ describe("Web3EventService", () => {
 
     const tokenAddress = await Utils.getGenTokenAddress();
     assert.isOk(tokenAddress);
-    const token = await StandardTokenFactory.at(tokenAddress);
+    const token = await Erc20Factory.at(tokenAddress);
     assert.isOk(token);
 
     const initialBlockNumber = await UtilsInternal.lastBlockNumber();
@@ -78,7 +78,7 @@ describe("Web3EventService", () => {
 
     const tokenAddress = await Utils.getGenTokenAddress();
     assert.isOk(tokenAddress);
-    const token = await StandardTokenFactory.at(tokenAddress);
+    const token = await Erc20Factory.at(tokenAddress);
     assert.isOk(token);
 
     const initialBlockNumber = await UtilsInternal.lastBlockNumber();
@@ -136,7 +136,7 @@ describe("Web3EventService", () => {
 
     const tokenAddress = await Utils.getGenTokenAddress();
     assert.isOk(tokenAddress);
-    const token = await StandardTokenFactory.at(tokenAddress);
+    const token = await Erc20Factory.at(tokenAddress);
     assert.isOk(token);
 
     const initialBlockNumber = await UtilsInternal.lastBlockNumber();
@@ -187,7 +187,7 @@ describe("Web3EventService", () => {
 
     const tokenAddress = await Utils.getGenTokenAddress();
     assert.isOk(tokenAddress);
-    const token = await StandardTokenFactory.at(tokenAddress);
+    const token = await Erc20Factory.at(tokenAddress);
     assert.isOk(token);
 
     let found = false;

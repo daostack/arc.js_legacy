@@ -462,7 +462,7 @@ describe("GenesisProtocol", () => {
     const eventsReceived = new Array<string>();
 
     const subscription = TransactionService.subscribe(
-      ["TxTracking.GenesisProtocol.stake.mined", "TxTracking.StandardToken.approve.mined"],
+      ["TxTracking.GenesisProtocol.stake.mined", "TxTracking.Erc20Wrapper.approve.mined"],
       (topic: string, txEventInfo: TransactionReceiptsEventInfo) => {
         eventsReceived.push(topic);
       });

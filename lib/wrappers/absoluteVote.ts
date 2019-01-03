@@ -15,7 +15,6 @@ import { TransactionService, TxGeneratingFunctionOptions } from "../transactionS
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import {
   NewProposalEventResult,
-  OwnerVoteOptions,
   ProposalIdOption,
   ProposeOptions,
   VoteOptions,
@@ -23,6 +22,7 @@ import {
 } from "./iIntVoteInterface";
 
 import { BigNumber } from "bignumber.js";
+import { Utils } from "../utils";
 import { IntVoteInterfaceWrapper } from "./intVoteInterface";
 
 export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper
@@ -66,14 +66,14 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper
   public getParametersHash(params: AbsoluteVoteParams): Promise<Hash> {
     params = Object.assign({},
       {
-        ownerVote: true,
+        voteOnBehalf: Utils.NULL_ADDRESS,
         votePerc: 50,
       },
       params);
 
     return this._getParametersHash(
       params.votePerc,
-      params.ownerVote);
+      params.voteOnBehalf);
   }
 
   public setParameters(
@@ -82,7 +82,7 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper
 
     params = Object.assign({},
       {
-        ownerVote: true,
+        voteOnBehalf: Utils.NULL_ADDRESS,
         votePerc: 50,
       },
       params);
@@ -91,14 +91,14 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper
       "AbsoluteVote.setParameters",
       params.txEventContext,
       params.votePerc,
-      params.ownerVote
+      params.voteOnBehalf
     );
   }
 
   public async getParameters(paramsHash: Hash): Promise<AbsoluteVoteParamsResult> {
     const params = await this.getParametersArray(paramsHash);
     return {
-      ownerVote: params[1],
+      voteOnBehalf: params[1],
       votePerc: params[0].toNumber(),
     };
   }
@@ -136,12 +136,6 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper
     const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
     return super.cancelProposal(Object.assign(options, { txEventContext: eventContext }));
   }
-  public async ownerVote(options: OwnerVoteOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
-    const functionName = "AbsoluteVote.execute";
-    const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
-    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
-    return super.ownerVote(Object.assign(options, { txEventContext: eventContext }));
-  }
   public async cancelVote(options: ProposalIdOption & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
     const functionName = "AbsoluteVote.execute";
     const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
@@ -162,12 +156,12 @@ export const AbsoluteVoteFactory =
   new ContractWrapperFactory("AbsoluteVote", AbsoluteVoteWrapper, new Web3EventService());
 
 export interface AbsoluteVoteParams {
-  ownerVote?: boolean;
+  voteOnBehalf?: Address;
   votePerc?: number;
 }
 
 export interface AbsoluteVoteParamsResult {
-  ownerVote: boolean;
+  voteOnBehalf: Address;
   votePerc: number;
 }
 

@@ -16,7 +16,7 @@ describe("AbsoluteVote", () => {
     const absoluteVote = await AbsoluteVoteFactory.new();
 
     const params = await {
-      ownerVote: true,
+      voteOnBehalf: helpers.NULL_ADDRESS,
       votePerc: 50,
     };
 

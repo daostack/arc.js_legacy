@@ -18,7 +18,6 @@ export interface IIntVoteInterface {
 
   propose(options: ProposeOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionProposalResult>;
   cancelProposal(options: ProposalIdOption & TxGeneratingFunctionOptions): Promise<ArcTransactionResult>;
-  ownerVote(options: OwnerVoteOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult>;
   vote(options: VoteOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult>;
   voteWithSpecifiedAmounts(
     options: VoteWithSpecifiedAmountsOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult>;
@@ -42,12 +41,8 @@ export interface ProposeOptions {
   proposalParameters: Hash;
 }
 
-export interface OwnerVoteOptions extends ProposalIdOption {
-  vote: number;
-  voterAddress: Address;
-}
-
 export interface VoteOptions extends ProposalIdOption {
+  amount?: BigNumber | string;
   vote: number;
   voterAddress?: Address;
 }

@@ -18,7 +18,7 @@ import { Utils } from "../utils";
 import { UtilsInternal } from "../utilsInternal";
 import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { SchemeProposalExecuted, SchemeProposalExecutedEventResult } from "./commonEventInterfaces";
-import { StandardTokenFactory } from "./standardToken";
+import { Erc20Factory } from "./erc20";
 
 export class VestingSchemeWrapper extends ProposalGeneratorBase {
 
@@ -132,7 +132,7 @@ export class VestingSchemeWrapper extends ProposalGeneratorBase {
      * approve immediate transfer of the given tokens from currentAccount to the VestingScheme
      */
     if (autoApproveTransfer) {
-      const token = await StandardTokenFactory.at(options.token) as any;
+      const token = await Erc20Factory.at(options.token) as any;
 
       const result = await token.approve({
         amount: amountPerPeriod.mul(options.numOfAgreedPeriods),

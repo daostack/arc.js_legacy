@@ -75,7 +75,6 @@ describe("SchemeRegistrar", () => {
     const voteParams = await absoluteVoteWrapper.getParameters(voteParamsHash);
 
     assert.equal(voteParams.votePerc, 33);
-    assert.equal(voteParams.ownerVote, true);
 
     const schemeParams = await schemeRegistrar.getSchemeParameters(dao.avatar.address);
 

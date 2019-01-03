@@ -31,7 +31,6 @@ export class VoteInOrganizationSchemeWrapper extends ProposalGeneratorBase {
   public NewVoteProposal: EventFetcherFactory<NewVoteProposalEventResult>;
   public ProposalExecuted: EventFetcherFactory<SchemeProposalExecutedEventResult>;
   public ProposalDeleted: EventFetcherFactory<ProposalDeletedEventResult>;
-  public VoteOnBehalf: EventFetcherFactory<VoteOnBehalfEventResult>;
 
   /**
    * Submit a proposal to vote on a proposal in another DAO.
@@ -164,7 +163,6 @@ export class VoteInOrganizationSchemeWrapper extends ProposalGeneratorBase {
     this.NewVoteProposal = this.createEventFetcherFactory<NewVoteProposalEventResult>(this.contract.NewVoteProposal);
     this.ProposalExecuted = this.createEventFetcherFactory<SchemeProposalExecutedEventResult>(this.contract.ProposalExecuted);
     this.ProposalDeleted = this.createEventFetcherFactory<ProposalDeletedEventResult>(this.contract.ProposalDeleted);
-    this.VoteOnBehalf = this.createEventFetcherFactory<VoteOnBehalfEventResult>(this.contract.VoteOnBehalf);
     /* tslint:enable:max-line-length */
   }
 
@@ -185,10 +183,6 @@ export const VoteInOrganizationSchemeFactory =
     "VoteInOrganizationScheme",
     VoteInOrganizationSchemeWrapper,
     new Web3EventService());
-
-export interface VoteOnBehalfEventResult {
-  _params: Array<Hash>;
-}
 
 export interface VoteInOrganizationProposeVoteConfig {
   /**

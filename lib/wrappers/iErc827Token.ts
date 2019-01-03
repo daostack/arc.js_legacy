@@ -1,11 +1,10 @@
 "use strict";
 import { ArcTransactionResult } from "../iContractWrapperBase";
 import { TxGeneratingFunctionOptions } from "../transactionService";
-import {
-  StandardTokenApproveOptions,
-  StandardTokenChangeApprovalOptions,
-  StandardTokenTransferFromOptions,
-  StandardTokenTransferOptions } from "./iErc20Token";
+import { Erc20ApproveOptions,
+  Erc20ChangeApprovalOptions,
+  Erc20TransferFromOptions,
+  Erc20TransferOptions } from "./erc20";
 
 export interface IErc827TokenWrapper {
 
@@ -51,18 +50,18 @@ export interface IErc827TokenWrapper {
     : Promise<ArcTransactionResult>;
 }
 
-export interface ApproveAndCallOptions extends StandardTokenApproveOptions {
+export interface ApproveAndCallOptions extends Erc20ApproveOptions {
   callData: string;
 }
 
-export interface TransferAndCallOptions extends StandardTokenTransferOptions {
+export interface TransferAndCallOptions extends Erc20TransferOptions {
   callData: string;
 }
 
-export interface TransferFromAndCallOptions extends StandardTokenTransferFromOptions {
+export interface TransferFromAndCallOptions extends Erc20TransferFromOptions {
   callData: string;
 }
 
-export interface ChangeApprovalAndCallOptions extends StandardTokenChangeApprovalOptions {
+export interface ChangeApprovalAndCallOptions extends Erc20ChangeApprovalOptions {
   callData: string;
 }

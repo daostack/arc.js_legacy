@@ -24,6 +24,10 @@ import {
   DaoTokenWrapper
 } from "./wrappers/daoToken";
 import {
+  Erc20Factory,
+  Erc20Wrapper
+} from "./wrappers/erc20";
+import {
   ExternalLocking4ReputationFactory,
   ExternalLocking4ReputationWrapper
 } from "./wrappers/externalLocking4Reputation";
@@ -52,10 +56,6 @@ import {
   LockingToken4ReputationWrapper
 } from "./wrappers/lockingToken4Reputation";
 import {
-  MintableTokenFactory,
-  MintableTokenWrapper
-} from "./wrappers/mintableToken";
-import {
   RedeemerFactory,
   RedeemerWrapper
 } from "./wrappers/redeemer";
@@ -67,10 +67,6 @@ import {
   SchemeRegistrarFactory,
   SchemeRegistrarWrapper
 } from "./wrappers/schemeRegistrar";
-import {
-  StandardTokenFactory,
-  StandardTokenWrapper
-} from "./wrappers/standardToken";
 import {
   TokenCapGCFactory,
   TokenCapGCWrapper
@@ -107,11 +103,10 @@ export interface ArcWrapperFactories {
   Auction4Reputation: IContractWrapperFactory<Auction4ReputationWrapper>;
   FixedReputationAllocation: IContractWrapperFactory<FixedReputationAllocationWrapper>;
   ExternalLocking4Reputation: IContractWrapperFactory<ExternalLocking4ReputationWrapper>;
-  MintableToken: IContractWrapperFactory<MintableTokenWrapper>;
   Redeemer: IContractWrapperFactory<RedeemerWrapper>;
   Reputation: IContractWrapperFactory<ReputationWrapper>;
   SchemeRegistrar: IContractWrapperFactory<SchemeRegistrarWrapper>;
-  StandardToken: IContractWrapperFactory<StandardTokenWrapper>;
+  Erc20: IContractWrapperFactory<Erc20Wrapper>;
   TokenCapGC: IContractWrapperFactory<TokenCapGCWrapper>;
   UpgradeScheme: IContractWrapperFactory<UpgradeSchemeWrapper>;
   VestingScheme: IContractWrapperFactory<VestingSchemeWrapper>;
@@ -313,11 +308,10 @@ export class WrapperService {
     WrapperService.factories.Auction4Reputation = Auction4ReputationFactory as IContractWrapperFactory<Auction4ReputationWrapper>;
     WrapperService.factories.FixedReputationAllocation = FixedReputationAllocationFactory as IContractWrapperFactory<FixedReputationAllocationWrapper>;
     WrapperService.factories.ExternalLocking4Reputation = ExternalLocking4ReputationFactory as IContractWrapperFactory<ExternalLocking4ReputationWrapper>;
-    WrapperService.factories.MintableToken = MintableTokenFactory as IContractWrapperFactory<MintableTokenWrapper>;
     WrapperService.factories.Redeemer = RedeemerFactory as IContractWrapperFactory<RedeemerWrapper>;
     WrapperService.factories.Reputation = ReputationFactory as IContractWrapperFactory<ReputationWrapper>;
     WrapperService.factories.SchemeRegistrar = SchemeRegistrarFactory as IContractWrapperFactory<SchemeRegistrarWrapper>;
-    WrapperService.factories.StandardToken = StandardTokenFactory as IContractWrapperFactory<StandardTokenWrapper>;
+    WrapperService.factories.Erc20 = Erc20Factory as IContractWrapperFactory<Erc20Wrapper>;
     WrapperService.factories.TokenCapGC = TokenCapGCFactory as IContractWrapperFactory<TokenCapGCWrapper>;
     WrapperService.factories.UpgradeScheme = UpgradeSchemeFactory as IContractWrapperFactory<UpgradeSchemeWrapper>;
     WrapperService.factories.VestingScheme = VestingSchemeFactory as IContractWrapperFactory<VestingSchemeWrapper>;

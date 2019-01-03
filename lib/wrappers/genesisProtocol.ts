@@ -25,7 +25,6 @@ import { EntityFetcherFactory, EventFetcherFactory, Web3EventService } from "../
 import {
   ExecuteProposalEventResult,
   NewProposalEventResult,
-  OwnerVoteOptions,
   ProposalIdOption,
   ProposeOptions,
   VoteOptions,
@@ -35,8 +34,8 @@ import {
 import { promisify } from "es6-promisify";
 import { LoggingService } from "../loggingService";
 import { UtilsInternal } from "../utilsInternal";
+import { Erc20Factory, Erc20Wrapper } from "./erc20";
 import { IntVoteInterfaceWrapper } from "./intVoteInterface";
-import { StandardTokenFactory, StandardTokenWrapper } from "./standardToken";
 
 export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
   implements IVotingMachineWrapper {
@@ -697,10 +696,6 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
     throw new Error("GenesisProtocol does not support cancelProposal");
   }
 
-  public async ownerVote(options: OwnerVoteOptions): Promise<ArcTransactionResult> {
-    throw new Error("GenesisProtocol does not support ownerVote");
-  }
-
   public async cancelVote(options: ProposalIdOption): Promise<ArcTransactionResult> {
     throw new Error("GenesisProtocol does not support cancelVote");
   }
@@ -916,13 +911,13 @@ export class GenesisProtocolWrapper extends IntVoteInterfaceWrapper
   }
 
   /**
-   * Returns promise of the staking token as StandardTokenWrapper.
-   * @returns Promise<StandardTokenWrapper>
+   * Returns promise of the staking token as Erc20Wrapper.
+   * @returns Promise<Erc20Wrapper>
    */
-  public async getStakingToken(): Promise<StandardTokenWrapper> {
+  public async getStakingToken(): Promise<Erc20Wrapper> {
     const tokenAddress = await this.getStakingTokenAddress();
-    // StandardToken includes `approve`, which is required for staking
-    return StandardTokenFactory.at(tokenAddress);
+    // Erc20Wrapper includes `approve`, which is required for staking
+    return Erc20Factory.at(tokenAddress);
   }
 
   /**

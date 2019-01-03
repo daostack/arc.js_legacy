@@ -19,7 +19,6 @@ import {
   GetAllowedRangeOfChoicesResult,
   IIntVoteInterface,
   NewProposalEventResult,
-  OwnerVoteOptions,
   ProposalIdOption,
   ProposeOptions,
   VoteOptions,
@@ -139,31 +138,6 @@ export class IntVoteInterfaceWrapper extends ContractWrapperBase implements IInt
       options,
       this.contract.cancelProposal,
       [options.proposalId]
-    );
-  }
-
-  /**
-   * Vote on behalf of the owner of the proposal, ie the agent that created it.
-   * @param options
-   */
-  public async ownerVote(options: OwnerVoteOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
-    if (!options.proposalId) {
-      throw new Error(`proposalId is not defined`);
-    }
-    await this._validateVote(options.vote, options.proposalId);
-
-    if (!options.voterAddress) {
-      throw new Error(`voterAddress is not defined`);
-    }
-
-    this.logContractFunctionCall("IntVoteInterface.ownerVote", options);
-
-    return this.wrapTransactionInvocation("IntVoteInterface.ownerVote",
-      options,
-      this.contract.ownerVote,
-      [options.proposalId,
-      options.vote,
-      options.voterAddress]
     );
   }
 

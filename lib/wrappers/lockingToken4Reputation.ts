@@ -7,8 +7,8 @@ import { TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { WrapperService } from "../wrapperService";
+import { Erc20Factory, Erc20Wrapper } from "./erc20";
 import { InitializeOptions, Locking4ReputationWrapper, LockingOptions, ReleaseOptions } from "./locking4Reputation";
-import { StandardTokenFactory, StandardTokenWrapper } from "./standardToken";
 
 export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
   public name: string = "LockingToken4Reputation";
@@ -68,7 +68,7 @@ export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
       return "tokenAddress was not supplied";
     }
 
-    const token = await StandardTokenFactory.at(options.tokenAddress);
+    const token = await Erc20Factory.at(options.tokenAddress);
     const balance = await Utils.getTokenBalance(options.lockerAddress, token.address);
     const amount = new BigNumber(options.amount);
 
@@ -96,10 +96,10 @@ export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
     );
   }
 
-  public async getTokenForLock(lockingId: Hash): Promise<StandardTokenWrapper> {
+  public async getTokenForLock(lockingId: Hash): Promise<Erc20Wrapper> {
     this.logContractFunctionCall("LockingToken4Reputation.lockedTokens");
     const address = await this.contract.lockedTokens(lockingId);
-    return WrapperService.factories.StandardToken.at(address);
+    return WrapperService.factories.Erc20.at(address);
   }
 }
 

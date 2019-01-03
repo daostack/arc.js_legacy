@@ -184,7 +184,7 @@ const newDao = await DAO.new({
 
 ### Creating a new DAO overriding the default voting machine
 
-By default, `DAO.new` configures each scheme with the [AbsoluteVote](/arc.js/api/classes/AbsoluteVoteWrapper) voting machine and default voting parameter values.  The following example retains the default voting machine while overriding its parameters:
+By default, `DAO.new` configures each scheme with the [AbsoluteVote](/arc.js/api/classes/AbsoluteVoteWrapper) voting machine and default voting parameter values.  The following example retains the default voting machine while overriding on of its parameters:
 
 
 ```javascript
@@ -193,8 +193,7 @@ const newDao = await DAO.new({
   tokenName: "My new Token",
   tokenSymbol: "MNT",
   votingMachineParams: {
-    votePerc: 45,
-    ownerVote: false
+    votePerc: 45
   }
 });
 ```
@@ -208,7 +207,6 @@ const newDao = await DAO.new({
   tokenSymbol: "MNT",
   votingMachineParams: {
     votePerc: 45,
-    ownerVote:false
     votingMachineAddress: anAddress
   }
 });

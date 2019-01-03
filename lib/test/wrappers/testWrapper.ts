@@ -25,7 +25,6 @@ export class TestWrapperWrapper extends ContractWrapperBase {
     params: AbsoluteVoteParams & TxGeneratingFunctionOptions): Promise<ArcTransactionDataResult<Hash>> {
     params = Object.assign({},
       {
-        ownerVote: true,
         votePerc: 50,
       },
       params);
@@ -33,8 +32,7 @@ export class TestWrapperWrapper extends ContractWrapperBase {
     return super._setParameters(
       "AbsoluteVote.setParameters",
       params.txEventContext,
-      params.votePerc,
-      params.ownerVote
+      params.votePerc
     );
   }
 

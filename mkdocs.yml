@@ -240,7 +240,6 @@ nav:
   - NewUpgradeProposalEventResult : 'api/interfaces/NewUpgradeProposalEventResult.md'
   - NewVestedAgreementEventResult : 'api/interfaces/NewVestedAgreementEventResult.md'
   - NewVoteProposalEventResult : 'api/interfaces/NewVoteProposalEventResult.md'
-  - OwnerVoteOptions : 'api/interfaces/OwnerVoteOptions.md'
   - Participant : 'api/interfaces/Participant.md'
   - ProposalDeletedEventResult : 'api/interfaces/ProposalDeletedEventResult.md'
   - ProposalEntity : 'api/interfaces/ProposalEntity.md'

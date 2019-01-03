@@ -1,19 +1,14 @@
 "use strict";
 import { BigNumber } from "bignumber.js";
-import ethereumjs = require("ethereumjs-abi");
 import { Address } from "../commonTypes";
 import { ContractWrapperFactory } from "../contractWrapperFactory";
 import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
 import { LoggingService } from "../loggingService";
 import { TransactionService, TxGeneratingFunctionOptions } from "../transactionService";
 import { Utils } from "../utils";
-import { EventFetcherFactory, Web3EventService } from "../web3EventService";
-import { BurnEventResult, IBurnableTokenWrapper } from "./iBurnableToken";
-import {
-  StandardTokenApproveOptions,
-  StandardTokenChangeApprovalOptions,
-  StandardTokenTransferFromOptions,
-  StandardTokenTransferOptions } from "./iErc20Token";
+import { Web3EventService } from "../web3EventService";
+import { Erc20ApproveOptions, Erc20TransferFromOptions, Erc20TransferOptions, Erc20Wrapper } from "./erc20";
+import { BurnableTokenBurnOptions, IBurnableTokenWrapper } from "./iBurnableToken";
 import {
   ApproveAndCallOptions,
   ChangeApprovalAndCallOptions,
@@ -21,15 +16,14 @@ import {
   TransferAndCallOptions,
   TransferFromAndCallOptions
 } from "./iErc827Token";
-import { MintableTokenWrapper } from "./mintableToken";
 
 export class DaoTokenWrapper
+  extends Erc20Wrapper
   /**
    * In Arc, DAOToken multiply inherits from MintableToken, BurnableToken and ERC827Token.
    * Such a structure not being feasible here, we instead inherit from MintableToken and
    * flatten in the implementations of BurnableToken and ERC827Token.
    */
-  extends MintableTokenWrapper
   implements IErc827TokenWrapper, IBurnableTokenWrapper {
 
   /**
@@ -60,40 +54,12 @@ export class DaoTokenWrapper
   public friendlyName: string = "DAO Token";
   public factory: IContractWrapperFactory<DaoTokenWrapper> = DaoTokenFactory;
 
-  public Burn: EventFetcherFactory<BurnEventResult>;
-
-  /**
-   * Mint tokens to recipient
-   * @param options
-   */
-  public async mint(options: DaoTokenMintOptions & TxGeneratingFunctionOptions)
-    : Promise<ArcTransactionResult> {
-
-    if (!options.recipient) {
-      throw new Error("recipient is not defined");
-    }
-
-    const amount = new BigNumber(options.amount);
-
-    if (amount.eq(0)) {
-      LoggingService.warn("DaoToken.mint: amount is zero.  Doing nothing.");
-      return new ArcTransactionResult(null, this.contract);
-    }
-
-    this.logContractFunctionCall("DaoToken.mint", options);
-
-    return this.wrapTransactionInvocation("DaoToken.mint",
-      options,
-      this.contract.mint,
-      [options.recipient, options.amount]
-    );
-  }
-
   /**
    * Burn the given number of tokens
    * @param options
    */
-  public async burn(options: DaoTokenBurnOptions & TxGeneratingFunctionOptions)
+
+  public async burn(options: BurnableTokenBurnOptions & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
 
     const amount = new BigNumber(options.amount);
@@ -305,7 +271,34 @@ export class DaoTokenWrapper
     return this.contract.cap();
   }
 
-  public async approve(options: StandardTokenApproveOptions & TxGeneratingFunctionOptions)
+  /**
+   * Mint tokens to recipient
+   * @param options
+   */
+  public async mint(options: DaoTokenMintOptions & TxGeneratingFunctionOptions)
+    : Promise<ArcTransactionResult> {
+
+    if (!options.recipient) {
+      throw new Error("recipient is not defined");
+    }
+
+    const amount = new BigNumber(options.amount);
+
+    if (amount.eq(0)) {
+      LoggingService.warn("Erc20MintableToken.mint: amount is zero.  Doing nothing.");
+      return new ArcTransactionResult(null, this.contract);
+    }
+
+    this.logContractFunctionCall("Erc20MintableToken.mint", options);
+
+    return this.wrapTransactionInvocation("Erc20MintableToken.mint",
+      options,
+      this.contract.mint,
+      [options.recipient, options.amount]
+    );
+  }
+
+  public async approve(options: Erc20ApproveOptions & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
     const functionName = "DaoToken.approve";
     const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
@@ -313,7 +306,7 @@ export class DaoTokenWrapper
     return super.approve(Object.assign(options, { txEventContext: eventContext }));
   }
 
-  public async transfer(options: StandardTokenTransferOptions & TxGeneratingFunctionOptions)
+  public async transfer(options: Erc20TransferOptions & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
     const functionName = "DaoToken.transfer";
     const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
@@ -321,35 +314,12 @@ export class DaoTokenWrapper
     return super.transfer(Object.assign(options, { txEventContext: eventContext }));
   }
 
-  public async transferFrom(options: StandardTokenTransferFromOptions & TxGeneratingFunctionOptions)
+  public async transferFrom(options: Erc20TransferFromOptions & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
     const functionName = "DaoToken.transferFrom";
     const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
     const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
     return super.transferFrom(Object.assign(options, { txEventContext: eventContext }));
-  }
-
-  public async increaseApproval(options: StandardTokenChangeApprovalOptions & TxGeneratingFunctionOptions)
-    : Promise<ArcTransactionResult> {
-    const functionName = "DaoToken.increaseApproval";
-    const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
-    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
-    return super.increaseApproval(Object.assign(options, { txEventContext: eventContext }));
-  }
-
-  public async finishMinting(options?: TxGeneratingFunctionOptions)
-    : Promise<ArcTransactionResult> {
-    const functionName = "DaoToken.finishMinting";
-    const payload = TransactionService.publishKickoffEvent(functionName, options, 1);
-    const eventContext = TransactionService.newTxEventContext(functionName, payload, options);
-    return super.finishMinting(Object.assign(options, { txEventContext: eventContext }));
-  }
-
-  protected hydrated(): void {
-    super.hydrated();
-    /* tslint:disable:max-line-length */
-    this.Burn = this.createEventFetcherFactory<BurnEventResult>(this.contract.Burn);
-    /* tslint:enable:max-line-length */
   }
 }
 
@@ -385,16 +355,4 @@ export interface DaoTokenMintOptions {
    * Amount to mint
    */
   amount: BigNumber | string;
-}
-
-export interface DaoTokenBurnOptions {
-  /**
-   * Amount to burn
-   */
-  amount: BigNumber | string;
-}
-
-export interface AllowanceOptions {
-  owner: Address;
-  spender: Address;
 }

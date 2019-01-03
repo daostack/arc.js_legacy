@@ -309,9 +309,8 @@ describe("ContributionReward scheme", () => {
         schemes: [
           {
             name: "ContributionReward",
-            votingMachineParams: {
-              ownerVote: false,
-            },
+            // votingMachineParams: {
+            // },
           },
         ],
       });

@@ -7,20 +7,21 @@ import { EventFetcherFactory } from "../web3EventService";
 
 export interface IBurnableTokenWrapper {
 
-  Burn: EventFetcherFactory<BurnEventResult>;
-
   /**
    * Burn the given number of tokens
    * @param options
    */
   burn(options: BurnableTokenBurnOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult>;
+  /**
+   * TODO: add burnFrom
+   */
 }
 
 export interface BurnableTokenBurnOptions {
   /**
    * Amount to burn
    */
-  amount: BigNumber;
+  amount: BigNumber | string;
 }
 
 export interface BurnEventResult {

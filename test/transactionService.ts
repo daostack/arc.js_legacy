@@ -36,7 +36,7 @@ describe("TransactionService", () => {
         return Promise.reject(new Error("faking exception"));
       };
 
-      const result = await av.setParameters({ ownerVote: true, votePerc: 50 });
+      const result = await av.setParameters({ votePerc: 50 });
 
       const filter = web3.eth.filter("latest");
 
@@ -86,7 +86,7 @@ describe("TransactionService", () => {
         return Promise.reject(new Error("faking exception"));
       };
 
-      const result = await av.setParameters({ ownerVote: true, votePerc: 50 });
+      const result = await av.setParameters({ votePerc: 50 });
 
       const filter = web3.eth.filter("latest");
 
@@ -136,7 +136,7 @@ describe("TransactionService", () => {
         return Promise.reject(new Error("faking exception"));
       };
 
-      const result = await av.setParameters({ ownerVote: true, votePerc: 50 });
+      const result = await av.setParameters({ votePerc: 50 });
 
       const filter = web3.eth.filter("latest");
 

@@ -243,7 +243,7 @@ export class Utils {
       throw new Error("Utils.getTokenBalance: agentAddress is not defined");
     }
 
-    const token = await (await Utils.requireContract("BasicToken")).at(tokenAddress);
+    const token = await (await Utils.requireContract("ERC20")).at(tokenAddress);
 
     return token.balanceOf(agentAddress);
   }

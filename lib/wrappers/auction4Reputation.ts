@@ -11,7 +11,7 @@ import { UtilsInternal } from "../utilsInternal";
 import { EventFetcherFactory, Web3EventService } from "../web3EventService";
 import { WrapperService } from "../wrapperService";
 import { DaoTokenWrapper } from "./daoToken";
-import { StandardTokenWrapper } from "./standardToken";
+import { Erc20Wrapper } from "./erc20";
 
 export class Auction4ReputationWrapper extends SchemeWrapperBase {
   public name: string = "Auction4Reputation";
@@ -358,10 +358,10 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     this.logContractFunctionCall("Auction4Reputation.auctionPeriod");
     return (await this.contract.auctionPeriod()).toNumber();
   }
-  public async getToken(): Promise<StandardTokenWrapper> {
+  public async getToken(): Promise<Erc20Wrapper> {
     this.logContractFunctionCall("Auction4Reputation.token");
     const address = await this.contract.token();
-    return WrapperService.factories.StandardToken.at(address);
+    return WrapperService.factories.Erc20.at(address);
   }
   public async getWallet(): Promise<Address> {
     this.logContractFunctionCall("Auction4Reputation.wallet");
