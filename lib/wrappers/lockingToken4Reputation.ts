@@ -101,6 +101,23 @@ export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
     const address = await this.contract.lockedTokens(lockingId);
     return WrapperService.factories.Erc20.at(address);
   }
+
+  public getPriceOracleAddress(): Promise<Address> {
+    this.logContractFunctionCall("LockingToken4Reputation.priceOracleContract");
+    return this.contract.priceOracleContract();
+  }
+
+  public async getTokenIsLiquid(token: Address): Promise<boolean> {
+    const oracleAddress = await this.getPriceOracleAddress();
+
+    const oracle = (await Utils.requireContract("PriceOracleInterface")).at(oracleAddress);
+
+    this.logContractFunctionCall("PriceOracleInterface.getPrice");
+    const price = (await oracle.getPrice(token)) as Array<BigNumber>;
+
+    return price && (price.length === 2) && price[0].gt(0) && price[1].gt(0);
+  }
+
 }
 
 export class LockingToken4ReputationType extends ContractWrapperFactory<LockingToken4ReputationWrapper> {

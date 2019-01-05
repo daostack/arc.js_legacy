@@ -110,7 +110,8 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
     return this.wrapTransactionInvocation("ExternalLocking4Reputation.register",
       {},
       this.contract.register,
-      []
+      [],
+      { from: await Utils.getDefaultAccount() }
     );
   }
 
