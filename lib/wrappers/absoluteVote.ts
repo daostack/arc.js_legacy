@@ -36,7 +36,6 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper
    * Events
    */
   public AVVoteProposal: EventFetcherFactory<AVVoteProposalEventResult>;
-  public RefreshReputation: EventFetcherFactory<RefreshReputationEventResult>;
 
   /**
    * EntityFetcherFactory for votable proposals.
@@ -147,7 +146,6 @@ export class AbsoluteVoteWrapper extends IntVoteInterfaceWrapper
     super.hydrated();
     /* tslint:disable:max-line-length */
     this.AVVoteProposal = this.createEventFetcherFactory<AVVoteProposalEventResult>(this.contract.AVVoteProposal);
-    this.RefreshReputation = this.createEventFetcherFactory<RefreshReputationEventResult>(this.contract.RefreshReputation);
     /* tslint:enable:max-line-length */
   }
 }
