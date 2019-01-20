@@ -80,7 +80,7 @@ export class AccountService {
       return;
     }
 
-    LoggingService.info("Initiating account watch");
+    LoggingService.info("Initiating network watch");
 
     if (!AccountService.currentNetworkId) {
       try {

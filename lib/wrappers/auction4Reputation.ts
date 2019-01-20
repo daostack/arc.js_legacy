@@ -41,7 +41,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
       throw new Error("walletAddress is not defined");
     }
 
-    if (!Number.isInteger(options.auctionPeriod)  || (options.auctionPeriod <= 15)) {
+    if (!Number.isInteger(options.auctionPeriod) || (options.auctionPeriod <= 15)) {
       throw new Error("auctionPeriod must be a number > 15");
     }
 
@@ -159,6 +159,10 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
    */
   public async getBidBlocker(options: Auction4ReputationBidOptions): Promise<string | null> {
     const amount = new BigNumber(options.amount);
+
+    if (amount.isNaN()) {
+      return "amount does not represent a number";
+    }
 
     if (amount.lte(0)) {
       return "amount to bid must be greater than zero";
