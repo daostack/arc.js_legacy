@@ -1,21 +1,21 @@
-"use strict";
-import BigNumber from "bignumber.js";
-import { DecodedLogEntry } from "web3";
-import { Address, Hash } from "../commonTypes";
-import { ContractWrapperFactory } from "../contractWrapperFactory";
-import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
-import { SchemeWrapperBase } from "../schemeWrapperBase";
-import { TxGeneratingFunctionOptions } from "../transactionService";
-import { Utils } from "../utils";
-import { UtilsInternal } from "../utilsInternal";
-import { EventFetcherFactory, Web3EventService } from "../web3EventService";
-import { WrapperService } from "../wrapperService";
-import { DaoTokenWrapper } from "./daoToken";
-import { Erc20Wrapper } from "./erc20";
+'use strict';
+import BigNumber from 'bignumber.js';
+import { DecodedLogEntry } from 'web3';
+import { Address, Hash } from '../commonTypes';
+import { ContractWrapperFactory } from '../contractWrapperFactory';
+import { ArcTransactionResult, IContractWrapperFactory } from '../iContractWrapperBase';
+import { SchemeWrapperBase } from '../schemeWrapperBase';
+import { TxGeneratingFunctionOptions } from '../transactionService';
+import { Utils } from '../utils';
+import { UtilsInternal } from '../utilsInternal';
+import { EventFetcherFactory, Web3EventService } from '../web3EventService';
+import { WrapperService } from '../wrapperService';
+import { DaoTokenWrapper } from './daoToken';
+import { Erc20Wrapper } from './erc20';
 
 export class Auction4ReputationWrapper extends SchemeWrapperBase {
-  public name: string = "Auction4Reputation";
-  public friendlyName: string = "Auction For Reputation";
+  public name: string = 'Auction4Reputation';
+  public friendlyName: string = 'Auction For Reputation';
   public factory: IContractWrapperFactory<Auction4ReputationWrapper> = Auction4ReputationFactory;
 
   public Bid: EventFetcherFactory<Auction4ReputationBidEventResult>;
@@ -26,61 +26,61 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     const avatar = await this.getAvatar();
 
     if (!UtilsInternal.isNullAddress(avatar)) {
-      throw new Error("you can only call initialize once");
+      throw new Error('you can only call initialize once');
     }
 
     if (!options.avatarAddress) {
-      throw new Error("avatarAddress is not defined");
+      throw new Error('avatarAddress is not defined');
     }
 
     if (!options.tokenAddress) {
-      throw new Error("tokenAddress is not defined");
+      throw new Error('tokenAddress is not defined');
     }
 
     if (!options.walletAddress) {
-      throw new Error("walletAddress is not defined");
+      throw new Error('walletAddress is not defined');
     }
 
     if (!Number.isInteger(options.auctionPeriod) || (options.auctionPeriod <= 15)) {
-      throw new Error("auctionPeriod must be a number > 15");
+      throw new Error('auctionPeriod must be a number > 15');
     }
 
     if (!Number.isInteger(options.numberOfAuctions)) {
-      throw new Error("numberOfAuctions is not an integer");
+      throw new Error('numberOfAuctions is not an integer');
     }
 
     if (options.numberOfAuctions <= 0) {
-      throw new Error("maxLockingPeriod must be greater than zero");
+      throw new Error('maxLockingPeriod must be greater than zero');
     }
 
     if (!options.reputationReward) {
-      throw new Error("reputationReward is not defined");
+      throw new Error('reputationReward is not defined');
     }
 
     if (!options.redeemEnableTime) {
-      throw new Error("redeemEnableTime is not defined");
+      throw new Error('redeemEnableTime is not defined');
     }
 
     const auctionsEndTime = (options.auctionsStartTime.getTime() / 1000) +
       (options.auctionPeriod * options.numberOfAuctions);
 
     if ((options.redeemEnableTime.getTime() / 1000) < auctionsEndTime) {
-      throw new Error("redeemEnableTime cannot occur before the last auction has completed");
+      throw new Error('redeemEnableTime cannot occur before the last auction has completed');
     }
 
     if (!options.auctionsStartTime) {
-      throw new Error("auctionsStartTime is not defined");
+      throw new Error('auctionsStartTime is not defined');
     }
 
     const reputationReward = new BigNumber(options.reputationReward);
 
     if (reputationReward.lte(0)) {
-      throw new Error("reputationReward must be greater than zero");
+      throw new Error('reputationReward must be greater than zero');
     }
 
-    this.logContractFunctionCall("Auction4Reputation.initialize", options);
+    this.logContractFunctionCall('Auction4Reputation.initialize', options);
 
-    return this.wrapTransactionInvocation("Auction4Reputation.initialize",
+    return this.wrapTransactionInvocation('Auction4Reputation.initialize',
       options,
       this.contract.initialize,
       [
@@ -100,15 +100,15 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     : Promise<ArcTransactionResult> {
 
     if (!options.beneficiaryAddress) {
-      throw new Error("beneficiaryAddress is not defined");
+      throw new Error('beneficiaryAddress is not defined');
     }
 
     if (!Number.isInteger(options.auctionId)) {
-      throw new Error("auctionId is not an integer");
+      throw new Error('auctionId is not an integer');
     }
 
     if (options.auctionId < 0) {
-      throw new Error("auctionId must be greater than or equal to zero");
+      throw new Error('auctionId must be greater than or equal to zero');
     }
 
     const bid = await this.getBid(options.beneficiaryAddress, options.auctionId);
@@ -123,9 +123,9 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
       throw new Error(errMsg);
     }
 
-    this.logContractFunctionCall("Auction4Reputation.redeem", options);
+    this.logContractFunctionCall('Auction4Reputation.redeem', options);
 
-    return this.wrapTransactionInvocation("Auction4Reputation.redeem",
+    return this.wrapTransactionInvocation('Auction4Reputation.redeem',
       options,
       this.contract.redeem,
       [options.beneficiaryAddress, options.auctionId]
@@ -148,7 +148,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     const endTime = await this.getAuctionsEndTime();
 
     if (now <= endTime) {
-      throw new Error("the auction period has not passed");
+      throw new Error('the auction period has not passed');
     }
 
     return null;
@@ -161,11 +161,11 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     const amount = new BigNumber(options.amount);
 
     if (amount.isNaN()) {
-      return "amount does not represent a number";
+      return 'amount does not represent a number';
     }
 
     if (amount.lte(0)) {
-      return "amount to bid must be greater than zero";
+      return 'amount to bid must be greater than zero';
     }
 
     const startTime = await this.getAuctionsStartTime();
@@ -173,13 +173,13 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     const now = await UtilsInternal.lastBlockDate();
 
     if ((now > endTime) || (now < startTime)) {
-      return "bidding is not within the allowed bidding period";
+      return 'bidding is not within the allowed bidding period';
     }
 
     const balance = await DaoTokenWrapper.getGenTokenBalance(await Utils.getDefaultAccount());
 
     if (balance.lt(amount)) {
-      return "the account has insufficient GEN to bid the requested amount";
+      return 'the account has insufficient GEN to bid the requested amount';
     }
 
     return null;
@@ -197,9 +197,9 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
       throw new Error(msg);
     }
 
-    this.logContractFunctionCall("Auction4Reputation.bid", options);
+    this.logContractFunctionCall('Auction4Reputation.bid', options);
 
-    return this.wrapTransactionInvocation("Auction4Reputation.bid",
+    return this.wrapTransactionInvocation('Auction4Reputation.bid',
       options,
       this.contract.bid,
       [options.amount]
@@ -217,12 +217,12 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     const now = await UtilsInternal.lastBlockDate();
 
     if (now <= endTime) {
-      throw new Error("the bidding period has not yet expired");
+      throw new Error('the bidding period has not yet expired');
     }
 
-    this.logContractFunctionCall("Auction4Reputation.transferToWallet", options);
+    this.logContractFunctionCall('Auction4Reputation.transferToWallet', options);
 
-    return this.wrapTransactionInvocation("Auction4Reputation.transferToWallet",
+    return this.wrapTransactionInvocation('Auction4Reputation.transferToWallet',
       options,
       this.contract.transferToWallet,
       []
@@ -237,34 +237,34 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
   public getBid(bidderAddress: Address, auctionId: number): Promise<BigNumber> {
 
     if (!bidderAddress) {
-      throw new Error("bidderAddress is not defined");
+      throw new Error('bidderAddress is not defined');
     }
 
     if (!Number.isInteger(auctionId)) {
-      throw new Error("auctionId is not an integer");
+      throw new Error('auctionId is not an integer');
     }
 
     if (auctionId < 0) {
-      throw new Error("auctionId must be greater than or equal to zero");
+      throw new Error('auctionId must be greater than or equal to zero');
     }
 
     this.validateAuctionId(auctionId);
 
-    this.logContractFunctionCall("Auction4Reputation.getBid", { bidderAddress, auctionId });
+    this.logContractFunctionCall('Auction4Reputation.getBid', { bidderAddress, auctionId });
     return this.contract.getBid(bidderAddress, auctionId);
   }
 
   public async getUserEarnedReputation(options: Auction4ReputationRedeemOptions): Promise<BigNumber> {
     if (!options.beneficiaryAddress) {
-      throw new Error("beneficiaryAddress is not defined");
+      throw new Error('beneficiaryAddress is not defined');
     }
 
     if (!Number.isInteger(options.auctionId)) {
-      throw new Error("auctionId is not an integer");
+      throw new Error('auctionId is not an integer');
     }
 
     if (options.auctionId < 0) {
-      throw new Error("auctionId must be greater than or equal to zero");
+      throw new Error('auctionId must be greater than or equal to zero');
     }
 
     const bid = await this.getBid(options.beneficiaryAddress, options.auctionId);
@@ -279,7 +279,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
       throw new Error(errMsg);
     }
 
-    this.logContractFunctionCall("Auction4Reputation.redeem.call", options);
+    this.logContractFunctionCall('Auction4Reputation.redeem.call', options);
 
     return this.contract.redeem.call(options.beneficiaryAddress, options.auctionId);
   }
@@ -307,7 +307,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
    * Get a promise of the first date/time when anything can be redeemed
    */
   public async getRedeemEnableTime(): Promise<Date> {
-    this.logContractFunctionCall("Auction4Reputation.redeemEnableTime");
+    this.logContractFunctionCall('Auction4Reputation.redeemEnableTime');
     const seconds = await this.contract.redeemEnableTime();
     return new Date(seconds.toNumber() * 1000);
   }
@@ -315,34 +315,34 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
    * Get a promise of the total reputation rewardable across all the auctions
    */
   public async getReputationReward(): Promise<BigNumber> {
-    this.logContractFunctionCall("Auction4Reputation.reputationReward");
+    this.logContractFunctionCall('Auction4Reputation.reputationReward');
     const auctionReputationReward = await this.contract.auctionReputationReward();
     const numAuctions = await this.getNumberOfAuctions();
     return auctionReputationReward.mul(numAuctions);
   }
   public getReputationRewardLeft(): Promise<BigNumber> {
-    this.logContractFunctionCall("Auction4Reputation.reputationRewardLeft");
+    this.logContractFunctionCall('Auction4Reputation.reputationRewardLeft');
     return this.contract.reputationRewardLeft();
   }
   public async getAuctionsEndTime(): Promise<Date> {
-    this.logContractFunctionCall("Auction4Reputation.auctionsEndTime");
+    this.logContractFunctionCall('Auction4Reputation.auctionsEndTime');
     const dt = await this.contract.auctionsEndTime();
     return new Date(dt.toNumber() * 1000);
   }
   public async getAuctionsStartTime(): Promise<Date> {
-    this.logContractFunctionCall("Auction4Reputation.auctionsStartTime");
+    this.logContractFunctionCall('Auction4Reputation.auctionsStartTime');
     const dt = await this.contract.auctionsStartTime();
     return new Date(dt.toNumber() * 1000);
   }
   public async getNumberOfAuctions(): Promise<number> {
-    this.logContractFunctionCall("Auction4Reputation.numberOfAuctions");
+    this.logContractFunctionCall('Auction4Reputation.numberOfAuctions');
     return (await this.contract.numberOfAuctions()).toNumber();
   }
   /**
    * Get a promise of  the reputation reward of a single auction
    */
   public auctionReputationReward(): Promise<BigNumber> {
-    this.logContractFunctionCall("Auction4Reputation.auctionReputationReward");
+    this.logContractFunctionCall('Auction4Reputation.auctionReputationReward');
     return this.contract.auctionReputationReward();
   }
 
@@ -359,20 +359,20 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
    * Get a promise of the number of seconds in a single auction
    */
   public async getAuctionPeriod(): Promise<number> {
-    this.logContractFunctionCall("Auction4Reputation.auctionPeriod");
+    this.logContractFunctionCall('Auction4Reputation.auctionPeriod');
     return (await this.contract.auctionPeriod()).toNumber();
   }
   public async getToken(): Promise<Erc20Wrapper> {
-    this.logContractFunctionCall("Auction4Reputation.token");
+    this.logContractFunctionCall('Auction4Reputation.token');
     const address = await this.contract.token();
     return WrapperService.factories.Erc20.at(address);
   }
   public async getWallet(): Promise<Address> {
-    this.logContractFunctionCall("Auction4Reputation.wallet");
+    this.logContractFunctionCall('Auction4Reputation.wallet');
     return await this.contract.wallet();
   }
   public getAvatar(): Promise<Address> {
-    this.logContractFunctionCall("Auction4Reputation.avatar");
+    this.logContractFunctionCall('Auction4Reputation.avatar');
     return this.contract.avatar();
   }
 
@@ -381,7 +381,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
    */
   public async getAuctionTotalBid(auctionId: number): Promise<BigNumber> {
     this.validateAuctionId(auctionId);
-    this.logContractFunctionCall("Auction4Reputation.auctions", { auctionId });
+    this.logContractFunctionCall('Auction4Reputation.auctions', { auctionId });
     return this.contract.auctions(new BigNumber(auctionId));
   }
 
@@ -395,16 +395,16 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
 
   private validateAuctionId(auctionId: number): void {
 
-    if (typeof (auctionId) === "undefined") {
-      throw new Error("auctionId is not defined");
+    if (typeof (auctionId) === 'undefined') {
+      throw new Error('auctionId is not defined');
     }
 
     if (auctionId < 0) {
-      throw new Error("auctionId must be greater or equal to 0");
+      throw new Error('auctionId must be greater or equal to 0');
     }
 
     if (!Number.isInteger(auctionId)) {
-      throw new Error("auctionId must be an integer number");
+      throw new Error('auctionId must be an integer number');
     }
   }
 }
@@ -412,13 +412,13 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
 export class Auction4ReputationType extends ContractWrapperFactory<Auction4ReputationWrapper> {
 
   public async deployed(): Promise<Auction4ReputationWrapper> {
-    throw new Error("Auction4Reputation has not been deployed");
+    throw new Error('Auction4Reputation has not been deployed');
   }
 }
 
 export const Auction4ReputationFactory =
   new Auction4ReputationType(
-    "Auction4Reputation",
+    'Auction4Reputation',
     Auction4ReputationWrapper,
     new Web3EventService()) as Auction4ReputationType;
 
