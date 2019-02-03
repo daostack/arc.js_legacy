@@ -55,7 +55,7 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
 
     const alreadyLocked = await this.getAccountHasLocked(options.lockerAddress);
     if (alreadyLocked) {
-      return "account has already executed a claim";
+      return "account has already registered";
     }
 
     const currentAccount = (await Utils.getDefaultAccount()).toLowerCase();
