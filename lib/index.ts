@@ -183,8 +183,13 @@ export async function InitializeArcJs(options: InitializeArcOptions = {}): Promi
      * caller.  The caller may selectively override each contract address.
      */
     let networkName = (await Utils.getNetworkName()).toLowerCase();
-    if (networkName === "ganache") {
-      networkName = "private";
+    switch (networkName) {
+      case "ganache":
+        networkName = "private";
+        break;
+      case "live":
+        networkName = "main";
+        break;
     }
 
     if (options.watchForAccountChanges) {

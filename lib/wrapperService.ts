@@ -1,88 +1,92 @@
-import { promisify } from "es6-promisify";
-import { Address } from "./commonTypes";
-import { IContractWrapper, IContractWrapperFactory, IUniversalSchemeWrapper } from "./iContractWrapperBase";
-import { LoggingService } from "./loggingService";
-import { Utils } from "./utils";
+import { promisify } from 'es6-promisify';
+import { Address } from './commonTypes';
+import { IContractWrapper, IContractWrapperFactory, IUniversalSchemeWrapper } from './iContractWrapperBase';
+import { LoggingService } from './loggingService';
+import { Utils } from './utils';
 import {
   AbsoluteVoteFactory,
   AbsoluteVoteWrapper
-} from "./wrappers/absoluteVote";
+} from './wrappers/absoluteVote';
 import {
   Auction4ReputationFactory,
   Auction4ReputationWrapper
-} from "./wrappers/auction4Reputation";
+} from './wrappers/auction4Reputation';
 import {
   ContributionRewardFactory,
   ContributionRewardWrapper
-} from "./wrappers/contributionReward";
+} from './wrappers/contributionReward';
 import {
   DaoCreatorFactory,
   DaoCreatorWrapper
-} from "./wrappers/daoCreator";
+} from './wrappers/daoCreator';
 import {
   DaoTokenFactory,
   DaoTokenWrapper
-} from "./wrappers/daoToken";
+} from './wrappers/daoToken';
 import {
   Erc20Factory,
   Erc20Wrapper
-} from "./wrappers/erc20";
+} from './wrappers/erc20';
 import {
   ExternalLocking4ReputationFactory,
   ExternalLocking4ReputationWrapper
-} from "./wrappers/externalLocking4Reputation";
+} from './wrappers/externalLocking4Reputation';
 import {
   FixedReputationAllocationFactory,
   FixedReputationAllocationWrapper
-} from "./wrappers/fixedReputationAllocation";
+} from './wrappers/fixedReputationAllocation';
+import {
+  GenericSchemeFactory,
+  GenericSchemeWrapper
+} from './wrappers/genericScheme';
 import {
   GenesisProtocolFactory,
   GenesisProtocolWrapper
-} from "./wrappers/genesisProtocol";
+} from './wrappers/genesisProtocol';
 import {
   GlobalConstraintRegistrarFactory,
   GlobalConstraintRegistrarWrapper
-} from "./wrappers/globalConstraintRegistrar";
+} from './wrappers/globalConstraintRegistrar';
 import {
   IntVoteInterfaceFactory,
   IntVoteInterfaceWrapper
-} from "./wrappers/intVoteInterface";
+} from './wrappers/intVoteInterface';
 import {
   LockingEth4ReputationFactory,
   LockingEth4ReputationWrapper
-} from "./wrappers/lockingEth4Reputation";
+} from './wrappers/lockingEth4Reputation';
 import {
   LockingToken4ReputationFactory,
   LockingToken4ReputationWrapper
-} from "./wrappers/lockingToken4Reputation";
+} from './wrappers/lockingToken4Reputation';
 import {
   RedeemerFactory,
   RedeemerWrapper
-} from "./wrappers/redeemer";
+} from './wrappers/redeemer';
 import {
   ReputationFactory,
   ReputationWrapper
-} from "./wrappers/reputation";
+} from './wrappers/reputation';
 import {
   SchemeRegistrarFactory,
   SchemeRegistrarWrapper
-} from "./wrappers/schemeRegistrar";
+} from './wrappers/schemeRegistrar';
 import {
   TokenCapGCFactory,
   TokenCapGCWrapper
-} from "./wrappers/tokenCapGC";
+} from './wrappers/tokenCapGC';
 import {
   UpgradeSchemeFactory,
   UpgradeSchemeWrapper
-} from "./wrappers/upgradeScheme";
+} from './wrappers/upgradeScheme';
 import {
   VestingSchemeFactory,
   VestingSchemeWrapper
-} from "./wrappers/vestingScheme";
+} from './wrappers/vestingScheme';
 import {
   VoteInOrganizationSchemeFactory,
   VoteInOrganizationSchemeWrapper
-} from "./wrappers/voteInOrganizationScheme";
+} from './wrappers/voteInOrganizationScheme';
 
 /* tslint:disable:max-line-length */
 
@@ -96,6 +100,7 @@ export interface ArcWrapperFactories {
   DaoCreator: IContractWrapperFactory<DaoCreatorWrapper>;
   DaoToken: IContractWrapperFactory<DaoTokenWrapper>;
   GenesisProtocol: IContractWrapperFactory<GenesisProtocolWrapper>;
+  GenericScheme: IContractWrapperFactory<GenericSchemeWrapper>;
   GlobalConstraintRegistrar: IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
   IntVoteInterface: IContractWrapperFactory<IntVoteInterfaceWrapper>;
   LockingEth4Reputation: IContractWrapperFactory<LockingEth4ReputationWrapper>;
@@ -123,6 +128,7 @@ export interface ArcWrappers {
   ContributionReward: ContributionRewardWrapper;
   DaoCreator: DaoCreatorWrapper;
   GenesisProtocol: GenesisProtocolWrapper;
+  GenericScheme: GenericSchemeWrapper;
   GlobalConstraintRegistrar: GlobalConstraintRegistrarWrapper;
   Redeemer: RedeemerWrapper;
   SchemeRegistrar: SchemeRegistrarWrapper;
@@ -152,6 +158,7 @@ export interface ArcUniversalSchemeWrapperFactories {
   ContributionReward: IContractWrapperFactory<ContributionRewardWrapper>;
   GlobalConstraintRegistrar: IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
   SchemeRegistrar: IContractWrapperFactory<SchemeRegistrarWrapper>;
+  GenericScheme: IContractWrapperFactory<GenericSchemeWrapper>;
   UpgradeScheme: IContractWrapperFactory<UpgradeSchemeWrapper>;
   VestingScheme: IContractWrapperFactory<VestingSchemeWrapper>;
   VoteInOrganizationScheme: IContractWrapperFactory<VoteInOrganizationSchemeWrapper>;
@@ -244,7 +251,7 @@ export class WrapperService {
    * @param options
    */
   public static async initialize(options: WrapperServiceInitializeOptions = {}): Promise<void> {
-    LoggingService.debug("WrapperService: initializing");
+    LoggingService.debug('WrapperService: initializing');
     /**
      * Deployed contract wrappers by name.
      */
@@ -256,6 +263,7 @@ export class WrapperService {
     WrapperService.wrappers.ContributionReward = filter.ContributionReward ? await ContributionRewardFactory.deployed() : null;
     WrapperService.wrappers.DaoCreator = filter.DaoCreator ? await DaoCreatorFactory.deployed() : null;
     WrapperService.wrappers.GenesisProtocol = filter.GenesisProtocol ? await GenesisProtocolFactory.deployed() : null;
+    WrapperService.wrappers.GenericScheme = filter.GenericScheme ? await GenericSchemeFactory.deployed() : null;
     WrapperService.wrappers.GlobalConstraintRegistrar = filter.GlobalConstraintRegistrar ? await GlobalConstraintRegistrarFactory.deployed() : null;
     WrapperService.wrappers.Redeemer = filter.Redeemer ? await RedeemerFactory.deployed() : null;
     WrapperService.wrappers.SchemeRegistrar = filter.SchemeRegistrar ? await SchemeRegistrarFactory.deployed() : null;
@@ -282,6 +290,7 @@ export class WrapperService {
       WrapperService.wrappers.ContributionReward,
       WrapperService.wrappers.GlobalConstraintRegistrar,
       WrapperService.wrappers.SchemeRegistrar,
+      WrapperService.wrappers.GenericScheme,
       WrapperService.wrappers.UpgradeScheme,
       WrapperService.wrappers.VestingScheme,
       WrapperService.wrappers.VoteInOrganizationScheme,
@@ -301,6 +310,7 @@ export class WrapperService {
     WrapperService.factories.DaoCreator = DaoCreatorFactory as IContractWrapperFactory<DaoCreatorWrapper>;
     WrapperService.factories.DaoToken = DaoTokenFactory as IContractWrapperFactory<DaoTokenWrapper>;
     WrapperService.factories.GenesisProtocol = GenesisProtocolFactory as IContractWrapperFactory<GenesisProtocolWrapper>;
+    WrapperService.factories.GenericScheme = GenericSchemeFactory as IContractWrapperFactory<GenericSchemeWrapper>;
     WrapperService.factories.GlobalConstraintRegistrar = GlobalConstraintRegistrarFactory as IContractWrapperFactory<GlobalConstraintRegistrarWrapper>;
     WrapperService.factories.IntVoteInterface = IntVoteInterfaceFactory as IContractWrapperFactory<IntVoteInterfaceWrapper>;
     WrapperService.factories.LockingEth4Reputation = LockingEth4ReputationFactory as IContractWrapperFactory<LockingEth4ReputationWrapper>;
@@ -325,6 +335,7 @@ export class WrapperService {
 
     WrapperService.universalSchemeFactories.ContributionReward = WrapperService.factories.ContributionReward;
     WrapperService.universalSchemeFactories.GlobalConstraintRegistrar = WrapperService.factories.GlobalConstraintRegistrar;
+    WrapperService.universalSchemeFactories.GenericScheme = WrapperService.factories.GenericScheme;
     WrapperService.universalSchemeFactories.SchemeRegistrar = WrapperService.factories.SchemeRegistrar;
     WrapperService.universalSchemeFactories.UpgradeScheme = WrapperService.factories.UpgradeScheme;
     WrapperService.universalSchemeFactories.VestingScheme = WrapperService.factories.VestingScheme;
@@ -396,6 +407,7 @@ export class WrapperService {
     AbsoluteVote: true,
     ContributionReward: true,
     DaoCreator: true,
+    GenericScheme: true,
     GenesisProtocol: true,
     GlobalConstraintRegistrar: true,
     Redeemer: true,
@@ -410,6 +422,7 @@ export class WrapperService {
     AbsoluteVote: false,
     ContributionReward: false,
     DaoCreator: false,
+    GenericScheme: false,
     GenesisProtocol: false,
     GlobalConstraintRegistrar: false,
     Redeemer: false,
@@ -425,6 +438,7 @@ export interface WrapperFilter {
   AbsoluteVote?: boolean;
   ContributionReward?: boolean;
   DaoCreator?: boolean;
+  GenericScheme?: boolean;
   GenesisProtocol?: boolean;
   GlobalConstraintRegistrar?: boolean;
   Redeemer?: boolean;

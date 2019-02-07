@@ -325,7 +325,7 @@ export class Utils {
    * Returns address of the global GEN token.
    */
   public static getGenTokenAddress(): string {
-    return this.deployedContractAddresses.DAOToken;
+    return this.deployedContractAddresses.GEN;
   }
 
   /**

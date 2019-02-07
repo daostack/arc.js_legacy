@@ -36,6 +36,7 @@ export class DefaultSchemePermissions {
   public static MinimumPermissions: SchemePermissions = SchemePermissions.IsRegistered;
   public static AllPermissions: SchemePermissions = SchemePermissions.All;
   public static ContributionReward: SchemePermissions = SchemePermissions.IsRegistered;
+  public static GenericScheme: SchemePermissions = SchemePermissions.IsRegistered | SchemePermissions.CanCallDelegateCall;
   public static GlobalConstraintRegistrar: SchemePermissions = SchemePermissions.IsRegistered | SchemePermissions.CanAddRemoveGlobalConstraints;
   /**
    * Has all permissions so that it can register/unregister all schemes
@@ -45,6 +46,7 @@ export class DefaultSchemePermissions {
   public static VestingScheme: SchemePermissions = SchemePermissions.IsRegistered;
   public static VoteInOrganizationScheme: SchemePermissions = SchemePermissions.IsRegistered | SchemePermissions.CanCallDelegateCall;
 }
+
 /* tslint:enable:no-bitwise */
 /* tslint:enable:max-line-length */
 /* tslint:disable:no-namespace */
