@@ -57,9 +57,9 @@ export class GenericSchemeWrapper extends ProposalGeneratorBase {
   public async getParameters(paramsHash: Hash): Promise<GenericSchemeParams> {
     const params = await this.getParametersArray(paramsHash);
     return {
+      contractToCall: params[2],
       voteParametersHash: params[0],
       votingMachineAddress: params[1],
-      contractToCall: params[2],
     };
   }
 }

@@ -267,21 +267,35 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
       throw new Error('auctionId must be greater than or equal to zero');
     }
 
+    let rep: BigNumber = new BigNumber(0);
+
     const bid = await this.getBid(options.beneficiaryAddress, options.auctionId);
     // because the Arc contract will revert in this case
-    if (bid.eq(0)) {
-      return Promise.resolve(new BigNumber(0));
+    if (!bid.eq(0)) {
+
+      const errMsg = await this.getRedeemBlocker(options);
+
+      if (errMsg) {
+        throw new Error(errMsg);
+      }
+
+      this.logContractFunctionCall('Auction4Reputation.redeem.call', options);
+
+      rep = await this.contract.redeem.call(options.beneficiaryAddress, options.auctionId);
+    } else {
+      /**
+       * see if it is 0 by result of the reputation being redeemed
+       */
+      const events = await this.Redeem(
+        { _beneficiary: options.beneficiaryAddress, _auctionId: options.auctionId }, { fromBlock: 0 }).get();
+      if (events.length) {
+        if (events.length > 1) {
+          throw new Error('unexpectedly received more than one Redeem event for the account');
+        }
+        rep = events[0].args._amount;
+      }
     }
-
-    const errMsg = await this.getRedeemBlocker(options);
-
-    if (errMsg) {
-      throw new Error(errMsg);
-    }
-
-    this.logContractFunctionCall('Auction4Reputation.redeem.call', options);
-
-    return this.contract.redeem.call(options.beneficiaryAddress, options.auctionId);
+    return rep;
   }
 
   /**
@@ -421,21 +435,6 @@ export const Auction4ReputationFactory =
     'Auction4Reputation',
     Auction4ReputationWrapper,
     new Web3EventService()) as Auction4ReputationType;
-
-export interface Auction4ReputationRedeemEventResult {
-  /**
-   * indexed
-   */
-  _lockingId: Hash;
-  /**
-   * indexed
-   */
-  _beneficiary: Address;
-  /**
-   * in Wei
-   */
-  _amount: BigNumber;
-}
 
 export interface Auction4ReputationReleaseEventResult {
   /**

@@ -124,6 +124,17 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
    */
   public async hasTokenToActivate(lockerAddress: Address): Promise<boolean> {
 
+    const balance = await this.accountTokenBalance(lockerAddress);
+
+    return balance.gt(0);
+  }
+
+  /**
+   * Returns the user's token balance
+   * @param lockerAddress
+   */
+  public async accountTokenBalance(lockerAddress: Address): Promise<BigNumber> {
+
     const web3 = await Utils.getWeb3();
 
     const tokenAddress = await this.getExternalLockingContract();
@@ -154,10 +165,8 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
     ).at(tokenAddress);
     // tslint:enable
 
-    const balance = await promisify((callback: any): any =>
+    return promisify((callback: any): BigNumber =>
       mgnToken.lockedTokenBalances(lockerAddress, callback))() as any;
-
-    return balance.gt(0);
   }
 
   /**
