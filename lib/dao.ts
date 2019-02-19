@@ -78,9 +78,9 @@ export class DAO {
       dao.token = await avatarService.getNativeToken();
       dao.reputation = await avatarService.getNativeReputation();
       dao.name = await dao.avatar.orgName();
-    }
 
-    return dao;
+      return dao;
+    }
   }
 
   /**
@@ -145,13 +145,17 @@ export class DAO {
    * the name of the DAO
    */
   public name: string;
+  /**
+   * block in which avatar was created
+   */
+  public blockNumber: number;
 
   /**
    * Returns the promise of all of the schemes registered into this DAO, as Array<DaoSchemeInfo>
    * @param name Optionally filter by the name of a scheme, like "SchemeRegistrar"
    */
-  public async getSchemes(name?: string): Promise<Array<DaoSchemeInfo>> {
-    const schemes = await this._getSchemes();
+  public async getSchemes(name?: string, filterParams?: any): Promise<Array<DaoSchemeInfo>> {
+    const schemes = await this._getSchemes(filterParams);
     if (name) {
       return schemes.filter((s: DaoSchemeInfo) => s.wrapper && s.wrapper.name && (s.wrapper.name === name));
     } else {
@@ -252,14 +256,14 @@ export class DAO {
   /**
    * Returns promise of schemes currently in this DAO as Array<DaoSchemeInfo>
    */
-  private async _getSchemes(): Promise<Array<DaoSchemeInfo>> {
+  private async _getSchemes(filterParams = {}): Promise<Array<DaoSchemeInfo>> {
     const foundSchemes = new Map<string, DaoSchemeInfo>();
     const controller = this.controller;
     const avatar = this.avatar;
 
     const registerSchemeEvent = controller.RegisterScheme(
-      {},
-      { fromBlock: 0, toBlock: "latest" }
+      Object.assign({ _avatar: this.avatar.address }, filterParams), // _avatar only matters with Universal controller
+      { fromBlock: 0, toBlock: 'latest' }
     );
 
     await new Promise((resolve: fnVoid, reject: (error: Error) => void): void => {
@@ -270,12 +274,9 @@ export class DAO {
         if (err) {
           return reject(err);
         }
-        this._handleSchemeEvent(log, foundSchemes)
-          .then((): void => {
-            resolve();
-          });
-      }
-      );
+        this._handleSchemeEvent(log, foundSchemes);
+        return resolve();
+      });
     });
 
     const registeredSchemes = [];
@@ -289,11 +290,11 @@ export class DAO {
     return registeredSchemes;
   }
 
-  private async _handleSchemeEvent(
+  private _handleSchemeEvent(
     log: DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry> |
       Array<DecodedLogEntryEvent<ControllerRegisterSchemeEventLogEntry>>,
     schemesMap: Map<string, DaoSchemeInfo>
-  ): Promise<void> {
+  ): void {
 
     if (!Array.isArray(log)) {
       log = [log];
@@ -305,6 +306,8 @@ export class DAO {
 
       const schemeInfo: DaoSchemeInfo = {
         address,
+        blockNumber: log[i].blockNumber,
+        transactionHash: log[i].transactionHash,
         // will be undefined if not an Arc scheme deployed by the running version of Arc.js
         // TODO: this should be aware of previously-deployed schemes
         wrapper,
@@ -396,6 +399,14 @@ export interface DaoSchemeInfo {
    * Scheme address
    */
   address: string;
+  /**
+   * block # when the scheme was registered with the DAO controller
+   */
+  blockNumber: number;
+  /**
+   * tx when the scheme was registered with the DAO controller
+   */
+  transactionHash: Hash;
   /**
    * Wrapper class for the scheme if it was deployed by the running version of Arc.js
    */
