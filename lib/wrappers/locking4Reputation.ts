@@ -155,11 +155,12 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
     const hasLocked = await this.lockerHasLocked(options.lockerAddress);
     if (hasLocked) {
 
-      const errMsg = await this.getRedeemBlocker(options.lockerAddress);
+      // forgo this, assuming this is only called after the locking period has expired.
+      // const errMsg = await this.getRedeemBlocker(options.lockerAddress);
 
-      if (errMsg) {
-        throw new Error(errMsg);
-      }
+      // if (errMsg) {
+      //   throw new Error(errMsg);
+      // }
 
       this.logContractFunctionCall('Locking4Reputation.redeem.call', options);
 
@@ -168,7 +169,8 @@ export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
       /**
        * see if it is 0 by result of the reputation being redeemed
        */
-      const events = await this.Redeem({ _beneficiary: options.lockerAddress }, { fromBlock: 0 }).get();
+      const events = await this.Redeem({ _beneficiary: options.lockerAddress },
+        { fromBlock: options.contractBirthBlock || 0 }).get();
       if (events.length) {
         if (events.length > 1) {
           throw new Error('unexpectedly received more than one Redeem event for the account');
@@ -547,6 +549,10 @@ export interface LockerInfo {
 
 export interface RedeemOptions {
   lockerAddress: Address;
+  /**
+   * block in which contract was created, to optimize search for Redeem events, if needed
+   */
+  contractBirthBlock?: number;
 }
 
 export interface ReleaseOptions {

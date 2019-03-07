@@ -273,11 +273,12 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     // because the Arc contract will revert in this case
     if (!bid.eq(0)) {
 
-      const errMsg = await this.getRedeemBlocker(options);
+      // forgo this, assuming this is only called after the auction has expired.
+      // const errMsg = await this.getRedeemBlocker(options);
 
-      if (errMsg) {
-        throw new Error(errMsg);
-      }
+      // if (errMsg) {
+      //   throw new Error(errMsg);
+      // }
 
       this.logContractFunctionCall('Auction4Reputation.redeem.call', options);
 
@@ -287,7 +288,8 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
        * see if it is 0 by result of the reputation being redeemed
        */
       const events = await this.Redeem(
-        { _beneficiary: options.beneficiaryAddress, _auctionId: options.auctionId }, { fromBlock: 0 }).get();
+        { _beneficiary: options.beneficiaryAddress, _auctionId: options.auctionId },
+        { fromBlock: options.contractBirthBlock || 0 }).get();
       if (events.length) {
         if (events.length > 1) {
           throw new Error('unexpectedly received more than one Redeem event for the account');
@@ -477,6 +479,10 @@ export interface Auction4ReputationRedeemOptions {
    */
   auctionId: number;
   beneficiaryAddress: Address;
+  /**
+   * block in which contract was created, to optimize search for Redeem events, if needed
+   */
+  contractBirthBlock?: number;
 }
 
 export interface Auction4ReputationBidOptions {
