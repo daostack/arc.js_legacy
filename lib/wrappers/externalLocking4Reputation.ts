@@ -1,17 +1,17 @@
-"use strict";
-import BigNumber from "bignumber.js";
-import { promisify } from "es6-promisify";
-import { Address } from "../commonTypes";
-import { ContractWrapperFactory } from "../contractWrapperFactory";
-import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
-import { TxGeneratingFunctionOptions } from "../transactionService";
-import { Utils } from "../utils";
-import { Web3EventService } from "../web3EventService";
-import { Locking4ReputationWrapper } from "./locking4Reputation";
+'use strict';
+import BigNumber from 'bignumber.js';
+import { promisify } from 'es6-promisify';
+import { Address, Hash } from '../commonTypes';
+import { ContractWrapperFactory } from '../contractWrapperFactory';
+import { ArcTransactionResult, IContractWrapperFactory } from '../iContractWrapperBase';
+import { TxGeneratingFunctionOptions } from '../transactionService';
+import { Utils } from '../utils';
+import { Web3EventService } from '../web3EventService';
+import { Locking4ReputationWrapper } from './locking4Reputation';
 
 export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper {
-  public name: string = "ExternalLocking4Reputation";
-  public friendlyName: string = "External Locking For Reputation";
+  public name: string = 'ExternalLocking4Reputation';
+  public friendlyName: string = 'External Locking For Reputation';
   public factory: IContractWrapperFactory<ExternalLocking4ReputationWrapper> = ExternalLocking4ReputationFactory;
 
   public async initialize(options: ExternalLockingInitializeOptions & TxGeneratingFunctionOptions)
@@ -20,15 +20,15 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
     await super._initialize(options, false);
 
     if (!options.externalLockingContract) {
-      throw new Error("externalLockingContract is not defined");
+      throw new Error('externalLockingContract is not defined');
     }
     if (!options.getBalanceFuncSignature) {
-      throw new Error("getBalanceFuncSignature is not defined");
+      throw new Error('getBalanceFuncSignature is not defined');
     }
 
-    this.logContractFunctionCall("ExternalLocking4Reputation.initialize", options);
+    this.logContractFunctionCall('ExternalLocking4Reputation.initialize', options);
 
-    return this.wrapTransactionInvocation("ExternalLocking4Reputation.initialize",
+    return this.wrapTransactionInvocation('ExternalLocking4Reputation.initialize',
       options,
       this.contract.initialize,
       [options.avatarAddress,
@@ -45,9 +45,10 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
     /**
      * stub out lockerAddress, amount and period -- they aren't relevant to external locking validation.
      */
-    const msg = await super.getLockBlocker(Object.assign({},
-      { lockerAddress: "0x", amount: "1", period: 1 }
-    ));
+    const msg = await super.getLockBlocker(
+      Object.assign({ legalContractHash: options.legalContractHash },
+        { lockerAddress: '0x', amount: '1', period: 1 }
+      ));
 
     if (msg) {
       return msg;
@@ -55,7 +56,7 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
 
     const alreadyLocked = await this.getAccountHasLocked(options.lockerAddress);
     if (alreadyLocked) {
-      return "account has already registered";
+      return 'account has already registered';
     }
 
     const currentAccount = (await Utils.getDefaultAccount()).toLowerCase();
@@ -90,12 +91,13 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
       lockerAddress = 0;
     }
 
-    this.logContractFunctionCall("ExternalLocking4Reputation.claim", options);
+    this.logContractFunctionCall('ExternalLocking4Reputation.claim', options);
 
-    return this.wrapTransactionInvocation("ExternalLocking4Reputation.claim",
+    return this.wrapTransactionInvocationWithPayload('ExternalLocking4Reputation.claim',
       options,
       this.contract.claim,
-      [lockerAddress]
+      [lockerAddress],
+      options.legalContractHash
     );
   }
 
@@ -103,14 +105,15 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
    * The caller is giving permission to the contract to allow someone else to claim
    * on their behalf.
    */
-  public async register(): Promise<ArcTransactionResult> {
+  public async register(options: RegisterOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
 
-    this.logContractFunctionCall("ExternalLocking4Reputation.register");
+    this.logContractFunctionCall('ExternalLocking4Reputation.register');
 
-    return this.wrapTransactionInvocation("ExternalLocking4Reputation.register",
+    return this.wrapTransactionInvocationWithPayload('ExternalLocking4Reputation.register',
       {},
       this.contract.register,
       [],
+      options.legalContractHash,
       { from: await Utils.getDefaultAccount() }
     );
   }
@@ -175,17 +178,17 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
    * @param lockerAddress
    */
   public isRegistered(lockerAddress: Address): Promise<boolean> {
-    this.logContractFunctionCall("ExternalLocking4Reputation.registrar", { lockerAddress });
+    this.logContractFunctionCall('ExternalLocking4Reputation.registrar', { lockerAddress });
     return this.contract.registrar(lockerAddress);
   }
 
   public getExternalLockingContract(): Promise<Address> {
-    this.logContractFunctionCall("ExternalLocking4Reputation.externalLockingContract");
+    this.logContractFunctionCall('ExternalLocking4Reputation.externalLockingContract');
     return this.contract.externalLockingContract();
   }
 
   public getGetBalanceFuncSignature(): Promise<string> {
-    this.logContractFunctionCall("ExternalLocking4Reputation.getBalanceFuncSignature");
+    this.logContractFunctionCall('ExternalLocking4Reputation.getBalanceFuncSignature');
     return this.contract.getBalanceFuncSignature();
   }
 
@@ -194,9 +197,9 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
    */
   public getAccountHasLocked(lockerAddress: Address): Promise<boolean> {
     if (!lockerAddress) {
-      throw new Error("lockerAddress is not defined");
+      throw new Error('lockerAddress is not defined');
     }
-    this.logContractFunctionCall("ExternalLocking4Reputation.externalLockers");
+    this.logContractFunctionCall('ExternalLocking4Reputation.externalLockers');
     return this.contract.externalLockers(lockerAddress);
   }
 
@@ -205,13 +208,13 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
 export class ExternalLocking4ReputationType extends ContractWrapperFactory<ExternalLocking4ReputationWrapper> {
 
   public async deployed(): Promise<ExternalLocking4ReputationWrapper> {
-    throw new Error("ExternalLocking4Reputation has not been deployed");
+    throw new Error('ExternalLocking4Reputation has not been deployed');
   }
 }
 
 export const ExternalLocking4ReputationFactory =
   new ExternalLocking4ReputationType(
-    "ExternalLocking4Reputation",
+    'ExternalLocking4Reputation',
     ExternalLocking4ReputationWrapper,
     new Web3EventService()) as ExternalLocking4ReputationType;
 
@@ -229,5 +232,10 @@ export interface ExternalLockingInitializeOptions {
 }
 
 export interface ExternalLockingClaimOptions {
+  legalContractHash: Hash;
   lockerAddress?: Address;
+}
+
+export interface RegisterOptions {
+  legalContractHash: Hash;
 }

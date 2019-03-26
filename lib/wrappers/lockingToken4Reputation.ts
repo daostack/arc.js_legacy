@@ -1,18 +1,18 @@
-"use strict";
-import BigNumber from "bignumber.js";
-import { Address, Hash } from "../commonTypes";
-import { ContractWrapperFactory } from "../contractWrapperFactory";
-import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
-import { TxGeneratingFunctionOptions } from "../transactionService";
-import { Utils } from "../utils";
-import { EventFetcherFactory, Web3EventService } from "../web3EventService";
-import { WrapperService } from "../wrapperService";
-import { Erc20Factory, Erc20Wrapper } from "./erc20";
-import { InitializeOptions, Locking4ReputationWrapper, LockingOptions, ReleaseOptions } from "./locking4Reputation";
+'use strict';
+import BigNumber from 'bignumber.js';
+import { Address, Hash } from '../commonTypes';
+import { ContractWrapperFactory } from '../contractWrapperFactory';
+import { ArcTransactionResult, IContractWrapperFactory } from '../iContractWrapperBase';
+import { TxGeneratingFunctionOptions } from '../transactionService';
+import { Utils } from '../utils';
+import { EventFetcherFactory, Web3EventService } from '../web3EventService';
+import { WrapperService } from '../wrapperService';
+import { Erc20Factory, Erc20Wrapper } from './erc20';
+import { InitializeOptions, Locking4ReputationWrapper, LockingOptions, ReleaseOptions } from './locking4Reputation';
 
 export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
-  public name: string = "LockingToken4Reputation";
-  public friendlyName: string = "Locking Token For Reputation";
+  public name: string = 'LockingToken4Reputation';
+  public friendlyName: string = 'Locking Token For Reputation';
   public factory: IContractWrapperFactory<LockingToken4ReputationWrapper> = LockingToken4ReputationFactory;
 
   public LockToken: EventFetcherFactory<LockingToken4ReputationLockEventResult>;
@@ -26,9 +26,9 @@ export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
       throw new Error(`priceOracleContract not supplied`);
     }
 
-    this.logContractFunctionCall("LockingToken4Reputation.initialize", options);
+    this.logContractFunctionCall('LockingToken4Reputation.initialize', options);
 
-    return this.wrapTransactionInvocation("LockingToken4Reputation.initialize",
+    return this.wrapTransactionInvocation('LockingToken4Reputation.initialize',
       options,
       this.contract.initialize,
       [options.avatarAddress,
@@ -45,12 +45,13 @@ export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
 
     await super._release(options);
 
-    this.logContractFunctionCall("LockingToken4Reputation.release", options);
+    this.logContractFunctionCall('LockingToken4Reputation.release', options);
 
-    return this.wrapTransactionInvocation("LockingToken4Reputation.release",
+    return this.wrapTransactionInvocationWithPayload('LockingToken4Reputation.release',
       options,
       this.contract.release,
-      [options.lockerAddress, options.lockId]
+      [options.lockerAddress, options.lockId],
+      options.legalContractHash
     );
   }
 
@@ -65,7 +66,7 @@ export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
     }
 
     if (!options.tokenAddress) {
-      return "tokenAddress was not supplied";
+      return 'tokenAddress was not supplied';
     }
 
     const token = await Erc20Factory.at(options.tokenAddress);
@@ -73,7 +74,7 @@ export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
     const amount = new BigNumber(options.amount);
 
     if (balance.lt(amount)) {
-      return "the account has insufficient balance";
+      return 'the account has insufficient balance';
     }
 
     return null;
@@ -86,24 +87,25 @@ export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
       throw new Error(msg);
     }
 
-    this.logContractFunctionCall("LockingToken4Reputation.lock", options);
+    this.logContractFunctionCall('LockingToken4Reputation.lock', options);
 
-    return this.wrapTransactionInvocation("LockingToken4Reputation.lock",
+    return this.wrapTransactionInvocationWithPayload('LockingToken4Reputation.lock',
       options,
       this.contract.lock,
       [options.amount, options.period, options.tokenAddress],
+      options.legalContractHash,
       { from: options.lockerAddress }
     );
   }
 
   public async getTokenForLock(lockingId: Hash): Promise<Erc20Wrapper> {
-    this.logContractFunctionCall("LockingToken4Reputation.lockedTokens");
+    this.logContractFunctionCall('LockingToken4Reputation.lockedTokens');
     const address = await this.contract.lockedTokens(lockingId);
     return WrapperService.factories.Erc20.at(address);
   }
 
   public getPriceOracleAddress(): Promise<Address> {
-    this.logContractFunctionCall("LockingToken4Reputation.priceOracleContract");
+    this.logContractFunctionCall('LockingToken4Reputation.priceOracleContract');
     return this.contract.priceOracleContract();
   }
 }
@@ -111,13 +113,13 @@ export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
 export class LockingToken4ReputationType extends ContractWrapperFactory<LockingToken4ReputationWrapper> {
 
   public async deployed(): Promise<LockingToken4ReputationWrapper> {
-    throw new Error("LockingToken4Reputation has not been deployed");
+    throw new Error('LockingToken4Reputation has not been deployed');
   }
 }
 
 export const LockingToken4ReputationFactory =
   new LockingToken4ReputationType(
-    "LockingToken4Reputation",
+    'LockingToken4Reputation',
     LockingToken4ReputationWrapper,
     new Web3EventService()) as LockingToken4ReputationType;
 

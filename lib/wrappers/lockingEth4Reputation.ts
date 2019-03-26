@@ -1,15 +1,15 @@
-"use strict";
-import BigNumber from "bignumber.js";
-import { ContractWrapperFactory } from "../contractWrapperFactory";
-import { ArcTransactionResult, IContractWrapperFactory } from "../iContractWrapperBase";
-import { TxGeneratingFunctionOptions } from "../transactionService";
-import { Utils } from "../utils";
-import { Web3EventService } from "../web3EventService";
-import { InitializeOptions, Locking4ReputationWrapper, LockingOptions, ReleaseOptions } from "./locking4Reputation";
+'use strict';
+import BigNumber from 'bignumber.js';
+import { ContractWrapperFactory } from '../contractWrapperFactory';
+import { ArcTransactionResult, IContractWrapperFactory } from '../iContractWrapperBase';
+import { TxGeneratingFunctionOptions } from '../transactionService';
+import { Utils } from '../utils';
+import { Web3EventService } from '../web3EventService';
+import { InitializeOptions, Locking4ReputationWrapper, LockingOptions, ReleaseOptions } from './locking4Reputation';
 
 export class LockingEth4ReputationWrapper extends Locking4ReputationWrapper {
-  public name: string = "LockingEth4Reputation";
-  public friendlyName: string = "Locking Eth For Reputation";
+  public name: string = 'LockingEth4Reputation';
+  public friendlyName: string = 'Locking Eth For Reputation';
   public factory: IContractWrapperFactory<LockingEth4ReputationWrapper> = LockingEth4ReputationFactory;
 
   public async initialize(options: InitializeOptions & TxGeneratingFunctionOptions)
@@ -17,9 +17,9 @@ export class LockingEth4ReputationWrapper extends Locking4ReputationWrapper {
 
     await super._initialize(options);
 
-    this.logContractFunctionCall("LockingEth4Reputation.initialize", options);
+    this.logContractFunctionCall('LockingEth4Reputation.initialize', options);
 
-    return this.wrapTransactionInvocation("LockingEth4Reputation.initialize",
+    return this.wrapTransactionInvocation('LockingEth4Reputation.initialize',
       options,
       this.contract.initialize,
       [options.avatarAddress,
@@ -35,12 +35,13 @@ export class LockingEth4ReputationWrapper extends Locking4ReputationWrapper {
 
     await super._release(options);
 
-    this.logContractFunctionCall("LockingEth4Reputation.release", options);
+    this.logContractFunctionCall('LockingEth4Reputation.release', options);
 
-    return this.wrapTransactionInvocation("LockingEth4Reputation.release",
+    return this.wrapTransactionInvocationWithPayload('LockingEth4Reputation.release',
       options,
       this.contract.release,
-      [options.lockerAddress, options.lockId]
+      [options.lockerAddress, options.lockId],
+      options.legalContractHash
     );
   }
 
@@ -58,7 +59,7 @@ export class LockingEth4ReputationWrapper extends Locking4ReputationWrapper {
     const amount = new BigNumber(options.amount);
 
     if (balance.lt(amount)) {
-      return "the account has insufficient balance";
+      return 'the account has insufficient balance';
     }
     return null;
   }
@@ -70,12 +71,13 @@ export class LockingEth4ReputationWrapper extends Locking4ReputationWrapper {
       throw new Error(msg);
     }
 
-    this.logContractFunctionCall("LockingEth4Reputation.lock", options);
+    this.logContractFunctionCall('LockingEth4Reputation.lock', options);
 
-    return this.wrapTransactionInvocation("LockingEth4Reputation.lock",
+    return this.wrapTransactionInvocationWithPayload('LockingEth4Reputation.lock',
       options,
       this.contract.lock,
       [options.period],
+      options.legalContractHash,
       { from: options.lockerAddress, value: options.amount }
     );
   }
@@ -84,12 +86,12 @@ export class LockingEth4ReputationWrapper extends Locking4ReputationWrapper {
 export class LockingEth4ReputationType extends ContractWrapperFactory<LockingEth4ReputationWrapper> {
 
   public async deployed(): Promise<LockingEth4ReputationWrapper> {
-    throw new Error("LockingEth4Reputation has not been deployed");
+    throw new Error('LockingEth4Reputation has not been deployed');
   }
 }
 
 export const LockingEth4ReputationFactory =
   new LockingEth4ReputationType(
-    "LockingEth4Reputation",
+    'LockingEth4Reputation',
     LockingEth4ReputationWrapper,
     new Web3EventService()) as LockingEth4ReputationType;

@@ -4,16 +4,16 @@ import { DecodedLogEntry } from 'web3';
 import { Address, Hash } from '../commonTypes';
 import { ContractWrapperFactory } from '../contractWrapperFactory';
 import { ArcTransactionResult, IContractWrapperFactory } from '../iContractWrapperBase';
-import { SchemeWrapperBase } from '../schemeWrapperBase';
 import { TxGeneratingFunctionOptions } from '../transactionService';
 import { Utils } from '../utils';
 import { UtilsInternal } from '../utilsInternal';
 import { EventFetcherFactory, Web3EventService } from '../web3EventService';
 import { WrapperService } from '../wrapperService';
+import { BootstrappingWrapperBase } from './bootstrappingWrapperBase';
 import { DaoTokenWrapper } from './daoToken';
 import { Erc20Wrapper } from './erc20';
 
-export class Auction4ReputationWrapper extends SchemeWrapperBase {
+export class Auction4ReputationWrapper extends BootstrappingWrapperBase {
   public name: string = 'Auction4Reputation';
   public friendlyName: string = 'Auction For Reputation';
   public factory: IContractWrapperFactory<Auction4ReputationWrapper> = Auction4ReputationFactory;
@@ -125,10 +125,11 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
 
     this.logContractFunctionCall('Auction4Reputation.redeem', options);
 
-    return this.wrapTransactionInvocation('Auction4Reputation.redeem',
+    return this.wrapTransactionInvocationWithPayload('Auction4Reputation.redeem',
       options,
       this.contract.redeem,
-      [options.beneficiaryAddress, options.auctionId]
+      [options.beneficiaryAddress, options.auctionId],
+      options.legalContractHash
     );
   }
 
@@ -199,10 +200,11 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
 
     this.logContractFunctionCall('Auction4Reputation.bid', options);
 
-    return this.wrapTransactionInvocation('Auction4Reputation.bid',
+    return this.wrapTransactionInvocationWithPayload('Auction4Reputation.bid',
       options,
       this.contract.bid,
-      [options.amount]
+      [options.amount],
+      options.legalContractHash
     );
   }
 
@@ -210,7 +212,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
    * transfer bidded tokens to the wallet
    * @param options
    */
-  public async transferToWallet(options: TxGeneratingFunctionOptions = {})
+  public async transferToWallet(options: { legalContractHash: Hash } & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
 
     const endTime = await this.getAuctionsEndTime();
@@ -222,10 +224,11 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
 
     this.logContractFunctionCall('Auction4Reputation.transferToWallet', options);
 
-    return this.wrapTransactionInvocation('Auction4Reputation.transferToWallet',
+    return this.wrapTransactionInvocationWithPayload('Auction4Reputation.transferToWallet',
       options,
       this.contract.transferToWallet,
-      []
+      [],
+      options.legalContractHash
     );
   }
 
@@ -254,7 +257,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
     return this.contract.getBid(bidderAddress, auctionId);
   }
 
-  public async getUserEarnedReputation(options: Auction4ReputationRedeemOptions): Promise<BigNumber> {
+  public async getUserEarnedReputation(options: Auction4GetUserEarnedOptions): Promise<BigNumber> {
     if (!options.beneficiaryAddress) {
       throw new Error('beneficiaryAddress is not defined');
     }
@@ -483,10 +486,24 @@ export interface Auction4ReputationRedeemOptions {
    * block in which contract was created, to optimize search for Redeem events, if needed
    */
   contractBirthBlock?: number;
+  legalContractHash: Hash;
+}
+
+export interface Auction4GetUserEarnedOptions {
+  /**
+   * 0-based index of the auction.
+   */
+  auctionId: number;
+  beneficiaryAddress: Address;
+  /**
+   * block in which contract was created, to optimize search for Redeem events, if needed
+   */
+  contractBirthBlock?: number;
 }
 
 export interface Auction4ReputationBidOptions {
   amount: BigNumber | string;
+  legalContractHash: Hash;
 }
 
 export interface Auction4ReputationBidEventResult {
