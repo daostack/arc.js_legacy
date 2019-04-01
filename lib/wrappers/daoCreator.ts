@@ -414,10 +414,13 @@ export class DaoCreatorWrapper extends ContractWrapperBase {
     tx = await this.sendTransaction(
       eventContext,
       this.contract.setSchemes,
-      [options.avatar,
+      [
+        options.avatar,
         initialSchemesSchemes,
         initialSchemesParams,
-        initialSchemesPermissions]
+        initialSchemesPermissions,
+        options.metadata || '',
+      ]
     );
 
     if (tx) {
@@ -578,8 +581,7 @@ export interface SchemeConfig {
   votingMachineParams?: NewDaoVotingMachineConfig;
   /**
    * You can add other scheme parameters here.
-   * For example, ContributionReward requires orgNativeTokenFee.
-   * SchemeRegistrar has voteRemoveParametersHash.
+   * For example, SchemeRegistrar has voteRemoveParametersHash.
    */
   [x: string]: any;
   /**
@@ -614,4 +616,8 @@ export interface SetSchemesConfig extends SchemesConfig, TxGeneratingFunctionOpt
    * avatar address
    */
   avatar: Address;
+  /**
+   * DAO Metadata.  Empty string by default.
+   */
+  metadata?: string;
 }

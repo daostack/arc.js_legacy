@@ -159,9 +159,6 @@ const newDao = await DAO.new({
 });
 ```
 
-!!! note "What defines a universal scheme?"
-    A scheme contract is judged to be universal if it supports the method `updateParameters`.
-
 !!! tip "Hashing the parameters"
     You should hash your scheme parameters however the non-Arc scheme does.  Arc schemes use `keccak256`.  If the non-Arc scheme uses the same method, you can use [Utils.keccak256](/arc.js/api/classes/Utils#static-keccak256). You should sequence the given types and values in the same order that they would appear when hashed by the universal non-Arc contract itself.
 

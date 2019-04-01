@@ -41,7 +41,7 @@ export class Auction4ReputationWrapper extends BootstrappingWrapperBase {
       throw new Error('walletAddress is not defined');
     }
 
-    if (!Number.isInteger(options.auctionPeriod) || (options.auctionPeriod <= 15)) {
+    if ((typeof (options.auctionPeriod) !== 'number') || (options.auctionPeriod <= 15)) {
       throw new Error('auctionPeriod must be a number > 15');
     }
 
@@ -169,11 +169,17 @@ export class Auction4ReputationWrapper extends BootstrappingWrapperBase {
       return 'amount to bid must be greater than zero';
     }
 
+    const currentAuctionId = await this.getCurrentAuctionId();
+
+    if (options.auctionId !== currentAuctionId) {
+      return 'the current auction has changed';
+    }
+
     const startTime = await this.getAuctionsStartTime();
     const endTime = await this.getAuctionsEndTime();
     const now = await UtilsInternal.lastBlockDate();
 
-    if ((now > endTime) || (now < startTime)) {
+    if ((now >= endTime) || (now < startTime)) {
       return 'bidding is not within the allowed bidding period';
     }
 
@@ -203,7 +209,7 @@ export class Auction4ReputationWrapper extends BootstrappingWrapperBase {
     return this.wrapTransactionInvocationWithPayload('Auction4Reputation.bid',
       options,
       this.contract.bid,
-      [options.amount],
+      [options.amount, options.auctionId],
       options.legalContractHash
     );
   }
@@ -503,6 +509,7 @@ export interface Auction4GetUserEarnedOptions {
 
 export interface Auction4ReputationBidOptions {
   amount: BigNumber | string;
+  auctionId: number;
   legalContractHash: Hash;
 }
 

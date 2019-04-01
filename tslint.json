@@ -18,9 +18,11 @@
       "spaces",
       2
     ],
-    "no-unused-expression": [
+    "only-arrow-functions": false,
+    "no-var-requires": false,
+    "quotemark": [
       true,
-      "allow-fast-null-checks"
+      "single"
     ],
     "trailing-comma": [
       true,
@@ -38,20 +40,7 @@
     "array-type": [
       true,
       "generic"
-    ],
-    "no-misused-new": false,
-    "typedef": [
-      true,
-      "call-signature",
-      "arrow-call-signature",
-      "parameter",
-      "arrow-parameter",
-      "property-declaration",
-      "member-variable-declaration",
-      "object-destructuring",
-      "array-destructuring"
-    ],
-    "no-inferrable-types": false
+    ]
   },
   "rulesDirectory": []
 }

@@ -149,8 +149,6 @@ nav:
   - CollectVestingAgreementConfig : 'api/interfaces/CollectVestingAgreementConfig.md'
   - CommonVestingAgreementConfig : 'api/interfaces/CommonVestingAgreementConfig.md'
   - ContributionProposal : 'api/interfaces/ContributionProposal.md'
-  - ContributionRewardParams : 'api/interfaces/ContributionRewardParams.md'
-  - ContributionRewardParamsReturn : 'api/interfaces/ContributionRewardParamsReturn.md'
   - ContributionRewardRedeemParams : 'api/interfaces/ContributionRewardRedeemParams.md'
   - ContributionRewardSpecifiedRedemptionParams : 'api/interfaces/ContributionRewardSpecifiedRedemptionParams.md'
   - ControllerAddGlobalConstraintsEventLogEntry : 'api/interfaces/ControllerAddGlobalConstraintsEventLogEntry.md'
