@@ -72,7 +72,7 @@ export abstract class BootstrappingWrapperBase extends SchemeWrapperBase {
     } catch (ex) {
       LoggingService.error(
         // tslint:disable-next-line: max-line-length
-        `BootstrappingWrapperBase.wrapTransactionInvocationWithPayload: An error occurred calling ${functionName}: ${ex}`);
+        `BootstrappingWrapperBase.wrapTransactionInvocationWithPayload: An error occurred calling ${functionName}: ${JSON.stringify(ex)}`);
       throw ex;
     }
   }
