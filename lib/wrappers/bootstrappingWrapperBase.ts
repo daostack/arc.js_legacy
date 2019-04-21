@@ -116,9 +116,14 @@ export abstract class BootstrappingWrapperBase extends SchemeWrapperBase {
           `invoking function with configured gasPrice: ${web3.fromWei(web3Params.gasPrice, 'gwei')}`);
       }
 
+      const maxGasLimit = await UtilsInternal.computeMaxGasLimit();
+
       if (ConfigService.get('estimateGas') && !web3Params.gas) {
         await this.estimateGas(func, params, web3Params)
           .then((gas: number) => {
+            // add 130 gas to account for legalContractHash
+            gas = Math.min(gas + 130, maxGasLimit);
+
             // side-effect of altering web3Params allows caller to know what we used
             Object.assign(web3Params, { gas });
             LoggingService.debug(`invoking function with estimated gas: ${gas}`);
@@ -129,7 +134,7 @@ export abstract class BootstrappingWrapperBase extends SchemeWrapperBase {
           });
       } else if (web3Params.gas) {
         // cap any already-given gas limit
-        web3Params.gas = Math.min(web3Params.gas, await UtilsInternal.computeMaxGasLimit());
+        web3Params.gas = Math.min(web3Params.gas, maxGasLimit);
       }
 
       if (error) {
