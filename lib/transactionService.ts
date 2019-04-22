@@ -217,29 +217,33 @@ export class TransactionService extends PubSubEventService {
          * Fires on every new block
          */
         const filter = web3.eth.filter("latest");
+        let inside = false;
 
         filter.watch(
           async (ex: Error): Promise<void> => {
-            let stop = false;
-
-            if (!ex) {
-              receipt = await TransactionService.getMinedTransaction(txHash, contract, requiredDepth);
-              if (receipt) {
-                stop = true;
-              }
-            } else {
-              LoggingService.error(`TransactionService.watchForMinedTransaction: an error occurred: ${ex}`);
-              stop = true;
-            }
-
-            if (stop) {
-              await UtilsInternal.stopWatchingAsync(filter).then(() => {
+            if (!inside) { // to avoid re-entering
+              inside = true;
+              let stop = false;
+              if (!ex) {
+                receipt = await TransactionService.getMinedTransaction(txHash, contract, requiredDepth);
                 if (receipt) {
-                  return resolve(receipt);
-                } else {
-                  return reject(ex);
+                  stop = true;
                 }
-              });
+              } else {
+                stop = true;
+                LoggingService.error(`TransactionService.watchForMinedTransaction: an error occurred: ${ex}`);
+              }
+
+              if (stop) {
+                await UtilsInternal.stopWatchingAsync(filter).then(() => {
+                  if (receipt) {
+                    return resolve(receipt);
+                  } else {
+                    return reject(ex);
+                  }
+                });
+              }
+              inside = false;
             }
           });
       } catch (ex) {
