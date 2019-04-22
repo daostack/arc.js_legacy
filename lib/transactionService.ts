@@ -220,16 +220,26 @@ export class TransactionService extends PubSubEventService {
 
         filter.watch(
           async (ex: Error): Promise<void> => {
+            let stop = false;
+
             if (!ex) {
               receipt = await TransactionService.getMinedTransaction(txHash, contract, requiredDepth);
               if (receipt) {
-                await UtilsInternal.stopWatchingAsync(filter).then(() => {
-                  return resolve(receipt);
-                });
+                stop = true;
               }
             } else {
               LoggingService.error(`TransactionService.watchForMinedTransaction: an error occurred: ${ex}`);
-              return reject(ex);
+              stop = true;
+            }
+
+            if (stop) {
+              await UtilsInternal.stopWatchingAsync(filter).then(() => {
+                if (receipt) {
+                  return resolve(receipt);
+                } else {
+                  return reject(ex);
+                }
+              });
             }
           });
       } catch (ex) {
