@@ -324,6 +324,7 @@ export class Auction4ReputationWrapper extends BootstrappingWrapperBase {
       return {
         amount: bid.args._amount,
         auctionId: bid.args._auctionId.toNumber(),
+        bidder: bid.args._bidder,
       };
     });
   }
@@ -542,4 +543,5 @@ export interface Auction4ReputationRedeemEventResult {
 export interface GetBidAuctionIdsResult {
   auctionId: number;
   amount: BigNumber;
+  bidder: Address;
 }

@@ -6,13 +6,15 @@ import { ContractWrapperFactory } from '../contractWrapperFactory';
 import { ArcTransactionResult, IContractWrapperFactory } from '../iContractWrapperBase';
 import { TxGeneratingFunctionOptions } from '../transactionService';
 import { Utils } from '../utils';
-import { Web3EventService } from '../web3EventService';
+import { EventFetcherFactory, Web3EventService } from '../web3EventService';
 import { Locking4ReputationWrapper } from './locking4Reputation';
 
 export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper {
   public name: string = 'ExternalLocking4Reputation';
   public friendlyName: string = 'External Locking For Reputation';
   public factory: IContractWrapperFactory<ExternalLocking4ReputationWrapper> = ExternalLocking4ReputationFactory;
+
+  public Register: EventFetcherFactory<ExternalLocking4ReputationReRegisterEventResult>;
 
   public async initialize(options: ExternalLockingInitializeOptions & TxGeneratingFunctionOptions)
     : Promise<ArcTransactionResult> {
@@ -203,6 +205,12 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
     return this.contract.externalLockers(lockerAddress);
   }
 
+  public hydrated(): void {
+    super.hydrated();
+    /* tslint:disable:max-line-length */
+    this.Register = this.createEventFetcherFactory<ExternalLocking4ReputationReRegisterEventResult>(this.contract.Register);
+    /* tslint:enable:max-line-length */
+  }
 }
 
 export class ExternalLocking4ReputationType extends ContractWrapperFactory<ExternalLocking4ReputationWrapper> {
@@ -238,4 +246,8 @@ export interface ExternalLockingClaimOptions {
 
 export interface RegisterOptions {
   legalContractHash: Hash;
+}
+
+export interface ExternalLocking4ReputationReRegisterEventResult {
+  _beneficiary: Address;
 }
