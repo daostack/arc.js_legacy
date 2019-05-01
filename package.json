@@ -1,6 +1,6 @@
 {
   "name": "@daostack/arc.js",
-  "version": "0.0.0-alpha.133",
+  "version": "0.0.0-alpha.134",
   "description": "A JavaScript library for interacting with @daostack/arc ethereum smart contracts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -51,7 +51,7 @@
   },
   "homepage": "https://github.com/daostack/arc.js#readme",
   "dependencies": {
-    "@daostack/migration": "0.0.1-rc.14-v9",
+    "@daostack/migration": "0.0.1-rc.16-v1",
     "archiver": "^2.1.0",
     "bignumber.js": "^5.0.0",
     "circular-json": "^0.5.4",
@@ -74,7 +74,7 @@
     "websocket": "^1.0.26"
   },
   "devDependencies": {
-    "@daostack/arc": "0.0.1-rc.14",
+    "@daostack/arc": "0.0.1-rc.17",
     "@types/chai": "^4.1.2",
     "@types/circular-json": "^0.4.0",
     "@types/es6-promisify": "^6.0.0",
@@ -86,7 +86,7 @@
     "mocha": "^4.0.1",
     "truffle-hdwallet-provider": "^1.0.2",
     "tslint": "^5.11.0",
-    "typedoc": "^0.11.1",
+    "typedoc": "^0.14.2",
     "typedoc-plugin-markdown": "^1.0.14",
     "typescript": "^3.0.3"
   }

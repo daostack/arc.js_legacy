@@ -47,11 +47,10 @@ export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
 
     this.logContractFunctionCall('LockingToken4Reputation.release', options);
 
-    return this.wrapTransactionInvocationWithPayload('LockingToken4Reputation.release',
+    return this.wrapTransactionInvocation('LockingToken4Reputation.release',
       options,
       this.contract.release,
-      [options.lockerAddress, options.lockId],
-      options.legalContractHash
+      [options.lockerAddress, options.lockId]
     );
   }
 
@@ -87,13 +86,16 @@ export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
       throw new Error(msg);
     }
 
+    if (typeof options.legalContractHash !== 'string') {
+      throw new Error('legalContractHash is undefined');
+    }
+
     this.logContractFunctionCall('LockingToken4Reputation.lock', options);
 
-    return this.wrapTransactionInvocationWithPayload('LockingToken4Reputation.lock',
+    return this.wrapTransactionInvocation('LockingToken4Reputation.lock',
       options,
       this.contract.lock,
-      [options.amount, options.period, options.tokenAddress],
-      options.legalContractHash,
+      [options.amount, options.period, options.tokenAddress, options.legalContractHash],
       { from: options.lockerAddress }
     );
   }

@@ -45,6 +45,7 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
 
   public async getLockBlocker(options: ExternalLockingClaimOptions): Promise<string | null> {
     /**
+     * for typings if nothing else,
      * stub out lockerAddress, amount and period -- they aren't relevant to external locking validation.
      */
     const msg = await super.getLockBlocker(
@@ -93,13 +94,16 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
       lockerAddress = 0;
     }
 
+    if (typeof options.legalContractHash !== 'string') {
+      throw new Error('legalContractHash is undefined');
+    }
+
     this.logContractFunctionCall('ExternalLocking4Reputation.claim', options);
 
-    return this.wrapTransactionInvocationWithPayload('ExternalLocking4Reputation.claim',
+    return this.wrapTransactionInvocation('ExternalLocking4Reputation.claim',
       options,
       this.contract.claim,
-      [lockerAddress],
-      options.legalContractHash
+      [lockerAddress, options.legalContractHash]
     );
   }
 
@@ -109,13 +113,16 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
    */
   public async register(options: RegisterOptions & TxGeneratingFunctionOptions): Promise<ArcTransactionResult> {
 
+    if (typeof options.legalContractHash !== 'string') {
+      throw new Error('legalContractHash is undefined');
+    }
+
     this.logContractFunctionCall('ExternalLocking4Reputation.register');
 
-    return this.wrapTransactionInvocationWithPayload('ExternalLocking4Reputation.register',
+    return this.wrapTransactionInvocation('ExternalLocking4Reputation.register',
       {},
       this.contract.register,
-      [],
-      options.legalContractHash,
+      [options.legalContractHash],
       { from: await Utils.getDefaultAccount() }
     );
   }

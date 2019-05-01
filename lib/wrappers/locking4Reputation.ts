@@ -2,6 +2,7 @@
 import BigNumber from 'bignumber.js';
 import { Address, Hash } from '../commonTypes';
 import { ArcTransactionResult, DecodedLogEntryEvent, IContractWrapperFactory } from '../iContractWrapperBase';
+import { SchemeWrapperBase } from '../schemeWrapperBase';
 import { TxGeneratingFunctionOptions } from '../transactionService';
 import { UtilsInternal } from '../utilsInternal';
 import {
@@ -10,9 +11,8 @@ import {
   EventFetcherFilterObject,
   Web3EventService
 } from '../web3EventService';
-import { BootstrappingWrapperBase } from './bootstrappingWrapperBase';
 
-export abstract class Locking4ReputationWrapper extends BootstrappingWrapperBase {
+export abstract class Locking4ReputationWrapper extends SchemeWrapperBase {
   public name: string = 'Locking4Reputation';
   public friendlyName: string = 'Locking For Reputation';
   public factory: IContractWrapperFactory<Locking4ReputationWrapper> = null;
@@ -45,11 +45,10 @@ export abstract class Locking4ReputationWrapper extends BootstrappingWrapperBase
 
     this.logContractFunctionCall('Locking4Reputation.redeem', options);
 
-    return this.wrapTransactionInvocationWithPayload('Locking4Reputation.redeem',
+    return this.wrapTransactionInvocation('Locking4Reputation.redeem',
       options,
       this.contract.redeem,
-      [options.lockerAddress],
-      options.legalContractHash
+      [options.lockerAddress]
     );
   }
 
@@ -389,6 +388,11 @@ export abstract class Locking4ReputationWrapper extends BootstrappingWrapperBase
     return lockers;
   }
 
+  public getAgreementHash(): Promise<Hash> {
+    this.logContractFunctionCall('Locking4Reputation.getAgreementHash');
+    return this.contract.getAgreementHash();
+  }
+
   protected async _initialize(options: Partial<InitializeOptions>, checkmaxLockingPeriod: boolean = true)
     : Promise<void> {
 
@@ -554,7 +558,6 @@ export interface RedeemOptions {
    * block in which contract was created, to optimize search for Redeem events, if needed
    */
   contractBirthBlock?: number;
-  legalContractHash: Hash;
 }
 
 export interface GetUserEarnedOptions {
@@ -566,7 +569,6 @@ export interface GetUserEarnedOptions {
 }
 
 export interface ReleaseOptions {
-  legalContractHash: Hash;
   lockerAddress: Address;
   lockId: Hash;
 }
