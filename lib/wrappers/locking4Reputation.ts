@@ -513,6 +513,7 @@ export interface Locking4ReputationLockEventResult {
 }
 
 export interface InitializeOptions {
+  agreementHash: Hash; // legalContractHash
   avatarAddress: Address;
   lockingEndTime: Date;
   lockingStartTime: Date;

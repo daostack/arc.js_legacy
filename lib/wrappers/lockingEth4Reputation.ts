@@ -27,7 +27,9 @@ export class LockingEth4ReputationWrapper extends Locking4ReputationWrapper {
       options.lockingStartTime.getTime() / 1000,
       options.lockingEndTime.getTime() / 1000,
       options.redeemEnableTime.getTime() / 1000,
-      options.maxLockingPeriod]
+      options.maxLockingPeriod,
+      options.agreementHash,
+      ]
     );
   }
 

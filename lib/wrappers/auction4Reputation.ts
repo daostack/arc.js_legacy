@@ -92,6 +92,7 @@ export class Auction4ReputationWrapper extends SchemeWrapperBase {
         options.redeemEnableTime.getTime() / 1000,
         options.tokenAddress,
         options.walletAddress,
+        options.agreementHash,
       ]
     );
   }
@@ -470,6 +471,7 @@ export interface Auction4ReputationReleaseEventResult {
 }
 
 export interface Auction4ReputationInitializeOptions {
+  agreementHash: Hash; // legalContractHash
   avatarAddress: Address;
   /**
    * number of seconds in a single auction period.

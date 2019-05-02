@@ -414,7 +414,7 @@ export class WrapperService {
     SchemeRegistrar: true,
     TokenCapGC: true,
     UpgradeScheme: true,
-    VestingScheme: true,
+    VestingScheme: false, // is no longer deployed by migration repo
     VoteInOrganizationScheme: true,
   };
 

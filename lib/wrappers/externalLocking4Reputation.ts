@@ -39,7 +39,9 @@ export class ExternalLocking4ReputationWrapper extends Locking4ReputationWrapper
       options.lockingEndTime.getTime() / 1000,
       options.redeemEnableTime.getTime() / 1000,
       options.externalLockingContract,
-      options.getBalanceFuncSignature]
+      options.getBalanceFuncSignature,
+      options.agreementHash,
+      ]
     );
   }
 
@@ -234,6 +236,7 @@ export const ExternalLocking4ReputationFactory =
     new Web3EventService()) as ExternalLocking4ReputationType;
 
 export interface ExternalLockingInitializeOptions {
+  agreementHash: Hash; // legalContractHash
   avatarAddress: Address;
   externalLockingContract: Address;
   getBalanceFuncSignature: string;
