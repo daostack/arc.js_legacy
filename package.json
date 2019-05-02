@@ -1,6 +1,6 @@
 {
   "name": "@daostack/arc.js",
-  "version": "0.0.0-alpha.135",
+  "version": "0.0.0-alpha.136",
   "description": "A JavaScript library for interacting with @daostack/arc ethereum smart contracts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -89,5 +89,9 @@
     "typedoc": "^0.14.2",
     "typedoc-plugin-markdown": "^1.0.14",
     "typescript": "^3.0.3"
+  },
+  "resolutions": {
+    "tar": "4.4.2",
+    "marked": "0.6.2"
   }
 }
