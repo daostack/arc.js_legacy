@@ -188,7 +188,7 @@ export async function InitializeArcJs(options: InitializeArcOptions = {}): Promi
         networkName = "private";
         break;
       case "live":
-        networkName = "main";
+        networkName = "mainnet";
         break;
     }
 

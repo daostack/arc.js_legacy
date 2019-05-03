@@ -14,7 +14,7 @@ before_install:
   - sudo apt-get install geth -y -qq
   
 install:
-  - npm install
+  - npm ci
   - nohup npm start ganache &
   - npm start migrateContracts.fetchContracts
   - npm start migrateContracts
