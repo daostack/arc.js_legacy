@@ -1,12 +1,13 @@
-import { promisify } from "es6-promisify";
-import { Address } from "./commonTypes";
-import { ConfigService } from "./configService";
-import { IConfigService } from "./iConfigService";
-import { IContractWrapper, IContractWrapperFactory } from "./iContractWrapperBase";
-import { LoggingService } from "./loggingService";
-import { Utils } from "./utils";
-import { UtilsInternal } from "./utilsInternal";
-import { Web3EventService } from "./web3EventService";
+import { BigNumber } from 'bignumber.js';
+import { promisify } from 'es6-promisify';
+import { Address } from './commonTypes';
+import { ConfigService } from './configService';
+import { IConfigService } from './iConfigService';
+import { GasPriceAdjustor, IContractWrapper, IContractWrapperFactory } from './iContractWrapperBase';
+import { LoggingService } from './loggingService';
+import { Utils } from './utils';
+import { UtilsInternal } from './utilsInternal';
+import { Web3EventService } from './web3EventService';
 
 /**
  * Generic class factory for all of the contract wrapper classes.
@@ -52,21 +53,32 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
 
     await this.ensureSolidityContract();
 
-    let gas;
+    rest = rest || [];
+    const hasWebParams = rest.length && (typeof rest[rest.length - 1] === 'object');
+    const webParams = hasWebParams ? rest[rest.length - 1] : {};
 
-    if (ConfigService.get("estimateGas") && (!rest || !rest.length || (!rest[rest.length - 1].gas))) {
-      gas = await this.estimateConstructorGas(...rest);
-      LoggingService.debug(`Instantiating ${this.solidityContractName} with gas: ${gas}`);
+    if (ConfigService.get('estimateGas') && !webParams.gas) {
+      webParams.gas = await this.estimateConstructorGas(...rest);
+      LoggingService.debug(`Instantiating ${this.solidityContractName} with gas: ${webParams.gas}`);
     }
 
-    if (gas) {
-      rest = [...rest, { gas }];
+    const gasPriceComputed = ConfigService.get('gasPriceAdjustment') as GasPriceAdjustor;
+    if (gasPriceComputed && !webParams.gasPrice) {
+      const web3 = await Utils.getWeb3();
+      const defaultGasPrice =
+        await promisify((callback: any): void => { web3.eth.getGasPrice(callback); })() as BigNumber;
+      webParams.gasPrice = await gasPriceComputed(defaultGasPrice);
+      LoggingService.debug(`Instantiating ${this.solidityContractName} with gasPrice: ${webParams.gasPrice}`);
+    }
+
+    if (!hasWebParams) {
+      rest = [...rest, webParams];
     }
 
     const hydratedWrapper =
       await new this.wrapper(this.solidityContract, this.web3EventService).hydrateFromNew(...rest);
 
-    if (hydratedWrapper && ContractWrapperFactory.configService.get("cacheContractWrappers")) {
+    if (hydratedWrapper && ContractWrapperFactory.configService.get('cacheContractWrappers')) {
       this.setCachedContract(this.solidityContractName, hydratedWrapper);
     }
     return hydratedWrapper;
@@ -101,7 +113,7 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
     const externallyDeployedAddress = Utils.getDeployedAddress(this.solidityContractName);
 
     if (!externallyDeployedAddress) {
-      throw new Error("ContractWrapperFactory: No deployed contract address has been supplied.");
+      throw new Error('ContractWrapperFactory: No deployed contract address has been supplied.');
     }
 
     return this.at(externallyDeployedAddress);
@@ -131,7 +143,7 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
     const maxGasLimit = await UtilsInternal.computeMaxGasLimit();
 
     // note that Ganache is identified specifically as the one instantiated by arc.js (by the networkId)
-    if (currentNetwork === "Ganache") {
+    if (currentNetwork === 'Ganache') {
       return maxGasLimit; // because who cares with ganache and we can't get good estimates from it
     }
 
@@ -145,7 +157,7 @@ export class ContractWrapperFactory<TWrapper extends IContractWrapper>
     address?: Address): Promise<TWrapper> {
 
     let hydratedWrapper: TWrapper;
-    if (ContractWrapperFactory.configService.get("cacheContractWrappers")) {
+    if (ContractWrapperFactory.configService.get('cacheContractWrappers')) {
       if (!address) {
         try {
           address = this.solidityContract.address;
