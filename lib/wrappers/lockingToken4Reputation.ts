@@ -112,6 +112,12 @@ export class LockingToken4ReputationWrapper extends Locking4ReputationWrapper {
     this.logContractFunctionCall('LockingToken4Reputation.priceOracleContract');
     return this.contract.priceOracleContract();
   }
+  protected hydrated(): void {
+    super.hydrated();
+    /* tslint:disable:max-line-length */
+    this.LockToken = this.createEventFetcherFactory<LockingToken4ReputationLockEventResult>(this.contract.LockToken);
+    /* tslint:enable:max-line-length */
+  }
 }
 
 export class LockingToken4ReputationType extends ContractWrapperFactory<LockingToken4ReputationWrapper> {
