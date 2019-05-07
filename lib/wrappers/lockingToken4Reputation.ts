@@ -135,7 +135,7 @@ export interface LockingToken4ReputationLockEventResult {
   /**
    * indexed
    */
-  _lockingId: BigNumber;
+  _lockingId: Hash;
   /**
    * indexed
    */
